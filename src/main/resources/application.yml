@@ -1,14 +1,15 @@
 # Spring Boot configuration
 spring:
-  
+  main:
+    allow-bean-definition-overriding: true  
   profiles:
     active: development
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ec2-54-217-206-236.eu-west-1.compute.amazonaws.com:5432 # jdbc:postgresql://localhost:5432/isadb
-    username: lvjakprdivunor # isa
-    password: 8491d076972a30a5211e7c7ce1f3bccfcef5c10a7befb4dfcf5686c6d8369f3e # isa
+    url: ${JDBC_DATABASE_URL} #ec2-54-217-206-236.eu-west-1.compute.amazonaws.com:5432 # jdbc:postgresql://localhost:5432/isadb
+    username: ${JDBC_DATABASE_USERNAME} #lvjakprdivunor # isa
+    password: ${JDBC_DATABASE_PASSWORD} #8491d076972a30a5211e7c7ce1f3bccfcef5c10a7befb4dfcf5686c6d8369f3e # isa
     initialization-mode: always
   # JPA properties
   jpa:
@@ -22,3 +23,15 @@ spring:
 
 server:
   port : 8088
+
+custom:
+  rabbitmq:
+    queue: atlas-queue
+    exchange: atlas-exchange
+    routingkey: atlas-key
+
+amazonProperties:
+  endpointUrl: ${AWS_URL} # https://s3.eu-central-1.amazonaws.com
+  accessKey: ${AWS_ACCESS_KEY} # AKIAZYRX3YPY6LCJGSZ7
+  secretKey: ${AWS_SECRET_KEY} # 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
+  bucketName: ${AWS_BUCKET_NAME} # atlaspharmacy
