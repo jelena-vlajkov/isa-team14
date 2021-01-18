@@ -1,4 +1,4 @@
-.main {
+/* .main {
     max-width: 1200px;
     margin: auto;
     position: fixed;
@@ -172,4 +172,43 @@
     width: 60%;
     font-size: 19px;
 
-  } 
+  }  */
+  #username-ff {
+    margin-bottom: 15px;
+    width: 400px !important;
+}
+
+#password-ff {
+    width: 400px !important;
+    margin-bottom: 10px;
+}
+
+#loginForm {
+    min-width: 400px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 20px;
+}
+
+mat-card {
+    width: 30vw;
+    height: 20vw;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding-top: 5vw;
+}
+
+label {
+    margin-top: 10px;
+    font-size: medium;
+}
+a {
+    font-size: medium;
+    padding-left: 5px;
+}
