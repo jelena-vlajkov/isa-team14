@@ -6,9 +6,9 @@ spring:
   # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ec2-54-217-206-236.eu-west-1.compute.amazonaws.com:5432 # jdbc:postgresql://localhost:5432/isadb
-    username: lvjakprdivunor # isa
-    password: 8491d076972a30a5211e7c7ce1f3bccfcef5c10a7befb4dfcf5686c6d8369f3e # isa
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
     initialization-mode: always
   # JPA properties
   jpa:
