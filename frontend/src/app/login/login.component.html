@@ -1,32 +1,47 @@
-<div class='container'>
-        <div class="main">     
-            <ul>
-                <li id="onlyHomePageInLogin"><a id="loginA" href="#">Početna</a></li>               
-            </ul>
-        </div>   
+<div class="container">
+    <mat-card>
+        <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+            <div id="loginForm">
+                <div class="inputField">
+                    <mat-form-field appearance="fill" id="username-ff">
+                        <mat-label>Username*</mat-label>
+                        <input matInput id="username" placeholder="Username" name="username-ff"
+                            formControlName="username" class="civca">
+                        <mat-error
+                            *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['required']">
+                            Please enter username</mat-error>
+                    </mat-form-field>
+                </div>
 
-        <div class="loginForm">
-            <div class="form-container sign-in-container">
-                <form class="formForLogin">
-                    <h1>Prijava</h1>
-                    <input type="text" placeholder="Korisničko ime" />
-                    <input type="password" placeholder="Lozinka" />
-                    <mat-error
+                <div class="inputField">
+                    <mat-form-field appearance="fill" id="password-ff">
+                        <mat-label>Password*</mat-label>
+                        <input matInput type="password" id="password" placeholder="Password" name="password-ff"
+                            formControlName="password" class="civca">
+                        <mat-error
                             *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched && loginForm.get('password').errors['required']">
                             Please enter password</mat-error>
-                    <button id="signInButton">Prijavi se</button>
-                </form>
-            </div>
-            
-            <div class="overlay-container">
-                <div class="overlay">               
-                    <div class="overlay-panel overlay-right">
-                        <h1>Nemaš nalog?</h1>
-                        <p id="loginP">Klikni ovde za registraciju!</p>
-                        <button class="ghost" id="signUp">Registruj se</button>
-                    </div>
+                    </mat-form-field>
                 </div>
-            </div>
-        </div>
-    
+
+                <div style="float: left;">
+                    <label>Not registered yet?</label>
+                    <a routerLink="/patientRegistration">Register now</a>
+                </div>
+                <button mat-flat-button name="button-ff" style="float: right;" color="primary" type="submit"
+                    [disabled]="!loginForm.valid">Login</button>
+            </div>      
+        </form>
+    </mat-card>
+    <mat-card>
+            <form [formGroup]="loginForm1" (ngSubmit)="signUp()">
+                <div id="loginForm">
+                    <h1>Nemaš nalog?</h1>
+                    <p id="loginP">Klikni ovde za registraciju!</p>
+                    <button mat-flat-button name="button-ff" style="float: right;" color="primary" type="submit"
+                    [disabled]="!loginForm.valid">Register</button>
+                </div>      
+            </form>  
+
+    </mat-card>
 </div>

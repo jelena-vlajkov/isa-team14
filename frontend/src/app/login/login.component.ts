@@ -11,6 +11,8 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   username: string;
   password: string;
+  loginForm1: FormGroup;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -18,11 +20,13 @@ export class LoginComponent implements OnInit {
       'username' : new FormControl(null, Validators.required),
       'password' : new FormControl(null, Validators.required)
     });
+    this.loginForm1 = new FormGroup({});
   }
   signIn(){
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
     console.log(this.username + this.password)
+
     // this.credentials = new Authentication(this.username, this.password);
     // this.authService.login(this.credentials).subscribe(
     //   result => {
@@ -37,5 +41,8 @@ export class LoginComponent implements OnInit {
     //     this.toastr.error("Invalid username or password");
     //   }
     // );
+  }
+  signUp(){
+    
   }
 }
