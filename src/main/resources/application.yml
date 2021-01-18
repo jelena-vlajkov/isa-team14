@@ -5,9 +5,10 @@ spring:
     active: development
   # Database
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: ${DATABASE_URL}
-    initialization-mode: always # jbg
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    initialization-mode: always
   # JPA properties
   jpa:
     hibernate:
