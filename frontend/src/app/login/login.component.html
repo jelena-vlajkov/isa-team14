@@ -1,0 +1,32 @@
+<div class='container'>
+        <div class="main">     
+            <ul>
+                <li id="onlyHomePageInLogin"><a id="loginA" href="#">Početna</a></li>               
+            </ul>
+        </div>   
+
+        <div class="loginForm">
+            <div class="form-container sign-in-container">
+                <form class="formForLogin">
+                    <h1>Prijava</h1>
+                    <input type="text" placeholder="Korisničko ime" />
+                    <input type="password" placeholder="Lozinka" />
+                    <mat-error
+                            *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched && loginForm.get('password').errors['required']">
+                            Please enter password</mat-error>
+                    <button id="signInButton">Prijavi se</button>
+                </form>
+            </div>
+            
+            <div class="overlay-container">
+                <div class="overlay">               
+                    <div class="overlay-panel overlay-right">
+                        <h1>Nemaš nalog?</h1>
+                        <p id="loginP">Klikni ovde za registraciju!</p>
+                        <button class="ghost" id="signUp">Registruj se</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>

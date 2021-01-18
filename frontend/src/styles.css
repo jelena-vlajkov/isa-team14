@@ -1,1 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+.bodyForBackground {
+    background: #054f5294;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+div.bg {
+    height: 1080px;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;        
+    
+    
+}
+ul {
+    z-index: 5;
+    float: right;
+    list-style-type: none;
+    margin-top: 25px;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+ul li {
+    display: inline-block;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+    padding: 5px 35px;
+    border: 1px solid white;
+    border-radius: 25px;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+ul li a:hover {
+    background-color: white;
+    color: black;
+
+    transform: scale(1.6);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+ul li.active a{
+    background-color: white;
+    color: black;
+}
+*{
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
