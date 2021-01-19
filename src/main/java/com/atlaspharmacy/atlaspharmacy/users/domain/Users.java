@@ -1,7 +1,7 @@
-package com.atlaspharmacy.atlaspharmacy.users.model;
+package com.atlaspharmacy.atlaspharmacy.users.domain;
 
-import com.atlaspharmacy.atlaspharmacy.generalities.model.Address;
-import com.atlaspharmacy.atlaspharmacy.users.model.enums.Gender;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Proba } from './../service/Proba';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [Proba]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -13,7 +15,7 @@ export class LoginComponent implements OnInit {
   password: string;
   loginForm1: FormGroup;
 
-  constructor() { }
+  constructor(private Proba : Proba) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
       'password' : new FormControl(null, Validators.required)
     });
     this.loginForm1 = new FormGroup({});
+    this.Proba.proba();
   }
   signIn(){
     this.username = this.loginForm.value.username;

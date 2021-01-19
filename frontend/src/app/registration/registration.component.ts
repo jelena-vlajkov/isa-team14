@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { from } from 'rxjs';
+import { Proba } from './../service/Proba';
 
 @Component({
   selector: 'app-registration',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(@Inject(Proba) private Proba : Proba) { }
 
   ngOnInit(): void {
+    console.log("OM<GGSDGSD");
+    this.Proba.proba().subscribe();
   }
 
 }
