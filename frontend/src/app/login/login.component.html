@@ -3,13 +3,13 @@
         <form [formGroup]="loginForm" (ngSubmit)="signIn()">
             <div id="loginForm">
                 <div class="inputField">
-                    <mat-form-field appearance="fill" id="username-ff">
-                        <mat-label>Username*</mat-label>
-                        <input matInput id="username" placeholder="Username" name="username-ff"
-                            formControlName="username" class="civca">
+                    <mat-form-field appearance="fill" id="email-ff">
+                        <mat-label>Email*</mat-label>
+                        <input matInput id="email" placeholder="Email" name="email-ff"
+                            formControlName="email" class="civca">
                         <mat-error
-                            *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['required']">
-                            Please enter username</mat-error>
+                            *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched && loginForm.get('email').errors['required']">
+                            Please enter email</mat-error>
                     </mat-form-field>
                 </div>
 
@@ -24,24 +24,20 @@
                     </mat-form-field>
                 </div>
 
-                <div style="float: left;">
+                <!-- <div style="float: left;">
                     <label>Not registered yet?</label>
                     <a routerLink="/patientRegistration">Register now</a>
-                </div>
-                <button mat-flat-button name="button-ff" style="float: right;" color="primary" type="submit"
+                </div> -->
+                <button mat-flat-button name="button-ff" style="float: center;" color="primary" type="submit"
                     [disabled]="!loginForm.valid">Login</button>
             </div>      
         </form>
     </mat-card>
     <mat-card>
-            <form [formGroup]="loginForm1" (ngSubmit)="signUp()">
-                <div id="loginForm1">
-                    <h1>Nemaš nalog?</h1>
-                    <p id="loginP">Klikni ovde za registraciju!</p>
-                    <button mat-flat-button name="button-ff" style="float: right;" color="primary" type="submit"
-                    [disabled]="!loginForm.valid">Register</button>
-                </div>      
-            </form>  
-
+        <div id="registerForm">
+            <h1>Don't have an account?</h1>
+                <p id="loginP">Click here to register!</p>
+                <button mat-flat-button name="button-ff" style="float: center;" color="primary" type="submit" routerLink="/registration">Register</button>
+        </div>       
     </mat-card>
 </div>

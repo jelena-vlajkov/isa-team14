@@ -13,16 +13,16 @@ export class LoginComponent implements OnInit {
   invalidLogin: boolean;
   username: string;
   password: string;
-  loginForm1: FormGroup;
+  registerForm: FormGroup;
 
   constructor(private Proba : Proba) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      'username' : new FormControl(null, Validators.required),
+      'email' : new FormControl(null, Validators.required),
       'password' : new FormControl(null, Validators.required)
     });
-    this.loginForm1 = new FormGroup({});
+    this.registerForm = new FormGroup({});
     this.Proba.proba();
   }
   signIn(){

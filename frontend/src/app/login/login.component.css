@@ -173,7 +173,7 @@
     font-size: 19px;
 
   }  */
-  #username-ff {
+#email-ff {
     margin-bottom: 15px;
     width: 400px !important;
 }
@@ -211,4 +211,14 @@ label {
 a {
     font-size: medium;
     padding-left: 5px;
+}
+
+#registerForm {
+  min-width: 400px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  font-size: 20px;
 }

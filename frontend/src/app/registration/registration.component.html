@@ -1,14 +1,104 @@
 <div class="container">
 
-    <div class="main">
+    <!-- <div class="main">
             
         <ul>
             <li id="onlyHomePageInLogin"><a id="loginA" href="#">Početna</a></li>               
         </ul>
-    </div>   
+    </div>    -->
 
-    <div class="signIn">
-        <div class="form-container sign-in-container">
+    <!-- <div class="signIn"> -->
+        <mat-card>
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
+                <div id="registerForm">
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="name-ff">
+                            <mat-label>Name*</mat-label>
+                            <input matInput id="name" placeholder="Name" name="name-ff"
+                                formControlName="name">
+                            <mat-error
+                                *ngIf="!registerForm.get('name').valid && registerForm.get('name').touched && registerForm.get('name').errors['required']">
+                                Please enter name</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="surname-ff">
+                            <mat-label>surname*</mat-label>
+                            <input matInput id="surname" placeholder="surname" name="surname-ff"
+                                formControlName="surname">
+                            <mat-error
+                                *ngIf="!registerForm.get('surname').valid && registerForm.get('surname').touched && registerForm.get('surname').errors['required']">
+                                Please enter surname</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="email-ff">
+                            <mat-label>Email*</mat-label>
+                            <input matInput id="email" placeholder="email" name="email-ff"
+                                formControlName="email">
+                            <mat-error
+                                *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched && registerForm.get('email').errors['required']">
+                                Please enter email</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="telephone-ff">
+                            <mat-label>Telephone*</mat-label>
+                            <input matInput id="telephone" placeholder="telephone" name="telephone-ff"
+                                formControlName="telephone">
+                            <mat-error
+                                *ngIf="!registerForm.get('telephone').valid && registerForm.get('telephone').touched && registerForm.get('telephone').errors['required']">
+                                Please enter telephone</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="password-ff">
+                            <mat-label>Password*</mat-label>
+                            <input matInput type="password" id="password1" placeholder="password" name="password-ff"
+                                formControlName="password1">
+                            <mat-error
+                                *ngIf="!registerForm.get('password1').valid && registerForm.get('password1').touched && registerForm.get('password1').errors['required']">
+                                Please enter password</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="inputField">
+                        <mat-form-field appearance="fill" id="password-ff">
+                            <mat-label>Password*</mat-label>
+                            <input matInput type="password" id="password2" placeholder="password" name="password-ff"
+                                formControlName="password2">
+                            <mat-error
+                                *ngIf="!registerForm.get('password2').valid && registerForm.get('password2').touched && registerForm.get('password2').errors['required']">
+                                Please enter password</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="inputField">
+                    
+                        <mat-radio-group name="gender" required>
+                            <mat-radio-button value="1" style="margin-left:50px; float:left">Female</mat-radio-button>
+                            <mat-radio-button value="2" >Male</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error
+                                *ngIf="!registerForm.get('gender').valid && registerForm.get('gender').touched && registerForm.get('gender').errors['required']">
+                                Please choose gender</mat-error>
+                    </div> -->
+                    <div class="submit-button">
+                        <button  mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+        <mat-card>
+            <div id="loginForm">
+                <h1>Already have an account?</h1>
+                <p>Click here to login!</p>
+                <button mat-flat-button name="button-ff" color="primary" type="submit" routerLink="/login">Login</button>
+            </div>       
+        </mat-card>
+    </div>
+        <!-- <div class="form-container sign-in-container">
             <form class="formReg" action="#">
                 <h1>Registracija</h1>
                 <div class="row">
@@ -56,12 +146,11 @@
                 <div class="overlay-panel overlay-right">
                     <h1>Imaš nalog?</h1>
                     <p id="loginP">Klikni ovde za prijavu!</p>
-                    <button class="ghost" id="signUp">Prijavi se</button>
+                    <button class="ghost" id="signUp" routerLink="/login">Prijavi se</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
 
-</div>

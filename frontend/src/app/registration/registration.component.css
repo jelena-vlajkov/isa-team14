@@ -1,4 +1,4 @@
-.form-container h1, .overlay-container h1 {
+/* .form-container h1, .overlay-container h1 {
     font-weight: bold;
     margin: 0;
   }
@@ -218,4 +218,69 @@
 .col{
     display:flex;
     width:100%
+} */
+#loginForm {
+  min-width: 400px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  font-size: 20px;
+}
+
+#registerForm {
+  min-width: 400px;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  font-size: 20px;
+}
+#name-ff {
+  margin-bottom: 15px;
+  width: 400px !important;
+}
+#surname-ff {
+  margin-bottom: 15px;
+  width: 400px !important;
+}
+#password-ff {
+  width: 400px !important;
+  margin-bottom: 10px;
+}
+#password1-ff {
+  width: 400px !important;
+  margin-bottom: 10px;
+}
+#email-ff {
+  width: 400px !important;
+  margin-bottom: 10px;
+}
+#telephone-ff {
+  width: 400px !important;
+  margin-bottom: 10px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  padding-top: 5vw;
+}
+mat-card {
+  width: 30vw;
+  height: 40vw;
+}
+
+label {
+  margin-top: 10px;
+  font-size: medium;
+}
+a {
+  font-size: medium;
+  padding-left: 5px;
+}
+p{
+  margin-top: 50px;
+  margin-bottom: 30px;
 }
