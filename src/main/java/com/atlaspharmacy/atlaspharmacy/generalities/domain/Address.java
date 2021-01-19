@@ -1,4 +1,4 @@
-package com.atlaspharmacy.atlaspharmacy.generalities.model;
+package com.atlaspharmacy.atlaspharmacy.generalities.domain;
 
 import javax.persistence.*;
 

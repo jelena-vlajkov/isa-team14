@@ -1,3 +1,6 @@
+sudo: required
 language: java
-sudo: false
-script: mvn clean verify
+jdk: oraclejdk11
+
+script:
+- ./mvnw clean install -B

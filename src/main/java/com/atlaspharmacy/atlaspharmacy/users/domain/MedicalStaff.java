@@ -1,6 +1,6 @@
-package com.atlaspharmacy.atlaspharmacy.generalities.model;
+package com.atlaspharmacy.atlaspharmacy.users.domain;
 
-import com.atlaspharmacy.atlaspharmacy.users.model.Users;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Users;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
