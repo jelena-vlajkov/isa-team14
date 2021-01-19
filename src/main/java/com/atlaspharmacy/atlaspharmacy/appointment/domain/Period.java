@@ -1,4 +1,4 @@
-package com.atlaspharmacy.atlaspharmacy.appointment;
+package com.atlaspharmacy.atlaspharmacy.appointment.domain;
 import java.util.Date;
 
 public class Period {
