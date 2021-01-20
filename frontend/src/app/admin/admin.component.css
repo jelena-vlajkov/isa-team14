@@ -1,0 +1,99 @@
+
+#loginForm {
+    min-width: 400px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 20px;
+  }
+  
+  #registerForm {
+    min-width: 400px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 20px;
+  }
+
+  #name-ff {
+    margin-bottom: 5px;
+    width: 400px !important;
+  }
+  #surname-ff {
+    margin-bottom: 5px;
+    width: 400px !important;
+  }
+  #password-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+  }
+  #address-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+  }
+  #password1-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+  }
+  #email-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+  }
+  #telephone-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    padding-top: 5vw;
+  }
+  mat-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 40vw;
+  }
+  
+  label {
+    margin-top: 10px;
+    font-size: medium;
+  }
+  a {
+    font-size: medium;
+    padding-left: 5px;
+  }
+  p{
+    margin-top: 50px;
+    margin-bottom: 30px;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .example-spacer {
+    height: 100%;
+  }
+  .example-container {
+    flex: 1 1 auto;
+    height: 100%;
+    /* width: 400px;
+    height: 200px;
+    margin: 12px; */
+    /* border: 1px solid #555; */
+    background: #054f5294;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  mat-drawer-content {
+    /* padding: 12px; */
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }

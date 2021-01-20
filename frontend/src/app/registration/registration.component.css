@@ -239,28 +239,32 @@
   font-size: 20px;
 }
 #name-ff {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   width: 400px !important;
 }
 #surname-ff {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   width: 400px !important;
 }
 #password-ff {
   width: 400px !important;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+#address-ff {
+  width: 400px !important;
+  margin-bottom: 5px;
 }
 #password1-ff {
   width: 400px !important;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 #email-ff {
   width: 400px !important;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 #telephone-ff {
   width: 400px !important;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .container {
   display: flex;

@@ -1,8 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { from } from 'rxjs';
 import { Proba } from './../service/Proba';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-registration',
@@ -36,7 +34,8 @@ export class RegistrationComponent implements OnInit {
       'email' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(null, Validators.required),
       'password1' : new FormControl(null, Validators.required),
-      'password2' : new FormControl(null, Validators.required)
+      'password2' : new FormControl(null, Validators.required),
+      'address' : new FormControl(null, Validators.required)
     });
     console.log("OM<GGSDGSD");
     this.Proba.proba().subscribe();

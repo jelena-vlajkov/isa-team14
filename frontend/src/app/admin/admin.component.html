@@ -1,0 +1,78 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item (click)="registerPharmacy()"> Register pharmacy </button>
+        <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
+        <button mat-list-item (click)="registerSupplier()"> Register supplier </button>
+        <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
+        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
+        <button mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
+        <button style="margin-top:0px" mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item (click)="editProfile()"> Edit profile</button>
+              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Admin profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <mat-card>
+            <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+
+              <mat-grid-tile>
+                <label>Name:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>{{name}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Surname:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>                
+                <label>{{surname}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Gender:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>{{gender}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Address:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>{{address}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Telephone:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>{{phone}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Email:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>{{mail}}</label>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <button mat-raised-button>Change Password</button>
+              </mat-grid-tile>
+              
+            </mat-grid-list>
+          </mat-card>
+    </mat-drawer-content>
+</mat-drawer-container>

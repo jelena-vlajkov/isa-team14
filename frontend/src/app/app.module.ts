@@ -25,12 +25,17 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Proba } from './service/Proba';
+import { AdminComponent } from './admin/admin.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    AdminComponent
   ],
   imports: [
     HttpClientModule,
@@ -63,6 +68,9 @@ import { Proba } from './service/Proba';
     MatRadioModule,
     MatInputModule,
     MatSelectModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatGridListModule
     
   ],
   providers: [Proba],
