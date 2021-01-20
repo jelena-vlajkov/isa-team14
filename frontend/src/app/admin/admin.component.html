@@ -7,7 +7,6 @@
         <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
         <button mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
-        <button style="margin-top:0px" mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">
               <button  mat-list-item (click)="editProfile()"> Edit profile</button>
@@ -16,7 +15,7 @@
       </mat-action-list>
     </mat-drawer>
         <mat-drawer-content>
-          <mat-toolbar color="primary">
+          <mat-toolbar color="accent">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
             </button>
@@ -69,7 +68,7 @@
               </mat-grid-tile>
 
               <mat-grid-tile>
-                <button mat-raised-button>Change Password</button>
+                <button mat-raised-button color="accent">Change Password</button>
               </mat-grid-tile>
               
             </mat-grid-list>
