@@ -29,13 +29,19 @@ import { AdminComponent } from './admin/admin.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy.component';
+import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
+import { AddAdminComponent } from './add-admin/add-admin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegistrationComponent,
-    AdminComponent
+    AdminComponent,
+    RegisterPharmacyComponent,
+    RegisterSupplierComponent,
+    AddAdminComponent
   ],
   imports: [
     HttpClientModule,
