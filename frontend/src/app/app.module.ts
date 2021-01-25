@@ -32,6 +32,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy.component';
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
+import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AddAdminComponent } from './add-admin/add-admin.component';
     AdminComponent,
     RegisterPharmacyComponent,
     RegisterSupplierComponent,
-    AddAdminComponent
+    AddAdminComponent,
+    DefineLoyaltyComponent
   ],
   imports: [
     HttpClientModule,

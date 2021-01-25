@@ -1,25 +1,28 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "allergies")
 public class Allergy {
     @Id
     private int id;
-    @ManyToOne
-    private Ingredient ingredient;
-
+    private String name;
 
     public Allergy() {
     }
 
-    public Allergy(int id, Ingredient ingredient) {
+    public Allergy(int id,String name) {
         this.id = id;
-        this.ingredient = ingredient;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {
@@ -30,11 +33,4 @@ public class Allergy {
         this.id = id;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
 }

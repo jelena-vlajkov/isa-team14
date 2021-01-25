@@ -6,7 +6,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
-    font-size: 20px;
+    font-size: 18px;
   }
   
   #registerForm {
@@ -16,48 +16,52 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); 
-    font-size: 20px;
+    font-size: 18px;
   }
-
-  #name-ff {
+  #dob-ff {
     margin-bottom: 5px;
     width: 400px !important;
     font-size: 20px;
+  }
+  #name-ff {
+    margin-bottom: 3px;
+    width: 400px !important;
+    font-size: 18px;
   }
   #surname-ff {
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     width: 400px !important;
-    font-size: 20px;
+    font-size: 18px;
 
   }
   #password-ff {
     width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
+    margin-bottom: 3px;
+    font-size: 18px;
 
   }
   #address-ff {
     width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
+    margin-bottom: 3px;
+    font-size: 18px;
 
   }
   #password1-ff {
     width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
+    margin-bottom: 3px;
+    font-size: 18px;
 
   }
   #email-ff {
     width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
+    margin-bottom: 3px;
+    font-size: 18px;
 
   }
   #telephone-ff {
     width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
+    margin-bottom: 3px;
+    font-size: 18px;
 
   }
   .container {
@@ -75,7 +79,7 @@
   }
   
   label {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
   }
   a {
@@ -83,7 +87,7 @@
     padding-left: 5px;
   }
   p{
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
   }
   .example-spacer {

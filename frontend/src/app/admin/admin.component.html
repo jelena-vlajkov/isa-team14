@@ -6,78 +6,88 @@
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
-        <button mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty">Define loyalty program</button>
         <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
 
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">
-              <button  mat-list-item (click)="editProfile()"> Profile</button>
+              <button  mat-list-item routerLink="/admin"> Profile</button>
               <button  mat-list-item (click)="adminLogout()"> Logout</button>
 
       </mat-action-list>
     </mat-drawer>
         <mat-drawer-content>
           <mat-toolbar color="accent">
-            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
               <mat-icon>menu</mat-icon>
             </button>
-            <span>Admin profile</span>
+            <span>System administrator profile</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
 
           <mat-card *ngIf="profile">
-            <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
-              <mat-grid-tile>
-                <label>Name:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{name}}</p>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Surname:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>                
-                <p>{{surname}}</p>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Gender:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{selectedGender}}</p>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Address:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{address}}</p>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Telephone:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{phone}}</p>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Email:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{mail}}</p>
-              </mat-grid-tile>
-
-            </mat-grid-list>
-            <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
+            <mat-card-content>
+              <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                <mat-grid-tile>
+                  <label>Name:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{name}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Surname:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>                
+                  <p>{{surname}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Gender:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{selectedGender}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Address:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{address}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Telephone:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{phone}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Email:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{mail}}</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <label>Birth date:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{dateString}}</p>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </mat-card-content>
+            <mat-card-actions>
+              <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
+            </mat-card-actions>
 
           </mat-card>
 
 
-          <mat-card *ngIf="edit">              
+          <mat-card *ngIf="edit">  
+            <mat-card-content>
               <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
-                <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+                <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;">
 
                   <mat-grid-tile>
                     <label>Name:</label>
@@ -163,15 +173,29 @@
                     <p>{{mail}}</p>
                   </mat-grid-tile>
     
+                  <mat-grid-tile>
+                    <label>Birth date:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <mat-form-field color="accent" appearance="fill" id='dob-ff'>
+                      <mat-label>Birth date</mat-label>
+                      <input matInput [matDatepicker]="picker1" [value]="editDate.value" style="font-size:18px">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                  </mat-grid-tile>
+
                 </mat-grid-list>
 
 
-                <button style="float:left; position:relative;" mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
+                <button style="float:left; position:relative;" mat-raised-button id='cancelEditProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
 
-                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
-                <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">ChangePassword</button>
+                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Confirm</button>
+                <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">Change password</button>
 
               </form>
+            </mat-card-content>            
+              
           </mat-card>
           <mat-card *ngIf="changePassword">
             <form [formGroup]="changePasswordForm" (ngSubmit)="submitChangePassword()">

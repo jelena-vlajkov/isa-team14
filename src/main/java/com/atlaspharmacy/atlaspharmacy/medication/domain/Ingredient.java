@@ -1,7 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
@@ -9,6 +8,17 @@ public class Ingredient {
     @Id
     private int id;
     private String name;
+//moguce da ovako treba o.O
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "alergies_to_ingredient",
+            joinColumns = @JoinColumn(name = "ingredient_id"),
+            inverseJoinColumns = @JoinColumn(name = "allergy_id")
+    )
+    private List<Allergy> allergies;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "ingredients")
+    private List<Medication> medications;
 
     public Ingredient(){}
 
@@ -16,10 +26,7 @@ public class Ingredient {
         this.id = id;
         this.name = name;
     }
-    public Ingredient(Ingredient ingredient){
-        this.id = ingredient.id;
-        this.name = ingredient.name;
-    }
+
     public int getId() {
         return id;
     }
@@ -35,4 +42,5 @@ public class Ingredient {
     public void setName(String name) {
         this.name = name;
     }
+
 }

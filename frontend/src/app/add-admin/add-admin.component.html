@@ -6,7 +6,7 @@
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
-        <button mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
         <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
 
       </mat-action-list>
@@ -21,7 +21,7 @@
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
             </button>
-            <span>Admin profile</span>
+            <span>System administrator profile</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
           <mat-card>
@@ -36,9 +36,9 @@
                         <mat-label>Name*</mat-label>
                         <input matInput id="name" placeholder="Name" name="name-ff" 
                             formControlName="name">
-                        <mat-error
+                        <!-- <mat-error
                             *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
-                            Please enter name</mat-error>
+                            Please enter name</mat-error> -->
                     </mat-form-field>
                 </div>                  
               </mat-grid-tile>
@@ -49,10 +49,10 @@
                 <div class="inputField">
                   <mat-form-field appearance="fill" id="surname-ff">
                       <mat-label>Surname*</mat-label>
-                      <input matInput id="surname" placeholder={{surname}} name="surname-ff" formControlName="surname">                   
-                      <mat-error
+                      <input matInput id="surname" placeholder="Surname" name="surname-ff" formControlName="surname">                   
+                      <!-- <mat-error
                           *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
-                          Please enter surname</mat-error>
+                          Please enter surname</mat-error> -->
                   </mat-form-field>
               </div>             
               </mat-grid-tile>
@@ -67,10 +67,21 @@
                       <mat-radio-button value="Female" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
                       <mat-radio-button value="Male" style="font-size:20px">Male</mat-radio-button>
                   </mat-radio-group>
-                  <mat-error
+                  <!-- <mat-error
                   *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
-                  Please enter address</mat-error>
+                  Please enter address</mat-error> -->
               </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <label>Birth date:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                  <mat-label style="font-size:18px;">Birth date</mat-label>
+                  <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:18px;" placeholder="Birth date">
+                  <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+                  <mat-datepicker #picker1 ></mat-datepicker>
+                </mat-form-field>
               </mat-grid-tile>
 
               <mat-grid-tile>
@@ -80,11 +91,11 @@
                 <div class="inputField">
                   <mat-form-field appearance="fill" id="address-ff">
                       <mat-label>Address*</mat-label>
-                      <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">                   
+                      <input matInput id="address" placeholder="Address" name="address-ff"  formControlName="address">                   
 
-                      <mat-error
+                      <!-- <mat-error
                           *ngIf="!addAdminForm.get('address').valid && addAdminForm.get('address').touched && addAdminForm.get('address').errors['required']">
-                          Please enter address</mat-error>
+                          Please enter address</mat-error> -->
                   </mat-form-field>
               </div>
               </mat-grid-tile>
@@ -96,11 +107,11 @@
                 <div class="inputField">
                 <mat-form-field appearance="fill" id="telephone-ff">
                   <mat-label>Telephone*</mat-label>
-                  <input matInput id="telephone" placeholder="Telephone" value="{{phone}}}}" name="telephone-ff"
+                  <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff"
                       formControlName="telephone">
-                  <mat-error
+                  <!-- <mat-error
                       *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
-                      Please enter telephone</mat-error>
+                      Please enter telephone</mat-error> -->
               </mat-form-field>
               </div>
               </mat-grid-tile>
@@ -115,9 +126,9 @@
                   <mat-label>Email*</mat-label>
                   <input matInput id="mail" placeholder="Email" name="email-ff"
                       formControlName="mail">
-                  <mat-error
+                  <!-- <mat-error
                       *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
-                      Please enter telephone</mat-error>
+                      Please enter telephone</mat-error> -->
                 </mat-form-field>
                 </div>
               </mat-grid-tile>
@@ -129,10 +140,10 @@
                   <mat-form-field appearance="fill" id="password-ff">
                       <mat-label>New password*:</mat-label>
                       <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
-                      <mat-error
+                      <!-- <mat-error
                           *ngIf="!addAdminForm.get('newpassword').valid && addAdminForm.get('newpassword').touched && addAdminForm.get('newpassword').errors['required']">
-                          Please enter new password</mat-error>
-                  </mat-form-field>
+                          Please enter new password</mat-error>-->
+                  </mat-form-field> 
                 </div>               
               </mat-grid-tile>
 
@@ -144,9 +155,9 @@
                   <mat-form-field appearance="fill" id="password-ff">
                       <mat-label>Confirm password*:</mat-label>
                       <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
-                      <mat-error
+                      <!-- <mat-error
                           *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
-                          Please enter again new password</mat-error>
+                          Please enter again new password</mat-error> -->
                   </mat-form-field>
                 </div>  
               </mat-grid-tile> 

@@ -6,6 +6,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy.component';
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import {AddAdminComponent} from './add-admin/add-admin.component';
+import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+
 const routes: Routes = [  {
   path : 'login',
   component : LoginComponent
@@ -28,6 +30,10 @@ const routes: Routes = [  {
 {
   path : 'admin/addAdmin',
   component : AddAdminComponent
+},
+{
+  path : 'admin/defineLoyalty',
+  component : DefineLoyaltyComponent
 }
 ];
 
