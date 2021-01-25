@@ -33,6 +33,7 @@ import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     RegisterPharmacyComponent,
     RegisterSupplierComponent,
     AddAdminComponent,
-    DefineLoyaltyComponent
+    DefineLoyaltyComponent,
+    UserProfileComponent
   ],
   imports: [
     HttpClientModule,

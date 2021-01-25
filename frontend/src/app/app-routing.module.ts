@@ -7,6 +7,7 @@ import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import {AddAdminComponent} from './add-admin/add-admin.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent} from './user-profile/user-profile.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -34,6 +35,10 @@ const routes: Routes = [  {
 {
   path : 'admin/defineLoyalty',
   component : DefineLoyaltyComponent
+},
+{
+  path : 'userProfile',
+  component : UserProfileComponent
 }
 ];
 
