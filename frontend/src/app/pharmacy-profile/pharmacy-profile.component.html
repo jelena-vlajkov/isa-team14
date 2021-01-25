@@ -1,0 +1,151 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+      <mat-drawer style="width: 20%;" #drawer mode ="over">
+        <mat-action-list>
+         <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info </button>
+         <button mat-list-item> Dermatology appointments </button>
+         <button mat-list-item routerLink="/business-report"> Business reports </button>
+         <button mat-list-item> Drugs</button>
+         <button mat-list-item> Employees</button>
+         <button mat-list-item> Drug purchases</button>
+         <button mat-list-item> Actions and special offers</button>
+   
+       </mat-action-list>
+       <mat-action-list style="position: absolute; bottom: 1px;">
+               <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
+               <button  mat-list-item > Logout</button>
+   
+       </mat-action-list>
+     
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Pharmacy profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+  
+          <mat-card *ngIf="profile" style="height: auto;">
+            <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
+              <mat-grid-tile>
+                <label>Name:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>{{name}}</p>
+              </mat-grid-tile>
+  
+              <mat-grid-tile>
+                <label>Adress:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>                
+                <p>{{address}}</p>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>About:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>                
+                <p>{{about}}</p>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Grade</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>{{grade}}</p>
+              </mat-grid-tile>
+  
+              <mat-grid-tile>
+                <label>Dermatologists:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>Upisati</p>
+              </mat-grid-tile>
+  
+              <mat-grid-tile>
+                <label>Pharmacists:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>Upisati</p>
+              </mat-grid-tile>
+            </mat-grid-list>
+          <mat-grid-list cols="3" rowHeight="5:1" style="margin-left: 10px;" >
+              <mat-grid-tile>
+                <label>Drugs:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>Uraditi</p>
+              </mat-grid-tile>
+              <mat-grid-tile>
+              <button style="float:right; position:relative;" mat-raised-button id='reserveDrug' (click)='editProfile()' color="accent">Reserve drug</button>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Free appointments:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>Uraditi</p>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <button style="float:right; position:relative;" mat-raised-button id='scheduleAppointment' (click)='editProfile()' color="accent">Schedule appointment</button>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-action-list>
+              <button style="float:right; position:relative;" mat-raised-button id='SpecialOffers' (click)='editProfile()' color="accent">Special Offers</button>
+              <button style="float:right; position:relative;" mat-raised-button id='Pricelist' routerLink='/drugs-pricelist' color="accent">Pricelist</button>
+            </mat-action-list>    
+          </mat-card>
+  
+  
+          <mat-card *ngIf="edit">              
+              <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
+                <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+  
+                  <mat-grid-tile>
+                    <label>Name:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="name-ff">
+                          <mat-label>Name*</mat-label>
+                          <input matInput id="name" placeholder="Name" name="name-ff" value="{{name}}"
+                              formControlName="name">
+                          <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
+                              Please enter name</mat-error>
+                      </mat-form-field>
+                  </div>                  
+                </mat-grid-tile>
+    
+                  
+                  
+    
+                  <mat-grid-tile>
+                    <label>Address:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="address-ff">
+                          <mat-label>Address*</mat-label>
+                          <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">                   
+  
+                          <mat-error
+                              *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
+                              Please enter address</mat-error>
+                      </mat-form-field>
+                  </div>
+                  </mat-grid-tile>
+     </mat-grid-list>
+  
+  
+  
+                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
+  
+              </form>
+          </mat-card>
+          
+  
+  
+    </mat-drawer-content>
+  </mat-drawer-container>

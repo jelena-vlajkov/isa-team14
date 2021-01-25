@@ -1,0 +1,54 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    
+    <mat-drawer-content>
+      <mat-toolbar color="accent">
+        
+        <span style="margin-left: 530px; position:relative;">Dermatology appointment</span>
+        <span class="example-spacer"></span>
+      </mat-toolbar>
+
+      <mat-card style="height: auto;" >
+        <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
+        <mat-grid-tile>
+          <label>Dermatologist:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{dermatologist}}</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <label>Date:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{date}}</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <label>Time:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{time}}</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <label>Duration:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{duration}}</p>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+          <label>Price:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{price}}</p>
+        </mat-grid-tile>
+        
+
+      </mat-grid-list>
+      </mat-card>
+      
+
+
+</mat-drawer-content>
+</mat-drawer-container>
