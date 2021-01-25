@@ -12,7 +12,7 @@ public class PrescribedDrug {
     private int quantity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Medication medication;
+    private Medication prescribedMedication;
 
     public PrescribedDrug(){}
 
@@ -38,10 +38,10 @@ public class PrescribedDrug {
     }
 
     public Medication getMedication() {
-        return medication;
+        return prescribedMedication;
     }
 
     public void setMedication(Medication medication) {
-        this.medication = medication;
+        this.prescribedMedication = medication;
     }
 }

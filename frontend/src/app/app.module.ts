@@ -37,6 +37,7 @@ import { PharmacyProfileComponent } from './pharmacy-profile/pharmacy-profile.co
 import { DermatologyAppointmentComponent } from './dermatology-appointment/dermatology-appointment.component';
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
+import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricel
     PharmacyProfileComponent,
     DermatologyAppointmentComponent,
     BusinessReportComponent,
-    PharmacyPricelistComponent
+    PharmacyPricelistComponent,
+    DefineLoyaltyComponent
   ],
   imports: [
     HttpClientModule,

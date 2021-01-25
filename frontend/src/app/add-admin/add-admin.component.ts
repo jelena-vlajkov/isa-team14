@@ -39,7 +39,8 @@ export class AddAdminComponent implements OnInit {
       'address' : new FormControl(null, Validators.required),
       'gender': new FormControl(null, Validators.required),
       'newpassword': new FormControl(null, Validators.required),
-      'confirmpassword': new FormControl(null, Validators.required)
+      'confirmpassword': new FormControl(null, Validators.required),
+      'dob' : new FormControl(null, Validators.required)
     });
   }
   add(){}

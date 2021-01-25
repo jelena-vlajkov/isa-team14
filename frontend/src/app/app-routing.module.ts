@@ -11,6 +11,7 @@ import {PharmacyProfileComponent} from './pharmacy-profile/pharmacy-profile.comp
 import {PharmacyPricelistComponent} from './pharmacy-pricelist/pharmacy-pricelist.component';
 import {DermatologyAppointmentComponent} from './dermatology-appointment/dermatology-appointment.component';
 import{BusinessReportComponent } from './business-report/business-report.component';
+import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -36,6 +37,7 @@ const routes: Routes = [  {
   component : AddAdminComponent
 },
 {
+<<<<<<< HEAD
   path : 'pharmacyAdmin-profile',
   component : PharmacyAdminProfileComponent
 },
@@ -54,6 +56,10 @@ const routes: Routes = [  {
 {
   path:'business-report',
   component:BusinessReportComponent
+=======
+  path : 'admin/defineLoyalty',
+  component : DefineLoyaltyComponent
+>>>>>>> 9042d19011ed34516c688a07705822a4b3029eda
 }
 ];
 

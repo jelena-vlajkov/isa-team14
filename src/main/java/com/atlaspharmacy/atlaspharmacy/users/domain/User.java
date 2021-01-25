@@ -1,14 +1,16 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public abstract class Users {
+public abstract class User {
     @Id
     private int id;
     private String name;
@@ -19,9 +21,8 @@ public abstract class Users {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Address address;
 
-
-    public Users() {}
-    public Users(String name, String surname, Date dateOfBirth, String phoneNumber, Gender gender)
+    public User() {}
+    public User(String name, String surname, Date dateOfBirth, String phoneNumber, Gender gender)
     {
         this.name = name;
         this.surname = surname;
@@ -29,4 +30,5 @@ public abstract class Users {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
     }
+
 }

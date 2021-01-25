@@ -13,19 +13,20 @@ export class AdminComponent implements OnInit {
   surname:String;
   gender : String;
   selectedGender : String;
-
+  dob: Date;
   address:String;
   phone:String;
   mail:String;
   password1:String;
   password2:String;
-
+  dateString: String;
   oldpassword:String;
-
+  editDate : FormControl;
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
-  
+
+
   editProfileForm: FormGroup;
 
   constructor() { }
@@ -45,6 +46,9 @@ export class AdminComponent implements OnInit {
     this.address = "Bulevar Revolucije 69, Novi Sad, Srbija";
     this.phone = "19257124";
     this.mail = "pera.peric@uns.ac.rs";
+    this.dob = new Date("1998-01-16");
+    this.editDate = new FormControl(this.dob.toISOString());
+    this.dateString = this.dob.toLocaleDateString();
   }
 
   registerPharmacy(){

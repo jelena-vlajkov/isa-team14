@@ -1,13 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
-import com.atlaspharmacy.atlaspharmacy.users.domain.Users;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "medicalstaff")
-public class MedicalStaff extends Users {
+public class MedicalStaff extends User {
     private String licenseNumber;
 
     public  MedicalStaff() {}

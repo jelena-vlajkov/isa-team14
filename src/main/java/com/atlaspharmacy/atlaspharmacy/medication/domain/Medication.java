@@ -5,9 +5,8 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "medications")
@@ -23,6 +22,27 @@ public class Medication {
     private String contraindications;
     private int dailyDose;
     private DrugKind drugKind;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "substitute_medications",
+            joinColumns = @JoinColumn(name = "original_id"),
+            inverseJoinColumns = @JoinColumn(name = "substitute_id")
+    )
+    private List<Medication> substituteMedication;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "medication_ingredients",
+            joinColumns = @JoinColumn(name = "medication_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
+    private List<DrugReservation> reservations;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
+    private List<PrescribedDrug> prescribedDrugs;
 
     public Medication(){}
     public Medication(int id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, int dailyDose, DrugKind drugKind) {
@@ -37,17 +57,21 @@ public class Medication {
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
     }
-    public Medication(Medication medication){
-        this.id = medication.id;
-        this.name = medication.name;
-        this.drugForm = medication.drugForm;
-        this.drugType = medication.drugType;
-        this.producer = medication.producer;
-        this.typeOfPrescribing = medication.typeOfPrescribing;
-        this.additionalNotes = medication.additionalNotes;
-        this.contraindications = medication.contraindications;
-        this.dailyDose = medication.dailyDose;
-        this.drugKind = medication.drugKind;
+
+    public List<Medication> getSubstituteMedication() {
+        return substituteMedication;
+    }
+
+    public void setSubstituteMedication(List<Medication> substituteMedication) {
+        this.substituteMedication = substituteMedication;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public int getId() {

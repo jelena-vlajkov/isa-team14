@@ -30,11 +30,6 @@
     font-size: 20px;
 
   }
-  #dob-ff {
-    margin-bottom: 5px;
-    width: 400px !important;
-    font-size: 20px;
-  }
   #password-ff {
     width: 400px !important;
     margin-bottom: 5px;
@@ -118,3 +113,10 @@
     align-items: flex-start;
     
   }
+  .loyalty-card{
+    position: relative; 
+    margin-left: 5%;
+    width: 88%;
+    height: 40%;
+    background-color: wheat;
+}

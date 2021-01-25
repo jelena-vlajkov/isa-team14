@@ -6,7 +6,7 @@
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
-        <button mat-list-item (click)="defineLoyalty()"> Define loyalty program</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
         <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
 
       </mat-action-list>
@@ -21,13 +21,78 @@
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
             </button>
-            <span>Admin profile</span>
+            <span>System administrator profile</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
+          <div class="drawer-content">
+            <mat-card class="pharmacyCard">
+              <!-- <mat-grid-list cols="4" rowHeight="3:1">
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>              <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+              </mat-grid-list> -->
+              <mat-card-header>
+                <mat-card-title>
+                  <label style="font-weight:bold; font-size: 25px;">Register pharmacy</label>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content style="justify-content: center;">
+                <form [formGroup]="registerPharmacy" (ngSubmit)="addPharmacy()" >
+                  <div class="inputField" >
+                    <mat-form-field appearance="fill" id="name-ff">
+                        <mat-label>Pharmacy name*</mat-label>
+                        <input matInput id="name" placeholder="Pharmacy name" name="name-ff" formControlName="name">                   
+                        <mat-error
+                            *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
+                            Please enter address</mat-error>
+                    </mat-form-field>
+                  </div>       
+                  <div class="inputField" >
+                    <mat-form-field appearance="fill" id="address-ff">
+                        <mat-label>Pharmacy address*</mat-label>
+                        <input matInput id="address" placeholder="Pharmacy address" name="address-ff" formControlName="address">                   
+                        <mat-error
+                            *ngIf="!registerPharmacy.get('address').valid && registerPharmacy.get('address').touched && registerPharmacy.get('address').errors['required']">
+                            Please enter address</mat-error>
+                    </mat-form-field>
+                  </div>     
+                </form>
+              </mat-card-content>
+            </mat-card>
+          
+            <mat-card class="adminCard">
+              <mat-card-header>
+                <mat-card-title>
+                  <label style="font-weight:bold; font-size: 25px;">Register pharmacy</label>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
 
-          <mat-card>
-
-          </mat-card>
+              </mat-card-content>
+              <mat-grid-list cols="4" rowHeight="3:1">
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>              <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>Pera</p>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </mat-card>
+          </div>
+          
 
     </mat-drawer-content>
 </mat-drawer-container>

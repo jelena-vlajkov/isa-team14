@@ -1,11 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.ReservationStatus;
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "drug_reservations")
@@ -15,6 +15,17 @@ public class DrugReservation {
     private ReservationStatus reservationStatus;
     private Date dueDate;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "reserved_medications",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "medication_id")
+    )
+    private List<Medication> reservedMedication;
+
     public DrugReservation() {
     }
 
@@ -22,6 +33,14 @@ public class DrugReservation {
         this.id = id;
         this.reservationStatus = reservationStatus;
         this.dueDate = dueDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -46,5 +65,13 @@ public class DrugReservation {
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public List<Medication> getMedication() {
+        return reservedMedication;
+    }
+
+    public void setMedication(List<Medication> medications) {
+        this.reservedMedication = medications;
     }
 }
