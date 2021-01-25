@@ -32,6 +32,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy.component';
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
+import { PharmacyAdminProfileComponent } from './pharmacy-admin-profile/pharmacy-admin-profile.component';
+import { PharmacyProfileComponent } from './pharmacy-profile/pharmacy-profile.component';
+import { DermatologyAppointmentComponent } from './dermatology-appointment/dermatology-appointment.component';
+import { BusinessReportComponent } from './business-report/business-report.component';
+import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +46,12 @@ import { AddAdminComponent } from './add-admin/add-admin.component';
     AdminComponent,
     RegisterPharmacyComponent,
     RegisterSupplierComponent,
-    AddAdminComponent
+    AddAdminComponent,
+    PharmacyAdminProfileComponent,
+    PharmacyProfileComponent,
+    DermatologyAppointmentComponent,
+    BusinessReportComponent,
+    PharmacyPricelistComponent
   ],
   imports: [
     HttpClientModule,
