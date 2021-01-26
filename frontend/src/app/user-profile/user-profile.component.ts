@@ -22,10 +22,18 @@ export class UserProfileComponent implements OnInit {
   dateString: String;
   oldpassword:String;
   editDate : FormControl;
+  points:String;
+  categoryProgram:String;
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
+  public loyalty:boolean = false;
   editProfileForm: FormGroup;
+  loyaltyForm: FormGroup;
+  allergies = new FormControl();
+
+  allergiesList = ['Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen'];
+  selectedAllergies;
 
   constructor() { }
 
@@ -33,6 +41,7 @@ export class UserProfileComponent implements OnInit {
     this.editProfileForm = new FormGroup({});
     this.changePasswordForm = new FormGroup({});
     this.profileForm = new FormGroup({});
+    this.loyaltyForm = new FormGroup({});
     this.password1 = "";
     this.password2 = "";
 
@@ -45,13 +54,31 @@ export class UserProfileComponent implements OnInit {
     this.dob = new Date("1998-01-16");
     this.editDate = new FormControl(this.dob.toISOString());
     this.dateString = this.dob.toLocaleDateString();
+    this.points = "28";
+    this.categoryProgram = "Gold";
 
+  }
+
+  loyaltyClick(){
+    this.loyalty = true;
+    this.profile= false;
+    this.changePassword = false;
+    this.edit = false;
+ 
+
+
+  }
+  
+  backClick(){
+    this.loyalty = false;
+    this.profile = true;
   }
 
   editProfile(){
     this.edit = true;
     this.profile= false;
     this.changePassword = false;
+    this.loyalty = false;
 
     this.editProfileForm = new FormGroup({
 
@@ -68,6 +95,7 @@ export class UserProfileComponent implements OnInit {
     this.edit = false;
     this.profile = false;
     this.changePassword = true;
+    this.loyalty = false;
 
     this.changePasswordForm = new FormGroup({
       'oldpassword' : new FormControl(null, Validators.required),
@@ -80,6 +108,7 @@ export class UserProfileComponent implements OnInit {
     this.profile = true; 
     this.edit = false;
     this.changePassword = false;
+    this.loyalty = false;
   }
 
   submitChangePassword(){

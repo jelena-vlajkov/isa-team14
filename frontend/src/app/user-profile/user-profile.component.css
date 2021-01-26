@@ -77,6 +77,14 @@
     height: 40vw;
     
   }
+
+  #mat-card-loy{
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 20vw;
+  }
   
   label {
     font-size: 18px;
