@@ -10,6 +10,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+- name: JDBC_DATABASE_URL	
+  value: $(JDBC_DATABASE_URL)
+- name: JDBC_DATABASE_PASSWORD
+  value: $(JDBC_DATABASE_PASSWORD)
+- name: JDBC_DATABASE_USERNAME	
+  value: $(JDBC_DATABASE_USERNAME)
+
 steps:
 - task: Maven@3
   inputs:
