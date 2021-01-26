@@ -10,6 +10,14 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+- name: JDBC_DATABASE_URL
+  value: jdbc:postgresql://localhost:5432/isadb 
+- name: JDBC_DATABASE_PASSWORD
+  value: root
+- name: JDBC_DATABASE_USERNAME
+  value: postgres
+
 steps:
 - task: Maven@3
   inputs:
