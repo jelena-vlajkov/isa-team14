@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "pharmacists")
 @DiscriminatorValue(value = Role.Values.Pharmacist)
-public class Pharmacist extends MedicalStaff {
+public class Pharmacist extends User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,5 +27,30 @@ public class Pharmacist extends MedicalStaff {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

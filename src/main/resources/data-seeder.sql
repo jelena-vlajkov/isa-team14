@@ -8,11 +8,21 @@ insert into addresses(id, number, street, city_id) values (2, 7, 'Bulevar Despot
 insert into addresses(id, number, street, city_id) values (3, 99, 'Bulevar Revolucije', 2);
 
 
-insert into dermatologists(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (1, '2000-01-01 00:00:01', 0, 'Jelena',123124124 ,'Vlajkov', 1, 1, 4);
-insert into pharmacists(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (5, '1986-01-01 00:00:01', 0, 'Nadezda',123124123 ,'Vlajkov', 1, 1, 3);
-insert into patients(id, date_of_birth, gender, name, phone_number, surname, address_id, role) values (2, '1997-01-01 00:00:01', 1, 'Aleksandar', 'Ignjatijevic', 2, 2, 2);
-insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
-insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (1, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 1, 'Dermatologist');
+--insert into pharmacists(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (5, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '12345', 123124123 ,'Vlajkov', 1, 1, 3);
+--insert into patients(id, date_of_birth, gender, name, phone_number, surname, address_id, role) values (2, '1997-01-01 00:00:01', 1, 'Aleksandar', 'Ignjatijevic', 2, 2, 2);
+--insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
+--insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
+
+insert into authority(id, name) values (1, 'Pharmacist');
+insert into authority(id, name) values (2, 'Dermatologist');
+insert into authority(id, name) values (3, 'Patient');
+insert into authority(id, name) values (4, 'SysAdmin');
+insert into authority(id, name) values (5, 'PharmacyAdmin');
+insert into authority(id, name) values (6, 'MedicalStaff');
+
+insert into user_authority(user_id, authority_id) values (1, 2);
+--insert into user_authority(user_id, authority_id) values (5, 1);
 
 insert into medications(id, additional_notes, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (1, 'Od ovog leka ce te bole ledja', 'Moguc bol u kurcu', 2, 1, 1, 2, 'Borozepam', 'Loncar Doo', 0);
 insert into medications(id, additional_notes, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (2, 'Lek nije namenjen maloletnim licima', 'Moguca pospanost', 2, 1, 1, 2, 'Xanax', 'Pfizer', 0);

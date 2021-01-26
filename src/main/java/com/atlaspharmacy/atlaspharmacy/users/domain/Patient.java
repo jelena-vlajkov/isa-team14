@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "patients")
@@ -26,5 +27,35 @@ public class Patient extends User{
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public List<Authority> getAuthorities() {
+        return getAuthorities();
+    }
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

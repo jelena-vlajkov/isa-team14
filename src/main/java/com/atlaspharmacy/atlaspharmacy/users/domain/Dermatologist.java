@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "dermatologists")
 @DiscriminatorValue(value = Role.Values.Dermatologist)
-public class Dermatologist extends MedicalStaff {
+public class Dermatologist extends User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,5 +26,31 @@ public class Dermatologist extends MedicalStaff {
 
     public Long getId() {
         return id;
+    }
+
+
+    @Override
+    public String getUsername() {
+        return getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
