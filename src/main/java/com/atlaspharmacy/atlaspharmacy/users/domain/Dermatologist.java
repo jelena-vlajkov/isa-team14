@@ -3,21 +3,20 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 
 import javax.persistence.*;
-
 @Entity
-@Table(name = "pharmacists")
-@DiscriminatorValue(value = Role.Values.Pharmacist)
-public class Pharmacist extends MedicalStaff {
+@Table(name = "dermatologists")
+@DiscriminatorValue(value = Role.Values.Dermatologist)
+public class Dermatologist extends MedicalStaff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Pharmacist(Long id) {
+    public Dermatologist(Long id) {
         this.id = id;
     }
 
-    public Pharmacist() {
+    public Dermatologist() {
 
     }
 
