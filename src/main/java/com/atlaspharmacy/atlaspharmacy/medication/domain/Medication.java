@@ -22,7 +22,7 @@ public class Medication {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "substitute_medications",
             joinColumns = @JoinColumn(name = "original_id"),
