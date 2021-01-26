@@ -24,6 +24,23 @@ insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 insert into user_authority(user_id, authority_id) values (1, 2);
 insert into user_authority(user_id, authority_id) values (5, 1);
 
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (1, '2020-02-10 12:00:00', '2020-02-10 12:30:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (2, '2020-02-10 13:00:00', '2020-02-10 13:30:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (3, '2020-02-10 13:30:00', '2020-02-10 14:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (4, '2020-02-10 14:00:00', '2020-02-10 14:30:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (5, '2020-02-10 14:30:00', '2020-02-10 15:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (6, '2020-02-10 15:30:00', '2020-02-10 16:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (7, '2020-02-10 16:30:00', '2020-02-10 17:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (8, '2020-02-11 11:00:00', '2020-02-11 11:30:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (9, '2020-02-11 12:00:00', '2020-02-10 12:30:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (10, '2020-02-11 13:00:00', '2020-02-10 13:30:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (11, '2020-02-12 13:30:00', '2020-02-10 14:00:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (12, '2020-02-12 14:00:00', '2020-02-10 14:30:00', 1000.00, 'Examination', false, 1);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (13, '2020-02-12 14:30:00', '2020-02-10 15:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (14, '2020-02-13 15:30:00', '2020-02-10 16:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (15, '2020-02-13 16:30:00', '2020-02-10 17:00:00', 1000.00, 'Counseling', false, 5);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id) values (16, '2020-02-13 11:00:00', '2020-02-11 11:30:00', 1000.00, 'Counseling', false, 5);
+
 insert into medications(id, additional_notes, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (1, 'Od ovog leka ce te bole ledja', 'Moguc bol u kurcu', 2, 1, 1, 2, 'Borozepam', 'Loncar Doo', 0);
 insert into medications(id, additional_notes, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (2, 'Lek nije namenjen maloletnim licima', 'Moguca pospanost', 2, 1, 1, 2, 'Xanax', 'Pfizer', 0);
 insert into medications(id, additional_notes, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (3, null, null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0);
