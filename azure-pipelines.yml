@@ -10,14 +10,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-- name: JDBC_DATABASE_URL
-  value: jdbc:postgresql://ec2-54-217-206-236.eu-west-1.compute.amazonaws.com:5432/d92q5bbbrc35uh?user=lvjakprdivunor&password=8491d076972a30a5211e7c7ce1f3bccfcef5c10a7befb4dfcf5686c6d8369f3e
-- name: JDBC_DATABASE_PASSWORD
-  value: 8491d076972a30a5211e7c7ce1f3bccfcef5c10a7befb4dfcf5686c6d8369f3e
-- name: JDBC_DATABASE_USERNAME
-  value: lvjakprdivunor
-
 steps:
 - task: Maven@3
   inputs:
