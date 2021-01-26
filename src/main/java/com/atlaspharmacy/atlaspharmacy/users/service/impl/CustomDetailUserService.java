@@ -1,7 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
-import com.atlaspharmacy.atlaspharmacy.users.repository.IUserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CustomDetailUserService implements UserDetailsService {
     protected final Log LOGGER = LogFactory.getLog(getClass());
 
     @Autowired
-    private IUserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

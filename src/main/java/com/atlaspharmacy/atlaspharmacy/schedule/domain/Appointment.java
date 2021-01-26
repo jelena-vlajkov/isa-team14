@@ -2,6 +2,8 @@ package com.atlaspharmacy.atlaspharmacy.schedule.domain;
 
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 
 import javax.persistence.*;
 
@@ -21,13 +23,16 @@ public class Appointment {
     private Period appointmentPeriod;
     private double cost;
     @Column(insertable = false, updatable = false)
-    private AppointmentType type;
+    private String type;
     private boolean isCanceled;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Patient patient;
+
 
     public Appointment() {
     }
 
-    public Appointment(Period appointmentPeriod, double cost, AppointmentType type, boolean isCanceled) {
+    public Appointment(Period appointmentPeriod, double cost, String type, boolean isCanceled, Patient patient) {
         this.appointmentPeriod = appointmentPeriod;
         this.cost = cost;
         this.type = type;
@@ -58,11 +63,11 @@ public class Appointment {
         this.cost = cost;
     }
 
-    public AppointmentType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(AppointmentType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

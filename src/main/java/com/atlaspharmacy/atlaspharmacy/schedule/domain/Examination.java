@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.domain;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 
 import javax.persistence.*;
 
@@ -21,8 +22,8 @@ public class Examination extends Appointment{
         this.dermatologist = dermatologist;
     }
 
-    public Examination(Period appointmentPeriod, double cost, AppointmentType type, boolean isCanceled, Dermatologist dermatologist) {
-        super(appointmentPeriod, cost, type, isCanceled);
+    public Examination(Period appointmentPeriod, double cost, String type, boolean isCanceled, Dermatologist dermatologist, Patient patient) {
+        super(appointmentPeriod, cost, type, isCanceled, patient);
         this.dermatologist = dermatologist;
     }
 
