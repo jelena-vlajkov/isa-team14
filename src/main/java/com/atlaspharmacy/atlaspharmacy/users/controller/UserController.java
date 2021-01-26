@@ -21,7 +21,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/proba")
-    @PreAuthorize("hasRole('Dermatologist')")
+    @PreAuthorize("hasRole('DERMATOLOGIST')")
     ResponseEntity<String> proba()
     {
         return new ResponseEntity<>(HttpStatus.OK);
