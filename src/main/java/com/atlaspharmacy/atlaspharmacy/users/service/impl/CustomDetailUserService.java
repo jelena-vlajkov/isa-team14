@@ -29,7 +29,6 @@ public class CustomDetailUserService implements UserDetailsService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    // Funkcija koja na osnovu username-a iz baze vraca objekat User-a
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
@@ -40,10 +39,8 @@ public class CustomDetailUserService implements UserDetailsService {
         }
     }
 
-    // Funkcija pomocu koje korisnik menja svoju lozinku
     public void changePassword(String oldPassword, String newPassword) {
 
-        // Ocitavamo trenutno ulogovanog korisnika
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String username = currentUser.getName();
 
@@ -61,8 +58,6 @@ public class CustomDetailUserService implements UserDetailsService {
 
         User user = (User) loadUserByUsername(username);
 
-        // pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
-        // ne zelimo da u bazi cuvamo lozinke u plain text formatu
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
