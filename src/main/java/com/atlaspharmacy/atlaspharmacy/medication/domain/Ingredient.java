@@ -6,7 +6,7 @@ import java.util.List;
 @Table(name = "ingredients")
 public class Ingredient {
     @Id
-    private int id;
+    private Long id;
     private String name;
 //moguce da ovako treba o.O
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -22,16 +22,16 @@ public class Ingredient {
 
     public Ingredient(){}
 
-    public Ingredient(int id, String name) {
+    public Ingredient(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "drug_reservations")
 public class DrugReservation {
     @Id
-    private int id;
+    private Long id;
     private ReservationStatus reservationStatus;
     private Date dueDate;
 
@@ -29,7 +29,7 @@ public class DrugReservation {
     public DrugReservation() {
     }
 
-    public DrugReservation(int id, ReservationStatus reservationStatus, Date dueDate) {
+    public DrugReservation(Long id, ReservationStatus reservationStatus, Date dueDate) {
         this.id = id;
         this.reservationStatus = reservationStatus;
         this.dueDate = dueDate;
@@ -43,11 +43,11 @@ public class DrugReservation {
         this.user = user;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

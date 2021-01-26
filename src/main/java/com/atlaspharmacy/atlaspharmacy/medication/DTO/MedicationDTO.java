@@ -1,17 +1,15 @@
-package com.atlaspharmacy.atlaspharmacy.medication.domain;
+package com.atlaspharmacy.atlaspharmacy.medication.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "medications")
-public class Medication {
-    @Id
+public class MedicationDTO {
     private Long id;
     private String name;
     private DrugForm drugForm;
@@ -22,30 +20,13 @@ public class Medication {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "substitute_medications",
-            joinColumns = @JoinColumn(name = "original_id"),
-            inverseJoinColumns = @JoinColumn(name = "substitute_id")
-    )
-    private List<Medication> substituteMedication;
+    private Long amount;
+    private List<Long> substituteMedication;
+    public MedicationDTO() {
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "medication_ingredients",
-            joinColumns = @JoinColumn(name = "medication_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients;
+    }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
-    private List<DrugReservation> reservations;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
-    private List<PrescribedDrug> prescribedDrugs;
-
-    public Medication(){}
-    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long amount) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -56,22 +37,47 @@ public class Medication {
         this.contraindications = contraindications;
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
+        this.amount = amount;
     }
+    public static MedicationDTO convertToMedicationDTO(Medication m){
+        MedicationDTO medicationDTO = new MedicationDTO(
+                m.getId(),
+                m.getName(),
+                m.getDrugForm(),
+                m.getDrugType(),
+                m.getProducer(),
+                m.getTypeOfPrescribing(),
+                m.getAdditionalNotes(),
+                m.getContraindications(),
+                m.getDailyDose(),
+                m.getDrugKind(),
+                null
+        );
+        medicationDTO.setSubstituteMedication(new ArrayList<>());
 
-    public List<Medication> getSubstituteMedication() {
+        for(Medication med: m.getSubstituteMedication()){
+            medicationDTO.getSubstituteMedication().add(med.getId());
+        }
+        return medicationDTO;
+    }
+    public static void convertToMedication(Medication m, MedicationDTO mdto){
+        m.setId(mdto.getId());
+        m.setName(m.getName());
+        m.setDailyDose(mdto.getDailyDose());
+        m.setAdditionalNotes(mdto.getAdditionalNotes());
+        m.setContraindications(mdto.getContraindications());
+        m.setDrugKind(mdto.getDrugKind());
+        m.setDrugForm(mdto.getDrugForm());
+        m.setDrugType(mdto.getDrugType());
+        m.setProducer(mdto.getProducer());
+        m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
+    }
+    public List<Long> getSubstituteMedication() {
         return substituteMedication;
     }
 
-    public void setSubstituteMedication(List<Medication> substituteMedication) {
+    public void setSubstituteMedication(List<Long> substituteMedication) {
         this.substituteMedication = substituteMedication;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
     }
 
     public Long getId() {
@@ -152,5 +158,13 @@ public class Medication {
 
     public void setDrugKind(DrugKind drugKind) {
         this.drugKind = drugKind;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "e_prescriptions")
 public class EPrescription {
     @Id
-    private int id;
+    private Long id;
     private Date date;
     //fali user
 
@@ -23,7 +23,7 @@ public class EPrescription {
     public EPrescription() {
     }
 
-    public EPrescription(int id, Date date) {
+    public EPrescription(Long id, Date date) {
         this.id = id;
         this.date = date;
     }
@@ -44,11 +44,11 @@ public class EPrescription {
         this.user = user;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
