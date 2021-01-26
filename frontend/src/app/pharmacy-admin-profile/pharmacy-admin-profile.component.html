@@ -1,0 +1,263 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+  <mat-drawer style="width: 20%;" #drawer mode ="over">
+     <mat-action-list>
+      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info</button>
+      <button mat-list-item> Dermatology appointments </button>
+      <button mat-list-item routerLink="/business-report"> Business reports </button>
+      <button mat-list-item> Drugs</button>
+      <button mat-list-item> Employees</button>
+      <button mat-list-item> Drug purchases</button>
+      <button mat-list-item> Actions and special offers</button>
+
+    </mat-action-list>
+    <mat-action-list style="position: absolute; bottom: 1px;">
+            <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
+            <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+    </mat-action-list>
+  </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar color="accent">
+          <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>Admin profile</span>
+          <span class="example-spacer"></span>
+        </mat-toolbar>
+
+        <mat-card *ngIf="profile">
+          <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
+            <mat-grid-tile>
+              <label>Name:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <p>{{name}}</p>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <label>Surname:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>                
+              <p>{{surname}}</p>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <label>Gender:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <p>{{selectedGender}}</p>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <label>Address:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <p>{{address}}</p>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <label>Telephone:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <p>{{phone}}</p>
+            </mat-grid-tile>
+
+            <mat-grid-tile>
+              <label>Email:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <p>{{mail}}</p>
+            </mat-grid-tile>
+
+          </mat-grid-list>
+          <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
+
+        </mat-card>
+
+
+        <mat-card *ngIf="edit">              
+            <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
+              <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+
+                <mat-grid-tile>
+                  <label>Name:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="inputField">
+                    <mat-form-field appearance="fill" id="name-ff">
+                        <mat-label>Name*</mat-label>
+                        <input matInput id="name" placeholder="Name" name="name-ff" value="{{name}}"
+                            formControlName="name">
+                        <mat-error
+                            *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
+                            Please enter name</mat-error>
+                    </mat-form-field>
+                </div>                  
+              </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Surname:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>   
+                  <div class="inputField">
+                    <mat-form-field appearance="fill" id="surname-ff">
+                        <mat-label>Surname*</mat-label>
+                        <input matInput id="surname" placeholder={{surname}} name="surname-ff" formControlName="surname">                   
+                        <mat-error
+                            *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
+                            Please enter surname</mat-error>
+                    </mat-form-field>
+                </div>             
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Gender:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="inputField">
+                  
+                    <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                        <mat-radio-button value="Female" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
+                        <mat-radio-button value="Male" style="font-size:20px">Male</mat-radio-button>
+                    </mat-radio-group>
+                    <mat-error
+                    *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
+                    Please enter address</mat-error>
+                </div>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Address:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="inputField">
+                    <mat-form-field appearance="fill" id="address-ff">
+                        <mat-label>Address*</mat-label>
+                        <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">                   
+
+                        <mat-error
+                            *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
+                            Please enter address</mat-error>
+                    </mat-form-field>
+                </div>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Telephone:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <mat-form-field appearance="fill" id="telephone-ff">
+                    <mat-label>Telephone*</mat-label>
+                    <input matInput id="telephone" placeholder="Telephone" value="{{phone}}}}" name="telephone-ff"
+                        formControlName="telephone">
+                    <mat-error
+                        *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
+                        Please enter telephone</mat-error>
+                </mat-form-field>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Email:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{mail}}</p>
+                </mat-grid-tile>
+  
+              </mat-grid-list>
+
+
+              <button style="float:left; position:relative;" mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
+
+              <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
+              <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">ChangePassword</button>
+
+            </form>
+        </mat-card>
+        <mat-card *ngIf="changePassword">
+          <form [formGroup]="changePasswordForm" (ngSubmit)="submitChangePassword()">
+            <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+
+              <mat-grid-tile>
+                <label>Old password:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="password-ff">
+                      <mat-label>Old password*:</mat-label>
+                      <input matInput type="password" id="oldpassword" placeholder="Old Password" name="password-ff" formControlName="oldpassword">
+                      <mat-error
+                          *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
+                          Please enter old password</mat-error>
+                  </mat-form-field>
+                </div>                  
+            </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>New password:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>   
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="password-ff">
+                      <mat-label>New password*:</mat-label>
+                      <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
+                      <mat-error
+                          *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['required']">
+                          Please enter new password</mat-error>
+                  </mat-form-field>
+                </div>               
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <label>Confirm password:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="password-ff">
+                      <mat-label>Confirm password*:</mat-label>
+                      <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                      <mat-error
+                          *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['required']">
+                          Please enter again new password</mat-error>
+                  </mat-form-field>
+                </div>  
+              </mat-grid-tile> 
+                  
+              <mat-grid-tile>
+                <p hidden></p>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p hidden></p>
+
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <p hidden></p>
+
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p hidden></p>
+              </mat-grid-tile>
+              
+              <mat-grid-tile>
+                <p hidden></p>
+
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p hidden></p>
+              </mat-grid-tile>
+            </mat-grid-list>
+ 
+
+                <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
+                <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='submitChangePassword()'  color="accent">ChangePassword</button>
+
+            </form>
+
+          </mat-card>
+
+            
+            
+
+
+  </mat-drawer-content>
+</mat-drawer-container>
