@@ -9,7 +9,8 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-
+  
+variables:
 - name: JDBC_DATABASE_URL	
   value: $(JDBC_DATABASE_URL)
 - name: JDBC_DATABASE_PASSWORD
