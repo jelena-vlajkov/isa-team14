@@ -5,7 +5,10 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8088',
-  proba: "proba"
+  proba: "proba",
+  medication: "medication",
+  findAll: "findAll",
+  add: "add"
 };
 
 /*

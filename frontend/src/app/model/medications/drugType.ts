@@ -1,0 +1,10 @@
+export enum DrugType {
+    HERBAL,
+    BIOLOGICAL,
+    HOMEOPATIC,
+    HUMAN,
+    BLOOD,
+    RADIOPHARAMEUTICALS,
+    TRADITIONALHERBAL,
+    VACCINES
+}
