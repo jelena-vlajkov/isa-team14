@@ -87,18 +87,6 @@ insert into allergies(id, name) values (5, 'Vomiting');
 insert into allergies(id, name) values (6, 'Diarrhea');
 
 
-
--- insert into ingredients(id, name) VALUES (1, 'paracetamol');
--- insert into ingredients(id, name) VALUES (2, 'kofein');
--- insert into ingredients(id, name) VALUES (3, 'kodeinfosfat');
--- insert into ingredients(id, name) VALUES (4, 'seskvidhidrat');
--- insert into ingredients(id, name) VALUES (5, 'propifenazon');
--- insert into ingredients(id, name) VALUES (6, 'ibuprofena');
--- insert into ingredients(id, name) VALUES (7, 'bromazepam');
--- insert into ingredients(id,name) values (8, 'alprazolam');
--- insert into ingredients(id,name) values (9, 'acetilsalicilna kiselina');
-
-
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (2, 3);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (2, 4);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (2, 5);
