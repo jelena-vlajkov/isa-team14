@@ -8,41 +8,45 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.*;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.UserService;
+import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentService implements IAppointmentService {
 
-    private final UserRepository _userRepository;
-    private final AppointmentRepository _appointmentRepository;
-    @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository) {
-        _userRepository = userRepository;
-        _appointmentRepository = appointmentRepository;
-    }
-
+    private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final WorkDayService workDayService;
 
     private int hoursAvailableToCancel = 3600*1000*24;
+    private int appointmentDuration = 30*60000;
     private double cost = 1000.00;
 
-    final static String NOT_FOUND = "Appointment could not be found!";
-    final static String APPOINTMENT_NOT_FREE = "Can't schedule appointment in that specified time";
+    private final static String APPOINTMENT_NOT_FREE = "Can't schedule appointment in that specified time";
+
+    @Autowired
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, WorkDayService workDayService) {
+        this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.workDayService = workDayService;
+    }
+
 
     @Override
     public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Counseling counseling = new Counseling(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
-                    false, (Pharmacist) _userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) _userRepository.getOne(appointmentDTO.getPatientId()));
-            _appointmentRepository.save(counseling);
+                    false, (Pharmacist) userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) userRepository.getOne(appointmentDTO.getPatientId()));
+            appointmentRepository.save(counseling);
             return counseling;
         }
         throw new Exception(APPOINTMENT_NOT_FREE);
@@ -52,8 +56,8 @@ public class AppointmentService implements IAppointmentService {
     public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Examination counseling = new Examination(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
-                    false, (Dermatologist) _userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) _userRepository.getOne(appointmentDTO.getPatientId()));
-            _appointmentRepository.save(counseling);
+                    false, (Dermatologist) userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) userRepository.getOne(appointmentDTO.getPatientId()));
+            appointmentRepository.save(counseling);
             return counseling;
         }
         throw new Exception(APPOINTMENT_NOT_FREE);
@@ -61,59 +65,136 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public boolean cancelAppointment(Long appointmentId) {
-        Appointment appointment = _appointmentRepository.getOne(appointmentId);
-        Date validDate = new Date(appointment.getAppointmentPeriod().getStartTime().getTime() + hoursAvailableToCancel);
-        if (appointment.getAppointmentPeriod().getStartTime().before(validDate))
+        Appointment appointment = appointmentRepository.getOne(appointmentId);
+        if (appointment.canCancel())
             return false;
         appointment.setCanceled(true);
-        _appointmentRepository.save(appointment);
+        appointmentRepository.save(appointment);
         return true;
     }
 
     @Override
     public List<Appointment> findAvailableBy(Date date, Long medicalStaffId) {
-        return null;
+        List<Appointment> allOcupied = getOccupiedBy(date, medicalStaffId);
+        List<Appointment> allFree = initializeAppointmentTime(date, medicalStaffId);
+        List<Appointment> available = new ArrayList<>(allFree);
+        for(Appointment appointment : allFree)
+        {
+            allOcupied.stream().filter((a) -> a.isOccupied(appointment.getAppointmentPeriod()))
+                    .findFirst()
+                    .orElse(null);
+            if (appointment != null)
+                available.remove(appointment);
+        }
+        return available;
     }
 
     @Override
-    public List<Appointment> findAvailableBy(Date date) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public List<Counseling> findAvailableCounselingsBy(Date date) {
+        List<WorkDay> allWorkingStaff = workDayService.getByDate(date);
+        List<Counseling> counselings = new ArrayList<>();
+        for (WorkDay workDay : allWorkingStaff) {
+            if (workDay.isPharmacist())
+                counselings.addAll((List<Counseling>)(List<?>) findAvailableBy(date, workDay.getMedicalStaff().getId()));
+        }
+        return counselings;
     }
 
     @Override
-    public List<Appointment> findAvailableBy(Long medicalStaffId) {
-        return null;
+    @SuppressWarnings("unchecked")
+    public List<Examination> findAvailableExaminationsBy(Date date) {
+        List<WorkDay> allWorkingStaff = workDayService.getByDate(date);
+        List<Examination> examinations = new ArrayList<>();
+        for (WorkDay workDay : allWorkingStaff) {
+            if (workDay.isDermatologist())
+                examinations.addAll((List<Examination>)(List<?>) findAvailableBy(date, workDay.getMedicalStaff().getId()));
+        }
+        return examinations;
     }
+
 
     @Override
     public boolean isTimeValid(Date date, Long medicalStaffId) {
         List<Appointment> available = findAvailableBy(date, medicalStaffId);
-        return false;
-    }
-
-    @Override
-    public List<Appointment> getScheduledBy(Date date, Long medicalStaffId) {
-        return null;
-    }
-
-    @Override
-    public List<Appointment> getScheduledBy(Date date) {
-
-        return null;
-    }
-
-    @Override
-    public List<Appointment> getScheduledByMedicalStaff(Long medicalStaffId) {
-        return null;
+        return available.stream()
+                .anyMatch(appointment -> appointment.isOccupied(new Period(date, new Date(date.getTime() + appointmentDuration))));
     }
 
     @Override
     public List<Appointment> getScheduledForPatient(Long patinetId) {
-        return null;
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(appointment -> appointment.isPatient(patinetId))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<Appointment> getOccupiedBy(Date date) {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(appointment -> appointment.isSameDay(date))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Appointment> getScheduledForPatient(Long patinetId, Date date) {
-        return null;
+    public List<Appointment> getOccupiedBy(Long medicalStaffId) {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Appointment> getOccupiedBy(Date date, Long medicalStaffId) {
+        return appointmentRepository.findAll()
+                .stream()
+                .filter(appointment -> appointment.isMedicalStaffAndDate(medicalStaffId, date))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Appointment> initializeAppointmentTime(Date date, Long medicalStaffId) {
+        List<Appointment> appointments = new ArrayList<>();
+        WorkDay workDay = workDayService.getBy(medicalStaffId, date);
+
+        if (workDay == null)
+            return appointments;
+
+        int startTime = workDay.getStartTime();
+        int endTime = workDay.getEndTime();
+        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), startTime, 0, 0);
+
+        for (int i = 0; i < endTime - 1; i++)
+        {
+            Appointment appointment = new Appointment(new Period(appointmentStart,
+                    new Date(appointmentStart.getTime() + appointmentDuration)),
+                    cost, "", false, null);
+            appointments.add(appointment);
+        }
+        return appointments;
+    }
+
+    @Override
+    public List<Counseling> getAllOccupiedCounselings(Date date) {
+        List<Appointment> occupiedAppointments = appointmentRepository.findAll();
+        List<Counseling> counselings = new ArrayList<>();
+        for (Appointment appointment : occupiedAppointments) {
+            if (appointment.isCounseling() && appointment.isSameDay(date))
+                counselings.add((Counseling) appointment);
+        }
+        return counselings;
+    }
+
+    @Override
+    public List<Examination> getAllOccupiedExaminations(Date date) {
+        List<Appointment> occupiedAppointments = appointmentRepository.findAll();
+        List<Examination> examinations = new ArrayList<>();
+        for (Appointment appointment : occupiedAppointments) {
+            if (appointment.isExamination() && appointment.isSameDay(date))
+                examinations.add((Examination) appointment);
+        }
+        return examinations;
     }
 }
