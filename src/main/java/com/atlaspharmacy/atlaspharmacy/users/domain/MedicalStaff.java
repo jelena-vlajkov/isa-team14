@@ -21,11 +21,6 @@ public class MedicalStaff extends User {
     }
 
     @Override
-    public List<Authority> getAuthorities() {
-        return getAuthorities();
-    }
-
-    @Override
     public String getUsername() {
         return getEmail();
     }

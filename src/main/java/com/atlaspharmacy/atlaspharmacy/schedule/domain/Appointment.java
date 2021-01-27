@@ -93,8 +93,13 @@ public class Appointment {
     }
 
     public boolean isOccupied(Period period) {
-        return getAppointmentPeriod().getStartTime().compareTo(period.getStartTime()) == 0 &&
-            getAppointmentPeriod().getEndTime().compareTo(period.getEndTime()) == 0;
+        System.out.println(period.getEndTime().getTime());
+        System.out.println(period.getStartTime().getTime());
+        System.out.println(getAppointmentPeriod().getStartTime().getTime());
+        System.out.println(getAppointmentPeriod().getStartTime().getTime() == period.getStartTime().getTime() &&
+                getAppointmentPeriod().getEndTime().getTime() == period.getEndTime().getTime());
+        return getAppointmentPeriod().getStartTime().getTime() == period.getStartTime().getTime() &&
+                getAppointmentPeriod().getEndTime().getTime() == period.getEndTime().getTime();
     }
 
     public boolean isSameDay(Date date) {

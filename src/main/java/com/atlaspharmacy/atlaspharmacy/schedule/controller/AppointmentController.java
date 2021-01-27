@@ -49,7 +49,7 @@ public class AppointmentController {
     @RequestMapping(value = "/getAvailableForStaff", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DERMATOLOGIST')")
     public @ResponseBody List<Appointment> getAvailable(@RequestParam("date") String stringDate, @RequestParam("id") Long id) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
+        Date date = new SimpleDateFormat("yyyy-MM-dd_HH:mm").parse(stringDate);
         for (Appointment appointment : appointmentService.findAvailableBy(date, id)) {
             System.out.println(appointment.getType());
         }

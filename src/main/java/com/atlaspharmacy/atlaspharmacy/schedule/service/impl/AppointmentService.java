@@ -80,10 +80,7 @@ public class AppointmentService implements IAppointmentService {
         List<Appointment> available = new ArrayList<>(allFree);
         for(Appointment appointment : allFree)
         {
-            allOcupied.stream().filter((a) -> a.isOccupied(appointment.getAppointmentPeriod()))
-                    .findFirst()
-                    .orElse(null);
-            if (appointment != null)
+            if (allOcupied.stream().anyMatch(a-> a.isOccupied(appointment.getAppointmentPeriod())))
                 available.remove(appointment);
         }
         return available;
@@ -162,14 +159,13 @@ public class AppointmentService implements IAppointmentService {
         if (workDay == null)
             return appointments;
 
-        int startTime = workDay.getStartTime();
         int endTime = workDay.getEndTime();
-        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), startTime, 0, 0);
+        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getStartTime(), 0, 0);
 
         for (int i = 0; i < endTime - 1; i++)
         {
-            Appointment appointment = new Appointment(new Period(appointmentStart,
-                    new Date(appointmentStart.getTime() + appointmentDuration)),
+            Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + appointmentDuration * i),
+                    new Date(appointmentStart.getTime() + appointmentDuration * (i + 1))),
                     cost, "", false, null);
             appointments.add(appointment);
         }

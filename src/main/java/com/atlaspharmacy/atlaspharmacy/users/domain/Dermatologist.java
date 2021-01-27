@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Table(name = "dermatologists")
 @DiscriminatorValue(value = Role.Values.Dermatologist)
 @Proxy(lazy = false)
-public class Dermatologist extends User {
+public class Dermatologist extends MedicalStaff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
