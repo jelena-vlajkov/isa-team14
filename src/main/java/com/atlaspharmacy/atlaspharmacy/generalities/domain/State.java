@@ -1,14 +1,17 @@
 package com.atlaspharmacy.atlaspharmacy.generalities.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "states")
+@Proxy(lazy = false)
 public class State {
     @Id
-    private int id;
+    private Long id;
     private String name;
 
     public State() {}
@@ -16,11 +19,11 @@ public class State {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

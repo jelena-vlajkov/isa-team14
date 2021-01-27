@@ -4,22 +4,21 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
-import java.util.List;
-
 @Entity
-@Table(name = "patients")
-@DiscriminatorValue(value = Role.Values.Patient)
+@Table(name = "dermatologists")
+@DiscriminatorValue(value = Role.Values.Dermatologist)
 @Proxy(lazy = false)
-public class Patient extends User {
+public class Dermatologist extends MedicalStaff {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    public Patient(Long id) {
+    public Dermatologist(Long id) {
         this.id = id;
     }
 
-    public Patient() {
+    public Dermatologist() {
 
     }
 
@@ -30,6 +29,7 @@ public class Patient extends User {
     public Long getId() {
         return id;
     }
+
 
     @Override
     public String getUsername() {
