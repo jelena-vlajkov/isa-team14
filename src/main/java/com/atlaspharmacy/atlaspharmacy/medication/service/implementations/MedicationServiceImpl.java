@@ -103,9 +103,9 @@ public class MedicationServiceImpl implements IMedicationService {
     @Override
     public void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception {
         MedicationDTO.convertToMedication(medication,medicationDTO);
-
         for(Long id : medicationDTO.getSubstituteMedication()){
             try{
+                medication.setSubstituteMedication(new ArrayList<>());
                 medication.getSubstituteMedication().add(medicationRepository.findById(id).orElse(null));
             }catch (Exception e){
                 e.printStackTrace();

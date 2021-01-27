@@ -1,0 +1,178 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
+        <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
+
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item routerLink="/admin"> Profile</button>
+              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <div class="drawer-content">
+            <mat-card class="card">
+                <mat-card-header>
+                    <mat-card-title>
+                        <label style="font-weight:bold; font-size: 25px;">Register medication</label>
+                      </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <form [formGroup]="registerMedication" (ngSubmit)="addDrug()">
+                            <mat-grid-list cols="2" rowHeight="5:1" >
+                                <mat-grid-tile >
+                                    <div class="inputField" >
+                                        <mat-form-field appearance="fill" id="mname-ff" >
+                                            <mat-label>Medication name*</mat-label>
+                                            <input matInput id="mname" placeholder="Medication name" name="mname-ff" formControlName="mname">                   
+                                            <mat-error
+                                                *ngIf="!registerMedication.get('mname').valid && registerMedication.get('mname').touched && registerMedication.get('mname').errors['required']">
+                                                Please enter medication name</mat-error>
+                                        </mat-form-field>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField" >
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Producer*</mat-label>
+                                            <input matInput id="producer" placeholder="Medication producer" name="code-ff" formControlName="producer">                   
+                                            <mat-error
+                                                *ngIf="!registerMedication.get('producer').valid && registerMedication.get('producer').touched && registerMedication.get('producer').errors['required']">
+                                                Please enter medication producer</mat-error>
+                                        </mat-form-field>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField" >
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Medication code*</mat-label>
+                                            <input matInput id="code" placeholder="Medication code" name="code-ff" formControlName="code">                   
+                                            <mat-error
+                                                *ngIf="!registerMedication.get('code').valid && registerMedication.get('code').touched && registerMedication.get('code').errors['required']">
+                                                Please enter medication code</mat-error>
+                                        </mat-form-field>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug type*</mat-label>
+                                            <mat-select formControlName = 'drugType' >
+                                              <mat-option>--</mat-option>
+                                              <mat-option *ngFor="let type of drugTypes" [value]="type">
+                                                {{type}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugType').valid && registerMedication.get('drugType').touched && registerMedication.get('drugType').errors['required']">
+                                                Please choose an drug type</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug kind*</mat-label>
+                                            <mat-select formControlName = 'drugKind' >
+                                              <mat-option>--</mat-option>
+                                              <mat-option *ngFor="let kind of drugKinds" [value]="kind">
+                                                {{kind}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugKind').valid && registerMedication.get('drugKind').touched && registerMedication.get('drugKind').errors['required']">
+                                                Please choose an drug kind</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug form*</mat-label>
+                                            <mat-select formControlName = 'drugForm' >
+                                              <mat-option>--</mat-option>
+                                              <mat-option *ngFor="let form of drugForms" [value]="form">
+                                                {{form}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugForm').valid && registerMedication.get('drugForm').touched && registerMedication.get('drugForm').errors['required']">
+                                                Please choose an drug form</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField" >
+                                        <mat-label style="font-size: 20px; margin-top: 15px;">
+                                            Prescription*: 
+                                        </mat-label>
+                                        <mat-radio-group name="prescribtion" formControlName='prescribtion' [(ngModel)]="selectedPrescribtion" required>
+                                            <mat-radio-button value="WITHPRESCRIPTION" style="font-size:20px; margin-left: 20px;">Yes</mat-radio-button>
+                                            <mat-radio-button value="WITHOUTPRESCRIPTION" style="font-size:20px;margin-left: 20px;">No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error
+                                        *ngIf="!registerMedication.get('prescribtion').valid && registerMedication.get('prescribtion').touched && registerMedication.get('prescribtion').errors['required']">
+                                        Please choose gender</mat-error>
+                                      </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <mat-form-field style="min-width: 150px;max-width: 350px;width: 100%;">
+                                        <mat-label>Write contraindications</mat-label>
+                                        <textarea matInput placeholder="Contraindications..." formControlName="contra"></textarea>
+                                        <mat-error *ngIf="!registerMedication.get('contra').valid && registerMedication.get('contra').touched && registerMedication.get('contra').errors['required']">
+                                            Please enter contraindications</mat-error>
+                                      </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                        <mat-form-field style="min-width: 150px;max-width: 350px;width: 100%;">
+                                            <mat-label>Write additional notes</mat-label>
+                                            <textarea matInput placeholder="Additional notes..." formControlName="notes"></textarea>
+                                            <mat-error *ngIf="!registerMedication.get('notes').valid && registerMedication.get('notes').touched && registerMedication.get('notes').errors['required']">
+                                                Please enter additional notes</mat-error>
+                                          </mat-form-field>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="daily-ff">
+                                            <mat-label>Daily dose*</mat-label>
+                                            <input matInput id="daily" placeholder="Daily dose" name="daily-ff" formControlName="daily">                   
+                                            <mat-error *ngIf="!registerMedication.get('daily').valid && registerMedication.get('daily').touched && registerMedication.get('daily').errors['required']">
+                                                Please enter daily dose</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <div class="inputField">
+                                    <mat-form-field appearance="fill" id="daily-ff">
+                                        <mat-label>Substitute medications*</mat-label>
+                                        <mat-select placeholder="Substitute medications" [formControl]="medications" [(value)]="selectedMedications" multiple>
+                                            <mat-option *ngFor="let medication of allMedications" [value]="medication">{{medication.name}}</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
+                            </mat-grid-list>
+                            <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' (click)='addDrug()'  color="accent">Add medication</button>
+
+                    </form>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>

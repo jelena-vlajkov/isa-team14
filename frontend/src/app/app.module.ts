@@ -38,6 +38,7 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,9 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     DermatologyAppointmentComponent,
     BusinessReportComponent,
     PharmacyPricelistComponent,
-    DefineLoyaltyComponent
+    DefineLoyaltyComponent,
+    AdminRegisterDrugComponent
+
   ],
   imports: [
     HttpClientModule,
@@ -88,9 +91,10 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatGridListModule
-    
-  ],
+    MatGridListModule,
+    MatCheckboxModule
+  ],  
+
   providers: [Proba],
   bootstrap: [AppComponent]
 })

@@ -6,12 +6,14 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "medications")
 public class Medication {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private DrugForm drugForm;
@@ -22,6 +24,7 @@ public class Medication {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
+    private Long code;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "substitute_medications",
@@ -45,7 +48,7 @@ public class Medication {
     private List<PrescribedDrug> prescribedDrugs;
 
     public Medication(){}
-    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind) {
+    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -56,6 +59,16 @@ public class Medication {
         this.contraindications = contraindications;
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
+        this.code = code;
+        this.substituteMedication = new ArrayList<>();
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
     }
 
     public List<Medication> getSubstituteMedication() {
