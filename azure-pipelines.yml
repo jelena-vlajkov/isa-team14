@@ -17,13 +17,10 @@ pool:
 
 steps:
 - task: SonarCloudPrepare@1
-  displayName: 'Prepare SonarCloud analysis'
   inputs:
     SonarCloud: 'SonarCloud'
-    organization: '$(sonarOrganization)'
-    scannerMode: Other
-    projectKey: '$(sonarProjectKey)'
-    projectName: '$(sonarProjectName)'
+    organization: 'isa-team14'
+    scannerMode: 'Other'
 - task: Maven@3
   env:
     JDBC_DATABASE_URL: $(JDBC_DATABASE_URL)
@@ -40,9 +37,9 @@ steps:
     goals: 'package'
 
 - task: SonarCloudAnalyze@1
-  displayName: 'SonarCloud analysis'
-
+  displayName: Run Code Analysis
 - task: SonarCloudPublish@1
-  displayName: 'Publish SonarCloud results'
+  displayName: Publish Quality Gate Result
   inputs:
     pollingTimeoutSec: '300'
+    
