@@ -7,10 +7,23 @@ trigger:
 - develop
 - master
 
+variables:
+  sonarProjectKey: 'isa-team14'
+  sonarProjectName: 'isa-team14'
+  sonarOrganization: 'isa-team14'  
 pool:
   vmImage: 'ubuntu-latest'
+  
 
 steps:
+- task: SonarCloudPrepare@1
+  displayName: 'Prepare SonarCloud analysis'
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: '$(sonarOrganization)'
+    scannerMode: Other
+    projectKey: '$(sonarProjectKey)'
+    projectName: '$(sonarProjectName)'
 - task: Maven@3
   env:
     JDBC_DATABASE_URL: $(JDBC_DATABASE_URL)
@@ -25,3 +38,11 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     goals: 'package'
+
+- task: SonarCloudAnalyze@1
+  displayName: 'SonarCloud analysis'
+
+- task: SonarCloudPublish@1
+  displayName: 'Publish SonarCloud results'
+  inputs:
+    pollingTimeoutSec: '300'
