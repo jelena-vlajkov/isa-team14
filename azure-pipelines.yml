@@ -10,13 +10,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  JDBC_DATABASE_URL: ${{JDBC_DATABASE_URL}}
-  JDBC_DATABASE_PASSWORD: ${{JDBC_DATABASE_PASSWORD}}
-  JDBC_DATABASE_USERNAME: ${{JDBC_DATABASE_USERNAME}}
-
 steps:
 - task: Maven@3
+  env:
+    JDBC_DATABASE_URL: $(JDBC_DATABASE_URL)
+    JDBC_DATABASE_PASSWORD: $(JDBC_DATABASE_PASSWORD)
+    JDBC_DATABASE_USERNAME: $(JDBC_DATABASE_USERNAME)
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m'
