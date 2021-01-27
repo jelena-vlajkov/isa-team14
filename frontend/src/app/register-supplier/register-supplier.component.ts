@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Medication } from '../model/medications/medication';
-import { MedicationService } from '../service/medication/medication.service';
 import { MatTableModule } from '@angular/material/table'; 
+import { IngredientService } from '../service/medication/ingredients.service';
+import { Ingredient } from '../model/medications/ingredient';
 
 @Component({
   selector: 'app-register-supplier',
@@ -9,13 +9,13 @@ import { MatTableModule } from '@angular/material/table';
   styleUrls: ['./register-supplier.component.css']
 })
 export class RegisterSupplierComponent implements OnInit {
-  public allMedications : Medication[] = new Array();
+  public allIngredients : Ingredient[] = new Array();
 
-  constructor(private medicationService : MedicationService) { }
+  constructor(private ingredientService : IngredientService) { }
 
   ngOnInit(): void {
     this.loadAllMedications();
-    console.log(this.allMedications.length);
+    console.log(this.allIngredients.length);
   }
   registerPharmacy(){
 
@@ -48,9 +48,9 @@ export class RegisterSupplierComponent implements OnInit {
 
   
   loadAllMedications() {
-    this.medicationService.findAllMedications().subscribe(data => 
+    this.ingredientService.findAllIngredients().subscribe(data => 
       {
-        this.allMedications = data
+        this.allIngredients = data
       });
   }
 }

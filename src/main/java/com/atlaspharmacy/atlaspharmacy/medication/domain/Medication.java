@@ -4,6 +4,8 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class Medication {
     private Long dailyDose;
     private DrugKind drugKind;
     private Long code;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "substitute_medications",
             joinColumns = @JoinColumn(name = "original_id"),
@@ -33,19 +35,20 @@ public class Medication {
     )
     private List<Medication> substituteMedication;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "medication_ingredients",
             joinColumns = @JoinColumn(name = "medication_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Ingredient> ingredients;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
-    private List<DrugReservation> reservations;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
-    private List<PrescribedDrug> prescribedDrugs;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
+//    private List<DrugReservation> reservations;
+//
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
+//    private List<PrescribedDrug> prescribedDrugs;
 
     public Medication(){}
     public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {

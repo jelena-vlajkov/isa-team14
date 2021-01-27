@@ -166,8 +166,18 @@
                                       </mat-form-field>
                                 </div>
                             </mat-grid-tile>
+                            <mat-grid-tile>
+                                <div class="inputField">
+                                    <mat-form-field appearance="fill" id="daily-ff">
+                                        <mat-label>Ingredients*</mat-label>
+                                        <mat-select placeholder="Ingredients" [formControl]="ingredients" [(value)]="selectedIngredients" multiple>
+                                            <mat-option *ngFor="let ingredient of allIngredients" [value]="ingredient">{{ingredient.name}}</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
                             </mat-grid-list>
-                            <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' (click)='addDrug()'  color="accent">Add medication</button>
+                            <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' color="accent">Add medication</button>
 
                     </form>
 

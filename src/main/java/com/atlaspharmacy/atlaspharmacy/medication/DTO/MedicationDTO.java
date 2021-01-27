@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
@@ -22,7 +23,7 @@ public class MedicationDTO {
     private DrugKind drugKind;
     private List<Long> substituteMedication;
     private Long code;
-
+    private List<Long> ingredients;
     public MedicationDTO() {
 
     }
@@ -59,6 +60,11 @@ public class MedicationDTO {
         for(Medication med: m.getSubstituteMedication()){
             medicationDTO.getSubstituteMedication().add(med.getId());
         }
+        medicationDTO.setIngredients(new ArrayList<>());
+
+        for(Ingredient i : m.getIngredients()){
+            medicationDTO.getIngredients().add(i.getId());
+        }
         return medicationDTO;
     }
     public static void convertToMedication(Medication m, MedicationDTO mdto){
@@ -73,6 +79,14 @@ public class MedicationDTO {
         m.setProducer(mdto.getProducer());
         m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
         m.setCode(mdto.getCode());
+    }
+
+    public List<Long> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Long> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public Long getCode() {

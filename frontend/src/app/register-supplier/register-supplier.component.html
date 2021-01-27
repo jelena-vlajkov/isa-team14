@@ -27,8 +27,8 @@
 
           <mat-card>
             
-            <div id="allMedication" [dataSource]="allMedications" class="row" *ngFor="let medication of allMedications">  
-                  <p>{{medication.name}} {{medication.drugKind}}</p>
+            <div id="allMedication" [dataSource]="allIngredients" class="row" *ngFor="let ingredient of allIngredients">  
+                  <p>{{ingredient.name}}</p>
             </div>
           </mat-card>
 

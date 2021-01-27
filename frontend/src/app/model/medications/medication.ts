@@ -14,10 +14,12 @@ export class Medication {
     public dailyDose : number;
     public drugKind : DrugKind;
     public substituteMedication :  Number[] = new Array();
+    public code: Number;
+    public ingredients : Number[] = new Array();
 
     constructor(name : string,  drugForm : DrugForm, drugType : DrugType, 
         producer:string, typeOfPrescribing : TypeOfPrescribing, contraindications: string,
-        additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Number[]) {
+        additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Number[], code: Number, ingredients: Number[]) {
         this.name = name;
         this.drugForm = drugForm;
         this.drugKind = drugKind;
@@ -28,6 +30,8 @@ export class Medication {
         this.additionalNotes = additionalNotes;
         this.dailyDose = dailyDose;
         this.substituteMedication = subMeds;
+        this.code = code;
+        this.ingredients = ingredients;
     }
     
 }

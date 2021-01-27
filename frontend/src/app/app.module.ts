@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -39,6 +38,7 @@ import { BusinessReportComponent } from './business-report/business-report.compo
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
+import { AutocompleteGeoComponent } from './autocomplete-geo/autocomplete-geo.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-
     BusinessReportComponent,
     PharmacyPricelistComponent,
     DefineLoyaltyComponent,
-    AdminRegisterDrugComponent
+    AdminRegisterDrugComponent,
+    AutocompleteGeoComponent
 
   ],
   imports: [

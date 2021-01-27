@@ -73,6 +73,9 @@
               </div>
               </mat-grid-tile>
               <mat-grid-tile>
+                <app-autocomplete-geo (locationChange)="autocompleteChanged($event)"></app-autocomplete-geo>
+              </mat-grid-tile>
+              <mat-grid-tile>
                 <label>Birth date:</label>
               </mat-grid-tile>
               <mat-grid-tile>

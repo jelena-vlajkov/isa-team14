@@ -8,6 +8,9 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { Medication } from '../model/medications/medication';
 import { MedicationService } from '../service/medication/medication.service';
+import { IngredientService } from '../service/medication/ingredients.service';
+import { Ingredient } from '../model/medications/ingredient';
+import { Observable } from 'rxjs';
 
 export interface DialogData {
   animal: string;
@@ -21,7 +24,7 @@ export interface DialogData {
 })
 export class AdminRegisterDrugComponent implements OnInit {
   public allMedications : Medication[] = new Array();
-
+  public allIngredients : Ingredient[] = new Array();
   public name: string;
   private drugForm : DrugForm;
   private drugType: DrugType;
@@ -31,7 +34,7 @@ export class AdminRegisterDrugComponent implements OnInit {
   private contraindications: string;
   private dailyDose: number;
   private drugKind: DrugKind;
-  private code:string;
+  private code:Number;
 
   registerMedication : FormGroup;
   public drugTypes = Object.values(DrugType);
@@ -39,16 +42,26 @@ export class AdminRegisterDrugComponent implements OnInit {
   public drugForms = Object.values(DrugForm);
   prescribtion : TypeOfPrescribing;
   selectedMedications;
+  selectedIngredients;
   selectedPrescribtion;
   medications = new FormControl();
+  ingredients = new FormControl();
+
   private newMedication;
   private subMeds : Number[] = new Array();
-  private StringIsNumber = value => isNaN(Number(value)) === false;
+  private ings : Number[] = new Array();
 
-  constructor(private medicationService : MedicationService) { }
+  private StringIsNumber = value => isNaN(Number(value)) === false;
+  filteredOptions: Observable<string[]>;
+  ingredientControl = new FormControl();
+  constructor(private medicationService : MedicationService, private ingredientService : IngredientService) { }
 
   ngOnInit(): void {
-
+    // this.filteredOptions = this.ingredientControl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value))
+    // );
     this.registerMedication = new FormGroup({
       'mname' : new FormControl(null, Validators.required),
       'code' : new FormControl(null, Validators.required),
@@ -65,6 +78,7 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.drugKinds = this.ToArray(DrugKind);
     this.drugForms = this.ToArray(DrugForm);
     this.loadAllMedications();
+    this.loadAllIngredients();
   }
   // openSubMedicineDialog(): void {
   //   const dialogRef = this.dialog.open(SubstituteDrugDialog, {
@@ -84,9 +98,6 @@ export class AdminRegisterDrugComponent implements OnInit {
 
   }
   
-  operationsWithDrugs(){
-
-  }
   respondToComplaints(){
 
   }
@@ -110,11 +121,18 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.dailyDose = this.registerMedication.value.daily;
     this.producer = this.registerMedication.value.producer;
     this.subMeds = new Array();
+
     for(let med of this.selectedMedications){
       this.subMeds.push(med.id);
+    }    
+    
+    for(let ing of this.selectedIngredients){
+      this.ings.push(ing.id);
     }
+
+
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds);
+    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds, this.code, this.ings);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{
@@ -127,6 +145,12 @@ export class AdminRegisterDrugComponent implements OnInit {
     )
   }
 
+  loadAllIngredients(){
+    this.ingredientService.findAllIngredients().subscribe(data=>
+      {
+        this.allIngredients = data;
+      });
+  }
       
   loadAllMedications() {
     this.medicationService.findAllMedications().subscribe(data => 
@@ -140,4 +164,9 @@ export class AdminRegisterDrugComponent implements OnInit {
         .filter(this.StringIsNumber)
         .map(key => enumme[key]);
   }
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+
+  //   return this.allIngredients.map[key].filter(option => option.toLowerCase().includes(filterValue));
+  // }
 }

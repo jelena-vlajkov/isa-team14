@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PlaceSuggestion } from '../autocomplete-geo/autocomplete-geo.component';
 
 @Component({
   selector: 'app-add-admin',
@@ -43,6 +44,8 @@ export class AddAdminComponent implements OnInit {
       'dob' : new FormControl(null, Validators.required)
     });
   }
+  autocompleteChanged(value: PlaceSuggestion) {}
+
   add(){}
   addAdmin(){
 
