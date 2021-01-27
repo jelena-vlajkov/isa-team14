@@ -45,7 +45,7 @@ public class AppointmentService implements IAppointmentService {
     public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Counseling counseling = new Counseling(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
-                    false, (Pharmacist) userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) userRepository.getOne(appointmentDTO.getPatientId()));
+                    false, (Pharmacist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -56,7 +56,7 @@ public class AppointmentService implements IAppointmentService {
     public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Examination counseling = new Examination(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
-                    false, (Dermatologist) userRepository.getOne(appointmentDTO.getMedicalStaffId()), (Patient) userRepository.getOne(appointmentDTO.getPatientId()));
+                    false, (Dermatologist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -65,8 +65,8 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public boolean cancelAppointment(Long appointmentId) {
-        Appointment appointment = appointmentRepository.getOne(appointmentId);
-        if (appointment.canCancel())
+        Appointment appointment = appointmentRepository.findById(appointmentId).get();
+        if (appointment.canCancel(hoursAvailableToCancel))
             return false;
         appointment.setCanceled(true);
         appointmentRepository.save(appointment);

@@ -1,6 +1,6 @@
 # Spring Boot configuration
 spring:
-  
+
   profiles:
     active: development
   # Database
@@ -19,5 +19,5 @@ spring:
     open-in-view: false
     generate-ddl: true
 
-server:
+
   port : 8088

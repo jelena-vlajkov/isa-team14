@@ -4,6 +4,8 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +14,7 @@ import java.util.Date;
 @Table(name = "appointment")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType=DiscriminatorType.STRING)
+@Proxy(lazy = false)
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +29,8 @@ public class Appointment {
     @Column(insertable = false, updatable = false)
     private String type;
     private boolean isCanceled;
-
-
-    private final int hoursAvailableToCancel = 3600*1000*24;
-
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
 
 
@@ -126,7 +125,7 @@ public class Appointment {
         return getPatient().getId() == patientId;
     }
 
-    public boolean canCancel() {
+    public boolean canCancel(int hoursAvailableToCancel) {
         Date validDate = new Date(getAppointmentPeriod().getStartTime().getTime() + hoursAvailableToCancel);
         return getAppointmentPeriod().getStartTime().before(validDate);
     }

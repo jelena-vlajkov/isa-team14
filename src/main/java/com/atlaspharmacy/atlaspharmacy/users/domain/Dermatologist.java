@@ -1,11 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 @Entity
 @Table(name = "dermatologists")
 @DiscriminatorValue(value = Role.Values.Dermatologist)
+@Proxy(lazy = false)
 public class Dermatologist extends User {
 
     @Id
