@@ -1,8 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IMedicationRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,17 +18,22 @@ import java.util.NoSuchElementException;
 @Service
 public class MedicationServiceImpl implements IMedicationService {
 
-    @Autowired
-    private IMedicationRepository medicationRepository;
+    private final IMedicationRepository _medicationRepository;
+    private final IIngredientRepository _ingredientRepository;
 
     final private static String EXCEPTION = "Exception in Medication Service Implementation method:";
     final private static String DOES_NOT_EXIST = "Medication with Id does not exist";
     final private static String FAIL = "execution failed";
 
+    @Autowired
+    public MedicationServiceImpl(IMedicationRepository medicationRepository, IIngredientRepository ingredientRepository){
+        this._medicationRepository = medicationRepository;
+        this._ingredientRepository = ingredientRepository;
+    }
 
     @Override
     public MedicationDTO findById(Long id) {
-        Medication medication = medicationRepository.findById(id).orElse(null);
+        Medication medication = _medicationRepository.findById(id).orElse(null);
         if(medication == null){
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }
@@ -35,7 +43,7 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public List<MedicationDTO> findAll() {
-        List<Medication> medications = medicationRepository.findAll();
+        List<Medication> medications = _medicationRepository.findAll();
 
         return convertToDTOS(medications);
     }
@@ -58,7 +66,7 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
-        Medication medication = medicationRepository.findById(id).orElse(null);
+        Medication medication = _medicationRepository.findById(id).orElse(null);
 
         if(medication == null){
             throw new NoSuchElementException(EXCEPTION + "modifyMedication" + FAIL);
@@ -101,19 +109,33 @@ public class MedicationServiceImpl implements IMedicationService {
     }
 
     @Override
+    public List<IngredientDTO> findMedicationsIngredients(Medication medication) throws Exception {
+        return null;
+    }
+
+    @Override
     public void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception {
         MedicationDTO.convertToMedication(medication,medicationDTO);
-
+        medication.setSubstituteMedication(new ArrayList<>());
         for(Long id : medicationDTO.getSubstituteMedication()){
             try{
-                medication.getSubstituteMedication().add(medicationRepository.findById(id).orElse(null));
+                medication.getSubstituteMedication().add(_medicationRepository.findById(id).orElse(null));
             }catch (Exception e){
                 e.printStackTrace();
-                throw new Exception(EXCEPTION + "saveMedication" + DOES_NOT_EXIST);
+                throw new Exception(EXCEPTION + "medication with id: " + id.toString() + DOES_NOT_EXIST);
+            }
+        }
+        medication.setIngredients(new ArrayList<>());
+        for(Long id : medicationDTO.getIngredients()){
+            try{
+                medication.getIngredients().add(_ingredientRepository.findById(id).orElse(null));
+            }catch (Exception e){
+                e.printStackTrace();
+                throw new Exception(EXCEPTION + "ingredient with id: " + id.toString() + DOES_NOT_EXIST);
             }
         }
         try{
-            medicationRepository.save(medication);
+            _medicationRepository.save(medication);
         }
         catch (Exception e){
             e.printStackTrace();

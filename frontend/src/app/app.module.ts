@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -38,6 +37,8 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
+import { AutocompleteGeoComponent } from './autocomplete-geo/autocomplete-geo.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,10 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     DermatologyAppointmentComponent,
     BusinessReportComponent,
     PharmacyPricelistComponent,
-    DefineLoyaltyComponent
+    DefineLoyaltyComponent,
+    AdminRegisterDrugComponent,
+    AutocompleteGeoComponent
+
   ],
   imports: [
     HttpClientModule,
@@ -88,9 +92,10 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatGridListModule
-    
-  ],
+    MatGridListModule,
+    MatCheckboxModule
+  ],  
+
   providers: [Proba],
   bootstrap: [AppComponent]
 })

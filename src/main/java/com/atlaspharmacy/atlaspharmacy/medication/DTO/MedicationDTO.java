@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
@@ -20,13 +21,14 @@ public class MedicationDTO {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    private Long amount;
     private List<Long> substituteMedication;
+    private Long code;
+    private List<Long> ingredients;
     public MedicationDTO() {
 
     }
 
-    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long amount) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -37,7 +39,7 @@ public class MedicationDTO {
         this.contraindications = contraindications;
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
-        this.amount = amount;
+        this.code = code;
     }
     public static MedicationDTO convertToMedicationDTO(Medication m){
         MedicationDTO medicationDTO = new MedicationDTO(
@@ -51,18 +53,23 @@ public class MedicationDTO {
                 m.getContraindications(),
                 m.getDailyDose(),
                 m.getDrugKind(),
-                null
+                m.getCode()
         );
         medicationDTO.setSubstituteMedication(new ArrayList<>());
 
         for(Medication med: m.getSubstituteMedication()){
             medicationDTO.getSubstituteMedication().add(med.getId());
         }
+        medicationDTO.setIngredients(new ArrayList<>());
+
+        for(Ingredient i : m.getIngredients()){
+            medicationDTO.getIngredients().add(i.getId());
+        }
         return medicationDTO;
     }
     public static void convertToMedication(Medication m, MedicationDTO mdto){
         m.setId(mdto.getId());
-        m.setName(m.getName());
+        m.setName(mdto.getName());
         m.setDailyDose(mdto.getDailyDose());
         m.setAdditionalNotes(mdto.getAdditionalNotes());
         m.setContraindications(mdto.getContraindications());
@@ -71,7 +78,25 @@ public class MedicationDTO {
         m.setDrugType(mdto.getDrugType());
         m.setProducer(mdto.getProducer());
         m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
+        m.setCode(mdto.getCode());
     }
+
+    public List<Long> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Long> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
     public List<Long> getSubstituteMedication() {
         return substituteMedication;
     }
@@ -160,11 +185,4 @@ public class MedicationDTO {
         this.drugKind = drugKind;
     }
 
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
 }

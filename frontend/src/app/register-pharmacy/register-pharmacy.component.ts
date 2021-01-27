@@ -8,7 +8,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class RegisterPharmacyComponent implements OnInit {
   registerPharmacy: FormGroup;
-
+  addAdminForm : FormGroup;
+  selectedGender : String;
+  public adminAdded : boolean = false;
   constructor() { }
 
   ngOnInit(): void {
@@ -16,13 +18,25 @@ export class RegisterPharmacyComponent implements OnInit {
       'name' : new FormControl(null, Validators.required),
       'address': new FormControl(null, Validators.required),
     });
+    this.addAdminForm = new FormGroup({
+      'name' : new FormControl(null, Validators.required),
+      'surname' : new FormControl(null, Validators.required),
+      'gender': new FormControl(null, Validators.required),
+      'dob' : new FormControl(null, Validators.required),
+      'address' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, Validators.required),
+      'mail' : new FormControl(null, Validators.required),
+      'newpassword' : new FormControl(null, Validators.required),
+      'confirmpassword' : new FormControl(null, Validators.required)
+    });
   }
   addPharmacy(){}
   registerDermatologist(){
 
   }
   registerAdmin(){
-
+    //TODO DODATI FUNKCIJE
+    return true;
   }
   registerSupplier(){
 
@@ -42,5 +56,9 @@ export class RegisterPharmacyComponent implements OnInit {
   editProfile(){
 
   }
-  addAdmin(){}
+  addAdmin(){
+    if(this.registerAdmin() == true){
+      this.adminAdded = true;
+    }
+  }
 }

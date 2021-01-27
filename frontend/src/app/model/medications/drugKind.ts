@@ -1,0 +1,6 @@
+export enum DrugKind{
+    ANTIBIOTIC,
+    ANALGETIC,
+    ANTIHISTAMICIN,
+    ANTIVIROTIC
+}

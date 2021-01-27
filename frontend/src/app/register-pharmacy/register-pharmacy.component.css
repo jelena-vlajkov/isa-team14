@@ -20,7 +20,7 @@
   }
 
 
-  #name-ff {
+  #pname-ff {
     margin-top: 20px;
     margin-bottom: 5px;
     margin-right: 20px;
@@ -28,7 +28,63 @@
     width: 92%;
     font-size: 20px;
   }
+  #paddress-ff {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 20px;
+  }
+  #name-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #surname-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #dob-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
   #address-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #telephone-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #mail-ff {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #gender-ff {
     margin-top: 20px;
     margin-bottom: 5px;
     margin-right: 20px;
@@ -37,30 +93,23 @@
     font-size: 20px;
   }
   #password-ff {
-    width: 400px !important;
+    margin-top: 10px;
     margin-bottom: 5px;
-    font-size: 20px;
-
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
   }
 
   #password1-ff {
-    width: 400px !important;
+    margin-top: 10px;
     margin-bottom: 5px;
-    font-size: 20px;
-
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 16px;
   }
-  #email-ff {
-    width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
 
-  }
-  #telephone-ff {
-    width: 400px !important;
-    margin-bottom: 5px;
-    font-size: 20px;
-
-  }
   .container {
     display: flex;
     justify-content: center;
