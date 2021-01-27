@@ -1,23 +1,47 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "pharamcies")
-public class Pharamcy {
+public class Pharamcy  {
     @Id
-    private int id;
+    @Column(name = "id")
+    private Long id;
     private String name;
     private String description;
 
-    public int getId() {
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
+    private Double average_grade;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public Double getAverageGrade() { return average_grade; }
+
+    public void setAverageGrade(Double average_grade) {
+        this.average_grade = average_grade;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getName() {
@@ -36,7 +60,7 @@ public class Pharamcy {
         this.description = description;
     }
     public Pharamcy(){}
-    public Pharamcy(int id, String name, String description) {
+    public Pharamcy(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

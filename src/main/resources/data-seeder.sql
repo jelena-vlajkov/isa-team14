@@ -10,6 +10,10 @@ insert into addresses(id, number, street, city_id) values (3, 99, 'Bulevar Revol
 
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (1, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 1, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (5, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov', 1, 1, 'Pharmacist');
+
+insert into pharamcies(id,description,name,address_id,average_grade) VALUES (1,'talalala','Apoteka Jankovic',1,3.4);
+insert into pharamcies(id,description,name,address_id,average_grade) VALUES (2,'ldkjdljf','ZEGIN',2,5);
+
 --insert into patients(id, date_of_birth, gender, name, phone_number, surname, address_id, role) values (2, '1997-01-01 00:00:01', 1, 'Aleksandar', 'Ignjatijevic', 2, 2, 2);
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
@@ -111,4 +115,9 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (6, 5);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (6, 6);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (9, 1);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (9, 2);
+
+
+
+
+
 

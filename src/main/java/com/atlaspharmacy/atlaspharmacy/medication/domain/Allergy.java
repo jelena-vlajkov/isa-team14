@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "allergies")
