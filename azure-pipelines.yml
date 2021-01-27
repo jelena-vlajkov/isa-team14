@@ -11,6 +11,8 @@ variables:
   sonarProjectKey: 'isa-team14'
   sonarProjectName: 'isa-team14'
   sonarOrganization: 'isa-team14'  
+  SONAR_TOKEN: 'e0ffde7e6039162d894d2d564326ae59f0b9e480'
+
 pool:
   vmImage: 'ubuntu-latest'
   
