@@ -1,8 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pharamcies")

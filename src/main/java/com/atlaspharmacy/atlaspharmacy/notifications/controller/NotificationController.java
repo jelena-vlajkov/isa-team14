@@ -37,10 +37,7 @@ public class NotificationController {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
     Exception handleException(Exception e) {
-        return new Exception();
+        return new Exception(e.getMessage());
     }
-
-
-
 
 }
