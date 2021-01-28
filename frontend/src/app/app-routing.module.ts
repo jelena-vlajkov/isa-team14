@@ -12,6 +12,7 @@ import {PharmacyPricelistComponent} from './pharmacy-pricelist/pharmacy-pricelis
 import {DermatologyAppointmentComponent} from './dermatology-appointment/dermatology-appointment.component';
 import{BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -59,6 +60,10 @@ const routes: Routes = [  {
 {
   path : 'admin/defineLoyalty',
   component : DefineLoyaltyComponent
+},
+{
+  path : 'admin/addDrug',
+  component : AdminRegisterDrugComponent
 }
 ];
 
