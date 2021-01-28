@@ -3,7 +3,6 @@ package com.atlaspharmacy.atlaspharmacy.schedule.domain;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Proxy;
 
@@ -110,20 +109,17 @@ public class Appointment {
 
     public boolean isMedicalStaff(Long medicalStaffId) {
         if (getType().equals(AppointmentType.Values.Counseling)) {
-            Counseling counseling = (Counseling) this;
-            return counseling.getPharmacist().getId() == medicalStaffId;
+            return checkCounseling(medicalStaffId);
         }
-        Examination examination = (Examination) this;
-        return examination.getDermatologist().getId() == medicalStaffId;
+        return checkExamination(medicalStaffId);
     }
+
 
     public boolean isMedicalStaffAndDate(Long medicalStaffId, Date date) {
         if (getType().equals(AppointmentType.Values.Counseling)) {
-            Counseling counseling = (Counseling) this;
-            return counseling.getPharmacist().getId() == medicalStaffId && isSameDay(date);
+            return checkCounseling(medicalStaffId) && isSameDay(date);
         }
-        Examination examination = (Examination) this;
-        return examination.getDermatologist().getId() == medicalStaffId && isSameDay(date);
+        return checkExamination(medicalStaffId) && isSameDay(date);
     }
 
     public boolean isPatient(Long patientId) {
@@ -133,6 +129,16 @@ public class Appointment {
     public boolean canCancel(int hoursAvailableToCancel) {
         Date validDate = new Date(getAppointmentPeriod().getStartTime().getTime() + hoursAvailableToCancel);
         return getAppointmentPeriod().getStartTime().before(validDate);
+    }
+
+    private boolean checkExamination(Long medicalStaffId) {
+        Examination examination = (Examination) this;
+        return examination.getDermatologist().getId().equals(medicalStaffId);
+    }
+
+    private boolean checkCounseling(Long medicalStaffId) {
+        Counseling counseling = (Counseling) this;
+        return counseling.getPharmacist().getId().equals(medicalStaffId);
     }
 
     public boolean isCounseling() {

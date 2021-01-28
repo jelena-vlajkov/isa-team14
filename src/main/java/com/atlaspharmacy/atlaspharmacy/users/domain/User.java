@@ -4,6 +4,8 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Proxy;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,14 +29,15 @@ public abstract class User implements UserDetails {
     private String email;
     private String password;
     private Gender gender;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Address address;
     @Column(insertable = false, updatable = false)
     private String role;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Authority> authorities;
 
     public User() {}
@@ -90,7 +93,6 @@ public abstract class User implements UserDetails {
     public String getRole() {
         return role;
     }
-
 
     public void setId(Long id) {
         this.id = id;
