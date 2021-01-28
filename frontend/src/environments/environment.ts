@@ -10,6 +10,7 @@ export const environment = {
   findAll: "findAll",
   add: "add",
   ingredient: "ingredients",
-  allergy : "allergies"
+  allergy : "allergies",
+  login:"login"
 };
 
