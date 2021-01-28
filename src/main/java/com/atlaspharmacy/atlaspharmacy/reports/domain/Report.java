@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.reports.domain;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.reports.domain.enums.ReportType;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import org.hibernate.annotations.Fetch;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "reports")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType=DiscriminatorType.STRING)
 @Proxy(lazy = false)
 public class Report {
     @Id
@@ -29,19 +32,18 @@ public class Report {
     private List<Medication> medication;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Patient patient;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Dermatologist dermatologist;
+    private String reportType;
     private String reportNotes;
 
     public Report() {
     }
 
-    public Report(Date date, List<Medication> medication, Patient patient, Dermatologist dermatologist, String reportNotes) {
+    public Report(Date date, List<Medication> medication, Patient patient, String reportNotes, String reportType) {
         this.date = date;
         this.medication = medication;
         this.patient = patient;
-        this.dermatologist = dermatologist;
         this.reportNotes = reportNotes;
+        this.reportType = reportType;
     }
 
     public Long getId() {
@@ -76,19 +78,15 @@ public class Report {
         this.patient = patient;
     }
 
-    public Dermatologist getDermatologist() {
-        return dermatologist;
-    }
-
-    public void setDermatologist(Dermatologist dermatologist) {
-        this.dermatologist = dermatologist;
-    }
-
     public String getReportNotes() {
         return reportNotes;
     }
 
     public void setReportNotes(String reportNotes) {
         this.reportNotes = reportNotes;
+    }
+
+    public boolean isExaminationReport() {
+        return reportType.equals(ReportType.Values.Examination);
     }
 }

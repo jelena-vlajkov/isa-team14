@@ -4,4 +4,5 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 
 public interface IUserService {
     User getUserBy(Long id);
+    User getPharmacyAdmin(Long pharmacyId);
 }

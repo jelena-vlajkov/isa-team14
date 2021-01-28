@@ -19,4 +19,9 @@ public class UserService implements IUserService {
     public User getUserBy(Long id) {
         return userRepository.findById(id).get();
     }
+
+    @Override
+    public User getPharmacyAdmin(Long pharmacyId) {
+        return null;
+    }
 }

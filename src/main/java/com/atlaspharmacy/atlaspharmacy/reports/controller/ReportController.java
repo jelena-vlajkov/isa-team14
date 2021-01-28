@@ -12,11 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReportController {
     private final IReportService reportService;
+
+    private static final String ERROR = "An internal error occurred while saving your report.";
+    private static final String NO_USER_EXCEPTION = "An internal error occurred while saving your report. User id could not be found.";
+
 
     @Autowired
     public ReportController(IReportService reportService) {
@@ -35,7 +40,15 @@ public class ReportController {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
     Exception handleException(Exception e) {
-        return new UnableToSaveReportException();
+        return new UnableToSaveReportException(ERROR);
+    }
+
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public @ResponseBody
+    UnableToSaveReportException handleException(NoSuchElementException e) {
+        return new UnableToSaveReportException(NO_USER_EXCEPTION);
     }
 
 }
