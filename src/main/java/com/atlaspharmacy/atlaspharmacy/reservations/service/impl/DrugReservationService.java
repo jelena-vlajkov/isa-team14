@@ -1,14 +1,17 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
+import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class DrugReservationService implements IDrugReservationService {
 
     private final DrugReservationRepository drugReservationRepository;
@@ -19,7 +22,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean reserveDrug(DrugReservationDTO drugReservationDTO) {
+    public boolean reserveDrug(CreateDrugReservationDTO drugReservationDTO) {
         return false;
     }
 
@@ -29,20 +32,20 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean issueDrugMedication(int uniqueIdentifier) {
+    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null && reservation.isExpired())
-            return false;
+            throw new DueDateSoonException();
         reservation.setIssued(true);
         drugReservationRepository.save(reservation);
         return true;
     }
 
     @Override
-    public DrugReservation findDrugReservation(int uniqueIdentifier) {
+    public DrugReservation findDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null && reservation.isExpired())
-            return null;
+            throw new DueDateSoonException();
         return reservation;
     }
 

@@ -1,6 +1,5 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
-import com.atlaspharmacy.atlaspharmacy.appointment.domain.Period;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;

@@ -12,7 +12,7 @@ public class City {
     @Id
     private Long id;
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private State state;
 
     public City() {}

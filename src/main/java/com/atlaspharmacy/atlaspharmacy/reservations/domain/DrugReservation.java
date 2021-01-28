@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table("drugreservation")
+@Table(name = "drugreservation")
 @Proxy(lazy = false)
 public class DrugReservation {
     @Id
@@ -17,11 +17,11 @@ public class DrugReservation {
     private Date reservationDate;
     private int uniqueIdentifier;
     private Date expirationDate;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Medication medication;
-    @ManyToOne(fetch =  FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch =  FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
     private boolean issued;
     public DrugReservation() {
