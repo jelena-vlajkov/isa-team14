@@ -5,9 +5,9 @@ import java.util.Date;
 public class AppointmentDTO {
     private Date startTime;
     private Date endTime;
-    private double cost;
-    private String type;
-    private boolean isCanceled;
+    private double appointmentCost;
+    private String appointmentType;
+    private boolean canceled;
     private String patientName;
     private String patientEmail;
     private String medicalStaffName;
@@ -16,12 +16,12 @@ public class AppointmentDTO {
     public AppointmentDTO() {
     }
 
-    public AppointmentDTO(Date startTime, Date endTime, double cost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail) {
+    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.cost = cost;
-        this.type = type;
-        this.isCanceled = isCanceled;
+        this.appointmentCost = appointmentCost;
+        this.appointmentType = type;
+        this.canceled = isCanceled;
         this.patientName = patientName;
         this.patientEmail = patientEmail;
         this.medicalStaffEmail = medicalStaffEmail;
@@ -44,28 +44,28 @@ public class AppointmentDTO {
         this.endTime = endTime;
     }
 
-    public double getCost() {
-        return cost;
+    public double getAppointmentCost() {
+        return appointmentCost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setAppointmentCost(double appointmentCost) {
+        this.appointmentCost = appointmentCost;
     }
 
-    public String getType() {
-        return type;
+    public String getAppointmentType() {
+        return appointmentType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAppointmentType(String appointmentType) {
+        this.appointmentType = appointmentType;
     }
 
     public boolean isCanceled() {
-        return isCanceled;
+        return canceled;
     }
 
     public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
+        this.canceled = canceled;
     }
 
     public String getPatientName() {

@@ -38,7 +38,8 @@ import { BusinessReportComponent } from './business-report/business-report.compo
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
-import { AutocompleteGeoComponent } from './autocomplete-geo/autocomplete-geo.component';
+import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
+import { GooglePlacesComponent } from './google-places/google-places.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { AutocompleteGeoComponent } from './autocomplete-geo/autocomplete-geo.co
     PharmacyPricelistComponent,
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
-    AutocompleteGeoComponent
+    GooglePlacesComponent,
 
   ],
   imports: [
@@ -93,7 +94,9 @@ import { AutocompleteGeoComponent } from './autocomplete-geo/autocomplete-geo.co
     MatToolbarModule,
     MatSidenavModule,
     MatGridListModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    GeoapifyGeocoderAutocompleteModule.withConfig('1cc064c4e6b143d9879b7dcd62523631')
+
   ],  
 
   providers: [Proba],

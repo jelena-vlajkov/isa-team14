@@ -25,6 +25,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/@geoapify/geocoder-autocomplete/styles/round-borders.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -90,6 +91,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "./node_modules/@geoapify/geocoder-autocomplete/styles/round-borders.css",
               "src/styles.css"
             ],
             "scripts": []

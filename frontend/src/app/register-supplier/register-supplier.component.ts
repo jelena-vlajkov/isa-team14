@@ -14,8 +14,6 @@ export class RegisterSupplierComponent implements OnInit {
   constructor(private ingredientService : IngredientService) { }
 
   ngOnInit(): void {
-    this.loadAllMedications();
-    console.log(this.allIngredients.length);
   }
   registerPharmacy(){
 

@@ -27,8 +27,8 @@ public class AppointmentService implements IAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final WorkDayService workDayService;
 
-    private final int appointmentDuration = 30*60000;
-    private final double cost = 1000.00;
+    private static final int appointmentDuration = 30*60000;
+    private static final double cost = 1000.00;
 
 
     @Autowired

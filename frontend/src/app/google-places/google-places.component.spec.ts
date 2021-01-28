@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AutocompleteGeoComponent } from './autocomplete-geo.component';
+import { GooglePlacesComponent } from './google-places.component';
 
-describe('AutocompleteGeoComponent', () => {
-  let component: AutocompleteGeoComponent;
-  let fixture: ComponentFixture<AutocompleteGeoComponent>;
+describe('GooglePlacesComponent', () => {
+  let component: GooglePlacesComponent;
+  let fixture: ComponentFixture<GooglePlacesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AutocompleteGeoComponent ]
+      declarations: [ GooglePlacesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AutocompleteGeoComponent);
+    fixture = TestBed.createComponent(GooglePlacesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
