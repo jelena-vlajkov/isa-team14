@@ -34,7 +34,7 @@ public class DrugReservationService implements IDrugReservationService {
     @Override
     public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
-        if(reservation == null && reservation.isExpired())
+        if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         reservation.setIssued(true);
         drugReservationRepository.save(reservation);
@@ -44,7 +44,7 @@ public class DrugReservationService implements IDrugReservationService {
     @Override
     public DrugReservation findDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
-        if(reservation == null && reservation.isExpired())
+        if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         return reservation;
     }

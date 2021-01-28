@@ -33,7 +33,7 @@ public class DrugReservationController {
         return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationService.findAllReservation(1L));
     }
 
-    @RequestMapping(value = "/issueReservation", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/issueReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PHARMACIST')")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
@@ -42,7 +42,7 @@ public class DrugReservationController {
         return drugReservationService.issueDrugReservation(Integer.parseInt(request.getParameter("uniqueIdentifier")));
     }
 
-    @RequestMapping(value = "/getReservationByIdentifier", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/getReservationByIdentifier", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('PHARMACIST')")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
@@ -64,6 +64,5 @@ public class DrugReservationController {
     ParseException handleException(ParseException e) {
         return new ParseException("Error while parsing values", 0);
     }
-
 
 }

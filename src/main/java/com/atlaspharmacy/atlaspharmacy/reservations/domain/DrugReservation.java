@@ -104,7 +104,9 @@ public class DrugReservation {
     }
 
     public boolean isExpired() {
-        return getExpirationDate().compareTo(new Date()) == 0;
+        System.out.println(getExpirationDate());
+        System.out.println(getExpirationDate().before(new Date(getExpirationDate().getTime() + 24 * 60 * 60 * 1000)));
+        return getExpirationDate().before(new Date((new Date()).getTime() + 24 * 60 * 60 * 1000));
     }
 
     public boolean isPharmacy(Long pharmacyId) {
