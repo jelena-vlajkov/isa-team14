@@ -4,14 +4,15 @@ import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 
 import java.util.Date;
 import java.util.List;
 
 public interface IAppointmentService {
 
-    Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception;
-    Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception;
+    Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
+    Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
     boolean cancelAppointment(Long appointmentId);
     List<Appointment> findAvailableBy(Date date, Long medicalStaffId);
     List<Counseling> findAvailableCounselingsBy(Date date);
