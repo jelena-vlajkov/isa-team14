@@ -31,16 +31,17 @@ public class Report {
     private Patient patient;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Dermatologist dermatologist;
+    private String reportNotes;
 
     public Report() {
     }
 
-    public Report(Long id, Date date, List<Medication> medication, Patient patient, Dermatologist dermatologist) {
-        this.id = id;
+    public Report(Date date, List<Medication> medication, Patient patient, Dermatologist dermatologist, String reportNotes) {
         this.date = date;
         this.medication = medication;
         this.patient = patient;
         this.dermatologist = dermatologist;
+        this.reportNotes = reportNotes;
     }
 
     public Long getId() {
@@ -81,5 +82,13 @@ public class Report {
 
     public void setDermatologist(Dermatologist dermatologist) {
         this.dermatologist = dermatologist;
+    }
+
+    public String getReportNotes() {
+        return reportNotes;
+    }
+
+    public void setReportNotes(String reportNotes) {
+        this.reportNotes = reportNotes;
     }
 }

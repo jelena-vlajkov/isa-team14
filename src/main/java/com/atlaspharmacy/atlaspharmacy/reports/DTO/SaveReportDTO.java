@@ -1,25 +1,26 @@
 package com.atlaspharmacy.atlaspharmacy.reports.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+
 import java.util.Date;
 import java.util.List;
 
-public class ReportDTO {
-
+public class SaveReportDTO {
     private Date date;
     private List<String> medications;
-    private String patientName;
-    private String patientEmail;
+    private Long patientId;
     private String reportNotes;
+    private Long dermatologistId;
 
-    public ReportDTO() {
+    public SaveReportDTO() {
     }
 
-    public ReportDTO(Date date, List<String> medications, String patientName, String patientEmail, String reportNotes) {
+    public SaveReportDTO(Date date, List<String> medications, Long patientId, String reportNotes, Long dermatologistId) {
         this.date = date;
         this.medications = medications;
-        this.patientName = patientName;
-        this.patientEmail = patientEmail;
+        this.patientId = patientId;
         this.reportNotes = reportNotes;
+        this.dermatologistId = dermatologistId;
     }
 
     public Date getDate() {
@@ -38,20 +39,12 @@ public class ReportDTO {
         this.medications = medications;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public Long getPatientId() {
+        return patientId;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
-
-    public String getPatientEmail() {
-        return patientEmail;
-    }
-
-    public void setPatientEmail(String patientEmail) {
-        this.patientEmail = patientEmail;
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public String getReportNotes() {
@@ -60,5 +53,13 @@ public class ReportDTO {
 
     public void setReportNotes(String reportNotes) {
         this.reportNotes = reportNotes;
+    }
+
+    public Long getDermatologistId() {
+        return dermatologistId;
+    }
+
+    public void setDermatologistId(Long dermatologistId) {
+        this.dermatologistId = dermatologistId;
     }
 }
