@@ -1,14 +1,18 @@
 package com.atlaspharmacy.atlaspharmacy.generalities.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "cities")
+@Proxy(lazy = false)
 public class City {
     @Id
-    private int id;
+    private Long id;
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private State state;
 
     public City() {}
@@ -17,6 +21,13 @@ public class City {
         this.state = state;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
