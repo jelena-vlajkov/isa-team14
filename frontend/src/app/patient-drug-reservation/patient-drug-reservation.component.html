@@ -1,0 +1,113 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">  
+    <mat-drawer-content>
+        <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span style="margin-left: 40%;">Drug reservation</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+         <mat-horizontal-stepper  [linear]="isLinear" #stepper style="margin-left: 20%;" >
+            <mat-step [stepControl]="drugFormGroup" [editable]="isEditable">
+              <form [formGroup]="drugFormGroup">
+                <ng-template matStepLabel>Choose your drug</ng-template>
+                <mat-form-field>
+                  <mat-label>Drug</mat-label>
+                  <input id="selectedDrug" type="text" [formControl]="drugName" matInput formControlName="firstCtrl" placeholder="Insert drug for search" required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperNext>Next</button>
+                </div>
+                
+                <div class="container" id="tableContainer">
+                    <table mat-table [dataSource]="drugs" class="mat-elevation-z8">
+                        <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="Drug">
+                        <th mat-header-cell *matHeaderCellDef> Drug </th>
+                        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="Company">
+                        <th mat-header-cell *matHeaderCellDef> Company </th>
+                        <td mat-cell *matCellDef="let element">{{element.company}}</td>
+                        </ng-container>                   
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <ng-container matColumnDef="#">
+                            <th mat-header-cell *matHeaderCellDef> # </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <button mat-raised-button color="primary" id="button" (click)="pickDrug(element)">Pick</button>
+                            </td>
+                        </ng-container>
+                    </table>
+                </div>
+              </form>
+            </mat-step>
+            
+            <mat-step [stepControl]="pharmFormGroup" [editable]="isEditable">
+              <form [formGroup]="pharmFormGroup">
+                <ng-template matStepLabel>Fill out pharmacy</ng-template>
+                <mat-form-field>
+                  <mat-label>Pharmacy</mat-label>
+                  <input [formControl]="pharmName" matInput formControlName="secondCtrl" placeholder="Pharmacy"
+                         required>
+                </mat-form-field>
+                <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext>Next</button>
+                </div>
+
+                
+                <div class="container" id="tableContainer">
+                    <table mat-table [dataSource]="pharms" class="mat-elevation-z8">
+                        <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef> No. </th>
+                        <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="Pharmacy">
+                        <th mat-header-cell *matHeaderCellDef> Pharmacy </th>
+                        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                        </ng-container>
+                                    
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+                        <ng-container matColumnDef="#">
+                            <th mat-header-cell *matHeaderCellDef> # </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                <button mat-raised-button color="primary" id="button" (click)="pickPharm(element)">Pick</button>
+                            </td>
+                        </ng-container>
+                    </table>
+                </div>
+
+
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="dateFormGroup" [editable]="isEditable">
+                <form [formGroup]="dateFormGroup">
+                  <ng-template matStepLabel>Last date of picking drug</ng-template>
+                  <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="picker1" id="dateId" style="font-size:18px">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+                  <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Reserve!</button>
+                  </div>
+                </form>
+            </mat-step>
+            
+          </mat-horizontal-stepper>          
+
+    </mat-drawer-content>
+</mat-drawer-container>

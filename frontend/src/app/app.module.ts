@@ -29,6 +29,7 @@ import { AdminComponent } from './admin/admin.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatStepperModule, matStepperAnimations} from '@angular/material/stepper';
 import { RegisterPharmacyComponent } from './register-pharmacy/register-pharmacy.component';
 import { RegisterSupplierComponent } from './register-supplier/register-supplier.component';
 import { AddAdminComponent } from './add-admin/add-admin.component';
@@ -38,6 +39,7 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { PatientDrugReservationComponent } from './patient-drug-reservation/patient-drug-reservation.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     DermatologyAppointmentComponent,
     BusinessReportComponent,
     PharmacyPricelistComponent,
-    DefineLoyaltyComponent
+    DefineLoyaltyComponent,
+    PatientDrugReservationComponent
   ],
   imports: [
     HttpClientModule,
@@ -88,7 +91,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatGridListModule
+    MatGridListModule,
+    MatStepperModule
     
   ],
   providers: [Proba],

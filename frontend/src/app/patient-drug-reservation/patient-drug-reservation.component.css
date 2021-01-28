@@ -1,0 +1,65 @@
+table {
+    width: 50vw;  
+}
+
+#tableContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2vw;
+}
+
+.recommendation {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.mat-horizontal-stepper-header { 
+    pointer-events: none !important; 
+}
+
+.mat-stepper-horizontal {
+    margin-top: 8px;
+  }
+  
+  .mat-form-field {
+    margin-top: 16px;
+  }
+
+mat-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 40vw;
+    
+  }
+  
+  .example-container {
+    flex: 1 1 auto;
+    height: 100%;
+    /* width: 400px;
+    height: 200px;
+    margin: 12px; */
+    /* border: 1px solid #555; */
+    background: white;
+    background-size: cover;
+    background-position: center;
+    overflow-y: scroll;
+  }
+  
+  mat-drawer-content {
+    /* padding: 12px; */
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    
+  }
+  
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  
