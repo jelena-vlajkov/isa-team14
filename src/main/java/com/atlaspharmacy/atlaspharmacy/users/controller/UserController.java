@@ -1,33 +1,42 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.util.List;
 
 @RestController
 public class UserController {
-    private final IUserService _userService;
-
+    private final IUserService userService;
     @Autowired
     public UserController(IUserService userService) {
-        _userService = userService;
+        this.userService = userService;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/proba")
+    @PreAuthorize("hasRole('DERMATOLOGIST')")
     ResponseEntity<String> proba()
     {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public final ResponseEntity<Exception> handleAllExceptions(Exception exception)
-    {
-        return new ResponseEntity<Exception>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DERMATOLOGIST')")
+    public @ResponseBody
+    User getUserById(@RequestParam("id") Long id) throws ParseException {
+        return userService.getUserBy(id);
     }
+
 }
