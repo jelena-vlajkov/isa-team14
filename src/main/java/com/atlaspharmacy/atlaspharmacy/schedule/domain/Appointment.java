@@ -111,19 +111,19 @@ public class Appointment {
     public boolean isMedicalStaff(Long medicalStaffId) {
         if (getType().equals(AppointmentType.Values.Counseling)) {
             Counseling counseling = (Counseling) this;
-            return counseling.getPharmacist().getId() == medicalStaffId;
+            return counseling.getPharmacist().getId().equals(medicalStaffId);
         }
         Examination examination = (Examination) this;
-        return examination.getDermatologist().getId() == medicalStaffId;
+        return examination.getDermatologist().getId().equals(medicalStaffId);
     }
 
     public boolean isMedicalStaffAndDate(Long medicalStaffId, Date date) {
         if (getType().equals(AppointmentType.Values.Counseling)) {
             Counseling counseling = (Counseling) this;
-            return counseling.getPharmacist().getId() == medicalStaffId && isSameDay(date);
+            return counseling.getPharmacist().getId().equals(medicalStaffId) && isSameDay(date);
         }
         Examination examination = (Examination) this;
-        return examination.getDermatologist().getId() == medicalStaffId && isSameDay(date);
+        return examination.getDermatologist().getId().equals(medicalStaffId) && isSameDay(date);
     }
 
     public boolean isPatient(Long patientId) {

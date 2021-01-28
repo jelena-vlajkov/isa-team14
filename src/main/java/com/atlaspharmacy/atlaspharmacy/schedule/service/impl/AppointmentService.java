@@ -27,9 +27,8 @@ public class AppointmentService implements IAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final WorkDayService workDayService;
 
-    private int hoursAvailableToCancel = 3600*1000*24;
-    private int appointmentDuration = 30*60000;
-    private double cost = 1000.00;
+    private final int appointmentDuration = 30*60000;
+    private final double cost = 1000.00;
 
     private final static String APPOINTMENT_NOT_FREE = "Can't schedule appointment in that specified time";
 
@@ -66,6 +65,7 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public boolean cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).get();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
         if (appointment.canCancel(hoursAvailableToCancel))
             return false;
         appointment.setCanceled(true);
@@ -164,8 +164,8 @@ public class AppointmentService implements IAppointmentService {
 
         for (int i = 0; i < endTime - 1; i++)
         {
-            Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + appointmentDuration * i),
-                    new Date(appointmentStart.getTime() + appointmentDuration * (i + 1))),
+            Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + (long) appointmentDuration * i),
+                    new Date(appointmentStart.getTime() + (long) appointmentDuration * (i + 1))),
                     cost, "", false, null);
             appointments.add(appointment);
         }
