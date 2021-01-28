@@ -133,3 +133,16 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (600, 600);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 100);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 200);
 
+insert into pharamcies (id, description, name) values (1, 'Welcome', 'Stesa');
+insert into pharamcies (id, description, name) values (2, 'Welcome', 'Jankovic');
+insert into pharamcies (id, description, name) values (3, 'Welcome', 'Vlajkov');
+insert into pharamcies (id, description, name) values (4, 'Welcome', 'Aradjanin');
+insert into pharamcies (id, description, name) values (5, 'Welcome', 'Ignjatijevic');
+insert into pharamcies (id, description, name) values (6, 'Welcome', 'Vojvodic');
+insert into pharamcies (id, description, name) values (7, 'Welcome', 'Biljana i Luka');
+
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (1, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 123, 2, 1, false, 100);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (2, '2021-01-28 12:00:00', '2021-01-28 12:00:00', 1234, 2, 1, false, 200);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (3, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1235, 2, 1, false, 300);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (4, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1236, 2, 1, false, 400);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (5, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 2, 1, false, 500);

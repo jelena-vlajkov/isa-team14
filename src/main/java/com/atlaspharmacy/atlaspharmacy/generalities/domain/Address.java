@@ -14,7 +14,7 @@ public class Address {
     private Long id;
     private String street;
     private int number;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private City city;
 
     public Address() {}

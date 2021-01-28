@@ -6,10 +6,10 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
-import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,9 @@ public class AppointmentService implements IAppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final WorkDayService workDayService;
 
-    private int hoursAvailableToCancel = 3600*1000*24;
-    private int appointmentDuration = 30*60000;
-    private double cost = 1000.00;
+    private static final int appointmentDuration = 30*60000;
+    private static final double cost = 1000.00;
 
-    private final static String APPOINTMENT_NOT_FREE = "Can't schedule appointment in that specified time";
 
     @Autowired
     public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, WorkDayService workDayService) {
@@ -42,30 +40,31 @@ public class AppointmentService implements IAppointmentService {
 
 
     @Override
-    public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
+    public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Counseling counseling = new Counseling(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
                     false, (Pharmacist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             appointmentRepository.save(counseling);
             return counseling;
         }
-        throw new Exception(APPOINTMENT_NOT_FREE);
+        throw new AppointmentNotFreeException();
     }
 
     @Override
-    public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
+    public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException {
         if (isTimeValid(appointmentDTO.getStartDate(), appointmentDTO.getMedicalStaffId())) {
             Examination counseling = new Examination(new Period(appointmentDTO.getStartDate(), appointmentDTO.getEndDate()), cost, AppointmentType.Values.Counseling,
                     false, (Dermatologist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             appointmentRepository.save(counseling);
             return counseling;
         }
-        throw new Exception(APPOINTMENT_NOT_FREE);
+        throw new AppointmentNotFreeException();
     }
 
     @Override
     public boolean cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).get();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
         if (appointment.canCancel(hoursAvailableToCancel))
             return false;
         appointment.setCanceled(true);
@@ -164,8 +163,8 @@ public class AppointmentService implements IAppointmentService {
 
         for (int i = 0; i < endTime - 1; i++)
         {
-            Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + appointmentDuration * i),
-                    new Date(appointmentStart.getTime() + appointmentDuration * (i + 1))),
+            Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + (long) appointmentDuration * i),
+                    new Date(appointmentStart.getTime() + (long) appointmentDuration * (i + 1))),
                     cost, "", false, null);
             appointments.add(appointment);
         }
