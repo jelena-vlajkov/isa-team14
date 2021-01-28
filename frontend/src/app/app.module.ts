@@ -38,6 +38,8 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { PatientExaminationSchedulingComponent } from './patient-examination-scheduling/patient-examination-scheduling.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     DermatologyAppointmentComponent,
     BusinessReportComponent,
     PharmacyPricelistComponent,
-    DefineLoyaltyComponent
+    DefineLoyaltyComponent,
+    PatientExaminationSchedulingComponent
   ],
   imports: [
     HttpClientModule,
@@ -88,7 +91,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSortModule
     
   ],
   providers: [Proba],

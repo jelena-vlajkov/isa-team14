@@ -1,0 +1,69 @@
+.mat-sort-header-container {
+    align-items: center;
+  }
+
+  table{
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    max-height: 270px;
+    border-collapse: collapse;  
+    overflow-y: scroll;
+
+  }
+
+  th, td{
+    width: 15em;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid black;
+  }
+  th.mat-sort-header-sorted{
+    text-align: center;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+mat-card {
+  position: relative; 
+  margin-left: 20%; 
+  margin-top:2%;
+  width: 60%;
+  height: 40vw;
+  
+}
+
+.example-container {
+  flex: 1 1 auto;
+  height: 100%;
+  /* width: 400px;
+  height: 200px;
+  margin: 12px; */
+  /* border: 1px solid #555; */
+  background: white;
+  background-size: cover;
+  background-position: center;
+  overflow-y: scroll;
+}
+
+mat-drawer-content {
+  /* padding: 12px; */
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  
+}
+.loyalty-card{
+  position: relative; 
+  margin-left: 5%;
+  width: 88%;
+  height: 80%;
+  background: cornflowerblue;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,41 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer-content  color="primary">  
+        <mat-toolbar color="primary">
+          <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <span style="margin-left: 35%;">Scheduling examination at deramtologist</span>
+          <span class="example-spacer"></span>
+        </mat-toolbar>
+   
+        <mat-card  class="loyalty-card" style="max-height: 70em; overflow-y: auto;">
+            <table matSort (matSortChange)="sortData($event)" style="max-height: 70em; overflow-y: auto;">
+                <tr>
+                  <th>Date</th>
+                  <th>Time start</th>
+                  <th>Dermatologist</th>
+                  <th mat-sort-header="price">Price</th>
+                  <th mat-sort-header="grade">Grade of deramtologist</th>
+                  <th>Scheduling</th>
+                </tr>
+              
+                <tr *ngFor="let examination of sortedData">
+                  <td>{{examination.date}}</td>
+                  <td>{{examination.time}}</td>
+                  <td>{{examination.dermatologist}}</td>
+                  <td>{{examination.price}}</td>
+                  <td>{{examination.grade}}</td>
+                  <td><button mat-raised-button>Schedule here</button></td>
+                 
+                </tr>
+            </table>     
+                          
+        </mat-card>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>
+
+   
+
+  
