@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrugReservationMapper {
+    private DrugReservationMapper() {}
     public static DrugReservationDTO mapDrugReservationToDTO(DrugReservation drugReservation) {
         String patientName = drugReservation.getPatient().getName() + " " + drugReservation.getPatient().getSurname();
-        DrugReservationDTO dto = new DrugReservationDTO(patientName,
+        return new DrugReservationDTO(patientName,
                 drugReservation.getPatient().getEmail(),
                 drugReservation.getMedication().getName(),
                 String.valueOf(drugReservation.getUniqueIdentifier()),
                 drugReservation.getExpirationDate());
-        return dto;
     }
 
     public static List<DrugReservationDTO> mapDrugReservationToListDTO(List<DrugReservation> drugReservations) {

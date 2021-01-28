@@ -18,22 +18,22 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DrugReservationController {
-    private final IDrugReservationService drugReservationService;
-    private final String dueDateExpiring = "Could not find wanted reservation. Possibly invalid unique identifier.";
+    private  final IDrugReservationService drugReservationService;
+    private static final String dueDateExpiring = "Could not find wanted reservation. Possibly invalid unique identifier.";
 
     @Autowired
     public DrugReservationController(IDrugReservationService drugReservationService) {
         this.drugReservationService = drugReservationService;
     }
 
-    @RequestMapping(value = "/getReservations", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getReservations", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     public @ResponseBody
     List<DrugReservationDTO> getReservationsByPharmacy(@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
         return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationService.findAllReservation(1L));
     }
 
-    @RequestMapping(value = "/issueReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/issueReservation", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
@@ -42,7 +42,7 @@ public class DrugReservationController {
         return drugReservationService.issueDrugReservation(Integer.parseInt(request.getParameter("uniqueIdentifier")));
     }
 
-    @RequestMapping(value = "/getReservationByIdentifier", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getReservationByIdentifier", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody

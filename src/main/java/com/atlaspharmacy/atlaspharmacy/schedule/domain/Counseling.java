@@ -4,8 +4,6 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.User;
-import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;

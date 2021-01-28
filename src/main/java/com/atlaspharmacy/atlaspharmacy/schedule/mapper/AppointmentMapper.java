@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AppointmentMapper {
+    private AppointmentMapper() {}
     public static AppointmentDTO mapAppointmentToDTO(Appointment appointment) {
-        String medicalStaffName, medicalStaffEmail;
+        String medicalStaffName;
+        String medicalStaffEmail;
 
         if (appointment.isCounseling()) {
             Counseling counseling = (Counseling) appointment;
@@ -22,7 +24,7 @@ public class AppointmentMapper {
             medicalStaffEmail = examination.getDermatologist().getEmail();
         }
 
-        AppointmentDTO dto = new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(),
+        return new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(),
                 appointment.getAppointmentPeriod().getEndTime(),
                 appointment.getCost(),
                 appointment.getType(),
@@ -31,7 +33,6 @@ public class AppointmentMapper {
                 appointment.getPatient().getEmail(),
                 medicalStaffName,
                 medicalStaffEmail);
-        return null;
     }
 
     public static List<AppointmentDTO> mapAppointmentsToListDTO(List<Appointment> appointments) {
