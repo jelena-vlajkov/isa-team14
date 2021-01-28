@@ -72,9 +72,18 @@
                   Please enter address</mat-error> -->
               </div>
               </mat-grid-tile>
-              <mat-grid-tile>
-                <app-autocomplete-geo (locationChange)="autocompleteChanged($event)"></app-autocomplete-geo>
-              </mat-grid-tile>
+              <!--PROBAO SAM SA OVIM SRANJEM, ALI NE RADI, MORACE NEKO DRUGI JOS DA SE ISCIMA-->
+              <!-- <geoapify-geocoder-autocomplete 
+                [value]="displayValue"
+                [type]="options.type"
+                [lang]="options.lang"
+                [countryCodes]="options.countries"
+                [position]="options.position"
+                [limit]="options.limit" 
+                (placeSelect)="placeSelected($event)" 
+                (suggestionsChange)="suggestionsChanged($event)">
+            </geoapify-geocoder-autocomplete> -->
+
               <mat-grid-tile>
                 <label>Birth date:</label>
               </mat-grid-tile>

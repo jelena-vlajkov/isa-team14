@@ -26,10 +26,8 @@
           </mat-toolbar>
 
           <mat-card>
-            
-            <div id="allMedication" [dataSource]="allIngredients" class="row" *ngFor="let ingredient of allIngredients">  
-                  <p>{{ingredient.name}}</p>
-            </div>
+            <app-google-places>
+            </app-google-places>
           </mat-card>
 
     </mat-drawer-content>
