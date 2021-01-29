@@ -1,18 +1,20 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
-import javax.persistence.*;
+import org.hibernate.annotations.Proxy;
 
+import javax.persistence.*;
+@Proxy(lazy = false)
 @Entity
 @Table(name = "allergies")
 public class Allergy {
     @Id
-    private int id;
+    private Long id;
     private String name;
 
     public Allergy() {
     }
 
-    public Allergy(int id,String name) {
+    public Allergy(Long id,String name) {
         this.id = id;
         this.name = name;
     }
@@ -25,11 +27,11 @@ public class Allergy {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

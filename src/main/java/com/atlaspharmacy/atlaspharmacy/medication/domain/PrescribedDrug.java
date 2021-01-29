@@ -8,32 +8,32 @@ import javax.persistence.*;
 @Table(name = "prescribed_drugs")
 public class PrescribedDrug {
     @Id
-    private int id;
-    private int quantity;
+    private Long id;
+    private Long quantity;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Medication prescribedMedication;
 
     public PrescribedDrug(){}
 
-    public PrescribedDrug(int id, int quantity) {
+    public PrescribedDrug(Long id, Long quantity) {
         this.id = id;
         this.quantity = quantity;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 

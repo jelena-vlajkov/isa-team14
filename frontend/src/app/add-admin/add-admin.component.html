@@ -4,7 +4,7 @@
         <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
         <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
-        <button mat-list-item (click)="operationsWithDrugs()"> Drugs</button>
+        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
         <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
         <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
@@ -72,6 +72,18 @@
                   Please enter address</mat-error> -->
               </div>
               </mat-grid-tile>
+              <!--PROBAO SAM SA OVIM SRANJEM, ALI NE RADI, MORACE NEKO DRUGI JOS DA SE ISCIMA-->
+              <!-- <geoapify-geocoder-autocomplete 
+                [value]="displayValue"
+                [type]="options.type"
+                [lang]="options.lang"
+                [countryCodes]="options.countries"
+                [position]="options.position"
+                [limit]="options.limit" 
+                (placeSelect)="placeSelected($event)" 
+                (suggestionsChange)="suggestionsChanged($event)">
+            </geoapify-geocoder-autocomplete> -->
+
               <mat-grid-tile>
                 <label>Birth date:</label>
               </mat-grid-tile>

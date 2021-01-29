@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -39,6 +38,9 @@ import { BusinessReportComponent } from './business-report/business-report.compo
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
+import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
+import { GooglePlacesComponent } from './google-places/google-places.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     PharmacyProfileComponent,
     DermatologyAppointmentComponent,
     BusinessReportComponent,
-    PharmacyPricelistComponent
+    PharmacyPricelistComponent,
+    PharmacyPricelistComponent,
+    DefineLoyaltyComponent,
+    AdminRegisterDrugComponent,
+    GooglePlacesComponent
   ],
   imports: [
     HttpClientModule,
@@ -90,9 +96,12 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     MatSelectModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatGridListModule
-    
-  ],
+    MatGridListModule,
+    MatCheckboxModule,
+    GeoapifyGeocoderAutocompleteModule.withConfig('1cc064c4e6b143d9879b7dcd62523631')
+
+  ],  
+
   providers: [Proba],
   bootstrap: [AppComponent]
 })

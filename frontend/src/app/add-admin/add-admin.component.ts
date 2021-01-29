@@ -43,6 +43,7 @@ export class AddAdminComponent implements OnInit {
       'dob' : new FormControl(null, Validators.required)
     });
   }
+
   add(){}
   addAdmin(){
 

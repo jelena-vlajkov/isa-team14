@@ -13,6 +13,8 @@ import {DermatologyAppointmentComponent} from './dermatology-appointment/dermato
 import{BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { UserProfileComponent} from './user-profile/user-profile.component';
+import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
+
 
 const routes: Routes = [  {
   path : 'login',
@@ -64,6 +66,9 @@ const routes: Routes = [  {
 {
   path : 'userProfile',
   component : UserProfileComponent
+},{
+  path : 'admin/addDrug',
+  component : AdminRegisterDrugComponent
 }
 ];
 
