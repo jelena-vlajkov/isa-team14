@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.notifications.domain.Notification;
 import com.atlaspharmacy.atlaspharmacy.notifications.repository.NotificationRepository;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,9 @@ public class NotificationService implements INotificationService {
     }
 
     @Override
-    public void medicationQuantityLow(Medication medication, Pharmacy pharmacy) {
-        String content = "Please restock medication " + medication.getName() +
-                " in your pharmacy " + pharmacy.getName() + " with id " + pharmacy.getId();
-        notificationRepository.save(new Notification(content, userService.getPharmacyAdmin(pharmacy.getId())));
+    public void medicationQuantityLow(PharmacyStorage pharmacyStorage) {
+        String content = "Please restock medication " + pharmacyStorage.getMedication().getName() +
+                " in your pharmacy " + pharmacyStorage.getPharmacy().getName() + " with id " + pharmacyStorage.getPharmacy().getId();
+        notificationRepository.save(new Notification(content, userService.getPharmacyAdmin(pharmacyStorage.getPharmacy().getId())));
     }
 }

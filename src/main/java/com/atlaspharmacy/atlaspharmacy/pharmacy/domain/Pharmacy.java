@@ -13,6 +13,10 @@ public class Pharmacy {
     private String name;
     private String description;
 
+    public Pharmacy(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

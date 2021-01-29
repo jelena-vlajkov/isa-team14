@@ -28,8 +28,7 @@ public class NotificationController {
     @NotificationAuthorization
     public @ResponseBody
     ResponseEntity<?> notifyAdmin(@RequestBody MedicationNotificationDTO notificationDTO) {
-        notificationService.medicationQuantityLow(NotificationMapper.mapMedicationFromDTO(notificationDTO),
-                NotificationMapper.mapPharmacyFromDTO(notificationDTO));
+        notificationService.medicationQuantityLow(NotificationMapper.mapMedicationFromDTO(notificationDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

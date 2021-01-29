@@ -57,4 +57,12 @@ public class PharmacyStorage {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public boolean isPharmacy(Long pharmacyId) {
+        return getPharmacy().getId().equals(pharmacyId);
+    }
+
+    public boolean isMediationAndPharmacy(Long pharmacyId, Long medicationId) {
+        return getMedication().getId().equals(medicationId) && isPharmacy(pharmacyId);
+    }
 }
