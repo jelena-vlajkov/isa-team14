@@ -1,20 +1,14 @@
-package com.atlaspharmacy.atlaspharmacy.generalities.domain;
+package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
-import org.hibernate.annotations.Proxy;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "states")
-@Proxy(lazy = false)
-public class State {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class AuthorityDTO {
     private Long id;
     private String name;
 
-    public State() {}
-    public State(String name) {
+    public AuthorityDTO() {
+    }
+
+    public AuthorityDTO(Long id, String name) {
+        this.id = id;
         this.name = name;
     }
 

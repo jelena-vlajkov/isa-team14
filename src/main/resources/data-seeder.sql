@@ -3,9 +3,13 @@ insert into states(id, name) values (100, 'Serbia');
 insert into cities(id, name, state_id) values (100, 'Novi Sad', 100);
 insert into cities(id, name, state_id) values (200, 'Beograd', 100);
 
-insert into addresses(id, number, street, city_id) values (100, 2, 'Bulevar Despota Stefana', 100);
-insert into addresses(id, number, street, city_id) values (200, 7, 'Bulevar Despota Stefana', 100);
-insert into addresses(id, number, street, city_id) values (300, 99, 'Bulevar Revolucije', 200);
+insert into coordinates(id, latitude, longitude) values (100, 45.2378437, 19.8425568);
+insert into coordinates(id, latitude, longitude) values (200, 45.2469369, 19.8498081);
+insert into coordinates(id, latitude, longitude) values (300, 44.8058901, 20.4585641);
+
+insert into addresses(id, street, city_id, coordinates_id) values (100, 'Bulevar Despota Stefana 3', 100,100);
+insert into addresses(id, street, city_id, coordinates_id) values (200,'Bulevar Cara Lazara  20', 100,200);
+insert into addresses(id, street, city_id, coordinates_id) values (300,'Nemanjina 6', 200,300);
 
 
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 100, 'Dermatologist');

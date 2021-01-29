@@ -13,15 +13,16 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String street;
-    private int number;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private City city;
+    @OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.MERGE)
+    private Coordinates coordinates;
 
     public Address() {}
-    public Address(String street, int number, City city) {
+    public Address(String street, City city) {
         this.street = street;
-        this.number = number;
         this.city = city;
+
     }
 
     public Long getId() {
@@ -40,19 +41,19 @@ public class Address {
         this.street = street;
     }
 
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public City getCity() {
         return city;
     }
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 }
