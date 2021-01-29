@@ -78,8 +78,9 @@ export class GooglePlacesComponent implements OnInit {
       let city_name = address_chunks[1];
       city: City;
       this.state = new State(state_name);
-      this.city = new City(city_name, this.state);
-      this.address = new Address(street, this.city, coords);
+      this.city = new City(city_name);
+
+      this.address = new Address(street, this.city, coords, this.state);
   }
   invokeEvent(place: Object) {
       this.setAddress.emit(place);

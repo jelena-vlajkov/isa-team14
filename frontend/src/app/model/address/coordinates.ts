@@ -1,8 +1,8 @@
 export class Coordinates{
-    public long : Number;
-    public lat : Number;
+    public longitude : Number;
+    public latitude : Number;
     constructor(long : Number, lat:Number){
-        this.long = long;
-        this.lat = lat;
+        this.longitude = long;
+        this.latitude = lat;
     }
 }
