@@ -14,8 +14,8 @@
                     </div>
                     <div class="inputField">
                         <mat-form-field appearance="fill" id="surname-ff">
-                            <mat-label>surname*</mat-label>
-                            <input matInput id="surname" placeholder="surname" name="surname-ff"
+                            <mat-label>Surname*</mat-label>
+                            <input matInput id="surname" placeholder="Surname" name="surname-ff"
                                 formControlName="surname">
                             <mat-error
                                 *ngIf="!registerForm.get('surname').valid && registerForm.get('surname').touched && registerForm.get('surname').errors['required']">
@@ -24,23 +24,25 @@
                     </div>
                     <div class="inputField">
                     
-                        <mat-radio-group name="gender" required>
-                            <mat-radio-button value="1" style="margin-left:50px; margin-bottom: 10px; float:left">Female</mat-radio-button>
-                            <mat-radio-button value="2" >Male</mat-radio-button>
+                        <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                            <mat-radio-button value="FEMALE" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
+                            <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
+                            <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
                         </mat-radio-group>
                         <!-- <mat-error
                                 *ngIf="!registerForm.get('gender').valid && registerForm.get('gender').touched && registerForm.get('gender').errors['required']">
                                 Please choose gender</mat-error> -->
                     </div>
                     <div class="inputField">
-                        <mat-form-field appearance="fill" id="address-ff">
-                            <mat-label>Address*</mat-label>
-                            <input matInput id="address" placeholder="address" name="address-ff"
+                        <!-- <mat-form-field appearance="fill" id="address-ff">
+                            <mat-label>Address*</mat-label> -->
+                        <app-google-places> </app-google-places>
+                            <!-- <input matInput id="address" placeholder="address" name="address-ff"
                                 formControlName="address">
                             <mat-error
                                 *ngIf="!registerForm.get('address').valid && registerForm.get('address').touched && registerForm.get('address').errors['required']">
                                 Please enter address</mat-error>
-                        </mat-form-field>
+                        </mat-form-field> -->
                     </div>
                     <div class="inputField">
                         <mat-form-field appearance="fill" id="email-ff">
@@ -84,7 +86,14 @@
                                 Please enter password</mat-error>
                         </mat-form-field>
                     </div>
-
+                    <div class="inputField">
+                        <mat-form-field id="dob-ff">
+                            <mat-label>Date</mat-label>
+                            <input matInput [matDatepicker]="picker1" id="dateId" style="font-size:18px" [(ngModel)]="selectedDate" formControlName="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                          </mat-form-field>
+                    </div>
                     <div class="submit-button">
                         <button  mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>
                     </div>

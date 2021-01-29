@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Proxy(lazy = false)
 public class City {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
