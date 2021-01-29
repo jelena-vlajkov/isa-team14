@@ -39,6 +39,16 @@ public class DrugReservation {
         this.issued = false;
     }
 
+    public DrugReservation(int uniqueIdentificator, Date expirationDate, Medication medication, Patient patient, Pharmacy pharmacy) {
+        this.reservationDate = new Date();
+        this.uniqueIdentifier = uniqueIdentificator;
+        this.expirationDate = expirationDate;
+        this.medication = medication;
+        this.patient = patient;
+        this.pharmacy = pharmacy;
+        this.issued = false;
+    }
+
     public Long getId() {
         return id;
     }

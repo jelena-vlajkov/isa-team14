@@ -21,5 +21,6 @@ public interface IMedicationService {
     void addMedicationToPharmacy(Medication medication, Long pharmacyID, Integer amount) throws Exception;
     List<MedicationDTO> findAllMedicationsNotInPharmacy(Long pharmacyID) throws Exception;
     List<IngredientDTO> findMedicationsIngredients(Medication medication) throws Exception;
+    Medication findByName(String name) throws Exception;
 
 }

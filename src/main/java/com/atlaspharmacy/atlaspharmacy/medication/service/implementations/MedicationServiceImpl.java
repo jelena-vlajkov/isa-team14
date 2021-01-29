@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IMedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
@@ -37,15 +38,20 @@ public class MedicationServiceImpl implements IMedicationService {
         if(medication == null){
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }
+        MedicationMapper medicationMapper = new MedicationMapper();
+        return  medicationMapper.convertToMedicationDTO(medication);
+    }
 
-        return  MedicationDTO.convertToMedicationDTO(medication);
+    @Override
+    public Medication findByName(String name) throws Exception {
+       return  _medicationRepository.findAll().stream().filter(med -> name.equals(med.getName())).findFirst().orElse(null);
     }
 
     @Override
     public List<MedicationDTO> findAll() {
         List<Medication> medications = _medicationRepository.findAll();
-
-        return convertToDTOS(medications);
+        MedicationMapper medicationMapper = new MedicationMapper();
+        return medicationMapper.convertToDTOS(medications);
     }
 
     @Override
@@ -113,9 +119,12 @@ public class MedicationServiceImpl implements IMedicationService {
         return null;
     }
 
+
+
     @Override
     public void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception {
-        MedicationDTO.convertToMedication(medication,medicationDTO);
+        MedicationMapper medicationMapper = new MedicationMapper();
+        medicationMapper.convertToMedication(medication,medicationDTO);
         medication.setSubstituteMedication(new ArrayList<>());
         for(Long id : medicationDTO.getSubstituteMedication()){
             try{
@@ -142,19 +151,6 @@ public class MedicationServiceImpl implements IMedicationService {
             throw new Exception(EXCEPTION + "saveMedication " + FAIL);
         }
     }
-
-
-    private List<MedicationDTO> convertToDTOS(List<Medication> medications){
-        List<MedicationDTO> dtos = new ArrayList<>();
-        Long amount = null;
-        for(Medication m : medications){
-            MedicationDTO dto = MedicationDTO.convertToMedicationDTO(m);
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
 
 
 

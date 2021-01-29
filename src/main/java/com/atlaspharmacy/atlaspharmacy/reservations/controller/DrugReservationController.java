@@ -1,13 +1,17 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.controller;
 
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
+import com.atlaspharmacy.atlaspharmacy.reservations.mapper.CreateDrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +53,26 @@ public class DrugReservationController {
     DrugReservationDTO getReservationByIdentifier(HttpServletRequest request,
                             HttpServletResponse response) throws DueDateSoonException {
         return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(Integer.parseInt(request.getParameter("uniqueIdentifier"))));
+    }
+
+    @RequestMapping(value = "/cancelDrugReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PHARMACIST')")
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody
+    boolean cancelReservation(HttpServletRequest request,
+                            HttpServletResponse response) throws DueDateSoonException {
+        return drugReservationService.cancelDrugReservation(Integer.parseInt(request.getParameter("uniqueIdentifier")));
+    }
+
+
+    @PostMapping(value = "/createDrugReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('PATIENT')")
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody
+    boolean createReservation(@RequestBody CreateDrugReservationDTO dto) throws Exception {
+
+        return drugReservationService.reserveDrug(dto);
+
     }
 
     @ExceptionHandler(DueDateSoonException.class)
