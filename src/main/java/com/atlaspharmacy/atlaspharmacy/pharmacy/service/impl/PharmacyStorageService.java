@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyStorageMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
-    public Medication getMedicationInPharmacy(Long medicationId, Long pharmacyId) {
+    public PharmacyStorage getMedicationInPharmacy(Long medicationId, Long pharmacyId) {
         PharmacyStorage medication = pharmacyStorageRepository.findAll()
                 .stream()
                 .filter(pharmacyStorage -> pharmacyStorage.isPharmacy(pharmacyId))
@@ -39,6 +40,6 @@ public class PharmacyStorageService implements IPharmacyStorageService {
                 .orElse(null);
         if (medication.getQuantity() == 0)
             notificationService.medicationQuantityLow(medication);
-        return medication.getMedication();
+        return medication;
     }
 }
