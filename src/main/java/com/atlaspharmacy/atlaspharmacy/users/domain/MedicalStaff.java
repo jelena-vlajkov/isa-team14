@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -10,17 +11,13 @@ import java.util.List;
 @Entity
 @Table(name = "medicalstaff")
 @DiscriminatorValue(value = Role.Values.MedicalStaff)
+@Proxy(lazy = false)
 public class MedicalStaff extends User {
     private String licenseNumber;
 
     public  MedicalStaff() {}
     public MedicalStaff(String licenseNumber) {
         this.licenseNumber = licenseNumber;
-    }
-
-    @Override
-    public List<Authority> getAuthorities() {
-        return getAuthorities();
     }
 
     @Override

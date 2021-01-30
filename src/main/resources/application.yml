@@ -1,6 +1,6 @@
 # Spring Boot configuration
 spring:
-  
+
   profiles:
     active: development
   # Database

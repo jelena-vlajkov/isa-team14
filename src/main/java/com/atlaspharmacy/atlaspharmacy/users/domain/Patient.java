@@ -1,21 +1,29 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "patients")
 @DiscriminatorValue(value = Role.Values.Patient)
-public class Patient extends User{
+@Proxy(lazy = false)
+public class Patient extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
+
     public Patient(Long id) {
         this.id = id;
     }
+
 
     public Patient() {
 
@@ -30,32 +38,27 @@ public class Patient extends User{
     }
 
     @Override
-    public List<Authority> getAuthorities() {
-        return getAuthorities();
-    }
-
-    @Override
     public String getUsername() {
         return getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

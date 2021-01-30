@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 
@@ -14,15 +15,11 @@ public interface IMedicationService {
     void createMedication(MedicationDTO medicationDTO) throws Exception;
     void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception;
     void deleteMedication(Long id, MedicationDTO medicationDTO) throws Exception;
-
     void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception;
-
     void addMedicationToPharmacy(MedicationDTO medicationDTO, Long pharmacyID) throws Exception;
-
     boolean medicationExistsInPharmacy(Long drugID, Long pharmacyID);
-
     void addMedicationToPharmacy(Medication medication, Long pharmacyID, Integer amount) throws Exception;
-
     List<MedicationDTO> findAllMedicationsNotInPharmacy(Long pharmacyID) throws Exception;
+    List<IngredientDTO> findMedicationsIngredients(Medication medication) throws Exception;
 
 }

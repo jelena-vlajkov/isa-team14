@@ -2,7 +2,9 @@ package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import org.hibernate.annotations.Proxy;
 
+@Proxy(lazy = false)
 @Entity
 @Table(name = "allergies")
 public class Allergy {

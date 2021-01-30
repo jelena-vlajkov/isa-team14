@@ -1,22 +1,22 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
 
 @RestController
 public class UserController {
-    private final IUserService _userService;
-
+    private final IUserService userService;
     @Autowired
     public UserController(IUserService userService) {
-        _userService = userService;
+        this.userService = userService;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -25,6 +25,14 @@ public class UserController {
     ResponseEntity<String> proba()
     {
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('DERMATOLOGIST')")
+    public @ResponseBody
+    User getUserById(@RequestParam("id") Long id) throws ParseException {
+        return userService.getUserBy(id);
     }
 
 }

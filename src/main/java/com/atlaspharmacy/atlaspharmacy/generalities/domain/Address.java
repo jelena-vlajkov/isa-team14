@@ -1,52 +1,82 @@
 package com.atlaspharmacy.atlaspharmacy.generalities.domain;
 
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharamcy;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.City;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.Coordinates;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.State;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Address  {
+@Proxy(lazy = false)
+public class Address {
     @Id
-    @Column(name = "id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String street;
-    private int number;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "name", column = @Column(name = "city")),
+    })
     private City city;
-
-    @OneToOne(mappedBy = "address")
-
-    private Pharamcy pharmacy;
-
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "latitude", column = @Column(name = "latitude")),
+            @AttributeOverride( name = "longitude", column = @Column(name = "longitude")),
+    })
+    private Coordinates coordinates;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "name", column = @Column(name = "state")),
+    })
+    private State state;
     public Address() {}
-    public Address(String street, int number, City city) {
+    public Address(String street, City city, State state, Coordinates coordinates) {
         this.street = street;
-        this.number = number;
+        this.city = city;
+        this.state = state;
+        this.coordinates = coordinates;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
         this.city = city;
     }
 
-    private int getNumber(){return number;}
-    private void setNumber(int number){this.number=number;}
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
 
-    private String getStreet(){return street;}
-    private void setStreet(String street){this.street=street;}
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
 
-    private int getId(){return id;}
-    private void setId(int id){this.id=id;}
+    public State getState() {
+        return state;
+    }
 
-    private City getCity(){return city;}
-    private void setCity(City city){this.city=city;}
-
-    private Pharamcy getPharmacy(){return pharmacy;}
-    private void setPharmacy(Pharamcy pharmacy){this.pharmacy=pharmacy;}
-
-
-
-
-
+    public void setState(State state) {
+        this.state = state;
+    }
 }
