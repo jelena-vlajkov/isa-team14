@@ -12,6 +12,8 @@ export const environment = {
   ingredient: "ingredients",
   allergy : "allergies",
   patient : "patient",
-  register : "register"
+  register : "register",
+  authenticate: 'authenticate',
+  getUser: 'getUser'
 };
 

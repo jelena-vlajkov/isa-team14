@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DERMATOLOGIST')")
+    @PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT ')")
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
+        //obirisi id
+
         return userService.getUserBy(id);
     }
 

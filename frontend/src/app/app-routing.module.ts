@@ -10,7 +10,7 @@ import {PharmacyAdminProfileComponent} from './pharmacy-admin-profile/pharmacy-a
 import {PharmacyProfileComponent} from './pharmacy-profile/pharmacy-profile.component';
 import {PharmacyPricelistComponent} from './pharmacy-pricelist/pharmacy-pricelist.component';
 import {DermatologyAppointmentComponent} from './dermatology-appointment/dermatology-appointment.component';
-import{BusinessReportComponent } from './business-report/business-report.component';
+import {BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { UserProfileComponent} from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';

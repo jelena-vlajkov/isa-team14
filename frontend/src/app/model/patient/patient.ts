@@ -1,6 +1,7 @@
 import { Address } from "../address/address";
 import { Role } from "../users/role";
 import { Gender } from "./gender";
+import { LoginComponent } from 'src/app/login/login.component';
 
 export class Patient{
     public name : String;
@@ -13,6 +14,7 @@ export class Patient{
     public address : Address;
     public role : Role;
     public authorities : Number[];
+
 
     constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[]){
         this.name = name;

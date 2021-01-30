@@ -38,6 +38,8 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
     @ExceptionHandler(InvalidPatientData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

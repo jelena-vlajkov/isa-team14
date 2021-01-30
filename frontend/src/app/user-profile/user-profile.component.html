@@ -16,13 +16,18 @@
 
             <mat-toolbar color="primary">
               <mat-toolbar-row>
+                <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+                  <mat-icon class="tooltip">arrow_back <span class="tooltiptext" style="margin-left: 10px;">Back</span></mat-icon>
+                </button>
                 <span style="margin-left: 40%;">Registered user profile</span>
                 <span class="example-spacer"></span>
+            
                 <button mat-icon-button>
                     <mat-icon  aria-hidden="false" aria-label="Example home icon" class="tooltip">
                         login <span class="tooltiptext">Logout</span>
                     </mat-icon>
                 </button>
+                
               </mat-toolbar-row>         
             </mat-toolbar>
         
@@ -34,48 +39,50 @@
                   <label>Name:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{name}}</p>
+                  <p>{{patient.name}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Surname:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>                
-                  <p>{{surname}}</p>
+                  <p>{{patient.surname}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Gender:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{selectedGender}}</p>
+                  <p *ngIf="patient.gender == 'MALE'">Muško</p>
+                  <p *ngIf="patient.gender == 'FEMALE'">Žensko</p>
+                  <p *ngIf="patient.gender == 'OTHERS'">Ostalo</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Address:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{address}}</p>
+                  <p>{{patient.address.street}}, {{patient.address.city.name}}, {{patient.address.state.name}} </p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Telephone:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{phone}}</p>
+                  <p>{{patient.phoneNumber}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Email:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{mail}}</p>
+                  <p>{{patient.email}}</p>
                 </mat-grid-tile>
                 <mat-grid-tile>
                   <label>Birth date:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{dateString}}</p>
+                  <p>{{patient.dateOfBirth | date :  "dd.MM.y" }}</p>
                 </mat-grid-tile>
                 <mat-grid-tile>
                   <label>Allergies:</label>               
@@ -83,7 +90,7 @@
                 <mat-grid-tile>
                   <mat-form-field>
                     <mat-select placeholder="Allergies" [formControl]="allergies" [(value)]="selectedAllergies" multiple>
-                      <mat-option *ngFor="let allergy of allergiesList" [value]="allergies">{{allergy}}</mat-option>
+                      <mat-option *ngFor="let allergy of allergiesList" [disabled]="true" [value]="allergies">{{allergy}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </mat-grid-tile>            
@@ -92,6 +99,7 @@
             <mat-card-actions>
               <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
               <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' (click)='loyaltyClick()'  color="accent">Loyalty program</button>
+              <button style="float:left; position:relative;" mat-raised-button id='drugReservation'  color="accent">Drug reservations</button>
             </mat-card-actions>
 
           </mat-card>
@@ -186,14 +194,15 @@
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <div class="inputField">
-                      <mat-form-field appearance="fill" id="address-ff">
+                      <!--mat-form-field appearance="fill" id="address-ff">
                           <mat-label>Address*</mat-label>
                           <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">                   
 
                           <mat-error
                               *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
                               Please enter address</mat-error>
-                      </mat-form-field>
+                      </mat-form-field-->
+                      <app-google-places> </app-google-places>
                   </div>
                   </mat-grid-tile>
     
@@ -224,7 +233,7 @@
                   <mat-grid-tile>
                     <mat-form-field color="accent" appearance="fill" id='dob-ff'>
                       <mat-label>Birth date</mat-label>
-                      <input matInput [matDatepicker]="picker1" [value]="editDate.value" style="font-size:18px">
+                      <input matInput [matDatepicker]="picker1" [(value)]="selectedDate" style="font-size:18px">
                       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>

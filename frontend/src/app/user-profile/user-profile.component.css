@@ -130,6 +130,7 @@
     position: relative;
     display: inline-block;
   }
+
   
   .tooltip .tooltiptext {
     visibility: hidden;
