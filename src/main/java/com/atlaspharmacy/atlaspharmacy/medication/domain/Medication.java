@@ -33,6 +33,7 @@ public class Medication {
             joinColumns = @JoinColumn(name = "original_id"),
             inverseJoinColumns = @JoinColumn(name = "substitute_id")
     )
+    @Fetch(value = FetchMode.SUBSELECT)
     private List<Medication> substituteMedication;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

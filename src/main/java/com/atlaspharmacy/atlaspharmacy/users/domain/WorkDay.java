@@ -77,7 +77,7 @@ public class WorkDay {
         return this.getDate().getDate() == date.getDate() &&
                 this.getDate().getMonth() == date.getMonth() &&
                 this.getDate().getYear() == date.getYear() &&
-                this.getMedicalStaff().getId() == medicalStaffId;
+                this.getMedicalStaff().getId().equals(medicalStaffId);
     }
 
     public boolean isMedicalStaff(Long medicalStaffId) {

@@ -1,16 +1,11 @@
-insert into states(id, name) values (1, 'Serbia');
-
-insert into cities(id, name, state_id) values (1, 'Novi Sad', 1);
-insert into cities(id, name, state_id) values (2, 'Beograd', 1);
-
-insert into addresses(id, number, street, city_id) values (1, 2, 'Bulevar Despota Stefana', 1);
-insert into addresses(id, number, street, city_id) values (2, 7, 'Bulevar Despota Stefana', 1);
-insert into addresses(id, number, street, city_id) values (3, 99, 'Bulevar Revolucije', 2);
+insert into addresses(id, city, latitude, longitude, state, street) values (100, 'Novi Sad', 45.2378437,19.8425568,'Serbia' ,'Bulevar Despota Stefana 3');
+insert into addresses(id, city, latitude, longitude, state, street) values (200,'Novi Sad', 45.2469369, 19.8498081,'Serbia' ,'Bulevar Cara Lazara  20');
+insert into addresses(id, city, latitude, longitude, state, street) values (300,'Belgrade',44.8058901,20.4585641,'Serbia','Nemanjina 6');
 
 
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (1, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 1, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (5, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov', 1, 1, 'Pharmacist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (2, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 2, 'Patient');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 100, 'Dermatologist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov', 1, 200, 'Pharmacist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
 
@@ -21,29 +16,29 @@ insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 
-insert into user_authority(user_id, authority_id) values (1, 2);
-insert into user_authority(user_id, authority_id) values (2, 3);
-insert into user_authority(user_id, authority_id) values (5, 1);
+insert into user_authority(user_id, authority_id) values (100, 2);
+insert into user_authority(user_id, authority_id) values (200, 3);
+insert into user_authority(user_id, authority_id) values (500, 1);
 
 
-insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 1);
+insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (1, '2021-02-10 12:00:00', '2021-02-10 12:30:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (2, '2021-02-10 13:00:00', '2021-02-10 13:30:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (3, '2021-02-10 13:30:00', '2021-02-10 14:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (4, '2021-02-10 14:00:00', '2021-02-10 14:30:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (5, '2021-02-10 14:30:00', '2021-02-10 15:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (6, '2021-02-10 15:30:00', '2021-02-10 16:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (7, '2021-02-10 16:30:00', '2021-02-10 17:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (8, '2021-02-11 11:00:00', '2021-02-11 11:30:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (9, '2021-02-11 12:00:00', '2021-02-10 12:30:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (10, '2021-02-11 13:00:00', '2021-02-10 13:30:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (11, '2021-02-12 13:30:00', '2021-02-10 14:00:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (12, '2021-02-12 14:00:00', '2021-02-10 14:30:00', 1000.00, 'Examination', false, 1, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (13, '2021-02-12 14:30:00', '2021-02-10 15:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (14, '2021-02-13 15:30:00', '2021-02-10 16:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (15, '2021-02-13 16:30:00', '2021-02-10 17:00:00', 1000.00, 'Counseling', false, 5, 2);
-insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (16, '2021-02-13 11:00:00', '2021-02-11 11:30:00', 1000.00, 'Counseling', false, 5, 2);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (100, '2021-02-10 12:00:00', '2021-02-10 12:30:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (200, '2021-02-10 13:00:00', '2021-02-10 13:30:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (300, '2021-02-10 13:30:00', '2021-02-10 14:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (400, '2021-02-10 14:00:00', '2021-02-10 14:30:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (500, '2021-02-10 14:30:00', '2021-02-10 15:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (600, '2021-02-10 15:30:00', '2021-02-10 16:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (700, '2021-02-10 16:30:00', '2021-02-10 17:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (800, '2021-02-11 11:00:00', '2021-02-11 11:30:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (900, '2021-02-11 12:00:00', '2021-02-10 12:30:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (1000, '2021-02-11 13:00:00', '2021-02-10 13:30:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (1100, '2021-02-12 13:30:00', '2021-02-10 14:00:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, dermatologist_id, patient_id) values (1200, '2021-02-12 14:00:00', '2021-02-10 14:30:00', 1000.00, 'Examination', false, 100, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (1300, '2021-02-12 14:30:00', '2021-02-10 15:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (1400, '2021-02-13 15:30:00', '2021-02-10 16:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (1500, '2021-02-13 16:30:00', '2021-02-10 17:00:00', 1000.00, 'Counseling', false, 500, 200);
+insert into appointment(id, appointment_start_time, appointment_end_time, cost, type, is_canceled, pharmacist_id, patient_id) values (1600, '2021-02-13 11:00:00', '2021-02-11 11:30:00', 1000.00, 'Counseling', false, 500, 200);
 
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u kurcu', 2, 1, 1, 2, 'Borozepam', 'Loncar Doo', 0);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 2, 'Xanax', 'Pfizer', 0);
@@ -133,3 +128,16 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (600, 600);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 100);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 200);
 
+insert into pharamcies (id, description, name) values (100, 'Welcome', 'Stesa');
+insert into pharamcies (id, description, name) values (200, 'Welcome', 'Jankovic');
+insert into pharamcies (id, description, name) values (300, 'Welcome', 'Vlajkov');
+insert into pharamcies (id, description, name) values (400, 'Welcome', 'Aradjanin');
+insert into pharamcies (id, description, name) values (500, 'Welcome', 'Ignjatijevic');
+insert into pharamcies (id, description, name) values (600, 'Welcome', 'Vojvodic');
+insert into pharamcies (id, description, name) values (700, 'Welcome', 'Biljana i Luka');
+
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (100, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 123, 200, 100, false, 100);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (200, '2021-01-28 12:00:00', '2021-01-28 12:00:00', 1234, 200, 100, false, 200);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (300, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1235, 200, 100, false, 300);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (400, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1236, 200, 100, false, 400);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (500, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 100, false, 500);

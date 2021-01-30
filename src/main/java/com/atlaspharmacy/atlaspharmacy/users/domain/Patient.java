@@ -1,9 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,9 +18,12 @@ public class Patient extends User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
+
     public Patient(Long id) {
         this.id = id;
     }
+
 
     public Patient() {
 
