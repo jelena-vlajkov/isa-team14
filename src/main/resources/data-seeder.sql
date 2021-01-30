@@ -5,10 +5,13 @@ insert into addresses(id, city, latitude, longitude, state, street) values (300,
 
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 100, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov', 1, 200, 'Pharmacist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
+
+-- insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role)
+-- values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
 --insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
-
+insert into users(role, id, date_of_birth, email, gender, name, password, phone_number, surname, license_number, enabled, verification_code, address_id)
+values ('Patient', 999, '1997-01-01 00:00:01', 'alexignjat1998@gmail.com', 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 0214123, 'Ignjatijevic', null, FALSE,'asoppbnapg129jhca897fij123b4218ascbas7812', 100);
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
 insert into authority(id, name) values (3, 'ROLE_PATIENT');
@@ -17,9 +20,9 @@ insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 
 insert into user_authority(user_id, authority_id) values (100, 2);
-insert into user_authority(user_id, authority_id) values (200, 3);
+-- insert into user_authority(user_id, authority_id) values (200, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
-
+insert into user_authority(user_id, authority_id) values (999, 3);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 
