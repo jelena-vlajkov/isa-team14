@@ -1,4 +1,4 @@
-package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
+package com.atlaspharmacy.atlaspharmacy.membershipinfo.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

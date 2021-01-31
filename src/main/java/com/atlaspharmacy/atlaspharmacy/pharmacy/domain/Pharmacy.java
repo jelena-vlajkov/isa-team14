@@ -5,12 +5,13 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "pharmacies")
 public class Pharmacy  {
     @Id
-    @Column(name = "id")
     private Long id;
     private String name;
     private String description;
@@ -20,6 +21,10 @@ public class Pharmacy  {
     private Address address;
 
     private Double average_grade;
+    
+    public Pharmacy(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
