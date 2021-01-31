@@ -3,6 +3,9 @@ package com.atlaspharmacy.atlaspharmacy.generalities.domain;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.City;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.Coordinates;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.State;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -39,6 +42,10 @@ public class Address {
         this.state = state;
         this.coordinates = coordinates;
     }
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore()
+    private Pharmacy pharmacy;
 
     public Long getId() {
         return id;

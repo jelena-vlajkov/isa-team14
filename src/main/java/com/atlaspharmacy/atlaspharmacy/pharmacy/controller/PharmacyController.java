@@ -1,7 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
-import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharamcy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ public class PharmacyController {
     @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(Long id){
 
-        Pharamcy pharmacy=_pharmacyService.getById(id);
+        Pharmacy pharmacy=_pharmacyService.getById(id);
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
 }

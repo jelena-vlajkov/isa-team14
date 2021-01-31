@@ -1,9 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharamcy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.IPharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
-import com.atlaspharmacy.atlaspharmacy.users.repository.IUserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,8 @@ public class PharmacyService implements IPharmacyService {
     }
 
     @Override
-    public Pharamcy getById(Long id) {
-        Pharamcy pharmacy = _pharmacyRepository.getById(id).orElse(null);
+    public Pharmacy getById(Long id) {
+        Pharmacy pharmacy = _pharmacyRepository.getById(id).orElse(null);
         if(pharmacy == null){
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }

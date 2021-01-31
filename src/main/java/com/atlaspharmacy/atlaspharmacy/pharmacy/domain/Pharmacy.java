@@ -59,13 +59,8 @@ public class Pharmacy  {
     public void setDescription(String description) {
         this.description = description;
     }
-<<<<<<< HEAD:src/main/java/com/atlaspharmacy/atlaspharmacy/pharmacy/domain/Pharamcy.java
-    public Pharamcy(){}
-    public Pharamcy(Long id, String name, String description) {
-=======
     public Pharmacy(){}
-    public Pharmacy(int id, String name, String description) {
->>>>>>> develop:src/main/java/com/atlaspharmacy/atlaspharmacy/pharmacy/domain/Pharmacy.java
+    public Pharmacy(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
