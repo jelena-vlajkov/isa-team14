@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 import com.atlaspharmacy.atlaspharmacy.security.TokenUtils;
 import com.atlaspharmacy.atlaspharmacy.security.auth.JwtAuthenticationRequest;
 import com.atlaspharmacy.atlaspharmacy.security.domain.UserTokenState;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.AuthenticatedUserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.CustomDetailUserService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.UserService;
@@ -35,10 +36,12 @@ public class AuthenticationController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
-    public ResponseEntity<UserTokenState> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
+    public ResponseEntity<AuthenticatedUserDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                                     HttpServletResponse response) {
 
+
         System.out.println(authenticationRequest.getPassword());
+        System.out.println(authenticationRequest.getUsername());
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()));
@@ -48,8 +51,10 @@ public class AuthenticationController {
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
+        AuthenticatedUserDTO authenticatedUserDTO=new AuthenticatedUserDTO(user.getId(),user.getRole(),user.getUsername(),new UserTokenState(jwt, expiresIn));
+        System.out.println(authenticatedUserDTO.getUsername());
 
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
+        return ResponseEntity.ok(authenticatedUserDTO);
     }
 
 }
