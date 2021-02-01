@@ -21,6 +21,7 @@ public class Pharmacy  {
     private Address address;
 
     private Double average_grade;
+
     
     public Pharmacy(Long id) {
         this.id = id;

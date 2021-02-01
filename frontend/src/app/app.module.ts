@@ -7,14 +7,14 @@ import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material/button'; 
+import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatList, MatListModule} from '@angular/material/list';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatRadioModule} from '@angular/material/radio'; 
-import {MatTableModule} from '@angular/material/table'; 
+import {MatRadioModule} from '@angular/material/radio';
+import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
@@ -23,7 +23,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
-import { Proba } from './service/Proba';
 import { AdminComponent } from './admin/admin.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -97,9 +96,8 @@ import { GooglePlacesComponent } from './google-places/google-places.component';
     MatCheckboxModule,
     GeoapifyGeocoderAutocompleteModule.withConfig('1cc064c4e6b143d9879b7dcd62523631')
 
-  ],  
+  ],
 
-  providers: [Proba],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

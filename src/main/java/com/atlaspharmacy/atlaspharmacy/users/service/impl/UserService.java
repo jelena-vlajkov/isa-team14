@@ -37,7 +37,6 @@ public class UserService implements IUserService {
     }
 
     @Override
-<<<<<<< HEAD
     public Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData {
         String role = "ROLE_PATIENT";
         Address a = AddressMapper.mapAddressDTOToAddress(patientDTO.getAddress());
@@ -51,10 +50,8 @@ public class UserService implements IUserService {
         return patient;
     }
 
-=======
     public User getPharmacyAdmin(Long pharmacyId) {
         return null;
     }
->>>>>>> origin/feature-medical-record-info
 }
 

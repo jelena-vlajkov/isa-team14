@@ -1,9 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name = "dermatologists")
 @DiscriminatorValue(value = Role.Values.Dermatologist)
@@ -13,13 +17,28 @@ public class Dermatologist extends MedicalStaff {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 
+    @JoinTable(
+            name = "dermatologist_to_pharmacies",
+            joinColumns = @JoinColumn(name = "dermatologist_id"),
+            inverseJoinColumns = @JoinColumn(name = "pharmacy_id")
+    )
+    private List<Pharmacy> pharmacies;
     public Dermatologist(Long id) {
         this.id = id;
     }
 
     public Dermatologist() {
 
+    }
+
+    public List<Pharmacy> getPharmacies() {
+        return pharmacies;
+    }
+
+    public void setPharmacies(List<Pharmacy> pharmacies) {
+        this.pharmacies = pharmacies;
     }
 
     public void setId(Long id) {
