@@ -9,7 +9,7 @@ public class PenaltyMapper {
     private PenaltyMapper() { }
 
     public static Penalty mapPenaltyFromDto(PenaltyDTO penaltyDTO) {
-        return new Penalty(new Patient(penaltyDTO.getPatientId()), new Appointment(penaltyDTO.getAppointmentId()));
+        return new Penalty(new Patient(penaltyDTO.getPatientId(), false, null), new Appointment(penaltyDTO.getAppointmentId()));
     }
 
 }

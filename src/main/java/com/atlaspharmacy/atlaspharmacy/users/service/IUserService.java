@@ -8,7 +8,5 @@ import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 public interface IUserService {
     User getUserBy(Long id);
 
-    Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData;
-
     User getPharmacyAdmin(Long pharmacyId);
 }

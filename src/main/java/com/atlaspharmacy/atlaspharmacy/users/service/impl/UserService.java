@@ -41,11 +41,6 @@ public class UserService implements IUserService {
     }
 
 
-        patient.setAuthorities(auths);
-        patient.setAddress(a);
-        userRepository.save(patient);
-        return patient;
-
 
     public User getPharmacyAdmin(Long pharmacyId) {
         return null;
