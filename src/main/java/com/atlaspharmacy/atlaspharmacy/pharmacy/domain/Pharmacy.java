@@ -1,22 +1,27 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "pharamcies")
 public class Pharmacy {
     @Id
-    private int id;
+    private Long id;
     private String name;
     private String description;
 
-    public int getId() {
+    public Pharmacy(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,7 +41,7 @@ public class Pharmacy {
         this.description = description;
     }
     public Pharmacy(){}
-    public Pharmacy(int id, String name, String description) {
+    public Pharmacy(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

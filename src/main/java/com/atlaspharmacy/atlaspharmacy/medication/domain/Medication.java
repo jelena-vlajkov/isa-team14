@@ -52,6 +52,11 @@ public class Medication {
 //    private List<PrescribedDrug> prescribedDrugs;
 
     public Medication(){}
+
+    public Medication(Long id) {
+        this.id = id;
+    }
+
     public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
         this.id = id;
         this.name = name;

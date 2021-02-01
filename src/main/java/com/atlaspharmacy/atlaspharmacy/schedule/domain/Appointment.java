@@ -17,7 +17,7 @@ import java.util.Date;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "startTime", column = @Column(name = "appointmentStartTime")),
@@ -36,6 +36,10 @@ public class Appointment {
     public Appointment() {
     }
 
+    public Appointment(Long id) {
+        this.id = id;
+    }
+
     public Appointment(Period appointmentPeriod, double cost, String type, boolean isCanceled, Patient patient) {
         this.appointmentPeriod = appointmentPeriod;
         this.cost = cost;
@@ -44,11 +48,11 @@ public class Appointment {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Period getAppointmentPeriod() {

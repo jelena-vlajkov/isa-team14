@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType=DiscriminatorType.STRING)
 @Proxy(lazy = false)
 public abstract class User implements UserDetails {
