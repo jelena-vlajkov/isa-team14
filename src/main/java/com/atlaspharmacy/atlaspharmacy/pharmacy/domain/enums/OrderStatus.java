@@ -1,4 +1,4 @@
-package com.atlaspharmacy.atlaspharmacy.pharmacy.domain.enums;
+package com.atlaspharmacy.atlaspharmacy.pharmacy.domain.domain.enums;
 
 public enum OrderStatus {
     PENDING,

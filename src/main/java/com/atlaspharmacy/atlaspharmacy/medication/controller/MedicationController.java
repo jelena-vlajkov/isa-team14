@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/medication")
+@RequestMapping(value = "/medication",produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicationController {
 
     @Autowired

@@ -9,4 +9,5 @@ public interface IUserService {
     User getUserBy(Long id);
     User getUserByMail(String mail);
 
+    User getPharmacyAdmin(Long pharmacyId);
 }

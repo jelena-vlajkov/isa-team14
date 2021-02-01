@@ -45,4 +45,10 @@ public class UserService implements IUserService {
         return userRepository.findByEmail(mail);
     }
 
+    public User getPharmacyAdmin(Long pharmacyId) {
+        return null;
+    }
+
+
 }
+

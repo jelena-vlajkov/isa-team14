@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
+@CrossOrigin
 public class UserController {
     private final IUserService userService;
     @Autowired
@@ -28,6 +29,7 @@ public class UserController {
     {
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
