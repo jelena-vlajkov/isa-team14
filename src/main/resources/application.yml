@@ -20,4 +20,5 @@ spring:
     generate-ddl: true
 
 
+server:
   port : 8088

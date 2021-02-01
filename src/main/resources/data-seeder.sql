@@ -3,15 +3,35 @@ insert into addresses(id, city, latitude, longitude, state, street) values (200,
 insert into addresses(id, city, latitude, longitude, state, street) values (300,'Belgrade',44.8058901,20.4585641,'Serbia','Nemanjina 6');
 
 
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov', 1, 100, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, license_number, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov', 1, 200, 'Pharmacist');
-
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov',  100, 'Dermatologist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov',  200, 'Pharmacist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (400, '1966-01-01 00:00:01', 0, 'Danica', 'vojvodicd@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200, 'PharmacyAdmin');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (600, '1966-01-01 00:00:01', 0, 'Marko', 'marko@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200, 'Dermatologist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (300, '1966-01-01 00:00:01', 0, 'Lazar', 'lazic@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Lazic', 200, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role)
 values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
---insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (3, '1966-01-01 00:00:01', 2, 'Stefan', 12125123, 'Aradjanin', 3, 3, 0);
---insert into users(id, date_of_birth, gender, name, phone_number, surname, license_number, address_id, role) values (4, '1966-01-01 00:00:01', 0, 'Danica', 12125126, 'Vojvodic', 3, 3, 1);
-insert into users(role, id, date_of_birth, email, gender, name, password, phone_number, surname, license_number, enabled, verification_code, address_id)
-values ('Patient', 999, '1997-01-01 00:00:01', 'alexignjat1998@gmail.com', 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 0214123, 'Ignjatijevic', null, FALSE,'asoppbnapg129jhca897fij123b4218ascbas7812', 300);
+insert into pharmacies(id,description,name,address_id,average_grade) VALUES (100,'talalala','Apoteka Jankovic',100,3.4);
+insert into pharmacies(id,description,name,address_id,average_grade) VALUES (200,'ldkjdljf','ZEGIN',200,5);
+
+insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+insert into medicalstaff(license_number, id) values ('16657568',100);
+insert into medicalstaff(license_number, id) values ('243532',200);
+insert into medicalstaff(license_number, id) values ('333',300);
+insert into medicalstaff(license_number, id) values('1241241', 500);
+
+insert into pharmacists(id) values (500);
+
+insert into patients(enabled, verification_code, id) values (true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb', 200);
+
+insert into dermatologists(id) values (100);
+insert into dermatologists(id) values (200);
+insert into dermatologists(id) values (300);
+
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (200,200);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
+
 
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
@@ -22,9 +42,7 @@ insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (200, 3);
-insert into user_authority(user_id, authority_id) values (200, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
-insert into user_authority(user_id, authority_id) values (999, 3);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 
@@ -133,16 +151,17 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (600, 600);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 100);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 200);
 
-insert into pharamcies (id, description, name) values (100, 'Welcome', 'Stesa');
-insert into pharamcies (id, description, name) values (200, 'Welcome', 'Jankovic');
-insert into pharamcies (id, description, name) values (300, 'Welcome', 'Vlajkov');
-insert into pharamcies (id, description, name) values (400, 'Welcome', 'Aradjanin');
-insert into pharamcies (id, description, name) values (500, 'Welcome', 'Ignjatijevic');
-insert into pharamcies (id, description, name) values (600, 'Welcome', 'Vojvodic');
-insert into pharamcies (id, description, name) values (700, 'Welcome', 'Biljana i Luka');
+-- insert into pharmacies (id, description, name) values (100, 'Welcome', 'Stesa');
+-- insert into pharmacies (id, description, name) values (200, 'Welcome', 'Jankovic');
+-- insert into pharmacies (id, description, name) values (300, 'Welcome', 'Vlajkov');
+-- insert into pharmacies (id, description, name) values (400, 'Welcome', 'Aradjanin');
+-- insert into pharmacies (id, description, name) values (500, 'Welcome', 'Ignjatijevic');
+-- insert into pharmacies (id, description, name) values (600, 'Welcome', 'Vojvodic');
+-- insert into pharmacies (id, description, name) values (700, 'Welcome', 'Biljana i Luka');
 
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (100, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 123, 200, 100, false, 100);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (200, '2021-01-28 12:00:00', '2021-01-28 12:00:00', 1234, 200, 100, false, 200);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (300, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1235, 200, 100, false, 300);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (400, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1236, 200, 100, false, 400);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (500, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 100, false, 500);
+

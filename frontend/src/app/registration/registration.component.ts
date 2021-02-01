@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Proba } from './../service/Proba';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Address } from '../model/address/address';
@@ -17,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   registerForm: FormGroup;
   minDateOfBirth : Date;
   maxDateOfBirth : Date;
-  
+
   minDatePolicy : Date;
   maxDatePolicy : Date;
 
@@ -39,7 +38,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private registrationService : RegistrationService) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.registerForm = new FormGroup({
       'name' : new FormControl(null, Validators.required),
       'surname' : new FormControl(null, Validators.required),
@@ -65,7 +64,7 @@ export class RegistrationComponent implements OnInit {
     this.gender = this.selectedGender;
     this.dateOfBirth = this.selectedDate;
     console.log(this.dateOfBirth);
-    
+
     var role : Role;
     role = Role.Patient
     var auths : Number[] = new Array();
@@ -86,7 +85,7 @@ export class RegistrationComponent implements OnInit {
     }else{
       alert('Passwords do not match');
     }
-    
+
   }
   passwordValid(){
     return this.password==this.confirmPassword;

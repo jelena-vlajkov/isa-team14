@@ -42,4 +42,10 @@ public class UserService implements IUserService {
 
 
 
+    public User getPharmacyAdmin(Long pharmacyId) {
+        return null;
+    }
+
+
 }
+

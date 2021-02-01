@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
+@CrossOrigin
 public class UserController {
     private final IUserService userService;
     @Autowired
@@ -28,7 +29,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('DERMATOLOGIST')")
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {

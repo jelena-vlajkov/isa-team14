@@ -15,7 +15,7 @@ export class AuthenticationService {
   private userSubject : BehaviorSubject<AuthenticatedUser>;
   public user : Observable<AuthenticatedUser>;
 
-  constructor(private http: HttpClient, private router : Router) { 
+  constructor(private http: HttpClient, private router : Router) {
 
     this.userSubject = new BehaviorSubject<AuthenticatedUser>(JSON.parse(localStorage.getItem('user')));
     this.user = this.userSubject.asObservable();
@@ -27,7 +27,7 @@ export class AuthenticationService {
 
 
   login(credentials: Credentials){
-    return this.http.post<AuthenticatedUser>(`${environment.baseUrl}/${environment.authenticate}`, credentials)
+    return this.http.post<AuthenticatedUser>(`${environment.baseUrl}/auth/${environment.login}`, credentials)
     .pipe(map(response => {
         localStorage.setItem('user', JSON.stringify(response));
         this.userSubject.next(response);

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Proba } from './../service/Proba';
 import {Authentication} from "../models/authentication";
 import {AuthenticationService} from "../service/user";
 import {Router} from "@angular/router";
@@ -34,7 +33,8 @@ export class LoginComponent implements OnInit {
     console.log(this.credentials);
     this.authService.login(this.credentials).subscribe(
       result => {
-        if(result.role == Role.Dermatologist){
+        localStorage.setItem('userId',String(result.id))
+        if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
         }
       });
