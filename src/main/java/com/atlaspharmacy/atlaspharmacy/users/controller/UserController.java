@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -33,9 +34,20 @@ public class UserController {
     @PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT ')")
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
-        //obirisi id
-
         return userService.getUserBy(id);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/getLoggedUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT ')")
+    public @ResponseBody
+    User getLoggedUser() throws ParseException {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String mail = ((User)user).getEmail();
+        return userService.getUserByMail(mail);
+
+    }
+
+
 
 }

@@ -37,6 +37,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserByMail(String mail) {
+        return userRepository.findByEmail(mail);
+    }
+
+    @Override
     public Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData {
         String role = "ROLE_PATIENT";
         Address a = AddressMapper.mapAddressDTOToAddress(patientDTO.getAddress());
