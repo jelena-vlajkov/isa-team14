@@ -7,7 +7,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class PharmacyAdminService implements IPharmacyAdminService {
@@ -26,5 +26,9 @@ public class PharmacyAdminService implements IPharmacyAdminService {
                                        .filter(admin -> admin.getId()==id).findFirst()
                                        .orElse(null);
         return pharmacyAdmin.getPharmacy();
+    }
+    @Override
+    public PharmacyAdmin getById(Long id) {
+        return _pharmacyAdminRepository.findById(id).orElse(null);
     }
 }

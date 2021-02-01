@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/pharmacy",produces = MediaType.APPLICATION_JSON_VALUE)
+
 public class PharmacyController {
     @Autowired
     private IPharmacyService _pharmacyService;
 
-    @CrossOrigin(origins="*",allowedHeaders = "*")
+    @CrossOrigin( origins = "*", allowedHeaders = "*")
     @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(Long id){
 

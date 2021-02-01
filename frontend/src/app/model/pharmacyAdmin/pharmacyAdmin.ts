@@ -2,7 +2,7 @@ import {Gender} from "@app/model/patient/gender";
 import {Address} from "@app/model/address/address";
 import {Role} from "@app/model/users/role";
 
-export class Patient{
+export class PharmacyAdmin{
   public name : String;
   public surname : String;
   public dateOfBirth : Date;

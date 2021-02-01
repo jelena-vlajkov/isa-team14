@@ -5,12 +5,7 @@ import {AuthenticationService} from "../service/user";
 import {Router} from "@angular/router";
 import {Role} from "../models";
 
-
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
-})
+@Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin: boolean;
@@ -22,6 +17,14 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthenticationService, private router: Router) { }
 
+
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      'username' : new FormControl(null, Validators.required),
+      'password' : new FormControl(null, Validators.required)
+    });
+    this.registerForm = new FormGroup({});
+  }
   signIn(){
     this.username = this.loginForm.controls.username.value;
     this.password = this.loginForm.controls.password.value;
@@ -30,15 +33,13 @@ export class LoginComponent implements OnInit {
     console.log(this.credentials);
     this.authService.login(this.credentials).subscribe(
       result => {
-        if(result.role == Role.Dermatologist){
+        localStorage.setItem('userId',String(result.id))
+        if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
         }
       });
   }
   signUp(){
 
-  }
-
-  ngOnInit(): void {
   }
 }
