@@ -3,28 +3,36 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "patients")
-@DiscriminatorValue(value = Role.Values.Patient)
+@Table(name = "sysadmins")
 @Proxy(lazy = false)
-public class Patient extends User {
+public class SystemAdmin extends User{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean enabled;
+    private boolean firstPasswordChanged;
     private String verificationCode;
 
-
-
-    public Patient(Long id, boolean enabled, String verification_code) {
+    public SystemAdmin(Long id, boolean enabled, String verification_code, boolean firstPasswordChanged) {
         this.id = id;
         this.enabled = enabled;
         this.verificationCode = verification_code;
+        this.firstPasswordChanged = firstPasswordChanged;
     }
 
-    public Patient() {
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
     public boolean getEnabled(){
         return this.enabled;
@@ -33,22 +41,24 @@ public class Patient extends User {
         this.enabled = enabled;
     }
 
+    public boolean isFirstPasswordChanged() {
+        return firstPasswordChanged;
+    }
+
+    public void setFirstPasswordChanged(boolean firstPasswordChanged) {
+        this.firstPasswordChanged = firstPasswordChanged;
+    }
+
     public String getVerificationCode() {
         return verificationCode;
     }
 
-    public void setVerificationCode(String verification_code) {
-        this.verificationCode = verification_code;
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public SystemAdmin() {
     }
-
-    public Long getId() {
-        return id;
-    }
-
     @Override
     public String getUsername() {
         return getEmail();

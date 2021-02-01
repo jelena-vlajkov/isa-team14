@@ -12,7 +12,7 @@
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">
               <button  mat-list-item routerLink="/admin"> Profile</button>
-              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+              <button  mat-list-item> Logout</button>
 
       </mat-action-list>
     </mat-drawer>
@@ -62,11 +62,12 @@
               </mat-grid-tile>
               <mat-grid-tile>
                 <div class="inputField">
-                
+
                   <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                      <mat-radio-button value="Female" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
-                      <mat-radio-button value="Male" style="font-size:20px">Male</mat-radio-button>
-                  </mat-radio-group>
+                    <mat-radio-button value="FEMALE" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
+                    <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
+                    <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
+                </mat-radio-group>
                   <!-- <mat-error
                   *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
                   Please enter address</mat-error> -->
@@ -90,7 +91,7 @@
               <mat-grid-tile>
                 <mat-form-field color="accent" appearance="fill" id="dob-ff">
                   <mat-label style="font-size:18px;">Birth date</mat-label>
-                  <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:18px;" placeholder="Birth date">
+                  <input matInput formControlName='dob' [matDatepicker]="picker1"  [(ngModel)]="selectedDate"  style="font-size:18px;" placeholder="Birth date">
                   <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
                   <mat-datepicker #picker1 ></mat-datepicker>
                 </mat-form-field>
@@ -101,14 +102,7 @@
               </mat-grid-tile>
               <mat-grid-tile>
                 <div class="inputField">
-                  <mat-form-field appearance="fill" id="address-ff">
-                      <mat-label>Address*</mat-label>
-                      <input matInput id="address" placeholder="Address" name="address-ff"  formControlName="address">                   
-
-                      <!-- <mat-error
-                          *ngIf="!addAdminForm.get('address').valid && addAdminForm.get('address').touched && addAdminForm.get('address').errors['required']">
-                          Please enter address</mat-error> -->
-                  </mat-form-field>
+                      <app-google-places> </app-google-places>
               </div>
               </mat-grid-tile>
 
@@ -151,7 +145,7 @@
                 <div class="inputField">
                   <mat-form-field appearance="fill" id="password-ff">
                       <mat-label>New password*:</mat-label>
-                      <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
+                      <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
                       <!-- <mat-error
                           *ngIf="!addAdminForm.get('newpassword').valid && addAdminForm.get('newpassword').touched && addAdminForm.get('newpassword').errors['required']">
                           Please enter new password</mat-error>-->
@@ -174,7 +168,7 @@
                 </div>  
               </mat-grid-tile> 
               </mat-grid-list>
-              <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='add()'  color="accent">Add admin</button>
+              <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">Add admin</button>
 
             </form>
           </mat-card>
