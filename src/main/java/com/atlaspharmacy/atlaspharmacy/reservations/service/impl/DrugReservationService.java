@@ -36,7 +36,7 @@ public class DrugReservationService implements IDrugReservationService {
         //Kod pacijenta lista likova
         //smanji kolicinu
         DrugReservation reservation = new DrugReservation(
-                drugReservationDTO.getUniqueIdentifier(),
+                drugReservationDTO.createUnique(),
                 drugReservationDTO.getExpirationDate(),
                 medicationService.findByName(drugReservationDTO.getMedicationName()),
                 (Patient) userService.getUserBy(drugReservationDTO.getPatientId()),

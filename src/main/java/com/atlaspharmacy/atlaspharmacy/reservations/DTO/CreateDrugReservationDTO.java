@@ -71,4 +71,8 @@ public class CreateDrugReservationDTO {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+    public int createUnique(){
+        return (new Date() + "" + getPatientMail()).hashCode();
+    }
 }

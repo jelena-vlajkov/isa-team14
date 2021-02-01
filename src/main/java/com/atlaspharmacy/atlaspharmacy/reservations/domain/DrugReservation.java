@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.domain;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -13,6 +14,9 @@ import java.util.Date;
 @Proxy(lazy = false)
 public class DrugReservation {
     @Id
+    @GenericGenerator(name="generator", strategy="increment")
+    @GeneratedValue(generator="generator")
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
     private Date reservationDate;
     private int uniqueIdentifier;
