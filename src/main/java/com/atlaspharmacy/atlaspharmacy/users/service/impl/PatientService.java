@@ -9,6 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
@@ -32,7 +33,6 @@ public class PatientService implements IPatientService {
 
     private final AuthorityService authorityService;
     private final AddressRepository addressRepository;
-    private final VerificationTokenService verificationTokenService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserRepository patientRepository;
     private final EmailService emailService;
@@ -42,7 +42,6 @@ public class PatientService implements IPatientService {
         this.patientRepository = patientRepository;
         this.authorityService = authorityService;
         this.addressRepository = addressRepository;
-        this.verificationTokenService = verificationTokenService;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
     }
@@ -63,30 +62,26 @@ public class PatientService implements IPatientService {
         return patientRepository.save(patient);
     }
     @Override
-    public Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData, IOException, MessagingException {
-        if(!dbHasEmail(patientDTO.getEmail())){
-            String role = "ROLE_PATIENT";
+    public Patient registerPatient(PatientDTO patientDTO) throws InvalidEmail, IOException, MessagingException {
+        if(patientRepository.findByEmail(patientDTO.getEmail())==null){
+            String role ="ROLE_PATIENT";
+
             String password = passwordEncoder.encode(patientDTO.getPassword());
             patientDTO.setPassword(password);
             Address a = AddressMapper.mapAddressDTOToAddress(patientDTO.getAddress());
             addressRepository.save(a);
-            List<Authority> auths = authorityService.getAllRolesAuthorities(role);
+
             Patient patient = PatientMapper.mapDTOToPatient(patientDTO);
-            String code = RandomString.make(64);
-            patient.setVerificationCode(code);
-            patient.setAuthorities(auths);
+            patient.setVerificationCode(RandomString.make(64));
+            patient.setAuthorities(authorityService.getAllRolesAuthorities(role));
             patient.setAddress(a);
             patient.setEnabled(false);
 
-//        patientRepository.save(patient);
-//
             Optional<Patient> saved = Optional.of(save(patient));
             saved.ifPresent( u->{
                 try {
                     emailService.sendEmail(saved.get());
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (MessagingException | IOException e) {
                     e.printStackTrace();
                 }
 
@@ -94,7 +89,7 @@ public class PatientService implements IPatientService {
 
             return saved.get();
         }
-        return null;
+        throw new InvalidEmail();
     }
 //    @Override
 //    public boolean cancelAppointment(Long appointmentId) {

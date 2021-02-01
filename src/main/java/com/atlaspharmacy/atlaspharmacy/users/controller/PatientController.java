@@ -34,12 +34,10 @@ public class PatientController {
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerPatient(@RequestBody PatientDTO patient) throws ParseException, InvalidPatientData {
-//        patient.setRole("Patient");
-//        return userService.registerPatient(patient);
+    public ResponseEntity<?> registerPatient(@RequestBody PatientDTO patientDTO) throws ParseException, InvalidPatientData {
+        patientDTO.setRole("Patient");
         try {
-            patient.setRole("Patient");
-            Patient p = patientService.registerPatient(patient);
+            Patient p = patientService.registerPatient(patientDTO);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,9 +51,9 @@ public class PatientController {
 
     @RequestMapping(value="/activation", method = RequestMethod.GET)
     @ResponseBody
-    public String activation(@RequestParam(value = "user_id") Long user_id) {
+    public String activation(@RequestParam(value = "user_id") Long user_id, @RequestParam(value = "token") String token) {
         patientService.enablePatient(user_id);
-        return "/login";
+        return "OK";
     }
 
     @ExceptionHandler(InvalidPatientData.class)

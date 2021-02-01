@@ -37,7 +37,6 @@ import { BusinessReportComponent } from './business-report/business-report.compo
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
-import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
@@ -97,8 +96,7 @@ import { HomeComponent } from './home';
     MatSidenavModule,
     MatGridListModule,
     MatCheckboxModule,
-    GeoapifyGeocoderAutocompleteModule.withConfig('1cc064c4e6b143d9879b7dcd62523631')
-
+    
   ],
 
   providers: [

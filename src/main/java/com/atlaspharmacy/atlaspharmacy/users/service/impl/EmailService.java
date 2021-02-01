@@ -35,7 +35,7 @@ public class EmailService implements IEmailService {
 
     public EmailDTO generateEmailInfo(Patient p) {
 
-        String url = "http://localhost:8088/patient/activation?user_id="+p.getId();
+        String url = "http://localhost:8088/patient/activation?user_id="+p.getId()+"&token="+p.getVerificationCode();
         String email = p.getEmail();
         EmailDTO emailDTO = new EmailDTO();
         emailDTO.setPatientEmail(email);
@@ -61,7 +61,9 @@ public class EmailService implements IEmailService {
             MimeBodyPart htmlPart = new MimeBodyPart();
             String body = doc.body().getElementsByTag("body").toString();
             body = body.replace("[link]", emailDTO.getLink());
-            htmlPart.setContent(body, "text/html; charset=utf-8");
+            body = body.replace("[name]", p.getName());
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
             multiPart.addBodyPart(htmlPart);
 
             message.setContent(multiPart);
