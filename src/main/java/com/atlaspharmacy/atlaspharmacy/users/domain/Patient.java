@@ -1,13 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
-import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
-import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "patients")
@@ -17,16 +13,32 @@ public class Patient extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private boolean enabled;
+    private String verificationCode;
 
 
 
-    public Patient(Long id) {
+    public Patient(Long id, boolean enabled, String verification_code) {
         this.id = id;
+        this.enabled = enabled;
+        this.verificationCode = verification_code;
     }
 
-
     public Patient() {
+    }
+    public boolean getEnabled(){
+        return this.enabled;
+    }
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verification_code) {
+        this.verificationCode = verification_code;
     }
 
     public void setId(Long id) {

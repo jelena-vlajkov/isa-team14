@@ -14,6 +14,8 @@ import {BusinessReportComponent } from './business-report/business-report.compon
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { UserProfileComponent} from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
+import {HomeComponent} from "./home";
+import { AuthGuard } from './helpers';
 
 
 const routes: Routes = [  {
@@ -69,7 +71,11 @@ const routes: Routes = [  {
 },{
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent
-}
+},
+  { path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

@@ -11,9 +11,11 @@ export const environment = {
   add: "add",
   ingredient: "ingredients",
   allergy : "allergies",
+  login:"login",
   patient : "patient",
   register : "register",
   authenticate: 'authenticate',
-  getUser: 'getUser'
+  getUser: 'getUser',
+  admin:"admin"
 };
 

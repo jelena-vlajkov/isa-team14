@@ -9,5 +9,4 @@ public interface IUserService {
     User getUserBy(Long id);
     User getUserByMail(String mail);
 
-    Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData;
 }
