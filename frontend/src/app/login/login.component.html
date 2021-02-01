@@ -5,10 +5,10 @@
                 <div class="inputField">
                     <mat-form-field appearance="fill" id="email-ff">
                         <mat-label>Email*</mat-label>
-                        <input matInput id="email" placeholder="Email" name="email-ff"
-                            formControlName="email" class="civca">
+                        <input matInput id="username" placeholder="Email" name="email-ff"
+                            formControlName="username" class="civca">
                         <mat-error
-                            *ngIf="!loginForm.get('email').valid && loginForm.get('email').touched && loginForm.get('email').errors['required']">
+                            *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['required']">
                             Please enter email</mat-error>
                     </mat-form-field>
                 </div>
@@ -28,16 +28,16 @@
                     <label>Not registered yet?</label>
                     <a routerLink="/patientRegistration">Register now</a>
                 </div> -->
-                <button mat-flat-button name="button-ff" style="float: center;" color="primary" type="submit"
+                <button mat-flat-button name="button-ff"  color="primary" type="submit"
                     [disabled]="!loginForm.valid">Login</button>
-            </div>      
+            </div>
         </form>
     </mat-card>
     <mat-card>
         <div id="registerForm">
             <h1>Don't have an account?</h1>
                 <p id="loginP">Click here to register!</p>
-                <button mat-flat-button name="button-ff" style="float: center;" color="primary" type="submit" routerLink="/registration">Register</button>
-        </div>       
+                <button mat-flat-button name="button-ff" style="alignment: center;" color="primary" type="submit" routerLink="/registration">Register</button>
+        </div>
     </mat-card>
 </div>
