@@ -13,6 +13,8 @@ import {DermatologyAppointmentComponent} from './dermatology-appointment/dermato
 import{BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
+import {HomeComponent} from "./home";
+import { AuthGuard } from './helpers';
 
 const routes: Routes = [  {
   path : 'login',
@@ -64,7 +66,11 @@ const routes: Routes = [  {
 {
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent
-}
+},
+  { path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+  }
 ];
 
 @NgModule({

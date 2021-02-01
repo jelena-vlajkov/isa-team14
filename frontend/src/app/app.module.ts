@@ -39,6 +39,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
 import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
 import { GooglePlacesComponent } from './google-places/google-places.component';
+import {ErrorInterceptor,JwtInterceptor} from "./helpers";
+import { HomeComponent } from './home';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { GooglePlacesComponent } from './google-places/google-places.component';
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
+    HomeComponent
 
   ],
   imports: [
@@ -97,7 +100,11 @@ import { GooglePlacesComponent } from './google-places/google-places.component';
     GeoapifyGeocoderAutocompleteModule.withConfig('1cc064c4e6b143d9879b7dcd62523631')
 
   ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
