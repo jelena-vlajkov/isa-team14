@@ -42,6 +42,7 @@ import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/registe
     MatSidenavModule,
     MatGridListModule,
     MatCheckboxModule,
+    MatSortModule
     
   ],
   providers: [

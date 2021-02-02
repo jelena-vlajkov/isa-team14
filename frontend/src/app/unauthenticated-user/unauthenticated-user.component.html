@@ -191,7 +191,7 @@
         <div *ngIf="pharmacy"> 
   
             <div class="table-wrapper">
-                <table class="fl-table" [dataSource]="pharmacies">
+                <table matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
                         <th>Name</th>
@@ -201,9 +201,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let p of pharmacies" >
+                    <tr *ngFor="let p of pharmacies">
                         <td>{{p.name}}</td>
-                        <td>{{p.address.street}}</td>
+                        <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
                         <td>{{p.average_grade}}</td>
                         
                     </tr>
@@ -218,8 +218,8 @@
     
             <div class="searchBox">
                 
-                <input class="searchInput"type="text" name="" placeholder="Search">
-                <button class="searchButton" href="#">
+                <input #inputName class="searchInput"type="text" name="" placeholder="Search">
+                <button class="searchButton" href="#" (click)="findByName(inputName.value)">
                     <i class="material-icons">
                         search
                     </i>
@@ -232,8 +232,8 @@
     
             <div class="searchBox2">
                 
-                <input class="searchInput"type="text" name="" placeholder="Search">
-                <button class="searchButton" href="#">
+                <input #inputAdr class="searchInput"type="text" name="" placeholder="Search">
+                <button class="searchButton" href="#" (click)="findByAddress(inputAdr.value)">
                     <i class="material-icons">
                         search
                     </i>

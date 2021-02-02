@@ -51,6 +51,22 @@ public class PharmacyController {
         return pharmacyService.getAllPharmacies();
     }
 
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getByName", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByName(@RequestParam("name") String name) throws ParseException{
+        return pharmacyService.findByName(name);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getByAddress", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByAddress(@RequestParam("address") String address) throws ParseException{
+        return pharmacyService.findByAddress(address);
+    }
+
+
     @ExceptionHandler(InvalidPharmacyData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

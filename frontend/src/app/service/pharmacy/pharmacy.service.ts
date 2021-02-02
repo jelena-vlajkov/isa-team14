@@ -16,4 +16,13 @@ export class PharmacyService {
   findAllPharmacies(): Observable<Pharmacy[]> {
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.findAll}`);
   }
+
+  findByName(name : String) : Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByName?name=${name}`);
+  }
+
+  findByAddress(add : String) : Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByAddress?address=${add}`);
+  }
+  
 }

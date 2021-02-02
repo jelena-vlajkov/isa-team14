@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class PharmacyService implements IPharmacyService {
@@ -64,6 +66,44 @@ public class PharmacyService implements IPharmacyService {
         }
 
         return dtos;
+    }
+
+    @Override
+    public List<PharmacyDTO> findByName(String name) {
+        List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
+        List<PharmacyDTO> dtos = new ArrayList<>();
+        if(pharmacies.size()!=0){
+            for(Pharmacy p : pharmacies){
+                dtos.add(PharmacyMapper.mapPharmacyToDTO(p));
+            }
+        }
+        if(name.trim().equals("")){
+            return dtos;
+        }
+        return  dtos.stream()
+                .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase().trim()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PharmacyDTO> findByAddress(String address) {
+        List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
+        List<PharmacyDTO> dtos = new ArrayList<>();
+        if(pharmacies.size()!=0){
+            for(Pharmacy p : pharmacies){
+                dtos.add(PharmacyMapper.mapPharmacyToDTO(p));
+            }
+        }
+        if(address.trim().equals("")){
+            return dtos;
+        }
+
+        return dtos.stream()
+                .filter(p -> p.getAddress().getStreet().toLowerCase().contains(address.toLowerCase().trim())
+                || p.getAddress().getCity().getName().toLowerCase().contains(address.toLowerCase().trim())
+                || p.getAddress().getState().getName().toLowerCase().contains(address.toLowerCase().trim()))
+                .collect(Collectors.toList());
+
     }
 
 
