@@ -24,7 +24,7 @@ public class Report {
     private Date date;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "medication_ingredients",
+            name = "medication_report",
             joinColumns = @JoinColumn(name = "medication_id"),
             inverseJoinColumns = @JoinColumn(name = "report_id")
     )
