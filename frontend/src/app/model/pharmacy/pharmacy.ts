@@ -5,8 +5,8 @@ export class Pharmacy{
   public id: number ;
   public description:String;
   private address: Address;
-  public  average_grade: number;
-  constructor(name : String,id: number,description:String,address: Address,average_grade: number){
+  public  average_grade: Number;
+  constructor(name : String,id: number,description:String,address: Address, average_grade: Number){
     this.name = name;
     this.id=id;
     this.address=address;

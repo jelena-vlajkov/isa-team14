@@ -8,6 +8,10 @@
     font-size: 1vw;
 }
 
+.mat-drawer-container{
+    background-color:turquoise;
+}
+
 .divTool{
     margin-left: 25%;
 }

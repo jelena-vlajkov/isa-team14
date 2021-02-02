@@ -28,4 +28,10 @@ public class PharmacyController {
         Pharmacy pharmacy=_pharmacyService.getById(id);
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
+
+    @CrossOrigin( origins = "*", allowedHeaders = "*")
+    @GetMapping(value="/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAll(){
+        return new ResponseEntity<>(_pharmacyService.getAll(), HttpStatus.OK);
+    }
 }

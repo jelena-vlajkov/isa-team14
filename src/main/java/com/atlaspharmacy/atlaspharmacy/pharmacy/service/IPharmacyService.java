@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IPharmacyService {
     Pharmacy getById(Long id);
+    List<Pharmacy> getAll();
 }

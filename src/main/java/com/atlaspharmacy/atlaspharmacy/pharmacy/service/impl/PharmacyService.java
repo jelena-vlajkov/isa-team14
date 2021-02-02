@@ -30,4 +30,11 @@ public class PharmacyService implements IPharmacyService {
 
         return  pharmacy;
     }
+
+    @Override
+    public List<Pharmacy> getAll() {
+        return (List<Pharmacy>) _pharmacyRepository.findAll();
+    }
+
+
 }
