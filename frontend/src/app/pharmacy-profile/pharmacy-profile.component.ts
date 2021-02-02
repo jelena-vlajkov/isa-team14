@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import {AuthenticatedUser} from "../model/users/authenticatedUser";
+import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
+import {Role} from "@app/models";
+import {Address} from "@app/model/address/address";
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -10,29 +14,35 @@ export class PharmacyProfileComponent implements OnInit {
 
   name:String;
   address:String;
-  grade:String;
+  grade:number;
   about:String;
+  currentUserId:String;
 
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
-  
+
   editProfileForm: FormGroup;
 
-  constructor() { }
+  constructor(private pharmacyAdminService:PharmacyAdminService) { }
 
   ngOnInit(): void {
+    this.currentUserId=localStorage.getItem('userId');
+    console.log(this.currentUserId);
+    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
+      result => {
+          this.name=result.name;
+          this.grade=result.average_grade;
+          this.about=result.description;
+      });
+
     this.editProfileForm = new FormGroup({});
-  
-    this.name = "Apoteka Jankovic";
-    this.address = "Narodnog Fronta 4, Novi Sad, Srbija";
-    this.grade='5';
-    this.about='traaaaalalalaaa';
+
   }
 
-  
+
   cancelEdit(){
-    this.profile = true; 
+    this.profile = true;
     this.edit = false;
     this.changePassword = false;
   }

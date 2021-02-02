@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pharmacy-admin-profile',
@@ -25,10 +27,10 @@ export class PharmacyAdminProfileComponent implements OnInit {
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
-  
+
   editProfileForm: FormGroup;
 
-  constructor() { }
+  constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router ) { }
 
   ngOnInit(): void {
     this.editProfileForm = new FormGroup({});
@@ -37,14 +39,24 @@ export class PharmacyAdminProfileComponent implements OnInit {
     this.password1 = "";
     this.password2 = "";
 
+
     this.oldpassword = "peraBijeKera";
 
-    this.name = "Pera";
-    this.surname = "Peric";
-    this.selectedGender = "Male";
-    this.address = "Bulevar Revolucije 69, Novi Sad, Srbija";
-    this.phone = "19257124";
-    this.mail = "pera.peric@uns.ac.rs";
+    this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
+      result => {
+        this.name = result.name;
+        this.surname = result.surname;
+        if(result.gender==0)
+          this.gender="Žensko";
+        else if(result.gender==1)
+          this.gender="Muško";
+        else
+          this.gender="Drugo";
+        this.address = result.address.street+", "+result.address.city.name+", "+result.address.state.name;
+        this.phone = result.phoneNumber;
+        this.mail = result.email;    }
+    );
+
   }
 
   registerPharmacy(){
@@ -66,13 +78,13 @@ export class PharmacyAdminProfileComponent implements OnInit {
 
   }
   defineLoyalty(){
-    
+
   }
   adminLogout(){
-    
+
   }
   cancelEdit(){
-    this.profile = true; 
+    this.profile = true;
     this.edit = false;
     this.changePassword = false;
   }

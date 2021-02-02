@@ -1,38 +1,53 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "pharmacists")
-@DiscriminatorValue(value = Role.Values.Pharmacist)
+@Table(name = "pharmacyAdmins")
+@DiscriminatorValue(value = Role.Values.PharmacyAdmin)
 @Proxy(lazy = false)
-public class Pharmacist extends MedicalStaff {
-
+public class PharmacyAdmin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Pharmacy pharmacy;
 
-
-    public Pharmacist(Long id) {
-        this.id = id;
+    @Override
+    public Long getId() {
+        return id;
     }
 
-    public Pharmacist() {
-
-    }
-
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
+    public Pharmacy getPharmacy() {
+        return pharmacy;
     }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public PharmacyAdmin(Long id, Pharmacy pharmacy) {
+        this.id = id;
+        this.pharmacy = pharmacy;
+    }
+
+    public PharmacyAdmin(){};
+
 
     @Override
     public String getUsername() {
@@ -58,4 +73,7 @@ public class Pharmacist extends MedicalStaff {
     public boolean isEnabled() {
         return true;
     }
+
+
+
 }
