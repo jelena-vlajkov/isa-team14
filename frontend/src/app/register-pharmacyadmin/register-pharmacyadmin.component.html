@@ -36,9 +36,6 @@
                 <form [formGroup]="addAdminForm" (ngSubmit)="registerAdmin()">
                   <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
                     <mat-grid-tile>
-                      <label>Pharmacy:</label>
-                    </mat-grid-tile>
-                    <mat-grid-tile>
                       <div class="inputField">
                         <mat-form-field appearance="fill" style="width: 400px;">
                             <mat-label>Choose pharmacy*</mat-label>
@@ -51,11 +48,7 @@
                             <mat-error *ngIf="!addAdminForm.get('pharmacy').valid && addAdminForm.get('pharmacy').touched && addAdminForm.get('pharmacy').errors['required']">
                                 Please choose a pharmacy</mat-error>
                           </mat-form-field>
-                    </div>
-                    </mat-grid-tile>
-
-                    <mat-grid-tile>
-                      <label>Name:</label>
+                      </div>                    
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
@@ -67,11 +60,9 @@
                                 *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
                                 Please enter name</mat-error>
                         </mat-form-field>
-                      </div>     
+                      </div>  
                     </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Name:</label>
-                    </mat-grid-tile>
+
                     <mat-grid-tile>
                       <div class="inputField">
                         <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
@@ -81,10 +72,7 @@
                                 *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
                                 Please enter surname</mat-error>
                         </mat-form-field>
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Name:</label>
+                      </div> 
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField" style="width: 400px;">
@@ -96,10 +84,7 @@
                         <mat-error
                         *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
                         Please choose gender</mat-error>
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Birth date:</label>
+                      </div>     
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField" >
@@ -108,20 +93,15 @@
                           <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
                           <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
                           <mat-datepicker #picker1 ></mat-datepicker>
+                          <mat-error
+                          *ngIf="!addAdminForm.get('dob').valid && addAdminForm.get('dob').touched && addAdminForm.get('dob').errors['required']">
+                          Please choose date of birth</mat-error>
                         </mat-form-field>
-                      </div>    
+                      </div>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <label>Address:</label>
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <div class="inputField">
-                        <app-google-places>
-                        </app-google-places>       
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Telephone:</label>
+                      <app-google-places>
+                      </app-google-places>  
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField" >
@@ -133,10 +113,7 @@
                               *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
                               Please enter telephone</mat-error>
                         </mat-form-field>      
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Email:</label>
+                      </div>                    
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
@@ -146,12 +123,9 @@
                               formControlName="mail">
                           <mat-error
                               *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
-                              Please enter telephone</mat-error>
+                              Please enter email</mat-error>
                         </mat-form-field>
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Password:</label>
+                      </div>                           
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
@@ -162,10 +136,7 @@
                                 *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
                                 Please enter new password</mat-error>
                         </mat-form-field> 
-                      </div>    
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <label>Password:</label>
+                      </div> 
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
@@ -176,8 +147,9 @@
                                 *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
                                 Please enter again new password</mat-error>
                         </mat-form-field>
-                      </div>   
+                      </div>
                     </mat-grid-tile>
+                    
                   </mat-grid-list>
                   <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addAdminForm.valid"  color="accent">Register pharmacy and admin</button>
 
