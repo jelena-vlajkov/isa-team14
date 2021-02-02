@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
+import { PharmacyAdmin } from '@app/model/pharmacyAdmin/pharmacyAdmin';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 
@@ -15,5 +16,8 @@ export class PharmacyService {
   }
   findAllPharmacies(): Observable<Pharmacy[]> {
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.findAll}`);
+  }
+  registerPharmacyAdmin(data : PharmacyAdmin){
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.add}`,data, {responseType : 'text'});
   }
 }

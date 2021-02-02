@@ -40,7 +40,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" >
+                        <mat-form-field appearance="fill" style="width: 400px;">
                             <mat-label>Choose pharmacy*</mat-label>
                             <mat-select formControlName = 'pharmacy' >
                               <mat-option>--</mat-option>
@@ -59,7 +59,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" id="name-ff">
+                        <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
                             <mat-label>Name*</mat-label>
                             <input matInput id="name" placeholder="Name" name="name-ff" 
                                 formControlName="name">
@@ -74,7 +74,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" id="surname-ff">
+                        <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
                             <mat-label>Surname*</mat-label>
                             <input matInput id="surname" placeholder="Surname" name="name-ff" formControlName="surname">                   
                             <mat-error
@@ -87,7 +87,7 @@
                       <label>Name:</label>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <div class="inputField">
+                      <div class="inputField" style="width: 400px;">
                         <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
                           <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
                           <mat-radio-button value="MALE" style="font-size:18px;margin-left: 20px;">Male</mat-radio-button>
@@ -102,10 +102,10 @@
                       <label>Birth date:</label>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <div class="inputField">
-                        <mat-form-field color="accent" appearance="fill" id="name-ff">
+                      <div class="inputField" >
+                        <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
                           <mat-label style="font-size:14px;">Birth date</mat-label>
-                          <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date">
+                          <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
                           <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
                           <mat-datepicker #picker1 ></mat-datepicker>
                         </mat-form-field>
@@ -124,10 +124,10 @@
                       <label>Telephone:</label>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <div class="inputField">
-                        <mat-form-field appearance="fill" id="telephone-ff">
+                      <div class="inputField" >
+                        <mat-form-field appearance="fill" style="width: 400px;">
                           <mat-label>Telephone*</mat-label>
-                          <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff"
+                          <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
                               formControlName="telephone">
                           <mat-error
                               *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
@@ -140,7 +140,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" id="mail-ff">
+                        <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
                           <mat-label>Email*</mat-label>
                           <input matInput id="mail" placeholder="Email" name="mail-ff"
                               formControlName="mail">
@@ -155,11 +155,11 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" id="password-ff">
+                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
                             <mat-label>New password*:</mat-label>
-                            <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
+                            <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
                             <mat-error
-                                *ngIf="!addAdminForm.get('newpassword').valid && addAdminForm.get('newpassword').touched && addAdminForm.get('newpassword').errors['required']">
+                                *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
                                 Please enter new password</mat-error>
                         </mat-form-field> 
                       </div>    
@@ -169,7 +169,7 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField">
-                        <mat-form-field appearance="fill" id="password-ff">
+                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
                             <mat-label>Confirm password*:</mat-label>
                             <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
                             <mat-error
@@ -179,7 +179,7 @@
                       </div>   
                     </mat-grid-tile>
                   </mat-grid-list>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile'   color="accent">Register pharmacy and admin</button>
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addAdminForm.valid"  color="accent">Register pharmacy and admin</button>
 
 
 <!-- 

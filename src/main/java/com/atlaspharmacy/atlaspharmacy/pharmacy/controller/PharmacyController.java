@@ -46,7 +46,6 @@ public class PharmacyController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    @AppointmentAuthorization
     public @ResponseBody List<PharmacyDTO> findAll(){
         return pharmacyService.getAllPharmacies();
     }

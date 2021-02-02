@@ -27,6 +27,6 @@ export class PharmacyAdmin{
     this.address = address;
     this.role = role;
     this.authorities = autorities;
-    this.pharmacy=pharmacy;
+    this.pharmacy = pharmacy;
   }
 }
