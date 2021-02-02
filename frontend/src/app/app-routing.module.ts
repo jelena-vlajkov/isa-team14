@@ -15,6 +15,7 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -67,10 +68,13 @@ const routes: Routes = [  {
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent
 },
-  { path: 'home',
+{ path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard]
-  }
+},
+{ path: '',
+  component: UnauthenticatedUserComponent
+}
 ];
 
 @NgModule({

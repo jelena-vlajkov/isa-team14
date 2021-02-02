@@ -40,6 +40,7 @@ import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { HomeComponent } from './home';
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
-    HomeComponent
+    HomeComponent,
+    UnauthenticatedUserComponent
 
   ],
   imports: [
