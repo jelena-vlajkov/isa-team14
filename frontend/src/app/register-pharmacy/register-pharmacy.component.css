@@ -117,16 +117,16 @@
   }
   .pharmacyCard {
     float:left;
-    margin-left: 20%; 
+    margin-left: 25%; 
     margin-top:2%;
-    width: 27%;
+    width: 23%;
     height: 40vw;
   }
   .adminCard{
     float:left;
     margin-top:2%;
     margin-left: 2%;
-    width: 27%;
+    width: 23%;
     height: 40vw;
   }
   label {

@@ -1,6 +1,6 @@
-import {Gender} from "@app/model/patient/gender";
-import {Address} from "@app/model/address/address";
-import {Role} from "@app/model/users/role";
+import {Gender} from "./../patient/gender";
+import {Address} from "./../address/address";
+import {Role} from "./../users/role";
 
 export class PharmacyAdmin{
   public name : String;

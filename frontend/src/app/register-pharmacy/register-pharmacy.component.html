@@ -41,17 +41,21 @@
                             *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
                             Please enter address</mat-error>
                     </mat-form-field>
-                  </div>       
+                  </div>
                   <div class="inputField" >
-                    <mat-form-field appearance="fill" id="paddress-ff">
-                        <mat-label>Pharmacy address*</mat-label>
-                        <input matInput id="address" placeholder="Pharmacy address" name="paddress-ff" formControlName="address">                   
+                    <mat-form-field appearance="fill" id="pname-ff">
+                        <mat-label>Pharmacy description*</mat-label>
+                        <input matInput id="description" placeholder="Pharmacy description" name="pname-ff" formControlName="description">                   
                         <mat-error
-                            *ngIf="!registerPharmacy.get('address').valid && registerPharmacy.get('address').touched && registerPharmacy.get('address').errors['required']">
-                            Please enter address</mat-error>
+                            *ngIf="!registerPharmacy.get('description').valid && registerPharmacy.get('description').touched && registerPharmacy.get('description').errors['required']">
+                            Please enter description</mat-error>
                     </mat-form-field>
+                  </div>  
+                  <div class="inputField" style="justify-content: center;">
+                    <app-google-places id="paddress-ff">
+                    </app-google-places>
                   </div>   
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='addPharmacy()' [disabled]="!adminAdded" color="accent">Add pharamacy</button>
+                   <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!registerPharmacy.valid" color="accent">Add pharamacy</button>
 
                 </form>
               </mat-card-content>
@@ -103,14 +107,15 @@
 
 
                   <div class="inputField">
-                    <mat-form-field appearance="fill" id="address-ff">
-                        <mat-label>Address*</mat-label>
-                        <input matInput id="address" placeholder="Address" name="address-ff"  formControlName="address">                   
+                    <!-- <mat-form-field appearance="fill" id="address-ff"> -->
+                        <!-- <mat-label>Address*</mat-label> -->
+                        <app-google-places id="paddress-ff">
+                        </app-google-places>               
   
-                        <mat-error
+                        <!-- <mat-error
                             *ngIf="!addAdminForm.get('address').valid && addAdminForm.get('address').touched && addAdminForm.get('address').errors['required']">
-                            Please enter address</mat-error>
-                    </mat-form-field>
+                            Please enter address</mat-error> -->
+                    <!-- </mat-form-field> -->
                   </div>
                   <div class="inputField">
                     <mat-form-field appearance="fill" id="telephone-ff">
@@ -152,7 +157,7 @@
                             Please enter again new password</mat-error>
                     </mat-form-field>
                   </div>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='addAdmin()'  color="accent">Add admin</button>
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile'  [disabled]="!allFilled" color="accent">Register pharmacy and admin</button>
   
                 </form>
               </mat-card-content>
