@@ -48,14 +48,34 @@ public class PatientController {
     }
 
 
-
-
     @RequestMapping(value="/activation", method = RequestMethod.GET)
     @ResponseBody
     public String activation(@RequestParam(value = "user_id") Long user_id, @RequestParam(value = "token") String token) {
         patientService.enablePatient(user_id);
         return "OK";
     }
+
+    @CrossOrigin( origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getById(@RequestParam("id") Long id) throws ParseException {
+        return new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
+    }
+
+    @CrossOrigin( origins = "*", allowedHeaders = "*")
+    @PostMapping(value = "/editPatient", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> editPatient(@RequestBody PatientDTO patientDTO) throws ParseException, InvalidPatientData {
+
+        try {
+            patientService.editPatient(patientDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @ExceptionHandler(InvalidPatientData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

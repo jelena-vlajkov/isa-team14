@@ -37,6 +37,10 @@ export class LoginComponent implements OnInit {
         if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
         }
+        if(result.role == Role.Patient){
+          this.router.navigate(['/userProfile'])
+        }
+       
       });
   }
   signUp(){

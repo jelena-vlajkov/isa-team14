@@ -3,6 +3,7 @@
   Dermatologist = 'Dermatologist',
   SysAdmin = 'SysAdmin',
   PharmacyAdmin = 'PharmacyAdmin',
-  MedicalStaff = 'MedicalStaff'
+  MedicalStaff = 'MedicalStaff',
+  Patient = 'Patient'
 
 }

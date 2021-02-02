@@ -33,7 +33,7 @@ public class UserController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT ')")
+    @PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT')")
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
         return userService.getUserBy(id);
@@ -44,6 +44,7 @@ public class UserController {
     //@PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT ')")
     public @ResponseBody
     User getLoggedUser() throws ParseException {
+        //iz fronta ne salje token wtf
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String mail = ((User)user).getEmail();
         return userService.getUserByMail(mail);

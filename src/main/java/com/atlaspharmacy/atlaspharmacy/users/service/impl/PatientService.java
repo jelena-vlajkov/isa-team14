@@ -112,4 +112,29 @@ public class PatientService implements IPatientService {
 
         return null;
     }
+
+    @Transactional
+    public void editPatient(PatientDTO patientDTO){
+        //bolje getOne od find
+        Patient patientToUpdate = (Patient)patientRepository.getOne(patientDTO.getId());
+        Address a = null;
+        a = addressRepository.getOne(patientToUpdate.getAddress().getId());
+        System.out.println(a.getId() + " " + a.getStreet());
+        if(a != null){
+            a.setState(patientDTO.getAddress().getState());
+            a.setCity(patientDTO.getAddress().getCity());
+            a.setStreet(patientDTO.getAddress().getStreet());
+            a.setCoordinates(patientDTO.getAddress().getCoordinates());
+            addressRepository.save(a);
+        }
+        patientToUpdate.setSurname(patientDTO.getSurname());
+        patientToUpdate.setName(patientDTO.getName());
+        patientToUpdate.setAddress(a);
+        patientToUpdate.setGender(patientDTO.getGender());
+        patientToUpdate.setDateOfBirth(patientDTO.getDateOfBirth());
+        patientToUpdate.setPhoneNumber(patientDTO.getPhoneNumber());
+        patientToUpdate.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
+        patientRepository.save(patientToUpdate);
+
+    }
 }

@@ -6,6 +6,8 @@ import { Role } from '../model/users/role';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Address } from '../model/address/address';
 import { PatientService} from '../service/patient/patient.service'
+import {Location} from '@angular/common';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -22,6 +24,7 @@ export class UserProfileComponent implements OnInit {
   selectedGender : String;
   selectedDate:Date;
   dob: Date;
+  updateDate;
   //address:String;
   address : Address;
   phone:String;
@@ -46,7 +49,7 @@ export class UserProfileComponent implements OnInit {
   selectedAllergies;
 
   public patient : Patient;
-  constructor(private patientService : PatientService) { }
+  constructor(private patientService : PatientService, private _location: Location) { }
 
   ngOnInit(): void {
     
@@ -72,12 +75,13 @@ export class UserProfileComponent implements OnInit {
   
     */
     //this.patient = this.patientService.getPatientById();
+
     this.loadPatient();
       
   }
 
   loadPatient(){
-    this.patientService.getPatientById().subscribe(data =>
+    this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(data =>
       {
         this.patient = data;
       });
@@ -114,6 +118,7 @@ export class UserProfileComponent implements OnInit {
       this.selectedGender = 'Female';
     }
     this.selectedDate = this.patient.dateOfBirth;
+    this.updateDate = this.patient.dateOfBirth;
     //this.googleplaces.address = this.patient.address;
  
 
@@ -127,6 +132,48 @@ export class UserProfileComponent implements OnInit {
       'gender': new FormControl(this.selectedGender, Validators.required),
       'selectedDate': new FormControl(this.selectedDate, Validators.required)
     });
+
+    /*
+    if(this.googleplaces == undefined){
+      this.address = this.patient.address;
+    }else{
+      this.patient.address = this.googleplaces.address;
+    }*/
+
+  }
+
+  confirmEditButton(){
+
+    this.patient.name = this.editProfileForm.controls.name.value;
+    this.patient.surname = this.editProfileForm.controls.surname.value;
+    if(this.editProfileForm.controls.gender.value == 'Male'){
+        this.patient.gender = Gender.MALE;
+    }else{
+      this.patient.gender = Gender.FEMALE;
+    }
+    this.patient.phoneNumber = this.editProfileForm.controls.telephone.value;
+    if(this.googleplaces.address == undefined){
+      console.log(this.patient.address.street)
+    }else{
+      this.patient.address = this.googleplaces.address;
+    }
+    this.patient.dateOfBirth = this.updateDate;
+
+    this.patientService.updatePatient(this.patient).subscribe(
+      res=>{
+        this.editProfileForm.reset(); 
+        alert('Success');
+        location.reload();      
+       // this.loadPatient();
+        
+        },
+        error=>{
+          alert("Fail")
+        }
+      )
+
+      
+
   }
 
   changePasswordFunction(){
@@ -140,6 +187,8 @@ export class UserProfileComponent implements OnInit {
       'newpassword' : new FormControl(null, Validators.required),
       'confirmpassword' : new FormControl(null, Validators.required)
     });
+
+ 
   }
 
   cancelEdit(){
@@ -150,11 +199,29 @@ export class UserProfileComponent implements OnInit {
   }
 
   submitChangePassword(){
-    this.password1 = this.changePasswordForm.value.newpassword;
-    this.password2 = this.changePasswordForm.value.confirmpassword;
+    this.password1 = this.changePasswordForm.controls.newpassword.value;
+    this.password2 = this.changePasswordForm.controls.confirmpassword.value;
     if(this.password1 !== this.password2){
       console.log('Passwords are not matching! Try again');
+    }else{
+      this.patient.password = this.changePasswordForm.controls.confirmpassword.value;
+      this.patientService.updatePatient(this.patient).subscribe(
+        res=>{
+          this.editProfileForm.reset(); 
+          alert('Success');
+          location.reload();      
+          
+          },
+          error=>{
+            alert("Fail")
+          }
+        )
     }
+
+  }
+
+  backToolBar(){
+    this._location.back();
   }
 
 }

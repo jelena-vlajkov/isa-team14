@@ -1,9 +1,4 @@
-<mat-drawer-container class="example-container" hasBackdrop="true">
-    <mat-drawer style="width: 20%;" #drawer mode ="over">
-       
-      
-    </mat-drawer>
-        <mat-drawer-content>
+
           <!--mat-toolbar color="accent">          
             <button mat-icon-button>
                 <mat-icon  aria-hidden="false" aria-label="Example home icon" class="tooltip">
@@ -16,7 +11,7 @@
 
             <mat-toolbar color="primary">
               <mat-toolbar-row>
-                <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+                <button mat-icon-button class="example-icon" (click)="backToolBar()" aria-label="Example icon-button with menu icon">
                   <mat-icon class="tooltip">arrow_back <span class="tooltiptext" style="margin-left: 10px;">Back</span></mat-icon>
                 </button>
                 <span style="margin-left: 40%;">Registered user profile</span>
@@ -24,7 +19,7 @@
             
                 <button mat-icon-button>
                     <mat-icon  aria-hidden="false" aria-label="Example home icon" class="tooltip">
-                        login <span class="tooltiptext">Logout</span>
+                        logout <span class="tooltiptext">Logout</span>
                     </mat-icon>
                 </button>
                 
@@ -233,7 +228,7 @@
                   <mat-grid-tile>
                     <mat-form-field color="accent" appearance="fill" id='dob-ff'>
                       <mat-label>Birth date</mat-label>
-                      <input matInput [matDatepicker]="picker1" [(value)]="selectedDate" style="font-size:18px">
+                      <input matInput [matDatepicker]="picker1" [(ngModel)]="updateDate" formControlName="selectedDate" style="font-size:18px">
                       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
@@ -255,7 +250,7 @@
 
                 <button style="float:left; position:relative;" mat-raised-button id='cancelEditProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
 
-                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Confirm</button>
+                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='confirmEditButton()'color="accent">Confirm</button>
                 <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">Change password</button>
 
               </form>
@@ -266,20 +261,7 @@
             <form [formGroup]="changePasswordForm" (ngSubmit)="submitChangePassword()">
               <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
 
-                <mat-grid-tile>
-                  <label>Old password:</label>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="password-ff">
-                        <mat-label>Old password*:</mat-label>
-                        <input matInput type="password" id="oldpassword" placeholder="Old Password" name="password-ff" formControlName="oldpassword">
-                        <mat-error
-                            *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
-                            Please enter old password</mat-error>
-                    </mat-form-field>
-                  </div>                  
-              </mat-grid-tile>
+            
  
                 <mat-grid-tile>
                   <label>New password:</label>
@@ -334,6 +316,11 @@
                 <mat-grid-tile>
                   <p hidden></p>
                 </mat-grid-tile>
+
+                <mat-grid-tile>
+                  <p hidden></p>
+
+                </mat-grid-tile>
               </mat-grid-list>
    
 
@@ -345,10 +332,3 @@
             </mat-card>
 
 
-
-              
-              
-
-
-    </mat-drawer-content>
-</mat-drawer-container>

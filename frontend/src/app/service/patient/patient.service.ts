@@ -11,8 +11,15 @@ export class PatientService {
 
   constructor(private http : HttpClient) { }
 
-    getPatientById() : Observable<Patient> {    
-        return this.http.get<Patient>(`${environment.baseUrl}/${environment.getUser}`)
+    getLoggedPatient() : Observable<Patient> {    
+        return this.http.get<Patient>(`${environment.baseUrl}/getLoggedUser`)
     }
 
+    getPatientById(id:number) : Observable<Patient> {    
+      return this.http.get<Patient>(`${environment.baseUrl}/patient/getById/?id=${id}`);
+    }
+
+    updatePatient(data : Patient){
+      return this.http.post(`${environment.baseUrl}/patient/editPatient`,data, {responseType : 'text'});
+    }
 }
