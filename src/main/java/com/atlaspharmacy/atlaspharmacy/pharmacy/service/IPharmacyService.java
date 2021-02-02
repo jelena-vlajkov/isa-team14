@@ -15,5 +15,5 @@ import java.util.List;
 public interface IPharmacyService {
     Pharmacy getById(Long id);
     Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception;
-
+    List<PharmacyDTO> getAllPharmacies();
 }

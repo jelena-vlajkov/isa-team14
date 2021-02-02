@@ -3,7 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from './../model/address/address';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
-import { PharmacyRegistrationService } from '@app/service/pharmacy-registration/pharmacy-registration.service';
+import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-pharmacy',
@@ -12,12 +13,6 @@ import { PharmacyRegistrationService } from '@app/service/pharmacy-registration/
 })
 export class RegisterPharmacyComponent implements OnInit {
   registerPharmacy: FormGroup;
-  addAdminForm : FormGroup;
-  selectedGender : String;
-  public allFilled : boolean = false;
-  public adminAdded : boolean = false;
-  public pharmacyValid : boolean = false;
-
   pharmacy_name : String;
   pharmacy_description : String;
   pharmacy_location : Address;
@@ -25,40 +20,43 @@ export class RegisterPharmacyComponent implements OnInit {
   public pharmacy : Pharmacy;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private registerPharmacyService : PharmacyRegistrationService) { }
+  constructor(private pharmacyService : PharmacyService, private router:Router) { }
 
   ngOnInit(): void {
     this.registerPharmacy = new FormGroup({
       'name' : new FormControl(null, Validators.required),
       'description' : new FormControl(null, Validators.required)
     });
-    this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
-      'gender': new FormControl(null, Validators.required),
-      'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'newpassword' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required)
-    });
+    // this.addAdminForm = new FormGroup({
+    //   'name' : new FormControl(null, Validators.required),
+    //   'surname' : new FormControl(null, Validators.required),
+    //   'gender': new FormControl(null, Validators.required),
+    //   'dob' : new FormControl(null, Validators.required),
+    //   'telephone' : new FormControl(null, Validators.required),
+    //   'mail' : new FormControl(null, Validators.required),
+    //   'newpassword' : new FormControl(null, Validators.required),
+    //   'confirmpassword' : new FormControl(null, Validators.required),
+    //   'pharmacy' : new FormControl(null, Validators.required)
+    // });
   }
   addPharmacy(){
     this.pharmacy_description = this.registerPharmacy.value.description;
     this.pharmacy_name = this.registerPharmacy.value.name;
-    this.pharmacy_location = this.googleplaces.address;
-    this.pharmacy_location_input = this.googleplaces.autocompleteInput;
-
-    if(this.pharmacy_location===undefined){
+    
+    if(this.googleplaces==undefined){
       alert("Please fill address.");
     }else{
-      this.pharmacy = new Pharmacy(this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0);
+      this.pharmacy_location = this.googleplaces.address;
+      this.pharmacy_location_input = this.googleplaces.autocompleteInput;
+  
+      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0);
 
-      this.registerPharmacyService.registerPharmacy(this.pharmacy).subscribe(
+      this.pharmacyService.registerPharmacy(this.pharmacy).subscribe(
         res=>{
           this.registerPharmacy.reset();
           this.googleplaces = null;
           alert('Success');
+          this.router.navigate(['/admin']);
         },
         error=>{
           alert("Fail");
@@ -66,27 +64,31 @@ export class RegisterPharmacyComponent implements OnInit {
     }
   }
 
-  checkValidData(){
-    this.pharmacy_description = this.registerPharmacy.value.description;
-    this.pharmacy_name = this.registerPharmacy.value.name;
-    this.pharmacy_location = this.googleplaces.address;
-    this.pharmacy_location_input = this.googleplaces.autocompleteInput;
-
-    if(this.pharmacy_description.toString().trim().length!=0 && this.pharmacy_name.trim.length!=0 && this.pharmacy_location.toString().length!=0 && this.pharmacy_location_input.toString().trim().length !=0){
-      this.pharmacyValid = true;
-    }else{
-      this.pharmacyValid = false;
-    }
-
-    return this.pharmacyValid;
-  }
   registerDermatologist(){
 
   }
-  registerAdmin(){
-    //TODO DODATI FUNKCIJE
-    return true;
+  // pharmacyValid(){
+  //    if(this.googleplaces.address===undefined){
+  //      return false;
+  //    }
+  //    return true;
+  // }
+  adminValid(){
+    // if(this.admin_location===undefined){
+    //   return false;
+    // }
+    // return true;
   }
+  // registerAdmin(){
+  //   //TODO DODATI FUNKCIJE
+  //   return true;
+  // }
+  // loadAllPharmacies() {
+  //   this.pharmacyService.findAllPharmacies().subscribe(data => 
+  //     {
+  //       this.pharmacies = data
+  //     });
+  // }
   registerSupplier(){
 
   }
@@ -97,17 +99,17 @@ export class RegisterPharmacyComponent implements OnInit {
 
   }
   defineLoyalty(){
-    
+
   }
   adminLogout(){
-    
+
   }
   editProfile(){
 
   }
-  addAdmin(){
-    if(this.registerAdmin() == true){
-      this.adminAdded = true;
-    }
-  }
+  // addAdmin(){
+  //   if(this.registerAdmin() == true){
+  //     this.adminAdded = true;
+  //   }
+  // }
 }

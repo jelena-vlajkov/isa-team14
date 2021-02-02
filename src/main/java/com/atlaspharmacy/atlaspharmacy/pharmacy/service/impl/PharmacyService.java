@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -49,6 +51,19 @@ public class PharmacyService implements IPharmacyService {
         addressRepository.save(a);
         pharmacyRepository.save(p);
         return p;
+    }
+
+    @Override
+    public List<PharmacyDTO> getAllPharmacies(){
+        List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
+        List<PharmacyDTO> dtos = new ArrayList<>();
+        if(pharmacies.size()!=0){
+            for(Pharmacy p : pharmacies){
+                dtos.add(PharmacyMapper.mapPharmacyToDTO(p));
+            }
+        }
+
+        return dtos;
     }
 
 

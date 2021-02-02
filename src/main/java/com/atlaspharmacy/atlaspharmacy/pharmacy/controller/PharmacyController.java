@@ -1,10 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
@@ -16,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin
@@ -40,6 +45,12 @@ public class PharmacyController {
          pharmacyService.registerPharmacy(pharmacyDTO);
     }
 
+    @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AppointmentAuthorization
+    public @ResponseBody List<PharmacyDTO> findAll(){
+        return pharmacyService.getAllPharmacies();
+    }
+
     @ExceptionHandler(InvalidPharmacyData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
@@ -53,5 +64,6 @@ public class PharmacyController {
     ParseException handleException(ParseException e) {
         return new ParseException("Error while parsing values", 0);
     }
+
 
 }
