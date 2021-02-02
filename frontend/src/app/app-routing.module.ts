@@ -15,11 +15,15 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
+import { PharmacistComponent } from './pharmacist/pharmacist.component'
+import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 
-const routes: Routes = [  {
+const routes: Routes = [  
+{
   path : 'login',
   component : LoginComponent
-},{
+},
+{
   path : 'registration',
   component : RegistrationComponent
 },
@@ -67,10 +71,16 @@ const routes: Routes = [  {
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent
 },
-  { path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
-  }
+{ path: 'home',
+  component: HomeComponent,
+  canActivate: [AuthGuard]
+},
+{ path: 'pharmacist',
+  component: PharmacistComponent
+},
+{ path: 'pharmacist/profile',
+  component: PharmacistProfileComponent
+}
 ];
 
 @NgModule({

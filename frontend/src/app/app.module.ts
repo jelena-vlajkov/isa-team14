@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -40,6 +41,9 @@ import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
+import { PharmacistComponent } from './pharmacist/pharmacist.component';
+import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -58,7 +62,9 @@ import { HomeComponent } from './home';
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
-    HomeComponent
+    HomeComponent,
+    PharmacistComponent,
+    PharmacistProfileComponent
 
   ],
   imports: [
@@ -96,6 +102,8 @@ import { HomeComponent } from './home';
     MatSidenavModule,
     MatGridListModule,
     MatCheckboxModule,
+    CommonModule, 
+    MatMenuModule
     
   ],
 
