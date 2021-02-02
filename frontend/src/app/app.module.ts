@@ -48,6 +48,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
+import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     HomeComponent,
     PharmacistComponent,
     PharmacistProfileComponent,
-    PharmacistCalendarComponent
+    PharmacistCalendarComponent,
+    PharmacistPatientsComponent
 
   ],
   imports: [

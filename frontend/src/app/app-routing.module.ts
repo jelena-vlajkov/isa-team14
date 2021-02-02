@@ -18,6 +18,7 @@ import { AuthGuard } from './helpers';
 import { PharmacistComponent } from './pharmacist/pharmacist.component'
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component'
+import { PharmacistPatientsComponent } from './pharmacist.patient/pharmacist.patient.component';
 
 const routes: Routes = [  
 {
@@ -85,6 +86,10 @@ const routes: Routes = [
 {
   path: 'pharmacist/calendar',
   component: PharmacistCalendarComponent
+},
+{
+  path: 'pharmacist/patients',
+  component: PharmacistPatientsComponent
 }
 ];
 
