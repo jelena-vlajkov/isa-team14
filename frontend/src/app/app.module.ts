@@ -44,7 +44,10 @@ import { HomeComponent } from './home';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule } from '@angular/common';
-
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +67,8 @@ import { CommonModule } from '@angular/common';
     GooglePlacesComponent,
     HomeComponent,
     PharmacistComponent,
-    PharmacistProfileComponent
+    PharmacistProfileComponent,
+    PharmacistCalendarComponent
 
   ],
   imports: [
@@ -103,7 +107,10 @@ import { CommonModule } from '@angular/common';
     MatGridListModule,
     MatCheckboxModule,
     CommonModule, 
-    MatMenuModule
+    MatMenuModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    NgbModule
     
   ],
 
@@ -112,6 +119,7 @@ import { CommonModule } from '@angular/common';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

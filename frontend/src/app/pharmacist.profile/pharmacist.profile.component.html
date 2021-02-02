@@ -152,7 +152,7 @@
     </mat-card-content>
 </div>
     <div [hidden]="isEditMode">
-        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 50px;" >
+        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 20px;" >
                     
             <mat-form-field class="example-full-width">
                 <mat-label>Phone number</mat-label>
@@ -166,7 +166,7 @@
     </div>
     
     <div [hidden]="isNotEditMode">
-        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 50px;" >
+        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 20px;" >
                     
             <mat-form-field class="example-full-width"  appearance="outline">
                 <mat-label>Phone number</mat-label>
@@ -179,6 +179,10 @@
     </mat-card-content>
     </div>
             </mat-card-content>
+
+            <div [hidden]="isNotEditMode">
+            <button  mat-flat-button color="primary" (click)="saveProfile()" style="position: absolute; right: 50px;">Save changes</button>
+            </div>
           </mat-card>
           
 
@@ -197,15 +201,15 @@
             <mat-card-content style="justify-content: center; width: 500px; display: flex;">
                 <mat-form-field class="example-full-width" appearance="outline" style="width: 245px;">
                     <mat-label>Start date</mat-label>
-                    <input matInput [matDatepicker]="picker2" [value]="editDate.value" style="font-size:18px">
+                    <input matInput [matDatepicker]="picker2" [value]="editDate.value">
                       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                       <mat-datepicker #picke2></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field class="example-full-width" style="margin-left: 5px; width: 245px;"  appearance="outline">
                     <mat-label>End date</mat-label>
-                    <input matInput [matDatepicker]="picker2" [value]="editDate.value" style="font-size:18px">
+                    <input matInput [matDatepicker]="picker2" [value]="editDate.value">
                       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                      <mat-datepicker #picke2></mat-datepicker>
+                      <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
 
             </mat-card-content>
