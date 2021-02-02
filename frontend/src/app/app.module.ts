@@ -41,6 +41,7 @@ import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthentic
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
     HomeComponent,
-    UnauthenticatedUserComponent
+    UnauthenticatedUserComponent,
+    RegisterPharmacyadminComponent
 
   ],
   imports: [

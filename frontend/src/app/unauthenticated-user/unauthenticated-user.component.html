@@ -249,41 +249,19 @@
                     <tr>
                         <th>Name</th>
                         <th>Type</th>
+                        <th>Producer</th>
                         <th>Grade</th>
                     
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Content 1</td>
-                        <td>Content 1</td>
-                        <td>Content 1</td>
-                        
+                    <tr *ngFor="let m of medications">
+                        <td>{{m.name}}</td>
+                        <td>{{m.drugType}}</td>
+                        <td>{{m.producer}}</td>
+                        <td>grade 1</td>                   
                     </tr>
-                    <tr>
-                        <td>Content 2</td>
-                        <td>Content 2</td>
-                        <td>Content 2</td>
                     
-                    </tr>
-                    <tr>
-                        <td>Content 3</td>
-                        <td>Content 3</td>
-                        <td>Content 3</td>
-                        
-                    </tr>
-                    <tr>
-                        <td>Content 4</td>
-                        <td>Content 4</td>
-                        <td>Content 4</td>
-                    
-                    </tr>
-                    <tr>
-                        <td>Content 5</td>
-                        <td>Content 5</td>
-                        <td>Content 5</td>
-                        
-                    </tr>
                     
                     <tbody>
                 </table>

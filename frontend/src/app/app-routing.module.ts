@@ -16,6 +16,7 @@ import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -39,6 +40,10 @@ const routes: Routes = [  {
 {
   path : 'admin/addAdmin',
   component : AddAdminComponent
+},
+{
+  path : 'admin/registerPharmacyAdmin',
+  component : RegisterPharmacyadminComponent
 },
 {
   path : 'pharmacyAdmin-profile',

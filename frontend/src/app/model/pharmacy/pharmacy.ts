@@ -1,14 +1,14 @@
 import {Address} from "../address/address";
 
 export class Pharmacy{
+  public id : Number;
   public name: String;
-  public id: number ;
   public description:String;
-  private address: Address;
+  public address: Address;
   public  average_grade: Number;
-  constructor(name : String,id: number,description:String,address: Address, average_grade: Number){
-    this.name = name;
+  constructor(id:Number, name : String,description:String,address: Address,average_grade: Number){
     this.id=id;
+    this.name = name;
     this.address=address;
     this.average_grade=average_grade;
     this.description=description;
