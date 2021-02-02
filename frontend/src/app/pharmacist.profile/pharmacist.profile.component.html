@@ -26,11 +26,6 @@
             </button>
             <button mat-list-item routerLink="pharmacist/profile"> 
                 
-                <i class="material-icons">group</i>
-                <p class="list-p">Patients</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-                
                 <i class="material-icons">medication</i>
                 <p class="list-p">Medications</p>
             </button>
@@ -48,13 +43,15 @@
       </mat-action-list>
     </mat-drawer>
       <mat-drawer-content>
-        <mat-toolbar>
+        <mat-toolbar style="background-color:white;">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
               <mat-icon>menu</mat-icon>
             </button>
             <span>Profile</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
+
+          <div style="display: flex;">
           
           <mat-card fxLayoutAlign="center" style=" width: 500px; height:500px;" *ngIf="profile">
               
@@ -183,9 +180,48 @@
     </div>
             </mat-card-content>
           </mat-card>
+          
 
+          <mat-card style="margin-left: 150px; width: 800px; height:800px; justify-content: center;">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-label style="margin-top:10px; margin-left: 10px;">Ask for vacation leave</mat-label>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="justify-content: center; margin-left: 5px;">
+                <div style="width: 500px; height: 300px; border-radius: 20px;">
+                <img style="width: 500px; height: 300px; border-radius: 20px;" src="assets/vacation.jpg">
+            </div>
+            </mat-card-content>
 
-              
+            <mat-card-content style="justify-content: center; width: 500px; display: flex;">
+                <mat-form-field class="example-full-width" appearance="outline" style="width: 245px;">
+                    <mat-label>Start date</mat-label>
+                    <input matInput [matDatepicker]="picker2" [value]="editDate.value" style="font-size:18px">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picke2></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="example-full-width" style="margin-left: 5px; width: 245px;"  appearance="outline">
+                    <mat-label>End date</mat-label>
+                    <input matInput [matDatepicker]="picker2" [value]="editDate.value" style="font-size:18px">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picke2></mat-datepicker>
+                </mat-form-field>
+
+            </mat-card-content>
+
+            <mat-card-content>
+                <mat-form-field class="example-full-width" appearance="outline" style=" margin-left: 0px; width: 500px; ">
+                    <mat-label>Vacation reason</mat-label>
+                    <input matInput placeholder="Ex. Pizza" value="Vacation Reason">
+                  </mat-form-field>
+            </mat-card-content>
+
+            <button mat-flat-button color="primary" style="position: absolute; right: 50px;">Send request</button>
+            
+          </mat-card>
+
+        </div>
               
 
       </mat-drawer-content>

@@ -144,7 +144,7 @@
     margin: 12px; */
     /* border: 1px solid #555; */
     /*background: rgb(164, 194, 201);*/
-    background: #054f5294;
+    background: linear-gradient(to bottom right, #42275a   , #734b6d);
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
