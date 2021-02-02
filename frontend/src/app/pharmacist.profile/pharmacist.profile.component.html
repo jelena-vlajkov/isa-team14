@@ -53,7 +53,7 @@
 
           <div style="display: flex;">
           
-          <mat-card fxLayoutAlign="center" style=" width: 500px; height:500px;" *ngIf="profile">
+          <mat-card fxLayoutAlign="center" style=" width: 500px; height:600px;" *ngIf="profile">
               
             <mat-card-content style="align-content: center;  justify-content: center;" fxLayoutAlign="center" >
                 <mat-card-header>
@@ -181,8 +181,10 @@
             </mat-card-content>
 
             <div [hidden]="isNotEditMode">
-            <button  mat-flat-button color="primary" (click)="saveProfile()" style="position: absolute; right: 50px;">Save changes</button>
+            <button  mat-flat-button color="primary" (click)="saveProfile()" style="position: absolute; right: 50px; margin-bottom: 100px;">Save changes</button>
             </div>
+
+            <div style="margin-bottom: 100px;"></div>
           </mat-card>
           
 
