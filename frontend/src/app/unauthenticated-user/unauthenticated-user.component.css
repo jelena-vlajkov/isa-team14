@@ -270,3 +270,12 @@ visibility: visible;
     font-style: oblique;
     color: white;
 }
+
+.gradeFilter{
+    position: absolute;
+    top: 40%;
+    left: 80%;
+    font-size: 1.4vw;
+    font-style: oblique;
+    color: white;
+}

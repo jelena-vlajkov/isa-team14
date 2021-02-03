@@ -21,6 +21,7 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
     
   }
   public pharmacies : Pharmacy[] = new Array();
+  public pharmaciesCopy : Pharmacy[] = new Array();
   public medications : Medication[] = new Array();
   pharmacy:boolean;
   medcs:boolean;
@@ -30,8 +31,7 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
    
     this.pharmacy = false;
     this.medcs = false;
-    
-    
+
   }
 
   enablePharmacy(){
@@ -49,10 +49,40 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
 
   }
 
+  getGradeValues(event) {
+
+    console.log(event.value);
+    if (event.value == 1){
+      this.pharmacies = this.pharmaciesCopy;
+      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 0 &&
+         p.average_grade <=1);
+    }else if(event.value == 2){
+      this.pharmacies = this.pharmaciesCopy;
+      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 1 &&
+         p.average_grade <=2);
+    }else if(event.value == 3){
+      this.pharmacies = this.pharmaciesCopy;
+      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 2 &&
+         p.average_grade <=3);
+    }
+    else if(event.value == 4){
+      this.pharmacies = this.pharmaciesCopy;
+      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 3 &&
+         p.average_grade <=4);
+    } else if(event.value == 5){
+      this.pharmacies = this.pharmaciesCopy;
+      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 4 &&
+         p.average_grade <=5);
+    }else {
+      this.pharmacies = this.pharmaciesCopy;
+    }
+  }
+
   getAllPharmacies(){
     this.pharmacyService.findAllPharmacies().subscribe(data =>
       {
         this.pharmacies = data;
+        this.pharmaciesCopy = data;
       });
   }
 

@@ -239,8 +239,24 @@
                     </i>
                 </button>
             </div>
+
+            <div class="gradeFilter">
+                <p>Filter by grade</p>
+
+                <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 150%;">
+                    <mat-option value="1">Between 0 and 1</mat-option>
+                    <mat-option value="2">Between 1 and 2</mat-option>
+                    <mat-option value="3">Between 2 and 3</mat-option>
+                    <mat-option value="4">Between 3 and 4</mat-option>
+                    <mat-option value="5">Between 4 and 5</mat-option>
+                    <mat-option value="6">All</mat-option>
+                </mat-select>
+            </div>
+
         </div>
     
+
+
         <div *ngIf="medcs"> 
       
             <div class="table-wrapper">
