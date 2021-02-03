@@ -16,4 +16,6 @@ public interface IPharmacyService {
     Pharmacy getById(Long id);
     Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception;
     List<PharmacyDTO> getAllPharmacies();
+    List<PharmacyDTO> findByName(String name);
+    List<PharmacyDTO> findByAddress(String address);
 }

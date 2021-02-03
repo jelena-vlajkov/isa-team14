@@ -39,6 +39,7 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
 
+
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public void registerPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
@@ -49,6 +50,22 @@ public class PharmacyController {
     public @ResponseBody List<PharmacyDTO> findAll(){
         return pharmacyService.getAllPharmacies();
     }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getByName", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByName(@RequestParam("name") String name) throws ParseException{
+        return pharmacyService.findByName(name);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getByAddress", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByAddress(@RequestParam("address") String address) throws ParseException{
+        return pharmacyService.findByAddress(address);
+    }
+
 
     @ExceptionHandler(InvalidPharmacyData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -63,6 +80,5 @@ public class PharmacyController {
     ParseException handleException(ParseException e) {
         return new ParseException("Error while parsing values", 0);
     }
-
 
 }

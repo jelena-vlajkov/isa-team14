@@ -20,4 +20,13 @@ export class PharmacyService {
   registerPharmacyAdmin(data : PharmacyAdmin){
     return this.http.post(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.add}`,data, {responseType : 'text'});
   }
+
+  findByName(name : String) : Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByName?name=${name}`);
+  }
+
+  findByAddress(add : String) : Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByAddress?address=${add}`);
+  }
+  
 }
