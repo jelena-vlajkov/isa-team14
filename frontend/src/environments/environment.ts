@@ -14,6 +14,7 @@ export const environment = {
   patient : "patient",
   register : "register",
   login:"login",
-  admin:"admin"
+  admin:"admin",
+  pharmacy : "pharmacy"
 };
 

@@ -19,7 +19,7 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
   onInit(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
   get isAdmin() {
     return this.currentUser && this.currentUser.role === Role.Dermatologist;

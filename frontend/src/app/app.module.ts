@@ -41,12 +41,15 @@ import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
+import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule } from '@angular/common';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
@@ -72,6 +75,8 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
     HomeComponent,
+    UnauthenticatedUserComponent,
+    RegisterPharmacyadminComponent,
     PharmacistComponent,
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
@@ -116,11 +121,12 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
     MatSidenavModule,
     MatGridListModule,
     MatCheckboxModule,
+    MatSortModule,
     CommonModule, 
     MatMenuModule,
-    NgbModalModule,
+   // NgbModalModule,
     FlatpickrModule.forRoot(),
-    NgbModule,
+    //NgbModule,
     MatExpansionModule
     
   ],
