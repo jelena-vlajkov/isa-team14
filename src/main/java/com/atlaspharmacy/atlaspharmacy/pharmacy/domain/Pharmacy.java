@@ -12,12 +12,13 @@ import org.hibernate.annotations.FetchMode;
 @Table(name = "pharmacies")
 public class Pharmacy  {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     private Double average_grade;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
@@ -25,6 +26,14 @@ public class Pharmacy  {
     
     public Pharmacy(Long id) {
         this.id = id;
+    }
+
+    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.address = address;
+        this.average_grade = average_grade;
     }
 
     public Long getId() {

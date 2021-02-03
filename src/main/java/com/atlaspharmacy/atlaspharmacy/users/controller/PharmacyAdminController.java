@@ -1,8 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.PharmacyAdmin;
+import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,5 +39,7 @@ public class PharmacyAdminController {
     public ResponseEntity<?> getById(@RequestParam("id") Long id) throws ParseException {
         return new ResponseEntity<>(_pharmacyAdminService.getById(id), HttpStatus.OK);
     }
+
+
 }
 
