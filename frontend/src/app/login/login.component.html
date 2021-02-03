@@ -1,43 +1,70 @@
-<div class="container">
-  <mat-card>
-    <form [formGroup]="loginForm" (ngSubmit)="signIn()">
-      <div id="loginForm">
-        <div class="inputField">
-          <mat-form-field appearance="fill" id="email-ff">
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+  <mat-drawer style="width: 15%; height: 100%; background-color: #385399;" #drawer mode ="side">
+     <mat-action-list >
+            <button mat-list-item  routerLink="/" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+              <button mat-list-item  routerLink="/" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+       
+    </mat-action-list>
+  </mat-drawer>
+    <mat-drawer-content style="justify-content: center;">
+      <mat-toolbar style="background-color: #385399;" >
+         
+          <mat-toolbar-row>
+               <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+                  <mat-icon>menu</mat-icon>
+               </button>
+              <h1>Welcome to AtlasPharmacy</h1>
+              <span class="menu-spacer"></span>
+              <div class="divTool">
+          
+              </div>
+              <span class="example-spacer"></span>
+              <button mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                  <mat-icon>login<span class="tooltiptext">Login</span>
+                  </mat-icon>
+                  </button>
+              <button mat-icon-button [routerLink]="'/registration'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+              <mat-icon>app_registration <span class="tooltiptext">Registration</span>
+              </mat-icon>
+              </button>
+          </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="main-card">
+      <mat-card >
+        
+
+        <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+          <div>
+          <mat-form-field class="example-full-width"  appearance="fill" id="email-ff">
             <mat-label>Email*</mat-label>
             <input matInput id="username" placeholder="Email" name="email-ff"
-                   formControlName="username" class="civca">
+                  formControlName="username" class="civca">
             <mat-error
               *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['required']">
               Please enter email</mat-error>
           </mat-form-field>
         </div>
-
-        <div class="inputField">
+        <div>
           <mat-form-field appearance="fill" id="password-ff">
             <mat-label>Password*</mat-label>
             <input matInput type="password" id="password" placeholder="Password" name="password-ff"
-                   formControlName="password" class="civca">
+                  formControlName="password" class="civca">
             <mat-error
               *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched && loginForm.get('password').errors['required']">
               Please enter password</mat-error>
           </mat-form-field>
         </div>
 
-        <!-- <div style="float: left;">
-            <label>Not registered yet?</label>
-            <a routerLink="/patientRegistration">Register now</a>
-        </div> -->
-        <button mat-flat-button name="button-ff"  color="primary" type="submit"
-                [disabled]="!loginForm.valid">Login</button>
-      </div>
-    </form>
-  </mat-card>
-  <mat-card>
-    <div id="registerForm">
-      <h1>Don't have an account?</h1>
-      <p id="loginP">Click here to register!</p>
-      <button mat-flat-button name="button-ff" style="alignment: center;" color="primary" type="submit" routerLink="/registration">Register</button>
+          <button mat-flat-button name="button-ff"  color="primary" type="submit"
+            [disabled]="!loginForm.valid">Login</button>
+
+            <h1 style="color: black; margin-top: 20px;">Don't have an account?</h1>
+            <p style="color: black; margin-top: 10px;">Click here to register!</p>
+            <button mat-flat-button name="button-ff" style="alignment: center;" color="primary" type="submit" routerLink="/registration">Register</button>
+
+          </form>
+        
+      </mat-card>
     </div>
-  </mat-card>
-</div>
+        </mat-drawer-content>
+      </mat-drawer-container>

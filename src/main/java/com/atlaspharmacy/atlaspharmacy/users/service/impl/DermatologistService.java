@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class DermatologistService implements IDermatologistService {
 
-    private DermatologistRepository _dermatologistRepository;
+    private final DermatologistRepository _dermatologistRepository;
 
     @Autowired
     public DermatologistService(DermatologistRepository _dermatologistRepository) {
