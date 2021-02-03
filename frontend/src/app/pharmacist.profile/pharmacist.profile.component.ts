@@ -47,7 +47,12 @@ export class PharmacistProfileComponent implements OnInit {
   
     editProfileForm: FormGroup;
   
-    constructor() { }
+    constructor() {
+
+      this.isRequired = true;
+      this.isEditMode = false;
+      this.isNotEditMode = true;
+     }
   
     ngOnInit(): void {
       this.editProfileForm = new FormGroup({});
@@ -56,6 +61,8 @@ export class PharmacistProfileComponent implements OnInit {
       this.password1 = "";
       this.password2 = "";
       this.isRequired = true;
+      this.isEditMode = false;
+      this.isNotEditMode = true;
   
       this.oldpassword = "peraBijeKera";
   

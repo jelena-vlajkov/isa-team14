@@ -1,0 +1,174 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px;" hasBackdrop="true" >
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
+       <mat-action-list >
+            <button mat-list-item routerLink="/pharmacist">  
+                <i class="material-icons">dashboard</i>
+                <p class="list-p">Dashboard</p>
+            </button>
+            <button mat-list-item routerLink="/pharmacist/addReport">  
+                    <i class="material-icons">alarm</i>
+                    <p class="list-p">Counselings</p>
+            </button>
+            <button mat-list-item routerLink="/pharmacist/calendar"> 
+          
+                <i class="material-icons">calendar_today</i>
+                <p class="list-p">Calendar</p>
+            </button>
+            <button mat-list-item routerLink="/pharmacist/reports"> 
+            
+                <i class="material-icons">article</i>
+                <p class="list-p">Counseling reports</p>
+            </button>
+            <button mat-list-item routerLink="/pharmacist/patients"> 
+                
+                <i class="material-icons">group</i>
+                <p class="list-p">Patients</p>
+            </button>
+            <button mat-list-item routerLink="/pharmacist/medication"> 
+                
+                <i class="material-icons">medication</i>
+                <p class="list-p">Medications</p>
+            </button>
+      </mat-action-list>
+      <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+        <button mat-list-item routerLink="/pharmacist/profile"> 
+          
+            <i class="material-icons">person</i>
+            <p class="list-p">Profile</p>
+        </button>
+        <button  mat-list-item > 
+            <i class="material-icons">logout</i>
+            <p class="list-p">Logout</p>
+        </button>
+      </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Medications</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <mat-card style="height: fit-content;">
+            <mat-card-title>
+                <mat-card-header>
+                    <mat-label>Search medications</mat-label>
+                </mat-card-header>
+
+            </mat-card-title> 
+            <mat-card-content style="margin-top: 30px; margin-left: 40px; display: flex;">
+                
+                <mat-form-field class="example-full-width">
+                    <mat-label>By medication name</mat-label>
+                    <input matInput type="search" placeholder="Name and surname">
+                </mat-form-field>
+                
+            </mat-card-content>
+            
+        </mat-card>
+          <mat-card style="height: fit-content;">
+            <mat-card-title>
+                <mat-card-header>
+                    <mat-label>Brufen</mat-label>
+                </mat-card-header>
+            </mat-card-title> 
+            <mat-card-content>
+                <mat-list style="margin-left: 20px;">
+                    <mat-list-item><p> Dosage:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><p> Company:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><p> Quantity:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+
+                  </mat-list>
+            </mat-card-content>
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel  style="margin-top:20px;" >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Content
+                      </mat-panel-title>
+                      
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel  style="margin-top:20px;" >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Side effects:
+                      </mat-panel-title>
+                      
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-card-actions align='end'>
+                
+            </mat-card-actions> 
+        </mat-card>
+        
+
+        <mat-card style="height: fit-content;">
+            <mat-card-title>
+                <mat-card-header>
+                    <mat-label>Brufen</mat-label>
+                </mat-card-header>
+            </mat-card-title> 
+            <mat-card-content>
+                <mat-list style="margin-left: 20px;">
+                    <mat-list-item><p> Dosage:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><p> Company:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item><p> Quantity:  </p></mat-list-item>
+                    <mat-divider></mat-divider>
+
+                  </mat-list>
+            </mat-card-content>
+            <mat-accordion class="example-headers-align" multi>
+                <mat-expansion-panel  style="margin-top:20px;" >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Content
+                      </mat-panel-title>
+                      
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+                <mat-expansion-panel  style="margin-top:20px;" >
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Side effects:
+                      </mat-panel-title>
+                      
+                    </mat-expansion-panel-header>
+                    <mat-list>
+                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
+                    </mat-list>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-card-actions align='end'>
+                
+            </mat-card-actions> 
+        </mat-card>
+          
+     </mat-drawer-content>
+</mat-drawer-container>

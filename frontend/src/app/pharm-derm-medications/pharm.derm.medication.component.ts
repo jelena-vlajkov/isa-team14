@@ -4,10 +4,10 @@ import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'pharmacist-reports',
-  templateUrl: './pharmacist.add-report.component.html',
-  styleUrls: ['./pharmacist.add-report.component.css']
+  templateUrl: './pharm.derm.medication.component.html',
+  styleUrls: ['./pharm.derm.medication.component.css']
 })
-export class PharmacistAddReportComponent {
+export class PharmDermMedicationsComponent {
   
     displayedColumns: string[] = ['position', 'name', 'dosage', '#'];
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -19,6 +19,7 @@ export class PharmacistAddReportComponent {
     }
 
     addMedication() {}
+
   }
   
   export interface PeriodicElement {

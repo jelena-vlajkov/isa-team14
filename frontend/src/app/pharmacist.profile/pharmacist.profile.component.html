@@ -1,37 +1,37 @@
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px;" hasBackdrop="true" >
-    <mat-drawer style="width: 20%; height: 100%;" #drawer mode ="side">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
        <mat-action-list >
-            <button mat-list-item routerLink="pharmacist">  
-                <i class="material-icons">dashboard</i>
-                <p class="list-p">Dashboard</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile">  
-                    <i class="material-icons">alarm</i>
-                    <p class="list-p">Counselings</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
+        <button mat-list-item routerLink="/pharmacist">  
+          <i class="material-icons">dashboard</i>
+          <p class="list-p">Dashboard</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/addReport">  
+              <i class="material-icons">alarm</i>
+              <p class="list-p">Counselings</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/calendar"> 
+    
+          <i class="material-icons">calendar_today</i>
+          <p class="list-p">Calendar</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/reports"> 
+      
+          <i class="material-icons">article</i>
+          <p class="list-p">Counseling reports</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/patients"> 
           
-                <i class="material-icons">calendar_today</i>
-                <p class="list-p">Calendar</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-            
-                <i class="material-icons">article</i>
-                <p class="list-p">Counseling reports</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-                
-                <i class="material-icons">group</i>
-                <p class="list-p">Patients</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-                
-                <i class="material-icons">medication</i>
-                <p class="list-p">Medications</p>
-            </button>
-      </mat-action-list>
-      <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-        <button mat-list-item routerLink="pharmacist/profile"> 
+          <i class="material-icons">group</i>
+          <p class="list-p">Patients</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/medication"> 
+          
+          <i class="material-icons">medication</i>
+          <p class="list-p">Medications</p>
+      </button>
+</mat-action-list>
+<mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+  <button mat-list-item routerLink="/pharmacist/profile"> 
           
             <i class="material-icons">person</i>
             <p class="list-p">Profile</p>
@@ -43,7 +43,7 @@
       </mat-action-list>
     </mat-drawer>
       <mat-drawer-content>
-        <mat-toolbar style="background-color:white;">
+        <mat-toolbar style="background-color: #385399;">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
               <mat-icon>menu</mat-icon>
             </button>

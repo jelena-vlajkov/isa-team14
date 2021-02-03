@@ -1,37 +1,37 @@
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px;" hasBackdrop="true" >
-    <mat-drawer style="width: 20%; height: 100%;" #drawer mode ="side">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
        <mat-action-list >
-            <button mat-list-item routerLink="pharmacist">  
-                <i class="material-icons">dashboard</i>
-                <p class="list-p">Dashboard</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile">  
-                    <i class="material-icons">alarm</i>
-                    <p class="list-p">Counselings</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-          
-                <i class="material-icons">calendar_today</i>
-                <p class="list-p">Calendar</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
+        <button mat-list-item routerLink="/pharmacist">  
+            <i class="material-icons">dashboard</i>
+            <p class="list-p">Dashboard</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/addReport">  
+                <i class="material-icons">alarm</i>
+                <p class="list-p">Counselings</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/calendar"> 
+      
+            <i class="material-icons">calendar_today</i>
+            <p class="list-p">Calendar</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/reports"> 
+        
+            <i class="material-icons">article</i>
+            <p class="list-p">Counseling reports</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/patients"> 
             
-                <i class="material-icons">article</i>
-                <p class="list-p">Counseling reports</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-                
-                <i class="material-icons">group</i>
-                <p class="list-p">Patients</p>
-            </button>
-            <button mat-list-item routerLink="pharmacist/profile"> 
-                
-                <i class="material-icons">medication</i>
-                <p class="list-p">Medications</p>
-            </button>
-      </mat-action-list>
-      <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-        <button mat-list-item routerLink="pharmacist/profile"> 
+            <i class="material-icons">group</i>
+            <p class="list-p">Patients</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/medication"> 
+            
+            <i class="material-icons">medication</i>
+            <p class="list-p">Medications</p>
+        </button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+    <button mat-list-item routerLink="/pharmacist/profile"> 
           
             <i class="material-icons">person</i>
             <p class="list-p">Profile</p>
@@ -43,7 +43,7 @@
       </mat-action-list>
     </mat-drawer>
       <mat-drawer-content>
-        <mat-toolbar style="background-color:white;">
+        <mat-toolbar style="background-color: #385399;">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
               <mat-icon>menu</mat-icon>
             </button>
@@ -116,6 +116,63 @@
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                             </table>
                         </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel  style="margin-top:20px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Schedule next counseling
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>  
+                        <mat-form-field class="example-full-width" style="margin-left: 30px;">
+                            <mat-label>Select date</mat-label>
+                            <input matInput [matDatepicker]="picker2" value="12/1/2021">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                        
+                        <div class="container" id="tableContainer2">
+                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef> No. </th>
+                                <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                                </ng-container>
+                                    
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef> Name </th>
+                                <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.name}} </td>
+                            </ng-container>
+                                    
+                            <ng-container matColumnDef="dosage" style="width:100px !important">
+                                <th mat-header-cell *matHeaderCellDef> Dosage </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <mat-form-field style="width: 100%;">
+                                        <mat-label>Dosage</mat-label>
+                                        <input matInput type="number" value="8" placeholder="Hours" style="width:100px !important">
+                                    </mat-form-field>
+
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="#" style="margin-left: 80px;">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <button mat-raised-button color="primary" id="button" (click)="addMedication()"  >Prescribe</button>
+                                </td>
+                            </ng-container>
+                                    
+                                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+
+
+                          
+                                
+
                     </mat-expansion-panel>
                 </mat-accordion>
 

@@ -141,7 +141,7 @@
     width: 100%;
   }
 
-  
+
   .example-container {
     flex: 1 1 auto;
     height: 100%;
@@ -150,10 +150,23 @@
     margin: 12px; */
     /* border: 1px solid #555; */
     /*background: rgb(164, 194, 201);*/
-    background: linear-gradient(to bottom left, #654ea3   , #eaafc8);
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
+  }
+
+  p {
+    color: white;
+  }
+  i {
+    color: white;
+  }
+  mat-icon {
+      color: white;
+  }
+
+  span {
+      color: white;
   }
   
   mat-drawer-content {

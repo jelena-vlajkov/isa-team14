@@ -34,6 +34,11 @@
     font-size: 18px;
 
   }
+  mat-grid-tile {
+    background: lightblue;
+    width: 500px;
+    height: 300px;
+  }
   #password-ff {
     width: 400px !important;
     margin-bottom: 3px;
@@ -114,7 +119,6 @@
     height: 200px;
     margin: 12px; */
     /* border: 1px solid #555; */
-    background:#be91d094;
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
@@ -129,7 +133,18 @@
     
   }
 
+  p {
+    color: white;
+  }
+  i {
+    color: white;
+  }
   .toolbar-class {
     background: rgb(148, 206, 191);
 
   }
+
+  img:hover {
+    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    filter: blur(4px);
+}

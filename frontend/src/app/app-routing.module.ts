@@ -21,6 +21,7 @@ import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.cale
 import { PharmacistPatientsComponent } from './pharmacist.patient/pharmacist.patient.component';
 import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
+import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 
 const routes: Routes = [  
 {
@@ -101,6 +102,12 @@ const routes: Routes = [
 {
   path: 'pharmacist/addReport',
   component: PharmacistAddReportComponent
+},
+
+
+{
+  path: 'pharmacist/medication',
+  component: PharmDermMedicationsComponent
 }
 ];
 

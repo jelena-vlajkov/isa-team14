@@ -52,6 +52,7 @@ import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patie
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
+import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist
     PharmacistCalendarComponent,
     PharmacistPatientsComponent,
     PharmacistReportsComponent,
-    PharmacistAddReportComponent
+    PharmacistAddReportComponent,
+    PharmDermMedicationsComponent
 
   ],
   imports: [
