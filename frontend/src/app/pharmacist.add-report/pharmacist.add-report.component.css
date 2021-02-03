@@ -136,6 +136,12 @@
       margin-top: 10px;
       margin-left: 5px;
   }
+
+  table {
+    width: 100%;
+  }
+
+
   .example-container {
     flex: 1 1 auto;
     height: 100%;
@@ -149,19 +155,18 @@
     overflow-y: scroll;
   }
 
-  
   p {
     color: white;
   }
   i {
     color: white;
   }
-  span {
-    color: white;
+  mat-icon {
+      color: white;
   }
 
-  mat-icon {
-    color: white;
+  span {
+      color: white;
   }
   
   mat-drawer-content {

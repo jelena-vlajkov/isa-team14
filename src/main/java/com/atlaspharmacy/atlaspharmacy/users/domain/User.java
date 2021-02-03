@@ -40,6 +40,8 @@ public abstract class User implements UserDetails {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Authority> authorities;
 
+    private boolean firstTimePassword;
+
     public User() {}
     public User(String name, String surname, Address address, Date dateOfBirth, String phoneNumber, Gender gender, String role, List<Authority> authorities)
     {
@@ -51,8 +53,17 @@ public abstract class User implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.gender = gender;
         this.authorities = authorities;
+        this.firstTimePassword = false;
     }
 
+
+    public boolean isFirstTimePassword() {
+        return firstTimePassword;
+    }
+
+    public void setFirstTimePassword(boolean firstTimePassword) {
+        this.firstTimePassword = firstTimePassword;
+    }
 
     public Long getId() {
         return id;

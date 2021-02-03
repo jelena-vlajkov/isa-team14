@@ -55,6 +55,10 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
+import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +84,10 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     PharmacistComponent,
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
-    PharmacistPatientsComponent
+    PharmacistPatientsComponent,
+    PharmacistReportsComponent,
+    PharmacistAddReportComponent,
+    PharmDermMedicationsComponent
 
   ],
   imports: [

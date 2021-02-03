@@ -150,6 +150,7 @@
   }
 
   
+  
   p {
     color: white;
   }
@@ -163,6 +164,7 @@
   mat-icon {
     color: white;
   }
+  
   
   mat-drawer-content {
     /* padding: 12px; */

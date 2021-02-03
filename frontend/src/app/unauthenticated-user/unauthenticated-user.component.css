@@ -260,7 +260,7 @@ visibility: visible;
     left: 80%;
     font-size: 1.4vw;
     font-style: oblique;
-    color: white;
+    color: black;
 }
 
 .searchName2{
@@ -269,7 +269,7 @@ visibility: visible;
     left: 80%;
     font-size: 1.4vw;
     font-style: oblique;
-    color: white;
+    color: black;
 }
 
 .gradeFilter{
@@ -278,5 +278,20 @@ visibility: visible;
     left: 80%;
     font-size: 1.4vw;
     font-style: oblique;
-    color: white;
+    color: black;
 }
+
+
+p {
+    color: white;
+  }
+  i {
+    color: white;
+  }
+  mat-icon {
+      color: white;
+  }
+
+  h1 {
+      color: white;
+  }

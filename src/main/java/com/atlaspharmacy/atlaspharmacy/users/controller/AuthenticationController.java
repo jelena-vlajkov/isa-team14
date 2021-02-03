@@ -39,9 +39,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticatedUserDTO> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                                     HttpServletResponse response) {
 
-
-        System.out.println(authenticationRequest.getPassword());
-        System.out.println(authenticationRequest.getUsername());
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()));
@@ -51,8 +48,8 @@ public class AuthenticationController {
         User user = (User) authentication.getPrincipal();
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
-        AuthenticatedUserDTO authenticatedUserDTO=new AuthenticatedUserDTO(user.getId(),user.getRole(),user.getUsername(),new UserTokenState(jwt, expiresIn));
-        System.out.println(authenticatedUserDTO.getUsername());
+        AuthenticatedUserDTO authenticatedUserDTO = new AuthenticatedUserDTO(user.getId(), user.getRole(), user.getUsername(), new UserTokenState(jwt, expiresIn), user.isFirstTimePassword());
+
 
         return ResponseEntity.ok(authenticatedUserDTO);
     }

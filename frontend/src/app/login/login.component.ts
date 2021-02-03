@@ -5,7 +5,12 @@ import {AuthenticationService} from "../service/user";
 import {Router} from "@angular/router";
 import {Role} from "../model/users";
 
-@Component({ templateUrl: 'login.component.html' })
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin: boolean;

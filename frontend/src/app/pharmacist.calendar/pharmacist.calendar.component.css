@@ -144,12 +144,24 @@
     margin: 12px; */
     /* border: 1px solid #555; */
     /*background: rgb(164, 194, 201);*/
-    background: linear-gradient(to bottom left, #654ea3   , #eaafc8);
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
   }
   
+  p {
+    color: white;
+  }
+  i {
+    color: white;
+  }
+  span {
+    color: white;
+  }
+
+  mat-icon {
+    color: white;
+  }
   mat-drawer-content {
     /* padding: 12px; */
     display: flex;
