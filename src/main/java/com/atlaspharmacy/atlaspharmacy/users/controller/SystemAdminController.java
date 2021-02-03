@@ -24,7 +24,7 @@ public class SystemAdminController {
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerPatient(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
+    public ResponseEntity<?> registerSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
         try {
             systemAdminDTO.setSysRole("SysAdmin");
             SystemAdmin s = systemAdminService.registerSysAdmin(systemAdminDTO);

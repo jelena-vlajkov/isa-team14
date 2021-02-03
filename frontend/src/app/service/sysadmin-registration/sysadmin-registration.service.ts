@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SystemAdmin } from '@app/model/users/SystemAdmin/systemAdmin';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 import { environment } from '@environments/environment';
 
 @Injectable({

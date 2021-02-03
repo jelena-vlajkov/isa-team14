@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {Authentication} from "../models/authentication";
+import {Authentication} from "../model/users/authentication";
 import {AuthenticationService} from "../service/user";
 import {Router} from "@angular/router";
-import {Role} from "../models";
+import {Role} from "../model/users";
 
 
 @Component({

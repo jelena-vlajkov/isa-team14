@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {AuthenticatedUser} from "../model/users/authenticatedUser";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
-import {Role} from "@app/models";
+import {Role} from "@app/model/users";
 import {Address} from "@app/model/address/address";
 
 @Component({

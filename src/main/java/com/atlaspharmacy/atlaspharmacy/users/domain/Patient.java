@@ -27,6 +27,7 @@ public class Patient extends User {
     public Patient() {
     }
 
+
     public Patient(Long patientId) {
     }
 

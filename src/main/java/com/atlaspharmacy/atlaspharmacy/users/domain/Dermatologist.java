@@ -17,7 +17,7 @@ public class Dermatologist extends MedicalStaff {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 
     @JoinTable(
             name = "dermatologist_to_pharmacies",
@@ -25,6 +25,7 @@ public class Dermatologist extends MedicalStaff {
             inverseJoinColumns = @JoinColumn(name = "pharmacy_id")
     )
     private List<Pharmacy> pharmacies;
+
     public Dermatologist(Long id) {
         this.id = id;
     }
