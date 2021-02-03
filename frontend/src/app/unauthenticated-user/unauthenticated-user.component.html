@@ -176,11 +176,10 @@
             
                 </div>
                 <span class="example-spacer"></span>
-                <button mat-icon-button  [routerLink]="'/login'">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" class="tooltip" >
-                        login <span class="tooltiptext">Login</span>
+                <button mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>login<span class="tooltiptext">Login</span>
                     </mat-icon>
-                </button>
+                    </button>
                 <button mat-icon-button [routerLink]="'/registration'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
                 <mat-icon>app_registration <span class="tooltiptext">Registration</span>
                 </mat-icon>
@@ -243,7 +242,7 @@
             <div class="gradeFilter">
                 <p>Filter by grade</p>
 
-                <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 150%;">
+                <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 50%;">
                     <mat-option value="1">Between 0 and 1</mat-option>
                     <mat-option value="2">Between 1 and 2</mat-option>
                     <mat-option value="3">Between 2 and 3</mat-option>
