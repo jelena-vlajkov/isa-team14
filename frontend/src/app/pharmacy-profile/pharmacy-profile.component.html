@@ -62,18 +62,20 @@
                   <label>Dermatologists:</label>
                 </mat-grid-tile>
                 <mat-grid-tile colspan="1">
-
-                    <p *ngFor="let i of dermatologists">{{i}} </p>
-
+                    <div style="margin-top: 30px;">
+                    <p *ngFor="let dermatologist of dermatologists">{{dermatologist}} </p>
+                    </div>
                 </mat-grid-tile>
 
               <mat-grid-tile>
                 <label>Pharmacists:</label>
               </mat-grid-tile>
               <mat-grid-tile>
+                <div style="margin-top: 30px;">
                 <p class="text-grid" *ngFor="let pharmacist of pharmacists">
                   {{pharmacist}}
                 </p>
+                </div>
               </mat-grid-tile>
             </mat-grid-list>
 

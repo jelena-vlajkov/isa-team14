@@ -35,7 +35,7 @@ public class PharmacyController {
     @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(Long id){
 
-        Pharmacy pharmacy=pharmacyService.getById(id);
+        PharmacyDTO pharmacy=pharmacyService.getById(id);
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
 

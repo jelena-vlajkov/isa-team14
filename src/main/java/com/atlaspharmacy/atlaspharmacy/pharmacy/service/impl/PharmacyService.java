@@ -33,13 +33,13 @@ public class PharmacyService implements IPharmacyService {
     }
 
     @Override
-    public Pharmacy getById(Long id) {
+    public PharmacyDTO getById(Long id) {
         Pharmacy pharmacy = pharmacyRepository.getById(id).orElse(null);
         if(pharmacy == null){
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }
 
-        return  pharmacy;
+        return  PharmacyMapper.mapPharmacyToDTO(pharmacy);
     }
 
     @Override
