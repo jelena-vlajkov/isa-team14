@@ -25,11 +25,13 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { Role } from './model/users';
 
 const routes: Routes = [  
 {
   path : 'login',
-  component : LoginComponent
+  component : LoginComponent,
+
 },
 {
   path : 'registration',
@@ -37,31 +39,45 @@ const routes: Routes = [
 },
 {
   path : 'admin',
-  component : AdminComponent
+  component : AdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacy',
-  component : RegisterPharmacyComponent
+  component : RegisterPharmacyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerSupplier',
-  component : RegisterSupplierComponent
+  component : RegisterSupplierComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/addAdmin',
-  component : AddAdminComponent
+  component : AddAdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacyAdmin',
-  component : RegisterPharmacyadminComponent
+  component : RegisterPharmacyadminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path: 'admin/registerDermatologist',
-  component : RegisterDermatologistComponent
+  component : RegisterDermatologistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'pharmacyAdmin-profile',
-  component : PharmacyAdminProfileComponent
+  component : PharmacyAdminProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.PharmacyAdmin]}
 },
 {
   path : 'pharmacy-profile',
@@ -81,15 +97,18 @@ const routes: Routes = [
 },
 {
   path : 'admin/defineLoyalty',
-  component : DefineLoyaltyComponent
+  component : DefineLoyaltyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/addDrug',
-  component : AdminRegisterDrugComponent
+  component : AdminRegisterDrugComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 { path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
 },
 { path: '',
   component: UnauthenticatedUserComponent,

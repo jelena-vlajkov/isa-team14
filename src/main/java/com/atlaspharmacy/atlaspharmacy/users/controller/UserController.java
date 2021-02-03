@@ -30,7 +30,7 @@ public class UserController {
 
 
     @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DERMATOLOGIST')")
+//    @PreAuthorize("hasRole('DERMATOLOGIST')")
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
         return userService.getUserBy(id);

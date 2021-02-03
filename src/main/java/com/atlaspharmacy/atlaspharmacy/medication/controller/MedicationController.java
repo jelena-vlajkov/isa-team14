@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.MedicationAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ public class MedicationController {
 
 
     @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
-///    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getAllMedications(){
 
         List<MedicationDTO> medicationDTOS = _medicationService.findAll();
@@ -29,7 +29,7 @@ public class MedicationController {
     }
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize(AUTHORITY)
+    @MedicationAuthorization
     public ResponseEntity<?> addMedicationToSystem(@RequestBody MedicationDTO medicationDTO){
 
         try {

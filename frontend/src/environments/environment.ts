@@ -18,6 +18,7 @@ export const environment = {
   pharmacy : "pharmacy",
   pharmacyAdmin:"pharmacyAdmin",
   dermatologist : "dermatologist",
-  supplier : "supplier"
+  supplier : "supplier",
+  auth:"auth"
 };
 

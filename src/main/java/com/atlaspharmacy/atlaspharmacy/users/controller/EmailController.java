@@ -24,33 +24,4 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-//    @PutMapping(value = "/sendEmail")
-//    public ResponseEntity<?> sendMail(@RequestBody EmailDTO email) {
-//        try {
-//            String text = email.getBody() + email.getLink();
-////            emailService.mailConfirmation(email.getPatientEmail(), email.getSubject(), email.getBody(), email.getLink());
-//        } catch (NullPointerException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        } catch (IllegalArgumentException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-//
-//    @Async
-//    @PutMapping(value = "/confirm")
-//    public ResponseEntity<?> activation(@RequestBody EmailDTO email) {
-//        try {
-////            emailService.mailConfirmation(email.getPatientEmail(), email.getSubject(), email.getBody(),email.getLink());
-//        } catch (NullPointerException e) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        } catch (IllegalArgumentException e) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 }

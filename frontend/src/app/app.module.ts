@@ -87,7 +87,8 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
     PharmacistPatientsComponent,
     PharmacistReportsComponent,
     PharmacistAddReportComponent,
-    PharmDermMedicationsComponent
+    PharmDermMedicationsComponent,
+    
 
   ],
   imports: [

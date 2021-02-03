@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-adminprofile',
@@ -29,7 +30,7 @@ export class AdminComponent implements OnInit {
 
   editProfileForm: FormGroup;
 
-  constructor() { }
+  constructor(private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
     this.editProfileForm = new FormGroup({});
@@ -73,7 +74,7 @@ export class AdminComponent implements OnInit {
     
   }
   adminLogout(){
-    
+    this.authenticationService.logout();
   }
   cancelEdit(){
     this.profile = true; 
