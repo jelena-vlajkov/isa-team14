@@ -15,6 +15,8 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 import { PharmacistComponent } from './pharmacist/pharmacist.component'
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component'
@@ -46,6 +48,10 @@ const routes: Routes = [
   component : AddAdminComponent
 },
 {
+  path : 'admin/registerPharmacyAdmin',
+  component : RegisterPharmacyadminComponent
+},
+{
   path : 'pharmacyAdmin-profile',
   component : PharmacyAdminProfileComponent
 },
@@ -74,8 +80,12 @@ const routes: Routes = [
   component : AdminRegisterDrugComponent
 },
 { path: 'home',
-  component: HomeComponent,
-  canActivate: [AuthGuard]
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+},
+{ path: '', //mora ovo biti pocnea stranica jer je neulogovani korisnik
+  component: UnauthenticatedUserComponent,
+  
 },
 { path: 'pharmacist',
   component: PharmacistComponent

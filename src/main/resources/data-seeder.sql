@@ -10,8 +10,9 @@ insert into users(id, date_of_birth, gender, name, email, password, phone_number
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (300, '1966-01-01 00:00:01', 0, 'Lazar', 'lazic@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Lazic', 200, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role)
 values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (100,'talalala','Apoteka Jankovic',100,3.4);
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (200,'ldkjdljf','ZEGIN',200,5);
+
+insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
+insert into pharmacies(id, average_grade, description, name, address_id) VALUES (200, 5.0,'ldkjdljf','ZEGIN',200);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 insert into medicalstaff(license_number, id) values ('16657568',100);

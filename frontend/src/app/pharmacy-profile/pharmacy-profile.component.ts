@@ -14,7 +14,7 @@ export class PharmacyProfileComponent implements OnInit {
 
   name:String;
   address:String;
-  grade:number;
+  grade:Number;
   about:String;
   currentUserId:String;
 

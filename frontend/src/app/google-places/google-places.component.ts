@@ -27,7 +27,7 @@ export class GooglePlacesComponent implements OnInit {
   @ViewChild('addresstext') addresstext: any;
   public long : Number;
   public lat: Number;
-  autocompleteInput: string;
+  public autocompleteInput: string;
   queryWait: boolean;
   public address : Address;
   public state : State;
