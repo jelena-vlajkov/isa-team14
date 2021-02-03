@@ -15,16 +15,13 @@ import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.componen
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
-import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
-<<<<<<< HEAD
 import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
-=======
-import { PharmacistComponent } from './pharmacist/pharmacist.component'
+import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
-import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component'
+import { PharmacistCalendarComponent } from './pharmacist.calendar/pharmacist.calendar.component';
 import { PharmacistPatientsComponent } from './pharmacist.patient/pharmacist.patient.component';
->>>>>>> develop
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 
 const routes: Routes = [  
 {
@@ -88,14 +85,10 @@ const routes: Routes = [
   component : AdminRegisterDrugComponent
 },
 { path: 'home',
-<<<<<<< HEAD
-  component: HomeComponent,
-  canActivate: [AuthGuard]
-=======
     component: HomeComponent,
     canActivate: [AuthGuard]
 },
-{ path: '', //mora ovo biti pocnea stranica jer je neulogovani korisnik
+{ path: '',
   component: UnauthenticatedUserComponent,
   
 },
@@ -112,7 +105,6 @@ const routes: Routes = [
 {
   path: 'pharmacist/patients',
   component: PharmacistPatientsComponent
->>>>>>> develop
 }
 ];
 

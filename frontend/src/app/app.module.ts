@@ -43,10 +43,8 @@ import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
-<<<<<<< HEAD
 import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
 
-=======
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
@@ -57,7 +55,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
->>>>>>> develop
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,17 +73,14 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
     HomeComponent,
-<<<<<<< HEAD
     RegisterPharmacyadminComponent,
-    RegisterDermatologistComponent
-=======
+    RegisterDermatologistComponent,
     UnauthenticatedUserComponent,
     RegisterPharmacyadminComponent,
     PharmacistComponent,
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
     PharmacistPatientsComponent
->>>>>>> develop
 
   ],
   imports: [
