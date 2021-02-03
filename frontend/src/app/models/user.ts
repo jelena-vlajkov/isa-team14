@@ -1,11 +1,23 @@
 ﻿import { Role } from "./role";
 
 export class User {
-    id: number;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    role:Role;
-    token?: string;
+    public id: number;
+    public name: string;
+    public password: string;
+    public username: string;
+    public surname: string;
+    public role:Role;
+    public token?: string;
+
+  constructor(id : number, name:string,password:string,username : string,
+              surname : string, token : string,role:Role) {
+    this.id = id;
+    this.role = role;
+    this.name = name;
+    this.password=password;
+    this.username=username;
+    this.surname=surname;
+    this.token = token;
+  }
 }
+

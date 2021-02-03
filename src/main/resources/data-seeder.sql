@@ -8,18 +8,24 @@ insert into users(id, date_of_birth, gender, name, email, password, phone_number
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (400, '1966-01-01 00:00:01', 0, 'Danica', 'vojvodicd@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200, 'PharmacyAdmin');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (600, '1966-01-01 00:00:01', 0, 'Marko', 'marko@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (300, '1966-01-01 00:00:01', 0, 'Lazar', 'lazic@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Lazic', 200, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role)
-values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (100,'talalala','Apoteka Jankovic',100,3.4);
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (200,'ldkjdljf','ZEGIN',200,5);
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 23567,'Ignjatijevic', 300, 'Patient');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (700, '1986-01-01 00:00:01', 1, 'Laza', 'lazicl@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Lazic',  200, 'Pharmacist');
 
-insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+
+insert into pharmacies(id,description,name,address_id,average_grade) VALUES (100,'Ovo je jedna slatka mala apotekicaaaaa.','Apoteka Jankovic',100,3.4);
+insert into pharmacies(id,description,name,address_id,average_grade) VALUES (200,'Ovo je jedna predivna apoteka.','ZEGIN',200,5);
+
+insert into pharmacy_admins(id, pharmacy_id) values(400,100);
+
 insert into medicalstaff(license_number, id) values ('16657568',100);
 insert into medicalstaff(license_number, id) values ('243532',200);
 insert into medicalstaff(license_number, id) values ('333',300);
 insert into medicalstaff(license_number, id) values('1241241', 500);
+insert into medicalstaff(license_number, id) values('1241241', 700);
 
-insert into pharmacists(id) values (500);
+insert into pharmacists(id,pharmacy_id) values (500,100);
+insert into pharmacists(id,pharmacy_id) values (700,100);
+
 
 insert into patients(enabled, verification_code, id) values (true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb', 200);
 
@@ -28,6 +34,7 @@ insert into dermatologists(id) values (200);
 insert into dermatologists(id) values (300);
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (200,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (200,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);

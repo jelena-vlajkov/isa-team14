@@ -4,7 +4,7 @@ export class Pharmacy{
   public name: String;
   public id: number ;
   public description:String;
-  private address: Address;
+  public address: Address;
   public  average_grade: number;
   constructor(name : String,id: number,description:String,address: Address,average_grade: number){
     this.name = name;

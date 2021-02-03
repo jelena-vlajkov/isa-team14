@@ -21,10 +21,8 @@ public class PharmacyAdminService implements IPharmacyAdminService {
 
     @Override
     public Pharmacy getPharmacyByPharmacyAdmin(Long id) {
-        PharmacyAdmin pharmacyAdmin= _pharmacyAdminRepository.findAll()
-                                       .stream()
-                                       .filter(admin -> admin.getId()==id).findFirst()
-                                       .orElse(null);
+        PharmacyAdmin pharmacyAdmin= _pharmacyAdminRepository.findById(id).orElse(null);
+
         return pharmacyAdmin.getPharmacy();
     }
     @Override

@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "pharmacists")
@@ -16,15 +17,8 @@ public class Pharmacist extends MedicalStaff {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
-
-    public Pharmacist(Long id) {
-        this.id = id;
-    }
-
-    public Pharmacist() {
-
-    }
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    private Pharmacy pharmacy;
 
     public void setId(Long id) {
         this.id = id;
@@ -58,4 +52,21 @@ public class Pharmacist extends MedicalStaff {
     public boolean isEnabled() {
         return true;
     }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public Pharmacist(Long id) {
+        this.id = id;
+    }
+
+    public Pharmacist() {
+
+    }
+
 }

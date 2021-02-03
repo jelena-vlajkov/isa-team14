@@ -15,12 +15,12 @@ public class Pharmacy  {
     private Long id;
     private String name;
     private String description;
+    private Double average_grade;
 
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    private Double average_grade;
 
     
     public Pharmacy(Long id) {
@@ -66,10 +66,13 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
-    public Pharmacy(Long id, String name, String description) {
+
+    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.address = address;
+        this.average_grade = average_grade;
     }
-
 }
+
