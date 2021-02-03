@@ -43,6 +43,8 @@ import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
+import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
+
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
@@ -71,6 +73,8 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
     HomeComponent,
+    RegisterPharmacyadminComponent,
+    RegisterDermatologistComponent,
     UnauthenticatedUserComponent,
     RegisterPharmacyadminComponent,
     PharmacistComponent,

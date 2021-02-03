@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table'; 
 import { IngredientService } from '../service/medication/ingredients.service';
 import { Ingredient } from '../model/medications/ingredient';
+import { Medication } from '@app/model/medications/medication';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Supplier } from '@app/model/users/supplier/supplier';
+import { Address } from '@app/model/address/address';
+import { GooglePlacesComponent } from '@app/google-places/google-places.component';
+import { Role } from '@app/model/users';
+import { SupplierService } from '@app/service/supplier/supplier.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-supplier',
@@ -9,46 +17,66 @@ import { Ingredient } from '../model/medications/ingredient';
   styleUrls: ['./register-supplier.component.css']
 })
 export class RegisterSupplierComponent implements OnInit {
-  public allIngredients : Ingredient[] = new Array();
+  addSupplier : FormGroup;
+  public supplier : Supplier;
+  name : String;
+  telephone : String;
+  email : String;
+  password : String;
+  confirmpassword : String;
+  headquarters : Address;
+  @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private ingredientService : IngredientService) { }
+  constructor(private supplierService : SupplierService, private router : Router) { }
 
   ngOnInit(): void {
-  }
-  registerPharmacy(){
-
-  }
-  registerDermatologist(){
-
-  }
-  registerAdmin(){
-
+    this.addSupplier = new FormGroup({
+      'name' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, Validators.required),
+      'mail' : new FormControl(null, Validators.required),
+      'password' : new FormControl(null, Validators.required),
+      'confirmpassword' : new FormControl(null, Validators.required),
+    });
+    
   }
   registerSupplier(){
-
+    this.name = this.addSupplier.value.name;
+    this.telephone = this.addSupplier.value.telephone;
+    this.email = this.addSupplier.value.mail;
+    this.password = this.addSupplier.value.password;
+    this.confirmpassword = this.addSupplier.value.confirmpassword;
+    if(this.googleplaces===undefined){
+      alert("Please fill the address!");
+    }else{
+      this.headquarters = this.googleplaces.address;
+      var role : Role;
+      role = Role.Supplier;
+      var auths : Number[] = new Array();
+      if(this.password === this.confirmpassword){
+        this.supplier = new Supplier(this.name,this.telephone, this.email, this.password, this.headquarters, role, auths);
+        this.supplierService.registerSupplier(this.supplier).subscribe(
+          res=>{
+            this.addSupplier.reset();
+            this.googleplaces = null;
+            alert('Success');
+            this.router.navigate(['/admin']);
+          },
+          error=>{
+            alert("Fail");
+          });
+      }else{
+        alert('Passwords do not match!');
+      }
+     
+    }
   }
-  operationsWithDrugs(){
 
-  }
   respondToComplaints(){
 
   }
-  defineLoyalty(){
-    
-  }
+
   adminLogout(){
     
   }
-  editProfile(){
 
-  }
-  addAdmin(){}
-
-  
-  loadAllMedications() {
-    this.ingredientService.findAllIngredients().subscribe(data => 
-      {
-        this.allIngredients = data
-      });
-  }
 }

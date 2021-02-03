@@ -1,0 +1,238 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
+        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item routerLink="/admin"> Profile</button>
+              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+        <div style="overflow-y: auto; width: 100%;">
+            <mat-card class="dermatologist-card">
+                <mat-card-header>
+                    <mat-card-title>
+                      <label style="font-weight:bold; font-size: 25px;">Register dermatologist</label>
+                    </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <form [formGroup]="addDermatologist">
+                        <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+
+                          <mat-grid-tile>
+                            <div class="inputField">
+                              <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
+                                  <mat-label style="font-size:14px;">Name*</mat-label>
+                                  <input matInput id="name" placeholder="Name" name="name-ff" 
+                                      formControlName="name">
+                                  <mat-error
+                                      *ngIf="!addDermatologist.get('name').valid && addDermatologist.get('name').touched && addDermatologist.get('name').errors['required']">
+                                      Please enter name</mat-error>
+                              </mat-form-field>
+                            </div>  
+                          </mat-grid-tile>
+      
+                          <mat-grid-tile>
+                            <div class="inputField">
+                              <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
+                                  <mat-label style="font-size:14px;">Surname*</mat-label>
+                                  <input matInput id="surname" placeholder="Surname" name="name-ff" formControlName="surname">                   
+                                  <mat-error
+                                      *ngIf="!addDermatologist.get('surname').valid && addDermatologist.get('surname').touched && addDermatologist.get('surname').errors['required']">
+                                      Please enter surname</mat-error>
+                              </mat-form-field>
+                            </div> 
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField" style="width: 400px;">
+                              <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                                <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
+                                <mat-radio-button value="MALE" style="font-size:18px;margin-left: 20px;">Male</mat-radio-button>
+                                <mat-radio-button value="OTHER" style="font-size:18px;margin-left: 20px;">other</mat-radio-button>
+                            </mat-radio-group>
+                              <mat-error
+                              *ngIf="!addDermatologist.get('gender').valid && addDermatologist.get('gender').touched && addDermatologist.get('gender').errors['required']">
+                              Please choose gender</mat-error>
+                            </div>     
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField" >
+                              <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
+                                <mat-label style="font-size:14px;">Birth date</mat-label>
+                                <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker1 ></mat-datepicker>
+                                <mat-error
+                                *ngIf="!addDermatologist.get('dob').valid && addDermatologist.get('dob').touched && addDermatologist.get('dob').errors['required']">
+                                Please choose date of birth</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <app-google-places>
+                            </app-google-places>  
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField" >
+                              <mat-form-field appearance="fill" style="width: 400px;">
+                                <mat-label style="font-size:14px;">Telephone*</mat-label>
+                                <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
+                                    formControlName="telephone">
+                                <mat-error
+                                    *ngIf="!addDermatologist.get('telephone').valid && addDermatologist.get('telephone').touched && addDermatologist.get('telephone').errors['required']">
+                                    Please enter telephone</mat-error>
+                              </mat-form-field>      
+                            </div>                    
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField">
+                              <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
+                                <mat-label style="font-size:14px;">Email*</mat-label>
+                                <input matInput id="mail" placeholder="Email" name="mail-ff"
+                                    formControlName="mail">
+                                <mat-error
+                                    *ngIf="!addDermatologist.get('mail').valid && addDermatologist.get('mail').touched && addDermatologist.get('mail').errors['required']">
+                                    Please enter email</mat-error>
+                              </mat-form-field>
+                            </div>                           
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField">
+                              <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                                  <mat-label style="font-size:14px;">New password*:</mat-label>
+                                  <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
+                                  <mat-error
+                                      *ngIf="!addDermatologist.get('password').valid && addDermatologist.get('password').touched && addDermatologist.get('password').errors['required']">
+                                      Please enter new password</mat-error>
+                              </mat-form-field> 
+                            </div> 
+                          </mat-grid-tile>
+                          <mat-grid-tile>
+                            <div class="inputField">
+                              <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                                  <mat-label style="font-size:14px;">Confirm password*:</mat-label>
+                                  <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                                  <mat-error
+                                      *ngIf="!addDermatologist.get('confirmpassword').valid && addDermatologist.get('confirmpassword').touched && addDermatologist.get('confirmpassword').errors['required']">
+                                      Please enter again new password</mat-error>
+                              </mat-form-field>
+                            </div>
+                          </mat-grid-tile>
+                          
+                        </mat-grid-list>
+                      </form>
+                  </mat-card-content>
+              </mat-card>
+              <mat-card class="pharmacy-card">
+                  
+        <mat-form-field>
+            <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Pharmacy:">
+        </mat-form-field>
+        <label style="margin-left: 50%;">Chosen pharmacies</label>
+
+        <div style="width: 100%;">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="float: left; margin-right: 10px;">
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef> Id </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="average_grade">
+                  <th mat-header-cell *matHeaderCellDef> Avg grade </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.average_grade}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.address.street}}, {{element.address.city.name}}, {{element.address.state.name}} </td>
+                </ng-container>
+
+                    <ng-container matColumnDef="pick">
+                        <th mat-header-cell *matHeaderCellDef> Pick </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <button mat-raised-button color="primary" style="font-size:12px" id="button" (click)="pickPharmacy(element)">Pick</button>
+                        </td>
+                    </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" #nextTable>
+
+                <!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+              
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>Id</th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.id}} </td>
+                </ng-container>
+              
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.name}} </td>
+                </ng-container>
+              
+                <!-- Weight Column -->
+                <ng-container matColumnDef="average_grade">
+                  <th mat-header-cell *matHeaderCellDef> Average grade </th>
+                  <td mat-cell *matCellDef="let element"> {{element.average_grade}} </td>
+                </ng-container>
+              
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.address.street}}, {{element.address.city.name}}, {{element.address.state.name}} </td>
+                </ng-container>
+
+                    <ng-container matColumnDef="pick">
+                        <th mat-header-cell *matHeaderCellDef> Remove </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <button mat-raised-button color="primary" style="font-size:12px" id="button" (click)="removePharmacy(element)">Remove</button>
+                        </td>
+                    </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+        </div>
+                
+
+                <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)="registerDermatologist()" color="accent">Register dermatologist</button>
+
+              </mat-card>
+        </div>
+          
+
+    </mat-drawer-content>
+</mat-drawer-container>

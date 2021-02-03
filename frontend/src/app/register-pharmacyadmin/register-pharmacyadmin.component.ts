@@ -4,6 +4,10 @@ import { Address } from './../model/address/address';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
+import { Gender } from '@app/model/users/patient/gender';
+import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
+import { Role } from '@app/model/users/role';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-pharmacyadmin',
@@ -11,15 +15,29 @@ import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
   styleUrls: ['./register-pharmacyadmin.component.css']
 })
 export class RegisterPharmacyadminComponent implements OnInit {
-  registerPharmacy: FormGroup;
   addAdminForm : FormGroup;
-  selectedGender : String;
+  selectedGender;
 
+
+  address : Address;
+  name : string;
+  surname : string;
+  phone : string;
+  email : string;
+  password : string;
+  confirmPassword : string;
+  gender : Gender;
+  selectedDate;
+  dateOfBirth : Date;
+
+  admin_location : Address;
+  admin_location_input: String;
   public pharmacy : Pharmacy;
   public pharmacies : Pharmacy[]= new Array();
+  public pharmacyAdmin : PharmacyAdmin;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private pharmacyService : PharmacyService) { }
+  constructor(private pharmacyService : PharmacyService, private router:Router) { }
 
   ngOnInit(): void {
 
@@ -30,57 +48,66 @@ export class RegisterPharmacyadminComponent implements OnInit {
       'dob' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(null, Validators.required),
       'mail' : new FormControl(null, Validators.required),
-      'newpassword' : new FormControl(null, Validators.required),
+      'password' : new FormControl(null, Validators.required),
       'confirmpassword' : new FormControl(null, Validators.required),
       'pharmacy' : new FormControl(null, Validators.required)
     });
     this.loadAllPharmacies();
   }
-  addPharmacy(){
 
-  }
 
   registerDermatologist(){
 
   }
-  pharmacyValid(){
-    if(this.googleplaces.address===undefined){
-      return false;
+  adminLogout(){}
+  registerAdmin(){
+    this.name = this.addAdminForm.value.name;
+    this.surname = this.addAdminForm.value.surname;
+    this.phone = this.addAdminForm.value.telephone;
+    this.email = this.addAdminForm.value.mail;
+    this.password = this.addAdminForm.value.password;
+    this.confirmPassword = this.addAdminForm.value.confirmpassword;
+    if(this.googleplaces===undefined){
+      alert("Please fill the address!");
+    }else{
+      this.address = this.googleplaces.address;
+      this.gender = this.selectedGender;
+      this.dateOfBirth = this.selectedDate;
+      this.pharmacy = this.addAdminForm.value.pharmacy;
+      console.log(this.pharmacy.address.coordinates);
+      var role : Role;
+      role = Role.PharmacyAdmin;
+      var auths : Number[] = new Array();
+      if(this.password === this.confirmPassword){
+        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.pharmacy);
+
+        this.pharmacyService.registerPharmacyAdmin(this.pharmacyAdmin).subscribe(
+          res=>{
+            this.addAdminForm.reset();
+            this.googleplaces = null;
+            alert('Success');
+            this.router.navigate(['/admin']);
+          },
+          error=>{
+            alert("Fail");
+          });
+      }else{
+        alert('Passwords do not match!');
+      }
+
     }
-    return true;
-  }
-  adminValid(){
+
 
   }
-  registerAdmin(){
-    //TODO DODATI FUNKCIJE
-    return true;
-  }
   loadAllPharmacies() {
-    this.pharmacyService.findAllPharmacies().subscribe(data => 
+    this.pharmacyService.findAllPharmacies().subscribe(data =>
       {
         this.pharmacies = data
       });
   }
-  registerSupplier(){
 
-  }
-  operationsWithDrugs(){
-
-  }
   respondToComplaints(){
 
   }
-  defineLoyalty(){
 
-  }
-  adminLogout(){
-
-  }
-  editProfile(){
-
-  }
-  addAdmin(){
-
-  }
 }

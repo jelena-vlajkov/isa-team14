@@ -1,7 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain.enums;
 
 public enum Role {
-    SysAdmin(Values.SysAdmin), PharmacyAdmin(Values.PharmacyAdmin), Patient(Values.Patient), Pharmacist(Values.Pharmacist), Dermatologist(Values.Dermatologist), MedicalStaff(Values.MedicalStaff);
+    SysAdmin(Values.SysAdmin), PharmacyAdmin(Values.PharmacyAdmin), Patient(Values.Patient), Pharmacist(Values.Pharmacist), Dermatologist(Values.Dermatologist), MedicalStaff(Values.MedicalStaff), Supplier(Values.Supplier);
 
     Role(String value) {
         if (!this.name().equals(value))
@@ -15,5 +15,6 @@ public enum Role {
         public static final String SysAdmin = "SysAdmin";
         public static final String PharmacyAdmin = "PharmacyAdmin";
         public static final String MedicalStaff = "MedicalStaff";
+        public static final String Supplier = "Supplier";
     }
 }
