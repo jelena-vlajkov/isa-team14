@@ -50,6 +50,9 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,7 +74,9 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     PharmacistComponent,
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
-    PharmacistPatientsComponent
+    PharmacistPatientsComponent,
+    PharmacistReportsComponent,
+    PharmacistAddReportComponent
 
   ],
   imports: [

@@ -1,0 +1,135 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px;" hasBackdrop="true" >
+    <mat-drawer style="width: 20%; height: 100%;" #drawer mode ="side">
+       <mat-action-list >
+            <button mat-list-item routerLink="pharmacist">  
+                <i class="material-icons">dashboard</i>
+                <p class="list-p">Dashboard</p>
+            </button>
+            <button mat-list-item routerLink="pharmacist/profile">  
+                    <i class="material-icons">alarm</i>
+                    <p class="list-p">Counselings</p>
+            </button>
+            <button mat-list-item routerLink="pharmacist/profile"> 
+          
+                <i class="material-icons">calendar_today</i>
+                <p class="list-p">Calendar</p>
+            </button>
+            <button mat-list-item routerLink="pharmacist/profile"> 
+            
+                <i class="material-icons">article</i>
+                <p class="list-p">Counseling reports</p>
+            </button>
+            <button mat-list-item routerLink="pharmacist/profile"> 
+                
+                <i class="material-icons">group</i>
+                <p class="list-p">Patients</p>
+            </button>
+            <button mat-list-item routerLink="pharmacist/profile"> 
+                
+                <i class="material-icons">medication</i>
+                <p class="list-p">Medications</p>
+            </button>
+      </mat-action-list>
+      <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+        <button mat-list-item routerLink="pharmacist/profile"> 
+          
+            <i class="material-icons">person</i>
+            <p class="list-p">Profile</p>
+        </button>
+        <button  mat-list-item > 
+            <i class="material-icons">logout</i>
+            <p class="list-p">Logout</p>
+        </button>
+      </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color:white;">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Add reports</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          
+        <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
+            <mat-card-header>
+                <mat-card-title>
+                    Counselings for date: 21.2.2021.
+                </mat-card-title>
+            </mat-card-header>
+        </mat-card>
+        <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
+            <mat-tab-group style="height: fit-content; width: 950px; margin-left: 10px; justify-content: center;">
+                <mat-tab label="Time 12:30"> 
+                    
+                    <div style="margin-top: 20px;">
+                        <mat-label style="margin-top: 20px; font-size: 18px;"> Petar Petrovic</mat-label>
+                    </div>
+                         
+                                
+
+                    <mat-form-field class="example-full-width" style="width: 100%; margin-top: 50px;">
+                        <mat-label>Counseling info</mat-label>
+                        <textarea matInput placeholder="Patient has..."></textarea>
+                    </mat-form-field>
+
+                    <mat-accordion class="example-headers-align" multi>
+                        <mat-expansion-panel  style="margin-top:20px;" >
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Prescribe medications
+                              </mat-panel-title>
+                              
+                            </mat-expansion-panel-header>            
+                        <div class="container" id="tableContainer">
+                            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                                <ng-container matColumnDef="position">
+                                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                                    <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                                    </ng-container>
+                                        
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                                    <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.name}} </td>
+                                </ng-container>
+                                        
+                                <ng-container matColumnDef="dosage" style="width:100px !important">
+                                    <th mat-header-cell *matHeaderCellDef> Dosage </th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Dosage</mat-label>
+                                            <input matInput type="number" value="8" placeholder="Hours" style="width:100px !important">
+                                        </mat-form-field>
+
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="#" style="margin-left: 80px;">
+                                    <th mat-header-cell *matHeaderCellDef> # </th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button mat-raised-button color="primary" id="button" (click)="addMedication()"  >Prescribe</button>
+                                    </td>
+                                </ng-container>
+                                        
+                                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                
+                <button mat-raised-button color="primary" id="button" (click)="addMedication()"  style="float: right; margin-top: 20px;">Finish counseling</button>
+
+                </mat-tab>
+                <mat-tab label="Time 12:30"> Time 12:30 </mat-tab>
+                <mat-tab label="Time 12:30"> Time 12:30 </mat-tab>
+                <mat-tab label="Time 12:30"> Time 12:30 </mat-tab>
+              </mat-tab-group>
+        
+        </mat-card>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>
