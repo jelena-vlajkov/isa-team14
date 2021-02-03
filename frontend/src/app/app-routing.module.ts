@@ -16,6 +16,7 @@ import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
+import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
 
 const routes: Routes = [  {
   path : 'login',
@@ -45,6 +46,10 @@ const routes: Routes = [  {
   component : RegisterPharmacyadminComponent
 },
 {
+  path: 'admin/registerDermatologist',
+  component : RegisterDermatologistComponent
+},
+{
   path : 'pharmacyAdmin-profile',
   component : PharmacyAdminProfileComponent
 },
@@ -72,10 +77,10 @@ const routes: Routes = [  {
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent
 },
-  { path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
-  }
+{ path: 'home',
+  component: HomeComponent,
+  canActivate: [AuthGuard]
+}
 ];
 
 @NgModule({

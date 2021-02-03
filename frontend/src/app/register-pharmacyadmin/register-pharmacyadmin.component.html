@@ -3,7 +3,7 @@
        <mat-action-list>
         <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
         <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
-        <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
         <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
@@ -151,27 +151,7 @@
                     </mat-grid-tile>
                     
                   </mat-grid-list>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addAdminForm.valid"  color="accent">Register pharmacy and admin</button>
-
-
-<!-- 
-
-                  
-
-                  
-
-
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="password-ff">
-                        <mat-label>Confirm password*:</mat-label>
-                        <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
-                        <mat-error
-                            *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
-                            Please enter again new password</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile'   color="accent">Register pharmacy and admin</button>
-   -->
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addAdminForm.valid"  color="accent">Register pharmacy admin</button>
                 </form>
               </mat-card-content>
             </mat-card>
