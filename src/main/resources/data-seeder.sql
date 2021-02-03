@@ -3,7 +3,7 @@ insert into addresses(id, city, latitude, longitude, state, street) values (200,
 insert into addresses(id, city, latitude, longitude, state, street) values (300,'Belgrade',44.8058901,20.4585641,'Serbia','Nemanjina 6');
 
 
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov',  100, 'Dermatologist');
+insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role ) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov',  100, 'Dermatologist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov',  200, 'Pharmacist');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (400, '1966-01-01 00:00:01', 0, 'Danica', 'vojvodicd@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200, 'PharmacyAdmin');
 insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (600, '1966-01-01 00:00:01', 0, 'Marko', 'marko@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200, 'Dermatologist');
@@ -46,6 +46,8 @@ insert into authority(id, name) values (3, 'ROLE_PATIENT');
 insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
+
+insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
 
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (200, 3);

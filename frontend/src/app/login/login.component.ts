@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {Authentication} from "../models/authentication";
+import {Authentication} from "../model/users/authentication";
 import {AuthenticationService} from "../service/user";
 import {Router} from "@angular/router";
-import {Role} from "../models";
+import {Role} from "../model/users";
 
-@Component({ templateUrl: 'login.component.html' })
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   invalidLogin: boolean;

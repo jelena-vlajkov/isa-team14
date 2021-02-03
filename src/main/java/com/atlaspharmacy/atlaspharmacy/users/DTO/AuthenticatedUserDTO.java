@@ -6,47 +6,56 @@ import javax.persistence.Id;
 
 public class AuthenticatedUserDTO {
     @Id
-    private Long Id;
-    private String Role;
-    private String Username;
-    private UserTokenState Token;
+    private Long id;
+    private String role;
+    private String username;
+    private UserTokenState token;
+    private boolean firstCangedPassword;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public String getUsername() {
-        return Username;
+        return username;
     }
 
     public void setUsername(String username) {
-        Username = username;
+        this.username = username;
     }
 
     public UserTokenState getToken() {
-        return Token;
+        return token;
     }
 
     public void setToken(UserTokenState token) {
-        Token = token;
+        this.token = token;
     }
 
-    public AuthenticatedUserDTO(Long id, String role, String username, UserTokenState token) {
-        Id = id;
-        Role = role;
-        Username = username;
-        Token = token;
+    public boolean isFirstCangedPassword() {
+        return firstCangedPassword;
+    }
+
+    public AuthenticatedUserDTO() {
+    }
+
+    public AuthenticatedUserDTO(Long id, String role, String username, UserTokenState token, boolean firstCangedPassword) {
+        this.id = id;
+        this.role = role;
+        this.username = username;
+        this.token = token;
+        this.firstCangedPassword = firstCangedPassword;
     }
 }

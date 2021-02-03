@@ -1,4 +1,4 @@
-import {Gender} from "@app/model/patient/gender";
+import {Gender} from "@app/model/users/patient/gender";
 import {Address} from "@app/model/address/address";
 import {Role} from "@app/model/users/role";
 

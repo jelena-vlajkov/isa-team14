@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
-import { SystemAdmin } from '@app/model/users/SystemAdmin/systemAdmin';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 import { Role } from '@app/model/users/role';
-import { Gender } from '@app/model/patient/gender';
+import { Gender } from '@app/model/users/patient/gender';
 import { Address } from '@app/model/address/address';
 
 @Component({
@@ -90,7 +90,7 @@ export class AddAdminComponent implements OnInit {
   registerDermatologist(){
 
   }
-  
+
   respondToComplaints(){
 
   }

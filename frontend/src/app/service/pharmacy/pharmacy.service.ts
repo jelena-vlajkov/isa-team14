@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
-import { PharmacyAdmin } from '@app/model/pharmacyAdmin/pharmacyAdmin';
+import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 

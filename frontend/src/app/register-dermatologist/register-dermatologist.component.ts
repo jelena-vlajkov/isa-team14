@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 import { Address } from '@app/model/address/address';
-import { Gender } from '@app/model/patient/gender';
+import { Gender } from '@app/model/users/patient/gender';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { Role } from '@app/model/users/role';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
@@ -13,7 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Dermatologist } from '@app/model/dermatologist/dermatologist';
+import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
 import { DermatologistService } from '@app/service/dermatologist/dermatologist.service';
 
 const allowMultiSelect = true;
@@ -67,7 +67,7 @@ export class RegisterDermatologistComponent implements OnInit {
   }
 
   loadAllPharmacies(){
-    this.pharmacyService.findAllPharmacies().subscribe(data => 
+    this.pharmacyService.findAllPharmacies().subscribe(data =>
       {
         this.pharmacies = data;
         this.dataSource = new MatTableDataSource(data);
@@ -91,7 +91,7 @@ export class RegisterDermatologistComponent implements OnInit {
       var role : Role;
       role = Role.Dermatologist;
       var auths : Number[] = new Array();
-      
+
       if(this.password === this.confirmPassword){
          this.dermatologist = new Dermatologist(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
 
@@ -108,19 +108,19 @@ export class RegisterDermatologistComponent implements OnInit {
       }else{
         alert('Passwords do not match!');
       }
-      
+
     }
 
   }
   pickPharmacy(pharmacy : Pharmacy){
     if(!this.chosenPharmacies.find(x => x === pharmacy)){
       this.chosenPharmacies.push(pharmacy);
-      this.dataSource2.data = this.chosenPharmacies; 
+      this.dataSource2.data = this.chosenPharmacies;
     }
   }
   removePharmacy(pharmacy: Pharmacy){
     this.chosenPharmacies = this.chosenPharmacies.filter(obj => obj !== pharmacy);
-    this.dataSource2.data = this.chosenPharmacies; 
+    this.dataSource2.data = this.chosenPharmacies;
   }
   applyFilter(filterValue: string){
       this.dataSource.filter = filterValue.trim().toLowerCase();

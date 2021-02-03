@@ -29,6 +29,7 @@ public class DermatologistService implements IDermatologistService {
     private final AuthorityService authorityService;
 
 
+
     @Autowired
     public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService) {
         this.dermatologistRepository = _dermatologistRepository;

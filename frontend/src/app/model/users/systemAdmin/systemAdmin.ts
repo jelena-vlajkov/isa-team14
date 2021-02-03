@@ -1,5 +1,5 @@
 import { Address } from "@app/model/address/address";
-import { Gender } from "@app/model/patient/gender";
+import { Gender } from "@app/model/users/patient/gender";
 import { Role } from "@app/model/users/role";
 
 export class SystemAdmin{
@@ -13,7 +13,7 @@ export class SystemAdmin{
     public sysAddress : Address;
     public sysRole : Role;
     public sysAuthorities : Number[];
-    
+
     constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[]){
         this.sysName = name;
         this.sysSurname = surname;

@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {AuthenticatedUser} from "../model/users/authenticatedUser";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
+<<<<<<< HEAD
 import {Role, User} from "@app/models";
+=======
+import {Role} from "@app/model/users";
+>>>>>>> develop
 import {Address} from "@app/model/address/address";
 import {DermatologistService} from "@app/service/dermatologist/dermatologist.service";
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";

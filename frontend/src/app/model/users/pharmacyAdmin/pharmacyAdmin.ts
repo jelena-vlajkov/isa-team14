@@ -1,7 +1,7 @@
-import {Gender} from "./../patient/gender";
-import {Address} from "./../address/address";
-import {Role} from "./../users/role";
-import { Pharmacy } from "../pharmacy/pharmacy";
+import {Gender} from "../patient/gender";
+import {Address} from "../../address/address";
+import {Role} from "../role";
+import { Pharmacy } from "../../pharmacy/pharmacy";
 
 export class PharmacyAdmin{
   public name : String;

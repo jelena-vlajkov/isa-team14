@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Router} from '@angular/router';
 
 
 declare interface RouteInfo {
@@ -25,11 +26,31 @@ export class PharmacistComponent implements OnInit {
   menuItems: any[];
   editProfileForm: FormGroup;
 
-  constructor() { }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+  }
+
+  routeToPatients() {
+    this.router.navigateByUrl('/pharmacist/patients');
+  }
+  routeToMedications() {
+    this.router.navigateByUrl('/pharmacist/medication');
+  }
+  routeToCounselings() {
+    this.router.navigateByUrl('/pharmacist/addReport');
+  }
+  routeToReports() {
+    this.router.navigateByUrl('/pharmacist/reports');
+  }
+  routeToProfile() {
+    this.router.navigateByUrl('/pharmacist/profile');
+  }
+  routeToCalendar() {
+    this.router.navigateByUrl('/pharmacist/calendar');
+
   }
 }
 
