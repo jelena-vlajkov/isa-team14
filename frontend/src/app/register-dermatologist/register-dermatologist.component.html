@@ -39,7 +39,7 @@
                           <mat-grid-tile>
                             <div class="inputField">
                               <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
-                                  <mat-label>Name*</mat-label>
+                                  <mat-label style="font-size:14px;">Name*</mat-label>
                                   <input matInput id="name" placeholder="Name" name="name-ff" 
                                       formControlName="name">
                                   <mat-error
@@ -52,7 +52,7 @@
                           <mat-grid-tile>
                             <div class="inputField">
                               <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
-                                  <mat-label>Surname*</mat-label>
+                                  <mat-label style="font-size:14px;">Surname*</mat-label>
                                   <input matInput id="surname" placeholder="Surname" name="name-ff" formControlName="surname">                   
                                   <mat-error
                                       *ngIf="!addDermatologist.get('surname').valid && addDermatologist.get('surname').touched && addDermatologist.get('surname').errors['required']">
@@ -92,7 +92,7 @@
                           <mat-grid-tile>
                             <div class="inputField" >
                               <mat-form-field appearance="fill" style="width: 400px;">
-                                <mat-label>Telephone*</mat-label>
+                                <mat-label style="font-size:14px;">Telephone*</mat-label>
                                 <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
                                     formControlName="telephone">
                                 <mat-error
@@ -104,7 +104,7 @@
                           <mat-grid-tile>
                             <div class="inputField">
                               <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
-                                <mat-label>Email*</mat-label>
+                                <mat-label style="font-size:14px;">Email*</mat-label>
                                 <input matInput id="mail" placeholder="Email" name="mail-ff"
                                     formControlName="mail">
                                 <mat-error
@@ -116,7 +116,7 @@
                           <mat-grid-tile>
                             <div class="inputField">
                               <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
-                                  <mat-label>New password*:</mat-label>
+                                  <mat-label style="font-size:14px;">New password*:</mat-label>
                                   <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
                                   <mat-error
                                       *ngIf="!addDermatologist.get('password').valid && addDermatologist.get('password').touched && addDermatologist.get('password').errors['required']">
@@ -127,7 +127,7 @@
                           <mat-grid-tile>
                             <div class="inputField">
                               <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
-                                  <mat-label>Confirm password*:</mat-label>
+                                  <mat-label style="font-size:14px;">Confirm password*:</mat-label>
                                   <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
                                   <mat-error
                                       *ngIf="!addDermatologist.get('confirmpassword').valid && addDermatologist.get('confirmpassword').touched && addDermatologist.get('confirmpassword').errors['required']">
@@ -141,41 +141,11 @@
                   </mat-card-content>
               </mat-card>
               <mat-card class="pharmacy-card">
-
-                <!-- <mat-autocomplete #auto="matAutocomplete"> -->
-                    <!-- <mat-option *ngFor="let option of dataSource" [value]="option">
-                      {{option}}
-                    </mat-option>
-
-                  </mat-autocomplete>
-                  <input type="text"
-       placeholder="Pick one"
-       aria-label="Number"
-       matInput
-       [formControl]="myControl"
-       [matAutocomplete]="auto"> -->
-       <!-- <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Number</mat-label>
-          <input type="text"
-                 placeholder="Pick one"
-                 aria-label="Number"
-                 matInput
-                 [formControl]="myControl"
-                 [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-
-
-      </form>  -->
+                  
         <mat-form-field>
             <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Pharmacy:">
         </mat-form-field>
+        <label style="margin-left: 50%;">Chosen pharmacies</label>
 
         <div style="width: 100%;">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="float: left; margin-right: 10px;">
