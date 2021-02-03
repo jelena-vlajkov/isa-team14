@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Patient} from "../../model/patient/patient";
+import {Patient} from "../../model/users/patient/patient";
 import {environment} from "../../../environments/environment";
 import {Pharmacy} from "../../model/pharmacy/pharmacy";
-import {PharmacyAdmin} from "../../model/pharmacyAdmin/pharmacyAdmin";
-import {User} from "@app/models";
+import {PharmacyAdmin} from "../../model/users/pharmacyAdmin/pharmacyAdmin";
+import {User} from "@app/model/users";
 import {Observable} from "rxjs";
 
 @Injectable({

@@ -4,8 +4,8 @@ import { Address } from './../model/address/address';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
-import { Gender } from '@app/model/patient/gender';
-import { PharmacyAdmin } from '@app/model/pharmacyAdmin/pharmacyAdmin';
+import { Gender } from '@app/model/users/patient/gender';
+import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { Role } from '@app/model/users/role';
 import { Router } from '@angular/router';
 
@@ -54,7 +54,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
     });
     this.loadAllPharmacies();
   }
- 
+
 
   registerDermatologist(){
 
@@ -94,13 +94,13 @@ export class RegisterPharmacyadminComponent implements OnInit {
       }else{
         alert('Passwords do not match!');
       }
-      
+
     }
 
-    
+
   }
   loadAllPharmacies() {
-    this.pharmacyService.findAllPharmacies().subscribe(data => 
+    this.pharmacyService.findAllPharmacies().subscribe(data =>
       {
         this.pharmacies = data
       });

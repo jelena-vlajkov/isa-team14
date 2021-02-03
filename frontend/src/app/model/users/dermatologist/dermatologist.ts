@@ -1,7 +1,7 @@
-import { Address } from "../address/address";
+import { Address } from "../../address/address";
 import { Gender } from "../patient/gender";
-import { Pharmacy } from "../pharmacy/pharmacy";
-import { Role } from "../users/role";
+import { Pharmacy } from "../../pharmacy/pharmacy";
+import { Role } from "../role";
 
 export class Dermatologist{
     public name : String;
@@ -27,6 +27,6 @@ export class Dermatologist{
         this.address = address;
         this.role = role;
         this.authorities = autorities;
-        this.pharmacies = pharmacies;    
+        this.pharmacies = pharmacies;
     }
 }

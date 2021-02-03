@@ -41,6 +41,8 @@ insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 
+insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
+
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (200, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);

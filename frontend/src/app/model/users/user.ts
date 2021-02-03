@@ -1,4 +1,4 @@
-﻿import { Role } from "./role";
+﻿import { Role } from "@app/model/users/role";
 
 export class User {
     id: number;

@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GooglePlacesComponent } from '../google-places/google-places.component';
 import { Address } from '../model/address/address';
 import { RegistrationService } from '../service/registration/registration.service';
-import { Patient } from '../model/patient/patient';
-import { Gender } from '../model/patient/gender';
+import { Patient } from '../model/users/patient/patient';
+import { Gender } from '../model/users/patient/gender';
 import { Role } from '../model/users/role';
 
 @Component({
