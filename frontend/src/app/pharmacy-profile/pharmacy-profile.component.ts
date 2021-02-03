@@ -22,7 +22,7 @@ export class PharmacyProfileComponent implements OnInit {
   currentUserId:String;
   dermatologists: String[]=new Array();
   pharmacists: String[]=new Array();
-  pharmacyId:number;
+  pharmacyId:Number;
   private StringIsNumber = value => isNaN(Number(value)) === false;
   public profile:boolean = true;
   public edit:boolean = false;

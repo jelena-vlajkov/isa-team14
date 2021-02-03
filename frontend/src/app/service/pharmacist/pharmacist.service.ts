@@ -10,7 +10,7 @@ import {HttpClient} from "@angular/common/http";
 export class PharmacistService {
 
   constructor(private http:HttpClient) { }
-  getPharmacistsByPharmacy(id:number):Observable<User[]>{
+  getPharmacistsByPharmacy(id:Number):Observable<User[]>{
     return this.http.get<User[]>(`${environment.baseUrl}/pharmacists/getByPharmacy/?id=${id}`);
   }
 }

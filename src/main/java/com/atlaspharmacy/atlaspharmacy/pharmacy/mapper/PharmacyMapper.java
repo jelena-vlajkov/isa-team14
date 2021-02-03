@@ -26,4 +26,11 @@ public class PharmacyMapper {
         }
         return dtos;
     }
+    public static List<Pharmacy> maptDTOSToList(List<PharmacyDTO> dtos) {
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for(PharmacyDTO dto : dtos){
+            pharmacies.add(mapDTOToPharmacy(dto));
+        }
+        return pharmacies;
+    }
 }

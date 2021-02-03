@@ -5,8 +5,13 @@ export class Pharmacy{
   public name: String;
   public description:String;
   public address: Address;
-  constructor(name : String,id: number,description:String,address: Address,average_grade: number){
-    this.name = name;
+  public  average_grade: Number;
+  checked?: boolean;
+
+  constructor(id:Number, name : String,description:String,address: Address, average_grade: Number){
     this.id=id;
+    this.address=address;
+    this.description=description;
+    this.name = name;
   }
 }

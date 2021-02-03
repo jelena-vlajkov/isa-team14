@@ -28,13 +28,6 @@ public class Pharmacy  {
         this.id = id;
     }
 
-    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.average_grade = average_grade;
-    }
 
     public Long getId() {
         return id;

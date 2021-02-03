@@ -53,6 +53,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +78,9 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     PharmacistComponent,
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
-    PharmacistPatientsComponent
+    PharmacistPatientsComponent,
+    RegisterPharmacyadminComponent,
+    RegisterDermatologistComponent
 
   ],
   imports: [
@@ -115,13 +119,13 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
     MatGridListModule,
     MatCheckboxModule,
     MatSortModule,
-    CommonModule, 
+    CommonModule,
     MatMenuModule,
-   // NgbModalModule,
+    //NgbModalModule,
     FlatpickrModule.forRoot(),
     //NgbModule,
     MatExpansionModule
-    
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

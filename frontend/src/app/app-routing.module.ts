@@ -21,6 +21,7 @@ import { PharmacistComponent } from './pharmacist/pharmacist.component'
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component'
 import { PharmacistPatientsComponent } from './pharmacist.patient/pharmacist.patient.component';
+import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
 
 const routes: Routes = [  
 {
@@ -50,6 +51,10 @@ const routes: Routes = [
 {
   path : 'admin/registerPharmacyAdmin',
   component : RegisterPharmacyadminComponent
+},
+{
+  path: 'admin/registerDermatologist',
+  component : RegisterDermatologistComponent
 },
 {
   path : 'pharmacyAdmin-profile',
@@ -99,7 +104,8 @@ const routes: Routes = [
 },
 {
   path: 'pharmacist/patients',
-  component: PharmacistPatientsComponent
+  component: PharmacistPatientsComponent,
+  canActivate: [AuthGuard]
 }
 ];
 

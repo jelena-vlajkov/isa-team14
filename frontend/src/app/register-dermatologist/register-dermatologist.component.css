@@ -65,14 +65,25 @@
     justify-content: center;
     padding-top: 5vw;
   }
-  mat-card {
+  .dermatologist-card {
     position: relative; 
     margin-left: 20%; 
-    margin-top:2%;
+    margin-top:1%;
+    width: 60%;
+    height: 26vw;
+  }
+  table {
+    width: 49.5%;
+    margin-bottom: 20px;
+  }
+  .pharmacy-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:1%;
     width: 60%;
     height: 30vw;
   }
-  
+
   label {
     font-size: 20px;
     font-weight: 500;
