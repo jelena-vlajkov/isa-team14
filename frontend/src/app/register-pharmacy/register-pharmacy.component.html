@@ -2,12 +2,13 @@
     <mat-drawer style="width: 20%;" #drawer mode ="over">
        <mat-action-list>
         <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
-        <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
         <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
-        <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
 
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">
@@ -25,13 +26,56 @@
             <span class="example-spacer"></span>
           </mat-toolbar>
           <div class="drawer-content">
-            <mat-card class="pharmacyCard">
+            <mat-card >
               <mat-card-header>
                 <mat-card-title>
                   <label style="font-weight:bold; font-size: 25px;">Register pharmacy</label>
                 </mat-card-title>
               </mat-card-header>
               <mat-card-content style="justify-content: center;">
+                <form [formGroup]="registerPharmacy" (ngSubmit)="addPharmacy()" >
+
+                <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                  <mat-grid-tile>
+                    <label>Pharmacy name:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy name*</mat-label>
+                          <input matInput id="name" placeholder="Name" name="name-ff" 
+                              formControlName="name">
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
+                              Please enter pharmacy name</mat-error>
+                      </mat-form-field>
+                  </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy description:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField" >
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy description*</mat-label>
+                          <input matInput id="description" placeholder="Pharmacy description" name="description-ff" formControlName="description">                   
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('description').valid && registerPharmacy.get('description').touched && registerPharmacy.get('description').errors['required']">
+                              Please enter description</mat-error>
+                      </mat-form-field>
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy address:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <app-google-places></app-google-places>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button [disabled]="!registerPharmacy.valid" color="accent">Add pharamacy</button>
+
+                </form>
+                <!--  
                 <form [formGroup]="registerPharmacy" (ngSubmit)="addPharmacy()" >
                   <div class="inputField" >
                     <mat-form-field appearance="fill" id="pname-ff">
@@ -41,122 +85,27 @@
                             *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
                             Please enter address</mat-error>
                     </mat-form-field>
-                  </div>       
+                  </div>
                   <div class="inputField" >
-                    <mat-form-field appearance="fill" id="paddress-ff">
-                        <mat-label>Pharmacy address*</mat-label>
-                        <input matInput id="address" placeholder="Pharmacy address" name="paddress-ff" formControlName="address">                   
+                    <mat-form-field appearance="fill" id="pname-ff">
+                        <mat-label>Pharmacy description*</mat-label>
+                        <input matInput id="description" placeholder="Pharmacy description" name="pname-ff" formControlName="description">                   
                         <mat-error
-                            *ngIf="!registerPharmacy.get('address').valid && registerPharmacy.get('address').touched && registerPharmacy.get('address').errors['required']">
-                            Please enter address</mat-error>
+                            *ngIf="!registerPharmacy.get('description').valid && registerPharmacy.get('description').touched && registerPharmacy.get('description').errors['required']">
+                            Please enter description</mat-error>
                     </mat-form-field>
+                  </div>  
+                  <div class="inputField" style="justify-content: center;">
+                    <app-google-places id="paddress-ff">
+                    </app-google-places>
                   </div>   
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='addPharmacy()' [disabled]="!adminAdded" color="accent">Add pharamacy</button>
+                   <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!registerPharmacy.valid && !pharmacyValid()" color="accent">Add pharamacy</button>
 
-                </form>
+                </form> -->
               </mat-card-content>
             </mat-card>
           
-            <mat-card class="adminCard">
-              <mat-card-header>
-                <mat-card-title>
-                  <label style="font-weight:bold; font-size: 25px;">Register pharmacy admin</label>
-                </mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <form [formGroup]="addAdminForm" (ngSubmit)="registerAdmin()">
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="name-ff">
-                        <mat-label>Name*</mat-label>
-                        <input matInput id="name" placeholder="Name" name="name-ff" 
-                            formControlName="name">
-                        <mat-error
-                            *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
-                            Please enter name</mat-error>
-                    </mat-form-field>
-                  </div>     
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="surname-ff">
-                        <mat-label>Surname*</mat-label>
-                        <input matInput id="surname" placeholder="Surname" name="surname-ff" formControlName="surname">                   
-                        <mat-error
-                            *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
-                            Please enter surname</mat-error>
-                    </mat-form-field>
-                  </div>      
-                  <div class="inputField">
-                
-                    <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                        <mat-radio-button value="Female" style="font-size:20px;margin-left:20%">Female</mat-radio-button>
-                        <mat-radio-button value="Male" style="font-size:20px; margin-left: 20%;">Male</mat-radio-button>
-                    </mat-radio-group>
-                    <mat-error
-                    *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
-                    Please choose gender</mat-error>
-                  </div>
-                  <mat-form-field color="accent" appearance="fill" id="dob-ff">
-                    <mat-label style="font-size:14px;">Birth date</mat-label>
-                    <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date">
-                    <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
-                    <mat-datepicker #picker1 ></mat-datepicker>
-                  </mat-form-field>
-
-
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="address-ff">
-                        <mat-label>Address*</mat-label>
-                        <input matInput id="address" placeholder="Address" name="address-ff"  formControlName="address">                   
-  
-                        <mat-error
-                            *ngIf="!addAdminForm.get('address').valid && addAdminForm.get('address').touched && addAdminForm.get('address').errors['required']">
-                            Please enter address</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="telephone-ff">
-                      <mat-label>Telephone*</mat-label>
-                      <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff"
-                          formControlName="telephone">
-                      <mat-error
-                          *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
-                          Please enter telephone</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <div class="inputField">
-
-                    <mat-form-field appearance="fill" id="mail-ff">
-                      <mat-label>Email*</mat-label>
-                      <input matInput id="mail" placeholder="Email" name="mail-ff"
-                          formControlName="mail">
-                      <mat-error
-                          *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
-                          Please enter telephone</mat-error>
-                    </mat-form-field>
-                  </div>
-
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="password-ff">
-                        <mat-label>New password*:</mat-label>
-                        <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
-                        <mat-error
-                            *ngIf="!addAdminForm.get('newpassword').valid && addAdminForm.get('newpassword').touched && addAdminForm.get('newpassword').errors['required']">
-                            Please enter new password</mat-error>
-                    </mat-form-field> 
-                  </div> 
-                  <div class="inputField">
-                    <mat-form-field appearance="fill" id="password-ff">
-                        <mat-label>Confirm password*:</mat-label>
-                        <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
-                        <mat-error
-                            *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
-                            Please enter again new password</mat-error>
-                    </mat-form-field>
-                  </div>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='addAdmin()'  color="accent">Add admin</button>
-  
-                </form>
-              </mat-card-content>
-            </mat-card>
+            
           </div>
           
 

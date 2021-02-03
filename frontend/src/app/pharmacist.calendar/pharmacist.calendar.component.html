@@ -1,0 +1,242 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
+       <mat-action-list >
+        <button mat-list-item routerLink="pharmacist">  
+          <i class="material-icons">dashboard</i>
+          <p class="list-p">Dashboard</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/addReport">  
+              <i class="material-icons">alarm</i>
+              <p class="list-p">Counselings</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/calendar"> 
+    
+          <i class="material-icons">calendar_today</i>
+          <p class="list-p">Calendar</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/reports"> 
+      
+          <i class="material-icons">article</i>
+          <p class="list-p">Counseling reports</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/patients"> 
+          
+          <i class="material-icons">group</i>
+          <p class="list-p">Patients</p>
+      </button>
+      <button mat-list-item routerLink="/pharmacist/medication"> 
+          
+          <i class="material-icons">medication</i>
+          <p class="list-p">Medications</p>
+      </button>
+</mat-action-list>
+<mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+  <button mat-list-item routerLink="/pharmacist/profile"> 
+          
+            <i class="material-icons">person</i>
+            <p class="list-p">Profile</p>
+        </button>
+        <button  mat-list-item > 
+            <i class="material-icons">logout</i>
+            <p class="list-p">Logout</p>
+        </button>
+      </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Calendar</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <div style="display: flex;">
+
+          <mat-card style="width: 1000px; height: fit-content;">
+            <mat-calendar>
+
+            </mat-calendar>
+              
+          </mat-card>
+          <mat-card style="margin-left: 150px; height: fit-content;">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-label>Scheduled counselings for date: </mat-label>
+                </mat-card-title>
+            </mat-card-header>
+
+            <div style="display: flex;">
+            <button style="position: absolute; right: 270px; margin-bottom: 100px;" mat-flat-button color="primary">Schedule new</button>
+            <button style="position: absolute; right: 150px;" mat-flat-button color="primary">Edit existing</button>
+            <button style="position: absolute; right: 10px;" mat-flat-button color="primary">Delete existing</button>
+            </div>
+
+
+            <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel  style="margin-top:100px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Counseling informations
+                          </mat-panel-title>
+                          <mat-panel-description>
+                             Petar Petrovic, 21.02.2021.
+                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    <div>
+                    <mat-form-field>
+                        <mat-label style="margin-right: 10px;">First name</mat-label>
+                        <input readonly matInput value="Petar">
+                    </mat-form-field>
+                
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label style="margin-right: 10px;">Surname</mat-label>
+                        <input readonly matInput value="Petrovic">
+                    </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label style="margin-right: 10px;">Description</mat-label>
+                            <input  readonly matInput value="Petar">
+                        </mat-form-field>
+                    
+                    </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel  style="margin-top:10px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Counseling informations
+                          </mat-panel-title>
+                          <mat-panel-description>
+                             Petar Petrovic, 21.02.2021.
+                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    <div>
+                    <mat-form-field>
+                        <mat-label style="margin-right: 10px;">First name</mat-label>
+                        <input readonly matInput value="Petar">
+                    </mat-form-field>
+                
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label style="margin-right: 10px;">Surname</mat-label>
+                        <input readonly matInput value="Petrovic">
+                    </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label style="margin-right: 10px;">Description</mat-label>
+                            <input  readonly matInput value="Petar">
+                        </mat-form-field>
+                    
+                    </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel  style="margin-top:10px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Counseling informations
+                          </mat-panel-title>
+                          <mat-panel-description>
+                             Petar Petrovic, 21.02.2021.
+                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    <div>
+                    <mat-form-field>
+                        <mat-label style="margin-right: 10px;">First name</mat-label>
+                        <input readonly matInput value="Petar">
+                    </mat-form-field>
+                
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label style="margin-right: 10px;">Surname</mat-label>
+                        <input readonly matInput value="Petrovic">
+                    </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label style="margin-right: 10px;">Description</mat-label>
+                            <input  readonly matInput value="Petar">
+                        </mat-form-field>
+                    
+                    </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel  style="margin-top:10px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Counseling informations
+                          </mat-panel-title>
+                          <mat-panel-description>
+                             Petar Petrovic, 21.02.2021.
+                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    <div>
+                    <mat-form-field>
+                        <mat-label style="margin-right: 10px;">First name</mat-label>
+                        <input readonly matInput value="Petar">
+                    </mat-form-field>
+                
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label style="margin-right: 10px;">Surname</mat-label>
+                        <input readonly matInput value="Petrovic">
+                    </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label style="margin-right: 10px;">Description</mat-label>
+                            <input  readonly matInput value="Petar">
+                        </mat-form-field>
+                    
+                    </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel  style="margin-top:10px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Counseling informations
+                          </mat-panel-title>
+                          <mat-panel-description>
+                             Petar Petrovic, 21.02.2021.
+                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
+                          </mat-panel-description>
+                        </mat-expansion-panel-header>
+                    <div>
+                    <mat-form-field>
+                        <mat-label style="margin-right: 10px;">First name</mat-label>
+                        <input readonly matInput value="Petar">
+                    </mat-form-field>
+                
+                    <mat-form-field style="margin-left: 20px;">
+                        <mat-label style="margin-right: 10px;">Surname</mat-label>
+                        <input readonly matInput value="Petrovic">
+                    </mat-form-field>
+                    </div>
+
+                    <div>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label style="margin-right: 10px;">Description</mat-label>
+                            <input  readonly matInput value="Petar">
+                        </mat-form-field>
+                    
+                    </div>
+                    </mat-expansion-panel>
+
+                    <div style="margin-bottom: 100px;"></div>
+
+
+              </mat-accordion>
+        </mat-card>
+        </div>
+
+      </mat-drawer-content>
+
+
+
+      </mat-drawer-container>

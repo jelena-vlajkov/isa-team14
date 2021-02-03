@@ -16,6 +16,10 @@ export const environment = {
   authenticate: 'authenticate',
   getUser: 'getUser',
   login:"login",
-  admin:"admin"
+  admin:"admin",
+  pharmacy : "pharmacy",
+  pharmacyAdmin:"pharmacyAdmin",
+  dermatologist : "dermatologist",
+  supplier : "supplier"
 };
 

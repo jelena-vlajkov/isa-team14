@@ -20,8 +20,18 @@ public class PharmacyAdmin extends User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
+
+
+    public PharmacyAdmin(Long id, Pharmacy pharmacy, boolean enabled, String verification_code) {
+        this.id = id;
+        this.pharmacy = pharmacy;
+
+    }
+
+    public PharmacyAdmin(){};
+
 
     @Override
     public Long getId() {
@@ -33,6 +43,7 @@ public class PharmacyAdmin extends User {
         this.id = id;
     }
 
+
     public Pharmacy getPharmacy() {
         return pharmacy;
     }
@@ -40,14 +51,6 @@ public class PharmacyAdmin extends User {
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
     }
-
-    public PharmacyAdmin(Long id, Pharmacy pharmacy) {
-        this.id = id;
-        this.pharmacy = pharmacy;
-    }
-
-    public PharmacyAdmin(){};
-
 
     @Override
     public String getUsername() {

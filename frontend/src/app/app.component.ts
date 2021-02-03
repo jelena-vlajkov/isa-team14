@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {AuthenticationService} from "@app/service/user";
-import {AuthenticatedUser} from "@app/models/authenticatedUser";
+import {AuthenticatedUser} from "@app/model/users/authenticatedUser";
 import {Router} from "@angular/router";
-import {Role} from "@app/models";
+import {Role} from "@app/model/users";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
   }
   onInit(){
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
   get isAdmin() {
     return this.currentUser && this.currentUser.role === Role.Dermatologist;

@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -41,6 +42,25 @@ import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
 import { HomeComponent } from './home';
+import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
+import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
+
+import { MatSortModule } from '@angular/material/sort';
+import { PharmacistComponent } from './pharmacist/pharmacist.component';
+import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
+import { CommonModule } from '@angular/common';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+//import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
+import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
+import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
+import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
+import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
+import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
+import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +82,20 @@ import { HomeComponent } from './home';
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
     GooglePlacesComponent,
-    HomeComponent
+    HomeComponent,
+    RegisterPharmacyadminComponent,
+    RegisterDermatologistComponent,
+    UnauthenticatedUserComponent,
+    RegisterPharmacyadminComponent,
+    PharmacistComponent,
+    PharmacistProfileComponent,
+    PharmacistCalendarComponent,
+    PharmacistPatientsComponent,
+    PharmacistReportsComponent,
+    PharmacistAddReportComponent,
+    PharmDermMedicationsComponent,
+    UnauthenticatedUserPharmaciesComponent,
+    UnauthenticatedUserMedicationsComponent
 
   ],
   imports: [
@@ -100,6 +133,13 @@ import { HomeComponent } from './home';
     MatSidenavModule,
     MatGridListModule,
     MatCheckboxModule,
+    MatSortModule,
+    CommonModule, 
+    MatMenuModule,
+   // NgbModalModule,
+    FlatpickrModule.forRoot(),
+    //NgbModule,
+    MatExpansionModule
     
   ],
   providers: [
@@ -107,6 +147,7 @@ import { HomeComponent } from './home';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

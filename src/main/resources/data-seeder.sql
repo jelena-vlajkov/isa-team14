@@ -2,20 +2,32 @@ insert into addresses(id, city, latitude, longitude, state, street) values (100,
 insert into addresses(id, city, latitude, longitude, state, street) values (200,'Novi Sad', 45.2469369, 19.8498081,'Serbia' ,'Bulevar Cara Lazara  20');
 insert into addresses(id, city, latitude, longitude, state, street) values (300,'Belgrade',44.8058901,20.4585641,'Serbia','Nemanjina 6');
 
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values('Dermatologist', 100,'2000-01-01 00:00:01',  'vlajkovj@gmail.com', true, 0, 'Jelena', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',123124124, 'Vlajkov', 100 );
 
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (100, '2000-01-01 00:00:01', 0, 'Jelena', 'vlajkovj@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124124 ,'Vlajkov',  100, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (500, '1986-01-01 00:00:01', 0, 'Nadezda', 'vlajkovn@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 123124123 ,'Vlajkov',  200, 'Pharmacist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (400, '1966-01-01 00:00:01', 0, 'Danica', 'vojvodicd@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200, 'PharmacyAdmin');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (600, '1966-01-01 00:00:01', 0, 'Marko', 'marko@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role) values (300, '1966-01-01 00:00:01', 0, 'Lazar', 'lazic@gmail.com','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Lazic', 200, 'Dermatologist');
-insert into users(id, date_of_birth, gender, name, email, password, phone_number, surname, address_id, role)
-values (200, '1997-01-01 00:00:01', 1, 'Aleksandar', 'ignjat@gmail.com', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300, 'Patient');
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (100,'talalala','Apoteka Jankovic',100,3.4);
-insert into pharmacies(id,description,name,address_id,average_grade) VALUES (200,'ldkjdljf','ZEGIN',200,5);
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Pharmacist', 500, '1986-01-01 00:00:01', 'vlajkovn@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Dermatologist', 600,'1966-01-01 00:00:01', 'marko@gmail.com', true, 1, 'Marko', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values('Dermatologist', 300, '1966-01-01 00:00:01', 'lazic@gmail.com', true, 1, 'Lazar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 12125126, 'Lazic', 200);
+
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Patient', 200, '1997-01-01 00:00:01', 'ignjat@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300);
+
+
+insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
+insert into pharmacies(id, average_grade, description, name, address_id) VALUES (200, 5.0,'ldkjdljf','ZEGIN',200);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 insert into medicalstaff(license_number, id) values ('16657568',100);
-insert into medicalstaff(license_number, id) values ('243532',200);
+insert into medicalstaff(license_number, id) values ('243532',600);
 insert into medicalstaff(license_number, id) values ('333',300);
 insert into medicalstaff(license_number, id) values('1241241', 500);
 
@@ -24,12 +36,12 @@ insert into pharmacists(id) values (500);
 insert into patients(enabled, verification_code, id) values (true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb', 200);
 
 insert into dermatologists(id) values (100);
-insert into dermatologists(id) values (200);
+insert into dermatologists(id) values (600);
 insert into dermatologists(id) values (300);
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
-insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (200,200);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
 
@@ -40,8 +52,10 @@ insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
 
+insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
+
 insert into user_authority(user_id, authority_id) values (100, 2);
-insert into user_authority(user_id, authority_id) values (200, 3);
+insert into user_authority(user_id, authority_id) values (600, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);

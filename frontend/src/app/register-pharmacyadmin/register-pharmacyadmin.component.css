@@ -1,0 +1,136 @@
+
+
+  #pname-ff {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 400px;
+    font-size: 16px;
+  }
+  #paddress-ff {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 20px;
+  }
+
+  #surname-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #dob-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #address-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #telephone-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #mail-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+  #gender-ff {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+  }
+  #password-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+
+  #password1-ff {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 92%;
+    font-size: 14px;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    padding-top: 5vw;
+  }
+  mat-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 30vw;
+    
+  }
+  label {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  a {
+    font-size: medium;
+    padding-left: 5px;
+  }
+  p{
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .example-spacer {
+    height: 100%;
+  }
+  .example-container {
+    flex: 1 1 auto;
+    height: 100%;
+    /* width: 400px;
+    height: 200px;
+    margin: 12px; */
+    /* border: 1px solid #555; */
+    background: wheat;
+  }
+  
+  mat-drawer-content {
+    /* padding: 12px; */
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  .drawer-content{
+    display: flex;
+    width: 100%;
+  }

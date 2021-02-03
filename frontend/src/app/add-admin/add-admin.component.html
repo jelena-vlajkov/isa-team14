@@ -2,12 +2,13 @@
     <mat-drawer style="width: 20%;" #drawer mode ="over">
        <mat-action-list>
         <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
-        <button mat-list-item (click)="registerDermatologist()"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
         <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
         <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
         <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
         <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
-        <button mat-list-item routerLink="/admin/addAdmin"> Add administrator</button>
 
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">

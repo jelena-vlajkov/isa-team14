@@ -26,6 +26,11 @@ public class Patient extends User {
 
     public Patient() {
     }
+
+
+    public Patient(Long patientId) {
+    }
+
     public boolean getEnabled(){
         return this.enabled;
     }

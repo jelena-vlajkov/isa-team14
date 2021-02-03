@@ -1,0 +1,160 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
+        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item routerLink="/admin"> Profile</button>
+              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  <label style="font-weight:bold; font-size: 25px;">Register pharmacy admin</label>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="addAdminForm" (ngSubmit)="registerAdmin()">
+                  <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" style="width: 400px;">
+                            <mat-label>Choose pharmacy*</mat-label>
+                            <mat-select formControlName = 'pharmacy' >
+                              <mat-option>--</mat-option>
+                              <mat-option *ngFor="let ph of pharmacies" [value]="ph">
+                                {{ph.name}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="!addAdminForm.get('pharmacy').valid && addAdminForm.get('pharmacy').touched && addAdminForm.get('pharmacy').errors['required']">
+                                Please choose a pharmacy</mat-error>
+                          </mat-form-field>
+                      </div>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
+                            <mat-label>Name*</mat-label>
+                            <input matInput id="name" placeholder="Name" name="name-ff" 
+                                formControlName="name">
+                            <mat-error
+                                *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
+                                Please enter name</mat-error>
+                        </mat-form-field>
+                      </div>  
+                    </mat-grid-tile>
+
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
+                            <mat-label>Surname*</mat-label>
+                            <input matInput id="surname" placeholder="Surname" name="name-ff" formControlName="surname">                   
+                            <mat-error
+                                *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
+                                Please enter surname</mat-error>
+                        </mat-form-field>
+                      </div> 
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField" style="width: 400px;">
+                        <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                          <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
+                          <mat-radio-button value="MALE" style="font-size:18px;margin-left: 20px;">Male</mat-radio-button>
+                          <mat-radio-button value="OTHER" style="font-size:18px;margin-left: 20px;">other</mat-radio-button>
+                      </mat-radio-group>
+                        <mat-error
+                        *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
+                        Please choose gender</mat-error>
+                      </div>     
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField" >
+                        <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
+                          <mat-label style="font-size:14px;">Birth date</mat-label>
+                          <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
+                          <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+                          <mat-datepicker #picker1 ></mat-datepicker>
+                          <mat-error
+                          *ngIf="!addAdminForm.get('dob').valid && addAdminForm.get('dob').touched && addAdminForm.get('dob').errors['required']">
+                          Please choose date of birth</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <app-google-places>
+                      </app-google-places>  
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField" >
+                        <mat-form-field appearance="fill" style="width: 400px;">
+                          <mat-label>Telephone*</mat-label>
+                          <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
+                              formControlName="telephone">
+                          <mat-error
+                              *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
+                              Please enter telephone</mat-error>
+                        </mat-form-field>      
+                      </div>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
+                          <mat-label>Email*</mat-label>
+                          <input matInput id="mail" placeholder="Email" name="mail-ff"
+                              formControlName="mail">
+                          <mat-error
+                              *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
+                              Please enter email</mat-error>
+                        </mat-form-field>
+                      </div>                           
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                            <mat-label>New password*:</mat-label>
+                            <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
+                            <mat-error
+                                *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
+                                Please enter new password</mat-error>
+                        </mat-form-field> 
+                      </div> 
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                            <mat-label>Confirm password*:</mat-label>
+                            <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                            <mat-error
+                                *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
+                                Please enter again new password</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </mat-grid-tile>
+                    
+                  </mat-grid-list>
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addAdminForm.valid"  color="accent">Register pharmacy admin</button>
+                </form>
+              </mat-card-content>
+            </mat-card>
+
+    </mat-drawer-content>
+</mat-drawer-container>
