@@ -7,6 +7,8 @@ import { GooglePlacesComponent } from '../google-places/google-places.component'
 import { Address } from '../model/address/address';
 import { PatientService} from '../service/patient/patient.service'
 import {Location} from '@angular/common';
+import {Ingredient} from '../model/medications/ingredient';
+import {IngredientService} from '../service/medication/ingredients.service';
 
 
 @Component({
@@ -15,41 +17,43 @@ import {Location} from '@angular/common';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  profileForm: FormGroup;
-  changePasswordForm:FormGroup;
-  name:String;
-  surname:String;
-  //gender : String;
-  gender : Gender;
-  selectedGender : String;
-  selectedDate:Date;
-  dob: Date;
-  updateDate;
-  //address:String;
-  address : Address;
-  phone:String;
-  mail:String;
-  password1:String;
-  password2:String;
-  dateString: String;
-  oldpassword:String;
-  editDate : FormControl;
-  points:String;
-  categoryProgram:String;
-  public profile:boolean = true;
-  public edit:boolean = false;
-  public changePassword:boolean = false;
-  public loyalty:boolean = false;
-  editProfileForm: FormGroup;
-  loyaltyForm: FormGroup;
-  allergies = new FormControl();
-  @ViewChild(GooglePlacesComponent) googleplaces;
 
-  allergiesList = ['Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen'];
-  selectedAllergies;
+    profileForm: FormGroup;
+    changePasswordForm:FormGroup;
+    name:String;
+    surname:String;
+    gender : Gender;
+    selectedGender : String;
+    selectedDate:Date;
+    dob: Date;
+    updateDate;
+    address : Address;
+    phone:String;
+    mail:String;
+    password1:String;
+    password2:String;
+    dateString: String;
+    oldpassword:String;
+    editDate : FormControl;
+    points:String;
+    categoryProgram:String;
+    public profile:boolean = true;
+    public edit:boolean = false;
+    public changePassword:boolean = false;
+    public loyalty:boolean = false;
+    editProfileForm: FormGroup;
+    loyaltyForm: FormGroup;
+    @ViewChild(GooglePlacesComponent) googleplaces;
+    public allIngredients: Ingredient[] = new Array();
+    ingredientSelected: string;
+    allergies = new FormControl();
+
+
+    allergiesList = ['Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen'];
+    selectedAllergies;
 
   public patient : Patient;
-  constructor(private patientService : PatientService, private _location: Location) { }
+  constructor(private patientService : PatientService, private _location: Location, private ingredientService : IngredientService) { }
 
   ngOnInit(): void {
     
@@ -84,6 +88,24 @@ export class UserProfileComponent implements OnInit {
     this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(data =>
       {
         this.patient = data;
+      });
+  }
+
+  comboChange(event) {
+    if(!event) {
+      console.log('dropdown is closed');
+      this.ingredientSelected = this.allergies.value && this.allergies.value.toString();
+      console.log(this.allergies.value);
+    }
+    
+  }
+
+
+  loadIngredients(){
+    this.ingredientService.findAllIngredients().subscribe(data =>
+      {
+        this.allIngredients = data;
+        
       });
   }
 
@@ -139,6 +161,11 @@ export class UserProfileComponent implements OnInit {
     }else{
       this.patient.address = this.googleplaces.address;
     }*/
+
+    this.loadIngredients();
+
+   
+
 
   }
 
@@ -196,6 +223,7 @@ export class UserProfileComponent implements OnInit {
     this.edit = false;
     this.changePassword = false;
     this.loyalty = false;
+    console.log(this.selectedAllergies.value);
   }
 
   submitChangePassword(){

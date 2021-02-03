@@ -41,6 +41,7 @@ public class MedicationDTO {
         this.drugKind = drugKind;
         this.code = code;
     }
+    /*
     public static MedicationDTO convertToMedicationDTO(Medication m){
         MedicationDTO medicationDTO = new MedicationDTO(
                 m.getId(),
@@ -66,7 +67,8 @@ public class MedicationDTO {
             medicationDTO.getIngredients().add(i.getId());
         }
         return medicationDTO;
-    }
+    }*/
+    /*
     public static void convertToMedication(Medication m, MedicationDTO mdto){
         m.setId(mdto.getId());
         m.setName(mdto.getName());
@@ -79,7 +81,7 @@ public class MedicationDTO {
         m.setProducer(mdto.getProducer());
         m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
         m.setCode(mdto.getCode());
-    }
+    }*/
 
     public List<Long> getIngredients() {
         return ingredients;
