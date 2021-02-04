@@ -21,9 +21,9 @@ export class AppComponent {
   onInit(){
     this.router.navigate(['']);
   }
-  get isAdmin() {
-    return this.currentUser && this.currentUser.role === Role.Dermatologist;
-  }
+  // get isAdmin() {
+  //   return this.currentUser && this.currentUser.role === Role.Dermatologist;
+  // }
 
   logout() {
     this.authenticationService.logout();

@@ -33,48 +33,48 @@
                   <label>Name:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{name}}</p>
+                  <p>{{sysAdmin.sysName}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Surname:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>                
-                  <p>{{surname}}</p>
+                  <p>{{sysAdmin.sysSurname}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Gender:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{selectedGender}}</p>
+                  <p>{{sysAdmin.sysGender}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Address:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{address}}</p>
+                  <p>{{sysAdmin.sysAddress.street}},{{sysAdmin.sysAddress.city.name}}, {{sysAdmin.sysAddress.state.name}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Telephone:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{phone}}</p>
+                  <p>{{sysAdmin.sysPhoneNumber}}</p>
                 </mat-grid-tile>
   
                 <mat-grid-tile>
                   <label>Email:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{mail}}</p>
+                  <p>{{sysAdmin.sysEmail}}</p>
                 </mat-grid-tile>
                 <mat-grid-tile>
                   <label>Birth date:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{dateString}}</p>
+                  <p>{{sysAdmin.sysDateOfBirth | date:'MM.dd.y'}}</p>
                 </mat-grid-tile>
               </mat-grid-list>
             </mat-card-content>
@@ -87,7 +87,7 @@
 
           <mat-card *ngIf="edit">  
             <mat-card-content>
-              <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
+              <form [formGroup]="editProfileForm" (ngSubmit)="confirmEdit()">
                 <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;">
 
                   <mat-grid-tile>
@@ -113,7 +113,7 @@
                     <div class="inputField">
                       <mat-form-field appearance="fill" id="surname-ff">
                           <mat-label>Surname*</mat-label>
-                          <input matInput id="surname" placeholder={{surname}} name="surname-ff" formControlName="surname">                   
+                          <input matInput id="surname" placeholder="Surname" name="surname-ff" formControlName="surname">                   
                           <mat-error
                               *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
                               Please enter surname</mat-error>
@@ -126,11 +126,13 @@
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <div class="inputField">
-                    
                       <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                          <mat-radio-button value="Female" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
-                          <mat-radio-button value="Male" style="font-size:20px">Male</mat-radio-button>
-                      </mat-radio-group>
+                        <mat-radio-button value="FEMALE" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
+                        <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
+                        <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
+                    </mat-radio-group>
+
+
                       <mat-error
                       *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
                       Please enter address</mat-error>
@@ -142,14 +144,16 @@
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <div class="inputField">
-                      <mat-form-field appearance="fill" id="address-ff">
+                      <!-- <mat-form-field appearance="fill" id="address-ff">
                           <mat-label>Address*</mat-label>
                           <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">                   
 
                           <mat-error
                               *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
                               Please enter address</mat-error>
-                      </mat-form-field>
+                      </mat-form-field> -->
+                      <mat-label>Current address: {{sysAdmin.sysAddress.street}},{{sysAdmin.sysAddress.city.name}}, {{sysAdmin.sysAddress.state.name}}</mat-label><br>
+                      <app-google-places></app-google-places>
                   </div>
                   </mat-grid-tile>
     
@@ -159,7 +163,7 @@
                   <mat-grid-tile>
                     <mat-form-field appearance="fill" id="telephone-ff">
                       <mat-label>Telephone*</mat-label>
-                      <input matInput id="telephone" placeholder="Telephone" value="{{phone}}}}" name="telephone-ff"
+                      <input matInput id="telephone" placeholder="Telephone" name="telephone-ff"
                           formControlName="telephone">
                       <mat-error
                           *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
@@ -171,7 +175,7 @@
                     <label>Email:</label>
                   </mat-grid-tile>
                   <mat-grid-tile>
-                    <p>{{mail}}</p>
+                    <p>{{sysAdmin.sysEmail}}</p>
                   </mat-grid-tile>
     
                   <mat-grid-tile>
@@ -180,7 +184,7 @@
                   <mat-grid-tile>
                     <mat-form-field color="accent" appearance="fill" id='dob-ff'>
                       <mat-label>Birth date</mat-label>
-                      <input matInput [matDatepicker]="picker1" [value]="editDate.value" style="font-size:18px">
+                      <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:18px">
                       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
@@ -188,13 +192,14 @@
 
                 </mat-grid-list>
 
-
-                <button style="float:left; position:relative;" mat-raised-button id='cancelEditProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
-
-                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Confirm</button>
-                <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">Change password</button>
+              <button style="float:right; position:relative;" mat-raised-button id='editProfile' color="accent">Confirm</button>
 
               </form>
+              
+              <button style="float:left; position:relative;" mat-raised-button id='cancelEditProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
+
+              <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">Change password</button>
+
             </mat-card-content>            
               
           </mat-card>
@@ -272,11 +277,11 @@
                 </mat-grid-tile>
               </mat-grid-list>
    
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">ChangePassword</button>
 
-                  <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='submitChangePassword()'  color="accent">ChangePassword</button>
+                                </form>
+                <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
 
-              </form>
 
             </mat-card>
 

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -26,7 +27,6 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/pharmacy",produces = MediaType.APPLICATION_JSON_VALUE)
-
 public class PharmacyController {
     @Autowired
     private PharmacyService pharmacyService;
@@ -39,7 +39,7 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public void registerPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
