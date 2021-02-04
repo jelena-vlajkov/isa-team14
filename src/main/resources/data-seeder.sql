@@ -30,7 +30,7 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 VALUES ('Supplier', 990, '1997-01-01 00:00:01', 'elit@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
@@ -207,3 +207,55 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 insert into medical_record(id, patient_id) values (100, 200);
 
 insert into medical_record_ingredients(medical_record_id, ingredients_id) values (100, 900);
+
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (100, 100, 100, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (200, 200, 75, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (300, 400, 50, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (400, 600, 25, 990);
+
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (500, 300, 100, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (600, 500, 200, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (700, 200, 50, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (800, 100, 250, 991);
+
+insert into orders(id, due_date, pharmacy_id) VALUES (100, '2021-02-16 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (200, '2021-02-15 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (300, '2021-02-14 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (400, '2021-02-22 12:00:00', 100);
+
+insert into orders(id, due_date, pharmacy_id) VALUES (500, '2021-02-16 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (600, '2021-02-22 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (700, '2021-02-22 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (800, '2021-02-17 12:00:00', 200);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (100, 100, 190, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (200, 200, 30, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (300, 300, 19, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (400, 400, 20, 100);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (500, 200, 30, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (600, 100, 19, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (700, 300, 25, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (800, 500, 11, 200);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (900, 100, 6, 300);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1000, 200, 66, 300);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1100, 400, 3, 300);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1200, 200, 12, 400);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1300, 400, 78, 400);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1400, 200, 13, 500);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1500, 300, 64, 500);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1600, 100, 55, 600);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1700, 200, 19, 600);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1800, 300, 28, 700);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1900, 200, 12, 700);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2000, 200, 55, 800);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2100, 100, 15, 800);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2200, 400, 30, 800);
+
+

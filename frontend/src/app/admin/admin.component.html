@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
     <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
        <mat-action-list>
-        <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+        <button mat-list-item (click)="routeToPharmacyReg()" style="color: white;"> Register pharmacy </button>
         <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
         <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
         <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
@@ -290,7 +290,7 @@
           <mat-card class="profile mat-elevation-z8">
             <mat-card-header>
               <mat-card-title>
-                <label style="font-weight:bold; font-size: 25px;">Contact person</label>
+                <label style="font-weight:bold; font-size: 25px;">Change password</label>
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>

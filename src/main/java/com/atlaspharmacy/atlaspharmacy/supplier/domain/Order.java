@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import org.hibernate.annotations.Proxy;
 
@@ -11,26 +12,16 @@ import java.util.Date;
 @Proxy(lazy = false)
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "medication", column = @Column(name = "medication_id")),
-            @AttributeOverride( name = "quantity", column = @Column(name = "quantity")),
-    })
-    private MedicationOrder medicationOrder;
-
     private Date dueDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
-    private Supplier supplier;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Pharmacy pharmacy;
 
-
-    public Order(Long id, MedicationOrder medicationOrder, Date dueDate, Supplier supplier) {
+    public Order(Long id,Date dueDate ) {
         this.id = id;
-        this.medicationOrder = medicationOrder;
         this.dueDate = dueDate;
-        this.supplier = supplier;
     }
 
     public Order() {
@@ -45,13 +36,6 @@ public class Order {
         this.id = id;
     }
 
-    public MedicationOrder getMedicationOrder() {
-        return medicationOrder;
-    }
-
-    public void setMedicationOrder(MedicationOrder medicationOrder) {
-        this.medicationOrder = medicationOrder;
-    }
 
     public Date getDueDate() {
         return dueDate;
@@ -61,10 +45,5 @@ public class Order {
         this.dueDate = dueDate;
     }
 
-    public Supplier getSupplier(){
-        return this.supplier;
-    }
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
+
 }
