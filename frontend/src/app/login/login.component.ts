@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/pharmacist'])
         }
         if(result.role == Role.Patient){
-          this.router.navigate(['/userProfile'])
+          this.router.navigate(['/patient/home'])
         }
        
       });
