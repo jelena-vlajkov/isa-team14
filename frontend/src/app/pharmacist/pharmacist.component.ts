@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {Router} from '@angular/router';
-
+import {AuthenticationService} from "../service/user";
+import {IngredientService} from "../service/medication/ingredients.service"
+import {ReportsService} from "../service/reports/reports.service"
 
 declare interface RouteInfo {
     path: string;
@@ -26,11 +28,18 @@ export class PharmacistComponent implements OnInit {
   menuItems: any[];
   editProfileForm: FormGroup;
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router, private ingredientService : IngredientService, private reportsService : ReportsService) { }
 
   ngOnInit(): void {
-    
+    console.log(this.authService.currentUserValue.token);
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.ingredientService.findAllIngredients().subscribe();
+    this.reportsService.getReports().subscribe();
+  
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
   routeToPatients() {

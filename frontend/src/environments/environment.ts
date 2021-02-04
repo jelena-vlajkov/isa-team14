@@ -21,6 +21,10 @@ export const environment = {
   supplier : "supplier",
   auth:"auth",
   getById: "getById",
-  update : "update"
+  update : "update",
+  getLoggedInUser: "getLoggedIn",
+  reservations : "reservations",
+  getReservations : "getReservations"
+  
 };
 

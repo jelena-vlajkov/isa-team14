@@ -14,4 +14,8 @@ export class UserService {
     getById(id: number) {
     return this.http.get<User>(`${environment.baseUrl}/users/${id}`);
     }
+
+    getLoggedInUser() {
+        return this.http.get<User>(`${environment.baseUrl}/${environment.getLoggedInUser}`);
+    }
 }
