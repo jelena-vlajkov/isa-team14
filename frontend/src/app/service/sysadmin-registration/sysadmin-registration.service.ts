@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PasswordChanger } from '@app/model/users/passwordChanger';
 import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
@@ -18,5 +19,9 @@ export class SysadminRegistrationService {
   }
   updateSysAdmin(data : SystemAdmin){
     return this.http.post(`${environment.baseUrl}/${environment.admin}/${environment.update}`,data, {responseType : 'text'});
+  }  
+  
+  updatePassword(data : PasswordChanger){
+    return this.http.post(`${environment.baseUrl}/${environment.admin}/${environment.changepassword}`,data, {responseType : 'text'});
   }
 }

@@ -39,7 +39,7 @@ public class PharmacyController {
         return new ResponseEntity<>(pharmacy, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_SYSADMIN')")
+    @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public void registerPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{

@@ -74,7 +74,7 @@
                   <label>Birth date:</label>
                 </mat-grid-tile>
                 <mat-grid-tile>
-                  <p>{{sysAdmin.sysDateOfBirth}}</p>
+                  <p>{{sysAdmin.sysDateOfBirth | date:'MM.dd.y'}}</p>
                 </mat-grid-tile>
               </mat-grid-list>
             </mat-card-content>
@@ -127,9 +127,9 @@
                   <mat-grid-tile>
                     <div class="inputField">
                       <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                        <mat-radio-button value="Female" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
-                        <mat-radio-button value="Male" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
-                        <mat-radio-button value="Other" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
+                        <mat-radio-button value="FEMALE" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
+                        <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
+                        <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
                     </mat-radio-group>
 
 
@@ -277,10 +277,10 @@
                 </mat-grid-tile>
               </mat-grid-list>
    
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">ChangePassword</button>
 
                                 </form>
                 <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
-                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='submitChangePassword()'  color="accent">ChangePassword</button>
 
 
             </mat-card>

@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
+import { PasswordChanger } from '@app/model/users/passwordChanger';
 import { Gender } from '@app/model/users/patient/gender';
 import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
 import { AuthenticationService } from '@app/service/user';
+import { ChangePasswordService } from '@app/service/user/change-password.service';
 import { Address } from './../model/address/address';
 
 @Component({
@@ -33,7 +35,7 @@ export class AdminComponent implements OnInit {
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
-
+  public chgPass : PasswordChanger;
   public address1 :Address;
   editProfileForm: FormGroup;
   @ViewChild(GooglePlacesComponent) googleplaces;
@@ -49,12 +51,7 @@ export class AdminComponent implements OnInit {
     this.profileForm = new FormGroup({});
     this.password1 = "";
     this.password2 = "";
-
-    this.oldpassword = "peraBijeKera";
-
-
-    this.editDate = new FormControl(this.dob.toISOString());
-    
+    this.oldpassword="";    
   }
 
   loadSystemAdmin(){
@@ -88,12 +85,34 @@ export class AdminComponent implements OnInit {
       'newpassword' : new FormControl(null, Validators.required),
       'confirmpassword' : new FormControl(null, Validators.required)
     });
+
   }
   submitChangePassword(){
     this.password1 = this.changePasswordForm.value.newpassword;
     this.password2 = this.changePasswordForm.value.confirmpassword;
+    this.oldpassword = this.changePasswordForm.controls.oldpassword.value;
     if(this.password1 !== this.password2){
-      console.log('NISU ISTI NE MOZE MATORI KONTAS BRT MOJ');
+      console.log('New passwords do not match!');
+    }
+    else{
+      this.chgPass = new PasswordChanger(Number(localStorage.getItem('userId')),this.oldpassword, this.password1);
+      // this.chgPass = new PasswordChanger(Number(localStorage.getItem('userId')), ,this.password1)
+      // this.chgPass.user_id = Number(localStorage.getItem('userId'));
+      // this.chgPass.newpassword = this.password1;
+      // this.chgPass.oldpassword = this.sysAdmin.sysPassword;
+      console.log(this.chgPass);
+      this.systemAdminService.updatePassword(this.chgPass).subscribe(
+        res=>{
+          alert('Success');
+          this.profile = true; 
+          this.edit = false;
+          this.changePassword = false;
+          this.loadSystemAdmin();
+        },
+        error=>{
+          alert("Fail")
+        }
+      )
     }
   }
   addAdmin(){}
@@ -127,10 +146,9 @@ export class AdminComponent implements OnInit {
     var telephone =  this.editProfileForm.controls.telephone.value;
     var dob = this.editProfileForm.controls.dob.value;
     var mail = this.sysAdmin.sysEmail;
-    // console.log(telephone);
-    if(this.googleplaces!==undefined){
-      this.address1 = this.googleplaces.address;
-    }
+    console.log(this.address1);
+    console.log(this.googleplaces===null);
+    
     console.log(this.address1);
     var editedAdmin = new SystemAdmin(name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities);
     console.log(editedAdmin);
@@ -140,6 +158,7 @@ export class AdminComponent implements OnInit {
         this.profile = true; 
         this.edit = false;
         this.changePassword = false;
+        this.loadSystemAdmin();
       },
       error=>{
         alert("Fail")

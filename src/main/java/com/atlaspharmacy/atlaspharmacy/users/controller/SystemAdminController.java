@@ -2,9 +2,12 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PasswordChangerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
+import com.atlaspharmacy.atlaspharmacy.users.service.ISystemAdminService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.SystemAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +22,7 @@ import java.text.ParseException;
 @CrossOrigin
 @RequestMapping(value = "/admin")
 public class SystemAdminController {
-    private final SystemAdminService systemAdminService;
+    private final ISystemAdminService systemAdminService;
 
     @Autowired
     public SystemAdminController(SystemAdminService systemAdminService) {
@@ -45,9 +48,16 @@ public class SystemAdminController {
         return new ResponseEntity<>(systemAdminService.getById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
             SystemAdmin s = systemAdminService.updateSystemAdmin(systemAdminDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('SYSADMIN')")
+    @PostMapping(value = "/changepassword", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO) throws InvalidEmail, ParseException, InvalidPassword {
+        systemAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword());
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @ExceptionHandler(InvalidEmail.class)

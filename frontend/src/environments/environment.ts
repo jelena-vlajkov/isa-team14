@@ -24,7 +24,7 @@ export const environment = {
   update : "update",
   getLoggedInUser: "getLoggedIn",
   reservations : "reservations",
-  getReservations : "getReservations"
-  
+  getReservations : "getReservations",
+  changepassword : "changepassword"
 };
 

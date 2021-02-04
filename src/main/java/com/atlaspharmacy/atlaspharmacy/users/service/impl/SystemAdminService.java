@@ -3,20 +3,26 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PasswordChangerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.SystemAdminMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.SystemAdminRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.ISystemAdminService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.util.List;
 
 
 @Service
@@ -26,14 +32,16 @@ public class SystemAdminService implements ISystemAdminService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
     private final SystemAdminRepository systemAdminRepository;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, SystemAdminRepository systemAdminRepository){
+    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, SystemAdminRepository systemAdminRepository, AuthenticationManager authenticationManager){
         this.authorityService = authorityService;
         this.userRepository= userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
         this.systemAdminRepository = systemAdminRepository;
+        this.authenticationManager = authenticationManager;
     }
     @Override
     public SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail {
@@ -63,10 +71,58 @@ public class SystemAdminService implements ISystemAdminService {
         }
         return null;
     }
+    @Override
+    public SystemAdmin findByEmail(String email){
+        List<SystemAdmin> admins = systemAdminRepository.findAll();
+        for(SystemAdmin a : admins){
+            if(a.getEmail().equals(email)){
+                return  a;
+            }
+        }
+        return null;
+    }
+
+
 
     @Override
     public SystemAdmin updateSystemAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException {
-        return systemAdminRepository.save(SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO));
+        SystemAdmin s = findByEmail(systemAdminDTO.getSysEmail());
+        SystemAdmin newAdmin = SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO);
+        newAdmin.setId(s.getId());
+        return systemAdminRepository.save(newAdmin);
     }
 
+
+    public void changePassword(String oldPassword, String newPassword) throws InvalidPassword {
+
+        // Ocitavamo trenutno ulogovanog korisnika
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+
+        if (authenticationManager != null) {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+        } else {
+            throw new InvalidPassword();
+        }
+
+        SystemAdmin systemAdmin = findByEmail(email);
+
+        // pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
+        // ne zelimo da u bazi cuvamo lozinke u plain text formatu
+        systemAdmin.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(systemAdmin);
+
+    }
+    @Override
+    public SystemAdmin updateSystemAdminPassword(PasswordChangerDTO passwordChangerDTO) throws InvalidPassword {
+        SystemAdmin s = systemAdminRepository.findById(passwordChangerDTO.getUser_id()).get();
+        String oldpass = passwordEncoder.encode(passwordChangerDTO.getOldpassword());
+        String oldsyspass = s.getPassword();
+        if(oldsyspass.equals(oldpass)){
+            s.setPassword(passwordEncoder.encode(passwordChangerDTO.newpassword));
+            systemAdminRepository.save(s);
+            return s;
+        }
+        throw new InvalidPassword();
+    }
 }
