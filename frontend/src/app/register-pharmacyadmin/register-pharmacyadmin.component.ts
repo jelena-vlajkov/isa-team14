@@ -8,6 +8,7 @@ import { Gender } from '@app/model/users/patient/gender';
 import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { Role } from '@app/model/users/role';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-register-pharmacyadmin',
@@ -37,7 +38,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
   public pharmacyAdmin : PharmacyAdmin;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private pharmacyService : PharmacyService, private router:Router) { }
+  constructor(private pharmacyService : PharmacyService, private router:Router, private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
 
@@ -59,7 +60,9 @@ export class RegisterPharmacyadminComponent implements OnInit {
   registerDermatologist(){
 
   }
-  adminLogout(){}
+  adminLogout(){
+    this.authenticationService.logout();
+  }  
   registerAdmin(){
     this.name = this.addAdminForm.value.name;
     this.surname = this.addAdminForm.value.surname;

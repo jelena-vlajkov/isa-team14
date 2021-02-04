@@ -29,7 +29,7 @@ public class DermatologistMapper {
         d.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
 
         d.setPharmacies(PharmacyMapper.maptDTOSToList(dto.getPharmacies()));
-        d.setFirstTimePassword(dto.isFirstTimePassword());
+        d.setFirstTimePassword(dto.isFirstTimeChanged());
         return d;
     }
 }

@@ -18,14 +18,14 @@ public class SystemAdminDTO {
     private AddressDTO sysAddress;
     private String sysRole;
     private List<AuthorityDTO> sysAuthorities;
-    private boolean firstTimePassword;
+    private boolean firstTimeChanged;
     public SystemAdminDTO() {
     }
 
     public SystemAdminDTO(Long id, String sysName, String sysSurname, Date sysDateOfBirth,
                           String sysPhoneNumber, String sysEmail, String sysPassword,
                           Gender sysGender, AddressDTO sysAddress, String sysRole,
-                          List<AuthorityDTO> sysAuthorities, boolean firstTimePassword) {
+                          List<AuthorityDTO> sysAuthorities, boolean firstTimeChanged) {
         this.id = id;
         this.sysName = sysName;
         this.sysSurname = sysSurname;
@@ -37,7 +37,7 @@ public class SystemAdminDTO {
         this.sysAddress = sysAddress;
         this.sysRole = sysRole;
         this.sysAuthorities = sysAuthorities;
-        this.firstTimePassword = firstTimePassword;
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public Long getId() {
@@ -128,12 +128,12 @@ public class SystemAdminDTO {
         this.sysAuthorities = sysAuthorities;
     }
 
-    public boolean isFirstTimePassword() {
-        return firstTimePassword;
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
     }
 
-    public void setFirstTimePassword(boolean firstTimePassword) {
-        this.firstTimePassword = firstTimePassword;
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 }
 

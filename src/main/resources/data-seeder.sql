@@ -23,6 +23,17 @@ values ('Patient', 200, '1997-01-01 00:00:01', 'ignjat@gmail.com', true, 1, 'Ale
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values ('SysAdmin', 900, '1997-01-01 00:00:01', 'alexignjat@gmail.com', true, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('SysAdmin', 905, '1997-01-01 00:00:01', 'alex@gmail.com', false, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 990, '1997-01-01 00:00:01', 'elit@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
 
 
 insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
@@ -48,6 +59,11 @@ insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (6
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
 insert into sysadmins(id) values(900);
+insert into sysadmins(id) values(905);
+
+insert into suppliers(firm_name, id) VALUES ('ElitNS', 990);
+insert into suppliers(firm_name, id) VALUES ('ElitNS2', 991);
+insert into suppliers(firm_name, id) VALUES ('ElitNS2', 992);
 
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
@@ -61,6 +77,11 @@ insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (600, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
 insert into user_authority(user_id, authority_id) VALUES (900, 4);
+insert into user_authority(user_id, authority_id) VALUES (905, 4);
+
+insert into user_authority(user_id, authority_id) VALUES (990, 7);
+insert into user_authority(user_id, authority_id) VALUES (991, 7);
+insert into user_authority(user_id, authority_id) VALUES (992, 7);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 

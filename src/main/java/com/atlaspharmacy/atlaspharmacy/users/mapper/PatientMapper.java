@@ -25,7 +25,7 @@ public class PatientMapper {
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
 
-        p.setFirstTimePassword(dto.isFirstTimePassword());
+        p.setFirstTimePassword(dto.isFirstTimeChanged());
         return p;
     }
 

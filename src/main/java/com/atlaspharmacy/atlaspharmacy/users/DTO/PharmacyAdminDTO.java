@@ -20,7 +20,7 @@ public class PharmacyAdminDTO {
     private String role;
     private List<AuthorityDTO> authorities;
     private PharmacyDTO pharmacy;
-    private boolean firstTimePassword;
+    private boolean firstTimeChanged;
 
     public PharmacyAdminDTO() {
     }
@@ -38,15 +38,15 @@ public class PharmacyAdminDTO {
         this.role = role;
         this.authorities = authorities;
         this.pharmacy = pharmacy;
-        this.firstTimePassword = firstTimePassword;
+        this.firstTimeChanged = firstTimePassword;
     }
 
-    public boolean isFirstTimePassword() {
-        return firstTimePassword;
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
     }
 
-    public void setFirstTimePassword(boolean firstTimePassword) {
-        this.firstTimePassword = firstTimePassword;
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public PharmacyDTO getPharmacy() {

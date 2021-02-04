@@ -176,7 +176,9 @@ const routes: Routes = [
 },
 {
   path:'supplier',
-  component : SupplierProfileComponent
+  component : SupplierProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
 }
 ];
 

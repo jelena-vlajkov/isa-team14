@@ -85,6 +85,9 @@ public class SystemAdminService implements ISystemAdminService {
     @Override
     public SystemAdmin updateSystemAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException {
         SystemAdmin s = findByEmail(systemAdminDTO.getSysEmail());
+        if(s==null){
+            throw new InvalidEmail();
+        }
         SystemAdmin newAdmin = SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO);
         newAdmin.setId(s.getId());
         return systemAdminRepository.save(newAdmin);
@@ -107,6 +110,7 @@ public class SystemAdminService implements ISystemAdminService {
 
         // pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
         // ne zelimo da u bazi cuvamo lozinke u plain text formatu
+        systemAdmin.setFirstTimePassword(true);
         systemAdmin.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(systemAdmin);
 

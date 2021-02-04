@@ -22,7 +22,7 @@ public class PharmacyAdminMapper {
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
         p.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
-        p.setFirstTimePassword(dto.isFirstTimePassword());
+        p.setFirstTimePassword(dto.isFirstTimeChanged());
         return p;
     }
 

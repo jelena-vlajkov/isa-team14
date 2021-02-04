@@ -2,9 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
-import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 
 public class SupplierMapper {
     private SupplierMapper(){}
@@ -12,7 +10,7 @@ public class SupplierMapper {
         return new SupplierDTO(a.getId(), a.getName(), a.getSurname(), a.getDateOfBirth(),
                 a.getPhoneNumber(), a.getEmail(), a.getPassword(), a.getGender(),
                 AddressMapper.mapAddressToDTO(a.getAddress()),a.getRole(),
-                AuthorityMapper.authoritiesToListDTOS(a.getAuthorities()), a.isFirstTimePassword(), a.getFirmName());
+                AuthorityMapper.authoritiesToListDTOS(a.getAuthorities()),a.getFirmName() ,a.isFirstTimePassword());
 
     }
     public static Supplier mapDTOToSupplier(SupplierDTO dto){
@@ -29,7 +27,7 @@ public class SupplierMapper {
         s.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         s.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
 
-        s.setFirstTimePassword(dto.isFirstTimePassword());
+        s.setFirstTimePassword(dto.isFirstTimeChanged());
         s.setFirmName(dto.getFirmName());
         return s;
     }

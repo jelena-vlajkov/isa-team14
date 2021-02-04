@@ -18,14 +18,14 @@ public class SupplierDTO {
     private AddressDTO address;
     private String role;
     private List<AuthorityDTO> authorities;
-    private boolean firstTimePassword;
     private String firmName;
+    private boolean firstTimeChanged;
     public SupplierDTO() {
     }
 
     public SupplierDTO(Long id, String name, String surname, Date dateOfBirth,
                        String phoneNumber, String email, String password, Gender gender,
-                       AddressDTO address, String role, List<AuthorityDTO> authorities, boolean firstTimePassword, String firmName) {
+                       AddressDTO address, String role, List<AuthorityDTO> authorities, String firmName,boolean firstTimeChanged) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -37,8 +37,9 @@ public class SupplierDTO {
         this.address = address;
         this.role = role;
         this.authorities = authorities;
-        this.firstTimePassword = firstTimePassword;
         this.firmName = firmName;
+        this.firstTimeChanged = firstTimeChanged;
+
     }
 
     public String getFirmName() {
@@ -49,12 +50,12 @@ public class SupplierDTO {
         this.firmName = firmName;
     }
 
-    public boolean isFirstTimePassword() {
-        return firstTimePassword;
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
     }
 
-    public void setFirstTimePassword(boolean firstTimePassword) {
-        this.firstTimePassword = firstTimePassword;
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public Long getId() {

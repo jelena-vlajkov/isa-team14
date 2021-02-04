@@ -1,9 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 
 public class SystemAdminMapper {
@@ -26,7 +24,7 @@ public class SystemAdminMapper {
         a.setEmail(dto.getSysEmail());
         a.setPassword(dto.getSysPassword());
         a.setGender(dto.getSysGender());
-        a.setFirstTimePassword(dto.isFirstTimePassword());
+        a.setFirstTimePassword(dto.isFirstTimeChanged());
         a.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getSysAddress()));
         a.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getSysAuthorities()));
 
