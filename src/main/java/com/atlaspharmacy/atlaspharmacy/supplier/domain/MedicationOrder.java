@@ -6,23 +6,24 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class MedicationOrder {
-    private Long medication;
+    private Long medicationId;
     private Long quantity;
-
-    public MedicationOrder(Long medication, Long quantity) {
-        this.medication = medication;
+    private String medicationName;
+    public MedicationOrder(Long medicationId, Long quantity,String medicationName) {
+        this.medicationId = medicationId;
         this.quantity = quantity;
+        this.medicationName=medicationName;
     }
 
     public MedicationOrder() {
     }
 
     public Long getMedication() {
-        return medication;
+        return medicationId;
     }
 
-    public void setMedication(Long medication) {
-        this.medication = medication;
+    public void setMedication(Long medicationId) {
+        this.medicationId = medicationId;
     }
 
     public Long getQuantity() {
@@ -31,5 +32,13 @@ public class MedicationOrder {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public String getMedicationName() {
+        return medicationName;
+    }
+
+    public void setMedicationName(String medicationName) {
+        this.medicationName = medicationName;
     }
 }

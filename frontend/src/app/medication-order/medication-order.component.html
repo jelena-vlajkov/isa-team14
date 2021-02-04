@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<mat-drawer-container class="example-container" hasBackdrop="true">
+  <mat-drawer style="width: 20%;" #drawer mode ="over">
+    <mat-action-list>
+      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info</button>
+      <button mat-list-item> Dermatology appointments </button>
+      <button mat-list-item routerLink="/business-report"> Business reports </button>
+      <button mat-list-item> Drugs</button>
+      <button mat-list-item> Employees</button>
+      <button mat-list-item> Drug purchases</button>
+      <button mat-list-item> Actions and special offers</button>
+    </mat-action-list>
+
+    <mat-action-list style="position: absolute; bottom: 1px;">
+      <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
+      <button  mat-list-item (click)="Logout()"> Logout</button>
+    </mat-action-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <mat-toolbar style="color:#385399;">
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Medication order</span>
+      <span class="example-spacer"></span>
+    </mat-toolbar>
+<div style="display: flex;">
+  <mat-card [formGroup]="orderForm" style="flex: 1 1 auto;width: 50%;">
+      <form [formGroup]="addMedicationOrderForm" (ngSubmit)="addOrder()">
+          <mat-grid-list cols="3" rowHeight="5:1"  >
+
+            <mat-grid-tile style="margin:10px;">
+              <div class="inputField" style="width: auto;">
+                <mat-form-field appearance="fill" >
+                  <mat-label>Choose medication*</mat-label>
+                  <mat-select formControlName = 'medication' >
+                    <mat-option>--</mat-option>
+                    <mat-option *ngFor="let medication of medications" [value]="medication">
+                      {{medication.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="!addMedicationOrderForm.get('medication').valid
+                  && addMedicationOrderForm.get('medication').touched
+                  && addMedicationOrderForm.get('medication').errors['required']">
+                    Please choose a medication</mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile style="margin:10px;">
+              <div class="inputField" style="width: auto;margin-left: 20px;">
+                <mat-form-field appearance="fill" id="amount-ff" >
+                  <mat-label >Amount</mat-label>
+                  <input matInput id="amount" placeholder="Amount" name="amount-ff"
+                         formControlName="amount" required type="number" style="height: 22px;">
+                  <mat-error
+                    *ngIf="!addMedicationOrderForm.get('amount').valid
+                     && addMedicationOrderForm.get('amount').touched
+                     && addMedicationOrderForm.get('amount').errors['required']">
+                    Please enter amount</mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-bottom:10px;width: auto;color: #385399;" mat-raised-button id='addOrder' [disabled]="!addMedicationOrderForm.valid">Add medication</button></mat-grid-tile>
+            <mat-grid-tile style="height: 2px;"></mat-grid-tile><mat-grid-tile style="height: 2px;"></mat-grid-tile><mat-grid-tile style="height: 2px;"></mat-grid-tile>
+            <mat-grid-tile *ngIf="orderList.length!=0" style="margin:10px;">
+              <div class="inputField" style="width: auto;" >
+                <mat-form-field appearance="fill" id="duedate-ff" >
+                  <mat-label>Due date</mat-label>
+                  <input matInput id="dueDate" placeholder="Due date" name="duedate-ff"
+                         formControlName="amount" required type="date">
+                  <mat-error
+                    *ngIf="!orderForm.get('dueDate').valid
+                     && orderForm.get('dueDate').touched
+                     && orderForm.get('dueDate').errors['dueDate']">
+                    Please enter due date</mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+
+            <mat-grid-tile *ngIf="orderList.length!=0" style="margin:10px;"  >
+              <div class="inputField" style="width: auto;margin-left:20px;">
+                <mat-form-field appearance="fill" id="suppliers-ff" >
+                  <mat-label>Suppliers</mat-label>
+                  <input matInput id="suppliers" placeholder="Suppliers" name="suppliers-ff"
+                         formControlName="suppliers" required type="number">
+                  <mat-error
+                    *ngIf="!orderForm.get('suppliers').valid
+                     && orderForm.get('suppliers').touched
+                     && orderForm.get('suppliers').errors['required']">
+                    Please enter suppliers</mat-error>
+                </mat-form-field>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+      </form>
+      </mat-card>
+    <mat-card  style="flex: 1 1 auto;width: 50%;"  >
+       <p *ngIf="orderList.length!=0" style="font-weight: bold;size:50px;color: #385399;" >Order list</p>
+      <mat-grid-list  cols="3" rowHeight="50" width="400" align="left" *ngIf="orderList.length!=0">
+        <mat-grid-tile style="size: 30px;font-weight: bold;color: #385399;" >Medication name</mat-grid-tile>
+        <mat-grid-tile style="size: 30px;font-weight: bold;color: #385399;" >Amount</mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <div>
+            <p class="text-grid" *ngFor="let order of orderList">
+              <mat-grid-tile style="size: 20px;">{{order.medicationName}}</mat-grid-tile>
+              <mat-grid-tile style="size: 20px;">{{order.quantity}}</mat-grid-tile>
+              <mat-grid-tile><button class="btn" (click)="cancelItem(order.medicationId)" ><i class="fa fa-close"></i> Delete</button></mat-grid-tile>
+            </p>
+          <mat-grid-tile></mat-grid-tile>
+          <mat-grid-tile></mat-grid-tile>
+          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='sumbitOrder'  (click)="submitOrder()" [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
+
+        </div>
+
+
+      </mat-grid-list>
+    </mat-card>
+</div>
+  </mat-drawer-content>
+</mat-drawer-container>
+

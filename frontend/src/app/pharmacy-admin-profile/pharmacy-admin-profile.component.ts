@@ -3,9 +3,9 @@ import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
 import {AuthenticationService} from "@app/service/user";
-import {AuthenticatedUser} from "@app/models/authenticatedUser";
+import {AuthenticatedUser} from "@app/model/users/authenticatedUser";
 import {Address} from "@app/model/address/address";
-import {PharmacyAdmin} from "@app/model/pharmacyAdmin/pharmacyAdmin";
+import {PharmacyAdmin} from "@app/model/users/pharmacyAdmin/pharmacyAdmin";
 
 @Component({
   selector: 'app-pharmacy-admin-profile',

@@ -17,7 +17,7 @@ export class Medication {
     public code: Number;
     public ingredients : Number[] = new Array();
 
-    constructor(name : string,  drugForm : DrugForm, drugType : DrugType, 
+    constructor(name : string,  drugForm : DrugForm, drugType : DrugType,
         producer:string, typeOfPrescribing : TypeOfPrescribing, contraindications: string,
         additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Number[], code: Number, ingredients: Number[]) {
         this.name = name;
@@ -33,5 +33,5 @@ export class Medication {
         this.code = code;
         this.ingredients = ingredients;
     }
-    
+
 }

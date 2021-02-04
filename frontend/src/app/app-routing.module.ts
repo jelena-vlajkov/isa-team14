@@ -25,8 +25,9 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { MedicationOrderComponent } from './medication-order/medication-order.component';
 
-const routes: Routes = [  
+const routes: Routes = [
 {
   path : 'login',
   component : LoginComponent
@@ -93,7 +94,7 @@ const routes: Routes = [
 },
 { path: '',
   component: UnauthenticatedUserComponent,
-  
+
 },
 { path: 'pharmacist',
   component: PharmacistComponent
@@ -123,7 +124,11 @@ const routes: Routes = [
 {
   path: 'pharmacist/medication',
   component: PharmDermMedicationsComponent
-}
+},
+  {
+    path: 'medicationOrder',
+    component: MedicationOrderComponent
+  }
 ];
 
 @NgModule({
