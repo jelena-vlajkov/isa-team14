@@ -3,9 +3,12 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.VerificationTokenService;
@@ -64,6 +67,7 @@ public class PatientController {
         return new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
     }
 
+    /*
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/getLoggedPatient", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT')")
@@ -74,7 +78,7 @@ public class PatientController {
         String mail = ((Patient)user).getEmail();
         return patientService.getByMail(mail);
 
-    }
+    }*/
 
 
     @CrossOrigin( origins = "*", allowedHeaders = "*")
@@ -90,6 +94,16 @@ public class PatientController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping(value="/getLoggedPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    PatientDTO getLoggedInUser() {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String mail = ((Patient)user).getEmail();
+        return PatientMapper.mapPatientToDTO(patientService.getByMail(mail));
+
     }
 
 

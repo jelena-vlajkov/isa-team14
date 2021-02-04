@@ -1,8 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.text.ParseException;
 
 @RestController
@@ -41,18 +46,14 @@ public class UserController {
         return userService.getUserBy(id);
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @RequestMapping(value = "/getLoggedUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT')")
+    @GetMapping(value="/getLoggedIn", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    User getLoggedUser() throws ParseException {
-        //iz fronta ne salje token wtf
+    UserDTO getLoggedInUser() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String mail = ((User)user).getEmail();
-        return userService.getUserByMail(mail);
+        return UserMapper.mapToDTO(userService.getByEmail(mail));
 
     }
-
 
 
 }

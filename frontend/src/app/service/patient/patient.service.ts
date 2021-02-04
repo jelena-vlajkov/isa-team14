@@ -17,7 +17,7 @@ export class PatientService {
 
     getPatientById(id:number) : Observable<Patient> {    
      // return this.http.get<Patient>(`${environment.baseUrl}/patient/getById?id=${id}`);
-     return this.http.get<Patient>(`${environment.baseUrl}/patient/getLoggedPatient`);
+     return this.http.get<Patient>(`${environment.baseUrl}/${environment.patient}/getLoggedPatient`);
     }
 
     updatePatient(data : Patient){

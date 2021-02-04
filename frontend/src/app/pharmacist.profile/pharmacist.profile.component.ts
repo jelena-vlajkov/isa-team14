@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { User } from '@app/model/users';
+import { AuthenticationService } from '../service/user/authentication.service';
+import {UserService} from '../service/user/user.service';
 
 
 declare interface RouteInfo {
@@ -22,24 +25,7 @@ export const ROUTES: RouteInfo[] = [
 
 export class PharmacistProfileComponent implements OnInit {
   
-    profileForm: FormGroup;
-    changePasswordForm:FormGroup;
-    name:String;
-    surname:String;
-    gender : String;
-    selectedGender : String;
-    dob: Date;
-    address:String;
-    phone:String;
-    mail:String;
-    password1:String;
-    password2:String;
-    dateString: String;
-    oldpassword:String;
-    editDate : FormControl;
-    public profile:boolean = true;
-    public edit:boolean = false;
-    public changePassword:boolean = false;
+    public user : User;
     public isRequired:boolean = true;
     public isEditMode:boolean = false;
     public isNotEditMode:boolean = true;
@@ -47,7 +33,7 @@ export class PharmacistProfileComponent implements OnInit {
   
     editProfileForm: FormGroup;
   
-    constructor() {
+    constructor(private authService : AuthenticationService, private userService : UserService) {
 
       this.isRequired = true;
       this.isEditMode = false;
@@ -56,75 +42,16 @@ export class PharmacistProfileComponent implements OnInit {
   
     ngOnInit(): void {
       this.editProfileForm = new FormGroup({});
-      this.changePasswordForm = new FormGroup({});
-      this.profileForm = new FormGroup({});
-      this.password1 = "";
-      this.password2 = "";
-      this.isRequired = true;
-      this.isEditMode = false;
-      this.isNotEditMode = true;
-  
-      this.oldpassword = "peraBijeKera";
-  
-      this.name = "Pera";
-      this.surname = "Peric";
-      this.selectedGender = "Male";
-      this.address = "Bulevar Revolucije 69, Novi Sad, Srbija";
-      this.phone = "19257124";
-      this.mail = "pera.peric@uns.ac.rs";
-      this.dob = new Date("1998-01-16");
-      this.editDate = new FormControl(this.dob.toISOString());
-      this.dateString = this.dob.toLocaleDateString();
-    }
-  
-    registerPharmacy(){
-  
-    }
-    registerDermatologist(){
-  
-    }
-    registerAdmin(){
-  
-    }
-    registerSupplier(){
-  
-    }
-    operationsWithDrugs(){
-  
-    }
-    respondToComplaints(){
-  
-    }
-    defineLoyalty(){
-      
-    }
-    adminLogout(){
-      
-    }
-    cancelEdit(){
-      this.profile = true; 
-      this.edit = false;
-      this.changePassword = false;
-    }
-    changePasswordFunction(){
-      this.edit = false;
-      this.profile = false;
-      this.changePassword = true;
-  
-      this.changePasswordForm = new FormGroup({
-        'oldpassword' : new FormControl(null, Validators.required),
-        'newpassword' : new FormControl(null, Validators.required),
-        'confirmpassword' : new FormControl(null, Validators.required)
+      this.userService.getLoggedInUser().subscribe(data =>
+      {
+        this.user = data;
       });
     }
-    submitChangePassword(){
-      this.password1 = this.changePasswordForm.value.newpassword;
-      this.password2 = this.changePasswordForm.value.confirmpassword;
-      if(this.password1 !== this.password2){
-        console.log('NISU ISTI NE MOZE MATORI KONTAS BRT MOJ');
-      }
+
+    logout() {
+      this.authService.logout();
     }
-    addAdmin(){}
+  
     editProfile(){
       this.isRequired = false;
       this.isEditMode = true;

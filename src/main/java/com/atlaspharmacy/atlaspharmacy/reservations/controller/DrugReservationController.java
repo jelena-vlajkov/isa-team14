@@ -26,6 +26,7 @@ public class DrugReservationController {
         this.drugReservationService = drugReservationService;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(value = "/getReservations", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     public @ResponseBody

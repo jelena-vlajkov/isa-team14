@@ -22,6 +22,10 @@ export const environment = {
   dermatologist : "dermatologist",
   supplier : "supplier",
   auth:"auth",
-  editPatient: "editPatient"
+  editPatient: "editPatient",
+  getLoggedInUser: "getLoggedIn",
+  reservations : "reservations",
+  getReservations : "getReservations"
+  
 };
 

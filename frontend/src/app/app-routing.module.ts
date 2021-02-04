@@ -123,31 +123,46 @@ const routes: Routes = [
   
 },
 { path: 'pharmacist',
-  component: PharmacistComponent
+  component: PharmacistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
 },
 { path: 'pharmacist/profile',
-  component: PharmacistProfileComponent
+  component: PharmacistProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/calendar',
-  component: PharmacistCalendarComponent
+  component: PharmacistCalendarComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/patients',
-  component: PharmacistPatientsComponent
+  component: PharmacistPatientsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/reports',
-  component: PharmacistReportsComponent
+  component: PharmacistReportsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 
 {
   path: 'pharmacist/addReport',
-  component: PharmacistAddReportComponent
+  component: PharmacistAddReportComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/medication',
-  component: PharmDermMedicationsComponent
+  component: PharmDermMedicationsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'searchPharmacies',
@@ -156,6 +171,7 @@ const routes: Routes = [
 {
   path: 'searchMedications',
   component: UnauthenticatedUserMedicationsComponent
+
 }
 ];
 

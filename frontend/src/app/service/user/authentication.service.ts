@@ -28,6 +28,7 @@ export class AuthenticationService {
       return this.http.post<AuthenticatedUser>(`${environment.baseUrl}/${environment.auth}/${environment.login}`, credentials)
       .pipe(map(response => {
         localStorage.setItem('currentUser', JSON.stringify(response));
+        console.log(response.token);
         this.currentUserSubject.next(response);
         return response;
       }));
