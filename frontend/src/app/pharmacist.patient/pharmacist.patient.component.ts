@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
+import { AuthenticationService } from '../service/user/authentication.service'
 
 @Component({
   selector: 'app-pharmacy-patients',
@@ -30,7 +31,7 @@ export class PharmacistPatientsComponent implements OnInit {
 
   editProfileForm: FormGroup;
 
-  constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router ) { }
+  constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router, private authService: AuthenticationService ) { }
 
   ngOnInit(): void {
     this.editProfileForm = new FormGroup({});
@@ -58,7 +59,9 @@ export class PharmacistPatientsComponent implements OnInit {
     );
 
   }
-
+  logout() {
+    this.authService.logout();
+  }
   registerPharmacy(){
 
   }

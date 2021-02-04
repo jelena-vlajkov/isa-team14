@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {AuthenticationService} from '../service/user/authentication.service'
 
 @Component({
   selector: 'pharmacist-reports',
@@ -11,7 +12,8 @@ export class PharmacistAddReportComponent {
   
     displayedColumns: string[] = ['position', 'name', 'dosage', '#'];
     dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  
+    constructor(private authService: AuthenticationService) { }
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
   
     ngAfterViewInit() {
@@ -19,6 +21,10 @@ export class PharmacistAddReportComponent {
     }
 
     addMedication() {}
+
+    logout() {
+      this.authService.logout();
+    }
   }
   
   export interface PeriodicElement {
