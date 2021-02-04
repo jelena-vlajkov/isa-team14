@@ -2,7 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.supplier.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class OrderMapper {
         o.setId(dto.getId());
         o.setMedicationOrder(dto.getMedicationOrder());
         o.setDueDate(dto.getDueDate());
-        o.setSupplier(SupplierMapper.mapSupplierDTOToSupplier(dto.getSupplier()));
+        o.setSupplier(SupplierMapper.mapDTOToSupplier(dto.getSupplier()));
         return o;
     }
     public static List<OrderDTO> mapToListDTOS(List<Order> orders){

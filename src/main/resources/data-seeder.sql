@@ -47,8 +47,7 @@ insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
-insert into sysadmins(enabled, first_password_changed, verification_code, id)
-values(true, true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb978126', 900);
+insert into sysadmins(id) values(900);
 
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
@@ -56,8 +55,7 @@ insert into authority(id, name) values (3, 'ROLE_PATIENT');
 insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
-
-insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
+insert into authority(id, name) values (7, 'ROLE_SUPPLIER');
 
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (600, 3);

@@ -1,10 +1,8 @@
-package com.atlaspharmacy.atlaspharmacy.supplier.controller;
+package com.atlaspharmacy.atlaspharmacy.users.controller;
 
-import com.atlaspharmacy.atlaspharmacy.supplier.DTO.SupplierDTO;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.Supplier;
-import com.atlaspharmacy.atlaspharmacy.supplier.service.ISupplierService;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.users.service.ISupplierService;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,5 +51,4 @@ public class SupplierController {
     ParseException handleException(ParseException e) {
         return new ParseException("Error while parsing values", 0);
     }
-
 }

@@ -29,6 +29,7 @@ import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthentic
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
+import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 
 const routes: Routes = [  
 {
@@ -172,6 +173,10 @@ const routes: Routes = [
   path: 'searchMedications',
   component: UnauthenticatedUserMedicationsComponent
 
+},
+{
+  path:'supplier',
+  component : SupplierProfileComponent
 }
 ];
 

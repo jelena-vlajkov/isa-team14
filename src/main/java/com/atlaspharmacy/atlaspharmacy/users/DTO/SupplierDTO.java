@@ -6,8 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import java.util.Date;
 import java.util.List;
 
-public class UserDTO {
-
+public class SupplierDTO {
     private Long id;
     private String name;
     private String surname;
@@ -20,13 +19,13 @@ public class UserDTO {
     private String role;
     private List<AuthorityDTO> authorities;
     private boolean firstTimePassword;
-
-    public UserDTO() {
+    private String firmName;
+    public SupplierDTO() {
     }
 
-    public UserDTO(Long id, String name, String surname, Date dateOfBirth,
-                   String phoneNumber, String email, String password, Gender gender,
-                   AddressDTO address, String role, List<AuthorityDTO> authorities, boolean firstTimePassword) {
+    public SupplierDTO(Long id, String name, String surname, Date dateOfBirth,
+                       String phoneNumber, String email, String password, Gender gender,
+                       AddressDTO address, String role, List<AuthorityDTO> authorities, boolean firstTimePassword, String firmName) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -39,6 +38,15 @@ public class UserDTO {
         this.role = role;
         this.authorities = authorities;
         this.firstTimePassword = firstTimePassword;
+        this.firmName = firmName;
+    }
+
+    public String getFirmName() {
+        return firmName;
+    }
+
+    public void setFirmName(String firmName) {
+        this.firmName = firmName;
     }
 
     public boolean isFirstTimePassword() {

@@ -1,42 +1,36 @@
-package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
+package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
-import com.atlaspharmacy.atlaspharmacy.supplier.DTO.SupplierDTO;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.Supplier;
-import com.atlaspharmacy.atlaspharmacy.supplier.mapper.SupplierMapper;
-import com.atlaspharmacy.atlaspharmacy.supplier.repository.SupplierRepository;
-import com.atlaspharmacy.atlaspharmacy.supplier.service.ISupplierService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
+import com.atlaspharmacy.atlaspharmacy.users.repository.SupplierRepository;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.AuthorityService;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.SupplierAuthorityService;
+import com.atlaspharmacy.atlaspharmacy.users.service.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SupplierService implements ISupplierService {
+    private final AuthorityService _authAuthorityService;
     private final SupplierRepository _supplierRepository;
     private final AddressRepository _addressRepository;
     private final UserRepository _userUserRepository;
     private final BCryptPasswordEncoder _passwordEncoder;
-    private final SupplierAuthorityService _supplierAuthorityService;
 
     @Autowired
-    public SupplierService(SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, SupplierAuthorityService authorityService) {
+    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder) {
+        _authAuthorityService = authAuthorityService;
         _supplierRepository = supplierRepository;
         _addressRepository = addressRepository;
         _userUserRepository = userUserRepository;
         _passwordEncoder = passwordEncoder;
-        _supplierAuthorityService = authorityService;
     }
 
-    @Override
-    public Supplier getSupplierById(Long id) {
-        return _supplierRepository.findById(id).orElse(null);
-    }
 
     @Override
     public Supplier registerSupplier(SupplierDTO supplierDTO) throws InvalidEmail{
@@ -44,11 +38,11 @@ public class SupplierService implements ISupplierService {
             String role ="ROLE_SUPPLIER";
             String password = _passwordEncoder.encode(supplierDTO.getPassword());
             supplierDTO.setPassword(password);
-            Address a = AddressMapper.mapAddressDTOToAddress(supplierDTO.getHeadquarters());
+            Address a = AddressMapper.mapAddressDTOToAddress(supplierDTO.getAddress());
             _addressRepository.save(a);
-            Supplier supplier = SupplierMapper.mapSupplierDTOToSupplier(supplierDTO);
+            Supplier supplier = SupplierMapper.mapDTOToSupplier(supplierDTO);
 
-            supplier.setAuthorities(_supplierAuthorityService.getAllRolesAuthorities(role));
+            supplier.setAuthorities(_authAuthorityService.getAllRolesAuthorities(role));
 
             supplier.setAddress(a);
 
@@ -58,5 +52,4 @@ public class SupplierService implements ISupplierService {
         }
         throw new InvalidEmail();
     }
-
 }

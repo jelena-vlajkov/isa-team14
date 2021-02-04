@@ -53,10 +53,8 @@ public class SystemAdminService implements ISystemAdminService {
             addressRepository.save(a);
             SystemAdmin sysAdmin = SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO);
             sysAdmin.setAuthorities(authorityService.getAllRolesAuthorities(role));
-            sysAdmin.setVerificationCode(RandomString.make(64));
-            sysAdmin.setEnabled(true);
+            sysAdmin.setFirstTimePassword(false);
             sysAdmin.setAddress(a);
-            sysAdmin.setFirstPasswordChanged(false);
             userRepository.save(sysAdmin);
             return sysAdmin;
         }

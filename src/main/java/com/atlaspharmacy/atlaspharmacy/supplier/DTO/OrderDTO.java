@@ -1,12 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationOrder;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import java.util.Date;
 
 public class OrderDTO {

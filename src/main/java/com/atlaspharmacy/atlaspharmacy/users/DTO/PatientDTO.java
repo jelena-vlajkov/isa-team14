@@ -18,11 +18,12 @@ public class PatientDTO {
     private AddressDTO address;
     private String role;
     private List<AuthorityDTO> authorities;
+    private boolean firstTimePassword;
 
     public PatientDTO() {
     }
 
-    public PatientDTO(Long id, String name, String surname, Date dateOfBirth, String phoneNumber, String email, String password, Gender gender, AddressDTO address, String role, List<AuthorityDTO> authorities) {
+    public PatientDTO(Long id, String name, String surname, Date dateOfBirth, String phoneNumber, String email, String password, Gender gender, AddressDTO address, String role, List<AuthorityDTO> authorities, boolean firstTimePassword) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -34,6 +35,15 @@ public class PatientDTO {
         this.address = address;
         this.role = role;
         this.authorities = authorities;
+        this.firstTimePassword = firstTimePassword;
+    }
+
+    public boolean isFirstTimePassword() {
+        return firstTimePassword;
+    }
+
+    public void setFirstTimePassword(boolean firstTimePassword) {
+        this.firstTimePassword = firstTimePassword;
     }
 
     public Long getId() {

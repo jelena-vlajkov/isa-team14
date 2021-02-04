@@ -1,16 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
-import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.AuthorityDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
-
-import java.util.Date;
 
 public class DermatologistMapper {
     private DermatologistMapper(){}
@@ -18,7 +11,7 @@ public class DermatologistMapper {
         return new DermatologistDTO(dermatologist.getId(), dermatologist.getName(), dermatologist.getSurname(), dermatologist.getDateOfBirth(),
                 dermatologist.getPhoneNumber(), dermatologist.getEmail(), dermatologist.getPassword(), dermatologist.getGender(),
                 AddressMapper.mapAddressToDTO(dermatologist.getAddress()) , dermatologist.getRole(), AuthorityMapper.authoritiesToListDTOS(dermatologist.getAuthorities()),
-                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()));
+                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()), dermatologist.isFirstTimePassword());
     }
 
     public static Dermatologist mapDTOToDermatologist(DermatologistDTO dto){
@@ -36,6 +29,7 @@ public class DermatologistMapper {
         d.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
 
         d.setPharmacies(PharmacyMapper.maptDTOSToList(dto.getPharmacies()));
+        d.setFirstTimePassword(dto.isFirstTimePassword());
         return d;
     }
 }

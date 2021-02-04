@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Order {
 
     private Date dueDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.MERGE)
     private Supplier supplier;
 
 
@@ -60,10 +61,9 @@ public class Order {
         this.dueDate = dueDate;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public Supplier getSupplier(){
+        return this.supplier;
     }
-
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }

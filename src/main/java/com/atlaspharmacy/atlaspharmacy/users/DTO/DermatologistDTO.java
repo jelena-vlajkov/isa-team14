@@ -20,6 +20,7 @@ public class DermatologistDTO {
     private String role;
     private List<AuthorityDTO> authorities;
     private List<PharmacyDTO> pharmacies;
+    private boolean firstTimePassword;
 
     public DermatologistDTO() {
     }
@@ -27,7 +28,7 @@ public class DermatologistDTO {
     public DermatologistDTO(Long id, String name, String surname, Date dateOfBirth,
                             String phoneNumber, String email, String password, Gender gender,
                             AddressDTO address, String role, List<AuthorityDTO> authorities,
-                            List<PharmacyDTO> pharmacies) {
+                            List<PharmacyDTO> pharmacies, boolean firstTimePassword) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -40,6 +41,15 @@ public class DermatologistDTO {
         this.role = role;
         this.authorities = authorities;
         this.pharmacies = pharmacies;
+        this.firstTimePassword = firstTimePassword;
+    }
+
+    public boolean isFirstTimePassword() {
+        return firstTimePassword;
+    }
+
+    public void setFirstTimePassword(boolean firstTimePassword) {
+        this.firstTimePassword = firstTimePassword;
     }
 
     public Long getId() {

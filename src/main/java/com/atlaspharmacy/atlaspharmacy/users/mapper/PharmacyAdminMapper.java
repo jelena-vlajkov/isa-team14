@@ -1,10 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.PharmacyAdmin;
 
 public class PharmacyAdminMapper {
@@ -24,6 +22,7 @@ public class PharmacyAdminMapper {
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setAuthorities(AuthorityMapper.authoritiesDTOSToList(dto.getAuthorities()));
         p.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+        p.setFirstTimePassword(dto.isFirstTimePassword());
         return p;
     }
 
@@ -33,7 +32,7 @@ public class PharmacyAdminMapper {
                 pharmacyAdmin.getEmail(), pharmacyAdmin.getPassword(), pharmacyAdmin.getGender(),
                 AddressMapper.mapAddressToDTO(pharmacyAdmin.getAddress()), pharmacyAdmin.getRole(),
                 AuthorityMapper.authoritiesToListDTOS(pharmacyAdmin.getAuthorities()),
-                PharmacyMapper.mapPharmacyToDTO(pharmacyAdmin.getPharmacy()));
+                PharmacyMapper.mapPharmacyToDTO(pharmacyAdmin.getPharmacy()), pharmacyAdmin.isFirstTimePassword());
 
     }
 

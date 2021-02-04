@@ -13,6 +13,6 @@ public class UserMapper {
 
     public static UserDTO mapToDTO(User user) {
         return new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getDateOfBirth(), user.getPhoneNumber(), user.getEmail(), user.getPassword(), user.getGender(),
-                AddressMapper.mapAddressToDTO(user.getAddress()), user.getRole(), AuthorityMapper.authoritiesToListDTOS(user.getAuthorities()));
+                AddressMapper.mapAddressToDTO(user.getAddress()), user.getRole(), AuthorityMapper.authoritiesToListDTOS(user.getAuthorities()), user.isFirstTimePassword());
     }
 }

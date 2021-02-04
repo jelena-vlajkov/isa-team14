@@ -1,0 +1,35 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/supplier/writeOffer"> Write offers</button>
+        <button mat-list-item routerLink="/supplier/allOffers"> All offers</button>
+
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item routerLink="/supplier"> Profile</button>
+              <button  mat-list-item (click)="supplierLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Supplier profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+          <mat-card>
+              <mat-card-header>
+                  <mat-card-title>
+                    <label style="font-weight:bold; font-size: 25px;">Profile</label>
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                 
+                </mat-card-content>
+          </mat-card>
+
+    </mat-drawer-content>
+</mat-drawer-container>
