@@ -19,6 +19,8 @@ export const environment = {
   pharmacyAdmin:"pharmacyAdmin",
   dermatologist : "dermatologist",
   supplier : "supplier",
-  auth:"auth"
+  auth:"auth",
+  getById: "getById",
+  update : "update"
 };
 

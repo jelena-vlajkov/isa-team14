@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { GooglePlacesComponent } from '@app/google-places/google-places.component';
+import { Gender } from '@app/model/users/patient/gender';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
 import { AuthenticationService } from '@app/service/user';
+import { Address } from './../model/address/address';
 
 @Component({
   selector: 'app-adminprofile',
@@ -8,14 +13,16 @@ import { AuthenticationService } from '@app/service/user';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  public sysAdmin : SystemAdmin;
+  public sysAdminBackup: SystemAdmin;
   profileForm: FormGroup;
   changePasswordForm:FormGroup;
   name:String;
   surname:String;
   gender : String;
-  selectedGender : String;
+  selectedGender : Gender;
   dob: Date;
-  address:String;
+  address:Address;
   phone:String;
   mail:String;
   password1:String;
@@ -27,12 +34,16 @@ export class AdminComponent implements OnInit {
   public edit:boolean = false;
   public changePassword:boolean = false;
 
-
+  public address1 :Address;
   editProfileForm: FormGroup;
+  @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private authenticationService : AuthenticationService) { }
+  constructor(private authenticationService : AuthenticationService, private systemAdminService : SysadminRegistrationService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
+    
+      
     this.editProfileForm = new FormGroup({});
     this.changePasswordForm = new FormGroup({});
     this.profileForm = new FormGroup({});
@@ -41,38 +52,24 @@ export class AdminComponent implements OnInit {
 
     this.oldpassword = "peraBijeKera";
 
-    this.name = "Pera";
-    this.surname = "Peric";
-    this.selectedGender = "Male";
-    this.address = "Bulevar Revolucije 69, Novi Sad, Srbija";
-    this.phone = "19257124";
-    this.mail = "pera.peric@uns.ac.rs";
-    this.dob = new Date("1998-01-16");
+
     this.editDate = new FormControl(this.dob.toISOString());
-    this.dateString = this.dob.toLocaleDateString();
+    
   }
 
-  registerPharmacy(){
-
-  }
-  registerDermatologist(){
-
-  }
-  registerAdmin(){
-
-  }
-  registerSupplier(){
-
-  }
-  operationsWithDrugs(){
-
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities);
+        this.sysAdminBackup = new SystemAdmin(data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities);
+        this.address1 = data.sysAddress;
+      });
   }
   respondToComplaints(){
 
   }
-  defineLoyalty(){
-    
-  }
+
   adminLogout(){
     this.authenticationService.logout();
   }
@@ -102,20 +99,51 @@ export class AdminComponent implements OnInit {
   addAdmin(){}
   editProfile(){
     this.edit = true;
-
+    this.name = this.sysAdmin.sysName;
+    this.surname = this.sysAdmin.sysSurname;
+    this.selectedGender = this.sysAdmin.sysGender;
+    this.address = this.sysAdmin.sysAddress;
+    this.phone = this.sysAdmin.sysPhoneNumber;
+    this.mail = this.sysAdmin.sysEmail;
+    this.dob = this.sysAdmin.sysDateOfBirth;
+    
     this.profile= false;
     this.changePassword = false;
-
+    console.log(this.name);
     this.editProfileForm = new FormGroup({
-
       'name' : new FormControl(this.name, Validators.required),
       'surname' : new FormControl(this.surname, Validators.required),
-      'email' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(this.phone, Validators.required),
-      'address' : new FormControl(this.address, Validators.required),
-      'gender': new FormControl(this.selectedGender, Validators.required)
+      'gender': new FormControl(this.selectedGender, Validators.required),
+      'dob' : new FormControl(this.dob, Validators.required)
     });
     
 
+  }
+  confirmEdit(){
+    var name = this.editProfileForm.controls.name.value;
+    var surname = this.editProfileForm.controls.surname.value;
+    var gender = this.selectedGender;
+    var telephone =  this.editProfileForm.controls.telephone.value;
+    var dob = this.editProfileForm.controls.dob.value;
+    var mail = this.sysAdmin.sysEmail;
+    // console.log(telephone);
+    if(this.googleplaces!==undefined){
+      this.address1 = this.googleplaces.address;
+    }
+    console.log(this.address1);
+    var editedAdmin = new SystemAdmin(name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities);
+    console.log(editedAdmin);
+    this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
+      res=>{
+        alert('Success');
+        this.profile = true; 
+        this.edit = false;
+        this.changePassword = false;
+      },
+      error=>{
+        alert("Fail")
+      }
+    )
   }
 }

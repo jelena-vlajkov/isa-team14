@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -25,8 +26,8 @@ public class SystemAdminController {
         this.systemAdminService = systemAdminService;
     }
 
+    @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    @SystemAdminAuthorization
     public ResponseEntity<?> registerSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
         try {
             systemAdminDTO.setSysRole("SysAdmin");
@@ -39,7 +40,16 @@ public class SystemAdminController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getById(@RequestParam("id") Long id) throws Exception {
+        return new ResponseEntity<>(systemAdminService.getById(id), HttpStatus.OK);
+    }
 
+    @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
+            SystemAdmin s = systemAdminService.updateSystemAdmin(systemAdminDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

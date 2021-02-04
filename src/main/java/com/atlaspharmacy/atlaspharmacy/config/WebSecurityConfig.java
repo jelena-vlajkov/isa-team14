@@ -72,8 +72,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // svim korisnicima dopusti da pristupe putanjama /auth/**, (/h2-console/** ako se koristi H2 baza) i /api/foo
                 .authorizeRequests().antMatchers("/auth/**").permitAll().antMatchers("/h2-console/**").permitAll().antMatchers("/medication/findAll").permitAll()
                 .antMatchers("/ingredients/findAll").permitAll().antMatchers("/pharmacy/findAll").permitAll().antMatchers("/pharmacy/getByName").permitAll()
-                .antMatchers("/pharmacy/getById/").permitAll().antMatchers("/pharmacyAdmin/getById/").permitAll()
-
+                .antMatchers("/pharmacy/getById").permitAll().antMatchers("/pharmacyAdmin/getById").permitAll()
+                .antMatchers("/admin/getById").permitAll()
+                .antMatchers("/**").permitAll()
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 .anyRequest().authenticated().and()
                 // za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
@@ -92,7 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 
-        web.ignoring().antMatchers(HttpMethod.POST,"/admin/**");
+//        web.ignoring().antMatchers(HttpMethod.POST,"/admin/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }

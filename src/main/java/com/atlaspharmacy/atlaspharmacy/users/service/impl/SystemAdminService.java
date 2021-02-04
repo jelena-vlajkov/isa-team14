@@ -7,12 +7,16 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.SystemAdminMapper;
+import com.atlaspharmacy.atlaspharmacy.users.repository.SystemAdminRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.ISystemAdminService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.text.ParseException;
 
 
 @Service
@@ -21,13 +25,15 @@ public class SystemAdminService implements ISystemAdminService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
+    private final SystemAdminRepository systemAdminRepository;
 
     @Autowired
-    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository){
+    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, SystemAdminRepository systemAdminRepository){
         this.authorityService = authorityService;
         this.userRepository= userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
+        this.systemAdminRepository = systemAdminRepository;
     }
     @Override
     public SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail {
@@ -47,6 +53,20 @@ public class SystemAdminService implements ISystemAdminService {
             return sysAdmin;
         }
         throw new InvalidEmail();
+    }
+
+    @Override
+    public SystemAdminDTO getById(Long id) throws Exception {
+        if(systemAdminRepository.findById(id).isPresent()){
+            SystemAdminDTO dto = SystemAdminMapper.mapSystemAdminToDTO(systemAdminRepository.findById(id).get());
+            return dto;
+        }
+        return null;
+    }
+
+    @Override
+    public SystemAdmin updateSystemAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException {
+        return systemAdminRepository.save(SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO));
     }
 
 }
