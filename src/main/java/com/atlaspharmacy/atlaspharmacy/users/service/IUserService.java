@@ -7,5 +7,7 @@ import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 
 public interface IUserService {
     User getUserBy(Long id);
+    User getUserByMail(String mail);
     User getPharmacyAdmin(Long pharmacyId);
+    User getByEmail(String email);
 }

@@ -19,7 +19,10 @@ values('Dermatologist', 300, '1966-01-01 00:00:01', 'lazic@gmail.com', true, 1, 
 
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Patient', 200, '1997-01-01 00:00:01', 'ignjat@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 'Ignjatijevic', 2, 300);
+values ('Patient', 200, '1997-01-01 00:00:01', 'ignjat@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Ignjatijevic',300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('SysAdmin', 900, '1997-01-01 00:00:01', 'alexignjat@gmail.com', true, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
 
 
 
@@ -49,6 +52,8 @@ insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
+insert into sysadmins(enabled, first_password_changed, verification_code, id)
+values(true, true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb978126', 900);
 
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
@@ -62,6 +67,7 @@ insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (600, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
+insert into user_authority(user_id, authority_id) VALUES (900, 4);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 
@@ -184,3 +190,6 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (400, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1236, 200, 100, false, 400);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (500, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 100, false, 500);
 
+insert into medical_record(id, patient_id) values (100, 200);
+
+insert into medical_record_ingredients(medical_record_id, ingredients_id) values (100, 900);

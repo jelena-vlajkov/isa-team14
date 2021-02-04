@@ -9,6 +9,6 @@ public class MedicalRecordMapper {
 
     public static MedicalRecordDTO mapToDto(MedicalRecord medicalRecord) {
         return new MedicalRecordDTO(medicalRecord.getPatient().getName() + " " + medicalRecord.getPatient().getSurname(),
-                medicalRecord.getAllergies());
+                medicalRecord.getAllergies(), medicalRecord.getIngredients());
     }
 }

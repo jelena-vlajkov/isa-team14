@@ -10,8 +10,9 @@ import {PharmacyAdminProfileComponent} from './pharmacy-admin-profile/pharmacy-a
 import {PharmacyProfileComponent} from './pharmacy-profile/pharmacy-profile.component';
 import {PharmacyPricelistComponent} from './pharmacy-pricelist/pharmacy-pricelist.component';
 import {DermatologyAppointmentComponent} from './dermatology-appointment/dermatology-appointment.component';
-import{BusinessReportComponent } from './business-report/business-report.component';
+import {BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent} from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
@@ -26,11 +27,15 @@ import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
+import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
+import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
+import { Role } from './model/users';
 
 const routes: Routes = [
 {
   path : 'login',
-  component : LoginComponent
+  component : LoginComponent,
+
 },
 {
   path : 'registration',
@@ -38,31 +43,45 @@ const routes: Routes = [
 },
 {
   path : 'admin',
-  component : AdminComponent
+  component : AdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacy',
-  component : RegisterPharmacyComponent
+  component : RegisterPharmacyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerSupplier',
-  component : RegisterSupplierComponent
+  component : RegisterSupplierComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/addAdmin',
-  component : AddAdminComponent
+  component : AddAdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacyAdmin',
-  component : RegisterPharmacyadminComponent
+  component : RegisterPharmacyadminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path: 'admin/registerDermatologist',
-  component : RegisterDermatologistComponent
+  component : RegisterDermatologistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'pharmacyAdmin-profile',
-  component : PharmacyAdminProfileComponent
+  component : PharmacyAdminProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.PharmacyAdmin]}
 },
 {
   path : 'pharmacy-profile',
@@ -82,53 +101,83 @@ const routes: Routes = [
 },
 {
   path : 'admin/defineLoyalty',
-  component : DefineLoyaltyComponent
+  component : DefineLoyaltyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
+  path : 'userProfile',
+  component : UserProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},{
   path : 'admin/addDrug',
-  component : AdminRegisterDrugComponent
+  component : AdminRegisterDrugComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 { path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
 },
 { path: '',
   component: UnauthenticatedUserComponent,
 
 },
 { path: 'pharmacist',
-  component: PharmacistComponent
+  component: PharmacistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
 },
 { path: 'pharmacist/profile',
-  component: PharmacistProfileComponent
+  component: PharmacistProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/calendar',
-  component: PharmacistCalendarComponent
+  component: PharmacistCalendarComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/patients',
-  component: PharmacistPatientsComponent
+  component: PharmacistPatientsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
   path: 'pharmacist/reports',
-  component: PharmacistReportsComponent
+  component: PharmacistReportsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 
 {
   path: 'pharmacist/addReport',
-  component: PharmacistAddReportComponent
+  component: PharmacistAddReportComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
-
-
 {
-  path: 'pharmacist/medication',
-  component: PharmDermMedicationsComponent
-},
-  {
     path: 'medicationOrder',
     component: MedicationOrderComponent
-  }
+},
+{
+  path: 'pharmacist/medication',
+  component: PharmDermMedicationsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+},
+{
+  path: 'searchPharmacies',
+  component: UnauthenticatedUserPharmaciesComponent
+},
+{
+  path: 'searchMedications',
+  component: UnauthenticatedUserMedicationsComponent
+
+}
 ];
 
 @NgModule({

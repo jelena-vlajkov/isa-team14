@@ -2,22 +2,31 @@
 
 export class User {
     public id: number;
-    public name: string;
-    public password: string;
     public username: string;
-    public surname: string;
-    public role:Role;
+    public password: string;
+    public firstName: string;
+    public lastName: string;
+    public role:string;
     public token?: string;
+    public address : string;
+    public dateOfBirth : Date;
+    public gender : string;
+    public city : string;
+    public phoneNumber : string;
 
-  constructor(id : number, name:string,password:string,username : string,
-              surname : string, token : string,role:Role) {
-    this.id = id;
-    this.role = role;
-    this.name = name;
-    this.password=password;
-    this.username=username;
-    this.surname=surname;
-    this.token = token;
-  }
+    constructor(id : number, username : string, password : string, firstName : string, lastname : string, role : string, address : string, dateOfBirth : Date, gender : string, city : string, phoneNumber : string) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastname;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.role = role;
+        this.gender = gender;
+        this.city = city;
+        this.phoneNumber = phoneNumber;
+    }
+
 }
 

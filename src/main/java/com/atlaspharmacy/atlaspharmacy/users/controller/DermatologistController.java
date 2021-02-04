@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
@@ -36,6 +37,7 @@ public class DermatologistController {
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @SystemAdminAuthorization
     public ResponseEntity<?> registerDermatologist(@RequestBody DermatologistDTO dermatologistDTO) throws InvalidEmail , ParseException{
         try {
             dermatologistDTO.setRole("Dermatologist");

@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@CrossOrigin( origins = "http://localhost:4200", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping(value="/pharmacyAdmin")
 public class PharmacyAdminController {
     private IPharmacyAdminService _pharmacyAdminService;
@@ -42,6 +43,7 @@ public class PharmacyAdminController {
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @SystemAdminAuthorization
     public ResponseEntity<?> registerPharmacyAdmin(@RequestBody PharmacyAdminDTO pharmacyAdminDTO) throws InvalidEmail , ParseException{
         try {
             pharmacyAdminDTO.setRole("PharmacyAdmin");

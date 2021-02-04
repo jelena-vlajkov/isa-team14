@@ -41,10 +41,16 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userId',String(result.id))
         if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
+        }else if(result.role == Role.SysAdmin){
+          this.router.navigate(['/admin'])
+        } else if (result.role == Role.Dermatologist || result.role == Role.Pharmacist) {
+          this.router.navigate(['/pharmacist'])
         }
+        if(result.role == Role.Patient){
+          this.router.navigate(['/userProfile'])
+        }
+       
       });
   }
-  signUp(){
 
-  }
 }

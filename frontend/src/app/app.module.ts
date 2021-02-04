@@ -37,6 +37,7 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
@@ -57,6 +58,8 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
+import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
+import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 
 @NgModule({
   declarations: [
@@ -67,10 +70,13 @@ import { MedicationOrderComponent } from './medication-order/medication-order.co
     RegisterPharmacyComponent,
     RegisterSupplierComponent,
     AddAdminComponent,
+    DefineLoyaltyComponent,
+    UserProfileComponent,
     PharmacyAdminProfileComponent,
     PharmacyProfileComponent,
     DermatologyAppointmentComponent,
     BusinessReportComponent,
+    PharmacyPricelistComponent,
     PharmacyPricelistComponent,
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
@@ -87,7 +93,9 @@ import { MedicationOrderComponent } from './medication-order/medication-order.co
     PharmacistReportsComponent,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
-    MedicationOrderComponent
+    MedicationOrderComponent,
+    UnauthenticatedUserPharmaciesComponent,
+    UnauthenticatedUserMedicationsComponent
 
   ],
   imports: [

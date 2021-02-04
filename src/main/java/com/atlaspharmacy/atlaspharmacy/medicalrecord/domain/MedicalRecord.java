@@ -12,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Proxy(lazy = false)
+@Table(name = "medical_record")
 public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,12 +21,22 @@ public class MedicalRecord {
     private Patient patient;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "patient_allergies",
-            joinColumns = @JoinColumn(name = "patient_id"),
+            name = "medical_record_allergies",
+            joinColumns = @JoinColumn(name = "medical_record_id"),
             inverseJoinColumns = @JoinColumn(name = "allergy_id")
     )
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Allergy> allergies;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "medical_record_ingredients",
+            joinColumns = @JoinColumn(name = "medical_record_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredients_id")
+    )
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Ingredient> ingredients;
+
 
     public MedicalRecord() {
     }
@@ -62,4 +73,9 @@ public class MedicalRecord {
     public boolean isPatient(Long patientId) {
         return getPatient().getId().equals(patientId);
     }
+
+
+    public List<Ingredient> getIngredients() {return ingredients; }
+
+    public void setIngredients(List<Ingredient> ingredients) {this.ingredients = ingredients; }
 }

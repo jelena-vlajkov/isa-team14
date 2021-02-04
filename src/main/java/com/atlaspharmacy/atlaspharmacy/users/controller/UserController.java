@@ -1,14 +1,22 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+
+import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.text.ParseException;
 
 @RestController
@@ -29,11 +37,23 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('DERMATOLOGIST')")
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @MedicalRecordAuthorization
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
         return userService.getUserBy(id);
     }
+
+    @GetMapping(value="/getLoggedIn", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    UserDTO getLoggedInUser() {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String mail = ((User)user).getEmail();
+        return UserMapper.mapToDTO(userService.getByEmail(mail));
+
+    }
+
 
 }
