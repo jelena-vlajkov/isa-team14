@@ -1,8 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,14 +58,28 @@ public class PatientController {
         return "OK";
     }
 
-    @CrossOrigin( origins = "*", allowedHeaders = "*")
+
     @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@RequestParam("id") Long id) throws ParseException {
         return new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/getLoggedPatient", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasRole('DERMATOLOGIST') || hasRole('PATIENT')")
+    public @ResponseBody
+    Patient getLoggedUser() throws ParseException {
+        //iz fronta ne salje token wtf
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String mail = ((Patient)user).getEmail();
+        return patientService.getByMail(mail);
+
+    }
+
+
     @CrossOrigin( origins = "*", allowedHeaders = "*")
     @PostMapping(value = "/editPatient", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
     public ResponseEntity<?> editPatient(@RequestBody PatientDTO patientDTO) throws ParseException, InvalidPatientData {
 
         try {

@@ -16,10 +16,11 @@ export class PatientService {
     }
 
     getPatientById(id:number) : Observable<Patient> {    
-      return this.http.get<Patient>(`${environment.baseUrl}/patient/getById/?id=${id}`);
+     // return this.http.get<Patient>(`${environment.baseUrl}/patient/getById?id=${id}`);
+     return this.http.get<Patient>(`${environment.baseUrl}/patient/getLoggedPatient`);
     }
 
     updatePatient(data : Patient){
-      return this.http.post(`${environment.baseUrl}/patient/editPatient`,data, {responseType : 'text'});
+      return this.http.post(`${environment.baseUrl}/${environment.patient}/${environment.editPatient}`,data, {responseType : 'text'});
     }
 }

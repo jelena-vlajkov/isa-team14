@@ -207,7 +207,7 @@
                   <mat-grid-tile>
                     <mat-form-field appearance="fill" id="telephone-ff">
                       <mat-label>Telephone*</mat-label>
-                      <input matInput id="telephone" placeholder="Telephone" value="{{phone}}}}" name="telephone-ff"
+                      <input matInput id="telephone" placeholder="Telephone" value="{{phone}}" name="telephone-ff"
                           formControlName="telephone">
                       <mat-error
                           *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">

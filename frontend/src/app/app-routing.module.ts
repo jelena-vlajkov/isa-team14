@@ -28,11 +28,13 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
+import { Role } from './model/users';
 
 const routes: Routes = [  
 {
   path : 'login',
-  component : LoginComponent
+  component : LoginComponent,
+
 },
 {
   path : 'registration',
@@ -40,31 +42,45 @@ const routes: Routes = [
 },
 {
   path : 'admin',
-  component : AdminComponent
+  component : AdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacy',
-  component : RegisterPharmacyComponent
+  component : RegisterPharmacyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerSupplier',
-  component : RegisterSupplierComponent
+  component : RegisterSupplierComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/addAdmin',
-  component : AddAdminComponent
+  component : AddAdminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'admin/registerPharmacyAdmin',
-  component : RegisterPharmacyadminComponent
+  component : RegisterPharmacyadminComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path: 'admin/registerDermatologist',
-  component : RegisterDermatologistComponent
+  component : RegisterDermatologistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'pharmacyAdmin-profile',
-  component : PharmacyAdminProfileComponent
+  component : PharmacyAdminProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.PharmacyAdmin]}
 },
 {
   path : 'pharmacy-profile',
@@ -84,18 +100,23 @@ const routes: Routes = [
 },
 {
   path : 'admin/defineLoyalty',
-  component : DefineLoyaltyComponent
+  component : DefineLoyaltyComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 {
   path : 'userProfile',
-  component : UserProfileComponent
+  component : UserProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 },{
   path : 'admin/addDrug',
-  component : AdminRegisterDrugComponent
+  component : AdminRegisterDrugComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
 },
 { path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
+    component: HomeComponent
 },
 { path: '',
   component: UnauthenticatedUserComponent,

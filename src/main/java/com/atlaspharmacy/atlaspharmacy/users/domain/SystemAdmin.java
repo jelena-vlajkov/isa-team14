@@ -3,16 +3,15 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "sysadmins")
+@DiscriminatorValue(value = Role.Values.SysAdmin)
 @Proxy(lazy = false)
 public class SystemAdmin extends User{
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private boolean enabled;
     private boolean firstPasswordChanged;

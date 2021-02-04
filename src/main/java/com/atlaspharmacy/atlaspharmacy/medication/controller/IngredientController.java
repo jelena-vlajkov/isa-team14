@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.MedicationAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.AllergyDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
@@ -22,7 +23,6 @@ public class IngredientController {
     private IIngredientService _ingredientService;
 
     @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
-///    @PreAuthorize(AUTHORITY)
     public ResponseEntity<?> getIngredients(){
 
         List<IngredientDTO> ingredientDTOS = _ingredientService.findAll();

@@ -1,5 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
@@ -24,6 +26,7 @@ public class SystemAdminController {
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @SystemAdminAuthorization
     public ResponseEntity<?> registerSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
         try {
             systemAdminDTO.setSysRole("SysAdmin");

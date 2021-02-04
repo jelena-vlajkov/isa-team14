@@ -137,4 +137,8 @@ public class PatientService implements IPatientService {
         patientRepository.save(patientToUpdate);
 
     }
+
+    public Patient getByMail(String mail){
+        return (Patient) patientRepository.findByEmail(mail);
+    }
 }
