@@ -37,6 +37,7 @@ import { DermatologyAppointmentComponent } from './dermatology-appointment/derma
 import { BusinessReportComponent } from './business-report/business-report.component';
 import { PharmacyPricelistComponent } from './pharmacy-pricelist/pharmacy-pricelist.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent} from './admin-register-drug/admin-register-drug.component';
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {ErrorInterceptor,JwtInterceptor} from "./helpers";
@@ -58,6 +59,8 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
 import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
+import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
+import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 
 @NgModule({
   declarations: [
@@ -68,10 +71,13 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
     RegisterPharmacyComponent,
     RegisterSupplierComponent,
     AddAdminComponent,
+    DefineLoyaltyComponent,
+    UserProfileComponent,
     PharmacyAdminProfileComponent,
     PharmacyProfileComponent,
     DermatologyAppointmentComponent,
     BusinessReportComponent,
+    PharmacyPricelistComponent,
     PharmacyPricelistComponent,
     DefineLoyaltyComponent,
     AdminRegisterDrugComponent,
@@ -88,7 +94,8 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
     PharmacistReportsComponent,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
-    
+    UnauthenticatedUserPharmaciesComponent,
+    UnauthenticatedUserMedicationsComponent
 
   ],
   imports: [

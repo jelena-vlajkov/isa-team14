@@ -10,8 +10,9 @@ import {PharmacyAdminProfileComponent} from './pharmacy-admin-profile/pharmacy-a
 import {PharmacyProfileComponent} from './pharmacy-profile/pharmacy-profile.component';
 import {PharmacyPricelistComponent} from './pharmacy-pricelist/pharmacy-pricelist.component';
 import {DermatologyAppointmentComponent} from './dermatology-appointment/dermatology-appointment.component';
-import{BusinessReportComponent } from './business-report/business-report.component';
+import {BusinessReportComponent } from './business-report/business-report.component';
 import { DefineLoyaltyComponent } from './define-loyalty/define-loyalty.component';
+import { UserProfileComponent} from './user-profile/user-profile.component';
 import { AdminRegisterDrugComponent } from './admin-register-drug/admin-register-drug.component';
 import {HomeComponent} from "./home";
 import { AuthGuard } from './helpers';
@@ -25,6 +26,8 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
+import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
 
 const routes: Routes = [  
@@ -102,6 +105,11 @@ const routes: Routes = [
   data: {roles:[Role.SysAdmin]}
 },
 {
+  path : 'userProfile',
+  component : UserProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},{
   path : 'admin/addDrug',
   component : AdminRegisterDrugComponent,
   canActivate : [AuthGuard],
@@ -150,13 +158,20 @@ const routes: Routes = [
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
-
-
 {
   path: 'pharmacist/medication',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+},
+{
+  path: 'searchPharmacies',
+  component: UnauthenticatedUserPharmaciesComponent
+},
+{
+  path: 'searchMedications',
+  component: UnauthenticatedUserMedicationsComponent
+
 }
 ];
 

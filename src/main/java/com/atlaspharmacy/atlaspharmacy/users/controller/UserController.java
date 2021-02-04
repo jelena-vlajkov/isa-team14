@@ -1,5 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+
+import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
@@ -34,8 +37,10 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/getUser", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasRole('DERMATOLOGIST')")
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/getUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @MedicalRecordAuthorization
     public @ResponseBody
     User getUserById(@RequestParam("id") Long id) throws ParseException {
         return userService.getUserBy(id);
@@ -49,5 +54,6 @@ public class UserController {
         return UserMapper.mapToDTO(userService.getByEmail(mail));
 
     }
+
 
 }

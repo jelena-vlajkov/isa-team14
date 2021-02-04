@@ -12,4 +12,5 @@ import java.io.IOException;
 public interface IPatientService {
     Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData, IOException, MessagingException, InvalidEmail;
     Patient enablePatient(Long id);
+    void editPatient(PatientDTO patientDTO);
 }

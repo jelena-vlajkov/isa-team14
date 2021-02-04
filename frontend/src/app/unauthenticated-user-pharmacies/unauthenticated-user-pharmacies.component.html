@@ -1,0 +1,107 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+    <mat-drawer style="width: 15%; height: 100%; background-color: #385399;" #drawer mode ="side">
+       <mat-action-list >
+              <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+                <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+         
+      </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;" >
+           
+            <mat-toolbar-row>
+                 <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+                    <mat-icon>menu</mat-icon>
+                 </button>
+                <h1>AtlasPharmacy</h1>
+                <span class="menu-spacer"></span>
+                <div class="divTool">
+            
+                </div>
+                <span class="example-spacer"></span>
+                <button mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>login<span class="tooltiptext">Login</span>
+                    </mat-icon>
+                    </button>
+                <button mat-icon-button [routerLink]="'/registration'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                <mat-icon>app_registration <span class="tooltiptext">Registration</span>
+                </mat-icon>
+                </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+
+        <div class="table-wrapper">
+            <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th mat-sort-header="grade">Grade</th>
+                
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let p of pharmacies">
+                    <td>{{p.name}}</td>
+                    <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
+                    <td>{{p.average_grade}}</td>
+                    
+                </tr>
+                
+                <tbody>
+            </table>
+        </div>
+        
+        <div class="searchName">
+            <p style="color: black;">Search by name</p>
+        </div>
+
+        <div class="searchBox">
+            
+            <input #inputName class="searchInput"type="text" name="" placeholder="Search">
+            <button class="searchButton" href="#" (click)="findByName(inputName.value)">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </div>
+
+        <div class="searchName2">
+            <p style="color: black;">Search by address</p>
+        </div>
+
+        <div class="searchBox2">
+            
+            <input #inputAdr class="searchInput"type="text" name="" placeholder="Search">
+            <button class="searchButton" href="#" (click)="findByAddress(inputAdr.value)">
+                <i class="material-icons">
+                    search
+                </i>
+            </button>
+        </div>
+
+        <div class="gradeFilter">
+            <p style="color: black;">Filter by grade</p>
+
+            <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 50%;">
+                <mat-option value="1">Between 0 and 1</mat-option>
+                <mat-option value="2">Between 1 and 2</mat-option>
+                <mat-option value="3">Between 2 and 3</mat-option>
+                <mat-option value="4">Between 3 and 4</mat-option>
+                <mat-option value="5">Between 4 and 5</mat-option>
+                <mat-option value="6">All</mat-option>
+            </mat-select>
+        </div>
+
+        
+
+
+      </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+  
+
+
+
