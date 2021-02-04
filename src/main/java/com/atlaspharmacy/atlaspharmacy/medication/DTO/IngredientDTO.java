@@ -53,9 +53,9 @@ public class IngredientDTO {
         }
         return dto;
     }
-
+    /*
     public static void convertToIngrtedient(Ingredient i, IngredientDTO dto){
         i.setId(dto.getId());
         i.setName(dto.getName());
-    }
+    }*/
 }

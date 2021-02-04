@@ -13,6 +13,8 @@ export const environment = {
   allergy : "allergies",
   patient : "patient",
   register : "register",
+  authenticate: 'authenticate',
+  getUser: 'getUser',
   login:"login",
   admin:"admin",
   pharmacy : "pharmacy",
@@ -20,6 +22,7 @@ export const environment = {
   dermatologist : "dermatologist",
   supplier : "supplier",
   auth:"auth",
+  editPatient: "editPatient",
   getLoggedInUser: "getLoggedIn",
   reservations : "reservations",
   getReservations : "getReservations"

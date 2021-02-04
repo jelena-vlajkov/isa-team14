@@ -1,6 +1,9 @@
+
+import { LoginComponent } from 'src/app/login/login.component';
 import {Gender} from "@app/model/users/patient/gender";
 import {Address} from "@app/model/address/address";
 import {Role} from "@app/model/users/role";
+
 
 export class Patient{
   public name : String;

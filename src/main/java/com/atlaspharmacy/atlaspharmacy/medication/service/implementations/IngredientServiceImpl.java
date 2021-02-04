@@ -4,6 +4,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.IngredientMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,7 @@ public class IngredientServiceImpl implements IIngredientService {
     @Override
     public List<IngredientDTO> findAll() {
         List<Ingredient> ingredients = _ingredientRepository.findAll();
-
-        return convertToDTOS(ingredients);
-
+        return IngredientMapper.convertToDTOS(ingredients);
     }
 
     @Override
@@ -49,14 +48,5 @@ public class IngredientServiceImpl implements IIngredientService {
 
 
 
-    private List<IngredientDTO> convertToDTOS(List<Ingredient> ingredients){
-        List<IngredientDTO> dtos = new ArrayList<>();
-        for(Ingredient i : ingredients){
-            IngredientDTO dto = IngredientDTO.convertToIngredientDTO(i);
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
 
 }

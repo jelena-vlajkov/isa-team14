@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IMedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
@@ -37,15 +38,15 @@ public class MedicationServiceImpl implements IMedicationService {
         if(medication == null){
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }
-
-        return  MedicationDTO.convertToMedicationDTO(medication);
+        return MedicationMapper.convertToMedicationDTO(medication);
+       // return  MedicationDTO.convertToMedicationDTO(medication);
     }
 
     @Override
     public List<MedicationDTO> findAll() {
         List<Medication> medications = _medicationRepository.findAll();
 
-        return convertToDTOS(medications);
+        return MedicationMapper.convertToDTOS(medications);
     }
 
     @Override
@@ -115,7 +116,8 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception {
-        MedicationDTO.convertToMedication(medication,medicationDTO);
+       // MedicationDTO.convertToMedication(medication,medicationDTO);
+        MedicationMapper.convertToMedication(medication, medicationDTO);
         medication.setSubstituteMedication(new ArrayList<>());
         for(Long id : medicationDTO.getSubstituteMedication()){
             try{
@@ -144,16 +146,17 @@ public class MedicationServiceImpl implements IMedicationService {
     }
 
 
-    private List<MedicationDTO> convertToDTOS(List<Medication> medications){
+/*    private List<MedicationDTO> convertToDTOS(List<Medication> medications){
         List<MedicationDTO> dtos = new ArrayList<>();
         Long amount = null;
         for(Medication m : medications){
             MedicationDTO dto = MedicationDTO.convertToMedicationDTO(m);
+            MedicationDTO dto = Med
             dtos.add(dto);
         }
 
         return dtos;
-    }
+    }*/
 
 
 
