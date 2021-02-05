@@ -16,7 +16,7 @@ export class Supplier{
   public firmName : String;
   public firstTimeChanged : boolean;
 
-  constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String,  address : Address, role : Role, autorities : Number[],  firmName : String,firstTimeChanged : boolean){
+  constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String,  address : Address, role : Role, autorities : Number[],  firmName : String, firstTimeChanged : boolean){
     this.name = name;
     this.surname = surname;
     this.dateOfBirth = dateOfBirth;

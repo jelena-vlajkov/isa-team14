@@ -61,7 +61,7 @@ export class SupplierProfileComponent implements OnInit {
     this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(
       data => 
       { 
-        this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName, data.firstTimeChanged);
+        this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
       });
   }
   respondToComplaints(){
