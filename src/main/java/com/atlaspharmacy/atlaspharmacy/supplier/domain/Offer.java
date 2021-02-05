@@ -1,5 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.OfferStatus;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import org.hibernate.annotations.Proxy;
 
@@ -19,6 +21,7 @@ public class Offer {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Order order;
+    private OfferStatus offerStatus;
 
     private Long price;
     private Date dueDelivery;
