@@ -46,10 +46,12 @@ export class LoginComponent implements OnInit {
         } else if (result.role == Role.Dermatologist || result.role == Role.Pharmacist) {
           this.router.navigate(['/pharmacist'])
         }
-        if(result.role == Role.Patient){
+        else if(result.role == Role.Patient){
           this.router.navigate(['/userProfile'])
         }
-       
+        else if(result.role == Role.Supplier){
+         this.router.navigate(['/supplier']);
+        }
       });
   }
 

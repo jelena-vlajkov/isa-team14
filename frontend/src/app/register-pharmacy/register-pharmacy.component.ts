@@ -5,6 +5,7 @@ import { GooglePlacesComponent } from '../google-places/google-places.component'
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-register-pharmacy',
@@ -20,7 +21,7 @@ export class RegisterPharmacyComponent implements OnInit {
   public pharmacy : Pharmacy;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private pharmacyService : PharmacyService, private router:Router) { }
+  constructor(private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router) { }
 
   ngOnInit(): void {
     this.registerPharmacy = new FormGroup({
@@ -67,28 +68,7 @@ export class RegisterPharmacyComponent implements OnInit {
   registerDermatologist(){
 
   }
-  // pharmacyValid(){
-  //    if(this.googleplaces.address===undefined){
-  //      return false;
-  //    }
-  //    return true;
-  // }
-  adminValid(){
-    // if(this.admin_location===undefined){
-    //   return false;
-    // }
-    // return true;
-  }
-  // registerAdmin(){
-  //   //TODO DODATI FUNKCIJE
-  //   return true;
-  // }
-  // loadAllPharmacies() {
-  //   this.pharmacyService.findAllPharmacies().subscribe(data => 
-  //     {
-  //       this.pharmacies = data
-  //     });
-  // }
+
   registerSupplier(){
 
   }
@@ -101,15 +81,12 @@ export class RegisterPharmacyComponent implements OnInit {
   defineLoyalty(){
 
   }
-  adminLogout(){
 
-  }
   editProfile(){
 
   }
-  // addAdmin(){
-  //   if(this.registerAdmin() == true){
-  //     this.adminAdded = true;
-  //   }
-  // }
+
+  adminLogout(){
+    this.authenticationService.logout();
+  }
 }

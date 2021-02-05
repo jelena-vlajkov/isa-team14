@@ -1,26 +1,22 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.DTO;
 
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationOrder;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.OrderedMedication;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import java.util.Date;
 
 public class OrderDTO {
     private Long id;
-    private MedicationOrder medicationOrder;
+    private OrderedMedication orderedMedication;
     private Date dueDate;
     private SupplierDTO supplier;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, MedicationOrder medicationOrder, Date dueDate, SupplierDTO supplier) {
+    public OrderDTO(Long id, OrderedMedication orderedMedication, Date dueDate, SupplierDTO supplier) {
         this.id = id;
-        this.medicationOrder = medicationOrder;
+        this.orderedMedication = orderedMedication;
         this.dueDate = dueDate;
         this.supplier = supplier;
     }
@@ -33,12 +29,12 @@ public class OrderDTO {
         this.id = id;
     }
 
-    public MedicationOrder getMedicationOrder() {
-        return medicationOrder;
+    public OrderedMedication getMedicationOrder() {
+        return orderedMedication;
     }
 
-    public void setMedicationOrder(MedicationOrder medicationOrder) {
-        this.medicationOrder = medicationOrder;
+    public void setMedicationOrder(OrderedMedication orderedMedication) {
+        this.orderedMedication = orderedMedication;
     }
 
     public Date getDueDate() {

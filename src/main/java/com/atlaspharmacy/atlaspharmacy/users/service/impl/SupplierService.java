@@ -1,0 +1,118 @@
+package com.atlaspharmacy.atlaspharmacy.users.service.impl;
+
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
+import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
+import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
+import com.atlaspharmacy.atlaspharmacy.users.repository.SupplierRepository;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.ISupplierService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.util.List;
+
+@Service
+public class SupplierService implements ISupplierService {
+    private final AuthorityService _authAuthorityService;
+    private final SupplierRepository _supplierRepository;
+    private final AddressRepository _addressRepository;
+    private final UserRepository _userUserRepository;
+    private final BCryptPasswordEncoder _passwordEncoder;
+    private final AuthenticationManager _authenticationManager;
+
+    @Autowired
+    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        _authAuthorityService = authAuthorityService;
+        _supplierRepository = supplierRepository;
+        _addressRepository = addressRepository;
+        _userUserRepository = userUserRepository;
+        _passwordEncoder = passwordEncoder;
+        _authenticationManager = authenticationManager;
+    }
+
+
+    @Override
+    public Supplier registerSupplier(SupplierDTO supplierDTO) throws InvalidEmail{
+        if(_userUserRepository.findByEmail(supplierDTO.getEmail())==null){
+            String role ="ROLE_SUPPLIER";
+            String password = _passwordEncoder.encode(supplierDTO.getPassword());
+            supplierDTO.setPassword(password);
+            Address a = AddressMapper.mapAddressDTOToAddress(supplierDTO.getAddress());
+            _addressRepository.save(a);
+            Supplier supplier = SupplierMapper.mapDTOToSupplier(supplierDTO);
+
+            supplier.setAuthorities(_authAuthorityService.getAllRolesAuthorities(role));
+
+            supplier.setAddress(a);
+
+            _supplierRepository.save(supplier);
+
+            return supplier;
+        }
+        throw new InvalidEmail();
+    }
+
+    @Override
+    public SupplierDTO getById(Long id) {
+        if(_supplierRepository.findById(id).isPresent()){
+            SupplierDTO dto = SupplierMapper.mapSupplierToDTO(_supplierRepository.findById(id).get());
+            return dto;
+        }
+        return null;
+    }
+
+    @Override
+    public Supplier findByEmail(String email){
+        List<Supplier> suppliers = _supplierRepository.findAll();
+        for(Supplier s : suppliers){
+            if(s.getEmail().equals(email)){
+                return  s;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Supplier updateSupplier(SupplierDTO supplierDTO) throws InvalidEmail, ParseException {
+        Supplier s = findByEmail(supplierDTO.getEmail());
+        if(s == null){
+            throw new InvalidEmail();
+        }
+        Supplier newSupplier = SupplierMapper.mapDTOToSupplier(supplierDTO);
+        newSupplier.setId(s.getId());
+        return _supplierRepository.save(newSupplier);
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword) throws InvalidPassword, InvalidEmail, ParseException {
+        // Ocitavamo trenutno ulogovanog korisnika
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String email = currentUser.getName();
+
+        if (_authenticationManager != null) {
+            _authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+        } else {
+            throw new InvalidPassword();
+        }
+
+        Supplier supplier = findByEmail(email);
+
+        supplier.setPassword(_passwordEncoder.encode(newPassword));
+        supplier.setFirstTimePassword(true);
+        _supplierRepository.save(supplier);
+
+    }
+}

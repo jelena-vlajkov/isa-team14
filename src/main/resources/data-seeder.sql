@@ -23,6 +23,17 @@ values ('Patient', 200, '1997-01-01 00:00:01', 'ignjat@gmail.com', true, 1, 'Ale
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values ('SysAdmin', 900, '1997-01-01 00:00:01', 'alexignjat@gmail.com', true, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('SysAdmin', 905, '1997-01-01 00:00:01', 'alex@gmail.com', false, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 990, '1997-01-01 00:00:01', 'elit@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
 
 
 insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
@@ -47,8 +58,12 @@ insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
-insert into sysadmins(enabled, first_password_changed, verification_code, id)
-values(true, true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb978126', 900);
+insert into sysadmins(id) values(900);
+insert into sysadmins(id) values(905);
+
+insert into suppliers(firm_name, id) VALUES ('ElitNS', 990);
+insert into suppliers(firm_name, id) VALUES ('ElitNS2', 991);
+insert into suppliers(firm_name, id) VALUES ('ElitNS2', 992);
 
 insert into authority(id, name) values (1, 'ROLE_PHARMACIST');
 insert into authority(id, name) values (2, 'ROLE_DERMATOLOGIST');
@@ -56,13 +71,17 @@ insert into authority(id, name) values (3, 'ROLE_PATIENT');
 insert into authority(id, name) values (4, 'ROLE_SYSADMIN');
 insert into authority(id, name) values (5, 'ROLE_PHARMACYADMIN');
 insert into authority(id, name) values (6, 'ROLE_MEDICALSTAFF');
-
-insert into sup_authrorities(id, name) values (1, 'ROLE_SUPPLIER');
+insert into authority(id, name) values (7, 'ROLE_SUPPLIER');
 
 insert into user_authority(user_id, authority_id) values (100, 2);
 insert into user_authority(user_id, authority_id) values (600, 3);
 insert into user_authority(user_id, authority_id) values (500, 1);
 insert into user_authority(user_id, authority_id) VALUES (900, 4);
+insert into user_authority(user_id, authority_id) VALUES (905, 4);
+
+insert into user_authority(user_id, authority_id) VALUES (990, 7);
+insert into user_authority(user_id, authority_id) VALUES (991, 7);
+insert into user_authority(user_id, authority_id) VALUES (992, 7);
 
 insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
 
@@ -188,3 +207,58 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 insert into medical_record(id, patient_id) values (100, 200);
 
 insert into medical_record_ingredients(medical_record_id, ingredients_id) values (100, 900);
+
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (100, 100, 100, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (200, 200, 75, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (300, 400, 50, 990);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (400, 600, 25, 990);
+
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (500, 300, 100, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (600, 500, 200, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (700, 200, 50, 991);
+insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (800, 100, 250, 991);
+
+insert into orders(id, due_date, pharmacy_id) VALUES (100, '2021-02-26 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (200, '2021-02-25 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (300, '2021-02-24 12:00:00', 100);
+insert into orders(id, due_date, pharmacy_id) VALUES (400, '2021-02-22 12:00:00', 100);
+
+insert into orders(id, due_date, pharmacy_id) VALUES (500, '2021-02-26 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (600, '2021-02-22 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (700, '2021-02-22 12:00:00', 200);
+insert into orders(id, due_date, pharmacy_id) VALUES (800, '2021-02-27 12:00:00', 200);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (100, 100, 190, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (200, 200, 30, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (300, 300, 19, 100);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (400, 400, 20, 100);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (500, 200, 30, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (600, 100, 19, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (700, 300, 25, 200);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (800, 500, 11, 200);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (900, 100, 6, 300);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1000, 200, 66, 300);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1100, 400, 3, 300);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1200, 200, 12, 400);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1300, 400, 78, 400);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1400, 200, 13, 500);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1500, 300, 64, 500);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1600, 100, 55, 600);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1700, 200, 19, 600);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1800, 300, 28, 700);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (1900, 200, 12, 700);
+
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2000, 200, 55, 800);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2100, 100, 15, 800);
+insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2200, 400, 30, 800);
+
+insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (100,'2021-02-23 12:00:00', 0, 9000, 200, 991);
+insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (101,'2021-02-22 12:00:00', 0, 6000, 300, 990);
+insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (102, '2021-02-19 12:00:00', 0, 3800, 700, 991);
+insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (103, '2021-02-26 12:00:00', 0, 3230, 800, 990);

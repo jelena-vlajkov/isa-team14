@@ -5,16 +5,16 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class MedicationOrder {
+public class OrderedMedication {
     private Long medication;
     private Long quantity;
 
-    public MedicationOrder(Long medication, Long quantity) {
+    public OrderedMedication(Long medication, Long quantity) {
         this.medication = medication;
         this.quantity = quantity;
     }
 
-    public MedicationOrder() {
+    public OrderedMedication() {
     }
 
     public Long getMedication() {

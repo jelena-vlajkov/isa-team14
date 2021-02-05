@@ -13,8 +13,9 @@ export class SystemAdmin{
     public sysAddress : Address;
     public sysRole : Role;
     public sysAuthorities : Number[];
+    public firstTimeChanged : boolean;
 
-    constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[]){
+    constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], firstTimeChanged : boolean){
         this.sysName = name;
         this.sysSurname = surname;
         this.sysDateOfBirth = dateOfBirth;
@@ -25,6 +26,7 @@ export class SystemAdmin{
         this.sysAddress = address;
         this.sysRole = role;
         this.sysAuthorities = autorities;
+        this.firstTimeChanged = firstTimeChanged;
     }
 
 

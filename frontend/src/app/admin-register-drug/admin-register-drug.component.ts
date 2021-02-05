@@ -11,6 +11,7 @@ import { MedicationService } from '../service/medication/medication.service';
 import { IngredientService } from '../service/medication/ingredients.service';
 import { Ingredient } from '../model/medications/ingredient';
 import { Observable } from 'rxjs';
+import { AuthenticationService } from '@app/service/user';
 
 export interface DialogData {
   animal: string;
@@ -54,7 +55,7 @@ export class AdminRegisterDrugComponent implements OnInit {
   private StringIsNumber = value => isNaN(Number(value)) === false;
   filteredOptions: Observable<string[]>;
   ingredientControl = new FormControl();
-  constructor(private medicationService : MedicationService, private ingredientService : IngredientService) { }
+  constructor(private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService) { }
 
   ngOnInit(): void {
     // this.filteredOptions = this.ingredientControl.valueChanges
@@ -105,7 +106,7 @@ export class AdminRegisterDrugComponent implements OnInit {
     
   }
   adminLogout(){
-    
+    this.authenticationService.logout();
   }
 
 

@@ -15,6 +15,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
 import { DermatologistService } from '@app/service/dermatologist/dermatologist.service';
+import { AuthenticationService } from '@app/service/user';
 
 const allowMultiSelect = true;
 
@@ -49,7 +50,7 @@ export class RegisterDermatologistComponent implements OnInit {
   public chosenPharmacies : Pharmacy[] = new Array();
   dataSource2 = new MatTableDataSource<Pharmacy>();
   public dermatologist: Dermatologist;
-  constructor(private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
+  constructor(private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
 
   ngOnInit(): void {
     this.addDermatologist = new FormGroup({
@@ -127,5 +128,6 @@ export class RegisterDermatologistComponent implements OnInit {
   }
 
   respondToComplaints(){}
-  adminLogout(){}
-}
+  adminLogout(){
+    this.authenticationService.logout();
+  }}

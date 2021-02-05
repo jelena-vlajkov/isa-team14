@@ -27,7 +27,6 @@
     height: 200px;
     margin: 12px; */
     /* border: 1px solid #555; */
-    background: wheat;
   }
   
   mat-drawer-content {
@@ -43,12 +42,12 @@
     display: flex;
     width: 100%;
   }
-  .card{
+  mat-card{
     position: relative; 
     margin-left: 20%; 
     margin-top:2%;
     width: 60%;
-    height: 40vw;
+    height: 42vw;
     
   }
   .submedicine{
