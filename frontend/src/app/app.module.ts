@@ -62,6 +62,8 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
+import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
+import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +99,9 @@ import { SupplierProfileComponent } from './supplier-profile/supplier-profile.co
     PharmDermMedicationsComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
-    SupplierProfileComponent
+    SupplierProfileComponent,
+    SupplierOrdersComponent,
+    SupplierOffersComponent
 
   ],
   imports: [

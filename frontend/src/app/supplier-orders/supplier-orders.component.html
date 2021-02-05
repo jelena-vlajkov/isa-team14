@@ -1,0 +1,30 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
+
+          <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
+          <button mat-list-item (click)="routeToOffers()" style="color: white;"> All offers</button>
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item (click)="routeToProfile()"> Profile</button>
+                <button style="color: white;" mat-list-item (click)="supplierLogout()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Supplier profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+           
+
+      </mat-drawer-content>
+  </mat-drawer-container>
+  </body>
+  

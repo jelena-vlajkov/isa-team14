@@ -30,6 +30,8 @@ import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-p
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
+import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
+import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
 
 const routes: Routes = [  
 {
@@ -177,6 +179,18 @@ const routes: Routes = [
 {
   path:'supplier',
   component : SupplierProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/allOrders',
+  component : SupplierOrdersComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/offers',
+  component : SupplierOffersComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Supplier]}
 }

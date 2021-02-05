@@ -65,19 +65,7 @@ export class AdminComponent implements OnInit {
         this.sysAdmin = new SystemAdmin(data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
         this.address1 = data.sysAddress;
       });
-      // if(!this.sysAdmin.firstTimePassword){
-      //   this.profile = false;
-      //   this.edit = false;
-      //   this.changePassword = true;
-      //   console.log(this.sysAdmin.firstTimePassword);
-      //   this.newCustomer=true;
-      //   this.changePasswordFunction();
-      // }else{
-      //   this.profile = true;
-      //   this.edit = false;
-      //   this.changePassword = false;
-      //   this.newCustomer = false;
-      // }
+
   }
   respondToComplaints(){
 
@@ -141,10 +129,6 @@ export class AdminComponent implements OnInit {
     }
     else{
       this.chgPass = new PasswordChanger(Number(localStorage.getItem('userId')),this.oldpassword, this.password1, true);
-      // this.chgPass = new PasswordChanger(Number(localStorage.getItem('userId')), ,this.password1)
-      // this.chgPass.user_id = Number(localStorage.getItem('userId'));
-      // this.chgPass.newpassword = this.password1;
-      // this.chgPass.oldpassword = this.sysAdmin.sysPassword;
       console.log(this.chgPass);
       this.systemAdminService.updatePassword(this.chgPass).subscribe(
         res=>{
