@@ -45,6 +45,7 @@ public class OrderService implements IOrderService {
                 orderedMedications.add(m.getOrderedMedication());
             }
             dto.setOrderedMedication(orderedMedications);
+            dtos.add(dto);
         }
         return dtos;
     }
