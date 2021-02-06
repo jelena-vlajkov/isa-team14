@@ -26,7 +26,6 @@ public class AppointmentService implements IAppointmentService {
     private final UserRepository userRepository;
     private final AppointmentRepository appointmentRepository;
     private final WorkDayService workDayService;
-
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
@@ -124,7 +123,56 @@ public class AppointmentService implements IAppointmentService {
                 .filter(appointment -> appointment.isPatient(patinetId))
                 .collect(Collectors.toList());
     }
+    public List<Appointment> getPatientsAppointments(Long id){
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<Appointment> patientsAppointments = new ArrayList<>();
+        for(Appointment a : appointments){
+            if(a.getPatient().getId().equals(id)){
+                patientsAppointments.add(a);
+            }
+        }
+        return patientsAppointments;
+    }
+    @Override
+    public List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId){
+        List<Appointment> appointments = new ArrayList<>();
+        List<Appointment> patientsAppointments = getPatientsAppointments(patientId);
+        for(Appointment a : patientsAppointments){
+            if(a.getAppointmentPeriod().getEndTime().compareTo(new Date())<0){
+                appointments.add(a);
+            }
+        }
+        return appointments;
+    }
 
+    @Override
+    public List<Counseling> getFinishedPatientsCounselings(Long id){
+        List<Counseling> counselings = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Counseling.toString())){
+                    counselings.add((Counseling) appointmentRepository.findById(a.getId()).get());
+                }
+            }
+        }
+
+        return counselings;
+    }
+    @Override
+    public List<Examination> getFinishedPatientsExaminations(Long id){
+        List<Examination> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Examination.toString())){
+                    exams.add((Examination) appointmentRepository.findById(a.getId()).get());
+
+                }
+            }
+        }
+        return exams;
+    }
 
     @Override
     public List<Appointment> getOccupiedBy(Date date) {

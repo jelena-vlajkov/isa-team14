@@ -3,6 +3,7 @@ import { Gender } from "@app/model/users/patient/gender";
 import { Role } from "@app/model/users/role";
 
 export class SystemAdmin{
+    public id : Number;
     public sysName : String;
     public sysSurname : String;
     public sysDateOfBirth : Date;
@@ -15,7 +16,8 @@ export class SystemAdmin{
     public sysAuthorities : Number[];
     public firstTimeChanged : boolean;
 
-    constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], firstTimeChanged : boolean){
+    constructor(id:Number, name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], firstTimeChanged : boolean){
+        this.id = id;
         this.sysName = name;
         this.sysSurname = surname;
         this.sysDateOfBirth = dateOfBirth;

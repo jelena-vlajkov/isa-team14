@@ -7,6 +7,7 @@ import { Role } from '@app/model/users/role';
 import { Gender } from '@app/model/users/patient/gender';
 import { Address } from '@app/model/address/address';
 import { AuthenticationService } from '@app/service/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-admin',
@@ -37,7 +38,7 @@ export class AddAdminComponent implements OnInit {
   addAdminForm: FormGroup;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private sysAdminRegistration : SysadminRegistrationService,private authenticationService : AuthenticationService) { }
+  constructor(private router: Router, private sysAdminRegistration : SysadminRegistrationService,private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
     this.addAdminForm = new FormGroup({
@@ -66,7 +67,7 @@ export class AddAdminComponent implements OnInit {
     role = Role.SysAdmin
     var auths : Number[] = new Array();
     console.log(this.password);
-    this.sysAdmin = new SystemAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
+    this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
     console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
 
     if(this.passwordValid()){
@@ -93,6 +94,10 @@ export class AddAdminComponent implements OnInit {
   }
   adminLogout(){
     this.authenticationService.logout();
+
+  }
+  routeToHome(){
+    this.router.navigate(['/admin']);
 
   }
   respondToComplaints(){

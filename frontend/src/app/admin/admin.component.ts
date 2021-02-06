@@ -62,14 +62,12 @@ export class AdminComponent implements OnInit {
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
       data => 
       {
-        this.sysAdmin = new SystemAdmin(data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
         this.address1 = data.sysAddress;
       });
 
   }
-  respondToComplaints(){
 
-  }
   back(){
     this.loadSystemAdmin();
     this.profile = false; 
@@ -183,7 +181,7 @@ export class AdminComponent implements OnInit {
     console.log(this.googleplaces===null);
     
     console.log(this.address1);
-    var editedAdmin = new SystemAdmin(name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
+    var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
     console.log(editedAdmin);
     this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
       res=>{
@@ -230,11 +228,33 @@ export class AdminComponent implements OnInit {
       this.changePassword = true; 
     }
   }
+  routeToHome(){
+    if(this.changePassword){
+      this.changePassword=false;
+      this.home = true;
+    }
+    
+  }
   routeToPharmacyReg(){
     this.firstTimeChanged = this.sysAdmin.firstTimeChanged;
     console.log(this.firstTimeChanged);
     if(this.firstTimeChanged){
       this.router.navigate(['/admin/registerPharmacy']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  respondToComplaints(){
+    this.firstTimeChanged = this.sysAdmin.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/admin/answerComplaints']);
     }
     else
     {

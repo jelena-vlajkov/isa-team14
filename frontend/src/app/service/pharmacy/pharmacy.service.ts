@@ -29,4 +29,8 @@ export class PharmacyService {
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByAddress?address=${add}`);
   }
   
+  getPharmacyToComplain(id : Number) :Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmacyToComplain}?id=${id}`);
+  }
+  
 }

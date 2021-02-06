@@ -3,7 +3,12 @@ package com.atlaspharmacy.atlaspharmacy.users.mapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DermatologistMapper {
     private DermatologistMapper(){}
@@ -31,5 +36,13 @@ public class DermatologistMapper {
         d.setPharmacies(PharmacyMapper.maptDTOSToList(dto.getPharmacies()));
         d.setFirstTimePassword(dto.isFirstTimeChanged());
         return d;
+    }
+
+    public static List<DermatologistDTO> mapToListDTOS(List<Dermatologist> dermatologists){
+        List<DermatologistDTO> dtos = new ArrayList<>();
+        for(Dermatologist d : dermatologists){
+            dtos.add(mapDermatologistToDTO(d));
+        }
+        return dtos;
     }
 }

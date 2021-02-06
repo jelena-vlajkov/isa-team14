@@ -28,6 +28,16 @@ export const environment = {
   getLoggedInUser: "getLoggedIn",
   reservations : "reservations",
   getReservations : "getReservations",
-  changepassword : "changepassword"
+  changepassword : "changepassword",
+  getDermatologistToComplain : "getDermatologistToComplain",
+  pharmacist:"pharmacist",
+  getPharmacistToComplain : "getPharmacistToComplain",
+  complaint:"complaint",
+  getPharmacyToComplain : "getPharmacyToComplain",
+  getUnanswered:"getUnanswered",
+  answerComplaint : "answerComplaint",
+  getUnansweredDermatologist : "getUnansweredDermatologist",
+  getUnansweredPharmacist : "getUnansweredPharmacist",
+  getUnansweredPharmacy : "getUnansweredPharmacy"
 };
 

@@ -1,17 +1,21 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -66,6 +70,12 @@ public class PharmacyController {
         return pharmacyService.findByAddress(address);
     }
 
+    @GetMapping(value = "/getPharmacyToComplain", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<PharmacyDTO> getPharmacyToComplain(@RequestParam("id") Long id) throws ParseException {
+        return PharmacyMapper.maptToListDto(pharmacyService.getPharmaciesToComplain(id));
+    }
 
     @ExceptionHandler(InvalidPharmacyData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
