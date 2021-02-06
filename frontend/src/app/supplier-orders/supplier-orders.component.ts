@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
+import { Offer } from '@app/model/users/supplier/offer';
 import { Order } from '@app/model/users/supplier/order';
 import { Supplier } from '@app/model/users/supplier/supplier';
+import { OffersService } from '@app/service/offers/offers.service';
 import { OrdersService } from '@app/service/orders/orders.service';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { AuthenticationService } from '@app/service/user';
@@ -15,8 +17,9 @@ import { AuthenticationService } from '@app/service/user';
 export class SupplierOrdersComponent implements OnInit {
   public supplier : Supplier;
   public orders : Order[];
+  public offers : Offer[];
   @ViewChild(GooglePlacesComponent) googleplaces;
-  constructor(private orderService: OrdersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
+  constructor(private offerService: OffersService, private orderService: OrdersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
 
   ngOnInit(): void {
     this.loadSupplier();
@@ -36,7 +39,11 @@ export class SupplierOrdersComponent implements OnInit {
       this.orderService.getAllUnfinishedOrders().subscribe(data => 
         {
           this.orders = data
-        });
+        });      
+        this.offerService.getAllOffersBySuppllier(Number(localStorage.getItem('userId'))).subscribe(data => 
+          {
+            this.offers = data
+          });
   }
 
 

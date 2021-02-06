@@ -39,6 +39,8 @@ export const environment = {
   getUnansweredDermatologist : "getUnansweredDermatologist",
   getUnansweredPharmacist : "getUnansweredPharmacist",
   getUnansweredPharmacy : "getUnansweredPharmacy",
-  order: "order"
+  order: "order",
+  offer : "offer",
+  findSuppliers : "findSuppliers"
 };
 

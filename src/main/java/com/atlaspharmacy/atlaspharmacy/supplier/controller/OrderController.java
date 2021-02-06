@@ -30,6 +30,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SupplierAuthorization
     public @ResponseBody
     List<OrderDTO> getUnfinishedOrders(){
         return orderService.getAllunfinishedOrders();

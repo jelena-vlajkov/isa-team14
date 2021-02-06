@@ -33,7 +33,7 @@ public class OrderService implements IOrderService {
         Date currentDate = new Date();
 
         for(Order o: getAllOrders()) {
-            if (currentDate.compareTo(o.getDueDate()) < 0) {
+            if (currentDate.compareTo(o.getDueDate()) < 0 && currentDate.compareTo(o.getEditableDue())<0) {
                 unfinished.add(o);
             }
         }
