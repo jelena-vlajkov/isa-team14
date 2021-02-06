@@ -32,6 +32,8 @@ import { Role } from './model/users';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
+import { PatientComplainComponent } from './patient-complain/patient-complain.component';
+import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
 
 const routes: Routes = [  
 {
@@ -76,6 +78,12 @@ const routes: Routes = [
 {
   path: 'admin/registerDermatologist',
   component : RegisterDermatologistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
+},
+{
+  path: 'admin/answerComplaints',
+  component : AdminComplaintsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.SysAdmin]}
 },
@@ -193,6 +201,12 @@ const routes: Routes = [
   component : SupplierOffersComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Supplier]}
+},
+{
+  path:'userProfile/complain',
+  component : PatientComplainComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 }
 ];
 

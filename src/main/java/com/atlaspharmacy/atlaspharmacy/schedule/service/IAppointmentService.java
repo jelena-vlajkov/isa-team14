@@ -25,7 +25,9 @@ public interface IAppointmentService {
     List<Appointment> initializeAppointmentTime(Date date, Long medicalStaffId);
     List<Counseling> getAllOccupiedCounselings(Date date);
     List<Examination> getAllOccupiedExaminations(Date date);
-
+    List<Counseling> getFinishedPatientsCounselings(Long id);
+    List<Examination> getFinishedPatientsExaminations(Long id);
+    List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
 
 
 

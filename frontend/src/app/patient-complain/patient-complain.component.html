@@ -1,0 +1,119 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item style="color: white;" routerLink="/userProfile"> Home</button>
+
+          <button mat-list-item style="color: white;"> Write offers</button>
+          <button mat-list-item style="color: white;"> All offers</button>
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item> Profile</button>
+                <button style="color: white;" mat-list-item (click)="logout()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>User profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            <mat-card class="mat-elevation-z8">
+              <mat-card-header>
+                <mat-card-title>
+                  <label style="font-weight:bold; font-size: 25px;">Complain</label>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="registerComplain" (ngSubmit)="sendComplaint()">
+                  <mat-grid-list cols="2" rowHeight="4:1" style="margin-left: 10px;">
+                    <mat-grid-tile>
+                      <p>Select entity for complaint:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <div class="inputField">
+                        <mat-form-field>
+                          <mat-label>Entity</mat-label>
+                          <mat-select formControlName = 'entity'  [disabled]="entitySelected" [(ngModel)]="ent">
+                            <mat-option *ngFor="let ph of toWhomToComplain" value={{ph.value}} >
+                              {{ph.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <button style="float:right; position:relative;margin-left:20px; margin-right: 10px; font-size: 14px;" mat-raised-button color="accent"  (click)="choseEntity()" [disabled]=" entitySelected || !checkEnt() " >Select entity</button>
+                    </mat-grid-tile>
+                    <div *ngIf="chosenEntity">
+                      <mat-grid-tile>
+                        <p>Select to who to complain:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <div class="inputField" *ngIf="pharmDerm">
+                          <mat-form-field>
+                            <mat-label>Who</mat-label>
+                            <mat-select formControlName = 'who' [disabled]="personSelected" [(ngModel)]="personModel">
+                              <mat-option *ngFor="let a of source" [value]="a.id">
+                                {{a.name}} {{a.surname}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="inputField" *ngIf="!pharmDerm">
+                          <mat-form-field>
+                            <mat-label>Who</mat-label>
+                            <mat-select formControlName = 'who' [disabled]="personSelected" [(ngModel)]="personModel">
+                              <mat-option>--</mat-option>
+                              <mat-option *ngFor="let a of source" [value]="a.id">
+                                {{a.name}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <button style="float:right; position:relative;margin-left:20px; margin-right: 10px; font-size: 14px;" mat-raised-button color="accent"  (click)="choosePerson()" [disabled]="personSelected || !checkPerson()" >Select</button>
+
+                      </mat-grid-tile>
+                    </div>
+                    <div *ngIf="enterText">
+                      <mat-grid-tile>
+                        <p>Enter complain:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <!-- <div class="inputField" *ngIf="pharmDerm">
+
+                        </div>
+                        <div class="inputField" *ngIf="!pharmDerm">
+                          
+                        </div> -->
+                        <mat-form-field class="example-full-width" style="width: 90%;">
+                          <mat-label>Leave a comment</mat-label>
+                          <textarea matInput formControlName="comment" [(ngModel)]="comment"></textarea>
+                        </mat-form-field>
+                      </mat-grid-tile>
+                    </div>
+                  </mat-grid-list>
+                  <button style="float:right; position:relative;margin-left:20px; margin-right: 10px; font-size: 14px;" mat-raised-button color="accent" [disabled]="!checkComment()" *ngIf="personSelected && entitySelected || checkComment()"  >Send complaint</button>
+                  <button style="float:left; position:relative;margin-left:20px; margin-right: 10px; font-size: 14px;" mat-raised-button color="accent" routerLink="/userProfile">Cancel</button>
+
+                </form>
+              </mat-card-content>                    
+              <!-- <mat-form-field>
+                      <mat-label>Name</mat-label>
+                      <mat-select formControlName = 'firstCtrl'>
+                        <mat-option>--</mat-option>
+                        <mat-option *ngFor="let ph of toWhomToComplain" value={{ph.value}}>
+                          {{ph.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field> -->
+                    
+            </mat-card>
+              
+
+      </mat-drawer-content>
+  </mat-drawer-container>
+  </body>
+  

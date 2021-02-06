@@ -94,13 +94,14 @@
             <mat-card-actions>
               <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
               <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' (click)='loyaltyClick()'  color="accent">Loyalty program</button>
+              <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' routerLink="/userProfile/complain"  color="accent">Complain</button>
               <button style="float:left; position:relative;" mat-raised-button id='drugReservation'  color="accent">Drug reservations</button>
             </mat-card-actions>
 
           </mat-card>
 
           <mat-card id="mat-card-loy" *ngIf="loyalty">
-            <mat-card-context>
+            <mat-card-content>
               <form [formGroup]="loyaltyForm" (ngSubmit)="loyaltyClick">
                 <mat-grid-list cols="2" rowHeight="7:1" style="margin-left: 10px;">
                   <mat-grid-tile>
@@ -128,7 +129,7 @@
                 
 
               </form>
-            </mat-card-context>
+            </mat-card-content>
           </mat-card>
 
 

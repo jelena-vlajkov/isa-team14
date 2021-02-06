@@ -7,6 +7,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IDermatologistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,13 @@ public class DermatologistController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getDermatologistToComplain", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> getDermatologistToComplain(@RequestParam("id") Long id) throws ParseException {
+        return DermatologistMapper.mapToListDTOS(_dermatologistService.getAllDermatologistsToComplain(id));
+    }
+
 
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

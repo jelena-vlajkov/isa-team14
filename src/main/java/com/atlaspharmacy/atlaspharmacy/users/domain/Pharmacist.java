@@ -16,7 +16,8 @@ public class Pharmacist extends MedicalStaff {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Pharmacy pharmacy;
 
     public Pharmacist(Long id) {
         this.id = id;
@@ -24,6 +25,14 @@ public class Pharmacist extends MedicalStaff {
 
     public Pharmacist() {
 
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public void setId(Long id) {

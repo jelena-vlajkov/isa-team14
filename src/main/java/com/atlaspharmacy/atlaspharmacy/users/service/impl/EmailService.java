@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VerificationToken;
@@ -45,7 +46,7 @@ public class EmailService implements IEmailService {
         return emailDTO;
     }
 
-    public void sendEmail(Patient p) throws FileNotFoundException, MessagingException, IOException{
+    public void sendConfirmationEmail(Patient p) throws FileNotFoundException, MessagingException, IOException{
         EmailDTO emailDTO = generateEmailInfo(p);
         String FilePath = "./verification.html";
         File starting = new File(System.getProperty("user.dir"));
@@ -63,7 +64,7 @@ public class EmailService implements IEmailService {
             body = body.replace("[link]", emailDTO.getLink());
             body = body.replace("[name]", p.getName());
 
-        htmlPart.setContent(body, "text/html; charset=utf-8");
+            htmlPart.setContent(body, "text/html; charset=utf-8");
             multiPart.addBodyPart(htmlPart);
 
             message.setContent(multiPart);
@@ -75,5 +76,33 @@ public class EmailService implements IEmailService {
 
 
     }
+
+    @Override
+    public void answerToComplaint(Complaint c, String answer) throws FileNotFoundException, MessagingException, IOException {
+        String FilePath = "./answertocomplaint.html";
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/answertocomplaint.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[answer]", answer);
+        body = body.replace("[name]", c.getPatient().getName());
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Answer to your complaint...");
+
+        javaMailSender.send(message);
+    }
+
 
 }

@@ -48,6 +48,11 @@ public class AppointmentController {
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableBy(date, id));
     }
 
+    @GetMapping(value = "/getFinishedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<AppointmentDTO> getAvailable(@RequestParam("id") Long id){
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getAllFinishedAppointmentsForPatient(id));
+    }
+
     @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

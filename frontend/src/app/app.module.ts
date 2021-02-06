@@ -45,7 +45,7 @@ import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
@@ -64,6 +64,8 @@ import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
+import { PatientComplainComponent } from './patient-complain/patient-complain.component';
+import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,9 @@ import { SupplierOffersComponent } from './supplier-offers/supplier-offers.compo
     UnauthenticatedUserMedicationsComponent,
     SupplierProfileComponent,
     SupplierOrdersComponent,
-    SupplierOffersComponent
+    SupplierOffersComponent,
+    PatientComplainComponent,
+    AdminComplaintsComponent
 
   ],
   imports: [
@@ -145,7 +149,8 @@ import { SupplierOffersComponent } from './supplier-offers/supplier-offers.compo
    // NgbModalModule,
     FlatpickrModule.forRoot(),
     //NgbModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatStepperModule
     
   ],
   providers: [

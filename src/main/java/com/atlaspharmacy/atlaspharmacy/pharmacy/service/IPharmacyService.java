@@ -18,4 +18,5 @@ public interface IPharmacyService {
     List<PharmacyDTO> getAllPharmacies();
     List<PharmacyDTO> findByName(String name);
     List<PharmacyDTO> findByAddress(String address);
+    List<Pharmacy> getPharmaciesToComplain(Long id);
 }
