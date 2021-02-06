@@ -20,6 +20,7 @@ public class SupplierStorageMedication {
     private SupplierMedicationInStorage medications;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Supplier supplier;
+
     public SupplierStorageMedication() {
     }
 
@@ -42,5 +43,13 @@ public class SupplierStorageMedication {
 
     public void setMedications(SupplierMedicationInStorage medications) {
         this.medications = medications;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

@@ -38,6 +38,7 @@ export const environment = {
   answerComplaint : "answerComplaint",
   getUnansweredDermatologist : "getUnansweredDermatologist",
   getUnansweredPharmacist : "getUnansweredPharmacist",
-  getUnansweredPharmacy : "getUnansweredPharmacy"
+  getUnansweredPharmacy : "getUnansweredPharmacy",
+  order: "order"
 };
 
