@@ -60,6 +60,7 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
+import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-
     PharmDermMedicationsComponent,
     MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
-    UnauthenticatedUserMedicationsComponent
+    UnauthenticatedUserMedicationsComponent,
+    SupplierProfileComponent
 
   ],
   imports: [

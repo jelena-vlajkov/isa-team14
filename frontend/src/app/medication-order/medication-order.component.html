@@ -27,7 +27,7 @@
       <span class="example-spacer"></span>
     </mat-toolbar>
 <div style="display: flex;">
-  <mat-card [formGroup]="orderForm" style="flex: 1 1 auto;width: 50%;">
+  <mat-card style="flex: 1 1 auto;width: 50%;">
       <form [formGroup]="addMedicationOrderForm" (ngSubmit)="addOrder()">
           <mat-grid-list cols="3" rowHeight="5:1"  >
 
@@ -54,7 +54,7 @@
                 <mat-form-field appearance="fill" id="amount-ff" >
                   <mat-label >Amount</mat-label>
                   <input matInput id="amount" placeholder="Amount" name="amount-ff"
-                         formControlName="amount" required type="number" style="height: 22px;">
+                         formControlName="amount" required type="number" style="height: 25px;">
                   <mat-error
                     *ngIf="!addMedicationOrderForm.get('amount').valid
                      && addMedicationOrderForm.get('amount').touched
@@ -65,42 +65,29 @@
             </mat-grid-tile>
 
             <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-bottom:10px;width: auto;color: #385399;" mat-raised-button id='addOrder' [disabled]="!addMedicationOrderForm.valid">Add medication</button></mat-grid-tile>
-            <mat-grid-tile style="height: 2px;"></mat-grid-tile><mat-grid-tile style="height: 2px;"></mat-grid-tile><mat-grid-tile style="height: 2px;"></mat-grid-tile>
-            <mat-grid-tile *ngIf="orderList.length!=0" style="margin:10px;">
-              <div class="inputField" style="width: auto;" >
-                <mat-form-field appearance="fill" id="duedate-ff" >
-                  <mat-label>Due date</mat-label>
-                  <input matInput id="dueDate" placeholder="Due date" name="duedate-ff"
-                         formControlName="amount" required type="date">
-                  <mat-error
-                    *ngIf="!orderForm.get('dueDate').valid
-                     && orderForm.get('dueDate').touched
-                     && orderForm.get('dueDate').errors['dueDate']">
-                    Please enter due date</mat-error>
-                </mat-form-field>
-              </div>
-            </mat-grid-tile>
 
-            <mat-grid-tile *ngIf="orderList.length!=0" style="margin:10px;"  >
-              <div class="inputField" style="width: auto;margin-left:20px;">
-                <mat-form-field appearance="fill" id="suppliers-ff" >
-                  <mat-label>Suppliers</mat-label>
-                  <input matInput id="suppliers" placeholder="Suppliers" name="suppliers-ff"
-                         formControlName="suppliers" required type="number">
-                  <mat-error
-                    *ngIf="!orderForm.get('suppliers').valid
-                     && orderForm.get('suppliers').touched
-                     && orderForm.get('suppliers').errors['required']">
-                    Please enter suppliers</mat-error>
-                </mat-form-field>
-              </div>
-            </mat-grid-tile>
           </mat-grid-list>
       </form>
       </mat-card>
     <mat-card  style="flex: 1 1 auto;width: 50%;"  >
-       <p *ngIf="orderList.length!=0" style="font-weight: bold;size:50px;color: #385399;" >Order list</p>
+      <form [formGroup]="orderForm"  (ngSubmit)="submitOrder()">
       <mat-grid-list  cols="3" rowHeight="50" width="400" align="left" *ngIf="orderList.length!=0">
+        <mat-grid-tile> <p style="font-weight: bold;size:50px;color: #385399;" >Order list</p></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile>
+          <div class="inputField" style="width: auto;" >
+            <mat-form-field appearance="fill" id="duedate-ff" >
+              <mat-label>Due date</mat-label>
+              <input matInput id="dueDate" placeholder="Due date" name="duedate-ff"
+                     formControlName="dueDate" required type="date">
+              <mat-error
+                *ngIf="!orderForm.get('dueDate').valid
+                     && orderForm.get('dueDate').touched
+                     && orderForm.get('dueDate').errors['dueDate']">
+                Please enter due date</mat-error>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
         <mat-grid-tile style="size: 30px;font-weight: bold;color: #385399;" >Medication name</mat-grid-tile>
         <mat-grid-tile style="size: 30px;font-weight: bold;color: #385399;" >Amount</mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
@@ -112,12 +99,13 @@
             </p>
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile></mat-grid-tile>
-          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='sumbitOrder'  (click)="submitOrder()" [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
+          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='sumbitOrder' [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
 
         </div>
 
 
       </mat-grid-list>
+      </form>
     </mat-card>
 </div>
   </mat-drawer-content>

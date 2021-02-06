@@ -6,6 +6,11 @@ import {Medication} from "@app/model/medications/medication";
 import {MedicationService} from "@app/service/medication/medication.service";
 import {MedicationOrder} from "@app/model/medicationOrder/medicationOrder";
 import {Supplier} from "@app/model/users/supplier/supplier";
+import {PharmacyService} from "@app/service/pharmacy/pharmacy.service";
+import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
+import {Pharmacy} from "@app/model/pharmacy/pharmacy";
+import {OrderService} from "@app/service/orders/order.service";
+import {Order} from "@app/model/medicationOrder/order";
 
 @Component({
   selector: 'app-medication-order',
@@ -23,9 +28,14 @@ export class MedicationOrderComponent implements OnInit {
   dueDate:Date;
   medication:Medication;
   amount:Number;
+  currentUserId:Number;
+  pharmacy:Pharmacy;
 
-  constructor(private router:Router,private authenticationService:AuthenticationService
-  ,private medicationService:MedicationService) { }
+  constructor(private router: Router, private authenticationService: AuthenticationService
+    , private medicationService: MedicationService,
+              private pharmacyAdminService: PharmacyAdminService, private orderService: OrderService) {
+
+  }
 
   ngOnInit(): void {
     this.addItem = false;
@@ -33,7 +43,6 @@ export class MedicationOrderComponent implements OnInit {
       'medication' : new FormControl(null, Validators.required),
       'amount' : new FormControl(null,Validators.required)});
     this.orderForm = new FormGroup({
-      'suppliers' : new FormControl(null, Validators.required),
       'dueDate' : new FormControl(null,Validators.required)});
     this.medicationService.findAllMedications().subscribe(data=>
       {
@@ -80,6 +89,13 @@ export class MedicationOrderComponent implements OnInit {
   }
 
   submitOrder() {
+    this.currentUserId=Number(localStorage.getItem('userId'));
+    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
+      result => {
+        this.pharmacy = result;
+        let order=new Order(null, this.orderList,this.dueDate,this.pharmacy);
+        this.orderService.addOrder(order);
+      });
 
-  }
+    }
 }

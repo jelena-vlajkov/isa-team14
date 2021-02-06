@@ -4,8 +4,8 @@ export class User {
     public id: number;
     public username: string;
     public password: string;
-    public firstName: string;
-    public lastName: string;
+    public surname: string;
+    public name: string;
     public role:string;
     public token?: string;
     public address : string;
@@ -14,12 +14,12 @@ export class User {
     public city : string;
     public phoneNumber : string;
 
-    constructor(id : number, username : string, password : string, firstName : string, lastname : string, role : string, address : string, dateOfBirth : Date, gender : string, city : string, phoneNumber : string) {
+    constructor(id : number, username : string, password : string, name : string, surname : string, role : string, address : string, dateOfBirth : Date, gender : string, city : string, phoneNumber : string) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastname;
+        this.name = name;
+        this.surname = surname;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.role = role;

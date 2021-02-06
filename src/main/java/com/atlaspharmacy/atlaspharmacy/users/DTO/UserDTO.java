@@ -1,7 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 
 import java.util.Date;
@@ -20,13 +19,14 @@ public class UserDTO {
     private AddressDTO address;
     private String role;
     private List<AuthorityDTO> authorities;
+    private boolean firstTimeChanged;
 
     public UserDTO() {
     }
 
     public UserDTO(Long id, String name, String surname, Date dateOfBirth,
-                            String phoneNumber, String email, String password, Gender gender,
-                            AddressDTO address, String role, List<AuthorityDTO> authorities) {
+                   String phoneNumber, String email, String password, Gender gender,
+                   AddressDTO address, String role, List<AuthorityDTO> authorities, boolean firstTimeChanged) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -38,6 +38,15 @@ public class UserDTO {
         this.address = address;
         this.role = role;
         this.authorities = authorities;
+        this.firstTimeChanged = firstTimeChanged;
+    }
+
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
+    }
+
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public Long getId() {

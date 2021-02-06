@@ -28,6 +28,7 @@ export const environment = {
   getLoggedInUser: "getLoggedIn",
   reservations : "reservations",
   getReservations : "getReservations",
-  changepassword : "changepassword"
+  changepassword : "changepassword",
+  order:"order"
 };
 

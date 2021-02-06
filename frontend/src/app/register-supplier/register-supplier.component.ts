@@ -20,31 +20,52 @@ export class RegisterSupplierComponent implements OnInit {
   addSupplier : FormGroup;
   public supplier : Supplier;
   name : String;
+  surname : String;
   telephone : String;
   email : String;
   password : String;
   confirmpassword : String;
   headquarters : Address;
+  selectedDate;
+  selectedGender;
   @ViewChild(GooglePlacesComponent) googleplaces;
+  firmName: String;
 
   constructor(private supplierService : SupplierService, private router : Router) { }
 
   ngOnInit(): void {
+
     this.addSupplier = new FormGroup({
       'name' : new FormControl(null, Validators.required),
+      'surname' : new FormControl(null, Validators.required),
+      'gender': new FormControl(null, Validators.required),
+      'dob' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(null, Validators.required),
       'mail' : new FormControl(null, Validators.required),
       'password' : new FormControl(null, Validators.required),
       'confirmpassword' : new FormControl(null, Validators.required),
+      'fname' : new FormControl(null, Validators.required)
+
     });
+
+    // this.addSupplier = new FormGroup({
+    //   'name' : new FormControl(null, Validators.required),
+    //   'telephone' : new FormControl(null, Validators.required),
+    //   'mail' : new FormControl(null, Validators.required),
+    //   'password' : new FormControl(null, Validators.required),
+    //   'confirmpassword' : new FormControl(null, Validators.required),
+    // });
     
   }
   registerSupplier(){
+    
     this.name = this.addSupplier.value.name;
+    this.surname = this.addSupplier.value.surname;
     this.telephone = this.addSupplier.value.telephone;
     this.email = this.addSupplier.value.mail;
     this.password = this.addSupplier.value.password;
     this.confirmpassword = this.addSupplier.value.confirmpassword;
+    this.firmName = this.addSupplier.value.fname;
     if(this.googleplaces===undefined){
       alert("Please fill the address!");
     }else{
@@ -53,7 +74,7 @@ export class RegisterSupplierComponent implements OnInit {
       role = Role.Supplier;
       var auths : Number[] = new Array();
       if(this.password === this.confirmpassword){
-        this.supplier = new Supplier(this.name,this.telephone, this.email, this.password, this.headquarters, role, auths);
+        this.supplier = new Supplier(this.name, this.surname, new Date(),this.telephone, this.email, this.password, this.headquarters, role, auths, this.firmName, false);
         this.supplierService.registerSupplier(this.supplier).subscribe(
           res=>{
             this.addSupplier.reset();

@@ -65,14 +65,27 @@
     justify-content: center;
     padding-top: 5vw;
   }
-  mat-card {
+  /* mat-card {
     position: relative; 
     margin-left: 20%; 
     margin-top:2%;
     width: 60%;
     height: 30vw;
+  } */
+  .contact-person{
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 21vw;
   }
-  
+  .firm{
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 12vw;
+  }
   label {
     font-size: 20px;
     font-weight: 500;
