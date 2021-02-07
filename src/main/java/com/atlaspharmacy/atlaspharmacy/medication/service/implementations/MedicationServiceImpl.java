@@ -41,7 +41,9 @@ public class MedicationServiceImpl implements IMedicationService {
         return MedicationMapper.convertToMedicationDTO(medication);
        // return  MedicationDTO.convertToMedicationDTO(medication);
     }
-
+    public Medication getById(Long id){
+        return _medicationRepository.findById(id).get();
+    }
     @Override
     public List<MedicationDTO> findAll() {
         List<Medication> medications = _medicationRepository.findAll();

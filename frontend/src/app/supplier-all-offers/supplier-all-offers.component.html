@@ -1,0 +1,83 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
+          <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
+          <button mat-list-item  style="color: white;"> All offers</button>
+          <button mat-list-item (click)="routeToEditOffers()" style="color: white;"> Edit offers</button>
+
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item (click)="routeToProfile()"> Profile</button>
+                <button style="color: white;" mat-list-item (click)="supplierLogout()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Supplier profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+              <div style="width: 100%; height: 100%; overflow-y: auto;">
+                <mat-card style="height: fit-content; margin-left: 28%; width: 50%; justify-content: center;" class="mat-elevation-z8">
+                  <mat-form-field>
+                    <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Pharmacy:">
+                </mat-form-field>
+                <!-- <mat-form-field appearance="fill">
+  <mat-label>Favorite food</mat-label>
+  <mat-select>
+    <mat-option *ngFor="let food of foods" [value]="food.value">
+      {{food.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+                <label style="margin-left: 50%;">All orders</label>
+        
+                  <div style="width: 100%; height: 100%;">
+
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style=" width: 100%; margin-right: 10px;">
+        
+                        <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+                      
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="id">
+                          <th mat-header-cell *matHeaderCellDef> Id </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.id}} </td>
+                        </ng-container>
+                      
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                          <th mat-header-cell *matHeaderCellDef> Pharmacy </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.order.pharmacy.name}} </td>
+                        </ng-container>
+                      
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="price">
+                          <th mat-header-cell *matHeaderCellDef> Price </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.price}} </td>
+                        </ng-container>
+                      
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="offerStatus">
+                          <th mat-header-cell *matHeaderCellDef> Status </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.offerStatus}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+        
+                </div>
+                </mat-card>
+              </div>
+                
+      </mat-drawer-content>
+  </mat-drawer-container>
+  </body>
+  
