@@ -41,6 +41,8 @@ export const environment = {
   getUnansweredPharmacy : "getUnansweredPharmacy",
   order: "order",
   offer : "offer",
-  findSuppliers : "findSuppliers"
+  findSuppliers : "findSuppliers",
+  getByIdentifier : 'getByIdentifier',
+  getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier'
 };
 

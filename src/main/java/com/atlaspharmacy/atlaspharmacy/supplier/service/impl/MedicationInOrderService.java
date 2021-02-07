@@ -32,4 +32,18 @@ public class MedicationInOrderService implements IMedicationInOrderService {
         }
         return ordersMedications;
     }
+
+    @Override
+    public List<MedicationInOrder> getAllMedicationsByOrderIdenitfier(Long id) {
+        Order order = orderRepository.findById(id).get();
+        List<MedicationInOrder> ordersMedications = new ArrayList<>();
+        List<MedicationInOrder> allmedicationsinallorders = medicationInOrderRepository.findAll();
+        for(MedicationInOrder m : allmedicationsinallorders){
+            if(m.getOrder().getId().equals(order.getId())){
+                ordersMedications.add(m);
+            }
+        }
+        return ordersMedications;
+    }
+
 }

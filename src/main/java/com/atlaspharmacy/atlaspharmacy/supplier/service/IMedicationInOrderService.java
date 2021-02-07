@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IMedicationInOrderService {
     List<MedicationInOrder> getAllMedicationsByOrder(Long id);
+    List<MedicationInOrder> getAllMedicationsByOrderIdenitfier(Long id);
 }

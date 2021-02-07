@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.supplier.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.OrderedMedication;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
@@ -18,7 +19,7 @@ public class OrderMapper {
         orderDTO.setEditableDue(order.getEditableDue());
         orderDTO.setDueDate(order.getDueDate());
         orderDTO.setPharmacy(PharmacyMapper.mapPharmacyToDTO(order.getPharmacy()));
-        List<OrderedMedication> orderedMedications = new ArrayList<>();
+        List<OrderedMedicationDTO> orderedMedications = new ArrayList<>();
 
         orderDTO.setOrderedMedication(orderedMedications);
         return orderDTO;

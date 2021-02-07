@@ -9,7 +9,7 @@ import java.util.List;
 public class OrderDTO {
     private Long id;
     private Date dueDate;
-    private List<OrderedMedication> orderedMedications;
+    private List<OrderedMedicationDTO> orderedMedications;
     private PharmacyDTO pharmacy;
     private Date editableDue;
     private int uniqueidentifier;
@@ -17,9 +17,9 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, List<OrderedMedication> orderedMedication, Date dueDate, PharmacyDTO pharmacy, int uniqueidentifier) {
+    public OrderDTO(Long id, List<OrderedMedicationDTO> orderedMedications, Date dueDate, PharmacyDTO pharmacy, int uniqueidentifier) {
         this.id = id;
-        this.orderedMedications = orderedMedication;
+        this.orderedMedications = orderedMedications;
         this.dueDate = dueDate;
         this.pharmacy = pharmacy;
         this.uniqueidentifier = uniqueidentifier;
@@ -41,11 +41,11 @@ public class OrderDTO {
         this.pharmacy = pharmacy;
     }
 
-    public List<OrderedMedication> getOrderedMedication() {
+    public List<OrderedMedicationDTO> getOrderedMedication() {
         return orderedMedications;
     }
 
-    public void setOrderedMedication(List<OrderedMedication> orderedMedication) {
+    public void setOrderedMedication(List<OrderedMedicationDTO> orderedMedication) {
         this.orderedMedications = orderedMedication;
     }
 

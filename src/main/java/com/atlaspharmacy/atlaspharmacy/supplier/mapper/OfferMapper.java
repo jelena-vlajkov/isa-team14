@@ -1,7 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.OrderedMedication;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
 
 import java.util.ArrayList;
@@ -27,6 +30,19 @@ public class OfferMapper {
             dtos.add(mapOfferToDTO(o));
         }
         return dtos;
+    }
+    public static Offer mapDTOToOffer(OfferDTO offerDTO){
+        Offer o = new Offer();
+        o.setUniqueidentifier(offerDTO.getUniqueidentifier());
+        o.setPrice(offerDTO.getPrice());
+        o.setOfferStatus(offerDTO.getOfferStatus());
+        o.setDueDelivery(offerDTO.getDueDelivery());
+        o.setSupplier(SupplierMapper.mapDTOToSupplier(offerDTO.getSupplier()));
+        Order order = new Order();
+        order.setUniqueidentifier(offerDTO.getOrder().getUniqueidentifier());
+        o.setOrder(order);
+
+        return o;
     }
 
 }

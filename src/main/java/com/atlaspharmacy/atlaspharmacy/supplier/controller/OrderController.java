@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorizatio
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOrderService;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.impl.OrderService;
@@ -36,4 +37,17 @@ public class OrderController {
         return orderService.getAllunfinishedOrders();
     }
 
+    @GetMapping(value = "/getByIdentifier", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SupplierAuthorization
+    public @ResponseBody
+    OrderDTO getByIdentifier(@RequestParam("id") int id){
+        return orderService.getByIdentifier(id);
+    }
+
+    @GetMapping(value = "/getOrderedMedicationByIdentifier", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SupplierAuthorization
+    public @ResponseBody
+    List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(@RequestParam("id") int id){
+        return orderService.getOrderedMedicationByIdentifier(id);
+    }
 }

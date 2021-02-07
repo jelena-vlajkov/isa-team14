@@ -4,6 +4,7 @@ import {Role} from "../role";
 import { Pharmacy } from "../../pharmacy/pharmacy";
 
 export class Supplier{
+  public id : Number;
   public name : String;
   public surname : String;
   public dateOfBirth : Date;

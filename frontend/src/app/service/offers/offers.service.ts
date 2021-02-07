@@ -14,4 +14,13 @@ export class OffersService {
   getAllOffersBySuppllier(id : Number) :Observable<Offer[]>{
     return this.http.get<Offer[]>(`${environment.baseUrl}/${environment.offer}/${environment.findSuppliers}?id=${id}`);
   }
+
+  updateOffer(data : Offer){
+    return this.http.post(`${environment.baseUrl}/${environment.offer}/${environment.update}`,data, {responseType : 'text'});
+  }
+  
+  giveOffer(data : Offer){
+    return this.http.post(`${environment.baseUrl}/${environment.offer}/${environment.add}`,data, {responseType : 'text'});
+  }
+  
 }

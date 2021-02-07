@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.SupplierStorageMedication;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.SupplierStorageRepository;
@@ -30,16 +31,17 @@ public class SupplierStorageService implements ISupplierStorageService {
         return suppliersStorage;
     }
 
-    public boolean medicationPresentInStorage(MedicationInOrder medication, Long supplierId){
+    @Override
+    public boolean medicationPresentInStorage(OrderedMedicationDTO orderedMedicationDTO, Long supplierId){
         List<SupplierStorageMedication> supplierStorage = getSuppliersMedications(supplierId);
-        for(SupplierStorageMedication s: supplierStorage){
-            if(s.getMedications().getMedication_id().equals(medication.getId()) && s.getMedications().getQuantity()>=medication.getOrderedMedication().getQuantity()){
-               continue;
-            }else{
-                return false;
+
+        for(SupplierStorageMedication storageMedication: supplierStorage){
+            if(storageMedication.getMedications().getMedication_id().equals(orderedMedicationDTO.getMedication().getId()) && storageMedication.getMedications().getQuantity()>=orderedMedicationDTO.getQuantity()){
+               return true;
             }
         }
-        return  true;
+        return false;
+
     }
 
 }

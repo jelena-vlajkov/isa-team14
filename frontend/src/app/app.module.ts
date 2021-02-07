@@ -66,6 +66,7 @@ import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.compo
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
 import { PatientComplainComponent } from './patient-complain/patient-complain.component';
 import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
+import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.co
     SupplierOrdersComponent,
     SupplierOffersComponent,
     PatientComplainComponent,
-    AdminComplaintsComponent
+    AdminComplaintsComponent,
+    SupplierAllOffersComponent
 
   ],
   imports: [
