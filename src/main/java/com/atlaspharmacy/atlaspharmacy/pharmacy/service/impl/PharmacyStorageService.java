@@ -38,8 +38,13 @@ public class PharmacyStorageService implements IPharmacyStorageService {
                 .filter(pharmacyStorage -> pharmacyStorage.isPharmacy(pharmacyId))
                 .findFirst()
                 .orElse(null);
-        if (medication.getQuantity() == 0)
-            notificationService.medicationQuantityLow(medication);
-        return medication;
+        if(medication!=null){
+            if (medication.getQuantity() == 0)
+                notificationService.medicationQuantityLow(medication);
+            return medication;
+        }
+        return null;
+
     }
+
 }

@@ -61,7 +61,7 @@ export class SupplierProfileComponent implements OnInit {
     this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(
       data => 
       { 
-        this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName, data.firstTimeChanged);
+        this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
       });
   }
   respondToComplaints(){
@@ -140,8 +140,36 @@ export class SupplierProfileComponent implements OnInit {
     }
 
   }
-  routeToAllDeals(){
-    this.router.navigate(['/supplier/allDeals']);
+  routeToOffers(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/offers']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+    
+  }
+  routeToOrders(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/allOrders']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
   }
   editProfile(){
     this.edit = true;
@@ -173,21 +201,21 @@ export class SupplierProfileComponent implements OnInit {
     console.log(this.googleplaces.status);
     
     console.log(this.address1);
-    // var editedSupplier = new Supplier(name, surname, this.supplier.dateOfBirth, telephone, mail, this.supplier.password, this.address1, this.supplier.role, this.supplier.authorities, firmname , this.supplier.firstTimeChange);
-    // console.log(editedSupplier);
-    // this.supplierService.updateSupplier(editedSupplier).subscribe(
-    //   res=>{
-    //     alert('Success');
-    //     this.profile = true; 
-    //     this.edit = false;
-    //     this.changePassword = false;
-          //this.home = false;
-    //     this.loadSupplier();
-    //   },
-    //   error=>{
-    //     alert("Fail")
-    //   }
-    // )
+    var editedSupplier = new Supplier(name, surname, this.supplier.dateOfBirth, telephone, mail, this.supplier.password, this.address1, this.supplier.role, this.supplier.authorities, firmname , this.supplier.firstTimeChanged);
+    console.log(editedSupplier);
+    this.supplierService.updateSupplier(editedSupplier).subscribe(
+      res=>{
+        alert('Success');
+        this.profile = true; 
+        this.edit = false;
+        this.changePassword = false;
+          this.home = false;
+        this.loadSupplier();
+      },
+      error=>{
+        alert("Fail")
+      }
+    )
   }
 
 }

@@ -18,4 +18,9 @@ export class DermatologistService {
   addDermatologist(data : Dermatologist) {
     return this.http.post(`${environment.baseUrl}/${environment.dermatologist}/${environment.add}`,data, {responseType : 'text'});
   }
+
+  getDermatologistsToComplain(id : Number) :Observable<Dermatologist[]>{
+    return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.getDermatologistToComplain}?id=${id}`);
+  }
+
 }

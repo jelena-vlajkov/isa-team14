@@ -29,6 +29,20 @@ export const environment = {
   reservations : "reservations",
   getReservations : "getReservations",
   changepassword : "changepassword",
-  order:"order"
+  getDermatologistToComplain : "getDermatologistToComplain",
+  pharmacist:"pharmacist",
+  getPharmacistToComplain : "getPharmacistToComplain",
+  complaint:"complaint",
+  getPharmacyToComplain : "getPharmacyToComplain",
+  getUnanswered:"getUnanswered",
+  answerComplaint : "answerComplaint",
+  getUnansweredDermatologist : "getUnansweredDermatologist",
+  getUnansweredPharmacist : "getUnansweredPharmacist",
+  getUnansweredPharmacy : "getUnansweredPharmacy",
+  order: "order",
+  offer : "offer",
+  findSuppliers : "findSuppliers",
+  getByIdentifier : 'getByIdentifier',
+  getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier'
 };
 

@@ -1,8 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Proxy;
 
@@ -32,6 +34,8 @@ public class Appointment {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Pharmacy pharmacy;
 
     public Appointment() {
     }
@@ -93,6 +97,14 @@ public class Appointment {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public boolean isOccupied(Period period) {

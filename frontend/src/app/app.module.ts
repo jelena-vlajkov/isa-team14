@@ -45,7 +45,7 @@ import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
@@ -61,6 +61,11 @@ import { MedicationOrderComponent } from './medication-order/medication-order.co
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
+import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
+import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
+import { PatientComplainComponent } from './patient-complain/patient-complain.component';
+import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
+import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +102,12 @@ import { SupplierProfileComponent } from './supplier-profile/supplier-profile.co
     MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
-    SupplierProfileComponent
+    SupplierProfileComponent,
+    SupplierOrdersComponent,
+    SupplierOffersComponent,
+    PatientComplainComponent,
+    AdminComplaintsComponent,
+    SupplierAllOffersComponent
 
   ],
   imports: [
@@ -139,8 +149,9 @@ import { SupplierProfileComponent } from './supplier-profile/supplier-profile.co
     CommonModule,
     MatMenuModule,
     //NgbModule,
-    MatExpansionModule
-
+    MatExpansionModule,
+    MatStepperModule
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

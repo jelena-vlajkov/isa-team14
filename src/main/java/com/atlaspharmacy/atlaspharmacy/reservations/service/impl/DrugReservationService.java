@@ -8,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +56,16 @@ public class DrugReservationService implements IDrugReservationService {
                 .stream()
                 .filter(drugReservation -> drugReservation.isPharmacy(pharmacyId))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<DrugReservation> getPatientsIssuedDrugReservations(Long id){
+        List<DrugReservation> drugReservations = new ArrayList<>();
+        for(DrugReservation d : drugReservationRepository.findAll()){
+            if(d.getPatient().getId().equals(id) && d.isIssued()){
+                drugReservations.add(d);
+            }
+        }
+
+        return drugReservations;
     }
 }

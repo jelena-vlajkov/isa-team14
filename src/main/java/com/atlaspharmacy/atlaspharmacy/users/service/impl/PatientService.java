@@ -3,14 +3,10 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
-import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPatientService;
@@ -21,12 +17,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PatientService implements IPatientService {
@@ -80,7 +73,7 @@ public class PatientService implements IPatientService {
             Optional<Patient> saved = Optional.of(save(patient));
             saved.ifPresent( u->{
                 try {
-                    emailService.sendEmail(saved.get());
+                    emailService.sendConfirmationEmail(saved.get());
                 } catch (MessagingException | IOException e) {
                     e.printStackTrace();
                 }

@@ -3,43 +3,45 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
+import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.EPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.IPharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
+import com.atlaspharmacy.atlaspharmacy.reservations.service.impl.DrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class PharmacyService implements IPharmacyService {
     private final IPharmacyRepository pharmacyRepository;
     private final AddressRepository addressRepository;
-    final private static String EXCEPTION = "Exception in Pharmacy Service Implementation method:";
-    final private static String DOES_NOT_EXIST = "Pharmacy with Id does not exist";
-
+    private final AppointmentService appointmentService;
+    private final EPrescriptionService ePrescriptionService;
+    private final DrugReservationService drugReservationService;
     @Autowired
-    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository) {
+    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
+        this.appointmentService = appointmentService;
+        this.ePrescriptionService = ePrescriptionService;
+        this.drugReservationService = drugReservationService;
     }
 
     @Override
     public PharmacyDTO getById(Long id) {
-        Pharmacy pharmacy = pharmacyRepository.getById(id).orElse(null);
-        if(pharmacy == null){
-            throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
-        }
-
-        return  PharmacyMapper.mapPharmacyToDTO(pharmacy);
+        Pharmacy pharmacy=pharmacyRepository.getById(id).orElse(null);
+        return PharmacyMapper.mapPharmacyToDTO(pharmacy);
     }
 
     @Override
@@ -105,6 +107,62 @@ public class PharmacyService implements IPharmacyService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<Pharmacy> distinctPharmacyToComplain(List<Pharmacy> list){
+        List<Pharmacy> derms = new ArrayList<>();
+        Map<Long, Pharmacy> map = new HashMap<>();
+        for (Pharmacy d : list) {
+            Long key = d.getId();
+            if (!map.containsKey(key)) {
+                map.put(key, d);
+            }
+        }
+        Collection<Pharmacy> distinct = map.values();
+        for(Pharmacy d : distinct){
+            derms.add(d);
+        }
+        return derms;
+    }
+
+    public List<Pharmacy> getEPrescriptionsPharmacies(Long id){
+        List<EPrescription> prescriptions = ePrescriptionService.getPatientsEPrescription(id);
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for(EPrescription ep : prescriptions){
+            pharmacies.add(pharmacyRepository.getById(ep.getPharmacy().getId()).get());
+        }
+
+        return distinctPharmacyToComplain(pharmacies);
+    }
+    public List<Pharmacy> getPatientsDrugIssuedPharmacies(Long id){
+        List<DrugReservation> drugReservations = drugReservationService.getPatientsIssuedDrugReservations(id);
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for(DrugReservation d: drugReservations){
+            pharmacies.add(pharmacyRepository.getById(d.getPharmacy().getId()).get());
+        }
+
+        return distinctPharmacyToComplain(pharmacies);
+    }
+
+    public List<Pharmacy> getPharmaciesWhereWasAppointment(Long id) {
+        List<Appointment> patientsAppointments = appointmentService.getAllFinishedAppointmentsForPatient(id);
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        for(Appointment a : patientsAppointments){
+            pharmacies.add(pharmacyRepository.findById(a.getPharmacy().getId()).get());
+        }
+
+        return distinctPharmacyToComplain(pharmacies);
+
+    }
+
+    @Override
+    public List<Pharmacy> getPharmaciesToComplain(Long id){
+        List<Pharmacy> pharmacies = getEPrescriptionsPharmacies(id);
+        pharmacies.addAll(getPharmaciesWhereWasAppointment(id));
+        pharmacies.addAll(getPatientsDrugIssuedPharmacies(id));
+        return distinctPharmacyToComplain(pharmacies);
+    }
+
+
 
 
 }

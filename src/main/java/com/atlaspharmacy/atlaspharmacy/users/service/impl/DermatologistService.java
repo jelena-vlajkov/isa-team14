@@ -4,20 +4,24 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
+import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IDermatologistService;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DermatologistService implements IDermatologistService {
@@ -27,16 +31,17 @@ public class DermatologistService implements IDermatologistService {
     private final AddressRepository addressRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
-
+    private final AppointmentService appointmentService;
 
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
+        this.appointmentService = appointmentService;
     }
 
     @Override
@@ -71,4 +76,30 @@ public class DermatologistService implements IDermatologistService {
         }
         throw new InvalidEmail();
     }
+    public List<Dermatologist> distinctDermatologistsToComplain(List<Dermatologist> list){
+        List<Dermatologist> derms = new ArrayList<>();
+        Map<Long, Dermatologist> map = new HashMap<>();
+        for (Dermatologist d : list) {
+            Long key = d.getId();
+            if (!map.containsKey(key)) {
+                map.put(key, d);
+            }
+        }
+        Collection<Dermatologist> distinct = map.values();
+        for(Dermatologist d : distinct){
+            derms.add(d);
+        }
+        return derms;
+    }
+    @Override
+    public List<Dermatologist> getAllDermatologistsToComplain(Long id){
+        List<Examination> examinations = appointmentService.getFinishedPatientsExaminations(id);
+        List<Dermatologist> dermatologistsToComplain = new ArrayList<>();
+        for(Examination e : examinations){
+            dermatologistsToComplain.add(dermatologistRepository.findById(e.getDermatologist().getId()).get());
+        }
+        return distinctDermatologistsToComplain(dermatologistsToComplain);
+    }
+
+
 }

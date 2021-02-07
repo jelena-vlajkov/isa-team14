@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.OfferStatus;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import org.hibernate.annotations.Proxy;
 
@@ -19,20 +20,39 @@ public class Offer {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Order order;
-
+    private OfferStatus offerStatus;
+    private int uniqueidentifier;
     private Long price;
     private Date dueDelivery;
 
-    public Offer(Long id, Supplier supplier, Order order, Long price, Date dueDelivery) {
+    public Offer(Long id, Supplier supplier, Order order, int uniqueidentifier, Long price, Date dueDelivery, Date editableDue) {
         this.id = id;
         this.supplier = supplier;
         this.order = order;
+        this.uniqueidentifier = uniqueidentifier;
         this.price = price;
         this.dueDelivery = dueDelivery;
     }
 
     public Offer() {
 
+    }
+
+    public int getUniqueidentifier() {
+        return uniqueidentifier;
+    }
+
+    public void setUniqueidentifier(int uniqueidentifier) {
+        this.uniqueidentifier = uniqueidentifier;
+    }
+
+
+    public OfferStatus getOfferStatus() {
+        return offerStatus;
+    }
+
+    public void setOfferStatus(OfferStatus offerStatus) {
+        this.offerStatus = offerStatus;
     }
 
     public Supplier getSupplier() {
