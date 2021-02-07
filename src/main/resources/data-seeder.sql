@@ -228,16 +228,19 @@ insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES
 insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (700, 200, 50, 991);
 insert into suppliersmedication(id, medication_id, quantity, supplier_id) VALUES (800, 100, 250, 991);
 
-insert into orders(id, due_date, pharmacy_id) VALUES (100, '2021-02-26 12:00:00', 100);
-insert into orders(id, due_date, pharmacy_id) VALUES (200, '2021-02-25 12:00:00', 100);
-insert into orders(id, due_date, pharmacy_id) VALUES (300, '2021-02-24 12:00:00', 100);
-insert into orders(id, due_date, pharmacy_id) VALUES (400, '2021-02-22 12:00:00', 100);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (100, '2021-02-26 12:00:00','2021-02-05 12:00:00' ,531282,100);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (200, '2021-02-25 12:00:00', '2021-02-08 12:00:00', 531283,100);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (300, '2021-02-24 12:00:00', '2021-02-21 12:00:00', 531284,100);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (400, '2021-02-22 12:00:00', '2021-02-20 12:00:00', 531285, 100);
 
-insert into orders(id, due_date, pharmacy_id) VALUES (500, '2021-02-26 12:00:00', 200);
-insert into orders(id, due_date, pharmacy_id) VALUES (600, '2021-02-22 12:00:00', 200);
-insert into orders(id, due_date, pharmacy_id) VALUES (700, '2021-02-22 12:00:00', 200);
-insert into orders(id, due_date, pharmacy_id) VALUES (800, '2021-02-27 12:00:00', 200);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (500, '2021-02-26 12:00:00', '2021-02-22 12:00:00',531286,200);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (600, '2021-02-22 12:00:00','2021-02-21 12:00:00',531287 ,200);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (700, '2021-02-22 12:00:00','2021-02-27 12:00:00', 531289 ,200);
+insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (800, '2021-02-27 12:00:00', '2021-02-01 12:00:00',531288 ,200);
 
+-- insert into orders(id, due_date, editable_due, uniqueidentifier, pharmacy_id) VALUES (900, '2021-02-01 12:00:00', '2021-02-01 12:00:00',531290 ,200);
+
+-- 2 3 7 8
 insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (100, 100, 190, 100);
 insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (200, 200, 30, 100);
 insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (300, 300, 19, 100);
@@ -268,10 +271,16 @@ insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (200
 insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2100, 100, 15, 800);
 insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2200, 400, 30, 800);
 
-insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (100,'2021-02-23 12:00:00', 0, 9000, 200, 991);
-insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (101,'2021-02-22 12:00:00', 0, 6000, 300, 990);
-insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (102, '2021-02-19 12:00:00', 0, 3800, 700, 991);
-insert into offers(id, due_delivery, offer_status, price, order_id, supplier_id) VALUES (103, '2021-02-26 12:00:00', 0, 3230, 800, 990);
+-- insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2300, 100, 15, 900);
+-- insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (2400, 400, 30, 900);
+
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (100,'2021-02-23 12:00:00', 0, 9000, 8126302 ,200, 991);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (101,'2021-02-22 12:00:00', 0, 6000,8126303 ,300, 990);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (102, '2021-02-19 12:00:00', 0, 3800,8126304 ,700, 991);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (103, '2021-02-26 12:00:00', 0, 3230,8126305 ,800, 990);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (104, '2021-02-19 12:00:00', 0, 3800,8126304 ,400, 990);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (105, '2021-02-26 12:00:00', 0, 3230,8126305 ,500, 990);
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (106, '2021-02-26 12:00:00', 1, 3230,8126305 ,100, 990);
 
 
 insert into complaints(id, is_answered, role, text, usert_to_complain_id, patient_id) VALUES (100, false, 'pharmacy', 'Apoteka je jako ruzna i smara me raspored lekova', 200, 200);

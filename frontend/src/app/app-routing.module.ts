@@ -34,6 +34,7 @@ import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.compo
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
 import { PatientComplainComponent } from './patient-complain/patient-complain.component';
 import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
+import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
 
 const routes: Routes = [  
 {
@@ -199,6 +200,12 @@ const routes: Routes = [
 {
   path:'supplier/offers',
   component : SupplierOffersComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/allOffers',
+  component : SupplierAllOffersComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Supplier]}
 },

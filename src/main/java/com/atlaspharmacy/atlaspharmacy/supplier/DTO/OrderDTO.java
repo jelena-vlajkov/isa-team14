@@ -1,24 +1,52 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.OrderedMedication;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderDTO {
     private Long id;
-    private OrderedMedication orderedMedication;
     private Date dueDate;
-    private SupplierDTO supplier;
+    private List<OrderedMedicationDTO> orderedMedications;
+    private PharmacyDTO pharmacy;
+    private Date editableDue;
+    private int uniqueidentifier;
 
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, OrderedMedication orderedMedication, Date dueDate, SupplierDTO supplier) {
+    public OrderDTO(Long id, List<OrderedMedicationDTO> orderedMedications, Date dueDate, PharmacyDTO pharmacy, int uniqueidentifier) {
         this.id = id;
-        this.orderedMedication = orderedMedication;
+        this.orderedMedications = orderedMedications;
         this.dueDate = dueDate;
-        this.supplier = supplier;
+        this.pharmacy = pharmacy;
+        this.uniqueidentifier = uniqueidentifier;
+    }
+
+    public PharmacyDTO getPharmacy() {
+        return pharmacy;
+    }
+
+    public Date getEditableDue() {
+        return editableDue;
+    }
+
+    public void setEditableDue(Date editableDue) {
+        this.editableDue = editableDue;
+    }
+
+    public void setPharmacy(PharmacyDTO pharmacy) {
+        this.pharmacy = pharmacy;
+    }
+
+    public List<OrderedMedicationDTO> getOrderedMedication() {
+        return orderedMedications;
+    }
+
+    public void setOrderedMedication(List<OrderedMedicationDTO> orderedMedication) {
+        this.orderedMedications = orderedMedication;
     }
 
     public Long getId() {
@@ -29,13 +57,6 @@ public class OrderDTO {
         this.id = id;
     }
 
-    public OrderedMedication getMedicationOrder() {
-        return orderedMedication;
-    }
-
-    public void setMedicationOrder(OrderedMedication orderedMedication) {
-        this.orderedMedication = orderedMedication;
-    }
 
     public Date getDueDate() {
         return dueDate;
@@ -45,11 +66,11 @@ public class OrderDTO {
         this.dueDate = dueDate;
     }
 
-    public SupplierDTO getSupplier() {
-        return supplier;
+    public int getUniqueidentifier() {
+        return uniqueidentifier;
     }
 
-    public void setSupplier(SupplierDTO supplier) {
-        this.supplier = supplier;
+    public void setUniqueidentifier(int uniqueidentifier) {
+        this.uniqueidentifier = uniqueidentifier;
     }
 }

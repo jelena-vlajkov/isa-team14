@@ -1,40 +1,40 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
-import { Address } from '@app/model/address/address';
-import { PasswordChanger } from '@app/model/users/passwordChanger';
 import { Offer } from '@app/model/users/supplier/offer';
+import { OfferStatus } from '@app/model/users/supplier/offerStatus';
 import { Supplier } from '@app/model/users/supplier/supplier';
 import { OffersService } from '@app/service/offers/offers.service';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { AuthenticationService } from '@app/service/user';
 
 @Component({
-  selector: 'app-supplier-offers',
-  templateUrl: './supplier-offers.component.html',
-  styleUrls: ['./supplier-offers.component.css']
+  selector: 'app-supplier-all-offers',
+  templateUrl: './supplier-all-offers.component.html',
+  styleUrls: ['./supplier-all-offers.component.css']
 })
-export class SupplierOffersComponent implements OnInit {
+export class SupplierAllOffersComponent implements OnInit {
   public supplier : Supplier;
   public offers : Offer[];
   public offerForm : FormGroup;
   public edit : boolean = false;
   public selectedDate : Date;
   public today :Date;
+  public displayedColumns: string[] = ['id', 'name', 'price', 'offerStatus'];
+  public dataSource = new MatTableDataSource<Offer>();
 
-  @ViewChild(GooglePlacesComponent) googleplaces;
   constructor(private offerService: OffersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
 
   ngOnInit(): void {
     this.today=new Date();
     this.loadSupplier();
-    this.offerForm = new FormGroup({
-      'price' : new FormControl(null, Validators.required),
-      'dude' : new FormControl(null, Validators.required)
-    });
-  }
 
+  }
+  applyFilter(filterValue: string){
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+}
   supplierLogout(){
       this.authenticationService.logout();
       this.router.navigate(['/login']);
@@ -49,10 +49,13 @@ export class SupplierOffersComponent implements OnInit {
       this.offerService.getAllOffersBySuppllier(Number(localStorage.getItem('userId'))).subscribe(data => 
         {
           this.offers = data;
-
-
+          this.dataSource = new MatTableDataSource(data);
+          console.log(this.offers);
         });
 
+  }
+  routeToEditOffers(){
+    this.router.navigate(['/supplier/offers']);
   }
   cancel(offer){
     offer.editing=false;

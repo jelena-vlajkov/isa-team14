@@ -38,6 +38,11 @@ export const environment = {
   answerComplaint : "answerComplaint",
   getUnansweredDermatologist : "getUnansweredDermatologist",
   getUnansweredPharmacist : "getUnansweredPharmacist",
-  getUnansweredPharmacy : "getUnansweredPharmacy"
+  getUnansweredPharmacy : "getUnansweredPharmacy",
+  order: "order",
+  offer : "offer",
+  findSuppliers : "findSuppliers",
+  getByIdentifier : 'getByIdentifier',
+  getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier'
 };
 
