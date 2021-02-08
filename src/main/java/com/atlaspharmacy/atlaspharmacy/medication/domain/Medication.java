@@ -27,6 +27,7 @@ public class Medication {
     private Long dailyDose;
     private DrugKind drugKind;
     private Long code;
+    private Double grade;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "substitute_medications",
@@ -57,7 +58,7 @@ public class Medication {
         this.id = id;
     }
 
-    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
+    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -69,7 +70,16 @@ public class Medication {
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
         this.code = code;
+        this.grade = grade;
         this.substituteMedication = new ArrayList<>();
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
     }
 
     public Long getCode() {

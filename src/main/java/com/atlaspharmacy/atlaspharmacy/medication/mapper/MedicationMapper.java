@@ -24,8 +24,8 @@ public class MedicationMapper {
                     m.getContraindications(),
                     m.getDailyDose(),
                     m.getDrugKind(),
-                    m.getCode()
-            );
+                    m.getCode(),
+                    m.getGrade());
             medicationDTO.setSubstituteMedication(new ArrayList<>());
 
             for(Medication med: m.getSubstituteMedication()){
@@ -51,6 +51,7 @@ public class MedicationMapper {
             m.setProducer(mdto.getProducer());
             m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
             m.setCode(mdto.getCode());
+            m.setGrade(mdto.getGrade());
         }
 
         public static List<MedicationDTO> convertToDTOS(List<Medication> medications){

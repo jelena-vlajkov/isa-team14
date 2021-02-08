@@ -11,14 +11,14 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./unauthenticated-user-medications.component.css']
 })
 export class UnauthenticatedUserMedicationsComponent implements OnInit {
-
-  
+  public showinfo : boolean;
+  public selectedMedication : Medication;
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {
   }
 
   constructor(public medicationService : MedicationService) { 
-    
+    this.showinfo=false;
   }
 
   public medications : Medication[] = new Array();
@@ -26,7 +26,11 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   ngOnInit(): void {
     this.getAllMedications();
   }
-
+  showMoreInfo(m){
+    console.log(m);
+    this.showinfo = true;
+    this.selectedMedication = m;
+  }
   getAllMedications(){
     this.medicationService.findAllMedications().subscribe(data =>
       {

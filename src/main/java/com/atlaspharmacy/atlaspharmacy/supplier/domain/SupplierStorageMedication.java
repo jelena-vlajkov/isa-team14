@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Proxy(lazy = false)
 public class SupplierStorageMedication {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Embedded
     @AttributeOverrides({
@@ -18,6 +19,7 @@ public class SupplierStorageMedication {
             @AttributeOverride( name = "quantity", column = @Column(name = "quantity")),
     })
     private SupplierMedicationInStorage medications;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Supplier supplier;
 
