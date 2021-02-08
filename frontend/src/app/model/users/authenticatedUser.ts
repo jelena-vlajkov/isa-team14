@@ -6,6 +6,7 @@ export class AuthenticatedUser {
     public username : string;
     public token : Token;
     public firstTimeChanged : boolean;
+    
     constructor(id : number, role : Role, username : string, token : Token, firstTimeChanged : boolean) {
         this.id = id;
         this.role = role;

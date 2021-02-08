@@ -55,7 +55,8 @@ export class SupplierProfileComponent implements OnInit {
 
   supplierLogout(){
       this.authenticationService.logout();
-    
+      this.router.navigate(['/login']);
+
   }
   loadSupplier(){
     this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(
@@ -176,6 +177,51 @@ export class SupplierProfileComponent implements OnInit {
     console.log(this.firstTimeChanged);
     if(this.firstTimeChanged){
       this.router.navigate(['/supplier/storage']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToMeds(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchMedications']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToPharms(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchPharmacies']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToAllOffers(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/allOffers']);
     }
     else
     {

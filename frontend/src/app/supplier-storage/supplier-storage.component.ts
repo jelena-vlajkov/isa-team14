@@ -42,7 +42,8 @@ export class SupplierStorageComponent implements OnInit {
 
   supplierLogout(){
       this.authenticationService.logout();
-    
+      this.router.navigate(['/login']);
+
   }
 
   loadSupplier(){
@@ -137,21 +138,6 @@ doesntContain(obj, list) {
         alert("Failed!");
       }
     )
-  }
-  back(){
-
-  }
-
-  routeToProfile(){
-
-
-  }
-  routeToOffers(){
-
-    
-  }
-  routeToOrders(){
-
   }
 
 

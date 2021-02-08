@@ -12,6 +12,9 @@ import { IngredientService } from '../service/medication/ingredients.service';
 import { Ingredient } from '../model/medications/ingredient';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
+import { Router } from '@angular/router';
 
 export interface DialogData {
   animal: string;
@@ -55,7 +58,8 @@ export class AdminRegisterDrugComponent implements OnInit {
   private StringIsNumber = value => isNaN(Number(value)) === false;
   filteredOptions: Observable<string[]>;
   ingredientControl = new FormControl();
-  constructor(private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService) { }
+  private sysAdmin : SystemAdmin;
+  constructor(private router : Router ,private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService, private systemAdminService : SysadminRegistrationService) { }
 
   ngOnInit(): void {
     // this.filteredOptions = this.ingredientControl.valueChanges
@@ -65,7 +69,7 @@ export class AdminRegisterDrugComponent implements OnInit {
     // );
     this.registerMedication = new FormGroup({
       'mname' : new FormControl(null, Validators.required),
-      'code' : new FormControl(null, Validators.required),
+      // 'code' : new FormControl(null, Validators.required),
       'drugType' : new FormControl(null, Validators.required),
       'drugKind' : new FormControl(null, Validators.required),
       'drugForm' : new FormControl(null, Validators.required),
@@ -80,20 +84,17 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.drugForms = this.ToArray(DrugForm);
     this.loadAllMedications();
     this.loadAllIngredients();
+    this.loadSystemAdmin();
   }
-  // openSubMedicineDialog(): void {
-  //   const dialogRef = this.dialog.open(SubstituteDrugDialog, {
-  //     width: '450px',
-  //     data: {name: this.name, animal: this.animal}
-  //   });
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        
+      });
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     this.animal = result;
-  //   });
-  // }
-
-
+  }
   
   registerDermatologist(){
 
@@ -107,8 +108,21 @@ export class AdminRegisterDrugComponent implements OnInit {
   }
   adminLogout(){
     this.authenticationService.logout();
+    this.router.navigate(['/login']);
+
   }
 
+  hashCode(str) {
+    var hash = 0, i, chr;
+    for (i = 0; i < str.length; i++) {
+      chr   = str.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    var currdate = new Date();
+    var currmillis = currdate.getMilliseconds();
+    return hash + currmillis;;
+  }
 
   addDrug(){
     this.name = this.registerMedication.value.mname;
@@ -133,12 +147,13 @@ export class AdminRegisterDrugComponent implements OnInit {
 
 
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds, this.code, this.ings,0);
+    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds, this.hashCode(this.sysAdmin.sysEmail), this.ings,0);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{
         this.registerMedication.reset();
         alert('Success');
+        this.router.navigate(['/admin']);
       },
       error=>{
         alert("Fail")
