@@ -133,7 +133,7 @@ export class AdminRegisterDrugComponent implements OnInit {
 
 
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds, this.code, this.ings);
+    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.subMeds, this.code, this.ings,0);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{

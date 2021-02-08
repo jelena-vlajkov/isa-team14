@@ -5,8 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
-import com.atlaspharmacy.atlaspharmacy.medication.repository.IMedicationRepository;
-import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
+import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.NoSuchElementException;
 @Service
 public class MedicationServiceImpl implements IMedicationService {
 
-    private final IMedicationRepository _medicationRepository;
+    private final MedicationRepository _medicationRepository;
     private final IIngredientRepository _ingredientRepository;
 
     final private static String EXCEPTION = "Exception in Medication Service Implementation method:";
@@ -27,7 +26,7 @@ public class MedicationServiceImpl implements IMedicationService {
     final private static String FAIL = "execution failed";
 
     @Autowired
-    public MedicationServiceImpl(IMedicationRepository medicationRepository, IIngredientRepository ingredientRepository){
+    public MedicationServiceImpl(MedicationRepository medicationRepository, IIngredientRepository ingredientRepository){
         this._medicationRepository = medicationRepository;
         this._ingredientRepository = ingredientRepository;
     }

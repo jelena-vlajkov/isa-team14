@@ -1,13 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.medication.DTO;
 
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationDTO {
@@ -24,11 +21,12 @@ public class MedicationDTO {
     private List<Long> substituteMedication;
     private Long code;
     private List<Long> ingredients;
+    private Double grade;
     public MedicationDTO() {
 
     }
 
-    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -40,6 +38,15 @@ public class MedicationDTO {
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
         this.code = code;
+        this.grade = grade;
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
     }
     /*
     public static MedicationDTO convertToMedicationDTO(Medication m){

@@ -171,6 +171,21 @@ export class SupplierProfileComponent implements OnInit {
       this.changePassword = true; 
     }
   }
+  routetToStorage(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/storage']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
   editProfile(){
     this.edit = true;
     this.name = this.supplier.name;
