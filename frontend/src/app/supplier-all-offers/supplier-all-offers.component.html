@@ -2,10 +2,12 @@
     <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
-          <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
-          <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
-          <button mat-list-item  style="color: white;"> All offers</button>
-          <button mat-list-item (click)="routeToEditOffers()" style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+
 
   
         </mat-action-list>
@@ -26,7 +28,7 @@
               <div style="width: 100%; height: 100%; overflow-y: auto;">
                 <mat-card style="height: fit-content; margin-left: 28%; width: 50%; justify-content: center;" class="mat-elevation-z8">
                   <mat-form-field>
-                    <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Pharmacy:">
+                    <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Status:">
                 </mat-form-field>
                 <!-- <mat-form-field appearance="fill">
   <mat-label>Favorite food</mat-label>
@@ -36,7 +38,7 @@
     </mat-option>
   </mat-select>
 </mat-form-field> -->
-                <label style="margin-left: 50%;">All orders</label>
+                <label style="margin-left: 50%;">All offers</label>
         
                   <div style="width: 100%; height: 100%;">
 

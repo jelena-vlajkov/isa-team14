@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IMedicationRepository extends JpaRepository<Medication, Long> {
+public interface MedicationRepository extends JpaRepository<Medication, Long> {
 
 
 }

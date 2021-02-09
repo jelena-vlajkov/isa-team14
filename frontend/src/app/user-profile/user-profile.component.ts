@@ -9,6 +9,8 @@ import { PatientService} from '../service/patient/patient.service'
 import {Location} from '@angular/common';
 import {Ingredient} from '../model/medications/ingredient';
 import {IngredientService} from '../service/medication/ingredients.service';
+import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
 
 
 @Component({
@@ -53,7 +55,7 @@ export class UserProfileComponent implements OnInit {
     selectedAllergies;
 
   public patient : Patient;
-  constructor(private patientService : PatientService, private _location: Location, private ingredientService : IngredientService) { }
+  constructor(private authenticationService: AuthenticationService, private patientService : PatientService, private _location: Location, private ingredientService : IngredientService, private router : Router) { }
 
   ngOnInit(): void {
     
@@ -83,7 +85,10 @@ export class UserProfileComponent implements OnInit {
     this.loadPatient();
       
   }
-
+  logout(){
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
+  }
   loadPatient(){
     this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(data =>
       {

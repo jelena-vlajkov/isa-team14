@@ -104,6 +104,7 @@ export class AdminComplaintsComponent implements OnInit {
       res=>{
         alert('Success');
         this.loadUnanswered();
+        
       },
       error=>{
         alert("Fail")

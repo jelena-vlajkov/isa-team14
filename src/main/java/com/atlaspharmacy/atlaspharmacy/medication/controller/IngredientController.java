@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +27,14 @@ public class IngredientController {
         return new ResponseEntity<>(ingredientDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value="/getByIds",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<IngredientDTO> getIngredientsById(@RequestBody List<Long> ids){
+
+        return _ingredientService.getIngredientsById(ids);
+    }
+    @GetMapping(value="/getById",produces = MediaType.APPLICATION_JSON_VALUE)
+    public IngredientDTO getIngredientById(@RequestParam("id") Long id){
+
+        return _ingredientService.findById(id);
+    }
 }

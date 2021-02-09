@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {Authentication} from "../model/users/authentication";
 import {AuthenticationService} from "../service/user";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Role} from "../model/users";
+import { PatientService } from '@app/service/patient/patient.service';
+import { RegistrationService } from '@app/service/registration/registration.service';
 
 
 @Component({
@@ -20,7 +22,24 @@ export class LoginComponent implements OnInit {
   credentials: Authentication;
 
 
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, private router: Router, private registrationService : RegistrationService) { 
+    this.activatedRoute.queryParams.subscribe(params => {
+      let token = params['token'];
+      console.log(token); // Print the parameter to the console. 
+      // this.registrationService.activatePatient(token).subscribe()
+      if(token!==undefined){
+        this.registrationService.activatePatient(token).subscribe(
+          res=>{
+            alert('Congradulation! Account has been activated');
+          },
+          error=>{
+            alert("Sorry my friend, bad luck :/")
+          }
+        )
+      }
+      
+  });
+  }
 
 
   ngOnInit(): void {
@@ -47,7 +66,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/pharmacist'])
         }
         else if(result.role == Role.Patient){
-          this.router.navigate(['/userProfile'])
+          this.router.navigate(['/'])
         }
         else if(result.role == Role.Supplier){
          this.router.navigate(['/supplier']);

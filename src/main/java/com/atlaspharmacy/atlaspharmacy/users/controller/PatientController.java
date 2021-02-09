@@ -14,12 +14,14 @@ import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.VerificationTokenService;
 import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -53,12 +55,12 @@ public class PatientController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-    @RequestMapping(value="/activation", method = RequestMethod.GET)
+    //http://localhost:8088/patient/activation?user_id=2&token=tWLuPeSQbxJ15LiVFi4XJOjmYtxCZzZE2htXbgOw6nlCJ2mzrBn1H4BxcFdBqUvM
+    @RequestMapping(value="/activation", method = RequestMethod.POST)
     @ResponseBody
-    public String activation(@RequestParam(value = "user_id") Long user_id, @RequestParam(value = "token") String token) {
-        patientService.enablePatient(user_id);
-        return "OK";
+    public ResponseEntity<?> activation(@RequestBody String token) {
+        Patient p = patientService.enablePatient(token);
+        return new ResponseEntity<>(p, HttpStatus.CREATED);
     }
 
 

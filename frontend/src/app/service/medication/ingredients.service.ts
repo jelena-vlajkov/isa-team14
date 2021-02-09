@@ -12,11 +12,16 @@ export class IngredientService {
   constructor(private http : HttpClient) { }
 
   findAllIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(`${environment.baseUrl}/${environment.ingredient}/${environment.findAll}`);
+    return this.http.get<Ingredient[]>(`${environment.baseUrl}/${environment.ingredients}/${environment.findAll}`);
   }
 
   addIngredient(data : Ingredient) {
-    return this.http.post(`${environment.baseUrl}/${environment.ingredient}/${environment.add}`,data, {responseType : 'text'});
+    return this.http.post(`${environment.baseUrl}/${environment.ingredients}/${environment.add}`,data, {responseType : 'text'});
   }
-  
+  getIngredient(id : Number) : Observable<Ingredient>{
+    return this.http.get<Ingredient>(`${environment.baseUrl}/${environment.ingredients}/${environment.getById}?id=${id}`);
+
+  }
+
+
 }

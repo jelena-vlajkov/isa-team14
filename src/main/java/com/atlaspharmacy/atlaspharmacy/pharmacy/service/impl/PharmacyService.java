@@ -3,10 +3,12 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.EPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.IPharmacyRepository;
@@ -29,13 +31,15 @@ public class PharmacyService implements IPharmacyService {
     private final AppointmentService appointmentService;
     private final EPrescriptionService ePrescriptionService;
     private final DrugReservationService drugReservationService;
+    private final PharmacyStorageService pharmacyStorageService;
     @Autowired
-    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService) {
+    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService, PharmacyStorageService pharmacyStorageService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
         this.appointmentService = appointmentService;
         this.ePrescriptionService = ePrescriptionService;
         this.drugReservationService = drugReservationService;
+        this.pharmacyStorageService = pharmacyStorageService;
     }
 
     @Override
@@ -67,6 +71,21 @@ public class PharmacyService implements IPharmacyService {
         }
 
         return dtos;
+    }
+    @Override
+    public List<PharmacyDTO> getPharmaciesByMedication(Long  code){
+        List<PharmacyDTO> pharmacies = getAllPharmacies();
+        List<PharmacyDTO> pharmaciesContainingMedication = new ArrayList<>();
+        for(PharmacyDTO p : pharmacies){
+            List<PharmacyStorage> storages = pharmacyStorageService.getMedicationsByPharmacy(p.getId());
+            for(PharmacyStorage s : storages){
+                if(s.getMedication().getCode().equals(code)){
+                    pharmaciesContainingMedication.add(p);
+                }
+            }
+        }
+
+        return pharmaciesContainingMedication;
     }
 
     @Override

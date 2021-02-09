@@ -76,6 +76,8 @@ export class AddAdminComponent implements OnInit {
           this.addAdminForm.reset();
           this.googleplaces = null;
           alert('Success');
+          this.router.navigate(['/admin']);
+
         },
         error=>{
           alert("Fail")
@@ -94,6 +96,8 @@ export class AddAdminComponent implements OnInit {
   }
   adminLogout(){
     this.authenticationService.logout();
+    this.router.navigate(['/login']);
+
 
   }
   routeToHome(){

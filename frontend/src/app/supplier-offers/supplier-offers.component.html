@@ -2,10 +2,13 @@
     <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
-          <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
-          <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+
+          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
-          <button mat-list-item  style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+
 
   
         </mat-action-list>
