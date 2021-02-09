@@ -20,22 +20,31 @@
 #dob-ff{
   margin-bottom: 5px;
   width: 400px !important;
+  font-size: 14px;
 }
 #name-ff {
   margin-bottom: 5px;
   width: 400px !important;
+  font-size: 14px;
+
 }
 #surname-ff {
   margin-bottom: 5px;
   width: 400px !important;
+  font-size: 14px;
+
 }
 #password-ff {
   width: 400px !important;
   margin-bottom: 5px;
+  font-size: 14px;
+
 }
 #address-ff {
   width: 400px !important;
   margin-bottom: 5px;
+  font-size: 14px;
+
 }
 #password1-ff {
   width: 400px !important;
@@ -44,10 +53,14 @@
 #email-ff {
   width: 400px !important;
   margin-bottom: 5px;
+  font-size: 14px;
+
 }
 #telephone-ff {
   width: 400px !important;
   margin-bottom: 5px;
+  font-size: 14px;
+
 }
 .container {
   display: flex;
@@ -70,4 +83,77 @@ a {
 p{
   margin-top: 50px;
   margin-bottom: 30px;
+}
+.main-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.divTool{
+  margin-left: 25%;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: turquoise;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -420%;
+  }
+  
+  .tooltip:hover .tooltiptext {
+  visibility: visible;
+  }
+  
+  .tooltipR {
+    position: relative;
+    display: inline-block;
+  }
+  .example-spacer {
+    margin-right: 55%;
+    position: relative;
+  }
+  .tooltipR .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: turquoise;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: relative;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -270%;
+  }
+  
+  .tooltipR:hover .tooltiptext {
+  visibility: visible;
+  }
+
+  h1 {
+    color: white;
+}
+
+i {
+  color: white;
+}
+mat-icon {
+    color: white;
 }
