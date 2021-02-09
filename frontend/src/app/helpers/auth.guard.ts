@@ -20,11 +20,7 @@ export class AuthGuard implements CanActivate {
           return false;
         }
         
-        // if (route.data.roles && route.data.roles.indexOf(currentUser.role) === 5) {
-        //   // role not authorised so redirect to home page
-        //   this.router.navigate(['/pharmacyAdmin-profile']);
-        //   return false;
-        // }
+
         if (route.data.roles && route.data.roles.indexOf(currentUser.role) === 3) {
           // role not authorised so redirect to home page
           this.router.navigate(['/admin']);

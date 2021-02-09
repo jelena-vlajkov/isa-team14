@@ -56,7 +56,6 @@ public class AuthenticationController {
         int expiresIn = tokenUtils.getExpiredIn();
         AuthenticatedUserDTO authenticatedUserDTO = new AuthenticatedUserDTO(user.getId(), user.getRole(), user.getUsername(), new UserTokenState(jwt, expiresIn), user.isFirstTimePassword());
 
-
         return ResponseEntity.ok(authenticatedUserDTO);
     }
 

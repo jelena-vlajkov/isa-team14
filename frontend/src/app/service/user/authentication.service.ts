@@ -22,6 +22,10 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+  public getUserValue() : AuthenticatedUser {
+      return this.currentUserSubject.value;
+  }
+
   login(credentials: Authentication){
 
     

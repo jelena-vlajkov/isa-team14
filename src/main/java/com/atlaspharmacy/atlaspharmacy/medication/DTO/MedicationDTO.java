@@ -18,9 +18,9 @@ public class MedicationDTO {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    private List<Long> substituteMedication;
+    private List<MedicationDTO> substituteMedication;
     private Long code;
-    private List<Long> ingredients;
+    private List<IngredientDTO> ingredients;
     private Double grade;
     public MedicationDTO() {
 
@@ -48,53 +48,13 @@ public class MedicationDTO {
     public void setGrade(Double grade) {
         this.grade = grade;
     }
-    /*
-    public static MedicationDTO convertToMedicationDTO(Medication m){
-        MedicationDTO medicationDTO = new MedicationDTO(
-                m.getId(),
-                m.getName(),
-                m.getDrugForm(),
-                m.getDrugType(),
-                m.getProducer(),
-                m.getTypeOfPrescribing(),
-                m.getAdditionalNotes(),
-                m.getContraindications(),
-                m.getDailyDose(),
-                m.getDrugKind(),
-                m.getCode()
-        );
-        medicationDTO.setSubstituteMedication(new ArrayList<>());
 
-        for(Medication med: m.getSubstituteMedication()){
-            medicationDTO.getSubstituteMedication().add(med.getId());
-        }
-        medicationDTO.setIngredients(new ArrayList<>());
 
-        for(Ingredient i : m.getIngredients()){
-            medicationDTO.getIngredients().add(i.getId());
-        }
-        return medicationDTO;
-    }*/
-    /*
-    public static void convertToMedication(Medication m, MedicationDTO mdto){
-        m.setId(mdto.getId());
-        m.setName(mdto.getName());
-        m.setDailyDose(mdto.getDailyDose());
-        m.setAdditionalNotes(mdto.getAdditionalNotes());
-        m.setContraindications(mdto.getContraindications());
-        m.setDrugKind(mdto.getDrugKind());
-        m.setDrugForm(mdto.getDrugForm());
-        m.setDrugType(mdto.getDrugType());
-        m.setProducer(mdto.getProducer());
-        m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
-        m.setCode(mdto.getCode());
-    }*/
-
-    public List<Long> getIngredients() {
+    public List<IngredientDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Long> ingredients) {
+    public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -106,11 +66,11 @@ public class MedicationDTO {
         this.code = code;
     }
 
-    public List<Long> getSubstituteMedication() {
+    public List<MedicationDTO> getSubstituteMedication() {
         return substituteMedication;
     }
 
-    public void setSubstituteMedication(List<Long> substituteMedication) {
+    public void setSubstituteMedication(List<MedicationDTO> substituteMedication) {
         this.substituteMedication = substituteMedication;
     }
 

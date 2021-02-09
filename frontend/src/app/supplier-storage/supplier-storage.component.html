@@ -2,15 +2,16 @@
     <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
-          <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
 
-          <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
-          <button mat-list-item (click)="routeToOffers()" style="color: white;"> Edit offers</button>
-  
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/searchMedications' style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+
         </mat-action-list>
         <mat-action-list style="position: absolute; bottom: 1px;">
-                <button style="color: white;" mat-list-item (click)="routeToProfile()"> Profile</button>
                 <button style="color: white;" mat-list-item (click)="supplierLogout()"> Logout</button>
   
         </mat-action-list>
@@ -105,54 +106,6 @@
 
                 </mat-card>
             </div>
-
-
-            <!-- <mat-card class="mat-elevation-z8">
-                <mat-card-title style="margin-left: 40%;">
-                    Suppliers storage
-                  </mat-card-title>
-                  <div style="width: 100%; height: 100%;">
-
-                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style=" width: 100%; margin-right: 10px;">
-                            <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef> Medication </th>
-                                <td mat-cell *matCellDef="let element" style="font-size:12px"> 
-                                  <p>{{element.medication.name}}</p>                 
-                              </td>
-                              </ng-container>
-                            
-                              <ng-container matColumnDef="quantity">
-                                <th mat-header-cell *matHeaderCellDef> Quantity </th>
-                                <td mat-cell *matCellDef="let element" style="font-size:12px"> 
-                                  <input *ngIf="editStorage" matInput value="{{element.quantity}}">  
-                                  <p *ngIf="!editStorage">{{element.quantity}}</p>                 
-                              </td>
-                              </ng-container>
-
-                              <ng-container matColumnDef="change">
-                                  <th mat-header-cell *matHeaderCellDef> Confirm </th>
-                                  <td mat-cell *matCellDef="let element" style="font-size:12px"> 
-                                      <button *ngIf="editStorage" mat-raised-button color="accent" style="font-size:12px" id="button" (click)="confirmChange(element)">Confirm</button>
-                                      <button *ngIf="!editStorage" mat-raised-button color="accent" style="font-size:12px" id="button" (click)="edit(element)" >Edit</button>
-      
-                                  </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="confirm">
-                                  <th mat-header-cell *matHeaderCellDef> Confirm </th>
-                                  <td mat-cell *matCellDef="let element" style="font-size:12px"> 
-                                      <button *ngIf="editStorage" mat-raised-button color="accent" style="font-size:12px" id="button" (click)="cancelEdit(element)" >Cancel</button>
-                                  </td>
-                                </ng-container>
-                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                         Name Column
-                        
-                      </table>
-
-                    </div>
-            </mat-card> -->
-
       </mat-drawer-content>
   </mat-drawer-container>
   </body>

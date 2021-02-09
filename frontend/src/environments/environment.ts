@@ -9,7 +9,7 @@ export const environment = {
   medication: "medication",
   findAll: "findAll",
   add: "add",
-  ingredient: "ingredients",
+  ingredients: "ingredients",
   allergy : "allergies",
   patient : "patient",
   register : "register",
@@ -44,6 +44,15 @@ export const environment = {
   findSuppliers : "findSuppliers",
   getByIdentifier : 'getByIdentifier',
   getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier',
-  suppliersmedications : "suppliersmedications"
+  suppliersmedications : "suppliersmedications",
+  getByMedication : "getByMedication",
+  getByName:"getByName",
+  findByMedication : "findByMedication",
+  getByIds : "getByIds",
+  pricelist : "pricelist",
+  getByType : "getByType",
+  getByForm : "getByForm",
+  getByKind : "getByKind",
+  getByPrescribing : "getByPrescribing"
 };
 

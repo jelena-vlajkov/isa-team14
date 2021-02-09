@@ -47,4 +47,15 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     }
 
+    @Override
+    public boolean isMedicationInPharmacy(Long code, Long id) {
+        List<PharmacyStorage> storages = getMedicationsByPharmacy(id);
+        for(PharmacyStorage p : storages){
+            if(p.getMedication().getCode().equals(code) && p.getQuantity()>0){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

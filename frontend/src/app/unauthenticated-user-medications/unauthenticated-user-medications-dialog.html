@@ -1,0 +1,77 @@
+<div mat-dialog-content id="plswork">
+  <h1 mat-dialog-title > Specification for drug</h1>
+
+    <label style="font-size: 19px;">Name:  {{data.name}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug code:  {{data.code}}</label>
+    <br>
+
+    <br>
+    <label style="font-size: 19px;">Drug type:  {{data.drugType}}</label>
+    <br>
+
+    <br>
+    <label style="font-size: 19px;">Drug form:  {{data.drugForm}}</label>
+    <br>
+
+    <br>
+    <label style="font-size: 19px;">Drug kind:  {{data.drugKind}}</label>
+    <br>
+
+    <br>
+    <label style="font-size: 19px;">Type of prescribing:  {{data.typeOfPrescribing}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug contraindications:  {{data.contraindications}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug additional notes:  {{data.additionalNotes}}</label>  
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug daily dose:  {{data.dailyDose}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug grade:    {{data.grade}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Drug ingredients:    {{data.ingredients}}</label>
+    <br>
+    <br>
+
+    <label style="font-size: 19px;">Substitute drug:    {{data.subMeds}}</label>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="margin-right: 30px; margin-top: 20px; height: 40px; padding: 0 6px 0 6px;
+  min-width: 88px;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+  background-color: rgba(28, 25, 228, 0.897);
+  text-transform: uppercase;
+  text-decoration:none;
+  color: white;
+
+  border: none;
+  outline: none;" mat-dialog-close (click)="onNoClick()">Cancel</button>
+  <button mat-button style="margin-right: 30px; margin-top: 20px; height: 40px; padding: 0 6px 0 6px;
+  background-color: rgba(28, 25, 228, 0.897);
+  
+  min-width: 88px;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+  color: white;
+
+  text-transform: uppercase;
+  text-decoration:none;
+  border: none;
+  outline: none;" (click)="exportAsPDF('plswork')">Print to pdf</button>
+</div>

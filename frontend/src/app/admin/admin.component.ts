@@ -95,6 +95,40 @@ export class AdminComponent implements OnInit {
     }
 
   }
+  routeToMeds(){
+    this.firstTimeChanged = this.sysAdmin.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchMedications']);
+
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+
+  }
+  routeToPharms(){
+    this.firstTimeChanged = this.sysAdmin.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchPharmacies']);
+
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+
+  }
   adminLogout(){
     this.authenticationService.logout();
     this.router.navigate(['/login']);
