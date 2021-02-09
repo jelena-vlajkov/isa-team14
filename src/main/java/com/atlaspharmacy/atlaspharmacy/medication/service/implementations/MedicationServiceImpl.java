@@ -7,13 +7,18 @@ import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class MedicationServiceImpl implements IMedicationService {
@@ -113,6 +118,23 @@ public class MedicationServiceImpl implements IMedicationService {
     @Override
     public List<IngredientDTO> findMedicationsIngredients(Medication medication) throws Exception {
         return null;
+    }
+
+    @Override
+    public List<MedicationDTO> findByName(String name) throws ParseException {
+        List<Medication> medications = (List<Medication>) _medicationRepository.findAll();
+        List<MedicationDTO> dtos = new ArrayList<>();
+        if(medications.size()!=0){
+            for(Medication p : medications){
+                dtos.add(MedicationMapper.convertToMedicationDTO(p));
+            }
+        }
+        if(name.trim().equals("")){
+            return dtos;
+        }
+        return  dtos.stream()
+                .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase().trim()))
+                .collect(Collectors.toList());
     }
 
     @Override

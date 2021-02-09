@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Medication } from '@app/model/medications/medication';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { environment } from '@environments/environment';
@@ -31,6 +32,10 @@ export class PharmacyService {
   
   getPharmacyToComplain(id : Number) :Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmacyToComplain}?id=${id}`);
+  }
+
+  getPharmacyByMedication(code : Number) :Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getByMedication}?code=${code}`);
   }
   
 }

@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
@@ -75,6 +76,13 @@ public class PharmacyController {
     public @ResponseBody
     List<PharmacyDTO> getPharmacyToComplain(@RequestParam("id") Long id) throws ParseException {
         return PharmacyMapper.maptToListDto(pharmacyService.getPharmaciesToComplain(id));
+    }
+
+
+    @GetMapping(value = "/getByMedication", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByMedication(@RequestParam("code") Long code) throws ParseException {
+        return pharmacyService.getPharmaciesByMedication(code);
     }
 
     @ExceptionHandler(InvalidPharmacyData.class)

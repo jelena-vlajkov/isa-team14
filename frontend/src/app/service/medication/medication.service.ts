@@ -18,5 +18,7 @@ export class MedicationService {
   addMedication(data : Medication) {
     return this.http.post(`${environment.baseUrl}/${environment.medication}/${environment.add}`,data, {responseType : 'text'});
   }
-  
+  findByName(name : String): Observable<Medication[]>{
+    return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.medication}/${environment.getByName}?name=${name}`);
+  }
 }

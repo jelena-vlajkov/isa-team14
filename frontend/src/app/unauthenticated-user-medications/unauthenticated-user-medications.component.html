@@ -60,37 +60,118 @@
             </mat-toolbar-row>
         </mat-toolbar>
             <div style="width: 100%; height: 100%; float: left;">
-                <mat-card style="height: fit-content; width: 50%; float: left;">
-                    <table class="fl-table">
+                <mat-card style="width: 50%; height:100px;">
+                <div class="inputField">
+                    <mat-form-field appearance="fill" id="name-ff">
+                        <mat-label>Drug name*</mat-label>
+                        <input matInput id="name" name="name-ff" [(ngModel)]="drugName">
+
+                    </mat-form-field>
+                    <button mat-fab color="accent" style="position:relative; margin-left: 10px; height: 50px; margin-bottom: 5px;" (click)="findByName(drugName)">
+                        <mat-icon>search</mat-icon>
+                      </button>
+                    <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 20%; margin-left: 25px; height: 50px;">
+                        <mat-option value="1">Between 0 and 1</mat-option>
+                        <mat-option value="2">Between 1 and 2</mat-option>
+                        <mat-option value="3">Between 2 and 3</mat-option>
+                        <mat-option value="4">Between 3 and 4</mat-option>
+                        <mat-option value="5">Between 4 and 5</mat-option>
+                        <mat-option value="6">All</mat-option>
+                    </mat-select>
+                    <mat-select placeholder="Select medication type" style="width: 20%; margin-left: 25px; height: 50px;"  (selectionChange)="getTypes($event)">
+                        <mat-option value="0">Herbal</mat-option>
+                        <mat-option value="1">Biological</mat-option>
+                        <mat-option value="2">Homeopatic</mat-option>
+                        <mat-option value="3">Human</mat-option>
+                        <mat-option value="4">Blood</mat-option>
+                        <mat-option value="5">Radiopharameuticals</mat-option>
+                        <mat-option value="6">Traditional herbal</mat-option>
+                        <mat-option value="7">Vaccines</mat-option>
+                        <mat-option value="8">All</mat-option>
+                      </mat-select>
+
+                </div>
+
+                </mat-card>
+
+                <mat-card style="height: fit-content; width: 50%; float: left;" >
+                    <table class="fl-table" matSort (matSortChange)="sortData($event)">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Producer</th>
-                            <th>Grade</th>
+                            <th mat-sort-header="name">Name</th>
+                            <th mat-sort-header="type">Type</th>
+                            <th mat-sort-header="producer">Producer</th>
+                            <th mat-sort-header="grade">Grade</th>
+                            <th>Pharamacies</th>
                             <th>More info</th>
                         
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let m of medications">
+                        <tr *ngFor="let m of dataSource">
                             <td>{{m.name}}</td>
                             <td>{{m.drugType}}</td>
                             <td>{{m.producer}}</td>
                             <td>{{m.grade}}</td> 
-                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="showMoreInfo(m)">Pick</button></td>                  
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="getPharmacies(m)">Pick</button></td>                  
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="openDialog(m)">Pick</button></td>                  
                         </tr>
                         
                         
                         <tbody>
                     </table>
                 </mat-card>
-                <mat-card style="height: 50%; width: 50%; float:right;" *ngIf="showinfo">
-                    <!-- <div style="width: 100%; height: 100%;" *ngIf="showinfo"> -->
-                    <!-- </div> -->
-                    <h1>{{selectedMedication.name}}</h1>
-
+                <mat-card style="height:fit-content; width: 50%; float:right;" *ngIf="showinfo">
+                    <table class="fl-table" matSort (matSortChange)="sortDataPharmacy($event)">
+                        <thead>
+                        <tr>
+                            <th mat-sort-header="name">Name</th>
+                            <th>Address</th>
+                            <th mat-sort-header="grade">Rating</th>
+                            <th>Reserve</th>
+                        
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let pharmacy of pharmacyDataSource">
+                            <td>{{pharmacy.name}}</td>
+                            <td>{{pharmacy.address.street}}, {{pharmacy.address.city.name}}, {{pharmacy.address.state.name}}</td>
+                            <td>{{pharmacy.average_grade}}</td>
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="getPharmacies(m)">Pick</button></td>                  
+                            <!-- <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="showMoreInfo(m)">Pick</button></td>                   -->
+                        </tr>
+                        
+                        
+                        <tbody>
+                    </table>
                 </mat-card>
+            </div>
+            <div hidden style="width: 100%; height: 100%;" >
+                <table class="fl-table" matSort (matSortChange)="sortData($event)" id="plswork">
+                    <thead>
+                    <tr>
+                        <th mat-sort-header="name">Name</th>
+                        <th mat-sort-header="type">Type</th>
+                        <th mat-sort-header="producer">Producer</th>
+                        <th mat-sort-header="grade">Grade</th>
+                        <th>Pharamacies</th>
+                        <th>More info</th>
+                    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let m of dataSource">
+                        <td>{{m.name}}</td>
+                        <td>{{m.drugType}}</td>
+                        <td>{{m.producer}}</td>
+                        <td>{{m.grade}}</td> 
+                        <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="getPharmacies(m)">Pick</button></td>                  
+                        <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="showMoreInfo(m)">Pick</button></td>                  
+                    </tr>
+                    
+                    
+                    <tbody>
+                </table>
             </div>
             <!-- <div class="table-wrapper" style="float: left;">
                 <table class="fl-table">

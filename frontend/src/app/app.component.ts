@@ -4,6 +4,7 @@ import {AuthenticatedUser} from "@app/model/users/authenticatedUser";
 import {Router} from "@angular/router";
 import {Role} from "@app/model/users";
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
