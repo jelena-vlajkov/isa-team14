@@ -8,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
+import com.atlaspharmacy.atlaspharmacy.users.repository.PatientRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPatientService;
 import net.bytebuddy.utility.RandomString;
@@ -27,22 +28,25 @@ public class PatientService implements IPatientService {
     private final AuthorityService authorityService;
     private final AddressRepository addressRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserRepository patientRepository;
+    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
+
     private final EmailService emailService;
 
     @Autowired
-    public PatientService(UserRepository patientRepository, AuthorityService authorityService, AddressRepository addressRepository, VerificationTokenService verificationTokenService, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
-        this.patientRepository = patientRepository;
+    public PatientService(UserRepository patientRepository, AuthorityService authorityService, AddressRepository addressRepository, VerificationTokenService verificationTokenService, BCryptPasswordEncoder passwordEncoder, PatientRepository patientRepository1, EmailService emailService) {
+        this.userRepository = patientRepository;
         this.authorityService = authorityService;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
+        this.patientRepository = patientRepository1;
         this.emailService = emailService;
     }
     public Patient findById(Long id){
-        return (Patient)patientRepository.findById(id).get();
+        return (Patient) userRepository.findById(id).get();
     }
     public boolean dbHasEmail(String email){
-        List<User> allUsers = patientRepository.findAll();
+        List<User> allUsers = userRepository.findAll();
         for(User u : allUsers){
             if(u.getEmail().toLowerCase().equals(email)){
                 return true;
@@ -52,11 +56,11 @@ public class PatientService implements IPatientService {
     }
     @Transactional
     public Patient save(Patient patient){
-        return patientRepository.save(patient);
+        return userRepository.save(patient);
     }
     @Override
     public Patient registerPatient(PatientDTO patientDTO) throws InvalidEmail, IOException, MessagingException {
-        if(patientRepository.findByEmail(patientDTO.getEmail())==null){
+        if(userRepository.findByEmail(patientDTO.getEmail())==null){
             String role ="ROLE_PATIENT";
 
             String password = passwordEncoder.encode(patientDTO.getPassword());
@@ -94,12 +98,22 @@ public class PatientService implements IPatientService {
 //        appointmentRepository.save(appointment);
 //        return true;
 //    }
+    public Patient findByVerificattionCode(String token){
+        List<Patient> patients = patientRepository.findAll();
+        for(Patient p : patients){
+            if(p.getVerificationCode().equals(token)){
+                return p;
+            }
+        }
+        return null;
+    }
     @Override
-    public Patient enablePatient(Long id) {
-        Patient patient = (Patient)patientRepository.findById(id).get();
+    public Patient enablePatient(String token) {
+        Patient patient = findByVerificattionCode(token);
         if(!patient.getEnabled()){
             patient.setEnabled(true);
-            patientRepository.save(patient);
+            patient.setVerificationCode(null);
+            userRepository.save(patient);
             return patient;
         }
 
@@ -109,7 +123,7 @@ public class PatientService implements IPatientService {
     @Transactional
     public void editPatient(PatientDTO patientDTO){
         //bolje getOne od find
-        Patient patientToUpdate = (Patient)patientRepository.getOne(patientDTO.getId());
+        Patient patientToUpdate = (Patient) userRepository.getOne(patientDTO.getId());
         Address a = null;
         a = addressRepository.getOne(patientToUpdate.getAddress().getId());
         System.out.println(a.getId() + " " + a.getStreet());
@@ -127,11 +141,11 @@ public class PatientService implements IPatientService {
         patientToUpdate.setDateOfBirth(patientDTO.getDateOfBirth());
         patientToUpdate.setPhoneNumber(patientDTO.getPhoneNumber());
         patientToUpdate.setPassword(passwordEncoder.encode(patientDTO.getPassword()));
-        patientRepository.save(patientToUpdate);
+        userRepository.save(patientToUpdate);
 
     }
 
     public Patient getByMail(String mail){
-        return (Patient) patientRepository.findByEmail(mail);
+        return (Patient) userRepository.findByEmail(mail);
     }
 }

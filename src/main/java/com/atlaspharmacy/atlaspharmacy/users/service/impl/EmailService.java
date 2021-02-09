@@ -36,7 +36,7 @@ public class EmailService implements IEmailService {
 
     public EmailDTO generateEmailInfo(Patient p) {
 
-        String url = "http://localhost:8088/patient/activation?user_id="+p.getId()+"&token="+p.getVerificationCode();
+        String url = "http://localhost:4200/login?token="+p.getVerificationCode();
         String email = p.getEmail();
         EmailDTO emailDTO = new EmailDTO();
         emailDTO.setPatientEmail(email);
