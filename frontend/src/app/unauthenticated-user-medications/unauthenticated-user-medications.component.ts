@@ -82,6 +82,9 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
 
   constructor(public pricelistService :PricelistService, public ingredientService:IngredientService, public dialog: MatDialog, private pharmacyService:PharmacyService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, public medicationService : MedicationService, private auth : AuthenticationService) { 
     this.showinfo=false;
+    if(this.isSupplier()){
+      this.router.navigate(['/supplier']);
+    }
   }
 
 
