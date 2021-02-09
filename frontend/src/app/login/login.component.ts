@@ -27,14 +27,17 @@ export class LoginComponent implements OnInit {
       let token = params['token'];
       console.log(token); // Print the parameter to the console. 
       // this.registrationService.activatePatient(token).subscribe()
-      this.registrationService.activatePatient(token).subscribe(
-        res=>{
-          alert('Congradulation! Account has been activated');
-        },
-        error=>{
-          alert("Sorry my friend, bad luck :/")
-        }
-      )
+      if(token!==undefined){
+        this.registrationService.activatePatient(token).subscribe(
+          res=>{
+            alert('Congradulation! Account has been activated');
+          },
+          error=>{
+            alert("Sorry my friend, bad luck :/")
+          }
+        )
+      }
+      
   });
   }
 
