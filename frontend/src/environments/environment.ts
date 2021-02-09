@@ -48,6 +48,11 @@ export const environment = {
   getByMedication : "getByMedication",
   getByName:"getByName",
   findByMedication : "findByMedication",
-  getByIds : "getByIds"
+  getByIds : "getByIds",
+  pricelist : "pricelist",
+  getByType : "getByType",
+  getByForm : "getByForm",
+  getByKind : "getByKind",
+  getByPrescribing : "getByPrescribing"
 };
 

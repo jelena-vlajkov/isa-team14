@@ -64,7 +64,7 @@ public class MedicationServiceImpl implements IMedicationService {
     public void createMedication(MedicationDTO medicationDTO) throws Exception {
         Medication medication = new Medication();
         try {
-            this.saveMedication(medication,medicationDTO);
+            this.saveMedication(medicationDTO);
         } catch (Exception e) {
             e.printStackTrace();
             throw  new Exception(EXCEPTION + "createNewMedication " + FAIL);
@@ -80,7 +80,7 @@ public class MedicationServiceImpl implements IMedicationService {
         }
 
         try {
-            this.saveMedication(medication, medicationDTO);
+            this.saveMedication(medicationDTO);
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(EXCEPTION + "modifyMedication " + FAIL);
@@ -138,25 +138,76 @@ public class MedicationServiceImpl implements IMedicationService {
     }
 
     @Override
-    public void saveMedication(Medication medication, MedicationDTO medicationDTO) throws Exception {
+    public List<MedicationDTO> findByType(Long type) throws ParseException {
+        List<Medication> medications = _medicationRepository.findAll();
+        List<MedicationDTO> filter = new ArrayList<>();
+        for(Medication m : medications){
+
+            if(m.getDrugType().ordinal() == type){
+                filter.add(MedicationMapper.convertToMedicationDTO(m));
+            }
+        }
+        return filter;
+    }
+
+    @Override
+    public List<MedicationDTO> findByForm(Long form) throws ParseException {
+        List<Medication> medications = _medicationRepository.findAll();
+        List<MedicationDTO> filter = new ArrayList<>();
+        for(Medication m : medications){
+
+            if(m.getDrugForm().ordinal() == form){
+                filter.add(MedicationMapper.convertToMedicationDTO(m));
+            }
+        }
+        return filter;
+    }
+    @Override
+    public List<MedicationDTO> findByKind(Long kind) throws ParseException {
+        List<Medication> medications = _medicationRepository.findAll();
+        List<MedicationDTO> filter = new ArrayList<>();
+        for(Medication m : medications){
+
+            if(m.getDrugKind().ordinal() == kind){
+                filter.add(MedicationMapper.convertToMedicationDTO(m));
+            }
+        }
+        return filter;
+    }
+
+    @Override
+    public List<MedicationDTO> findByPrescribing(Long prescribing) throws ParseException {
+        List<Medication> medications = _medicationRepository.findAll();
+        List<MedicationDTO> filter = new ArrayList<>();
+        for(Medication m : medications){
+
+            if(m.getTypeOfPrescribing().ordinal() == prescribing){
+                filter.add(MedicationMapper.convertToMedicationDTO(m));
+            }
+        }
+        return filter;
+    }
+
+    @Override
+    public void saveMedication(MedicationDTO medicationDTO) throws Exception {
        // MedicationDTO.convertToMedication(medication,medicationDTO);
-        MedicationMapper.convertToMedication(medication, medicationDTO);
+        Medication medication =MedicationMapper.convertToMedication(medicationDTO);
         medication.setSubstituteMedication(new ArrayList<>());
-        for(Long id : medicationDTO.getSubstituteMedication()){
+        for(MedicationDTO dto : medicationDTO.getSubstituteMedication()){
             try{
-                medication.getSubstituteMedication().add(_medicationRepository.findById(id).orElse(null));
+                medication.getSubstituteMedication().add(_medicationRepository.findById(dto.getId()).orElse(null));
             }catch (Exception e){
                 e.printStackTrace();
-                throw new Exception(EXCEPTION + "medication with id: " + id.toString() + DOES_NOT_EXIST);
+                throw new Exception(EXCEPTION + "medication with id: " + dto.getId().toString() + DOES_NOT_EXIST);
             }
         }
         medication.setIngredients(new ArrayList<>());
-        for(Long id : medicationDTO.getIngredients()){
+        for(IngredientDTO dto: medicationDTO.getIngredients()){
             try{
-                medication.getIngredients().add(_ingredientRepository.findById(id).orElse(null));
+                medication.getIngredients().add(_ingredientRepository.findById(dto.getId()).orElse(null));
             }catch (Exception e){
                 e.printStackTrace();
-                throw new Exception(EXCEPTION + "ingredient with id: " + id.toString() + DOES_NOT_EXIST);
+                throw new Exception(EXCEPTION + "ingredient with id: " + dto.getId().toString() + DOES_NOT_EXIST);
             }
         }
         try{
@@ -167,21 +218,6 @@ public class MedicationServiceImpl implements IMedicationService {
             throw new Exception(EXCEPTION + "saveMedication " + FAIL);
         }
     }
-
-
-/*    private List<MedicationDTO> convertToDTOS(List<Medication> medications){
-        List<MedicationDTO> dtos = new ArrayList<>();
-        Long amount = null;
-        for(Medication m : medications){
-            MedicationDTO dto = MedicationDTO.convertToMedicationDTO(m);
-            MedicationDTO dto = Med
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }*/
-
-
 
 
 }

@@ -1,6 +1,7 @@
 import { DrugForm } from "./drugForm";
 import { DrugKind } from "./drugKind";
 import { DrugType } from "./drugType";
+import { Ingredient } from "./ingredient";
 import { TypeOfPrescribing } from "./typeOfPrescribing";
 
 export class Medication {
@@ -13,14 +14,14 @@ export class Medication {
     public additionalNotes : string;
     public dailyDose : number;
     public drugKind : DrugKind;
-    public substituteMedication :  Number[] = new Array();
+    public substituteMedication :  Medication[] = new Array();
     public code: Number;
-    public ingredients : Number[] = new Array();
+    public ingredients : Ingredient[] = new Array();
     public grade : Number;
 
     constructor(name : string,  drugForm : DrugForm, drugType : DrugType, 
         producer:string, typeOfPrescribing : TypeOfPrescribing, contraindications: string,
-        additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Number[], code: Number, ingredients: Number[], grade : Number) {
+        additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Medication[], code: Number, ingredients: Ingredient[], grade : Number) {
         this.name = name;
         this.drugForm = drugForm;
         this.drugKind = drugKind;

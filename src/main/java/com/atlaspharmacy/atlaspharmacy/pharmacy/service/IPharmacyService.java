@@ -21,4 +21,5 @@ public interface IPharmacyService {
     List<PharmacyDTO> findByAddress(String address);
     List<Pharmacy> getPharmaciesToComplain(Long id);
     List<PharmacyDTO> getPharmaciesByMedication(Long code);
+
 }

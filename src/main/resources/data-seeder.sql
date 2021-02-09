@@ -40,7 +40,7 @@ VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pe
 
 insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
 insert into pharmacies(id, average_grade, description, name, address_id) VALUES (200, 5.0,'ldkjdljf','ZEGIN',200);
-insert into pharmacies(id, average_grade, description, name, address_id) VALUES (300, 5.0,'ldkjdljf','APOTEKA BENUUUU',300);
+insert into pharmacies(id, average_grade, description, name, address_id) VALUES (300, 5.0,'ldkjdljf','APOTEKA BENU',300);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 insert into medicalstaff(license_number, id) values ('16657568',100);
@@ -109,12 +109,12 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1900, '2021-02-07 13:30:00', '2021-02-07 14:00:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2000, '2021-02-01 14:00:00', '2021-02-01 14:30:00', 1000.00, false, 100, 100, 200);
 
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 2, 'Borozepam', 'Loncar Doo', 0,2.4);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 2, 'Xanax', 'Pfizer', 0, 4.4);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 0, 'Borozepam', 'Loncar Doo', 1,2.4);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 4.4);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (300, null, 123401233,null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0,3);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 2, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 1);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (500, 'Ne piti na prazan stomak', 123401235, 'Moguc osecaj nesvestice', 2, 1, 1, 2, 'Caffetine', 'Alkaloid AD-Skopje', 0, 5);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (600, null, 123401236,'Moguca pospanost, umor', 2, 1, 1, 2, 'Brufen', 'Galenika a.d.', 0, 3.4);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 3, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 1);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (500, 'Ne piti na prazan stomak', 123401235, 'Moguc osecaj nesvestice', 2, 1, 1, 0, 'Caffetine', 'Alkaloid AD-Skopje', 0, 5);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade) values (600, null, 123401236,'Moguca pospanost, umor', 2, 1, 1, 1, 'Brufen', 'Galenika a.d.', 0, 3.4);
 
 insert into substitute_medications(original_id, substitute_id) VALUES (100, 300);
 insert into substitute_medications(original_id, substitute_id) VALUES (100, 400);
@@ -305,3 +305,18 @@ insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (9
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1000, 90, 400, 300);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1100, 96, 500, 300);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1200, 29, 200, 300);
+
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (100, 800, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 100, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (200, 560, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 200, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (300, 330, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 300, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (400, 580, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 400, 100);
+
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (500, 920, '2021-02-12 12:00:00', '2021-01-26 12:00:00', 200, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2021-02-26 12:00:00', '2021-01-26 12:00:00', 600, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (800, 978, '2021-03-26 12:00:00', '2021-01-26 12:00:00', 100, 200);
+
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (900, 123, '2021-05-26 12:00:00', '2021-01-23 12:00:00', 300, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1100, 639, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 500, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1200, 826, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 200, 300);

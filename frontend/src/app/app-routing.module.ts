@@ -183,7 +183,8 @@ const routes: Routes = [
 },
 {
   path: 'searchMedications',
-  component: UnauthenticatedUserMedicationsComponent
+  component: UnauthenticatedUserMedicationsComponent,
+
 
 },
 {
