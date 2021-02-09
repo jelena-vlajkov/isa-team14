@@ -53,6 +53,7 @@ export const environment = {
   getByType : "getByType",
   getByForm : "getByForm",
   getByKind : "getByKind",
-  getByPrescribing : "getByPrescribing"
+  getByPrescribing : "getByPrescribing",
+  activation : "activation"
 };
 

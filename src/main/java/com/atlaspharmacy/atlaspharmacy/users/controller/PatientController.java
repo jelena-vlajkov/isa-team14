@@ -56,12 +56,10 @@ public class PatientController {
     }
 
     //http://localhost:8088/patient/activation?user_id=2&token=tWLuPeSQbxJ15LiVFi4XJOjmYtxCZzZE2htXbgOw6nlCJ2mzrBn1H4BxcFdBqUvM
-    @RequestMapping(value="/activation", method = RequestMethod.GET)
+    @RequestMapping(value="/activation", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> activation(@RequestParam(value = "user_id") Long user_id, @RequestParam(value = "token") String token, UriComponentsBuilder ucBuilder) {
-        Patient p = patientService.enablePatient(user_id);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("http://localhost:4200/").build().toUri());	//is this redirection ???
+    public ResponseEntity<?> activation(@RequestBody String token) {
+        Patient p = patientService.enablePatient(token);
         return new ResponseEntity<>(p, HttpStatus.CREATED);
     }
 
