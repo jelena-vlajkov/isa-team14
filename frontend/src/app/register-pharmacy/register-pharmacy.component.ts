@@ -77,5 +77,6 @@ export class RegisterPharmacyComponent implements OnInit {
 
   adminLogout(){
     this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

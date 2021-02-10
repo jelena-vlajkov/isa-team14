@@ -42,6 +42,9 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('name').valid && registerForm.get('name').touched && registerForm.get('name').errors['required']">
                                         Please enter name</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('name').valid && registerForm.get('name').touched && registerForm.get('name').errors['pattern']">
+                                        Please enter name in correct form</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="inputField">
@@ -52,6 +55,9 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('surname').valid && registerForm.get('surname').touched && registerForm.get('surname').errors['required']">
                                         Please enter surname</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('surname').valid && registerForm.get('surname').touched && registerForm.get('surname').errors['pattern']">
+                                        Please enter surname in correct form</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="inputField">
@@ -61,20 +67,12 @@
                                     <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
                                     <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
                                 </mat-radio-group>
-                                <!-- <mat-error
+                                <mat-error
                                         *ngIf="!registerForm.get('gender').valid && registerForm.get('gender').touched && registerForm.get('gender').errors['required']">
-                                        Please choose gender</mat-error> -->
+                                        Please choose gender</mat-error>
                             </div>
                             <div class="inputField">
-                                <!-- <mat-form-field appearance="fill" id="address-ff">
-                                    <mat-label>Address*</mat-label> -->
                                 <app-google-places> </app-google-places>
-                                    <!-- <input matInput id="address" placeholder="address" name="address-ff"
-                                        formControlName="address">
-                                    <mat-error
-                                        *ngIf="!registerForm.get('address').valid && registerForm.get('address').touched && registerForm.get('address').errors['required']">
-                                        Please enter address</mat-error>
-                                </mat-form-field> -->
                             </div>
                             <div class="inputField">
                                 <mat-form-field appearance="fill" id="email-ff">
@@ -84,6 +82,9 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched && registerForm.get('email').errors['required']">
                                         Please enter email</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched && registerForm.get('email').errors['email']">
+                                        Please enter email in correct form</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="inputField">
@@ -94,6 +95,9 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('telephone').valid && registerForm.get('telephone').touched && registerForm.get('telephone').errors['required']">
                                         Please enter telephone</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('telephone').valid && registerForm.get('telephone').touched && registerForm.get('telephone').errors['pattern']">
+                                        Please enter telephone in correct form</mat-error>
                                 </mat-form-field>
                             </div>
         
@@ -105,6 +109,9 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('password1').valid && registerForm.get('password1').touched && registerForm.get('password1').errors['required']">
                                         Please enter password</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('password1').valid && registerForm.get('password1').touched && registerForm.get('password1').errors['minLength']">
+                                        Password has to be minimum 8 characters long</mat-error>
                                 </mat-form-field>
                             </div>
         
@@ -116,15 +123,20 @@
                                     <mat-error
                                         *ngIf="!registerForm.get('password2').valid && registerForm.get('password2').touched && registerForm.get('password2').errors['required']">
                                         Please enter password</mat-error>
+                                        <mat-error
+                                        *ngIf="!registerForm.get('password2').valid && registerForm.get('password2').touched && registerForm.get('password2').errors['minLength']">
+                                        Password has to be minimum 8 characters long</mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="inputField">
-                                <mat-form-field id="dob-ff">
-                                    <mat-label>Date</mat-label>
-                                    <input matInput [matDatepicker]="picker1" id="dateId" style="font-size:18px" [(ngModel)]="selectedDate" formControlName="date">
-                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker1></mat-datepicker>
+                                <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                                    <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                                   </mat-form-field>
+                                  <mat-error
+                                  *ngIf="!registerForm.get('dob').valid && registerForm.get('dob').touched && registerForm.get('dob').errors['required']">
+                                  Please enter date of birth</mat-error>
                             </div>
                             <div class="submit-button">
                                 <button  mat-flat-button color="primary" type="submit" [disabled]="!registerForm.valid">Register</button>

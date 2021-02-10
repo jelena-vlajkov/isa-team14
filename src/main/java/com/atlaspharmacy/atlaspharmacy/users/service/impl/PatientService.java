@@ -60,6 +60,7 @@ public class PatientService implements IPatientService {
     public Patient save(Patient patient){
         return userRepository.save(patient);
     }
+
     @Override
     public Patient registerPatient(PatientDTO patientDTO) throws InvalidEmail, IOException, MessagingException {
         if(userRepository.findByEmail(patientDTO.getEmail())==null){

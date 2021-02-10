@@ -10,6 +10,7 @@ import { GooglePlacesComponent } from '@app/google-places/google-places.componen
 import { Role } from '@app/model/users';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-register-supplier',
@@ -31,7 +32,7 @@ export class RegisterSupplierComponent implements OnInit {
   @ViewChild(GooglePlacesComponent) googleplaces;
   firmName: String;
 
-  constructor(private supplierService : SupplierService, private router : Router) { }
+  constructor(private authenticationService : AuthenticationService , private supplierService : SupplierService, private router : Router) { }
 
   ngOnInit(): void {
 
@@ -90,6 +91,8 @@ export class RegisterSupplierComponent implements OnInit {
 
   adminLogout(){
     
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 
 }
