@@ -25,27 +25,16 @@ export class RegisterPharmacyComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerPharmacy = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ0 ]*[0-9]*$")]),
       'description' : new FormControl(null, Validators.required)
     });
-    // this.addAdminForm = new FormGroup({
-    //   'name' : new FormControl(null, Validators.required),
-    //   'surname' : new FormControl(null, Validators.required),
-    //   'gender': new FormControl(null, Validators.required),
-    //   'dob' : new FormControl(null, Validators.required),
-    //   'telephone' : new FormControl(null, Validators.required),
-    //   'mail' : new FormControl(null, Validators.required),
-    //   'newpassword' : new FormControl(null, Validators.required),
-    //   'confirmpassword' : new FormControl(null, Validators.required),
-    //   'pharmacy' : new FormControl(null, Validators.required)
-    // });
   }
   addPharmacy(){
     this.pharmacy_description = this.registerPharmacy.value.description;
     this.pharmacy_name = this.registerPharmacy.value.name;
     
-    if(this.googleplaces==undefined){
-      alert("Please fill address.");
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
     }else{
       this.pharmacy_location = this.googleplaces.address;
       this.pharmacy_location_input = this.googleplaces.autocompleteInput;
