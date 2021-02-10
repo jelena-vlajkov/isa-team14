@@ -22,6 +22,9 @@ export class AddAdminComponent implements OnInit {
   gender : Gender;
   selectedGender;
 
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
+  
   address : Address;
   phone:String;
   mail:String;
@@ -41,14 +44,18 @@ export class AddAdminComponent implements OnInit {
   constructor(private router: Router, private sysAdminRegistration : SysadminRegistrationService,private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.maxDateOfBirth = new Date();
+    this.minDateOfBirth = new Date();
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
+
     this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'gender': new FormControl(null, Validators.required),
-      'password': new FormControl(null, Validators.required),
-      'confirmpassword': new FormControl(null, Validators.required),
+      'password': new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword': new FormControl(null, [Validators.required,Validators.minLength(8)]),
       'dob' : new FormControl(null, Validators.required)
     });
   }
