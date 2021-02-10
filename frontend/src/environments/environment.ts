@@ -59,6 +59,8 @@ export const environment = {
   isSubscribed : "isSubscribed",
   getAllUsers : "getAllUsers",
   remove: "remove",
-  getSubscribed : "getSubscribed"
+  getSubscribed : "getSubscribed",
+  getByStatus: "getByStatus",
+  getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier"
 };
 

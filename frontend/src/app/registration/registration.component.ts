@@ -6,6 +6,7 @@ import { RegistrationService } from '../service/registration/registration.servic
 import { Patient } from '../model/users/patient/patient';
 import { Gender } from '../model/users/patient/gender';
 import { Role } from '../model/users/role';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -39,7 +40,7 @@ export class RegistrationComponent implements OnInit {
   
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private registrationService : RegistrationService) { }
+  constructor(private router: Router, private registrationService : RegistrationService) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -84,6 +85,7 @@ export class RegistrationComponent implements OnInit {
             this.registerForm.reset();
             this.googleplaces = null;
             alert('Success');
+            this.router.navigate(['/login']);
           },
           error=>{
             alert("Fail")

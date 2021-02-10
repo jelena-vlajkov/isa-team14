@@ -36,6 +36,15 @@ public class OfferController {
         return offerService.getOffersBySupplier(id);
     }
 
+    @GetMapping(value = "/getByStatus", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SupplierAuthorization
+    public @ResponseBody
+    List<OfferDTO> getAllOffersBySuppllier(@RequestParam("id") Long id, @RequestParam("status") Long status){
+        return offerService.getUsersOffersByStatus(status, id);
+    }
+
+
+
     @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @SupplierAuthorization
     public ResponseEntity<?> updateOffer(@RequestBody OfferDTO offerDTO){

@@ -81,25 +81,23 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   name: string;
 
   constructor(public pricelistService :PricelistService, public ingredientService:IngredientService, public dialog: MatDialog, private pharmacyService:PharmacyService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, public medicationService : MedicationService, private auth : AuthenticationService) { 
-    this.showinfo=false;
-    if(this.isSupplier()){
-      this.router.navigate(['/supplier']);
-    }
+
   }
 
 
   ngOnInit(): void {
     this.getAllMedications();
     this.drugTypes = this.ToArray(DrugType);
-
+    this.showinfo=false;
+    if(this.isSupplier()){
+      this.router.navigate(['/supplier']);
+    }
     try{
       if(this.isPatient()){
           this.loadPatient();
         }else if (this.isAdmin()){
           this.loadAdmin();
-        }else if(this.isSupplier()){
-          this.loadSupplier();
-        }    
+        }   
       
     }catch(error){
       console.log('UPUCACU SE VISE AAAAAAAA');

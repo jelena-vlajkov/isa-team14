@@ -273,8 +273,9 @@ insert into orderedmedication(id, medication_id, quantity, order_id) VALUES (220
 
 
 insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (100,'2021-02-23 12:00:00', 0, 9000, 8126302 ,200, 991);
-insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (101,'2021-02-22 12:00:00', 0, 6000,8126303 ,300, 990);
 insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (102, '2021-02-19 12:00:00', 0, 3800,8126304 ,700, 991);
+
+insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (101,'2021-02-22 12:00:00', 0, 6000,8126303 ,300, 990);
 insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (103, '2021-02-26 12:00:00', 0, 3230,8126305 ,800, 990);
 insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (104, '2021-02-19 12:00:00', 0, 3800,8126304 ,400, 990);
 insert into offers(id, due_delivery, offer_status, price, uniqueidentifier, order_id, supplier_id) VALUES (105, '2021-02-26 12:00:00', 0, 3230,8126305 ,500, 990);

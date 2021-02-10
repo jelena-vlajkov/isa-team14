@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.SupplierAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
@@ -50,4 +51,12 @@ public class OrderController {
     List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(@RequestParam("id") int id){
         return orderService.getOrderedMedicationByIdentifier(id);
     }
+
+    @GetMapping(value = "/getAllOrdersWehereOfferIsNotGivenBySupplier", produces = MediaType.APPLICATION_JSON_VALUE)
+    @SupplierAuthorization
+    public @ResponseBody
+    List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(@RequestParam("id") Long id){
+        return orderService.getAllOrdersWehereOfferIsNotGivenBySupplier(id);
+    }
+
 }

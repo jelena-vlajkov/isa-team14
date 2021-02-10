@@ -23,7 +23,7 @@ export class SupplierAllOffersComponent implements OnInit {
   public selectedDate : Date;
   public today :Date;
   public displayedColumns: string[] = ['id', 'name', 'price', 'offerStatus'];
-  public dataSource = new MatTableDataSource<Offer>();
+  public dataSource;
 
   constructor(private offerService: OffersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
 
@@ -54,6 +54,17 @@ export class SupplierAllOffersComponent implements OnInit {
         });
 
   }
+
+  getBasedOnStatus(event){
+    if(event.value==3){
+      this.dataSource=this.offers;
+    }else{
+      this.offerService.findByStatus(event.value, Number(localStorage.getItem('userId'))).subscribe(data =>
+        {
+          this.dataSource = data;
+        });
+  }
+}
   routeToEditOffers(){
     this.router.navigate(['/supplier/offers']);
   }
