@@ -89,6 +89,12 @@ public class PharmacyController {
     PharmacyDTO getById(@RequestParam("id") Long id) throws ParseException {
         return PharmacyMapper.mapPharmacyToDTO(pharmacyService.getById(id));
     }
+    @GetMapping(value = "/getSubscribed", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<PharmacyDTO> getSubscribed(@RequestParam("id") Long id) throws ParseException {
+        return pharmacyService.getSubscribed(id);
+    }
 
     @ExceptionHandler(InvalidPharmacyData.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

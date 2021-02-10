@@ -52,4 +52,7 @@ export class PharmacyService {
   getAllUsersSubscriptions(userId:Number) : Observable<Subscription[]>{
     return this.http.get<Subscription[]>(`${environment.baseUrl}/${environment.subscribe}/${environment.getAllUsers}?userId=${userId}`);
   }
+  getSubscribed(id : Number) :Observable<Pharmacy[]>{
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getSubscribed}?id=${id}`);
+  }
 }

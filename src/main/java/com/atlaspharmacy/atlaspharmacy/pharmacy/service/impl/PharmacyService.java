@@ -3,9 +3,11 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
-import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.EPrescriptionService;
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Subscription;
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.ISubscriptionService;
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.impl.SubscriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
@@ -32,14 +34,16 @@ public class PharmacyService implements IPharmacyService {
     private final EPrescriptionService ePrescriptionService;
     private final DrugReservationService drugReservationService;
     private final PharmacyStorageService pharmacyStorageService;
+    private final ISubscriptionService subscriptionService;
     @Autowired
-    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService, PharmacyStorageService pharmacyStorageService) {
+    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService, PharmacyStorageService pharmacyStorageService, SubscriptionService subscriptionService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
         this.appointmentService = appointmentService;
         this.ePrescriptionService = ePrescriptionService;
         this.drugReservationService = drugReservationService;
         this.pharmacyStorageService = pharmacyStorageService;
+        this.subscriptionService = subscriptionService;
     }
 
     @Override
@@ -86,6 +90,18 @@ public class PharmacyService implements IPharmacyService {
         }
 
         return pharmaciesContainingMedication;
+    }
+
+    @Override
+    public List<PharmacyDTO> getSubscribed(Long id) {
+        List<PharmacyDTO> pharmacies = new ArrayList<>();
+
+        for(Subscription s : subscriptionService.getAllUsersSubscriptions(id)){
+            if(s.getPatient().getId().equals(id)){
+                pharmacies.add(PharmacyMapper.mapPharmacyToDTO(pharmacyRepository.getById(s.getPharmacy().getId()).get()));
+            }
+        }
+        return pharmacies;
     }
 
     @Override
