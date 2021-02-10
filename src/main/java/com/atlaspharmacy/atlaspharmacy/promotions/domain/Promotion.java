@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.promotions.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 
 import javax.persistence.*;
@@ -19,6 +20,9 @@ public class Promotion {
             @AttributeOverride( name = "endTime", column = @Column(name = "promotionEndTime"))
     })
     private Period activePeriod;
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private Pharmacy pharmacy;
 
     public Long getId() {
         return id;
@@ -46,9 +50,18 @@ public class Promotion {
 
     public Promotion(){}
 
-    public Promotion(Long id, String description, Period activePeriod) {
+    public Promotion(Long id, String description, Period activePeriod, Pharmacy pharmacy) {
         this.id = id;
         this.description = description;
         this.activePeriod = activePeriod;
+        this.pharmacy = pharmacy;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 }

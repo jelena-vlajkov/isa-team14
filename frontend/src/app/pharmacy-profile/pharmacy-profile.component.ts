@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {AuthenticatedUser} from "../model/users/authenticatedUser";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
-import {Role} from "@app/model/users";
 import {Address} from "@app/model/address/address";
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -11,7 +12,6 @@ import {Address} from "@app/model/address/address";
   styleUrls: ['./pharmacy-profile.component.css']
 })
 export class PharmacyProfileComponent implements OnInit {
-
   name:String;
   address:String;
   grade:Number;
@@ -24,7 +24,9 @@ export class PharmacyProfileComponent implements OnInit {
 
   editProfileForm: FormGroup;
 
-  constructor(private pharmacyAdminService:PharmacyAdminService) { }
+  constructor(private pharmacyAdminService:PharmacyAdminService, private activatedRoute : ActivatedRoute) { 
+
+  }
 
   ngOnInit(): void {
     this.currentUserId=localStorage.getItem('userId');

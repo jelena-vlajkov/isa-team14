@@ -43,6 +43,7 @@ public class SystemAdminController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getById(@RequestParam("id") Long id) throws Exception {
         return new ResponseEntity<>(systemAdminService.getById(id), HttpStatus.OK);

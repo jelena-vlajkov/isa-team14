@@ -8,7 +8,10 @@
           <button mat-list-item routerLink='/searchMedications' style="color: white;"> Search medications</button>
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
         </mat-action-list>
-  
+        <mat-action-list *ngIf="isPatient()">
+            <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+            <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+          </mat-action-list>
         <mat-action-list *ngIf="!isSupplier() && !isAdmin() && !isPatient()">
           <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
           <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
@@ -62,7 +65,8 @@
                     <th>Name</th>
                     <th>Address</th>
                     <th mat-sort-header="grade">Grade</th>
-                
+                    <th>Profile</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -70,7 +74,8 @@
                     <td>{{p.name}}</td>
                     <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
                     <td>{{p.average_grade}}</td>
-                    
+                    <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="routeToPharmacyProfileMock(p)">Show</button></td>
+
                 </tr>
                 
                 <tbody>

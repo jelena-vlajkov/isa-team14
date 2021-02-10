@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Medication } from '@app/model/medications/medication';
+import { Subscription } from '@app/model/membershipinfo/subscription';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { environment } from '@environments/environment';
@@ -38,4 +39,17 @@ export class PharmacyService {
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getByMedication}?code=${code}`);
   }
   
+  getPharmacyById(id:Number) : Observable<Pharmacy>{
+    return this.http.get<Pharmacy>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getById}?id=${id}`);
+  }
+
+  subscribe(data : Subscription){
+    return this.http.post(`${environment.baseUrl}/${environment.subscribe}/${environment.add}`,data, {responseType : 'text'});
+  }
+  unsubscribe(data :Subscription){
+    return this.http.post(`${environment.baseUrl}/${environment.subscribe}/${environment.remove}`,data, {responseType : 'text'});
+  }
+  getAllUsersSubscriptions(userId:Number) : Observable<Subscription[]>{
+    return this.http.get<Subscription[]>(`${environment.baseUrl}/${environment.subscribe}/${environment.getAllUsers}?userId=${userId}`);
+  }
 }
