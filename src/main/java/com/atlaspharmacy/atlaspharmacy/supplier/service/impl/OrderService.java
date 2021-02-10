@@ -87,35 +87,6 @@ public class OrderService implements IOrderService {
         return null;
     }
 
-//    @Override
-//    public List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id) {
-//        List<Offer> offers = offerRepository.findAll();
-//        List<Offer> suppliersOffers = new ArrayList<>();
-//
-//        for(Offer o : offers){
-//            if(o.getSupplier().getId().equals(id)){
-//                suppliersOffers.add(o);
-//            }
-//        }
-//
-//        List<OrderDTO> dtos = new ArrayList<>();
-//        for(Offer o : suppliersOffers){
-//            if(!offerPlaced(o)){
-//                dtos.add(OrderMapper.mapOrderToDTO(orderRepository.findById(o.getOrder().getId()).get()));
-//            }
-//        }
-//
-//
-//        return dtos;
-//    }
-//    private boolean offerPlaced(Offer o){
-//        for(OrderDTO dto : getAllunfinishedOrders()){
-//            if(o.getOrder().getUniqueidentifier()==dto.getUniqueidentifier()){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     @Override
     public List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id) {
@@ -141,34 +112,6 @@ public class OrderService implements IOrderService {
         return notPlacedOffers;
     }
 
-
-//    @Override
-//    public List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id) {
-//        List<Offer> offers = offerRepository.findAll();
-//        List<OfferDTO> suppliersOffers = new ArrayList<>();
-//        for(Offer o : offers){
-//            if(o.getSupplier().getId().equals(id)){
-//                suppliersOffers.add(OfferMapper.mapOfferToDTO(o));
-//            }
-//        }
-//
-//        List<OrderDTO> suppliersNotGivenOffer = new ArrayList<>();
-//        for(OfferDTO offerDTO : suppliersOffers){
-//            if(!checkOrderInList(offerDTO.getOrder().getId())){
-//                suppliersNotGivenOffer.add(offerDTO.getOrder());
-//            }
-//        }
-//        return suppliersNotGivenOffer;
-//    }
-
-    public boolean checkOrderInList(Long id){
-        for(OrderDTO o : getAllunfinishedOrders()){
-            if(o.getId().equals(id)){
-                return true;
-            }
-        }
-        return false;
-    }
 
     @Override
     public List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(int id) {
