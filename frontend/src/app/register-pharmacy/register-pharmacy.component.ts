@@ -25,7 +25,7 @@ export class RegisterPharmacyComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerPharmacy = new FormGroup({
-      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ0 ]*[0-9]*$")]),
+      'name' : new FormControl(null, Validators.required),
       'description' : new FormControl(null, Validators.required)
     });
   }

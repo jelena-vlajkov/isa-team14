@@ -51,9 +51,6 @@
                               *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
                               Please enter pharmacy name</mat-error>
 
-                              <mat-error
-                              *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['pattern']">
-                              Please enter pharmacy name in correct format</mat-error>
                       </mat-form-field>
                   </div>
                   </mat-grid-tile>
