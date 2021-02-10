@@ -81,7 +81,7 @@ export class AdminComplaintsComponent implements OnInit {
         this.loadUnanswered();
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }
@@ -94,7 +94,7 @@ export class AdminComplaintsComponent implements OnInit {
         this.loadUnanswered();
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }
@@ -107,7 +107,7 @@ export class AdminComplaintsComponent implements OnInit {
         
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }
