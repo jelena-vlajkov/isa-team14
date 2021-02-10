@@ -22,11 +22,12 @@ public class MedicationDTO {
     private Long code;
     private List<IngredientDTO> ingredients;
     private Double grade;
+    private Long dosage;
     public MedicationDTO() {
 
     }
 
-    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade, Long dosage) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -39,6 +40,15 @@ public class MedicationDTO {
         this.drugKind = drugKind;
         this.code = code;
         this.grade = grade;
+        this.dosage = dosage;
+    }
+
+    public Long getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(Long dosage) {
+        this.dosage = dosage;
     }
 
     public Double getGrade() {

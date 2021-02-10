@@ -16,13 +16,8 @@ public class IngredientMapper {
         public  static IngredientDTO convertToIngredientDto(Ingredient ingredient){
             IngredientDTO ingredientDTO = new IngredientDTO(
                     ingredient.getId(),
-                    ingredient.getName()
-            );
-
-            ingredientDTO.setAllergies(new ArrayList<>());
-            for (Allergy a : ingredient.getAllergies()){
-                ingredientDTO.getAllergies().add(a.getId());
-            }
+                    ingredient.getName());
+            ingredientDTO.setAllergies(AllergyMapper.convertToDTOS(ingredient.getAllergies()));
 
             return  ingredientDTO;
 
@@ -31,6 +26,7 @@ public class IngredientMapper {
     public static void convertToIngredient(Ingredient m, IngredientDTO mdto) {
         m.setId(mdto.getId());
         m.setName(mdto.getName());
+        m.setAllergies(AllergyMapper.convertToList(mdto.getAllergies()));
     }
 
 

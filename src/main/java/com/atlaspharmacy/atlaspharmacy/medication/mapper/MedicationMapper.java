@@ -1,8 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.mapper;
 
-import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 
 import java.util.ArrayList;
@@ -25,7 +23,8 @@ public class MedicationMapper {
                     m.getDailyDose(),
                     m.getDrugKind(),
                     m.getCode(),
-                    m.getGrade());
+                    m.getGrade(),
+                    m.getDosage());
             medicationDTO.setSubstituteMedication(new ArrayList<>());
             medicationDTO.setIngredients(IngredientMapper.convertToDTOS(m.getIngredients()));
             return medicationDTO;
@@ -44,7 +43,7 @@ public class MedicationMapper {
                     m.getDailyDose(),
                     m.getDrugKind(),
                     m.getCode(),
-                    m.getGrade());
+                    m.getGrade(), m.getDosage());
             medicationDTO.setSubstituteMedication(new ArrayList<>());
 
             for(Medication med: m.getSubstituteMedication()){
@@ -74,6 +73,7 @@ public class MedicationMapper {
             m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
             m.setCode(mdto.getCode());
             m.setGrade(mdto.getGrade());
+            m.setDosage(mdto.getDosage());
             return m;
         }
 
