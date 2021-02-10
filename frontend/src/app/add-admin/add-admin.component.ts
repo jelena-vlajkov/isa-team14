@@ -67,32 +67,41 @@ export class AddAdminComponent implements OnInit {
     this.mail = this.addAdminForm.value.mail;
     this.password = this.addAdminForm.value.password;
     this.confirmpassword = this.addAdminForm.value.confirmpassword;
-    this.address = this.googleplaces.address;
+    // this.address = this.googleplaces.address;
     this.gender = this.selectedGender;
     this.dateOfBirth = this.selectedDate;
     var role : Role;
     role = Role.SysAdmin
     var auths : Number[] = new Array();
     console.log(this.password);
-    this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
-    console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
+    console.log(this.googleplaces.address === undefined );
+    if(this.googleplaces.address===undefined)
+    {
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
 
-    if(this.passwordValid()){
-      this.sysAdminRegistration.registerSysAdmin(this.sysAdmin).subscribe(
-        res=>{
-          this.addAdminForm.reset();
-          this.googleplaces = null;
-          alert('Success');
-          this.router.navigate(['/admin']);
-
-        },
-        error=>{
-          alert("Fail")
-        }
-      )
     }else{
-      alert('Passwords do not match');
+      this.address = this.googleplaces.address;
+      this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
+      console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
+  
+      if(this.passwordValid()){
+        this.sysAdminRegistration.registerSysAdmin(this.sysAdmin).subscribe(
+          res=>{
+            this.addAdminForm.reset();
+            this.googleplaces = null;
+            alert('Success');
+            this.router.navigate(['/admin']);
+  
+          },
+          error=>{
+            alert("Failed - email address already in use! Please enter new one!");
+          }
+        )
+      }else{
+        alert('Passwords do not match');
+      }
     }
+    
 
   }
   passwordValid(){
