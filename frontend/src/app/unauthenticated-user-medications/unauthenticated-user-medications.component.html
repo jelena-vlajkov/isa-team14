@@ -17,7 +17,9 @@
       <mat-action-list *ngIf="isPatient()">
         <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
         <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
-      </mat-action-list>
+        <button mat-list-item  routerLink="/userProfile" style="color: white;"> <mat-icon>face</mat-icon>Profile</button>
+  
+    </mat-action-list>
 
       <mat-action-list *ngIf="!isSupplier() && !isAdmin() && !isPatient()">
         <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>

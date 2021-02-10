@@ -69,6 +69,7 @@ import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.co
 import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
+import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-p
     AdminComplaintsComponent,
     SupplierAllOffersComponent,
     SupplierStorageComponent,
-    PharmacyProfileMockComponent
+    PharmacyProfileMockComponent,
+    PatientSubscriptionsComponent
 
   ],
   imports: [

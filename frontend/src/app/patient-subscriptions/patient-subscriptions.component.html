@@ -1,0 +1,67 @@
+      <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+        <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+           <mat-action-list>
+            <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+  
+            <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+    
+          </mat-action-list>
+          <mat-action-list style="position: absolute; bottom: 1px;">
+                  <button style="color: white;" mat-list-item (click)="logout()"> Logout</button>
+    
+          </mat-action-list>
+        </mat-drawer>
+            <mat-drawer-content>
+              <mat-toolbar color="primary">
+                <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                  <mat-icon>menu</mat-icon>
+                </button>
+                <span>Patients profile</span>
+                <span class="example-spacer"></span>
+              </mat-toolbar>
+        <div style="height: 100%; width: 100%;">
+            <mat-card>
+                <mat-card-title style="margin-left: 40%;">
+                    Patients subscriptions
+                  </mat-card-title>
+                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style=" width: 100%; margin-right: 10px;">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> Pharmacy </th>
+                        <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                          <p>{{element.name}}</p>                 
+                      </td>
+                      </ng-container>
+                    
+                      <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef> Address </th>
+                        <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                          <p>{{element.address.street}}, {{element.address.city.name}}, {{element.address.state.name}}</p>                 
+                      </td>
+                      </ng-container>
+                      <ng-container matColumnDef="grade">
+                        <th mat-header-cell *matHeaderCellDef> Rating </th>
+                        <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                          <p>{{element.average_grade}}</p>                 
+                      </td>
+                      </ng-container>
+                      <ng-container matColumnDef="unsubscribe">
+                        <th mat-header-cell *matHeaderCellDef> Unsubscribe </th>
+                        <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                            <button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="unsubscribe(element)">Unsubscribe</button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                
+              </table> 
+            </mat-card>
+        </div>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+

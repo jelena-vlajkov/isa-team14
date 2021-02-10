@@ -37,6 +37,7 @@ import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.co
 import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
+import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 
 const routes: Routes = [  
 {
@@ -102,6 +103,12 @@ const routes: Routes = [
 },{
   path : 'pharmacyProfileMock',
   component : PharmacyProfileMockComponent
+},
+{
+  path: 'patientsSubscriptions',
+  component : PatientSubscriptionsComponent,
+  canActivate : [AuthGuard],
+  data:{role:[Role.Patient]}
 }
 ,
 {

@@ -11,6 +11,9 @@ import {Ingredient} from '../model/medications/ingredient';
 import {IngredientService} from '../service/medication/ingredients.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/service/user';
+import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
+import { Subscription } from '@app/model/membershipinfo/subscription';
+import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 
 
 @Component({
@@ -48,6 +51,7 @@ export class UserProfileComponent implements OnInit {
     @ViewChild(GooglePlacesComponent) googleplaces;
     public allIngredients: Ingredient[] = new Array();
     ingredientSelected: string;
+    public subscribedPharmacies : Pharmacy[];
     allergies = new FormControl();
 
 
@@ -55,7 +59,9 @@ export class UserProfileComponent implements OnInit {
     selectedAllergies;
 
   public patient : Patient;
-  constructor(private authenticationService: AuthenticationService, private patientService : PatientService, private _location: Location, private ingredientService : IngredientService, private router : Router) { }
+  public usersSubs : Subscription[];
+  public subscription : Subscription;
+  constructor(private pharmacyService: PharmacyService,private authenticationService: AuthenticationService, private patientService : PatientService, private _location: Location, private ingredientService : IngredientService, private router : Router) { }
 
   ngOnInit(): void {
     
@@ -65,25 +71,9 @@ export class UserProfileComponent implements OnInit {
     this.loyaltyForm = new FormGroup({});
     this.points = "28";
     this.categoryProgram = "Gold";
-    /*
-    this.password1 = 
-    this.password2 = "";
-
-    this.name = "Stefan";
-    this.surname = "Stefan";
-    this.selectedGender = "Male";
-    this.address = "Cara Dusana 77, Novi Sad, Srbija";
-    this.phone = "064";
-    this.mail = "stefolino@uns.ac.rs";
-    this.dob = new Date("1998-01-16");
-    this.editDate = new FormControl(this.dob.toISOString());
-    this.dateString = this.dob.toLocaleDateString();
-  
-    */
-    //this.patient = this.patientService.getPatientById();
 
     this.loadPatient();
-      
+    // this.loadUsersSubscriptions();
   }
   logout(){
     this.authenticationService.logout();
@@ -104,7 +94,13 @@ export class UserProfileComponent implements OnInit {
     }
     
   }
-
+  loadUsersSubscriptions(){
+    this.pharmacyService.getAllUsersSubscriptions(Number(localStorage.getItem('userId'))).subscribe(data =>
+      {
+        this.usersSubs = data;
+        console.log(this.usersSubs);
+      });
+  }
 
   loadIngredients(){
     this.ingredientService.findAllIngredients().subscribe(data =>
@@ -114,6 +110,25 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
+  loadSubscribedPharmacies(){
+    this.pharmacyService.getSubscribed(Number(localStorage.getItem('userId'))).subscribe(data =>
+      {
+        this.subscribedPharmacies = data;
+        console.log(this.subscribedPharmacies);
+      });
+  }
+  unsubscribe(pharmacy){
+    this.subscription = new Subscription(this.patient, pharmacy);
+    this.pharmacyService.unsubscribe(this.subscription).subscribe(
+      res=>{
+        alert('Succesfully unsubscribed');
+      },
+      error=>{
+        alert("Fail");
+      });
+      this.loadSubscribedPharmacies();
+      
+  }
   loyaltyClick(){
     this.loyalty = true;
     this.profile= false;

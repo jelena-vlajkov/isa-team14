@@ -22,7 +22,6 @@ export class PharmacyProfileMockComponent implements OnInit {
   public isSubscribed : boolean = false;
   public id : Number;
   constructor(private patientService:PatientService,private router: Router, private location:Location, private pharmacyService : PharmacyService) {
-    try{
       if(localStorage.getItem('userId')===null){
         this.isloggedIn = false;
       }else{
@@ -35,14 +34,7 @@ export class PharmacyProfileMockComponent implements OnInit {
           this.loadPatient();
           this.loadPharmacy();
           this.loadUsersSubscriptions();
-            
-
-          
       }
-
-    }catch(error){
-
-    }
 
    }
 
@@ -95,7 +87,7 @@ export class PharmacyProfileMockComponent implements OnInit {
       error=>{
         alert("Fail");
       });
-
+      this.loadUsersSubscriptions();
       
   }
   subscribeToActions(){
