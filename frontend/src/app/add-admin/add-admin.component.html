@@ -44,7 +44,7 @@
                             Please enter name</mat-error>
                           <mat-error
                             *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['pattern']">
-                            Please enter name in correct</mat-error>
+                            Please enter name in correct format</mat-error>
                     </mat-form-field>
                 </div>                  
               </mat-grid-tile>
@@ -61,7 +61,7 @@
                       Please enter surname</mat-error>
                     <mat-error
                       *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['pattern']">
-                      Please enter surname in correct</mat-error>
+                      Please enter surname in correct format</mat-error>
                   </mat-form-field>
               </div>             
               </mat-grid-tile>

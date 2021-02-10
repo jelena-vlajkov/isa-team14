@@ -120,7 +120,5 @@ export class AddAdminComponent implements OnInit {
     this.router.navigate(['/admin']);
 
   }
-  respondToComplaints(){
 
-  }
 }
