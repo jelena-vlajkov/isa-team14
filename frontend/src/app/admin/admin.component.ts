@@ -215,10 +215,8 @@ export class AdminComponent implements OnInit {
     var dob = this.editProfileForm.controls.dob.value;
     var mail = this.sysAdmin.sysEmail;
     console.log(this.address1);
-    console.log(this.googleplaces===null);
-    
-    console.log(this.address1);
-    var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
+    if(this.googleplaces.address ===undefined){
+      var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
     console.log(editedAdmin);
     this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
       res=>{
@@ -234,6 +232,27 @@ export class AdminComponent implements OnInit {
         alert("Fail")
       }
     )
+    }else{
+      this.address1 = this.googleplaces.address;
+      var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
+    console.log(editedAdmin);
+    this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
+      res=>{
+        alert('Success');
+        this.profile = true; 
+        this.edit = false;
+        this.changePassword = false;
+        this.loadSystemAdmin();
+        this.home = false;
+
+      },
+      error=>{
+        alert("Fail")
+      }
+    )
+    }
+    
+    
   }
   routeToDrugReg(){
     this.firstTimeChanged = this.sysAdmin.firstTimeChanged;
