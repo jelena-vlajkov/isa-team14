@@ -43,17 +43,10 @@ public class IngredientController {
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     @MedicationAuthorization
     public ResponseEntity<?> addIngredient(@RequestBody IngredientDTO ingredientDTO){
-//        try {
            if( _ingredientService.saveIngredient(ingredientDTO)!=null){
                return new ResponseEntity<>(HttpStatus.OK);
 
            }
            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-
     }
 }

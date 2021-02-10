@@ -42,6 +42,7 @@ public class AuthenticationController {
     private UserService userService;
     @Autowired
     private PatientService patientService;
+    
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,

@@ -42,6 +42,7 @@ VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pe
 insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
 insert into pharmacies(id, average_grade, description, name, address_id) VALUES (200, 5.0,'ldkjdljf','ZEGIN',200);
 insert into pharmacies(id, average_grade, description, name, address_id) VALUES (300, 5.0,'ldkjdljf','APOTEKA BENU',300);
+insert into pharmacies(id, average_grade, description, name, address_id) VALUES (400, 5.0,'ldkjdljf','APOTEKA LAURUS',300);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 insert into medicalstaff(license_number, id) values ('16657568',100);

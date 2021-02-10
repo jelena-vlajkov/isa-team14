@@ -62,6 +62,7 @@ export class SupplierOrdersComponent implements OnInit {
     })
 
   }
+
   hashCode(str) {
     var hash = 0, i, chr;
     for (i = 0; i < str.length; i++) {
