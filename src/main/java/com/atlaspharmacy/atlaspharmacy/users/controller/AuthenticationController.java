@@ -65,6 +65,21 @@ public class AuthenticationController {
 
                 return new ResponseEntity<>(authenticatedUserDTO, HttpStatus.OK);
             }
+        }else{
+            Authentication authentication = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+                            authenticationRequest.getPassword()));
+
+            SecurityContext ctx = SecurityContextHolder.createEmptyContext();
+            SecurityContextHolder.setContext(ctx);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            User user = (User) authentication.getPrincipal();
+            String jwt = tokenUtils.generateToken(user.getUsername());
+            int expiresIn = tokenUtils.getExpiredIn();
+            authenticatedUserDTO = new AuthenticatedUserDTO(user.getId(), user.getRole(), user.getUsername(), new UserTokenState(jwt, expiresIn), user.isFirstTimePassword());
+
+            return new ResponseEntity<>(authenticatedUserDTO, HttpStatus.OK);
         }
         return new ResponseEntity<>(authenticatedUserDTO, HttpStatus.BAD_REQUEST);
     }
