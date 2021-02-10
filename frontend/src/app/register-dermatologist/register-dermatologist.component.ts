@@ -29,7 +29,7 @@ export class RegisterDermatologistComponent implements OnInit {
   addAdminForm : FormGroup;
   selectedGender;
 
-  displayedColumns: string[] = ['id', 'name', 'average_grade', 'address', 'pick'];
+  displayedColumns: string[] = ['name', 'average_grade', 'address', 'pick'];
   address : Address;
   name : string;
   surname : string;
@@ -40,6 +40,10 @@ export class RegisterDermatologistComponent implements OnInit {
   gender : Gender;
   selectedDate;
   dateOfBirth : Date;
+
+
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
 
   admin_location : Address;
   admin_location_input: String;
@@ -54,15 +58,18 @@ export class RegisterDermatologistComponent implements OnInit {
 
   ngOnInit(): void {
     this.addDermatologist = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'gender': new FormControl(null, Validators.required),
       'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'password' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required)
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'password' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
         });
+        this.maxDateOfBirth = new Date();
+        this.minDateOfBirth = new Date();
+        this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.loadAllPharmacies();
   }
 
@@ -82,8 +89,8 @@ export class RegisterDermatologistComponent implements OnInit {
     this.email = this.addDermatologist.value.mail;
     this.password = this.addDermatologist.value.password;
     this.confirmPassword = this.addDermatologist.value.confirmpassword;
-    if(this.googleplaces===undefined){
-      alert("Please fill the address!");
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
     }else{
       this.address = this.googleplaces.address;
       this.gender = this.selectedGender;

@@ -49,8 +49,8 @@ export class AddAdminComponent implements OnInit {
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
 
     this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'mail' : new FormControl(null, [Validators.required, Validators.email]),
       'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'gender': new FormControl(null, Validators.required),

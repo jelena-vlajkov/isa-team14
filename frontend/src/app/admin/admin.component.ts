@@ -198,8 +198,8 @@ export class AdminComponent implements OnInit {
     this.changePassword = false;
     console.log(this.sysAdmin.sysAddress);
     this.editProfileForm = new FormGroup({
-      'name' : new FormControl(this.name, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'surname' : new FormControl(this.surname, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'name' : new FormControl(this.name, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(this.surname, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'telephone' : new FormControl(this.phone, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'gender': new FormControl(this.selectedGender, Validators.required),
       'dob' : new FormControl(this.dob, Validators.required)

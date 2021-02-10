@@ -89,7 +89,7 @@ export class AdminRegisterDrugComponent implements OnInit {
       'daily' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'contra' : new FormControl(null, Validators.required),
       'notes' : new FormControl(null, Validators.required),
-      'producer' : new FormControl(null, [Validators.required, Validators.pattern("^[A-ZŠĐŽČĆ][a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'producer' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'dosage' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
 
     });
