@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { PatientService } from '@app/service/patient/patient.service';
 import { Patient } from '@app/model/users/patient/patient';
 import { Subscription } from '@app/model/membershipinfo/subscription';
+import { AuthenticationService } from '@app/service/user';
+import { Role } from '@app/model/users';
 
 @Component({
   selector: 'app-pharmacy-profile-mock',
@@ -21,10 +23,16 @@ export class PharmacyProfileMockComponent implements OnInit {
   public isloggedIn : boolean;
   public isSubscribed : boolean = false;
   public id : Number;
-  constructor(private patientService:PatientService,private router: Router, private location:Location, private pharmacyService : PharmacyService) {
+  constructor(private patientService:PatientService,private router: Router, private location:Location, private pharmacyService : PharmacyService,private auth : AuthenticationService) {
       if(localStorage.getItem('userId')===null){
         this.isloggedIn = false;
       }else{
+        if(this.isSupplier()){
+          this.router.navigate(['/supplier']);
+        }
+        if(this.isAdmin()){
+          this.router.navigate(['/admin']);
+        }
         this.isloggedIn = true;
 
           localStorage.removeItem('currentPharmacy');
@@ -38,6 +46,15 @@ export class PharmacyProfileMockComponent implements OnInit {
 
    }
 
+   isPatient() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Patient;
+  }
+  isAdmin() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.SysAdmin;
+  }
+  isSupplier() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Supplier;
+  }
   ngOnInit(): void {
     // this.id = history.state.id;
  
