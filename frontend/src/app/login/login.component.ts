@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      'username' : new FormControl(null, Validators.required),
+      'username' : new FormControl(null, [Validators.required, Validators.email]),
       'password' : new FormControl(null, Validators.required)
     });
     this.registerForm = new FormGroup({});
@@ -71,6 +71,11 @@ export class LoginComponent implements OnInit {
         else if(result.role == Role.Supplier){
          this.router.navigate(['/supplier']);
         }
+      },
+      error=>{
+        alert("Wrong username or password")
+        this.router.navigate(['/login']);
+
       });
   }
 

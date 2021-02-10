@@ -42,6 +42,9 @@
             <mat-error
               *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['required']">
               Please enter email</mat-error>
+              <mat-error
+              *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched && loginForm.get('username').errors['email']">
+              Please enter email</mat-error>
           </mat-form-field>
         </div>
         <div>
