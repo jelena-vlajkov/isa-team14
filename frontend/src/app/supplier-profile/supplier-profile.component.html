@@ -7,6 +7,8 @@
         <button mat-list-item (click)="routeToAllOffers()" style="color: white;"> All offers</button>
         <button mat-list-item (click)="routeToOffers()" style="color: white;"> Edit offers</button>
         <button mat-list-item (click)="routeToPharms()" style="color: white;"> Search pharmacies</button>
+        <button mat-list-item (click)="routetToStorage()" style="color: white;"> Search pharmacies</button>
+
 
 
       </mat-action-list>
@@ -171,6 +173,9 @@
                             <mat-error
                                 *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
                                 Please enter name</mat-error>
+                                <mat-error
+                                *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['pattern']">
+                                Please enter name in correct form</mat-error>
                         </mat-form-field>
                     </div>                  
                   </mat-grid-tile>
@@ -186,6 +191,9 @@
                             <mat-error
                                 *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
                                 Please enter surname</mat-error>
+                                <mat-error
+                                *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['pattern']">
+                                Please enter surname in correct form</mat-error>
                         </mat-form-field>
                     </div>             
                   </mat-grid-tile>
@@ -201,6 +209,9 @@
                         <mat-error
                             *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
                             Please enter telephone</mat-error>
+                            <mat-error
+                            *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['pattern']">
+                            Please enter telephone in correct form</mat-error>
                     </mat-form-field>
                     </mat-grid-tile>
       
@@ -232,7 +243,16 @@
                       <label>Firm name:</label>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <p>{{supplier.firmName}}</p>
+
+                        <mat-form-field appearance="fill" id="telephone-ff">
+                          <mat-label>Firm name*</mat-label>
+                          <input matInput id="firmName" placeholder="Firm name" name="telephone-ff"
+                              formControlName="firmName">
+                          <mat-error
+                              *ngIf="!editProfileForm.get('firmName').valid && editProfileForm.get('firmName').touched && editProfileForm.get('firmName').errors['required']">
+                              Please enter firm name</mat-error>     
+                              </mat-form-field>               
+
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <label>Firm address:</label>
@@ -244,7 +264,7 @@
                     </div>
                     </mat-grid-tile>
                   </mat-grid-list>
-                 <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)="confirmEdit()" color="accent">Confirm</button>
+                 <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)="confirmEdit()" [disabled]="!editProfileForm.valid" color="accent">Confirm</button>
    
                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)="changePasswordFunction()" color="accent">Change password</button>
 
@@ -276,6 +296,7 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
                               Please enter old password</mat-error>
+
                       </mat-form-field>
                     </div>                  
                 </mat-grid-tile>
@@ -291,6 +312,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['required']">
                               Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['minLenght']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field>
                     </div>               
                   </mat-grid-tile>
@@ -306,6 +330,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['required']">
                               Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field>
                     </div>  
                   </mat-grid-tile> 
@@ -335,7 +362,7 @@
                   </mat-grid-tile>
                 </mat-grid-list>
                 
-                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">ChangePassword</button>
+                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!changePasswordForm" color="accent">ChangePassword</button>
   
                                   </form>
                   <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='back()'  color="accent">Back</button>

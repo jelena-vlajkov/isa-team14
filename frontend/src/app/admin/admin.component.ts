@@ -175,7 +175,7 @@ export class AdminComponent implements OnInit {
 
         },
         error=>{
-          alert("Fail - Old password is not correct")
+          alert("Fail - Old password is not correct!")
           this.router.navigate(['/admin']);
         }
       )

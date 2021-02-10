@@ -67,10 +67,10 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
     return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Patient;
   }
   isSupplier() {
-    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.SysAdmin;
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Supplier;
   }
   isAdmin() {
-    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Supplier;
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.SysAdmin;
   }
 
   logout(){

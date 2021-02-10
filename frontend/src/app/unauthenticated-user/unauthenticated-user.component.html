@@ -5,7 +5,7 @@
           <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
           <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
-          <button mat-list-item routerLink='/searchMedications' style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
         </mat-action-list>
     
@@ -15,13 +15,12 @@
           <button mat-list-item  routerLink="/userProfile" style="color: white;"> <mat-icon>face</mat-icon>Profile</button>
 
         </mat-action-list>
-        <mat-action-list *ngIf="isPatient()" style="position: absolute; bottom: 1px;">
-          <button mat-list-item  routerLink="/userProfile" style="color: white;"><mat-icon></mat-icon> Profile</button>
-        </mat-action-list>
+
         <mat-action-list *ngIf="!isSupplier() && !isAdmin() && !isPatient()">
           <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
           <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
         </mat-action-list>
+
         <mat-action-list *ngIf="isAdmin()">
           <button mat-list-item routerLink="/admin" style="color: white;"> Home</button>
           <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>

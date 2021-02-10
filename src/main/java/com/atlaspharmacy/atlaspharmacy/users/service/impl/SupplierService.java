@@ -97,22 +97,24 @@ public class SupplierService implements ISupplierService {
     }
 
     @Override
-    public void changePassword(String oldPassword, String newPassword) throws InvalidPassword, InvalidEmail, ParseException {
+    public boolean changePassword(String oldPassword, String newPassword) throws InvalidPassword, InvalidEmail, ParseException {
         // Ocitavamo trenutno ulogovanog korisnika
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String email = currentUser.getName();
 
         if (_authenticationManager != null) {
             _authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
-        } else {
-            throw new InvalidPassword();
+            Supplier supplier = findByEmail(email);
+
+            supplier.setPassword(_passwordEncoder.encode(newPassword));
+            supplier.setFirstTimePassword(true);
+            _supplierRepository.save(supplier);
+            return true;
+
         }
+        return false;
 
-        Supplier supplier = findByEmail(email);
 
-        supplier.setPassword(_passwordEncoder.encode(newPassword));
-        supplier.setFirstTimePassword(true);
-        _supplierRepository.save(supplier);
 
     }
 }

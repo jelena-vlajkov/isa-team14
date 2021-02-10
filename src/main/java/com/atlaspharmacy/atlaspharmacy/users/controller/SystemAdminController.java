@@ -56,13 +56,13 @@ public class SystemAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_SYSADMIN')")
+    @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/changepassword", consumes =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO){
         if(systemAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword())){
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(InvalidPassword.class)
