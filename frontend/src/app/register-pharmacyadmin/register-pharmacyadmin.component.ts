@@ -31,6 +31,10 @@ export class RegisterPharmacyadminComponent implements OnInit {
   selectedDate;
   dateOfBirth : Date;
 
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
+  
+
   admin_location : Address;
   admin_location_input: String;
   public pharmacy : Pharmacy;
@@ -41,16 +45,18 @@ export class RegisterPharmacyadminComponent implements OnInit {
   constructor(private pharmacyService : PharmacyService, private router:Router, private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
-
+    this.maxDateOfBirth = new Date();
+    this.minDateOfBirth = new Date();
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'gender': new FormControl(null, Validators.required),
       'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'password' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'password' : new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required, Validators.minLength(8)]),
       'pharmacy' : new FormControl(null, Validators.required)
     });
     this.loadAllPharmacies();

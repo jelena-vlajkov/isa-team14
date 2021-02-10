@@ -61,6 +61,10 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
                                 Please enter name</mat-error>
+
+                                <mat-error
+                                *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['pattern']">
+                                Please enter name in correct format</mat-error>
                         </mat-form-field>
                       </div>  
                     </mat-grid-tile>
@@ -73,6 +77,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
                                 Please enter surname</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['pattern']">
+                                Please enter surname in correct format</mat-error>
                         </mat-form-field>
                       </div> 
                     </mat-grid-tile>
@@ -90,15 +97,15 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField" >
-                        <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
-                          <mat-label style="font-size:14px;">Birth date</mat-label>
-                          <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
-                          <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
-                          <mat-datepicker #picker1 ></mat-datepicker>
+                        <mat-form-field color="accent" appearance="fill" id="surname-ff" style="width: 400px;">
+                          <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                          <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
                           <mat-error
                           *ngIf="!addAdminForm.get('dob').valid && addAdminForm.get('dob').touched && addAdminForm.get('dob').errors['required']">
                           Please choose date of birth</mat-error>
-                        </mat-form-field>
+                        
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile>
@@ -111,9 +118,12 @@
                           <mat-label>Telephone*</mat-label>
                           <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
                               formControlName="telephone">
-                          <mat-error
+                              <mat-error
                               *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
-                              Please enter telephone</mat-error>
+                              Please enter telephone</mat-error>                          
+                              <mat-error
+                              *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['pattern']">
+                              Please enter telephone in correct format</mat-error>
                         </mat-form-field>      
                       </div>                    
                     </mat-grid-tile>
@@ -126,6 +136,9 @@
                           <mat-error
                               *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
                               Please enter email</mat-error>
+                              <mat-error
+                              *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['email']">
+                              Please enter email in correct format</mat-error>
                         </mat-form-field>
                       </div>                           
                     </mat-grid-tile>
@@ -137,6 +150,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
                                 Please enter new password</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['minLength']">
+                                Password has to be minimum 8 characters long</mat-error>
                         </mat-form-field> 
                       </div> 
                     </mat-grid-tile>
@@ -148,6 +164,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
                                 Please enter again new password</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['minLength']">
+                                Password has to be minimum 8 characters long</mat-error>
                         </mat-form-field>
                       </div>
                     </mat-grid-tile>
