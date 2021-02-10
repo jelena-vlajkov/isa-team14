@@ -54,6 +54,10 @@ export const environment = {
   getByForm : "getByForm",
   getByKind : "getByKind",
   getByPrescribing : "getByPrescribing",
-  activation : "activation"
+  activation : "activation",
+  subscribe : "subscribe",
+  isSubscribed : "isSubscribed",
+  getAllUsers : "getAllUsers",
+  remove: "remove"
 };
 

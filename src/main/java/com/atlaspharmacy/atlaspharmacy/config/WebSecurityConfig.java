@@ -81,17 +81,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/ingredients/findAll").permitAll()
                 .antMatchers("/ingredients/getById").permitAll()
-                .antMatchers("/pharmacy/getByMedication").permitAll()
                 .antMatchers("/pricelist/getByMedication").permitAll()
 
                 .antMatchers("/pharmacy/findAll").permitAll()
                 .antMatchers("/pharmacy/getByName").permitAll()
-                .antMatchers("/pharmacy/getById/").permitAll()
-                .antMatchers("/pharmacyAdmin/getById/").permitAll()
+                .antMatchers("/pharmacy/getById").permitAll()
                 .antMatchers("/pharmacy/getByMedication").permitAll()
+                .antMatchers("/pharmacy/getByAddress").permitAll()
+
+                .antMatchers("/pharmacyAdmin/getById/").permitAll()
+
                 .antMatchers("/patient/getById").permitAll()
                 .antMatchers("/patient/add").permitAll()
-                .antMatchers("/pharmacy/getByAddress").permitAll()
                 .antMatchers("/patient/activation").permitAll()
 
 
@@ -114,7 +115,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
 
-//        web.ignoring().antMatchers(HttpMethod.POST,"/admin/**");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
     }

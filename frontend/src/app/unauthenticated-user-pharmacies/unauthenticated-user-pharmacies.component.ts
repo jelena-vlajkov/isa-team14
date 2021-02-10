@@ -128,7 +128,13 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
       this.pharmacies = this.pharmaciesCopy;
     }
   }
-
+  // goToProfile(pharmacy){
+  //   this.router.navigate(['/pharmacy-profile?id='+pharmacy.id])
+  // }
+  routeToPharmacyProfileMock(p){
+    var string = p.id.toString();
+    this.router.navigateByUrl('/pharmacyProfileMock', {state: { id: string} });
+  }
   getAllPharmacies(){
     this.pharmacyService.findAllPharmacies().subscribe(data =>
       {
