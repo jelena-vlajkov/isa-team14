@@ -45,6 +45,9 @@ export class SupplierAllOffersComponent implements OnInit {
       data => 
       { 
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
+        if(!this.supplier.firstTimeChanged){
+          this.router.navigate(['/supplier']);
+        }
       });
       this.offerService.getAllOffersBySuppllier(Number(localStorage.getItem('userId'))).subscribe(data => 
         {

@@ -75,11 +75,8 @@ export class AdminRegisterDrugComponent implements OnInit {
   constructor(private allergyService : AllergyService,private router : Router ,private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService, private systemAdminService : SysadminRegistrationService) { }
 
   ngOnInit(): void {
-    // this.filteredOptions = this.ingredientControl.valueChanges
-    // .pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value))
-    // );
+    this.loadSystemAdmin();
+
     this.registerMedication = new FormGroup({
       'mname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'drugType' : new FormControl(null, Validators.required),
@@ -101,7 +98,6 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.drugForms = this.ToArray(DrugForm);
     this.loadAllMedications();
     this.loadAllIngredients();
-    this.loadSystemAdmin();
     this.loadAllAllergies();
   }
   loadSystemAdmin(){
@@ -109,7 +105,9 @@ export class AdminRegisterDrugComponent implements OnInit {
       data => 
       {
         this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
-        
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
       });
 
   }

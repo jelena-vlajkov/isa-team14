@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 import { Address } from '@app/model/address/address';
+import { Role } from '@app/model/users';
 import { PasswordChanger } from '@app/model/users/passwordChanger';
 import { Supplier } from '@app/model/users/supplier/supplier';
 import { SupplierService } from '@app/service/supplier/supplier.service';
@@ -50,9 +51,11 @@ export class SupplierProfileComponent implements OnInit {
     this.password1 = "";
     this.password2 = "";
     this.oldpassword="";
-    
-  }
 
+  }
+  isSupplier() {
+    return this.authenticationService.getUserValue() && this.authenticationService.getUserValue().role === Role.Supplier;
+  }
   supplierLogout(){
       this.authenticationService.logout();
       this.router.navigate(['/login']);
@@ -65,6 +68,9 @@ export class SupplierProfileComponent implements OnInit {
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
         this.address1 = this.supplier.address;
       });
+      if(!this.supplier.firstTimeChanged){
+        this.router.navigate(['/supplier']);
+      }
   }
   respondToComplaints(){
     

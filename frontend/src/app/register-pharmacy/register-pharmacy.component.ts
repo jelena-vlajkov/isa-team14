@@ -6,6 +6,8 @@ import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 @Component({
   selector: 'app-register-pharmacy',
@@ -20,10 +22,12 @@ export class RegisterPharmacyComponent implements OnInit {
   pharmacy_location_input: String;
   public pharmacy : Pharmacy;
   @ViewChild(GooglePlacesComponent) googleplaces;
+  public sysAdmin;
 
-  constructor(private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router) { }
+  constructor(private systemAdminService : SysadminRegistrationService ,private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.registerPharmacy = new FormGroup({
       'name' : new FormControl(null, Validators.required),
       'description' : new FormControl(null, Validators.required)
@@ -74,7 +78,17 @@ export class RegisterPharmacyComponent implements OnInit {
   editProfile(){
 
   }
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   adminLogout(){
     this.authenticationService.logout();
     this.router.navigate(['/login']);
