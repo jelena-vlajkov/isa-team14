@@ -67,7 +67,7 @@ export class RegisterSupplierComponent implements OnInit {
       role = Role.Supplier;
       var auths : Number[] = new Array();
       if(this.password === this.confirmpassword){
-        this.supplier = new Supplier(this.name, this.surname, new Date(),this.telephone, this.email, this.password, this.headquarters, role, auths, this.firmName, false);
+        this.supplier = new Supplier(this.name, this.surname, new Date(),this.telephone, this.email.toLowerCase(), this.password, this.headquarters, role, auths, this.firmName, false);
         this.supplierService.registerSupplier(this.supplier).subscribe(
           res=>{
             this.addSupplier.reset();

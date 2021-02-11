@@ -77,7 +77,7 @@ export class RegistrationComponent implements OnInit {
       role = Role.Patient
       var auths : Number[] = new Array();
       // console.log(this.address);
-      this.patient = new Patient(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths);
+      this.patient = new Patient(this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths);
       // console.log(JSON.parse(JSON.stringify(this.patient)));
       if(this.passwordValid()){
         this.registrationService.registerPatient(this.patient).subscribe(

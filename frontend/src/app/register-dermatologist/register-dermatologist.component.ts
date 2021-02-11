@@ -114,7 +114,7 @@ export class RegisterDermatologistComponent implements OnInit {
       var auths : Number[] = new Array();
 
       if(this.password === this.confirmPassword){
-         this.dermatologist = new Dermatologist(null, this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
+         this.dermatologist = new Dermatologist(null, this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
 
         this.dermatologistService.addDermatologist(this.dermatologist).subscribe(
           res=>{
