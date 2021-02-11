@@ -16,6 +16,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
 import { DermatologistService } from '@app/service/dermatologist/dermatologist.service';
 import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 const allowMultiSelect = true;
 
@@ -54,9 +56,11 @@ export class RegisterDermatologistComponent implements OnInit {
   public chosenPharmacies : Pharmacy[] = new Array();
   dataSource2 = new MatTableDataSource<Pharmacy>();
   public dermatologist: Dermatologist;
-  constructor(private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
+  public sysAdmin;
+  constructor(private systemAdminService : SysadminRegistrationService ,private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.addDermatologist = new FormGroup({
       'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
@@ -80,7 +84,17 @@ export class RegisterDermatologistComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
       });
   }
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   registerDermatologist(){
 
     this.name = this.addDermatologist.value.name;

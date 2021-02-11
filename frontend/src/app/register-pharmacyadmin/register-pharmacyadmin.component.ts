@@ -9,6 +9,8 @@ import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { Role } from '@app/model/users/role';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 @Component({
   selector: 'app-register-pharmacyadmin',
@@ -19,7 +21,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
   addAdminForm : FormGroup;
   selectedGender;
 
-
+  public sysAdmin;
   address : Address;
   name : string;
   surname : string;
@@ -42,9 +44,10 @@ export class RegisterPharmacyadminComponent implements OnInit {
   public pharmacyAdmin : PharmacyAdmin;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private pharmacyService : PharmacyService, private router:Router, private authenticationService : AuthenticationService) { }
+  constructor(private systemAdminService : SysadminRegistrationService ,private pharmacyService : PharmacyService, private router:Router, private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.maxDateOfBirth = new Date();
     this.minDateOfBirth = new Date();
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
@@ -62,7 +65,17 @@ export class RegisterPharmacyadminComponent implements OnInit {
     this.loadAllPharmacies();
   }
 
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   registerDermatologist(){
 
   }

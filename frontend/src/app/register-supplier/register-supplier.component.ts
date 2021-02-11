@@ -11,6 +11,8 @@ import { Role } from '@app/model/users';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 @Component({
   selector: 'app-register-supplier',
@@ -31,16 +33,14 @@ export class RegisterSupplierComponent implements OnInit {
   selectedGender;
   @ViewChild(GooglePlacesComponent) googleplaces;
   firmName: String;
-
-  constructor(private authenticationService : AuthenticationService , private supplierService : SupplierService, private router : Router) { }
+  public sysAdmin;
+  constructor(private systemAdminService : SysadminRegistrationService,private authenticationService : AuthenticationService , private supplierService : SupplierService, private router : Router) { }
 
   ngOnInit(): void {
-
+    this.sysAdmin;
     this.addSupplier = new FormGroup({
       'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'gender': new FormControl(null, Validators.required),
-      'dob' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'mail' : new FormControl(null, [Validators.required, Validators.email]),
       'password' : new FormControl(null,[Validators.required,Validators.minLength(8)]),
@@ -84,7 +84,17 @@ export class RegisterSupplierComponent implements OnInit {
      
     }
   }
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   respondToComplaints(){
 
   }

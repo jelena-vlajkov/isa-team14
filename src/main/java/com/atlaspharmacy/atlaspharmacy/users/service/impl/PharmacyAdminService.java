@@ -4,8 +4,9 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.PharmacyAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
@@ -27,15 +28,17 @@ public class PharmacyAdminService implements IPharmacyAdminService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
     private final PharmacyRepository pharmacyRepository;
+    private final IPharmacyService pharmacyService;
 
     @Autowired
-    public PharmacyAdminService(AuthorityService authorityService, IPharmacyAdminRepository _iPharmacyAdminRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, PharmacyRepository pharmacyRepository) {
+    public PharmacyAdminService(AuthorityService authorityService, IPharmacyAdminRepository _iPharmacyAdminRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, PharmacyService pharmacyService) {
         this.authorityService = authorityService;
         this._pharmacyAdminRepository = _iPharmacyAdminRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
         this.pharmacyRepository = pharmacyRepository;
+        this.pharmacyService = pharmacyService;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class PharmacyAdminService implements IPharmacyAdminService {
 
     @Override
     public PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws InvalidEmail, ParseException {
-        if(userRepository.findByEmail(pharmacyAdminDTO.getEmail())==null){
+        if(userRepository.findByEmail(pharmacyAdminDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(pharmacyAdminDTO.getEmail())){
             String role ="ROLE_PHARMACYADMIN";
             String password = passwordEncoder.encode(pharmacyAdminDTO.getPassword());
             pharmacyAdminDTO.setPassword(password);

@@ -51,6 +51,9 @@ export class SupplierStorageComponent implements OnInit {
       data => 
       { 
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
+        if(!this.supplier.firstTimeChanged){
+          this.router.navigate(['/supplier']);
+        }
       });
       this.supplierService.getSuppliersStorage(Number(localStorage.getItem('userId'))).subscribe(
         data=>{

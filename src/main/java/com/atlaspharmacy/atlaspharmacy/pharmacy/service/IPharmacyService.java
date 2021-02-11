@@ -22,5 +22,5 @@ public interface IPharmacyService {
     List<Pharmacy> getPharmaciesToComplain(Long id);
     List<PharmacyDTO> getPharmaciesByMedication(Long code);
     List<PharmacyDTO> getSubscribed(Long id);
-
+    boolean isPharamcyRegistered(String email);
 }

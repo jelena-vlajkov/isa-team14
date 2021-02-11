@@ -3,9 +3,10 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
-import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.SupplierMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.SupplierRepository;
@@ -17,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,21 +32,22 @@ public class SupplierService implements ISupplierService {
     private final UserRepository _userUserRepository;
     private final BCryptPasswordEncoder _passwordEncoder;
     private final AuthenticationManager _authenticationManager;
-
+    private final IPharmacyService _pharmacyService;
     @Autowired
-    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, PharmacyService pharmacyService) {
         _authAuthorityService = authAuthorityService;
         _supplierRepository = supplierRepository;
         _addressRepository = addressRepository;
         _userUserRepository = userUserRepository;
         _passwordEncoder = passwordEncoder;
         _authenticationManager = authenticationManager;
+        _pharmacyService = pharmacyService;
     }
 
 
     @Override
     public Supplier registerSupplier(SupplierDTO supplierDTO) throws InvalidEmail{
-        if(_userUserRepository.findByEmail(supplierDTO.getEmail())==null){
+        if(_userUserRepository.findByEmail(supplierDTO.getEmail())==null && !_pharmacyService.isPharamcyRegistered(supplierDTO.getEmail())){
             String role ="ROLE_SUPPLIER";
             String password = _passwordEncoder.encode(supplierDTO.getPassword());
             supplierDTO.setPassword(password);

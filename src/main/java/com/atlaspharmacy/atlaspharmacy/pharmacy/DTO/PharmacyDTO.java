@@ -1,15 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
-import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
-
-import javax.persistence.*;
 
 public class PharmacyDTO {
     private Long id;
     private String name;
     private String description;
-
+    private String email;
+    private Long telephone;
     private AddressDTO address;
 
     private Double average_grade;
@@ -17,10 +15,12 @@ public class PharmacyDTO {
     public PharmacyDTO() {
     }
 
-    public PharmacyDTO(Long id, String name, String description, AddressDTO address, Double average_grade) {
+    public PharmacyDTO(Long id, String name, String description, String email, Long telephone, AddressDTO address, Double average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.email = email;
+        this.telephone = telephone;
         this.address = address;
         this.average_grade = average_grade;
     }
@@ -63,5 +63,21 @@ public class PharmacyDTO {
 
     public void setAverage_grade(Double average_grade) {
         this.average_grade = average_grade;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(Long telephone) {
+        this.telephone = telephone;
     }
 }

@@ -44,6 +44,7 @@ export class AddAdminComponent implements OnInit {
   constructor(private router: Router, private sysAdminRegistration : SysadminRegistrationService,private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.maxDateOfBirth = new Date();
     this.minDateOfBirth = new Date();
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
@@ -104,6 +105,18 @@ export class AddAdminComponent implements OnInit {
     
 
   }
+  loadSystemAdmin(){
+    this.sysAdminRegistration.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
+
+  }
+
   passwordValid(){
     return this.password==this.confirmpassword;
   }
