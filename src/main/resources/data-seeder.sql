@@ -1,7 +1,21 @@
 insert into addresses(id, city, latitude, longitude, state, street) values (100, 'Novi Sad', 45.2378437,19.8425568,'Serbia' ,'Bulevar Despota Stefana 3');
 insert into addresses(id, city, latitude, longitude, state, street) values (200,'Novi Sad', 45.2469369, 19.8498081,'Serbia' ,'Bulevar Cara Lazara  20');
-
 insert into addresses(id, city, latitude, longitude, state, street) values (300,'Belgrade',44.8058901,20.4585641,'Serbia','Nemanjina 6');
+insert into addresses(id, city, latitude, longitude, state, street) values (400, 'Belgrade', 44.8131367,20.4822037, 'Serbia', 'Zdravka Čelara 12');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (500, 'Belgrade', 44.82730429999999,20.4065613,'Serbia','Pariske komune 22');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (600, 'Belgrade',44.8097207,20.479209,'Serbia','Dalmatinska 66');
+insert into addresses(id, city, latitude, longitude, state, street) values (700,'Novi Sad', 45.257674,19.8433991,'Serbia','Svetozara Miletića 43');
+insert into addresses(id, city, latitude, longitude, state, street) values (800,'Niš',43.3272899,21.9067072,'Serbia','Nišavska 7');
+insert into addresses(id, city, latitude, longitude, state, street) values (900,'Novi Sad', 45.2409824,19.7988723,'Serbia','Ulica Petefi Šandora 7');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (1000, 'Belgrade',44.8141966,20.4251799,'Serbia','Antifašističke borbe 66');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (1100, 'Belgrade',44.7970806,20.4785418,'Serbia','Vojvode Dragomira 22');
+insert into addresses(id, city, latitude, longitude, state, street) values (1200,'Novi Sad', 45.2904728,19.8167586,'Serbia','Milice Nikolić 10');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (1300, 'Belgrade',44.8037537,20.4789001,'Serbia','Bulevar kralja Aleksandra 124');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (1400, 'Belgrade', 44.79211069999999,20.4856736,'Serbia','Gospodara Vučića 123');
+insert into addresses(id, city, latitude, longitude, state, street) VALUES (1500, 'Beograd',44.817433,20.4181654,'Serbia','Bulevar Zorana Đinđića 123');
+
+
+
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values('Dermatologist', 100,'2000-01-01 00:00:01',  'vlajkovj@gmail.com', true, 0, 'Jelena', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',123124124, 'Vlajkov', 100 );
@@ -10,44 +24,45 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 values ('Pharmacist', 500, '1986-01-01 00:00:01', 'vlajkovn@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200);
+values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 300);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Dermatologist', 600,'1966-01-01 00:00:01', 'marko@gmail.com', true, 1, 'Marko', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 200);
+values ('Dermatologist', 600,'1966-01-01 00:00:01', 'marko@gmail.com', true, 1, 'Marko', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Stantic', 400);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values('Dermatologist', 300, '1966-01-01 00:00:01', 'lazic@gmail.com', true, 1, 'Lazar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 12125126, 'Lazic', 200);
-
-
-insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Patient', 200, '1997-01-01 00:00:01', 'alexignjat1998@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Ignjatijevic',300);
-
+values('Dermatologist', 300, '1966-01-01 00:00:01', 'lazic@gmail.com', true, 1, 'Lazar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 12125126, 'Lazic', 500);
 
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('SysAdmin', 900, '1997-01-01 00:00:01', 'alexignjat@gmail.com', true, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
-insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('SysAdmin', 905, '1997-01-01 00:00:01', 'alex@gmail.com', false, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 300);
+values ('Patient', 200, '1997-01-01 00:00:01', 'alexignjat1998@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Ignjatijevic',600);
+
+
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-VALUES ('Supplier', 990, '1997-01-01 00:00:01', 'elit@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+values ('SysAdmin', 900, '1997-01-01 00:00:01', 'alexignjat@gmail.com', true, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 700);
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('SysAdmin', 905, '1997-01-01 00:00:01', 'alex@gmail.com', false, 1, 'Admin', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 9999999 ,'Admin', 800);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+VALUES ('Supplier', 990, '1997-01-01 00:00:01', 'elit@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 900);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 300);
+VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1000);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
 
-insert into pharmacies(id, average_grade, description, name, address_id) values (100, 3.4, 'Talala', 'Apoteka Jankovic', 100);
-insert into pharmacies(id, average_grade, description, name, address_id) VALUES (200, 5.0,'ldkjdljf','ZEGIN',200);
-insert into pharmacies(id, average_grade, description, name, address_id) VALUES (300, 5.0,'ldkjdljf','APOTEKA BENU',300);
-insert into pharmacies(id, average_grade, description, name, address_id) VALUES (400, 5.0,'ldkjdljf','APOTEKA LAURUS',300);
+insert into pharmacies(id, average_grade, description, email, name, telephone, address_id) values (100, 3.4, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
+insert into pharmacies(id, average_grade, description, email, name, telephone, address_id) VALUES (200, 5.0,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
+insert into pharmacies(id, average_grade, description, email, name, telephone, address_id) VALUES (300, 5.0,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
+insert into pharmacies(id, average_grade, description, email, name, telephone, address_id) VALUES (400, 5.0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+
 insert into medicalstaff(license_number, id) values ('16657568',100);
 insert into medicalstaff(license_number, id) values ('243532',600);
-insert into medicalstaff(license_number, id) values ('333',300);
+insert into medicalstaff(license_number, id) values ('333666',300);
 insert into medicalstaff(license_number, id) values('1241241', 500);
 
 insert into pharmacists(id, pharmacy_id) values (500, 100);

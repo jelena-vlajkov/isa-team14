@@ -1,9 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PasswordChangerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SystemAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.SystemAdmin;
@@ -13,7 +14,6 @@ import com.atlaspharmacy.atlaspharmacy.users.mapper.SystemAdminMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.SystemAdminRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.ISystemAdminService;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,19 +34,20 @@ public class SystemAdminService implements ISystemAdminService {
     private final AddressRepository addressRepository;
     private final SystemAdminRepository systemAdminRepository;
     private final AuthenticationManager authenticationManager;
-
+    private final IPharmacyService pharmacyService;
     @Autowired
-    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, SystemAdminRepository systemAdminRepository, AuthenticationManager authenticationManager){
+    public SystemAdminService(AuthorityService authorityService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, SystemAdminRepository systemAdminRepository, AuthenticationManager authenticationManager, PharmacyService pharmacyService){
         this.authorityService = authorityService;
         this.userRepository= userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
         this.systemAdminRepository = systemAdminRepository;
         this.authenticationManager = authenticationManager;
+        this.pharmacyService = pharmacyService;
     }
     @Override
     public SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail {
-        if(userRepository.findByEmail(systemAdminDTO.getSysEmail())==null){
+        if(userRepository.findByEmail(systemAdminDTO.getSysEmail())==null && !pharmacyService.isPharamcyRegistered(systemAdminDTO.getSysEmail())){
             String role ="ROLE_SYSADMIN";
             String password = passwordEncoder.encode(systemAdminDTO.getSysPassword());
             systemAdminDTO.setSysPassword(password);

@@ -41,8 +41,6 @@ export class RegisterSupplierComponent implements OnInit {
     this.addSupplier = new FormGroup({
       'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'gender': new FormControl(null, Validators.required),
-      'dob' : new FormControl(null, Validators.required),
       'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'mail' : new FormControl(null, [Validators.required, Validators.email]),
       'password' : new FormControl(null,[Validators.required,Validators.minLength(8)]),

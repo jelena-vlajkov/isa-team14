@@ -21,6 +21,8 @@ export class RegisterPharmacyComponent implements OnInit {
   pharmacy_location : Address;
   pharmacy_location_input: String;
   public pharmacy : Pharmacy;
+  public telephone : Number;
+  public email : String;
   @ViewChild(GooglePlacesComponent) googleplaces;
   public sysAdmin;
 
@@ -30,20 +32,23 @@ export class RegisterPharmacyComponent implements OnInit {
     this.loadSystemAdmin();
     this.registerPharmacy = new FormGroup({
       'name' : new FormControl(null, Validators.required),
-      'description' : new FormControl(null, Validators.required)
+      'description' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, [Validators.required,Validators.pattern("^[0-9]*$")]),
+      'email' : new FormControl(null, [Validators.required, Validators.email])
     });
   }
   addPharmacy(){
     this.pharmacy_description = this.registerPharmacy.value.description;
     this.pharmacy_name = this.registerPharmacy.value.name;
-    
+    this.email = this.registerPharmacy.controls.email.value;
+    this.telephone = this.registerPharmacy.controls.telephone.value;
     if(this.googleplaces.address===undefined){
       alert('Please enter address using location picker. Just start typing and pick your address from combobox');
     }else{
       this.pharmacy_location = this.googleplaces.address;
       this.pharmacy_location_input = this.googleplaces.autocompleteInput;
   
-      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0);
+      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0, this.email, this.telephone);
 
       this.pharmacyService.registerPharmacy(this.pharmacy).subscribe(
         res=>{
@@ -53,31 +58,12 @@ export class RegisterPharmacyComponent implements OnInit {
           this.router.navigate(['/admin']);
         },
         error=>{
-          alert("Fail");
+          alert("Fail - Email already in use!");
         });
     }
   }
 
-  registerDermatologist(){
 
-  }
-
-  registerSupplier(){
-
-  }
-  operationsWithDrugs(){
-
-  }
-  respondToComplaints(){
-
-  }
-  defineLoyalty(){
-
-  }
-
-  editProfile(){
-
-  }
   loadSystemAdmin(){
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
       data => 
