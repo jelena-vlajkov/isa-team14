@@ -48,7 +48,7 @@ export class RegisterPharmacyComponent implements OnInit {
       this.pharmacy_location = this.googleplaces.address;
       this.pharmacy_location_input = this.googleplaces.autocompleteInput;
   
-      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0, this.email, this.telephone);
+      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0, this.email.toLowerCase(), this.telephone);
 
       this.pharmacyService.registerPharmacy(this.pharmacy).subscribe(
         res=>{

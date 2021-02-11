@@ -82,7 +82,7 @@ export class AddAdminComponent implements OnInit {
 
     }else{
       this.address = this.googleplaces.address;
-      this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
+      this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail.toLowerCase(), this.password, this.gender, this.address, role, auths, false);
       console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
   
       if(this.passwordValid()){

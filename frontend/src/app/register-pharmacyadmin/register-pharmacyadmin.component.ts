@@ -101,7 +101,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
       role = Role.PharmacyAdmin;
       var auths : Number[] = new Array();
       if(this.password === this.confirmPassword){
-        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.pharmacy);
+        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.pharmacy);
 
         this.pharmacyService.registerPharmacyAdmin(this.pharmacyAdmin).subscribe(
           res=>{

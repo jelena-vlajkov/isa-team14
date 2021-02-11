@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.username = this.loginForm.controls.username.value;
     this.password = this.loginForm.controls.password.value;
 
-    this.credentials = new Authentication(this.username, this.password);
+    this.credentials = new Authentication(this.username.toLowerCase(), this.password);
     console.log(this.credentials);
     this.authService.login(this.credentials).subscribe(
       result => {
