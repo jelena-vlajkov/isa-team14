@@ -10,6 +10,7 @@ import { GooglePlacesComponent } from '@app/google-places/google-places.componen
 import { Role } from '@app/model/users';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-register-supplier',
@@ -31,31 +32,23 @@ export class RegisterSupplierComponent implements OnInit {
   @ViewChild(GooglePlacesComponent) googleplaces;
   firmName: String;
 
-  constructor(private supplierService : SupplierService, private router : Router) { }
+  constructor(private authenticationService : AuthenticationService , private supplierService : SupplierService, private router : Router) { }
 
   ngOnInit(): void {
 
     this.addSupplier = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'gender': new FormControl(null, Validators.required),
       'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'password' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required),
-      'fname' : new FormControl(null, Validators.required)
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'password' : new FormControl(null,[Validators.required,Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'fname' : new FormControl(null,  Validators.required)
 
     });
 
-    // this.addSupplier = new FormGroup({
-    //   'name' : new FormControl(null, Validators.required),
-    //   'telephone' : new FormControl(null, Validators.required),
-    //   'mail' : new FormControl(null, Validators.required),
-    //   'password' : new FormControl(null, Validators.required),
-    //   'confirmpassword' : new FormControl(null, Validators.required),
-    // });
-    
   }
   registerSupplier(){
     
@@ -66,7 +59,7 @@ export class RegisterSupplierComponent implements OnInit {
     this.password = this.addSupplier.value.password;
     this.confirmpassword = this.addSupplier.value.confirmpassword;
     this.firmName = this.addSupplier.value.fname;
-    if(this.googleplaces===undefined){
+    if(this.googleplaces.address===undefined){
       alert("Please fill the address!");
     }else{
       this.headquarters = this.googleplaces.address;
@@ -98,6 +91,8 @@ export class RegisterSupplierComponent implements OnInit {
 
   adminLogout(){
     
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,10 +55,12 @@ public class PatientService implements IPatientService {
         }
         return false;
     }
+
     @Transactional
     public Patient save(Patient patient){
         return userRepository.save(patient);
     }
+
     @Override
     public Patient registerPatient(PatientDTO patientDTO) throws InvalidEmail, IOException, MessagingException {
         if(userRepository.findByEmail(patientDTO.getEmail())==null){
@@ -146,6 +149,13 @@ public class PatientService implements IPatientService {
     }
 
     public Patient getByMail(String mail){
-        return (Patient) userRepository.findByEmail(mail);
+        List<Patient> patients = patientRepository.findAll();
+        for(Patient p : patients){
+            if(p.getEmail().equalsIgnoreCase(mail)){
+                return p;
+            }
+        }
+        return null;
+
     }
 }

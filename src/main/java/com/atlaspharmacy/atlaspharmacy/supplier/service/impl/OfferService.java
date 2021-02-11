@@ -102,7 +102,7 @@ public class OfferService implements IOfferService {
     public Offer giveOffer(OfferDTO offer) throws DueDateSoonException, InsuficientFundsException {
         if(checkAvailableMedication(offer)){
             Date currentDate = new Date();
-            if(currentDate.compareTo(offer.getOrder().getDueDate())<0 && currentDate.compareTo(offer.getOrder().getEditableDue())<0){
+            if(currentDate.compareTo(offer.getOrder().getDueDate())<0){
                 Offer o = OfferMapper.mapDTOToOffer(offer);
                 Order order = orderService.getByUniqueIdentifier(o.getOrder().getUniqueidentifier());
                 o.setOrder(order);
@@ -113,6 +113,17 @@ public class OfferService implements IOfferService {
             throw new DueDateSoonException("Cant offer, due date too soon!");
         }
         throw new InsuficientFundsException("There arent enought medication avaliable");
+    }
+
+    @Override
+    public List<OfferDTO> getUsersOffersByStatus(Long status, Long supplier) {
+        List<OfferDTO> usersOffers = new ArrayList<>();
+        for(OfferDTO dto : getOffersBySupplier(supplier)){
+            if(dto.getOfferStatus().ordinal()==status){
+                usersOffers.add(dto);
+            }
+        }
+        return usersOffers;
     }
 
     public Offer getOfferByIdentifier(int uniqueidentifier){

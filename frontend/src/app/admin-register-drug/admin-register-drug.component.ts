@@ -15,6 +15,9 @@ import { AuthenticationService } from '@app/service/user';
 import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
 import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { Allergy } from '@app/model/medications/allergy';
+import { AllergyService } from '@app/service/medication/allergy.service';
 
 export interface DialogData {
   animal: string;
@@ -27,8 +30,12 @@ export interface DialogData {
   styleUrls: ['./admin-register-drug.component.css']
 })
 export class AdminRegisterDrugComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'name', 'pick'];
+
   public allMedications : Medication[] = new Array();
   public allIngredients : Ingredient[] = new Array();
+  public allAllergies : Allergy[] = new Array();
+
   public name: string;
   private drugForm : DrugForm;
   private drugType: DrugType;
@@ -41,6 +48,7 @@ export class AdminRegisterDrugComponent implements OnInit {
   private code:Number;
 
   registerMedication : FormGroup;
+  newIngredient : FormGroup;
   public drugTypes = Object.values(DrugType);
   public drugKinds = Object.values(DrugKind);
   public drugForms = Object.values(DrugForm);
@@ -50,16 +58,21 @@ export class AdminRegisterDrugComponent implements OnInit {
   selectedPrescribtion;
   medications = new FormControl();
   ingredients = new FormControl();
+  allergies = new FormControl();
 
+  private chosenIngredients : Ingredient[] = new Array();
   private newMedication;
   private subMeds : Number[] = new Array();
   private ings : Number[] = new Array();
+  public chosenAllergies : Allergy[] = new Array();
 
+  dataSource2 = new MatTableDataSource<Ingredient>();
+  public dataSource;
   private StringIsNumber = value => isNaN(Number(value)) === false;
   filteredOptions: Observable<string[]>;
   ingredientControl = new FormControl();
   private sysAdmin : SystemAdmin;
-  constructor(private router : Router ,private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService, private systemAdminService : SysadminRegistrationService) { }
+  constructor(private allergyService : AllergyService,private router : Router ,private authenticationService : AuthenticationService,private medicationService : MedicationService, private ingredientService : IngredientService, private systemAdminService : SysadminRegistrationService) { }
 
   ngOnInit(): void {
     // this.filteredOptions = this.ingredientControl.valueChanges
@@ -68,23 +81,28 @@ export class AdminRegisterDrugComponent implements OnInit {
     //   map(value => this._filter(value))
     // );
     this.registerMedication = new FormGroup({
-      'mname' : new FormControl(null, Validators.required),
-      // 'code' : new FormControl(null, Validators.required),
+      'mname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'drugType' : new FormControl(null, Validators.required),
       'drugKind' : new FormControl(null, Validators.required),
       'drugForm' : new FormControl(null, Validators.required),
       'prescribtion': new FormControl(null, Validators.required),
-      'daily' : new FormControl(null, Validators.required),
+      'daily' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'contra' : new FormControl(null, Validators.required),
       'notes' : new FormControl(null, Validators.required),
-      'producer' : new FormControl(null, Validators.required)
+      'producer' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'dosage' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+
     });
+    this.newIngredient = new FormGroup({
+      'name' : new FormControl(null ,[Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")])
+    })
     this.drugTypes = this.ToArray(DrugType);
     this.drugKinds = this.ToArray(DrugKind);
     this.drugForms = this.ToArray(DrugForm);
     this.loadAllMedications();
     this.loadAllIngredients();
     this.loadSystemAdmin();
+    this.loadAllAllergies();
   }
   loadSystemAdmin(){
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
@@ -99,7 +117,20 @@ export class AdminRegisterDrugComponent implements OnInit {
   registerDermatologist(){
 
   }
-  
+  registerIngredient(){
+    var ingredient = new Ingredient(this.newIngredient.controls.name.value, this.chosenAllergies)
+    this.ingredientService.addIngredient(ingredient).subscribe(
+      res=>{
+        this.newIngredient.reset();
+        alert('Success - Added new ingredient');
+        this.loadAllIngredients();
+        this.chosenAllergies = new Array();
+      },
+      error=>{
+        alert("Fail - Already added that ingredient")
+      }
+    )  
+  }
   respondToComplaints(){
 
   }
@@ -137,17 +168,17 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.producer = this.registerMedication.value.producer;
     this.subMeds = new Array();
 
-    for(let med of this.selectedMedications){
-      this.subMeds.push(med.id);
-    }    
+    // for(let med of this.selectedMedications){
+    //   this.subMeds.push(med.id);
+    // }    
     
-    for(let ing of this.selectedIngredients){
-      this.ings.push(ing.id);
-    }
+    // for(let ing of this.selectedIngredients){
+    //   this.ings.push(ing.id);
+    // }
 
 
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.selectedIngredients,0);
+    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.chosenIngredients,0, this.registerMedication.controls.dosage.value);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{
@@ -165,6 +196,8 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.ingredientService.findAllIngredients().subscribe(data=>
       {
         this.allIngredients = data;
+        this.dataSource = new MatTableDataSource(data);
+
       });
   }
       
@@ -174,7 +207,26 @@ export class AdminRegisterDrugComponent implements OnInit {
         this.allMedications = data
       });
   }
-  
+  loadAllAllergies() {
+    this.allergyService.findAllAllergies().subscribe(data => 
+      {
+        this.allAllergies = data
+      });
+  }
+  pickIngredient(ingredient : Ingredient){
+    if(!this.chosenIngredients.find(x => x === ingredient)){
+      this.chosenIngredients.push(ingredient);
+      this.dataSource2.data = this.chosenIngredients;
+    }
+  }
+  removeIngredient(ingredient: Ingredient){
+    this.chosenIngredients = this.chosenIngredients.filter(obj => obj !== ingredient);
+    this.dataSource2.data = this.chosenIngredients;
+  }
+  applyFilter(filterValue: string){
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
   ToArray(enumme) {
     return Object.keys(enumme)
         .filter(this.StringIsNumber)

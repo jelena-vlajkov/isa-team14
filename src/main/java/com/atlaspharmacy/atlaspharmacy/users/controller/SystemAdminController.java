@@ -49,18 +49,29 @@ public class SystemAdminController {
         return new ResponseEntity<>(systemAdminService.getById(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('SYSADMIN')")
+    @SystemAdminAuthorization
     @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateSystemAdmin(@RequestBody SystemAdminDTO systemAdminDTO) throws InvalidEmail , ParseException{
             SystemAdmin s = systemAdminService.updateSystemAdmin(systemAdminDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/changepassword", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO) throws InvalidEmail, ParseException, InvalidPassword {
-        systemAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO){
+        if(systemAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword())){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(InvalidPassword.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody
+    InvalidPassword InvalidPassword(InvalidPassword e) {
+        return new InvalidPassword();
+    }
+
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

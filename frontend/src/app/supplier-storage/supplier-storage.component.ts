@@ -36,7 +36,7 @@ export class SupplierStorageComponent implements OnInit {
     this.editStorage = false;
     this.addDrug = new FormGroup({
       'drug' : new FormControl(null, Validators.required),
-      'amount' : new FormControl(null, Validators.required)
+      'amount' : new FormControl(null,  [Validators.required, Validators.pattern("^[0-9]*$")]),
     });
   }
 
@@ -121,7 +121,7 @@ doesntContain(obj, list) {
     this.editStorage = true;
     this.medicationToUpdate = element;
     this.quantityForm = new FormGroup({
-      'quantity' : new FormControl(element.quantity, Validators.required)
+      'quantity' : new FormControl(element.quantity, [Validators.required, Validators.pattern("^[0-9]*$")]),
     });
 
   }

@@ -10,6 +10,6 @@ import java.util.List;
 public interface IIngredientService {
     IngredientDTO findById(Long id);
     List<IngredientDTO> findAll();
-    void saveIngredient(Ingredient ingredient, IngredientDTO ingredientDTO) throws Exception;
+    Ingredient saveIngredient(IngredientDTO ingredientDTO);
     List<IngredientDTO> getIngredientsById(@RequestBody List<Long> ids);
 }

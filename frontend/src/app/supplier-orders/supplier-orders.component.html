@@ -3,9 +3,10 @@
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
           <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
-          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink="/supplier/allOrders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
           <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
         </mat-action-list>
         <mat-action-list style="position: absolute; bottom: 1px;">
@@ -43,7 +44,7 @@
               </div>
 
             </div>
-              <mat-card style="height: fit-content; width: 50%; margin-left: 26%; margin-top: 20px; justify-content: center;" *ngIf="showmore">
+              <mat-card style="height: fit-content; width: 45%; margin-left: 4%; margin-top: 20px; justify-content: center; float:left" *ngIf="showmore">
                 <mat-card-title style="margin-left: 45%;">
                   All orders
                 </mat-card-title>
@@ -79,6 +80,9 @@
                                 <mat-error
                                     *ngIf="!offerGroup.get('price').valid && offerGroup.get('price').touched && offerGroup.get('price').errors['required']">
                                     Please enter price</mat-error>
+                                    <mat-error
+                                    *ngIf="!offerGroup.get('price').valid && offerGroup.get('price').touched && offerGroup.get('price').errors['pattern']">
+                                    Please enter price in correct format</mat-error>
                             </mat-form-field>
                         </div>                         
                       </mat-grid-tile>
@@ -87,7 +91,7 @@
                         </mat-grid-tile>
                         <mat-grid-tile>
                           <mat-form-field color="accent" appearance="fill" id="dob-ff" style="width: 200px; font-size: 14px;">
-                            <input matInput formControlName='delivery' [matDatepicker]="picker1" [min]="today" [max]="selectedOrder.dueDate"  [(ngModel)]="selectedDate"  style="width: 200px; font-size: 14px;">
+                            <input matInput formControlName='delivery' [matDatepicker]="picker1" [min]="today" [max]="selectedOrder.dueDate"   style="width: 200px; font-size: 14px;">
                             <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
                             <mat-datepicker #picker1 ></mat-datepicker>
                           </mat-form-field>                        
@@ -104,6 +108,34 @@
                       <button  style="float:right; position:relative; " mat-raised-button id='editProfile' (click)='giveOffer()' color="accent">Give offer</button>
 
                     </form>
+                </div>
+
+              </mat-card>
+              <mat-card style="height: fit-content; width: 45%; margin-left: 30px; margin-top: 20px; justify-content: center; float:left" *ngIf="showmore">
+                <mat-card-title style="margin-left: 40%;">
+                  Currently in storage
+                </mat-card-title>
+        
+                  <div style="width: 100%; height: 100%;">
+
+                    <table mat-table [dataSource]="dataSourceStorage" class="mat-elevation-z8" style=" width: 100%; margin-right: 10px;">
+        
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                          <th mat-header-cell *matHeaderCellDef> Medication </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.medication.name}} </td>
+                        </ng-container>
+                      
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="quantity">
+                          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.quantity}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                      </table>
+                      
                 </div>
 
               </mat-card>

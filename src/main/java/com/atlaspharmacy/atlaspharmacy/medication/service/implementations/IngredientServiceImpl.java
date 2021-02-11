@@ -42,8 +42,15 @@ public class IngredientServiceImpl implements IIngredientService {
     }
 
     @Override
-    public void saveIngredient(Ingredient ingredient, IngredientDTO ingredientDTO) throws Exception {
-
+    public Ingredient saveIngredient(IngredientDTO ingredientDTO){
+        for(IngredientDTO ing : findAll()){
+            if(ing.getName().equalsIgnoreCase(ingredientDTO.getName())){
+                return null;
+            }
+        }
+        Ingredient i = new Ingredient();
+        IngredientMapper.convertToIngredient(i, ingredientDTO);
+        return _ingredientRepository.save(i);
     }
 
 

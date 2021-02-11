@@ -38,6 +38,8 @@ export class AdminComponent implements OnInit {
   public changePassword:boolean = false;
   public home:boolean = true;
 
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
   public chgPass : PasswordChanger;
   public address1 :Address;
   editProfileForm: FormGroup;
@@ -146,9 +148,9 @@ export class AdminComponent implements OnInit {
     this.home = false;
 
     this.changePasswordForm = new FormGroup({
-      'oldpassword' : new FormControl(null, Validators.required),
-      'newpassword' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required)
+      'oldpassword' : new FormControl(null, [Validators.required,Validators.minLength(5)]),
+      'newpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
     });
 
   }
@@ -173,7 +175,8 @@ export class AdminComponent implements OnInit {
 
         },
         error=>{
-          alert("Fail")
+          alert("Fail - Old password is not correct!")
+          this.router.navigate(['/admin']);
         }
       )
     }
@@ -195,9 +198,9 @@ export class AdminComponent implements OnInit {
     this.changePassword = false;
     console.log(this.sysAdmin.sysAddress);
     this.editProfileForm = new FormGroup({
-      'name' : new FormControl(this.name, Validators.required),
-      'surname' : new FormControl(this.surname, Validators.required),
-      'telephone' : new FormControl(this.phone, Validators.required),
+      'name' : new FormControl(this.name, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(this.surname, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'telephone' : new FormControl(this.phone, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'gender': new FormControl(this.selectedGender, Validators.required),
       'dob' : new FormControl(this.dob, Validators.required)
     });
@@ -212,10 +215,8 @@ export class AdminComponent implements OnInit {
     var dob = this.editProfileForm.controls.dob.value;
     var mail = this.sysAdmin.sysEmail;
     console.log(this.address1);
-    console.log(this.googleplaces===null);
-    
-    console.log(this.address1);
-    var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
+    if(this.googleplaces.address ===undefined){
+      var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
     console.log(editedAdmin);
     this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
       res=>{
@@ -231,6 +232,27 @@ export class AdminComponent implements OnInit {
         alert("Fail")
       }
     )
+    }else{
+      this.address1 = this.googleplaces.address;
+      var editedAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), name, surname, dob, telephone, mail, this.sysAdmin.sysPassword, gender, this.address1, this.sysAdmin.sysRole, this.sysAdmin.sysAuthorities, this.sysAdmin.firstTimeChanged);
+    console.log(editedAdmin);
+    this.systemAdminService.updateSysAdmin(editedAdmin).subscribe(
+      res=>{
+        alert('Success');
+        this.profile = true; 
+        this.edit = false;
+        this.changePassword = false;
+        this.loadSystemAdmin();
+        this.home = false;
+
+      },
+      error=>{
+        alert("Fail")
+      }
+    )
+    }
+    
+    
   }
   routeToDrugReg(){
     this.firstTimeChanged = this.sysAdmin.firstTimeChanged;

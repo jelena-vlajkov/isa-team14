@@ -75,7 +75,7 @@ export class SupplierOffersComponent implements OnInit {
     offer.editing=true;
     this.selectedDate=offer.dueDelivery;
     this.offerForm = new FormGroup({
-      'price' : new FormControl(offer.price, Validators.required),
+      'price' : new FormControl(offer.price, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'dude' : new FormControl(offer.dueDelivery, Validators.required)
     });
     

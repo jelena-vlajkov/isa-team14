@@ -4,9 +4,11 @@
          <mat-action-list>
           <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
 
-          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink="/supplier/allOrders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
           <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
+
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
 
         </mat-action-list>
@@ -79,6 +81,9 @@
                                 <mat-error
                                     *ngIf="!addDrug.get('amount').valid && addDrug.get('amount').touched && addDrug.get('amount').errors['required']">
                                     Please enter medication amount</mat-error>
+                                    <mat-error
+                                    *ngIf="!addDrug.get('amount').valid && addDrug.get('amount').touched && addDrug.get('amount').errors['pattern']">
+                                    Please enter medication amount in correct form</mat-error>
                               </mat-form-field>
                         </div>
                         <button  mat-raised-button color="accent" style="font-size:12px; margin-top: 20px;" id="button" [disabled]="!addDrug.valid" (click)="addnewDrug()" >Add drug</button>

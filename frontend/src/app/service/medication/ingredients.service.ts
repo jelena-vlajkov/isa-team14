@@ -18,6 +18,7 @@ export class IngredientService {
   addIngredient(data : Ingredient) {
     return this.http.post(`${environment.baseUrl}/${environment.ingredients}/${environment.add}`,data, {responseType : 'text'});
   }
+  
   getIngredient(id : Number) : Observable<Ingredient>{
     return this.http.get<Ingredient>(`${environment.baseUrl}/${environment.ingredients}/${environment.getById}?id=${id}`);
 

@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
@@ -93,8 +94,8 @@ public class SystemAdminService implements ISystemAdminService {
         return systemAdminRepository.save(newAdmin);
     }
 
-
-    public void changePassword(String oldPassword, String newPassword) throws InvalidPassword {
+    @Override
+    public boolean changePassword(String oldPassword, String newPassword) {
 
         // Ocitavamo trenutno ulogovanog korisnika
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
@@ -102,17 +103,19 @@ public class SystemAdminService implements ISystemAdminService {
 
         if (authenticationManager != null) {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
+            SystemAdmin systemAdmin = findByEmail(email);
+
+            // pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
+            // ne zelimo da u bazi cuvamo lozinke u plain text formatu
+            systemAdmin.setFirstTimePassword(true);
+            systemAdmin.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(systemAdmin);
+            return true;
         } else {
-            throw new InvalidPassword();
+            return false;
         }
 
-        SystemAdmin systemAdmin = findByEmail(email);
 
-        // pre nego sto u bazu upisemo novu lozinku, potrebno ju je hesirati
-        // ne zelimo da u bazi cuvamo lozinke u plain text formatu
-        systemAdmin.setFirstTimePassword(true);
-        systemAdmin.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(systemAdmin);
 
     }
     @Override

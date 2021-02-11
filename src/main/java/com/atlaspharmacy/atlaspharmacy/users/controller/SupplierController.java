@@ -55,11 +55,17 @@ public class SupplierController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPPLIER')")
+    @PreAuthorize("hasRole('SUPPLIER')")
     @PostMapping(value = "/changepassword", consumes =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO) throws InvalidEmail, ParseException, InvalidPassword {
-        supplierService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword());
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(supplierService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword())){
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+
     }
 
     @ExceptionHandler(InvalidEmail.class)

@@ -58,13 +58,15 @@
                     <mat-grid-tile>
                       <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
                         <textarea matInput formControlName='answer'></textarea>
+                        <mat-error *ngIf="!answerFormDerm.get('answer').valid && answerFormDerm.get('answer').touched && answerFormDerm.get('answer').errors['required']">
+                          Please answer complaint</mat-error>
                       </mat-form-field>                    
                     </mat-grid-tile>
                     <mat-grid-tile>
 
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' [disabled]="!answerFormDerm.valid" (click)="answerToComplaintDermatologist(complaint)" color="accent">Answer</button>
+                      <button style="float:right; position:relative; margin-right: 10px; margin-top: 20px; font-size: 16px;" mat-raised-button id='editProfile' [disabled]="!answerFormDerm.valid" (click)="answerToComplaintDermatologist(complaint)" color="accent">Answer</button>
                     </mat-grid-tile>
                   </mat-grid-list>
                   </form>
@@ -100,6 +102,8 @@
                       <mat-grid-tile>
                         <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
                           <textarea matInput formControlName='answer' ></textarea>
+                          <mat-error *ngIf="!answerFormPharm.get('answer').valid && answerFormPharm.get('answer').touched && answerFormPharm.get('answer').errors['required']">
+                            Please answer complaint</mat-error>
                         </mat-form-field>                    
                       </mat-grid-tile>
                       <mat-grid-tile>
@@ -144,6 +148,8 @@
                     <mat-grid-tile>
                       <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
                         <textarea matInput formControlName='answer'></textarea>
+                        <mat-error *ngIf="!answerFormPh.get('answer').valid && answerFormPh.get('answer').touched && answerFormPh.get('answer').errors['required']">
+                          Please answer complaint</mat-error>
                       </mat-form-field>                    
                     </mat-grid-tile>
                     <mat-grid-tile>

@@ -1,6 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.OrderAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SupplierAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
@@ -30,11 +32,20 @@ public class OfferController {
     }
 
     @GetMapping(value = "/findSuppliers", produces = MediaType.APPLICATION_JSON_VALUE)
-    @SupplierAuthorization
+    @OrderAuthorization
     public @ResponseBody
     List<OfferDTO> getAllOffersBySuppllier(@RequestParam("id") Long id){
         return offerService.getOffersBySupplier(id);
     }
+
+    @GetMapping(value = "/getByStatus", produces = MediaType.APPLICATION_JSON_VALUE)
+    @OrderAuthorization
+    public @ResponseBody
+    List<OfferDTO> getAllOffersBySuppllierWithStatus(@RequestParam("id") Long id, @RequestParam("status") Long status){
+        return offerService.getUsersOffersByStatus(status, id);
+    }
+
+
 
     @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @SupplierAuthorization

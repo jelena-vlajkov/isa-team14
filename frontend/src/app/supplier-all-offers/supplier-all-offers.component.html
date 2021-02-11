@@ -3,11 +3,11 @@
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
           <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
-          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink="/supplier/allOrders" style="color: white;"> Write offers</button>
           <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
           <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
-
 
   
         </mat-action-list>
@@ -30,14 +30,13 @@
                   <mat-form-field>
                     <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Status:">
                 </mat-form-field>
-                <!-- <mat-form-field appearance="fill">
-  <mat-label>Favorite food</mat-label>
-  <mat-select>
-    <mat-option *ngFor="let food of foods" [value]="food.value">
-      {{food.viewValue}}
-    </mat-option>
-  </mat-select>
-</mat-form-field> -->
+                <mat-select placeholder="Select status" (selectionChange)="getBasedOnStatus($event)" style="width: 20%; margin-left: 25px; height: 50px;">
+                  <mat-option value="0">Pending</mat-option>
+                  <mat-option value="1">Accepted</mat-option>
+                  <mat-option value="2">Rejected</mat-option>
+                  <mat-option value="3">All</mat-option>
+              </mat-select>
+
                 <label style="margin-left: 50%;">All offers</label>
         
                   <div style="width: 100%; height: 100%;">
