@@ -22,7 +22,6 @@ public class Ingredient{
             inverseJoinColumns = @JoinColumn(name = "allergy_id")
     )
     @Fetch(value = FetchMode.SUBSELECT)
-
     private List<Allergy> allergies;
 
 
