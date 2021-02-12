@@ -14,6 +14,8 @@ insert into addresses(id, city, latitude, longitude, state, street) VALUES (1300
 insert into addresses(id, city, latitude, longitude, state, street) VALUES (1400, 'Belgrade', 44.79211069999999,20.4856736,'Serbia','Gospodara Vučića 123');
 insert into addresses(id, city, latitude, longitude, state, street) VALUES (1500, 'Beograd',44.817433,20.4181654,'Serbia','Bulevar Zorana Đinđića 123');
 
+-- ZA HESIRANJE KORISCEN JE BCryptPasswordEncoder
+-- SVIM KORISNICIMA SU SIFRE: 12345
 
 
 
