@@ -5,14 +5,13 @@
       </mat-action-list> -->
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
     <mat-drawer style="width: 15%; height: 100%; background-color: #385399;" #drawer mode ="side">
-      <mat-action-list *ngIf="isSupplier()">
+      <!-- <mat-action-list *ngIf="isSupplier()">
         <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
         <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
         <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
         <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
-        <button mat-list-item routerLink='/searchMedications' style="color: white;"> Search medications</button>
         <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
-      </mat-action-list>
+      </mat-action-list> -->
       
       <mat-action-list *ngIf="isPatient()">
         <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
@@ -27,7 +26,6 @@
       </mat-action-list>
       <mat-action-list *ngIf="isAdmin()">
         <button mat-list-item routerLink="/admin" style="color: white;"> Home</button>
-        <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
         <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
         <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
         <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
@@ -36,7 +34,10 @@
         <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
         <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
         <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
-      </mat-action-list>
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+        <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+  
+    </mat-action-list>
 
     </mat-drawer>
       <mat-drawer-content>

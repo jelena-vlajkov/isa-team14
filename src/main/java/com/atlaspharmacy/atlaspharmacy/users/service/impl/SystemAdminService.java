@@ -90,8 +90,15 @@ public class SystemAdminService implements ISystemAdminService {
         if(s==null){
             throw new InvalidEmail();
         }
+        Address a = addressRepository.findById(s.getAddress().getId()).get();
+        a.setStreet(systemAdminDTO.getSysAddress().getStreet());
+        a.setCity(systemAdminDTO.getSysAddress().getCity());
+        a.setState(systemAdminDTO.getSysAddress().getState());
+        a.setCoordinates(systemAdminDTO.getSysAddress().getCoordinates());
+        //addressRepository.save(a);
         SystemAdmin newAdmin = SystemAdminMapper.mapDTOToSystemAdmin(systemAdminDTO);
         newAdmin.setId(s.getId());
+        newAdmin.setAddress(a);
         return systemAdminRepository.save(newAdmin);
     }
 

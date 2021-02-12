@@ -82,7 +82,9 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormPh.reset();
         this.loadUnanswered();
+        
       },
       error=>{
         alert("Failed to answer")
@@ -95,6 +97,8 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormPharm.reset();
+
         this.loadUnanswered();
       },
       error=>{
@@ -107,6 +111,8 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormDerm.reset();
+
         this.loadUnanswered();
         
       },

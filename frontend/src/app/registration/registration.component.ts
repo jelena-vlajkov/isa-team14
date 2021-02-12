@@ -88,7 +88,7 @@ export class RegistrationComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           error=>{
-            alert("Fail")
+            alert("Fail - email is already in use!")
           }
         )
       }else{

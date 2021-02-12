@@ -7,7 +7,7 @@
         <button mat-list-item (click)="routeToAllOffers()" style="color: white;"> All offers</button>
         <button mat-list-item (click)="routeToOffers()" style="color: white;"> Edit offers</button>
         <button mat-list-item (click)="routeToPharms()" style="color: white;"> Search pharmacies</button>
-        <button mat-list-item (click)="routetToStorage()" style="color: white;"> Search pharmacies</button>
+        <button mat-list-item (click)="routetToStorage()" style="color: white;"> Storage</button>
 
 
 
@@ -108,12 +108,12 @@
                   <mat-grid-tile>
                     <p>{{supplier.email}}</p>
                   </mat-grid-tile>
-                  <mat-grid-tile>
+                  <!-- <mat-grid-tile>
                     <label>Date of registration:</label>
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <p>{{supplier.dateOfBirth | date:'MM.dd.y'}}</p>
-                  </mat-grid-tile>
+                  </mat-grid-tile> -->
                 </mat-grid-list>
               </mat-card-content>
               <mat-card-actions>

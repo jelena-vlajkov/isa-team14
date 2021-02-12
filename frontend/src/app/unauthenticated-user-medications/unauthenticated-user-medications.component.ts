@@ -42,6 +42,7 @@ export interface DialogData {
   ingredients : String;
   code : Number;
   grade : Number;
+  dosage : Number;
 } 
 
 @Component({
@@ -302,6 +303,7 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   }
   reset(){
     this.dataSource = this.medications;
+    
   }
   ToArray(enumme) {
     return Object.keys(enumme)
@@ -338,8 +340,8 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(UnauthenticatedUserMedicationsComponentDialog, {
       width: '800px',
-      height:'720px',
-      data: {name: m.name, drugType: m.drugType, drugForm: m.drugForm, drugKind:  m.drugKind, typeOfPrescribing:m.typeOfPrescribing, contraindications : m.contraindications, additionalNotes: m.additionalNotes, dailyDose : m.dailyDose, grade : m.grade, code :m.code, ingredients : this.ingredientsString, subMeds : this.subMedsString}
+      height:'760px',
+      data: {name: m.name, drugType: m.drugType, drugForm: m.drugForm, drugKind:  m.drugKind, typeOfPrescribing:m.typeOfPrescribing, contraindications : m.contraindications, additionalNotes: m.additionalNotes, dailyDose : m.dailyDose, dosage : m.dosage, grade : m.grade, code :m.code, ingredients : this.ingredientsString, subMeds : this.subMedsString}
     });
 
     dialogRef.afterClosed().subscribe(result => {

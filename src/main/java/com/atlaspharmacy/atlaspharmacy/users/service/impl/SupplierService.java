@@ -34,7 +34,7 @@ public class SupplierService implements ISupplierService {
     private final AuthenticationManager _authenticationManager;
     private final IPharmacyService _pharmacyService;
     @Autowired
-    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, PharmacyService pharmacyService) {
+    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, PharmacyService pharmacyService ) {
         _authAuthorityService = authAuthorityService;
         _supplierRepository = supplierRepository;
         _addressRepository = addressRepository;
@@ -92,7 +92,13 @@ public class SupplierService implements ISupplierService {
         if(s == null){
             throw new InvalidEmail();
         }
+        Address a = _addressRepository.findById(s.getAddress().getId()).get();
+        a.setStreet(supplierDTO.getAddress().getStreet());
+        a.setCity(supplierDTO.getAddress().getCity());
+        a.setState(supplierDTO.getAddress().getState());
+        a.setCoordinates(supplierDTO.getAddress().getCoordinates());
         Supplier newSupplier = SupplierMapper.mapDTOToSupplier(supplierDTO);
+        newSupplier.setAddress(a);
         newSupplier.setId(s.getId());
         return _supplierRepository.save(newSupplier);
     }
