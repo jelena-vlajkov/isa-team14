@@ -1,0 +1,415 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item (click)="back()" style="color: white;"> Home </button>
+        <button mat-list-item (click)="routeToPharmacyReg()" style="color: white;"> Register pharmacy </button>
+        <button mat-list-item (click)="routeToPhAdmin()" style="color: white;"> Register pharmacy admin</button>
+        <button mat-list-item (click)="routeToDermatologistReg()" style="color: white;"> Register dermatologist </button>
+        <button mat-list-item (click)="routeToSupplierReg()" style="color: white;"> Register supplier </button>
+        <button mat-list-item (click)="routeToDrugReg()" style="color: white;"> Register medication</button>
+        <button mat-list-item (click)="routeToSysAdminReg()" style="color: white;"> Register system administrator</button>
+        <button mat-list-item (click)="respondToComplaints()" style="color: white;"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+        <button mat-list-item (click)="routeToMeds()" style="color: white;"> Search medications</button>
+        <button mat-list-item (click)="routeToPharms()" style="color: white;"> Search pharmacies</button>
+        
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button style="color: white;" (click)="routeToProfile()" mat-list-item> Profile</button>
+              <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+         
+          <div *ngIf="home" style="display: flex; justify-content: center; width: 100%; overflow-y: true;">
+
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                  Profile
+              </mat-card-title>
+              <mat-card-content>
+                  <img style="width: 270px; height: 270px;" (click)="routeToProfile()"  src="./assets/profile-photo.png">
+              </mat-card-content>
+          </mat-card >
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Register medication
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 270px; height: 270px;" (click)="routeToDrugReg()" src="./assets/register.png">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Register system admin
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 270px; height: 270px;" (click)="routeToSysAdminReg()" src="./assets/admin.png">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Register supplier
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 270px; height: 270px;" (click)="routeToSupplierReg()" src="./assets/supplier.png">
+                </mat-card-content>
+            </mat-card>
+            
+        </div>
+        <div *ngIf="home" style="display: flex; justify-content: center; width: 100%; overflow-y: true;">
+
+          <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+            <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                Register pharmacy
+            </mat-card-title>
+            <mat-card-content>
+                <img style="width: 270px; height: 270px;" (click)="routeToPharmacyReg()"  src="./assets/pharmacy.png">
+            </mat-card-content>
+        </mat-card>
+          <mat-card style="margin-left: 30px; height: fit-content; margin-top: 20px; justify-content: center;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px; overflow-wrap: break-word;">
+                  Register pharmacy admin
+              </mat-card-title>
+              <mat-card-content >
+                  <img style="width: 270px; height: 270px;" (click)="routeToPhAdmin()" src="./assets/phadmin.jpg">
+              </mat-card-content>
+          </mat-card>
+          <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+            <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                  Register dermatologist
+              </mat-card-title>
+              <mat-card-content>
+                  <img style="width: 270px; height: 270px;" (click)="routeToDermatologistReg()" src="./assets/derm.svg">
+              </mat-card-content>
+          </mat-card>
+          <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+            <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                  Answer to complaints
+              </mat-card-title>
+              <mat-card-content>
+                  <img style="width: 270px; height: 270px;" (click)="respondToComplaints()" src="./assets/complaints.png">
+              </mat-card-content>
+          </mat-card>
+      </div>
+
+        <div *ngIf="profile" style="width: 100%;">
+          <mat-card class="profile mat-elevation-z8">
+            <mat-card-header>
+              <mat-card-title>
+                <label style="font-weight:bold; font-size: 25px;">System admin profile</label>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                <mat-grid-tile>
+                  <label>Name:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysName}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Surname:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>                
+                  <p>{{sysAdmin.sysSurname}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Gender:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysGender}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Address:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysAddress.street}},{{sysAdmin.sysAddress.city.name}}, {{sysAdmin.sysAddress.state.name}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Telephone:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysPhoneNumber}}</p>
+                </mat-grid-tile>
+  
+                <mat-grid-tile>
+                  <label>Email:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysEmail}}</p>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <label>Birth date:</label>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <p>{{sysAdmin.sysDateOfBirth | date:'MM.dd.y'}}</p>
+                </mat-grid-tile>
+              </mat-grid-list>
+
+              <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
+              <button style="float:left; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='back()' color="accent">Back</button>
+  
+            </mat-card-content>
+
+          </mat-card>
+        </div>
+        
+
+
+        <div *ngIf="edit" style="width: 100%;">
+          <mat-card class="profile mat-elevation-z8"> 
+            <mat-card-header>
+              <mat-card-title>
+                <label style="font-weight:bold; font-size: 25px;">Edit profile</label>
+              </mat-card-title>
+            </mat-card-header> 
+            <mat-card-content>
+              <form [formGroup]="editProfileForm" (ngSubmit)="confirmEdit()">
+                <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;">
+
+                  <mat-grid-tile>
+                    <label>Name:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="name-ff">
+                          <mat-label>Name*</mat-label>
+                          <input matInput id="name" placeholder="Name" name="name-ff" value="{{name}}"
+                              formControlName="name">
+                          <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
+                              Please enter name</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['pattern']">
+                              Please enter name in correct format</mat-error>
+                      </mat-form-field>
+                  </div>                  
+                </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Surname:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>   
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="surname-ff">
+                          <mat-label>Surname*</mat-label>
+                          <input matInput id="surname" placeholder="Surname" name="surname-ff" formControlName="surname">                   
+                          <mat-error
+                              *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
+                              Please enter surname</mat-error>
+                          <mat-error
+                              *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['pattern']">
+                              Please enter surname in correct format</mat-error>
+                      </mat-form-field>
+                  </div>             
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Gender:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                        <mat-radio-button value="FEMALE" style="font-size:20px; margin-left: 20px;">Female</mat-radio-button>
+                        <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
+                        <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
+                    </mat-radio-group>
+
+
+                      <mat-error
+                      *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
+                      Please enter gender</mat-error>
+                  </div>
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Address:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                      <mat-label>Current address: {{sysAdmin.sysAddress.street}},{{sysAdmin.sysAddress.city.name}}, {{sysAdmin.sysAddress.state.name}}</mat-label><br>
+                      <app-google-places></app-google-places>
+                  
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Telephone:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <mat-form-field appearance="fill" id="telephone-ff">
+                      <mat-label>Telephone*</mat-label>
+                      <input matInput id="telephone" placeholder="Telephone" name="telephone-ff"
+                          formControlName="telephone">
+                      <mat-error
+                          *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
+                          Please enter telephone</mat-error>
+                          <mat-error *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['pattern']">
+                            Please enter telephone in correct format</mat-error>
+                  </mat-form-field>
+
+
+                  
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Email:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <p>{{sysAdmin.sysEmail}}</p>
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Birth date:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                      <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                    <mat-error
+                      *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['required']">
+                      Please enter date of birth</mat-error>
+
+
+                  </mat-grid-tile>
+
+                </mat-grid-list>
+
+              <button style="float:right; position:relative;" mat-raised-button id='editProfile' color="accent">Confirm</button>
+
+              </form>
+              
+              <button style="float:left; position:relative;" mat-raised-button id='cancelEditProfile' (click)='cancelEdit()'  color="accent">Cancel</button>
+
+              <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)='changePasswordFunction()' color="accent">Change password</button>
+
+            </mat-card-content>            
+              
+          </mat-card>
+
+
+        </div>
+
+        <div *ngIf="changePassword" style="width:100%">
+          <mat-card class="profile mat-elevation-z8">
+            <mat-card-header>
+              <mat-card-title>
+                <label style="font-weight:bold; font-size: 25px;">Change password</label>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <form [formGroup]="changePasswordForm" (ngSubmit)="submitChangePassword()">
+                <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+  
+                  <mat-grid-tile>
+                    <label *ngIf="changePassword && !newCustomer">Old password:</label>
+                    <label *ngIf="changePassword && newCustomer">Predefined password:</label>
+                </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="password-ff">
+                        <mat-label *ngIf="changePassword && !newCustomer">Old password:</mat-label>
+                        <mat-label *ngIf="changePassword && newCustomer">Predefined password:</mat-label>
+                          <input matInput type="password" id="oldpassword" placeholder="Old Password" name="password-ff" formControlName="oldpassword">
+                          <mat-error
+                              *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
+                              Please enter old password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['minLength']">
+                              Please enter old password of correct length</mat-error>
+                      </mat-form-field>
+                    </div>                  
+                </mat-grid-tile>
+   
+                  <mat-grid-tile>
+                    <label>New password:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>   
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="password-ff">
+                          <mat-label>New password*:</mat-label>
+                          <input matInput type="password"  id="newpassword" placeholder="New Password" name="password-ff" formControlName="newpassword">
+                          <mat-error
+                              *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['required']">
+                              Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['minLength']">
+                              New password has to be min 8 characters long</mat-error>
+                      </mat-form-field>
+                    </div>               
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <label>Confirm password:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="password-ff">
+                          <mat-label>Confirm password*:</mat-label>
+                          <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                          <mat-error
+                              *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['required']">
+                              Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['minLength']">
+                              New password has to be min 8 characters long</mat-error>
+                      </mat-form-field>
+                    </div>  
+                  </mat-grid-tile> 
+                      
+                  <mat-grid-tile>
+                    <p hidden></p>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <p hidden></p>
+  
+                  </mat-grid-tile>
+    
+                  <mat-grid-tile>
+                    <p hidden></p>
+  
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <p hidden></p>
+                  </mat-grid-tile>
+                  
+                  <mat-grid-tile>
+                    <p hidden></p>
+  
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <p hidden></p>
+                  </mat-grid-tile>
+                </mat-grid-list>
+     
+                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">ChangePassword</button>
+  
+                  </form>
+                  <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='back()'  color="accent">Back</button>
+                </mat-card-content>
+            </mat-card> 
+        </div>
+
+          
+          
+
+              
+              
+
+
+    </mat-drawer-content>
+</mat-drawer-container>

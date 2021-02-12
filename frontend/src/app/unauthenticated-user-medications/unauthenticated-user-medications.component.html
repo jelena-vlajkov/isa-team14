@@ -1,0 +1,225 @@
+       <!-- <mat-action-list >
+              <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+                <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+         
+      </mat-action-list> -->
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+    <mat-drawer style="width: 15%; height: 100%; background-color: #385399;" #drawer mode ="side">
+      <!-- <mat-action-list *ngIf="isSupplier()">
+        <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+        <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+        <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+        <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+        <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+      </mat-action-list> -->
+      
+      <mat-action-list *ngIf="isPatient()">
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+        <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+        <button mat-list-item  routerLink="/userProfile" style="color: white;"> <mat-icon>face</mat-icon>Profile</button>
+  
+    </mat-action-list>
+
+      <mat-action-list *ngIf="!isSupplier() && !isAdmin() && !isPatient()">
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+        <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+      </mat-action-list>
+      <mat-action-list *ngIf="isAdmin()">
+        <button mat-list-item routerLink="/admin" style="color: white;"> Home</button>
+        <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+        <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+        <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+  
+    </mat-action-list>
+
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;" >
+           
+            <mat-toolbar-row>
+                 <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+                    <mat-icon>menu</mat-icon>
+                 </button>
+                <h1>AtlasPharmacy</h1>
+                <span class="menu-spacer"></span>
+                <div class="divTool">
+            
+                </div>
+                <span class="example-spacer"></span>
+                <button *ngIf="!checkLoggedInUser()" mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>login<span class="tooltiptext">Login</span>
+                    </mat-icon>
+                    </button>
+                <button *ngIf="!checkLoggedInUser()" mat-icon-button [routerLink]="'/registration'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                <mat-icon>app_registration <span class="tooltiptext">Registration</span>
+                </mat-icon>
+                </button>
+                <button *ngIf="checkLoggedInUser()" mat-icon-button (click)="logout()" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>logout <span class="tooltiptext">Logout</span>
+                    </mat-icon>
+                    </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+            <div style="width: 100%; height: 100%; float: left;">
+                <mat-card style="width: 50%; height:200px;">
+                    <mat-card-title>
+                        Search medication
+                    </mat-card-title>
+                    <mat-card-content>
+                        <div class="inputField">
+                            <mat-form-field appearance="fill" id="name-ff">
+                                <mat-label>Drug name*</mat-label>
+                                <input matInput id="name" name="name-ff" [(ngModel)]="drugName">
+        
+                            </mat-form-field>
+                            <button mat-fab color="accent" style="position:relative; margin-left: 10px; height: 50px; margin-bottom: 5px;" (click)="findByName(drugName)">
+                                <mat-icon>search</mat-icon>
+                              </button>
+                            <mat-select placeholder="Select grade range" (selectionChange)="getGradeValues($event)" style="width: 20%; margin-left: 25px; height: 50px;">
+                                <mat-option value="1">Between 0 and 1</mat-option>
+                                <mat-option value="2">Between 1 and 2</mat-option>
+                                <mat-option value="3">Between 2 and 3</mat-option>
+                                <mat-option value="4">Between 3 and 4</mat-option>
+                                <mat-option value="5">Between 4 and 5</mat-option>
+                                <mat-option value="6">All</mat-option>
+                            </mat-select>
+                            <mat-select placeholder="Select medication type" style="width: 20%; margin-left: 25px; height: 50px;"  (selectionChange)="getTypes($event)">
+                                <mat-option value="0">Herbal</mat-option>
+                                <mat-option value="1">Biological</mat-option>
+                                <mat-option value="2">Homeopatic</mat-option>
+                                <mat-option value="3">Human</mat-option>
+                                <mat-option value="4">Blood</mat-option>
+                                <mat-option value="5">Radiopharameuticals</mat-option>
+                                <mat-option value="6">Traditional herbal</mat-option>
+                                <mat-option value="7">Vaccines</mat-option>
+                                <mat-option value="8">All</mat-option>
+                            </mat-select>
+
+                            <mat-select placeholder="Select medication form" style="width: 20%; margin-left: 25px; height: 50px;"  (selectionChange)="getForms($event)">
+                                <mat-option value="0">Syrup</mat-option>
+                                <mat-option value="1">Pill</mat-option>
+                                <mat-option value="2">Capsule</mat-option>
+                                <mat-option value="3">Powder</mat-option>
+                                <mat-option value="4">Gel</mat-option>
+                                <mat-option value="5">Paste</mat-option>
+                                <mat-option value="6">Solution</mat-option>
+                                <mat-option value="7">All</mat-option>
+                            </mat-select>
+                            <br>
+
+                            <mat-select placeholder="Select medication kind" style="width: 20%; margin-left: 31.5%; height: 50px;"  (selectionChange)="getKinds($event)">
+                                <mat-option value="0">Antibiotic</mat-option>
+                                <mat-option value="1">Analgetic</mat-option>
+                                <mat-option value="2">Antihistaminic</mat-option>
+                                <mat-option value="3">Antivirotic</mat-option>
+                                <mat-option value="4">All</mat-option>
+                            </mat-select>
+                            <mat-select placeholder="Select medication prescribing" style="width: 20%; margin-left: 25px; height: 50px;"  (selectionChange)="getPrescribing($event)">
+                                <mat-option value="1">With prescribing</mat-option>
+                                <mat-option value="0">Without prescribing</mat-option>
+                                <mat-option value="2">All</mat-option>
+                            </mat-select>
+                            <button mat-raised-button color="accent" style="font-size:12px;margin-left: 25px; width: 50px;" id="button"  (click)="reset()">Reset</button>
+
+                        </div>
+                    </mat-card-content>
+
+
+                </mat-card>
+
+                <mat-card style="height: fit-content; width: 50%; float: left;" >
+
+                    <table class="fl-table" matSort (matSortChange)="sortData($event)">
+                        <thead>
+                        <tr>
+                            <th mat-sort-header="name">Name</th>
+                            <th mat-sort-header="type">Type</th>
+                            <th mat-sort-header="producer">Producer</th>
+                            <th mat-sort-header="grade">Grade</th>
+                            <th>Pharamacies</th>
+                            <th>More info</th>
+                        
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let m of dataSource">
+                            <td>{{m.name}}</td>
+                            <td>{{m.drugType}}</td>
+                            <td>{{m.producer}}</td>
+                            <td>{{m.grade}}</td> 
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="getPricelists(m)">Show</button></td>                  
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="openDialog(m)">Show</button></td>                  
+                        </tr>
+                        
+                        
+                        <tbody>
+                    </table>
+                </mat-card>
+
+                <mat-card style="height:fit-content; width: 50%; float:right;" *ngIf="showinfo">
+                    <mat-card-title>
+                        Medication is available in these pharmacies
+                    </mat-card-title>
+                    <table class="fl-table" matSort (matSortChange)="sortDataPharmacy($event)">
+                        <thead>
+                        <tr>
+                            <th mat-sort-header="name">Name</th>
+                            <th>Address</th>
+                            <th mat-sort-header="grade">Rating</th>
+                            <th mat-sort-header="price">Price</th>
+
+                            <th *ngIf="isPatient()">Reserve</th>
+                        
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let pricelist of pricelistDataSource">
+                            <td>{{pricelist.pharmacy.name}}</td>
+                            <td>{{pricelist.pharmacy.address.street}}, {{pricelist.pharmacy.address.city.name}}, {{pricelist.pharmacy.address.state.name}}</td>
+                            <td>{{pricelist.pharmacy.average_grade}}</td>
+                            <td>{{pricelist.price}}</td>
+                            <!-- <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="getPharmacies(m)">Pick</button></td>                   -->
+                            <td><button mat-raised-button color="accent" style="font-size:12px" id="button" *ngIf="isPatient()" (click)="reserve(pricelist.medication)">Reserve</button></td>                  
+                        </tr>
+                        
+                        
+                        <tbody>
+                    </table>
+                </mat-card>
+            </div>
+            
+            <!-- <div class="table-wrapper" style="float: left;">
+                <table class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Producer</th>
+                        <th>Grade</th>
+                    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let m of medications">
+                        <td>{{m.name}}</td>
+                        <td>{{m.drugType}}</td>
+                        <td>{{m.producer}}</td>
+                        <td>{{m.grade}}</td>                   
+                    </tr>
+                    
+                    
+                    <tbody>
+                </table>
+            </div> -->
+
+      </mat-drawer-content>
+</mat-drawer-container>
+
+

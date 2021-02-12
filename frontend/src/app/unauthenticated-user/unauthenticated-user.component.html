@@ -1,0 +1,104 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+    <mat-drawer style="width: 15%; height: 100%; background-color: #385399;" #drawer mode ="side">
+        <mat-action-list *ngIf="isSupplier()">
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+          <button mat-list-item routerLink="/supplier/orders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+        </mat-action-list>
+    
+        <mat-action-list *ngIf="isPatient()">
+          <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+          <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+          <button mat-list-item  routerLink="/userProfile" style="color: white;"> <mat-icon>face</mat-icon>Profile</button>
+
+        </mat-action-list>
+
+        <mat-action-list *ngIf="!isSupplier() && !isAdmin() && !isPatient()">
+          <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+          <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+        </mat-action-list>
+
+        <mat-action-list *ngIf="isAdmin()">
+          <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+          <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+          <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+          <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+          <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+          <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+          <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+          <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+          <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+          <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
+          <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
+    
+        </mat-action-list>
+  
+      </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;" >
+           
+            <mat-toolbar-row>
+                 <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+                    <mat-icon>menu</mat-icon>
+                 </button>
+                <h1>AtlasPharmacy</h1>
+                <span class="menu-spacer"></span>
+                <div class="divTool">
+            
+                </div>
+                <span class="example-spacer"></span>
+                <button *ngIf="!checkLoggedInUser()" mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>login<span class="tooltiptext">Login</span>
+                    </mat-icon>
+                    </button>
+                <button *ngIf="!checkLoggedInUser()" mat-icon-button [routerLink]="'/registration'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                <mat-icon>app_registration <span class="tooltiptext">Registration</span>
+                </mat-icon>
+                </button>
+                <button *ngIf="checkLoggedInUser()" mat-icon-button (click)="logout()" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon>logout <span class="tooltiptext">Logout</span>
+                    </mat-icon>
+                    </button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+        
+        <div *ngIf="medcs"> 
+      
+            <div class="table-wrapper">
+                <table class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Producer</th>
+                        <th>Grade</th>
+                    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let m of medications">
+                        <td>{{m.name}}</td>
+                        <td>{{m.drugType}}</td>
+                        <td>{{m.producer}}</td>
+                        <td>grade 1</td>                   
+                    </tr>
+                    
+                    
+                    <tbody>
+                </table>
+            </div>   
+        </div>
+
+
+
+      </mat-drawer-content>
+</mat-drawer-container>
+
+
+
+  
+
+

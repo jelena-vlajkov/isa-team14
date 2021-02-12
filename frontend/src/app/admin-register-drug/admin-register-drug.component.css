@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding-top: 5vw;
+  }
+
+  label {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  a {
+    font-size: medium;
+    padding-left: 5px;
+  }
+  p{
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .example-spacer {
+    height: 100%;
+  }
+  .example-container {
+    flex: 1 1 auto;
+    height: 100%;
+    /* width: 400px;
+    height: 200px;
+    margin: 12px; */
+    /* border: 1px solid #555; */
+  }
+  
+  mat-drawer-content {
+    /* padding: 12px; */
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  .drawer-content{
+    display: flex;
+    width: 100%;
+  }
+  mat-card{
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:2%;
+    width: 60%;
+    height: 42vw;
+    
+  }
+  .submedicine{
+    position: relative; 
+    width: 100%;    
+    height: 25vw;
+  }
+  #mname-ff {
+    margin-left: 0px;
+    width: 350px !important;
+    font-size: 14px;
+  }
+  #code-ff {
+  margin-left: 0px;
+  width: 350px !important;
+  font-size: 14px;
+}
+#notes-ff {
+    margin-left: 0px;
+    width: 350px !important;
+    font-size: 14px;
+  }
+#contra-ff {
+  margin-left: 0px;
+  width: 350px !important;
+  font-size: 14px;
+}
+#daily-ff {
+    margin-left: 0px;
+    width: 350px !important;
+    font-size: 14px;
+  }

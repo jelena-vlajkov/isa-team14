@@ -1,0 +1,125 @@
+
+#loginForm {
+    min-width: 400px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 20px;
+  }
+  
+  #registerForm {
+    min-width: 400px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    font-size: 20px;
+  }
+
+  #name-ff {
+    margin-bottom: 5px;
+    width: 400px !important;
+    font-size: 20px;
+  }
+  #surname-ff {
+    margin-bottom: 5px;
+    width: 400px !important;
+    font-size: 20px;
+
+  }
+  #password-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+    font-size: 20px;
+
+  }
+  #address-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+    font-size: 20px;
+
+  }
+  #password1-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+    font-size: 20px;
+
+  }
+  #email-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+    font-size: 20px;
+
+  }
+  #telephone-ff {
+    width: 400px !important;
+    margin-bottom: 5px;
+    font-size: 20px;
+
+  }
+  .container {
+    display: flex;
+    justify-content: center;
+    padding-top: 5vw;
+  }
+  .dermatologist-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:1%;
+    width: 60%;
+    height: 28vw;
+  }
+  table {
+    width: 49.5%;
+    margin-bottom: 20px;
+  }
+  .pharmacy-card {
+    position: relative; 
+    margin-left: 20%; 
+    margin-top:1%;
+    width: 60%;
+    height: 30vw;
+  }
+
+  label {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  a {
+    font-size: medium;
+    padding-left: 5px;
+  }
+  p{
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+  .example-spacer {
+    height: 100%;
+  }
+  .example-container {
+    flex: 1 1 auto;
+    height: 100%;
+    /* width: 400px;
+    height: 200px;
+    margin: 12px; */
+    /* border: 1px solid #555; */
+    background: wheat;
+    background-size: cover;
+    background-position: center;
+    overflow-y: scroll;
+  }
+  
+  mat-drawer-content {
+    /* padding: 12px; */
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    
+  }

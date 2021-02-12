@@ -1,0 +1,291 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+        <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+        <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+        <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button style="color: white;" routerLink='/admin' mat-list-item> Profile</button>
+              <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <div style="overflow-y: auto; width: 100%;">
+            <mat-card class="mat-elevation-z8" style="height: fit-content;" >
+                <mat-card-header>
+                    <mat-card-title>
+                        <label style="font-weight:bold; font-size: 25px;">Register medication</label>
+                      </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+
+                    <form [formGroup]="registerMedication" >
+                            <mat-grid-list cols="2" rowHeight="7:1" >
+                                <mat-grid-tile >
+                                    <div class="inputField" >
+                                        <mat-form-field appearance="fill" id="mname-ff" >
+                                            <mat-label>Medication name*</mat-label>
+                                            <input matInput id="mname" placeholder="Medication name" name="mname-ff" formControlName="mname">                   
+                                            <mat-error
+                                                *ngIf="!registerMedication.get('mname').valid && registerMedication.get('mname').touched && registerMedication.get('mname').errors['required']">
+                                                Please enter medication name</mat-error>
+                                                <mat-error
+                                                *ngIf="!registerMedication.get('mname').valid && registerMedication.get('mname').touched && registerMedication.get('mname').errors['pattern']">
+                                                Please enter medication name in correct form</mat-error>
+                                        </mat-form-field>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField" >
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Producer*</mat-label>
+                                            <input matInput id="producer" placeholder="Medication producer" name="code-ff" formControlName="producer">                   
+                                            <mat-error
+                                                *ngIf="!registerMedication.get('producer').valid && registerMedication.get('producer').touched && registerMedication.get('producer').errors['required']">
+                                                Please enter medication producer</mat-error>
+                                                <mat-error
+                                                *ngIf="!registerMedication.get('producer').valid && registerMedication.get('producer').touched && registerMedication.get('producer').errors['pattern']">
+                                                Please enter medication producer in correct form</mat-error>
+                                        </mat-form-field>
+                                    </div> 
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug type*</mat-label>
+                                            <mat-select formControlName = 'drugType' >
+                                              <mat-option *ngFor="let type of drugTypes" [value]="type">
+                                                {{type}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugType').valid && registerMedication.get('drugType').touched && registerMedication.get('drugType').errors['required']">
+                                                Please choose an drug type</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug kind*</mat-label>
+                                            <mat-select formControlName = 'drugKind' >
+                                              <mat-option *ngFor="let kind of drugKinds" [value]="kind">
+                                                {{kind}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugKind').valid && registerMedication.get('drugKind').touched && registerMedication.get('drugKind').errors['required']">
+                                                Please choose an drug kind</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="code-ff">
+                                            <mat-label>Drug form*</mat-label>
+                                            <mat-select formControlName = 'drugForm' >
+                                              <mat-option *ngFor="let form of drugForms" [value]="form">
+                                                {{form}}
+                                              </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="!registerMedication.get('drugForm').valid && registerMedication.get('drugForm').touched && registerMedication.get('drugForm').errors['required']">
+                                                Please choose an drug form</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                    <div class="inputField" >
+                                        <mat-label style="font-size: 20px; margin-top: 15px;">
+                                            Prescription*: 
+                                        </mat-label>
+                                        <mat-radio-group name="prescribtion" formControlName='prescribtion' [(ngModel)]="selectedPrescribtion" required>
+                                            <mat-radio-button value="WITHPRESCRIPTION" style="font-size:20px; margin-left: 20px;">Yes</mat-radio-button>
+                                            <mat-radio-button value="WITHOUTPRESCRIPTION" style="font-size:20px;margin-left: 20px;">No</mat-radio-button>
+                                        </mat-radio-group>
+                                        <mat-error
+                                        *ngIf="!registerMedication.get('prescribtion').valid && registerMedication.get('prescribtion').touched && registerMedication.get('prescribtion').errors['required']">
+                                        Please choose prescription tipe</mat-error>
+                                      </div>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <mat-form-field style="min-width: 150px;max-width: 350px;width: 100%;">
+                                        <mat-label>Write contraindications</mat-label>
+                                        <textarea matInput placeholder="Contraindications..." formControlName="contra"></textarea>
+                                        <mat-error *ngIf="!registerMedication.get('contra').valid && registerMedication.get('contra').touched && registerMedication.get('contra').errors['required']">
+                                            Please enter contraindications</mat-error>
+                                      </mat-form-field>
+                                </mat-grid-tile>
+                                <mat-grid-tile>
+                                        <mat-form-field style="min-width: 150px;max-width: 350px;width: 100%;">
+                                            <mat-label>Write additional notes</mat-label>
+                                            <textarea matInput placeholder="Additional notes..." formControlName="notes"></textarea>
+                                            <mat-error *ngIf="!registerMedication.get('notes').valid && registerMedication.get('notes').touched && registerMedication.get('notes').errors['required']">
+                                                Please enter additional notes</mat-error>
+                                          </mat-form-field>
+                                </mat-grid-tile>
+
+                                <mat-grid-tile>
+                                    <div class="inputField">
+                                        <mat-form-field appearance="fill" id="daily-ff">
+                                            <mat-label>Daily dose*</mat-label>
+                                            <input matInput id="daily" placeholder="Daily dose" name="daily-ff" formControlName="daily">                   
+                                            <mat-error *ngIf="!registerMedication.get('daily').valid && registerMedication.get('daily').touched && registerMedication.get('daily').errors['required']">
+                                                Please enter daily dose</mat-error>
+                                            <mat-error *ngIf="!registerMedication.get('daily').valid && registerMedication.get('daily').touched && registerMedication.get('daily').errors['pattern']">
+                                                Please enter daily dose as number</mat-error>
+                                          </mat-form-field>
+                                    </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <div class="inputField">
+                                    <mat-form-field appearance="fill" id="daily-ff">
+                                        <mat-label>Substitute medications*</mat-label>
+                                        <mat-select placeholder="Substitute medications" [formControl]="medications" [(value)]="selectedMedications" multiple>
+                                            <mat-option *ngFor="let medication of allMedications" [value]="medication">{{medication.name}}</mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile>
+                                <div class="inputField">
+                                    <mat-form-field appearance="fill" id="daily-ff">
+                                        <mat-label>Dosage*</mat-label>
+                                        <input matInput id="daily" placeholder="Dosage" name="daily-ff" formControlName="dosage">                   
+                                        <mat-error *ngIf="!registerMedication.get('dosage').valid && registerMedication.get('dosage').touched && registerMedication.get('dosage').errors['required']">
+                                            Please enter dosage in mg</mat-error>
+                                            <mat-error *ngIf="!registerMedication.get('dosage').valid && registerMedication.get('dosage').touched && registerMedication.get('dosage').errors['pattern']">
+                                                Please enter dosage as number</mat-error>
+                                      </mat-form-field>
+                                </div>
+                            </mat-grid-tile>
+                            </mat-grid-list>
+
+                            
+                    </form>
+
+                </mat-card-content>
+            </mat-card>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>
+                        <label style="font-weight:bold; font-size: 25px;">Select ingredients or add new ingredient</label>
+                      </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-form-field style="margin-left:36%">
+                        <input (keyup) = "applyFilter($event.target.value)" matInput placeholder="Ingredient:" >
+                    </mat-form-field>
+                            <!-- <label style="margin-left: 50%;">Chosen ingredients</label> -->
+                    
+                            <div style="width: 100%;">
+                                <mat-card style="width: 31.5%; height: 400px; float:left; margin-right: 10px; margin-left: 10px;">
+                                        <mat-card-title>
+                                            <label style="font-weight:bold; font-size: 25px;">New ingredient</label>
+                                          </mat-card-title>
+                                          <mat-card-content>
+                                              <form [formGroup]="newIngredient" >
+                                                  <div class="inputField">
+                                                <mat-form-field appearance="fill" style="width: 95%;">
+                                                    <mat-label>New Ingredient*</mat-label>
+                                                    <input matInput id="daily" placeholder="Daily dose" name="daily-ff" formControlName="name">                   
+                                                    <mat-error *ngIf="!newIngredient.get('name').valid && newIngredient.get('name').touched && newIngredient.get('name').errors['required']">
+                                                        Please enter ingredient name</mat-error>
+                                                        <mat-error *ngIf="!newIngredient.get('name').valid && newIngredient.get('name').touched && newIngredient.get('name').errors['pattern']">
+                                                            Please enter ingredient name in correct format</mat-error>
+                                                  </mat-form-field>
+                                                </div>
+                                                <div class="inputField">
+                                                    <mat-form-field appearance="fill" style="width: 95%;">
+                                                        <mat-label>Allergies*</mat-label>
+                                                        <mat-select placeholder="Allergies" [formControl]="allergies" [(value)]="chosenAllergies" multiple>
+                                                            <mat-option *ngFor="let allergy of allAllergies" [value]="allergy">{{allergy.name}}</mat-option>
+                                                        </mat-select>
+                                                      </mat-form-field>
+                                                </div>
+                                            <button style="float:right; position:relative; margin-right: 10px; font-size: 12px;" mat-raised-button id='editProfile' (click)="registerIngredient()" [disabled]="!newIngredient.valid" color="accent">Regsiter ingredient</button>
+
+                                              </form>
+                                            
+                                          </mat-card-content>
+                                  </mat-card>
+                                  <mat-card style="width: 31.5%; height:fit-content; float:left; margin-right: 10px; margin-left: 10px;">
+                                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width:100%">
+                    
+
+                                        <ng-container matColumnDef="id">
+                                          <th mat-header-cell *matHeaderCellDef> Id </th>
+                                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.id}} </td>
+                                        </ng-container>
+                                      
+                                        <ng-container matColumnDef="name">
+                                          <th mat-header-cell *matHeaderCellDef> Name </th>
+                                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.name}} </td>
+                                        </ng-container>
+                                               
+                                            <ng-container matColumnDef="pick">
+                                                <th mat-header-cell *matHeaderCellDef> Pick </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <button mat-raised-button color="primary" style="font-size:12px" id="button" (click)="pickIngredient(element)">Pick</button>
+                                                </td>
+                                            </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                      </table>
+                                  </mat-card>
+                                  <mat-card style="width: 31.5%; height: fit-content; float:left; margin-right: 10px; margin-left: 10px;">
+                                    <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8" style="width:100%;" #nextTable>
+                    
+
+                                        <ng-container matColumnDef="id">
+                                          <th mat-header-cell *matHeaderCellDef>Id</th>
+                                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.id}} </td>
+                                        </ng-container>
+                                      
+                                        <ng-container matColumnDef="name">
+                                          <th mat-header-cell *matHeaderCellDef> Name </th>
+                                          <td mat-cell *matCellDef="let element" style="font-size:12px"> {{element.name}} </td>
+                                        </ng-container>
+                                      
+                                        
+                                            <ng-container matColumnDef="pick">
+                                                <th mat-header-cell *matHeaderCellDef> Remove </th>
+                                                <td mat-cell *matCellDef="let element"> 
+                                                    <button mat-raised-button color="accent" style="font-size:10px; width: 20px;" id="button" (click)="removeIngredient(element)">X</button>
+                                                </td>
+                                            </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                      </table>
+          <button style="float:right; position:relative; margin-top: 20px; font-size: 12px;" mat-raised-button id='editProfile' (click)="addDrug()" [disabled]="!registerMedication.valid" color="accent">Add medication</button>
+
+                                </mat-card>
+                                
+                                
+                            </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
+
+
+<!-- 
+<mat-form-field>
+                                 -->

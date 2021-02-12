@@ -1,0 +1,112 @@
+<mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="side">
+       <mat-action-list ><button mat-list-item routerLink="/pharmacist">  
+        <i class="material-icons">dashboard</i>
+        <p class="list-p">Dashboard</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/addReport">  
+                <i class="material-icons">alarm</i>
+                <p class="list-p">Counselings</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/calendar"> 
+    
+            <i class="material-icons">calendar_today</i>
+            <p class="list-p">Calendar</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/reports"> 
+        
+            <i class="material-icons">article</i>
+            <p class="list-p">Counseling reports</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/patients"> 
+            
+            <i class="material-icons">group</i>
+            <p class="list-p">Patients</p>
+        </button>
+        <button mat-list-item routerLink="/pharmacist/medication"> 
+            
+            <i class="material-icons">medication</i>
+            <p class="list-p">Medications</p>
+        </button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+    <button mat-list-item routerLink="/pharmacist/profile"> 
+          
+            <i class="material-icons">person</i>
+            <p class="list-p">Profile</p>
+        </button>
+        <button  mat-list-item (click)='logout()'> 
+            <i class="material-icons">logout</i>
+            <p class="list-p">Logout</p>
+        </button>
+      </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content style="height: 100%">
+        <mat-toolbar style="background-color: #385399;">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon style="color: white;">menu</mat-icon>
+            </button>
+            <span style="color: white;">Welcome!</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+          <div style="display: flex;">
+            
+            <mat-card style="width: fit-content; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Medications
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToMedications()" src="./assets/pills.jpg">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Counseling reports
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToReports()" src="./assets/reports.png">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    My patients
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToPatients()" src="./assets/patients.jpg">
+                </mat-card-content>
+            </mat-card>
+            
+        </div>
+        <div style="display: flex;">
+            <mat-card style="width: fit-content; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Todays counselings
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToCounselings()"  src="./assets/todays.jpg">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Schedule
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToCalendar()" src="./assets/schedule.jpg">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content">
+                <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Profile
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 400px; height: 300px;" (click)="routeToProfile()" src="./assets/femaleprofile.png">
+                </mat-card-content>
+            </mat-card>
+            
+        </div>
+          
+      </mat-drawer-content>
+</mat-drawer-container>
+
+

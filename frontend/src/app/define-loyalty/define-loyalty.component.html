@@ -1,0 +1,85 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+    <mat-drawer style="width: 20%;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
+        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button  mat-list-item routerLink="/admin"> Profile</button>
+              <button  mat-list-item (click)="adminLogout()"> Logout</button>
+
+      </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="accent">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <mat-card>
+            <button style="margin-right: 10px; width:90px;" mat-raised-button id='addLoyalty'   color="accent">Add</button>
+
+            <mat-card class="loyalty-card">
+                <mat-card-title>
+                    <label style="font-weight:bold; font-size: 25px; color:deeppink;" >Gold</label>
+                </mat-card-title> 
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item><p style="font-size: 20px;">Discount percentage: &nbsp; {{discount}}% </p></mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item><p style="font-size: 20px;">Points for drug: &nbsp; {{drugpoints}} </p></mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item><p style="font-size: 20px;">Points for examination: &nbsp; {{exampoints}} </p></mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item><p style="font-size: 20px;">Points for counceling: &nbsp; {{counseling}} </p></mat-list-item>
+
+                      </mat-list>
+                </mat-card-content>
+                <mat-card-actions align='end'>
+                    <button mat-raised-button id='addLoyalty'   color="accent">Change range</button>
+                </mat-card-actions> 
+            </mat-card>
+            <mat-card class="loyalty-card">
+                <mat-card-title>
+                    <label style="font-weight:bold; font-size: 25px; color:deeppink;" >Silver</label>
+                </mat-card-title>
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item>Item 1</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Item 2</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Item 3</mat-list-item>
+                        <mat-divider></mat-divider>
+                        <mat-list-item>Item 4</mat-list-item>
+                      </mat-list>
+                </mat-card-content>
+
+                <mat-card-actions align="end">
+                    <button style="position:relative; margin-bottom: 10px;" mat-raised-button id='change-loyalty' color="accent">Change range</button>
+                </mat-card-actions>
+
+            </mat-card> 
+            <!-- <mat-card class="loyalty-card">
+
+            </mat-card>
+            <mat-card class="loyalty-card">
+
+            </mat-card>
+            <mat-card class="loyalty-card">
+
+            </mat-card> -->
+          </mat-card>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>

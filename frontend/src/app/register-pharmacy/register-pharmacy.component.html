@@ -1,0 +1,150 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+  <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+     <mat-action-list>
+      <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+      <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+      <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+      <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+      <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+      <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+      <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+      <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+      <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+      <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+      <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; bottom: 1px;">
+            <button style="color: white;" routerLink='/admin' mat-list-item> Profile</button>
+            <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
+
+    </mat-action-list>
+    </mat-drawer>
+        <mat-drawer-content>
+          <mat-toolbar color="primary">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>System administrator profile</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          <div class="drawer-content">
+            <mat-card class="mat-elevation-z8" style="height: fit-content;">
+              <mat-card-header>
+                <mat-card-title>
+                  <label style="font-weight:bold; font-size: 25px;">Register pharmacy</label>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content style="justify-content: center;">
+                <form [formGroup]="registerPharmacy" (ngSubmit)="addPharmacy()" >
+
+                <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                  <mat-grid-tile>
+                    <label>Pharmacy name:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy name*</mat-label>
+                          <input matInput id="name" placeholder="Name" name="name-ff" 
+                              formControlName="name">
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
+                              Please enter pharmacy name</mat-error>
+
+                      </mat-form-field>
+                  </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy description:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField" >
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy description*</mat-label>
+                          <input matInput id="description" placeholder="Pharmacy description" name="description-ff" formControlName="description">                   
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('description').valid && registerPharmacy.get('description').touched && registerPharmacy.get('description').errors['required']">
+                              Please enter description</mat-error>
+                      </mat-form-field>
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy telephone:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField" >
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy telephone*</mat-label>
+                          <input matInput id="telephone" placeholder="Pharmacy telephone" name="description-ff" formControlName="telephone">                   
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('telephone').valid && registerPharmacy.get('telephone').touched && registerPharmacy.get('telephone').errors['required']">
+                              Please enter telephone</mat-error>
+                              <mat-error
+                              *ngIf="!registerPharmacy.get('telephone').valid && registerPharmacy.get('telephone').touched && registerPharmacy.get('telephone').errors['pattern']">
+                              Please enter telephone in correct format</mat-error>
+                      </mat-form-field>
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy email:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField" >
+                      <mat-form-field appearance="fill" id="pname-ff">
+                          <mat-label>Pharmacy email*</mat-label>
+                          <input matInput id="email" placeholder="Pharmacy email" name="description-ff" formControlName="email">                   
+                          <mat-error
+                              *ngIf="!registerPharmacy.get('email').valid && registerPharmacy.get('email').touched && registerPharmacy.get('email').errors['required']">
+                              Please enter email</mat-error>
+                              <mat-error
+                              *ngIf="!registerPharmacy.get('email').valid && registerPharmacy.get('email').touched && registerPharmacy.get('email').errors['email']">
+                              Please enter email in correct format</mat-error>
+                      </mat-form-field>
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <label>Pharmacy address:</label>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <app-google-places></app-google-places>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button [disabled]="!registerPharmacy.valid" color="accent">Add pharamacy</button>
+
+                </form>
+                <!--  
+                <form [formGroup]="registerPharmacy" (ngSubmit)="addPharmacy()" >
+                  <div class="inputField" >
+                    <mat-form-field appearance="fill" id="pname-ff">
+                        <mat-label>Pharmacy name*</mat-label>
+                        <input matInput id="name" placeholder="Pharmacy name" name="pname-ff" formControlName="name">                   
+                        <mat-error
+                            *ngIf="!registerPharmacy.get('name').valid && registerPharmacy.get('name').touched && registerPharmacy.get('name').errors['required']">
+                            Please enter address</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="inputField" >
+                    <mat-form-field appearance="fill" id="pname-ff">
+                        <mat-label>Pharmacy description*</mat-label>
+                        <input matInput id="description" placeholder="Pharmacy description" name="pname-ff" formControlName="description">                   
+                        <mat-error
+                            *ngIf="!registerPharmacy.get('description').valid && registerPharmacy.get('description').touched && registerPharmacy.get('description').errors['required']">
+                            Please enter description</mat-error>
+                    </mat-form-field>
+                  </div>  
+                  <div class="inputField" style="justify-content: center;">
+                    <app-google-places id="paddress-ff">
+                    </app-google-places>
+                  </div>   
+                   <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!registerPharmacy.valid && !pharmacyValid()" color="accent">Add pharamacy</button>
+
+                </form> -->
+              </mat-card-content>
+            </mat-card>
+          
+            
+          </div>
+          
+
+    </mat-drawer-content>
+</mat-drawer-container>
