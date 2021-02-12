@@ -210,14 +210,18 @@ public class MedicationServiceImpl implements IMedicationService {
     public void saveMedication(MedicationDTO medicationDTO) throws Exception {
         Medication medication =MedicationMapper.convertToMedication(medicationDTO);
         medication.setSubstituteMedication(new ArrayList<>());
-        for(MedicationDTO dto : medicationDTO.getSubstituteMedication()){
-            try{
-                medication.getSubstituteMedication().add(_medicationRepository.findById(dto.getId()).orElse(null));
-            }catch (Exception e){
-                e.printStackTrace();
-                throw new Exception(EXCEPTION + "medication with id: " + dto.getId().toString() + DOES_NOT_EXIST);
+        if(medicationDTO.getSubstituteMedication()!=null){
+
+            for(MedicationDTO dto : medicationDTO.getSubstituteMedication()){
+                try{
+                    medication.getSubstituteMedication().add(_medicationRepository.findById(dto.getId()).orElse(null));
+                }catch (Exception e){
+                    e.printStackTrace();
+                    throw new Exception(EXCEPTION + "medication with id: " + dto.getId().toString() + DOES_NOT_EXIST);
+                }
             }
         }
+
         medication.setIngredients(new ArrayList<>());
         for(IngredientDTO dto: medicationDTO.getIngredients()){
             try{
