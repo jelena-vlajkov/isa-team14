@@ -22,7 +22,11 @@ Before starting the application, define environment variables JDBC_DATABASE_URL,
     npm install
     ng serve --o
 ```
-
+**Backend**  
+``` bash
+    Run as maven project
+    Before using application use data-seeder.sql to seed data 
+```
 ## Emoji guideline
 It is recommended to use emoji's where adequate when commiting  
 
