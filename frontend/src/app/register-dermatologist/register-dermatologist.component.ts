@@ -124,7 +124,7 @@ export class RegisterDermatologistComponent implements OnInit {
             this.router.navigate(['/admin']);
           },
           error=>{
-            alert("Fail");
+            alert("Failed - email address already in use! Please enter new one!");
           });
       }else{
         alert('Passwords do not match!');
