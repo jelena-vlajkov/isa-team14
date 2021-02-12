@@ -16,6 +16,13 @@ with Pharmacists and Dermatologists, managing Users and their records.
 
 Before starting the application, define environment variables JDBC_DATABASE_URL, JDBC_DATABASE_USERNAME, JDBC_DATABASE_PASSWORD with your local postgres configurations.
 
+**Frontend**  
+``` bash
+    # From frontend/ run:
+    npm install
+    ng serve --o
+```
+
 ## Emoji guideline
 It is recommended to use emoji's where adequate when commiting  
 
