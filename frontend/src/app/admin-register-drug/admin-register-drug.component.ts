@@ -163,7 +163,7 @@ export class AdminRegisterDrugComponent implements OnInit {
     this.prescribtion = this.selectedPrescribtion;
     this.contraindications = this.registerMedication.value.contra;
     this.dailyDose = this.registerMedication.value.daily;
-    this.producer = this.registerMedication.value.producer;
+    this.producer = this.registerMedication.value.producer.trim();
     this.subMeds = new Array();
 
     // for(let med of this.selectedMedications){
@@ -174,9 +174,8 @@ export class AdminRegisterDrugComponent implements OnInit {
     //   this.ings.push(ing.id);
     // }
 
-
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name, this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.chosenIngredients,0, this.registerMedication.controls.dosage.value);
+    this.newMedication = new Medication(this.name.toLowerCase(), this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.chosenIngredients,0, this.registerMedication.controls.dosage.value);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{
