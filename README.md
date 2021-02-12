@@ -16,7 +16,7 @@ with Pharmacists and Dermatologists, managing Users and their records.
 
 ## Jobs done for this deadline:
 
-Student 4 has done his tasks that are meeting criteria for the lowest passing grade. With the code there is also a class diagram done in Power designer. Student 4 can only guarantee for his part of the model in the class diagram, while the rest has been done using a mixture of the first draft of the model and with classes later modified by other students before they gave up. Model in pdf format is located in class-diagram floder.
+Student 4 has done his tasks that are meeting criteria for the lowest passing grade. With the code there is also a class diagram done in Power designer. Student 4 can only guarantee for his part of the model in the class diagram, while the rest has been done using a mixture of the first draft of the model and with classes later modified by other students before they gave up. Model in pdf format is located in class_diagram floder.
 
 ## How to run
 
