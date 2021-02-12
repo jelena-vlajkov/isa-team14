@@ -62,15 +62,33 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public void createMedication(MedicationDTO medicationDTO) throws Exception {
-        Medication medication = new Medication();
-        try {
-            this.saveMedication(medicationDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw  new Exception(EXCEPTION + "createNewMedication " + FAIL);
-        }
-    }
+        if (medicationExistsInSystem(medicationDTO)) {
+            throw new Exception("Medication already exists in system!");
 
+        }else{
+            try {
+                this.saveMedication(medicationDTO);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw  new Exception(EXCEPTION + "createNewMedication " + FAIL);
+            }
+        }
+
+    }
+    private boolean medicationExistsInSystem(MedicationDTO medicationDto){
+        for(Medication m : _medicationRepository.findAll()){
+            if (checkSameMedication(m, medicationDto)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    private boolean checkSameMedication(Medication m , MedicationDTO dto){
+        return m.getName().equalsIgnoreCase(dto.getName()) && m.getDrugType().equals(dto.getDrugType()) && m.getDrugForm().equals(dto.getDrugForm())
+                && m.getDrugKind().equals(dto.getDrugKind()) && m.getProducer().equalsIgnoreCase(dto.getProducer()) && m.getTypeOfPrescribing().equals(dto.getTypeOfPrescribing())
+                && m.getDailyDose().equals(dto.getDailyDose()) && m.getDosage().equals(dto.getDosage());
+    }
     @Override
     public void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
         Medication medication = _medicationRepository.findById(id).orElse(null);
@@ -190,7 +208,6 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public void saveMedication(MedicationDTO medicationDTO) throws Exception {
-       // MedicationDTO.convertToMedication(medication,medicationDTO);
         Medication medication =MedicationMapper.convertToMedication(medicationDTO);
         medication.setSubstituteMedication(new ArrayList<>());
         for(MedicationDTO dto : medicationDTO.getSubstituteMedication()){

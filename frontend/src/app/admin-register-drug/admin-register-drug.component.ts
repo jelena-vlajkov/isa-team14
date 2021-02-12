@@ -185,7 +185,7 @@ export class AdminRegisterDrugComponent implements OnInit {
         this.router.navigate(['/admin']);
       },
       error=>{
-        alert("Fail")
+        alert("Fail - Dug with that name, dosage, type, kind, form, producer and daily dose is already in system!")
       }
     )
   }
