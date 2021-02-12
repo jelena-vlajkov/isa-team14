@@ -76,7 +76,7 @@
                         <mat-grid-tile>
                           <div class="inputField" >
                             <mat-form-field appearance="fill">
-                                <input matInput id="price" formControlName="price">                   
+                                <input matInput id="price" placeholder="Price" formControlName="price">                   
                                 <mat-error
                                     *ngIf="!offerGroup.get('price').valid && offerGroup.get('price').touched && offerGroup.get('price').errors['required']">
                                     Please enter price</mat-error>
@@ -90,11 +90,17 @@
                           <p>Offer delivery date: </p>
                         </mat-grid-tile>
                         <mat-grid-tile>
-                          <mat-form-field color="accent" appearance="fill" id="dob-ff" style="width: 200px; font-size: 14px;">
+                          <!-- <mat-form-field color="accent" appearance="fill" id="dob-ff" style="width: 200px; font-size: 14px;">
                             <input matInput formControlName='delivery' [matDatepicker]="picker1" [min]="today" [max]="selectedOrder.dueDate"   style="width: 200px; font-size: 14px;">
                             <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
                             <mat-datepicker #picker1 ></mat-datepicker>
-                          </mat-form-field>                        
+                          </mat-form-field>  -->
+                          
+                          <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                            <input matInput formControlName='delivery'  [min]="today" [max]="selectedOrder.dueDate" style="font-size:18px;" placeholder="Delivery date" [matDatepicker]="dp3" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                            <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                          </mat-form-field>
                         </mat-grid-tile>
                         <!-- <mat-grid-tile>
                         <p hidden></p>
