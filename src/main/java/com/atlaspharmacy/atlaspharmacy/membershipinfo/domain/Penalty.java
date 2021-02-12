@@ -2,7 +2,6 @@ package com.atlaspharmacy.atlaspharmacy.membershipinfo.domain;
 
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -14,15 +13,15 @@ public class Penalty {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Patient user;
+    private Patient patient;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Appointment appointment;
 
     public Penalty() {
     }
 
-    public Penalty(Patient user, Appointment appointment) {
-        this.user = user;
+    public Penalty(Patient patient, Appointment appointment) {
+        this.patient = patient;
         this.appointment = appointment;
     }
 
@@ -34,12 +33,12 @@ public class Penalty {
         this.id = id;
     }
 
-    public Patient getUser() {
-        return user;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setUser(Patient user) {
-        this.user = user;
+    public void setPatient(Patient user) {
+        this.patient = user;
     }
 
     public Appointment getAppointment() {

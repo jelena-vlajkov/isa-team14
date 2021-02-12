@@ -47,12 +47,6 @@ public class Medication {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Ingredient> ingredients;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
-//    private List<DrugReservation> reservations;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
-//    private List<PrescribedDrug> prescribedDrugs;
-
     public Medication(){}
 
     public Medication(Long id) {
