@@ -32,9 +32,17 @@ public class PharmacistService implements IPharmacistService {
 
     @Override
     public List<Pharmacist> findByPharmacy(Long id) {
-        return  pharmacistRepository.findAll().stream()
-                .filter(pharmacist -> pharmacist.getPharmacy().getId()==id)
-                .collect(Collectors.toList());}
+        List<Pharmacist> pharmacists= pharmacistRepository.findAll();
+
+        List<Pharmacist> pharmacistsByPharmacy= new ArrayList<>();
+        for (Pharmacist pharmacist: pharmacists) {
+            if (pharmacist.getPharmacy().getId() == id)
+            {
+                pharmacistsByPharmacy.add(pharmacist);
+            }
+        }
+        return pharmacistsByPharmacy;
+    }
 
     public boolean isPharmacistInList(List<Pharmacist> list,Long id){
         for(Pharmacist p : list){

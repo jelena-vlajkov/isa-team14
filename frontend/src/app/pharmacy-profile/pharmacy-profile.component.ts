@@ -8,6 +8,7 @@ import {Address} from "@app/model/address/address";
 import {DermatologistService} from "@app/service/dermatologist/dermatologist.service";
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
 import {PharmacistService} from "@app/service/pharmacist/pharmacist.service";
+import {PharmacyStorageService} from "@app/service/pharmacy-storage/pharmacy-storage.service";
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -24,6 +25,7 @@ export class PharmacyProfileComponent implements OnInit {
   dermatologists: String[]=new Array();
   pharmacists: String[]=new Array();
   pharmacyId:Number;
+  medications:String[]=new Array();
   private StringIsNumber = value => isNaN(Number(value)) === false;
   public profile:boolean = true;
   public edit:boolean = false;
@@ -33,7 +35,8 @@ export class PharmacyProfileComponent implements OnInit {
 
   constructor(private pharmacyAdminService:PharmacyAdminService
               ,private dermatologistService:DermatologistService
-              ,private pharmacistService:PharmacistService) { }
+              ,private pharmacistService:PharmacistService
+              ,private pharmacyStorageService:PharmacyStorageService) { }
 
   ngOnInit(): void {
     this.currentUserId=localStorage.getItem('userId');
@@ -63,6 +66,15 @@ export class PharmacyProfileComponent implements OnInit {
             {
               this.pharmacists.push(result[i].name+" "+result[i].surname);
             }
+          });
+        this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
+          result=>{
+            result=this.ToArray(result);
+            for(let i=0;i<result.length;i++)
+            {
+              this.medications.push(result[i].medication.name);
+            }
+
           });
        });
 

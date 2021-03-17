@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@Controller
-@CrossOrigin
+@RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value="/pharmacist")
 public class PharmacistController {
     private final IPharmacistService pharmacistService;

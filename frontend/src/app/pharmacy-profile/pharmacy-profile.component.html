@@ -80,12 +80,16 @@
             </mat-grid-list>
 
           <mat-grid-list cols="3" rowHeight="5:1" style="margin-left: 10px;" >
-              <mat-grid-tile>
-                <label>Drugs:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>Uraditi</p>
-              </mat-grid-tile>
+            <mat-grid-tile>
+              <label>Drugs:</label>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <div style="margin-top: 30px;">
+                <p class="text-grid" *ngFor="let drug of medications">
+                  {{drug}}
+                </p>
+              </div>
+            </mat-grid-tile>
               <mat-grid-tile>
               <button style="float:right; position:relative;" mat-raised-button id='reserveDrug' (click)='editProfile()' color="accent">Reserve drug</button>
               </mat-grid-tile>

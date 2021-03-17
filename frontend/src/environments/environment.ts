@@ -43,6 +43,8 @@ export const environment = {
   offer : "offer",
   findSuppliers : "findSuppliers",
   getByIdentifier : 'getByIdentifier',
-  getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier'
+  getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier',
+  pharmacyStorage:'pharmacyStorage',
+  getMedicationsInPharmacy:'getMedicationsInPharmacy'
 };
 

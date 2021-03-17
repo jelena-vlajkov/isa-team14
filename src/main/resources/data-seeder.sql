@@ -9,6 +9,9 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 values ('Pharmacist', 500, '1986-01-01 00:00:01', 'vlajkovn@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Pharmacist', 1100, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
@@ -48,8 +51,10 @@ insert into medicalstaff(license_number, id) values ('243532',600);
 insert into medicalstaff(license_number, id) values ('333',300);
 insert into medicalstaff(license_number, id) values('1241241', 500);
 
+insert into medicalstaff(license_number, id) values('12412411', 1100);
+
 insert into pharmacists(id,pharmacy_id) values (500,100);
---insert into pharmacists(id,pharmacy_id) values (700,100);
+insert into pharmacists(id,pharmacy_id) values (1100,100);
 
 
 insert into patients(enabled, verification_code, id) values (true, '98a6sxiy9a8sh9as7f8asbf9asfaosjbfn8a7sfgb', 200);
@@ -61,7 +66,7 @@ insert into dermatologists(id) values (300);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 --insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (200,100);
 --insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
-insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 
 insert into sysadmins(id) values(900);
