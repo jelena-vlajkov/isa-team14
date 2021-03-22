@@ -1,11 +1,14 @@
 <body>
   <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
-    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="side">
        <mat-action-list>
         <button mat-list-item (click)="routeToProfile()" style="color: white;"> Home</button>
         <button mat-list-item (click)="routeToOrders()" style="color: white;"> Write offers</button>
-        <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+        <button mat-list-item (click)="routeToAllOffers()" style="color: white;"> All offers</button>
         <button mat-list-item (click)="routeToOffers()" style="color: white;"> Edit offers</button>
+        <button mat-list-item (click)="routeToPharms()" style="color: white;"> Search pharmacies</button>
+        <button mat-list-item (click)="routetToStorage()" style="color: white;"> Storage</button>
+
 
 
       </mat-action-list>
@@ -36,18 +39,34 @@
           </mat-card>
             <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
                 <mat-card-title style="text-align: center; margin-bottom: 20px;">
-                    All offers
+                    Edit given offers
                 </mat-card-title>
                 <mat-card-content>
-                    <img style="width: 200px; height: 200px;" (click)="routeToOffers()"  src="./assets/handshake.jpg">
+                    <img style="width: 200px; height: 200px;" (click)="routeToOffers()"  src="./assets/editoffer.png">
                 </mat-card-content>
             </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                  All offers
+              </mat-card-title>
+              <mat-card-content>
+                  <img style="width: 200px; height: 200px;" (click)="routeToAllOffers()"  src="./assets/handshake.jpg">
+              </mat-card-content>
+          </mat-card>
             <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
               <mat-card-title style="text-align: center; margin-bottom: 20px;">
                     Orders
                 </mat-card-title>
                 <mat-card-content>
                     <img style="width: 200px; height: 200px;" (click)="routeToOrders()" src="./assets/images.png">
+                </mat-card-content>
+            </mat-card>
+            <mat-card style="width: fit-content; margin-left: 30px; height: fit-content; margin-top: 20px;" class="mat-elevation-z8">
+              <mat-card-title style="text-align: center; margin-bottom: 20px;">
+                    Edit storage
+                </mat-card-title>
+                <mat-card-content>
+                    <img style="width: 200px; height: 200px;" (click)="routetToStorage()" src="./assets/storage.png">
                 </mat-card-content>
             </mat-card>
             
@@ -89,12 +108,12 @@
                   <mat-grid-tile>
                     <p>{{supplier.email}}</p>
                   </mat-grid-tile>
-                  <mat-grid-tile>
+                  <!-- <mat-grid-tile>
                     <label>Date of registration:</label>
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <p>{{supplier.dateOfBirth | date:'MM.dd.y'}}</p>
-                  </mat-grid-tile>
+                  </mat-grid-tile> -->
                 </mat-grid-list>
               </mat-card-content>
               <mat-card-actions>
@@ -154,6 +173,9 @@
                             <mat-error
                                 *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
                                 Please enter name</mat-error>
+                                <mat-error
+                                *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['pattern']">
+                                Please enter name in correct form</mat-error>
                         </mat-form-field>
                     </div>                  
                   </mat-grid-tile>
@@ -169,6 +191,9 @@
                             <mat-error
                                 *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
                                 Please enter surname</mat-error>
+                                <mat-error
+                                *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['pattern']">
+                                Please enter surname in correct form</mat-error>
                         </mat-form-field>
                     </div>             
                   </mat-grid-tile>
@@ -184,6 +209,9 @@
                         <mat-error
                             *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
                             Please enter telephone</mat-error>
+                            <mat-error
+                            *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['pattern']">
+                            Please enter telephone in correct form</mat-error>
                     </mat-form-field>
                     </mat-grid-tile>
       
@@ -215,7 +243,16 @@
                       <label>Firm name:</label>
                     </mat-grid-tile>
                     <mat-grid-tile>
-                      <p>{{supplier.firmName}}</p>
+
+                        <mat-form-field appearance="fill" id="telephone-ff">
+                          <mat-label>Firm name*</mat-label>
+                          <input matInput id="firmName" placeholder="Firm name" name="telephone-ff"
+                              formControlName="firmName">
+                          <mat-error
+                              *ngIf="!editProfileForm.get('firmName').valid && editProfileForm.get('firmName').touched && editProfileForm.get('firmName').errors['required']">
+                              Please enter firm name</mat-error>     
+                              </mat-form-field>               
+
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <label>Firm address:</label>
@@ -227,7 +264,7 @@
                     </div>
                     </mat-grid-tile>
                   </mat-grid-list>
-                 <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)="confirmEdit()" color="accent">Confirm</button>
+                 <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)="confirmEdit()" [disabled]="!editProfileForm.valid" color="accent">Confirm</button>
    
                  <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' (click)="changePasswordFunction()" color="accent">Change password</button>
 
@@ -259,6 +296,7 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
                               Please enter old password</mat-error>
+
                       </mat-form-field>
                     </div>                  
                 </mat-grid-tile>
@@ -274,6 +312,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['required']">
                               Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['minLenght']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field>
                     </div>               
                   </mat-grid-tile>
@@ -289,6 +330,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['required']">
                               Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field>
                     </div>  
                   </mat-grid-tile> 
@@ -318,7 +362,7 @@
                   </mat-grid-tile>
                 </mat-grid-list>
                 
-                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent">ChangePassword</button>
+                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!changePasswordForm" color="accent">ChangePassword</button>
   
                                   </form>
                   <button style="float:left; position:relative; " mat-raised-button id='editProfile' (click)='back()'  color="accent">Back</button>

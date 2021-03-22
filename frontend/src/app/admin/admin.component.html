@@ -10,7 +10,9 @@
         <button mat-list-item (click)="routeToSysAdminReg()" style="color: white;"> Register system administrator</button>
         <button mat-list-item (click)="respondToComplaints()" style="color: white;"> Answer to complaints</button>
         <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
-
+        <button mat-list-item (click)="routeToMeds()" style="color: white;"> Search medications</button>
+        <button mat-list-item (click)="routeToPharms()" style="color: white;"> Search pharmacies</button>
+        
       </mat-action-list>
       <mat-action-list style="position: absolute; bottom: 1px;">
               <button style="color: white;" (click)="routeToProfile()" mat-list-item> Profile</button>
@@ -191,6 +193,9 @@
                           <mat-error
                               *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
                               Please enter name</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['pattern']">
+                              Please enter name in correct format</mat-error>
                       </mat-form-field>
                   </div>                  
                 </mat-grid-tile>
@@ -206,6 +211,9 @@
                           <mat-error
                               *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
                               Please enter surname</mat-error>
+                          <mat-error
+                              *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['pattern']">
+                              Please enter surname in correct format</mat-error>
                       </mat-form-field>
                   </div>             
                   </mat-grid-tile>
@@ -224,7 +232,7 @@
 
                       <mat-error
                       *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
-                      Please enter address</mat-error>
+                      Please enter gender</mat-error>
                   </div>
                   </mat-grid-tile>
     
@@ -248,7 +256,12 @@
                       <mat-error
                           *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
                           Please enter telephone</mat-error>
+                          <mat-error *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['pattern']">
+                            Please enter telephone in correct format</mat-error>
                   </mat-form-field>
+
+
+                  
                   </mat-grid-tile>
     
                   <mat-grid-tile>
@@ -262,12 +275,16 @@
                     <label>Birth date:</label>
                   </mat-grid-tile>
                   <mat-grid-tile>
-                    <mat-form-field color="accent" appearance="fill" id='dob-ff'>
-                      <mat-label>Birth date</mat-label>
-                      <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:18px">
-                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                      <mat-datepicker #picker1></mat-datepicker>
+                    <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                      <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                     </mat-form-field>
+                    <mat-error
+                      *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['required']">
+                      Please enter date of birth</mat-error>
+
+
                   </mat-grid-tile>
 
                 </mat-grid-list>
@@ -311,6 +328,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['required']">
                               Please enter old password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('oldpassword').valid && changePasswordForm.get('oldpassword').touched && changePasswordForm.get('oldpassword').errors['minLength']">
+                              Please enter old password of correct length</mat-error>
                       </mat-form-field>
                     </div>                  
                 </mat-grid-tile>
@@ -326,6 +346,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['required']">
                               Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('newpassword').valid && changePasswordForm.get('newpassword').touched && changePasswordForm.get('newpassword').errors['minLength']">
+                              New password has to be min 8 characters long</mat-error>
                       </mat-form-field>
                     </div>               
                   </mat-grid-tile>
@@ -341,6 +364,9 @@
                           <mat-error
                               *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['required']">
                               Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!changePasswordForm.get('confirmpassword').valid && changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').errors['minLength']">
+                              New password has to be min 8 characters long</mat-error>
                       </mat-form-field>
                     </div>  
                   </mat-grid-tile> 

@@ -22,8 +22,8 @@ export class SupplierAllOffersComponent implements OnInit {
   public edit : boolean = false;
   public selectedDate : Date;
   public today :Date;
-  public displayedColumns: string[] = ['id', 'name', 'price', 'offerStatus'];
-  public dataSource = new MatTableDataSource<Offer>();
+  public displayedColumns: string[] = ['name', 'price', 'offerStatus'];
+  public dataSource;
 
   constructor(private offerService: OffersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
 
@@ -32,9 +32,9 @@ export class SupplierAllOffersComponent implements OnInit {
     this.loadSupplier();
 
   }
-  applyFilter(filterValue: string){
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-}
+//   applyFilter(filterValue: string){
+//     this.dataSource.filter = filterValue.trim().toLowerCase();
+// }
   supplierLogout(){
       this.authenticationService.logout();
       this.router.navigate(['/login']);
@@ -45,6 +45,9 @@ export class SupplierAllOffersComponent implements OnInit {
       data => 
       { 
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
+        if(!this.supplier.firstTimeChanged){
+          this.router.navigate(['/supplier']);
+        }
       });
       this.offerService.getAllOffersBySuppllier(Number(localStorage.getItem('userId'))).subscribe(data => 
         {
@@ -54,6 +57,17 @@ export class SupplierAllOffersComponent implements OnInit {
         });
 
   }
+
+  getBasedOnStatus(event){
+    if(event.value==3){
+      this.dataSource=this.offers;
+    }else{
+      this.offerService.findByStatus(event.value, Number(localStorage.getItem('userId'))).subscribe(data =>
+        {
+          this.dataSource = data;
+        });
+  }
+}
   routeToEditOffers(){
     this.router.navigate(['/supplier/offers']);
   }

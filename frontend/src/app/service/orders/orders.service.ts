@@ -21,4 +21,7 @@ export class OrdersService {
    getOrderedMedicationByIdentifier(id:number) : Observable<OrderedMedication[]> {    
     return this.http.get<OrderedMedication[]>(`${environment.baseUrl}/${environment.order}/${environment.getOrderedMedicationByIdentifier}?id=${id}`);
    }
+   getAllOrdersWehereOfferIsNotGivenBySupplier(id : Number):Observable<Order[]>{
+    return this.http.get<Order[]>(`${environment.baseUrl}/${environment.order}/${environment.getAllOrdersWehereOfferIsNotGivenBySupplier}?id=${id}`);
+  }
 }

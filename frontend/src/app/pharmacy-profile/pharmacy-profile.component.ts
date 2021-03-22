@@ -9,6 +9,8 @@ import {DermatologistService} from "@app/service/dermatologist/dermatologist.ser
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
 import {PharmacistService} from "@app/service/pharmacist/pharmacist.service";
 import {PharmacyStorageService} from "@app/service/pharmacy-storage/pharmacy-storage.service";
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -16,7 +18,6 @@ import {PharmacyStorageService} from "@app/service/pharmacy-storage/pharmacy-sto
   styleUrls: ['./pharmacy-profile.component.css']
 })
 export class PharmacyProfileComponent implements OnInit {
-
   name:String;
   address:String;
   grade:Number;
@@ -51,7 +52,7 @@ export class PharmacyProfileComponent implements OnInit {
         this.about = result.description;
         this.address = result.address.street + ", " + result.address.city.name + ", " + result.address.state.name;
 
-        this.dermatologistService.getDermatologistByPharmacy(this.pharmacyId).subscribe(
+        this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
           result => {
             result=this.ToArray(result);
             for(let i=0;i<result.length;i++)

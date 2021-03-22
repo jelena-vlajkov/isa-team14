@@ -15,5 +15,5 @@ public interface ISupplierService {
     SupplierDTO getById(Long id);
     Supplier findByEmail(String email);
     Supplier updateSupplier(SupplierDTO supplierDTO) throws InvalidEmail, ParseException;
-    void changePassword(String oldPassword, String newPassword) throws InvalidPassword,InvalidEmail, ParseException;
+    boolean changePassword(String oldPassword, String newPassword) throws InvalidPassword,InvalidEmail, ParseException;
 }

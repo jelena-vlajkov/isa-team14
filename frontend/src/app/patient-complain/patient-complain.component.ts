@@ -129,19 +129,6 @@ export class PatientComplainComponent implements OnInit {
 
   }
   sendComplaint(){
-    // if(this.person===null || this.registerComplain.controls.comment.value===""){
-    //   alert('Please fill the form again');
-    //   this.registerComplain.reset();
-    //   this.chosenEntity = false;
-    //   this.entitySelected = false;
-    //   this.enterText = false;
-    //   this.personSelected=false;
-    //   this.entitySelected=false;
-    // }else{
-
-    // }
-
-    
     this.complaint = new Complaint(null, this.patient, this.comment, this.personModel, this.registerComplain.controls.entity.value, false);
     console.log(this.complaint);
     this.complaintService.postComplaint(this.complaint).subscribe(
@@ -156,5 +143,7 @@ export class PatientComplainComponent implements OnInit {
 
   logout(){
     this.authenticationService.logout();
+    this.router.navigate(['/login']);
+
   }
 }

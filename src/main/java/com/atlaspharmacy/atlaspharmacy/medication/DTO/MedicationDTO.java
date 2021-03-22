@@ -1,13 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.medication.DTO;
 
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugForm;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugKind;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.DrugType;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.enums.TypeOfPrescribing;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MedicationDTO {
@@ -21,14 +18,16 @@ public class MedicationDTO {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    private List<Long> substituteMedication;
+    private List<MedicationDTO> substituteMedication;
     private Long code;
-    private List<Long> ingredients;
+    private List<IngredientDTO> ingredients;
+    private Double grade;
+    private Long dosage;
     public MedicationDTO() {
 
     }
 
-    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade, Long dosage) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -40,54 +39,32 @@ public class MedicationDTO {
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
         this.code = code;
+        this.grade = grade;
+        this.dosage = dosage;
     }
-    /*
-    public static MedicationDTO convertToMedicationDTO(Medication m){
-        MedicationDTO medicationDTO = new MedicationDTO(
-                m.getId(),
-                m.getName(),
-                m.getDrugForm(),
-                m.getDrugType(),
-                m.getProducer(),
-                m.getTypeOfPrescribing(),
-                m.getAdditionalNotes(),
-                m.getContraindications(),
-                m.getDailyDose(),
-                m.getDrugKind(),
-                m.getCode()
-        );
-        medicationDTO.setSubstituteMedication(new ArrayList<>());
 
-        for(Medication med: m.getSubstituteMedication()){
-            medicationDTO.getSubstituteMedication().add(med.getId());
-        }
-        medicationDTO.setIngredients(new ArrayList<>());
+    public Long getDosage() {
+        return dosage;
+    }
 
-        for(Ingredient i : m.getIngredients()){
-            medicationDTO.getIngredients().add(i.getId());
-        }
-        return medicationDTO;
-    }*/
-    /*
-    public static void convertToMedication(Medication m, MedicationDTO mdto){
-        m.setId(mdto.getId());
-        m.setName(mdto.getName());
-        m.setDailyDose(mdto.getDailyDose());
-        m.setAdditionalNotes(mdto.getAdditionalNotes());
-        m.setContraindications(mdto.getContraindications());
-        m.setDrugKind(mdto.getDrugKind());
-        m.setDrugForm(mdto.getDrugForm());
-        m.setDrugType(mdto.getDrugType());
-        m.setProducer(mdto.getProducer());
-        m.setTypeOfPrescribing(mdto.getTypeOfPrescribing());
-        m.setCode(mdto.getCode());
-    }*/
+    public void setDosage(Long dosage) {
+        this.dosage = dosage;
+    }
 
-    public List<Long> getIngredients() {
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
+    }
+
+
+    public List<IngredientDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Long> ingredients) {
+    public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -99,11 +76,11 @@ public class MedicationDTO {
         this.code = code;
     }
 
-    public List<Long> getSubstituteMedication() {
+    public List<MedicationDTO> getSubstituteMedication() {
         return substituteMedication;
     }
 
-    public void setSubstituteMedication(List<Long> substituteMedication) {
+    public void setSubstituteMedication(List<MedicationDTO> substituteMedication) {
         this.substituteMedication = substituteMedication;
     }
 

@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
@@ -35,13 +36,13 @@ public class PharmacyController {
     @Autowired
     private PharmacyService pharmacyService;
 
-    @CrossOrigin( origins = "*", allowedHeaders = "*")
-    @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getById(Long id){
-
-        PharmacyDTO pharmacy=pharmacyService.getById(id);
-        return new ResponseEntity<>(pharmacy, HttpStatus.OK);
-    }
+//    @CrossOrigin( origins = "*", allowedHeaders = "*")
+//    @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> getById(Long id){
+//
+//        Pharmacy pharmacy=pharmacyService.getById(id);
+//        return new ResponseEntity<>(pharmacy, HttpStatus.OK);
+//    }
 
     @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
@@ -75,6 +76,24 @@ public class PharmacyController {
     public @ResponseBody
     List<PharmacyDTO> getPharmacyToComplain(@RequestParam("id") Long id) throws ParseException {
         return PharmacyMapper.maptToListDto(pharmacyService.getPharmaciesToComplain(id));
+    }
+
+
+    @GetMapping(value = "/getByMedication", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> getByMedication(@RequestParam("code") Long code) throws ParseException {
+        return pharmacyService.getPharmaciesByMedication(code);
+    }
+    @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    PharmacyDTO getById(@RequestParam("id") Long id) throws ParseException {
+        return pharmacyService.getById(id);
+    }
+    @GetMapping(value = "/getSubscribed", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<PharmacyDTO> getSubscribed(@RequestParam("id") Long id) throws ParseException {
+        return pharmacyService.getSubscribed(id);
     }
 
     @ExceptionHandler(InvalidPharmacyData.class)

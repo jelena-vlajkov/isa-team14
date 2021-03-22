@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
@@ -19,4 +20,7 @@ public interface IPharmacyService {
     List<PharmacyDTO> findByName(String name);
     List<PharmacyDTO> findByAddress(String address);
     List<Pharmacy> getPharmaciesToComplain(Long id);
+    List<PharmacyDTO> getPharmaciesByMedication(Long code);
+    List<PharmacyDTO> getSubscribed(Long id);
+    boolean isPharamcyRegistered(String email);
 }

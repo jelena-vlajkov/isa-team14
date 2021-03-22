@@ -56,32 +56,27 @@
     height: 25vw;
   }
   #mname-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }
   #code-ff {
-  margin-top: 15px;
   margin-left: 0px;
   width: 350px !important;
-  font-size: 18px;
+  font-size: 14px;
 }
 #notes-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }
 #contra-ff {
-  margin-top: 15px;
   margin-left: 0px;
   width: 350px !important;
-  font-size: 18px;
+  font-size: 14px;
 }
 #daily-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }

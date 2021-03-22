@@ -27,6 +27,8 @@ public class Medication {
     private Long dailyDose;
     private DrugKind drugKind;
     private Long code;
+    private Double grade;
+    private Long dosage;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "substitute_medications",
@@ -45,19 +47,13 @@ public class Medication {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Ingredient> ingredients;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "reservedMedication")
-//    private List<DrugReservation> reservations;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "prescribedMedication")
-//    private List<PrescribedDrug> prescribedDrugs;
-
     public Medication(){}
 
     public Medication(Long id) {
         this.id = id;
     }
 
-    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code) {
+    public Medication(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade, Long dosage) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -69,7 +65,25 @@ public class Medication {
         this.dailyDose = dailyDose;
         this.drugKind = drugKind;
         this.code = code;
+        this.grade = grade;
+        this.dosage = dosage;
         this.substituteMedication = new ArrayList<>();
+    }
+
+    public Long getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(Long dosage) {
+        this.dosage = dosage;
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
     }
 
     public Long getCode() {

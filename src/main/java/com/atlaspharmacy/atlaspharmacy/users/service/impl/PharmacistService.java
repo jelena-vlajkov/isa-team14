@@ -1,18 +1,17 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.IPharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,24 +20,23 @@ import java.util.stream.Collectors;
 @Service
 public class PharmacistService implements IPharmacistService {
     private final PharmacistRepository pharmacistRepository;
-    private final UserRepository userRepository;
+    private final IPharmacyService pharmacyService;
     private final AppointmentService appointmentService;
 
-    public PharmacistService(PharmacistRepository pharmacistRepository, UserRepository userRepository, AppointmentService appointmentService) {
+    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, AppointmentService appointmentService) {
         this.pharmacistRepository = pharmacistRepository;
-        this.userRepository = userRepository;
+        this.pharmacyService = pharmacyService;
         this.appointmentService = appointmentService;
     }
 
     @Override
     public List<Pharmacist> findByPharmacy(Long id) {
-        List<Pharmacist> pharmacists= pharmacistRepository.findAll();
+        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
 
-        List<Pharmacist> pharmacistsByPharmacy= new ArrayList<>();
-        for (Pharmacist pharmacist: pharmacists) {
-            if (pharmacist.getPharmacy().getId() == id)
-            {
-                pharmacistsByPharmacy.add(pharmacist);
+        List<Pharmacist> pharmacistsByPharmacy=new ArrayList<>();
+        for(Pharmacist p: allPharmacists){
+            if(p.getPharmacy().getId().equals(id)){
+                pharmacistsByPharmacy.add(p);
             }
         }
         return pharmacistsByPharmacy;

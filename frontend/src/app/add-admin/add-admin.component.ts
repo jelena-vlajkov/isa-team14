@@ -22,6 +22,9 @@ export class AddAdminComponent implements OnInit {
   gender : Gender;
   selectedGender;
 
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
+  
   address : Address;
   phone:String;
   mail:String;
@@ -41,14 +44,19 @@ export class AddAdminComponent implements OnInit {
   constructor(private router: Router, private sysAdminRegistration : SysadminRegistrationService,private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
+    this.maxDateOfBirth = new Date();
+    this.minDateOfBirth = new Date();
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
+
     this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'gender': new FormControl(null, Validators.required),
-      'password': new FormControl(null, Validators.required),
-      'confirmpassword': new FormControl(null, Validators.required),
+      'password': new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword': new FormControl(null, [Validators.required,Validators.minLength(8)]),
       'dob' : new FormControl(null, Validators.required)
     });
   }
@@ -60,32 +68,55 @@ export class AddAdminComponent implements OnInit {
     this.mail = this.addAdminForm.value.mail;
     this.password = this.addAdminForm.value.password;
     this.confirmpassword = this.addAdminForm.value.confirmpassword;
-    this.address = this.googleplaces.address;
+    // this.address = this.googleplaces.address;
     this.gender = this.selectedGender;
     this.dateOfBirth = this.selectedDate;
     var role : Role;
     role = Role.SysAdmin
     var auths : Number[] = new Array();
     console.log(this.password);
-    this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail, this.password, this.gender, this.address, role, auths, false);
-    console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
+    console.log(this.googleplaces.address === undefined );
+    if(this.googleplaces.address===undefined)
+    {
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
 
-    if(this.passwordValid()){
-      this.sysAdminRegistration.registerSysAdmin(this.sysAdmin).subscribe(
-        res=>{
-          this.addAdminForm.reset();
-          this.googleplaces = null;
-          alert('Success');
-        },
-        error=>{
-          alert("Fail")
-        }
-      )
     }else{
-      alert('Passwords do not match');
+      this.address = this.googleplaces.address;
+      this.sysAdmin = new SystemAdmin(null, this.name, this.surname, this.dateOfBirth, this.phone, this.mail.toLowerCase(), this.password, this.gender, this.address, role, auths, false);
+      console.log(JSON.parse(JSON.stringify(this.sysAdmin)));
+  
+      if(this.passwordValid()){
+        this.sysAdminRegistration.registerSysAdmin(this.sysAdmin).subscribe(
+          res=>{
+            this.addAdminForm.reset();
+            this.googleplaces = null;
+            alert('Success');
+            this.router.navigate(['/admin']);
+  
+          },
+          error=>{
+            alert("Failed - email address already in use! Please enter new one!");
+          }
+        )
+      }else{
+        alert('Passwords do not match');
+      }
     }
+    
 
   }
+  loadSystemAdmin(){
+    this.sysAdminRegistration.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
+
+  }
+
   passwordValid(){
     return this.password==this.confirmpassword;
   }
@@ -94,13 +125,13 @@ export class AddAdminComponent implements OnInit {
   }
   adminLogout(){
     this.authenticationService.logout();
+    this.router.navigate(['/login']);
+
 
   }
   routeToHome(){
     this.router.navigate(['/admin']);
 
   }
-  respondToComplaints(){
 
-  }
 }

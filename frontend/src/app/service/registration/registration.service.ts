@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Patient } from 'src/app/model/users/patient/patient';
+import { Patient } from '@app/model/users/patient/patient';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,5 +13,7 @@ export class RegistrationService {
   registerPatient(data : Patient){
     return this.http.post(`${environment.baseUrl}/${environment.patient}/${environment.add}`,data, {responseType : 'text'});
   }
-
+  activatePatient(token : String){
+    return this.http.post(`${environment.baseUrl}/${environment.patient}/${environment.activation}`,token, {responseType : 'text'});
+  }
 }

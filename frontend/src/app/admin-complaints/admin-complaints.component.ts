@@ -34,6 +34,8 @@ export class AdminComplaintsComponent implements OnInit {
   constructor(private systemAdminService: SysadminRegistrationService, private router: Router, private authenticationService : AuthenticationService, private complaintsService : ComplaintsService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
+
     this.loadUnanswered();
     this.answerFormDerm = new FormGroup({
       'answer' : new FormControl(null, Validators.required)
@@ -44,7 +46,6 @@ export class AdminComplaintsComponent implements OnInit {
     this.answerFormPh = new FormGroup({
       'answer' : new FormControl(null, Validators.required)
     });
-    this.loadSystemAdmin();
   }
   
   loadSystemAdmin(){
@@ -52,6 +53,9 @@ export class AdminComplaintsComponent implements OnInit {
       data => 
       {
         this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
       });
 
   }
@@ -78,10 +82,12 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormPh.reset();
         this.loadUnanswered();
+        
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }
@@ -91,10 +97,12 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormPharm.reset();
+
         this.loadUnanswered();
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }
@@ -103,10 +111,13 @@ export class AdminComplaintsComponent implements OnInit {
     this.complaintsService.answerToComplaint(this.answerToComplaint).subscribe(
       res=>{
         alert('Success');
+        this.answerFormDerm.reset();
+
         this.loadUnanswered();
+        
       },
       error=>{
-        alert("Fail")
+        alert("Failed to answer")
       }
     )
   }

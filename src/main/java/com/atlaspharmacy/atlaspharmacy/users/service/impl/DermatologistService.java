@@ -4,14 +4,12 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
@@ -32,25 +30,25 @@ public class DermatologistService implements IDermatologistService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
     private final AppointmentService appointmentService;
-
+    private final IPharmacyService pharmacyService;
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.appointmentService = appointmentService;
+        this.pharmacyService = pharmacyService;
     }
 
     @Override
     public List<Dermatologist> findAllByPharmacy(Long id) {
-        List<Dermatologist> dermatologists= dermatologistRepository.findAll();
-
+        List<Dermatologist> allDermatologists= dermatologistRepository.findAll();
         List<Dermatologist> dermatologistsByPharmacy= new ArrayList<>();
-        for (Dermatologist dermatologist: dermatologists) {
-            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId()==id))
+        for (Dermatologist dermatologist: allDermatologists) {
+            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId().equals(id)))
             {
                 dermatologistsByPharmacy.add(dermatologist);
             }
@@ -60,7 +58,7 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail {
-        if(userRepository.findByEmail(dto.getEmail())==null){
+        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);

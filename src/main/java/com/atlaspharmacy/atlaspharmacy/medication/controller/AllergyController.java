@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.medication.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicationAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.AllergyDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IAllergyService;
@@ -24,6 +25,7 @@ public class AllergyController {
     private IAllergyService _allergyService;
 
     @GetMapping(value="/findAll",produces = MediaType.APPLICATION_JSON_VALUE)
+    @SystemAdminAuthorization
     public ResponseEntity<?> getAllAllergies(){
 
         List<AllergyDTO> allergyDTOS = _allergyService.findAll();

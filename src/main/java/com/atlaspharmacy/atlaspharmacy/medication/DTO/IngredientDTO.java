@@ -9,7 +9,7 @@ import java.util.List;
 public class IngredientDTO {
     private Long id;
     private String name;
-    private List<Long> allergies;
+    private List<AllergyDTO> allergies;
 
     public IngredientDTO() {
     }
@@ -35,22 +35,21 @@ public class IngredientDTO {
         this.name = name;
     }
 
-    public List<Long> getAllergies() {
+    public List<AllergyDTO> getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(List<Long> allergies) {
+    public void setAllergies(List<AllergyDTO> allergies) {
         this.allergies = allergies;
     }
+
     public static IngredientDTO convertToIngredientDTO(Ingredient i){
         IngredientDTO dto = new IngredientDTO(
                 i.getId(),
                 i.getName()
         );
         dto.setAllergies(new ArrayList<>());
-        for(Allergy a : i.getAllergies()){
-            dto.getAllergies().add(a.getId());
-        }
+
         return dto;
     }
     /*

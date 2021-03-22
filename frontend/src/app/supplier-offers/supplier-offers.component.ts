@@ -45,6 +45,9 @@ export class SupplierOffersComponent implements OnInit {
       data => 
       { 
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
+        if(!this.supplier.firstTimeChanged){
+          this.router.navigate(['/supplier']);
+        }
       });
       this.offerService.getAllOffersBySuppllier(Number(localStorage.getItem('userId'))).subscribe(data => 
         {
@@ -75,7 +78,7 @@ export class SupplierOffersComponent implements OnInit {
     offer.editing=true;
     this.selectedDate=offer.dueDelivery;
     this.offerForm = new FormGroup({
-      'price' : new FormControl(offer.price, Validators.required),
+      'price' : new FormControl(offer.price, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'dude' : new FormControl(offer.dueDelivery, Validators.required)
     });
     

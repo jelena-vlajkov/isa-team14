@@ -20,22 +20,18 @@ export class AuthGuard implements CanActivate {
           return false;
         }
         
-        // if (route.data.roles && route.data.roles.indexOf(currentUser.role) === 5) {
+        // if ( this.router.url==="/searchMedication" && route.data.roles && route.data.roles.indexOf(currentUser.role) === 6) {
         //   // role not authorised so redirect to home page
-        //   this.router.navigate(['/pharmacyAdmin-profile']);
+        //   this.router.navigate(['/supplier']);
         //   return false;
         // }
-        if (route.data.roles && route.data.roles.indexOf(currentUser.role) === 3) {
-          // role not authorised so redirect to home page
-          this.router.navigate(['/admin']);
-          return false;
-        }
+
         // authorised so return true
         return true;
       }
 
       // // not logged in so redirect to login page with the return url
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
       return false;
     }
 }

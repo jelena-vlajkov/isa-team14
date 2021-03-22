@@ -5,6 +5,15 @@ import {Medication} from "../model/medications/medication"
 import { MedicationService } from '@app/service/medication/medication.service';
 import {Sort} from '@angular/material/sort';
 import {MatSort} from '@angular/material/sort';
+import { Patient } from '@app/model/users/patient/patient';
+import { Role } from '@app/model/users';
+import { Supplier } from '@app/model/users/supplier/supplier';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
+import { Router } from '@angular/router';
+import { PatientService } from '@app/service/patient/patient.service';
+import { SupplierService } from '@app/service/supplier/supplier.service';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { AuthenticationService } from '@app/service/user';
 
 @Component({
   selector: 'app-unauthenticated-user',
@@ -12,12 +21,16 @@ import {MatSort} from '@angular/material/sort';
   styleUrls: ['./unauthenticated-user.component.css']
 })
 export class UnauthenticatedUserComponent implements AfterViewInit {
-
+  public patient : Patient;
+  public patientHere : boolean = false;
+  public noone : boolean = true;
+  public sysAdmin : SystemAdmin;
+  public supplier : Supplier;
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {
   }
 
-  constructor(private pharmacyService : PharmacyService, public medicationService : MedicationService) { 
+  constructor(private auth : AuthenticationService,private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, private pharmacyService : PharmacyService, public medicationService : MedicationService) { 
     
   }
   public pharmacies : Pharmacy[] = new Array();
@@ -31,7 +44,58 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
    
     this.pharmacy = false;
     this.medcs = false;
+    try{
+      if(this.isPatient()){
+          this.loadPatient();
+        }else if (this.isAdmin()){
+          this.loadAdmin();
+        }else if(this.isSupplier()){
+          this.loadSupplier();
+        }    
+      
+    }catch(error){
+      console.log('UPUCACU SE VISE AAAAAAAA');
+      console.log('ok radi sve kul idegasnamax');
+    }
 
+    
+  }
+  checkLoggedInUser(){
+    return this.auth.getUserValue();
+  }
+  isPatient() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Patient;
+  }
+  isSupplier() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.Supplier;
+  }
+  isAdmin() {
+    return this.auth.getUserValue() && this.auth.getUserValue().role === Role.SysAdmin;
+  }
+
+  logout(){
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+
+  loadPatient(){
+    this.patientService.getPatientById(Number(localStorage.getItem('userId'))).subscribe(data =>
+      {
+        this.patient = data;
+      });
+  }
+
+  loadAdmin(){
+    this.systemAdmin.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(data =>
+      {
+        this.sysAdmin = data;
+      });
+  }
+  loadSupplier(){
+    this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(data =>
+      {
+        this.supplier = data;
+      });
   }
 
   enablePharmacy(){

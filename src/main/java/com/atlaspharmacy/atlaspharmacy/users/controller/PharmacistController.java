@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
@@ -25,6 +26,7 @@ public class PharmacistController {
     }
 
     @GetMapping(value = "/getPharmacistToComplain", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
     public @ResponseBody
     List<PharmacistDTO> getPharmacitsToComplain(@RequestParam("id") Long id) throws ParseException {
         return PharmacistMapper.mapToListDTOS(pharmacistService.getAllPharmacistsToComplain(id));
@@ -32,7 +34,7 @@ public class PharmacistController {
 
     @GetMapping(value = "/getByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<Pharmacist> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
-        return pharmacistService.findByPharmacy(id);
+    List<PharmacistDTO> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
+        return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
 
 }}

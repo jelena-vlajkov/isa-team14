@@ -22,5 +22,7 @@ export class OffersService {
   giveOffer(data : Offer){
     return this.http.post(`${environment.baseUrl}/${environment.offer}/${environment.add}`,data, {responseType : 'text'});
   }
-  
+  findByStatus(status : Number, id : Number): Observable<Offer[]>{
+    return this.http.get<Offer[]>(`${environment.baseUrl}/${environment.offer}/${environment.getByStatus}?id=${id}&status=${status}`);
+  }
 }

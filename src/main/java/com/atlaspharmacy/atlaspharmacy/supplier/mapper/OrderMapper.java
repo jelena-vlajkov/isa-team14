@@ -27,7 +27,8 @@ public class OrderMapper {
     }
     public static List<OrderDTO> mapToListDTOS(List<Order> orders){
         List<OrderDTO> dtos = new ArrayList<>();
-        for(Order o : orders){
+        for(Order o : orders)
+        {
             dtos.add(OrderMapper.mapOrderToDTO(o));
         }
         return dtos;

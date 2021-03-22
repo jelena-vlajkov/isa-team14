@@ -10,7 +10,9 @@
       <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
       <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
       <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
-
+      <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+      <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+      
     </mat-action-list>
     <mat-action-list style="position: absolute; bottom: 1px;">
             <button style="color: white;" routerLink='/admin' mat-list-item> Profile</button>
@@ -46,6 +48,9 @@
                           <mat-error
                               *ngIf="!addSupplier.get('name').valid && addSupplier.get('name').touched && addSupplier.get('name').errors['required']">
                               Please enter name</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('name').valid && addSupplier.get('name').touched && addSupplier.get('name').errors['pattern']">
+                              Please enter name in correct format</mat-error>
                       </mat-form-field>
                     </div>  
                   </mat-grid-tile>
@@ -58,47 +63,24 @@
                           <mat-error
                               *ngIf="!addSupplier.get('surname').valid && addSupplier.get('surname').touched && addSupplier.get('surname').errors['required']">
                               Please enter surname</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('surname').valid && addSupplier.get('surname').touched && addSupplier.get('surname').errors['pattern']">
+                              Please enter surname in correct format</mat-error>
                       </mat-form-field>
                     </div> 
                   </mat-grid-tile>
-                  <!-- <mat-grid-tile>
-                    <div class="inputField" style="width: 400px;">
-                      <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                        <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
-                        <mat-radio-button value="MALE" style="font-size:18px;margin-left: 20px;">Male</mat-radio-button>
-                        <mat-radio-button value="OTHER" style="font-size:18px;margin-left: 20px;">other</mat-radio-button>
-                    </mat-radio-group>
-                      <mat-error
-                      *ngIf="!addSupplier.get('gender').valid && addSupplier.get('gender').touched && addSupplier.get('gender').errors['required']">
-                      Please choose gender</mat-error>
-                    </div>     
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <div class="inputField" >
-                      <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
-                        <mat-label style="font-size:14px;">Birth date</mat-label>
-                        <input  matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
-                        <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
-                        <mat-datepicker #picker1 ></mat-datepicker>
-                        <mat-error
-                        *ngIf="!addSupplier.get('dob').valid && addSupplier.get('dob').touched && addSupplier.get('dob').errors['required']">
-                        Please choose date of birth</mat-error>
-                      </mat-form-field>
-                    </div>
-                  </mat-grid-tile> -->
-                  <!-- <mat-grid-tile>
-                    <app-google-places>
-                    </app-google-places>  
-                  </mat-grid-tile> -->
                   <mat-grid-tile>
                     <div class="inputField" >
                       <mat-form-field appearance="fill" style="width: 400px;">
                         <mat-label>Telephone*</mat-label>
                         <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
                             formControlName="telephone">
-                        <mat-error
+                            <mat-error
                             *ngIf="!addSupplier.get('telephone').valid && addSupplier.get('telephone').touched && addSupplier.get('telephone').errors['required']">
-                            Please enter telephone</mat-error>
+                            Please enter telephone</mat-error>                        
+                            <mat-error
+                            *ngIf="!addSupplier.get('telephone').valid && addSupplier.get('telephone').touched && addSupplier.get('telephone').errors['pattern']">
+                            Please enter telephone in correct format</mat-error>
                       </mat-form-field>      
                     </div>                    
                   </mat-grid-tile>
@@ -110,6 +92,9 @@
                             formControlName="mail">
                         <mat-error
                             *ngIf="!addSupplier.get('mail').valid && addSupplier.get('mail').touched && addSupplier.get('mail').errors['required']">
+                            Please enter email</mat-error>
+                            <mat-error
+                            *ngIf="!addSupplier.get('mail').valid && addSupplier.get('mail').touched && addSupplier.get('mail').errors['email']">
                             Please enter email</mat-error>
                       </mat-form-field>
                     </div>                           
@@ -123,6 +108,9 @@
                           <mat-error
                               *ngIf="!addSupplier.get('password').valid && addSupplier.get('password').touched && addSupplier.get('password').errors['required']">
                               Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('password').valid && addSupplier.get('password').touched && addSupplier.get('password').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field> 
                     </div> 
                   </mat-grid-tile>
@@ -134,6 +122,9 @@
                           <mat-error
                               *ngIf="!addSupplier.get('confirmpassword').valid && addSupplier.get('confirmpassword').touched && addSupplier.get('confirmpassword').errors['required']">
                               Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('confirmpassword').valid && addSupplier.get('confirmpassword').touched && addSupplier.get('confirmpassword').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
                       </mat-form-field>
                     </div>
                   </mat-grid-tile>
@@ -172,7 +163,7 @@
                 </app-google-places>  
               </mat-grid-tile>
             </mat-grid-list>
-            <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent" [disabled]="!addSupplier.valid" >Register pharmacy admin</button>    
+            <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent" [disabled]="!addSupplier.valid" >Register supplier</button>    
             </form>
             
           </mat-card-content>

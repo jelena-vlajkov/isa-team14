@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 import { Address } from '@app/model/address/address';
+import { Role } from '@app/model/users';
 import { PasswordChanger } from '@app/model/users/passwordChanger';
 import { Supplier } from '@app/model/users/supplier/supplier';
 import { SupplierService } from '@app/service/supplier/supplier.service';
@@ -50,19 +51,26 @@ export class SupplierProfileComponent implements OnInit {
     this.password1 = "";
     this.password2 = "";
     this.oldpassword="";
-    
-  }
 
+  }
+  isSupplier() {
+    return this.authenticationService.getUserValue() && this.authenticationService.getUserValue().role === Role.Supplier;
+  }
   supplierLogout(){
       this.authenticationService.logout();
-    
+      this.router.navigate(['/login']);
+
   }
   loadSupplier(){
     this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(
       data => 
       { 
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
+        this.address1 = this.supplier.address;
       });
+      if(!this.supplier.firstTimeChanged){
+        this.router.navigate(['/supplier']);
+      }
   }
   respondToComplaints(){
     
@@ -88,9 +96,9 @@ export class SupplierProfileComponent implements OnInit {
     this.changePassword = true;
 
     this.changePasswordForm = new FormGroup({
-      'oldpassword' : new FormControl(null, Validators.required),
-      'newpassword' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required)
+      'oldpassword' : new FormControl(null, [Validators.required,Validators.minLength(5)]),
+      'newpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
     });
 
   }
@@ -115,7 +123,9 @@ export class SupplierProfileComponent implements OnInit {
           this.firstTimeChanged=true;
         },
         error=>{
-          alert("Fail")
+          alert("Fail - old password is incorect!")
+          this.router.navigate(['/supplier']);
+
         }
       )
     }
@@ -171,6 +181,66 @@ export class SupplierProfileComponent implements OnInit {
       this.changePassword = true; 
     }
   }
+  routetToStorage(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/storage']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToMeds(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchMedications']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToPharms(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/searchPharmacies']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
+  routeToAllOffers(){
+    this.firstTimeChanged = this.supplier.firstTimeChanged;
+    console.log(this.firstTimeChanged);
+    if(this.firstTimeChanged){
+      this.router.navigate(['/supplier/allOffers']);
+    }
+    else
+    {
+      this.changePasswordFunction();
+      this.profile=false;
+      this.home = false;
+      this.edit  = false;
+      this.changePassword = true; 
+    }
+  }
   editProfile(){
     this.edit = true;
     this.name = this.supplier.name;
@@ -185,9 +255,9 @@ export class SupplierProfileComponent implements OnInit {
     this.home = false;
     console.log(this.name);
     this.editProfileForm = new FormGroup({
-      'name' : new FormControl(this.name, Validators.required),
-      'surname' : new FormControl(this.surname, Validators.required),
-      'telephone' : new FormControl(this.phone, Validators.required),
+      'name' : new FormControl(this.supplier.name, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(this.supplier.surname, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'telephone' : new FormControl(this.phone, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'firmName' : new FormControl(this.firmName, Validators.required)
     });
   }
@@ -199,23 +269,29 @@ export class SupplierProfileComponent implements OnInit {
     var mail = this.supplier.email;
     console.log(this.address1);
     console.log(this.googleplaces.status);
+    if(this.googleplaces.address===undefined){
+      
+    }else{
+            this.address1 = this.googleplaces.address;
+
+    }
+      var editedSupplier = new Supplier(name, surname, this.supplier.dateOfBirth, telephone, mail, this.supplier.password, this.address1, this.supplier.role, this.supplier.authorities, firmname , this.supplier.firstTimeChanged);
+      console.log(editedSupplier);
+      this.supplierService.updateSupplier(editedSupplier).subscribe(
+        res=>{
+          alert('Success');
+          this.profile = true; 
+          this.edit = false;
+          this.changePassword = false;
+            this.home = false;
+          this.loadSupplier();
+        },
+        error=>{
+          alert("Fail")
+        }
+      )
+    }
     
-    console.log(this.address1);
-    var editedSupplier = new Supplier(name, surname, this.supplier.dateOfBirth, telephone, mail, this.supplier.password, this.address1, this.supplier.role, this.supplier.authorities, firmname , this.supplier.firstTimeChanged);
-    console.log(editedSupplier);
-    this.supplierService.updateSupplier(editedSupplier).subscribe(
-      res=>{
-        alert('Success');
-        this.profile = true; 
-        this.edit = false;
-        this.changePassword = false;
-          this.home = false;
-        this.loadSupplier();
-      },
-      error=>{
-        alert("Fail")
-      }
-    )
-  }
+  
 
 }

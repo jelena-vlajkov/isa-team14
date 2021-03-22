@@ -4,9 +4,6 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 
 
 import javax.persistence.*;
-import java.io.Serializable;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "pharmacies")
@@ -17,6 +14,8 @@ public class Pharmacy  {
     private String name;
     private String description;
     private Double average_grade;
+    private String email;
+    private Long telephone;
 
     @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -37,12 +36,6 @@ public class Pharmacy  {
         this.id = id;
     }
 
-
-    public Double getAverageGrade() { return average_grade; }
-
-    public void setAverageGrade(Double average_grade) {
-        this.average_grade = average_grade;
-    }
 
     public Address getAddress() {
         return address;
@@ -68,12 +61,37 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
-
-    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
+    public Pharmacy(Long id, String name, String description, String email, Long telephone,Address address,Double average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.email = email;
+        this.telephone = telephone;
         this.address = address;
+        this.average_grade = average_grade;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(Long telephone) {
+        this.telephone = telephone;
+    }
+
+    public Double getAverage_grade() {
+        return average_grade;
+    }
+
+    public void setAverage_grade(Double average_grade) {
         this.average_grade = average_grade;
     }
 }

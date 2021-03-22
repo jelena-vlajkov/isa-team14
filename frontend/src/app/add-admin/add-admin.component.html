@@ -10,7 +10,8 @@
       <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
       <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
       <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
-
+      <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+      <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
     </mat-action-list>
     <mat-action-list style="position: absolute; bottom: 1px;">
             <button style="color: white;" routerLink="/admin" mat-list-item> Profile</button>
@@ -38,9 +39,12 @@
                         <mat-label>Name*</mat-label>
                         <input matInput id="name" placeholder="Name" name="name-ff" 
                             formControlName="name">
-                        <!-- <mat-error
+                        <mat-error
                             *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
-                            Please enter name</mat-error> -->
+                            Please enter name</mat-error>
+                          <mat-error
+                            *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['pattern']">
+                            Please enter name in correct format</mat-error>
                     </mat-form-field>
                 </div>                  
               </mat-grid-tile>
@@ -52,9 +56,12 @@
                   <mat-form-field appearance="fill" id="surname-ff">
                       <mat-label>Surname*</mat-label>
                       <input matInput id="surname" placeholder="Surname" name="surname-ff" formControlName="surname">                   
-                      <!-- <mat-error
-                          *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
-                          Please enter surname</mat-error> -->
+                      <mat-error
+                      *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
+                      Please enter surname</mat-error>
+                    <mat-error
+                      *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['pattern']">
+                      Please enter surname in correct format</mat-error>
                   </mat-form-field>
               </div>             
               </mat-grid-tile>
@@ -70,33 +77,25 @@
                     <mat-radio-button value="MALE" style="font-size:20px;margin-left: 20px;">Male</mat-radio-button>
                     <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 20px;">other</mat-radio-button>
                 </mat-radio-group>
-                  <!-- <mat-error
+                  <mat-error
                   *ngIf="!addAdminForm.get('gender').valid && addAdminForm.get('gender').touched && addAdminForm.get('gender').errors['required']">
-                  Please enter address</mat-error> -->
+                  Please enter gender</mat-error>
               </div>
               </mat-grid-tile>
-              <!--PROBAO SAM SA OVIM SRANJEM, ALI NE RADI, MORACE NEKO DRUGI JOS DA SE ISCIMA-->
-              <!-- <geoapify-geocoder-autocomplete 
-                [value]="displayValue"
-                [type]="options.type"
-                [lang]="options.lang"
-                [countryCodes]="options.countries"
-                [position]="options.position"
-                [limit]="options.limit" 
-                (placeSelect)="placeSelected($event)" 
-                (suggestionsChange)="suggestionsChanged($event)">
-            </geoapify-geocoder-autocomplete> -->
+
 
               <mat-grid-tile>
                 <label>Birth date:</label>
               </mat-grid-tile>
               <mat-grid-tile>
-                <mat-form-field color="accent" appearance="fill" id="dob-ff">
-                  <mat-label style="font-size:18px;">Birth date</mat-label>
-                  <input matInput formControlName='dob' [matDatepicker]="picker1"  [(ngModel)]="selectedDate"  style="font-size:18px;" placeholder="Birth date">
-                  <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
-                  <mat-datepicker #picker1 ></mat-datepicker>
-                </mat-form-field>
+                  <mat-form-field color="accent" appearance="fill" id="dob-ff">
+                    <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                  </mat-form-field>
+                  <mat-error
+                  *ngIf="!addAdminForm.get('dob').valid && addAdminForm.get('dob').touched && addAdminForm.get('dob').errors['required']">
+                  Please enter date of birth</mat-error>
               </mat-grid-tile>
 
               <mat-grid-tile>
@@ -104,8 +103,8 @@
               </mat-grid-tile>
               <mat-grid-tile>
                 <div class="inputField">
-                      <app-google-places> </app-google-places>
-              </div>
+                  <app-google-places> </app-google-places>
+                </div>
               </mat-grid-tile>
 
               <mat-grid-tile>
@@ -117,9 +116,10 @@
                   <mat-label>Telephone*</mat-label>
                   <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff"
                       formControlName="telephone">
-                  <!-- <mat-error
-                      *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
-                      Please enter telephone</mat-error> -->
+                  <mat-error *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
+                      Please enter telephone</mat-error>
+                  <mat-error *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['pattern']">
+                      Please enter telephone in correct format</mat-error>
               </mat-form-field>
               </div>
               </mat-grid-tile>
@@ -134,9 +134,10 @@
                   <mat-label>Email*</mat-label>
                   <input matInput id="mail" placeholder="Email" name="email-ff"
                       formControlName="mail">
-                  <!-- <mat-error
-                      *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
-                      Please enter telephone</mat-error> -->
+                  <mat-error *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
+                      Please enter email</mat-error>
+                      <mat-error *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['email']">
+                        Please enter email in correct format</mat-error>
                 </mat-form-field>
                 </div>
               </mat-grid-tile>
@@ -148,9 +149,12 @@
                   <mat-form-field appearance="fill" id="password-ff">
                       <mat-label>New password*:</mat-label>
                       <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
-                      <!-- <mat-error
-                          *ngIf="!addAdminForm.get('newpassword').valid && addAdminForm.get('newpassword').touched && addAdminForm.get('newpassword').errors['required']">
-                          Please enter new password</mat-error>-->
+                      <mat-error
+                          *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
+                          Please enter password</mat-error>
+                          <mat-error
+                          *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['minLength']">
+                          Password has to be min 8 characters long</mat-error>
                   </mat-form-field> 
                 </div>               
               </mat-grid-tile>
@@ -163,9 +167,12 @@
                   <mat-form-field appearance="fill" id="password-ff">
                       <mat-label>Confirm password*:</mat-label>
                       <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
-                      <!-- <mat-error
+                      <mat-error
                           *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
-                          Please enter again new password</mat-error> -->
+                          Please confirm password</mat-error>
+                          <mat-error
+                          *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['minLength']">
+                          Password has to be min 8 characters long</mat-error>
                   </mat-form-field>
                 </div>  
               </mat-grid-tile> 
