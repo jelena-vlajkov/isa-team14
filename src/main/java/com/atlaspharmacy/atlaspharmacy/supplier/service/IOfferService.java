@@ -14,4 +14,6 @@ public interface IOfferService {
     Offer editOffer(OfferDTO offer) throws DueDateSoonException;
     Offer giveOffer(OfferDTO o) throws DueDateSoonException, InsuficientFundsException;
     List<OfferDTO> getUsersOffersByStatus(Long status, Long supplier);
+    List<OfferDTO> getAllOffersByOrder(Long id);
+    List<Offer> chooseOffer(Long OfferId,Long orderId);
 }

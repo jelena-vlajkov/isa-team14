@@ -9,6 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.OfferStatus;
 import com.atlaspharmacy.atlaspharmacy.supplier.exceptions.InsuficientFundsException;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OfferMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OfferService implements IOfferService {
@@ -146,5 +148,34 @@ public class OfferService implements IOfferService {
             return offerRepository.save(editedOffer);
         }
         throw new DueDateSoonException("Cant edit offer, due date too soon!");
+    }
+
+    @Override
+    public List<OfferDTO> getAllOffersByOrder(Long id) {
+        List<Offer> allOffers = getAllOffers();
+        List<Offer> offersByOrder = new ArrayList<>();
+        for(Offer o: allOffers){
+            if(o.getOrder().getId().equals(id)){
+                offersByOrder.add(o);
+            }
+        }
+        return OfferMapper.mapToListDTOS(offersByOrder);
+    }
+
+    @Override
+    public List<Offer> chooseOffer(Long offerId,Long orderId) {
+        List<Offer> allOffersByOrder=getAllOffers().stream()
+                    .filter(offer -> offer.getOrder().getId().equals(orderId))
+                    .collect(Collectors.toList());
+
+        for(Offer o: allOffersByOrder){
+            if(o.getId().equals(offerId)){
+                o.setOfferStatus(OfferStatus.ACCEPTED);
+            }
+            else{
+                o.setOfferStatus(OfferStatus.REJECTED);
+            }
+        }
+        return allOffersByOrder;
     }
 }

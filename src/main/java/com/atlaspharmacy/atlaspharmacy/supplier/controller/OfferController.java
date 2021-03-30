@@ -45,6 +45,14 @@ public class OfferController {
         return offerService.getUsersOffersByStatus(status, id);
     }
 
+    @GetMapping(value = "/getAllByOrder", produces = MediaType.APPLICATION_JSON_VALUE)
+    @OrderAuthorization
+    public @ResponseBody
+    List<OfferDTO> getAllOffersByOrder(@RequestParam("id") Long id){
+        return offerService.getAllOffersByOrder(id);
+    }
+
+
 
 
     @PostMapping(value = "/update", consumes =  MediaType.APPLICATION_JSON_VALUE)
@@ -73,4 +81,19 @@ public class OfferController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/chooseOffer",consumes =MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> chooseOffer(@RequestBody Long offerId,Long orderId)
+    {
+        try{
+            offerService.chooseOffer(offerId,orderId);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

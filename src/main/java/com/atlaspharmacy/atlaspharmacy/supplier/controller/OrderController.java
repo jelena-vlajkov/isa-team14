@@ -64,6 +64,7 @@ public class OrderController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping(value = "/getAllOrdersWehereOfferIsNotGivenBySupplier", produces = MediaType.APPLICATION_JSON_VALUE)
     @OrderAuthorization
     public @ResponseBody
