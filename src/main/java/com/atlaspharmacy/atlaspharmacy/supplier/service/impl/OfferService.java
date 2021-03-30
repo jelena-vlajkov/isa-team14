@@ -163,17 +163,20 @@ public class OfferService implements IOfferService {
     }
 
     @Override
-    public List<Offer> chooseOffer(Long offerId,Long orderId) {
+    public List<Offer> chooseOffer(OfferDTO offerDTO) {
         List<Offer> allOffersByOrder=getAllOffers().stream()
-                    .filter(offer -> offer.getOrder().getId().equals(orderId))
-                    .collect(Collectors.toList());
+                    .filter(offer -> offer.getOrder().getId()
+                            .equals(offerDTO.getOrder().getId()))
+                            .collect(Collectors.toList());
 
         for(Offer o: allOffersByOrder){
-            if(o.getId().equals(offerId)){
+            if(o.getId().equals(offerDTO.getId())){
                 o.setOfferStatus(OfferStatus.ACCEPTED);
+                offerRepository.save(o);
             }
             else{
                 o.setOfferStatus(OfferStatus.REJECTED);
+                offerRepository.save(o);
             }
         }
         return allOffersByOrder;

@@ -83,10 +83,10 @@ public class OfferController {
     }
 
     @PostMapping(value = "/chooseOffer",consumes =MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> chooseOffer(@RequestBody Long offerId,Long orderId)
+    public ResponseEntity<?> chooseOffer(@RequestBody OfferDTO offerDTO)
     {
         try{
-            offerService.chooseOffer(offerId,orderId);
+            offerService.chooseOffer(offerDTO);
         }
         catch(Exception e)
         {
