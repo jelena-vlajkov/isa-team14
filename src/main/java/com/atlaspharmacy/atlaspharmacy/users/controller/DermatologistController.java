@@ -73,5 +73,9 @@ public class DermatologistController {
         return new ParseException("Error while parsing values", 0);
     }
 
-
+    @GetMapping(value = "/searchDermatologists", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
+        return DermatologistMapper.mapToListDTOS(_dermatologistService.searchDermatologists(searchInput));
+    }
 }

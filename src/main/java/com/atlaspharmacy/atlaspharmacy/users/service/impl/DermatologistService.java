@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DermatologistService implements IDermatologistService {
@@ -98,6 +100,32 @@ public class DermatologistService implements IDermatologistService {
             dermatologistsToComplain.add(dermatologistRepository.findById(e.getDermatologist().getId()).get());
         }
         return distinctDermatologistsToComplain(dermatologistsToComplain);
+    }
+
+    @Override
+    public List<Dermatologist> searchDermatologists(String searchInput) {
+        List<Dermatologist> allDermatologists=dermatologistRepository.findAll();
+        List<Dermatologist> searchedDermatologists=new ArrayList<>();
+        for(Dermatologist d:allDermatologists)
+        {
+            if(searchInput.contains(d.getName()) || searchInput.contains(d.getSurname())){
+                searchedDermatologists.add(d);
+            }
+        }
+        return searchedDermatologists;
+    }
+
+    @Override
+    public List<Dermatologist> filterDermatologistsByPharmacy(List<Dermatologist> dermatologists,Long pharmacyId) {
+        return dermatologists.stream()
+                        .filter(dermatologist -> dermatologist.getPharmacies().stream()
+                        .anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId)))
+                        .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Dermatologist> filterDermatologistsByGrade(List<Dermatologist> dermatologists, Double grade) {
+        return null;
     }
 
 
