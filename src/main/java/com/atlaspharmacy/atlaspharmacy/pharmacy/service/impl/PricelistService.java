@@ -35,4 +35,20 @@ public class PricelistService implements IPricelistService {
         }
         return pricelists;
     }
+
+    @Override
+    public List<PricelistDTO> getByPharmacy(Long id) {
+        List<Pricelist> allPricelists=pricelistRepository.findAll();
+        List<PricelistDTO> pricelistsByPharmacy = new ArrayList<>();
+        Date today = new Date();
+        for(Pricelist p:allPricelists)
+        {
+            if(p.getPharmacy().getId().equals(id) && today.compareTo(p.getPeriod().getEndTime())<0 && today.compareTo(p.getPeriod().getStartTime())>0)
+            {
+                pricelistsByPharmacy.add(PricelistMapper.mapPricelistToDTO(p));
+            }
+        }
+        return pricelistsByPharmacy;
+
+    }
 }

@@ -9,7 +9,7 @@ import {DermatologistService} from "@app/service/dermatologist/dermatologist.ser
 import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
 import {PharmacistService} from "@app/service/pharmacist/pharmacist.service";
 import {PharmacyStorageService} from "@app/service/pharmacy-storage/pharmacy-storage.service";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,6 +27,7 @@ export class PharmacyProfileComponent implements OnInit {
   pharmacists: String[]=new Array();
   pharmacyId:Number;
   medications:String[]=new Array();
+  viewPricelist:boolean=false;
   private StringIsNumber = value => isNaN(Number(value)) === false;
   public profile:boolean = true;
   public edit:boolean = false;
@@ -109,6 +110,9 @@ export class PharmacyProfileComponent implements OnInit {
       'address' : new FormControl(this.address, Validators.required),
       'grade': new FormControl(this.grade, Validators.required)
     });
+  }
+  showPricelist(){
+    this.viewPricelist=true;
   }
 
 }

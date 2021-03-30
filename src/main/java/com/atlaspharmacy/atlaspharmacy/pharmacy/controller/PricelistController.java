@@ -24,5 +24,9 @@ public class PricelistController {
     List<PricelistDTO> getByMedication(@RequestParam("code") Long code) throws ParseException {
         return pricelistService.getPricelistsByMedication(code);
     }
-
+    @GetMapping(value = "/getByPharmacy",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<PricelistDTO> getByPharmacy(@RequestParam("id") Long pharmacyId)
+    {
+        return pricelistService.getByPharmacy(pharmacyId);
+    }
 }

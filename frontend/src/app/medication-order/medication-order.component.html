@@ -74,8 +74,24 @@
       <mat-grid-list  cols="3" rowHeight="50" width="400" align="left" *ngIf="orderList.length!=0">
         <mat-grid-tile> <p style="font-weight: bold;size:50px;color: #385399;" >Order list</p></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>
           <div class="inputField" style="width: auto;" >
+            <mat-form-field appearance="fill" id="editableDue-ff" >
+              <mat-label>Editable due</mat-label>
+              <input matInput id="editableDue" placeholder="Editable due" name="editableDue-ff"
+                     formControlName="editableDue" required type="date">
+              <mat-error
+                *ngIf="!orderForm.get('editableDue').valid
+                     && orderForm.get('editableDue').touched
+                     && orderForm.get('editableDue').errors['editableDue']">
+                Please enter editable due date</mat-error>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <div class="inputField" style="width: auto;margin-left:20px;" >
             <mat-form-field appearance="fill" id="duedate-ff" >
               <mat-label>Due date</mat-label>
               <input matInput id="dueDate" placeholder="Due date" name="duedate-ff"
@@ -99,7 +115,7 @@
             </p>
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile></mat-grid-tile>
-          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='sumbitOrder' [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
+          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='submitOrder'  [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
 
         </div>
 

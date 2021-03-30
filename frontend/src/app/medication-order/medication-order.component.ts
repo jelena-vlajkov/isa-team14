@@ -9,8 +9,8 @@ import {Supplier} from "@app/model/users/supplier/supplier";
 import {PharmacyService} from "@app/service/pharmacy/pharmacy.service";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Pharmacy} from "@app/model/pharmacy/pharmacy";
-import {OrderService} from "@app/service/orders/order.service";
 import {Order} from "@app/model/medicationOrder/order";
+import {OrdersService} from "@app/service/orders/orders.service";
 
 @Component({
   selector: 'app-medication-order',
@@ -30,20 +30,26 @@ export class MedicationOrderComponent implements OnInit {
   amount:Number;
   currentUserId:Number;
   pharmacy:Pharmacy;
+  editableDue:Date;
 
   constructor(private router: Router, private authenticationService: AuthenticationService
     , private medicationService: MedicationService,
-              private pharmacyAdminService: PharmacyAdminService, private orderService: OrderService) {
+              private pharmacyAdminService: PharmacyAdminService, private orderService: OrdersService) {
 
   }
 
   ngOnInit(): void {
     this.addItem = false;
+
     this.addMedicationOrderForm = new FormGroup({
       'medication' : new FormControl(null, Validators.required),
       'amount' : new FormControl(null,Validators.required)});
+
     this.orderForm = new FormGroup({
-      'dueDate' : new FormControl(null,Validators.required)});
+      'dueDate' : new FormControl(null,Validators.required),
+      'editableDue' : new FormControl(null,Validators.required),
+      });
+
     this.medicationService.findAllMedications().subscribe(data=>
       {
         this.medications = data;
@@ -61,19 +67,19 @@ export class MedicationOrderComponent implements OnInit {
   }
 
   addOrder() {
-      let orderItemExists=this.orderList.filter(order => order.medicationName==this.addMedicationOrderForm.value.medication.name).length==0;
+      let orderItemExists=this.orderList.filter(order => order.medicationId==this.addMedicationOrderForm.value.medicationId).length==0;
       if(orderItemExists)
         {
           let newOrder=new MedicationOrder(this.addMedicationOrderForm.value.medication.id
-                                        ,this.addMedicationOrderForm.value.amount
-                                        ,this.addMedicationOrderForm.value.medication.name);
+                                        ,this.addMedicationOrderForm.value.medication.name
+                                        ,this.addMedicationOrderForm.value.amount);
           this.orderList.push(newOrder);
         }
       else
         {
           for (var i in this.orderList)
           {
-            if (this.orderList[i].medicationName == this.addMedicationOrderForm.value.medication.name)
+            if (this.orderList[i].medicationId == this.addMedicationOrderForm.value.medication.id)
             {
               this.orderList[i].quantity += this.addMedicationOrderForm.value.amount;
               break;
@@ -90,11 +96,14 @@ export class MedicationOrderComponent implements OnInit {
 
   submitOrder() {
     this.currentUserId=Number(localStorage.getItem('userId'));
+    console.log(this.currentUserId);
     this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
       result => {
-        this.pharmacy = result;
-        let order=new Order(null, this.orderList,this.dueDate,this.pharmacy);
-        this.orderService.addOrder(order);
+      this.pharmacy = result;
+      let order=new Order(null,this.orderForm.value.dueDate,this.orderList,this.pharmacy,this.orderForm.value.editableDue
+        ,null);
+      console.log(order);
+      this.orderService.addOrder(order);
       });
 
     }

@@ -17,12 +17,14 @@ public class OrderDTO {
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, List<OrderedMedicationDTO> orderedMedications, Date dueDate, PharmacyDTO pharmacy, int uniqueidentifier) {
+    public OrderDTO(Long id, Date dueDate, List<OrderedMedicationDTO> orderedMedications,
+                    PharmacyDTO pharmacy, Date editableDue, int uniqueidentifier) {
         this.id = id;
         this.orderedMedications = orderedMedications;
         this.dueDate = dueDate;
         this.pharmacy = pharmacy;
         this.uniqueidentifier = uniqueidentifier;
+        this.editableDue=editableDue;
     }
 
     public PharmacyDTO getPharmacy() {

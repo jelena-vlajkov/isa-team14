@@ -18,7 +18,7 @@
 
     </mat-drawer>
 
-        <mat-drawer-content>
+        <mat-drawer-content *ngIf="!viewPricelist">
           <mat-toolbar color="accent">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
@@ -79,16 +79,14 @@
               </mat-grid-tile>
             </mat-grid-list>
 
-          <mat-grid-list cols="3" rowHeight="5:1" style="margin-left: 10px;" >
+          <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
             <mat-grid-tile>
               <label>Drugs:</label>
             </mat-grid-tile>
+            <button style="float:right; position:relative;" mat-raised-button id='viewPricelist' (click)='showPricelist()'color="accent">view Pricelist</button>
+
             <mat-grid-tile>
-              <div style="margin-top: 30px;">
-                <p class="text-grid" *ngFor="let drug of medications">
-                  {{drug}}
-                </p>
-              </div>
+
             </mat-grid-tile>
               <mat-grid-tile>
               <button style="float:right; position:relative;" mat-raised-button id='reserveDrug' (click)='editProfile()' color="accent">Reserve drug</button>
@@ -161,4 +159,16 @@
 
 
     </mat-drawer-content>
-  </mat-drawer-container>
+  <mat-drawer-content *ngIf="viewPricelist">
+    <mat-card *ngIf="profile" style="height: auto;">
+      <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
+        <mat-grid-tile>
+          <label>Name:</label>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <p>{{name}}</p>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
+  </mat-drawer-content>
+</mat-drawer-container>

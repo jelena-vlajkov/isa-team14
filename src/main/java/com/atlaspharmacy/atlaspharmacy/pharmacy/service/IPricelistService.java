@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IPricelistService {
     List<PricelistDTO> getPricelistsByMedication(Long code);
+    List<PricelistDTO> getByPharmacy(Long id);
 }

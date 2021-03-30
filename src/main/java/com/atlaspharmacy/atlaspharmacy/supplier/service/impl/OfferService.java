@@ -63,7 +63,7 @@ public class OfferService implements IOfferService {
         List<OrderedMedicationDTO> medicationDTOS = new ArrayList<>();
         for(MedicationInOrder m : medicationInOrderService.getAllMedicationsByOrder(offer.getOrder().getId())){
             OrderedMedicationDTO dto = new OrderedMedicationDTO();
-            dto.setMedication(MedicationMapper.convertToMedicationDTO(medicationService.getById(m.getOrderedMedication().getMedication())));
+            dto.setMedicationId(m.getId());
             dto.setQuantity(m.getOrderedMedication().getQuantity());
             medicationDTOS.add(dto);
         }
