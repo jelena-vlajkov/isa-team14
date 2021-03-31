@@ -10,4 +10,5 @@ import java.util.List;
 public interface IPharmacistService {
      List<Pharmacist> getAllPharmacistsToComplain(Long id);
      List<Pharmacist> searchPharmacists(String searchInput);
+     List<Pharmacist> findByPharmacy(Long id);
 }

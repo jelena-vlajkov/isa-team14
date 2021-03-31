@@ -13,26 +13,20 @@ public class Pharmacy  {
     private Long id;
     private String name;
     private String description;
+    private Double average_grade;
     private String email;
     private Long telephone;
+
     @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    private Double average_grade;
 
     
     public Pharmacy(Long id) {
         this.id = id;
     }
 
-    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.average_grade = average_grade;
-    }
 
     public Long getId() {
         return id;
@@ -67,12 +61,14 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
-    public Pharmacy(Long id, String name, String description, String email, Long telephone) {
+    public Pharmacy(Long id, String name, String description, String email, Long telephone,Address address,Double average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.email = email;
         this.telephone = telephone;
+        this.address = address;
+        this.average_grade = average_grade;
     }
 
     public String getEmail() {
@@ -99,3 +95,4 @@ public class Pharmacy  {
         this.average_grade = average_grade;
     }
 }
+

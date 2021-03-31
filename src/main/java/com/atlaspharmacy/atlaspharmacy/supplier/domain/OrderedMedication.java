@@ -21,8 +21,8 @@ public class OrderedMedication {
         return medication;
     }
 
-    public void setMedication(Long medication) {
-        this.medication = medication;
+    public void setMedication(Long medicationId) {
+        this.medication = medicationId;
     }
 
     public Long getQuantity() {
@@ -32,4 +32,5 @@ public class OrderedMedication {
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
+
 }

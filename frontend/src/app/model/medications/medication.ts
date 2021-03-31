@@ -20,7 +20,7 @@ export class Medication {
     public grade : Number;
     public dosage : Number;
 
-    constructor(name : string,  drugForm : DrugForm, drugType : DrugType, 
+    constructor(name : string,  drugForm : DrugForm, drugType : DrugType,
         producer:string, typeOfPrescribing : TypeOfPrescribing, contraindications: string,
         additionalNotes: string, dailyDose: number, drugKind:DrugKind, subMeds : Medication[], code: Number, ingredients: Ingredient[], grade : Number, dosage : Number) {
         this.name = name;
@@ -38,5 +38,5 @@ export class Medication {
         this.grade = grade;
         this.dosage = dosage;
     }
-    
+
 }

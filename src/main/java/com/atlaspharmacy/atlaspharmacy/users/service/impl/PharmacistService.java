@@ -2,14 +2,20 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
+import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
+import com.atlaspharmacy.atlaspharmacy.users.repository.IPharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PharmacistService implements IPharmacistService {
@@ -21,6 +27,19 @@ public class PharmacistService implements IPharmacistService {
         this.pharmacistRepository = pharmacistRepository;
         this.pharmacyService = pharmacyService;
         this.appointmentService = appointmentService;
+    }
+
+    @Override
+    public List<Pharmacist> findByPharmacy(Long id) {
+        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
+
+        List<Pharmacist> pharmacistsByPharmacy=new ArrayList<>();
+        for(Pharmacist p: allPharmacists){
+            if(p.getPharmacy().getId().equals(id)){
+                pharmacistsByPharmacy.add(p);
+            }
+        }
+        return pharmacistsByPharmacy;
     }
 
     public boolean isPharmacistInList(List<Pharmacist> list,Long id){

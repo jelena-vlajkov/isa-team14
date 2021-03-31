@@ -16,7 +16,7 @@ export class PharmacyAdmin{
   public authorities : Number[];
   public pharmacy : Pharmacy;
 
-  constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], pharmacy:Pharmacy){
+  constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], pharmacy:Pharmacy) {
     this.name = name;
     this.surname = surname;
     this.dateOfBirth = dateOfBirth;

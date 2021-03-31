@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@Controller
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping(value="/dermatologist")
 public class DermatologistController {
 
