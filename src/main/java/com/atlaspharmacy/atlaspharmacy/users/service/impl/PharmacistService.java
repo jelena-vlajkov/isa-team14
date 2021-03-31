@@ -56,4 +56,18 @@ public class PharmacistService implements IPharmacistService {
 
         return distinctPharmacistToComplain(pharmacistsToComplain);
     }
+
+    @Override
+    public List<Pharmacist> searchPharmacists(String searchInput) {
+        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
+        List<Pharmacist> searchedPharmacists=new ArrayList<>();
+        for(Pharmacist p:allPharmacists)
+        {
+            if(searchInput.contains(p.getName()) || searchInput.contains(p.getSurname())){
+                searchedPharmacists.add(p);
+            }
+        }
+        return searchedPharmacists;
+    }
+
 }

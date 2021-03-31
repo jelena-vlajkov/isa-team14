@@ -32,4 +32,10 @@ public class PharmacistController {
         return PharmacistMapper.mapToListDTOS(pharmacistService.getAllPharmacistsToComplain(id));
     }
 
+    @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
+        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(searchInput));
+    }
+
 }
