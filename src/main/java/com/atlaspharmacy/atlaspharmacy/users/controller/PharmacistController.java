@@ -34,7 +34,7 @@ public class PharmacistController {
 
     @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<PharmacistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
+    List<PharmacistDTO> searchPharmacists(@RequestParam("searchInput") String searchInput){
         return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(searchInput));
     }
 
@@ -43,5 +43,11 @@ public class PharmacistController {
     public @ResponseBody
     List<PharmacistDTO> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
         return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
+    }
 
-}}
+    @GetMapping(value = "/searchPharmacistsByPharmacyAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> searchPharmacyByPharmacyAdmin(@RequestParam("searchInput") String searchInput,Long pharmacyId){
+        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacistsByPharmacyAdmin(searchInput,pharmacyId));
+    }
+}

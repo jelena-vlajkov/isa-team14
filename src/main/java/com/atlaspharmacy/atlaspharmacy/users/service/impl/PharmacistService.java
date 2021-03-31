@@ -42,6 +42,19 @@ public class PharmacistService implements IPharmacistService {
         return pharmacistsByPharmacy;
     }
 
+    @Override
+    public List<Pharmacist> searchPharmacistsByPharmacyAdmin(String searchInput, Long pharmacyId) {
+        List<Pharmacist> allPharmacists=findByPharmacy(pharmacyId);
+        List<Pharmacist> searchedPharmacists=new ArrayList<>();
+        for(Pharmacist p:allPharmacists)
+        {
+            if(searchInput.contains(p.getName()) || searchInput.contains(p.getSurname())){
+                searchedPharmacists.add(p);
+            }
+        }
+        return searchedPharmacists;
+    }
+
     public boolean isPharmacistInList(List<Pharmacist> list,Long id){
         for(Pharmacist p : list){
             if(p.getId().equals(id)){
