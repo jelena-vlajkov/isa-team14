@@ -72,4 +72,5 @@ public class Order {
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
     }
+
 }

@@ -6,11 +6,14 @@ import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOrderService;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.impl.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -50,6 +53,18 @@ public class OrderController {
         return orderService.getOrderedMedicationByIdentifier(id);
     }
 
+    @PostMapping(value = "/addOrder", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addOrder(@RequestBody OrderDTO orderDTO) {
+        try {
+            Order order = orderService.addOrder(orderDTO);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping(value = "/getAllOrdersWehereOfferIsNotGivenBySupplier", produces = MediaType.APPLICATION_JSON_VALUE)
     @OrderAuthorization
     public @ResponseBody

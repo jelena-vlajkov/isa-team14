@@ -49,12 +49,12 @@ public class OrderDTO {
         this.orderedMedications = orderedMedication;
     }
 
-    public Long getId() {
-        return id;
+    public List<OrderedMedicationDTO> getOrderedMedications() {
+        return orderedMedications;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOrderedMedications(List<OrderedMedicationDTO> orderedMedications) {
+        this.orderedMedications = orderedMedications;
     }
 
 
@@ -72,5 +72,13 @@ public class OrderDTO {
 
     public void setUniqueidentifier(int uniqueidentifier) {
         this.uniqueidentifier = uniqueidentifier;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

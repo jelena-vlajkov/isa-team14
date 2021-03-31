@@ -3,7 +3,9 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
@@ -42,12 +44,10 @@ public class PharmacyAdminService implements IPharmacyAdminService {
     }
 
     @Override
-    public Pharmacy getPharmacyByPharmacyAdmin(Long id) {
-        PharmacyAdmin pharmacyAdmin= _pharmacyAdminRepository.findAll()
-                                       .stream()
-                                       .filter(admin -> admin.getId()==id).findFirst()
-                                       .orElse(null);
-        return pharmacyAdmin.getPharmacy();
+    public PharmacyDTO getPharmacyByPharmacyAdmin(Long id) {
+        PharmacyAdmin pharmacyAdmin= _pharmacyAdminRepository.findById(id).orElse(null);
+
+        return PharmacyMapper.mapPharmacyToDTO(pharmacyAdmin.getPharmacy());
     }
 
     @Override

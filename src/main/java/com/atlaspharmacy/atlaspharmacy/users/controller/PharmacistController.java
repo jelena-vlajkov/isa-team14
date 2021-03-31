@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@Controller
-@CrossOrigin
+@RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value="/pharmacist")
 public class PharmacistController {
     private final IPharmacistService pharmacistService;
@@ -32,4 +32,9 @@ public class PharmacistController {
         return PharmacistMapper.mapToListDTOS(pharmacistService.getAllPharmacistsToComplain(id));
     }
 
-}
+    @GetMapping(value = "/getByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
+        return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
+
+}}
