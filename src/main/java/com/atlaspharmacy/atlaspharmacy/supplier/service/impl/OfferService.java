@@ -15,10 +15,13 @@ import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OfferMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOfferService;
 import com.atlaspharmacy.atlaspharmacy.users.repository.SupplierRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,14 +35,19 @@ public class OfferService implements IOfferService {
     private final MedicationServiceImpl medicationService;
     private final OrderService orderService;
     private final SupplierService supplierService;
+    private final EmailService emailService;
     @Autowired
-    public OfferService(OfferRepository offerRepository, SupplierStorageService supplierStorageService, MedicationInOrderService medicationInOrderService, MedicationServiceImpl medicationService, OrderService orderService, SupplierService supplierService) {
+    public OfferService(OfferRepository offerRepository, SupplierStorageService supplierStorageService,
+                        MedicationInOrderService medicationInOrderService,
+                        MedicationServiceImpl medicationService, OrderService orderService,
+                        SupplierService supplierService,EmailService emailService) {
         this.offerRepository = offerRepository;
         this.supplierStorageService = supplierStorageService;
         this.medicationInOrderService = medicationInOrderService;
         this.medicationService = medicationService;
         this.orderService = orderService;
         this.supplierService = supplierService;
+        this.emailService=emailService;
     }
 
     @Override
@@ -163,7 +171,7 @@ public class OfferService implements IOfferService {
     }
 
     @Override
-    public List<Offer> chooseOffer(OfferDTO offerDTO) {
+    public List<Offer> chooseOffer(OfferDTO offerDTO) throws IOException, MessagingException {
         List<Offer> allOffersByOrder=getAllOffers().stream()
                     .filter(offer -> offer.getOrder().getId()
                             .equals(offerDTO.getOrder().getId()))
@@ -173,10 +181,13 @@ public class OfferService implements IOfferService {
             if(o.getId().equals(offerDTO.getId())){
                 o.setOfferStatus(OfferStatus.ACCEPTED);
                 offerRepository.save(o);
+                emailService.sendNotificationToSupplier(o.getSupplier(),true);
+
             }
             else{
                 o.setOfferStatus(OfferStatus.REJECTED);
                 offerRepository.save(o);
+                emailService.sendNotificationToSupplier(o.getSupplier(),false);
             }
         }
         return allOffersByOrder;
