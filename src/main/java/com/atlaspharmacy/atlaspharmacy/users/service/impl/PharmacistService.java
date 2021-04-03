@@ -102,4 +102,30 @@ public class PharmacistService implements IPharmacistService {
         return searchedPharmacists;
     }
 
+    @Override
+    public List<Pharmacist>  filterPharmacistsByPharmacy(List<Pharmacist> pharmacistsToFilter,String pharmacyId) {
+
+        List<Pharmacist> filteredPharmacists=new ArrayList<>();
+        for(Pharmacist p:pharmacistsToFilter)
+        {
+            if(p.getPharmacy().getId().equals(pharmacyId)){
+                filteredPharmacists.add(p);
+            }
+        }
+        return filteredPharmacists;
+    }
+
+    @Override
+    public List<Pharmacist>  filterPharmacistsByGrade(List<Pharmacist> pharmacistsToFilter,Double grade) {
+
+        List<Pharmacist> filteredPharmacists=new ArrayList<>();
+        for(Pharmacist p:pharmacistsToFilter)
+        {
+            if(p.getPharmacy().getAverage_grade()>=grade){
+                filteredPharmacists.add(p);
+            }
+        }
+        return filteredPharmacists;
+    }
+
 }

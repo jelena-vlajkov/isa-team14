@@ -12,4 +12,6 @@ public interface IPharmacistService {
      List<Pharmacist> searchPharmacists(String searchInput);
      List<Pharmacist> findByPharmacy(Long id);
      List<Pharmacist> searchPharmacistsByPharmacyAdmin(String searchInput,Long pharmacyId);
+     List<Pharmacist>  filterPharmacistsByPharmacy(List<Pharmacist> pharmacistsToFilter,String pharmacyId);
+     List<Pharmacist>  filterPharmacistsByGrade(List<Pharmacist> pharmacistsToFilter,Double grade);
 }
