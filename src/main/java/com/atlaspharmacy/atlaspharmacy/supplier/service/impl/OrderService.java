@@ -21,6 +21,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OrderRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOrderService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -101,7 +102,6 @@ public class OrderService implements IOrderService {
         Order order=new Order();
         order.setDueDate(orderDTO.getDueDate());
         order.setPharmacy(PharmacyMapper.mapDTOToPharmacy(orderDTO.getPharmacy()));
-        order.setEditableDue(orderDTO.getEditableDue());
         orderRepository.save(order);
 
         for(OrderedMedicationDTO o: orderDTO.getOrderedMedications())
@@ -154,5 +154,18 @@ public class OrderService implements IOrderService {
     public List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(int id) {
         return getByIdentifier(id).getOrderedMedication();
     }
+
+    @Override
+    public List<OrderDTO> filterOrdersByState(String status) {
+        List<Order> allOrders=orderRepository.findAll();
+        List<Order> filteredOrders=new ArrayList<>();
+        for(Order o:allOrders) {
+            if(o.getStatus().equals(status)){
+                filteredOrders.add(o);
+            }
+        }
+        return OrderMapper.mapToListDTOS(filteredOrders);
+    }
+
 
 }

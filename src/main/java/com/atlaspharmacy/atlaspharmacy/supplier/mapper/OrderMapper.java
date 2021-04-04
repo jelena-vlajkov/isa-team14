@@ -16,7 +16,6 @@ public class OrderMapper {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setUniqueidentifier(order.getUniqueidentifier());
         orderDTO.setId(order.getId());
-        orderDTO.setEditableDue(order.getEditableDue());
         orderDTO.setDueDate(order.getDueDate());
         orderDTO.setPharmacy(PharmacyMapper.mapPharmacyToDTO(order.getPharmacy()));
         List<OrderedMedicationDTO> orderedMedications = new ArrayList<>();

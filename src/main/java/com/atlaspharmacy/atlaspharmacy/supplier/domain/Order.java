@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.MedicationOrderStatus;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -17,15 +18,16 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
-    private Date editableDue;
     private int uniqueidentifier;
 
-    public Order(Long id, Date dueDate, Pharmacy pharmacy, Date editableDue, int uniqueidentifier) {
+    private MedicationOrderStatus status;
+
+    public Order(Long id, Date dueDate, Pharmacy pharmacy, int uniqueidentifier) {
         this.id = id;
         this.dueDate = dueDate;
         this.pharmacy = pharmacy;
-        this.editableDue = editableDue;
         this.uniqueidentifier = uniqueidentifier;
+        this.status = MedicationOrderStatus.WAITING_FOR_OFFERS;
     }
 
     public Order() {
@@ -38,14 +40,6 @@ public class Order {
 
     public void setUniqueidentifier(int uniqueidentifier) {
         this.uniqueidentifier = uniqueidentifier;
-    }
-
-    public Date getEditableDue() {
-        return editableDue;
-    }
-
-    public void setEditableDue(Date editableDue) {
-        this.editableDue = editableDue;
     }
 
     public Long getId() {
@@ -73,4 +67,7 @@ public class Order {
         this.pharmacy = pharmacy;
     }
 
+    public MedicationOrderStatus getStatus() { return status; }
+
+    public void setStatus(MedicationOrderStatus status) { this.status = status; }
 }

@@ -17,4 +17,5 @@ public interface IOrderService {
     Order getByUniqueIdentifier(int uniqueidentifier);
     List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id);
     List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(int id);
+    List<OrderDTO> filterOrdersByState(String status);
 }

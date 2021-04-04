@@ -72,4 +72,17 @@ public class OrderController {
         return orderService.getAllOrdersWehereOfferIsNotGivenBySupplier(id);
     }
 
+    @PostMapping (value = "/filterOrdersByStatus")
+    public ResponseEntity<?> filterOrdersByStatus(@RequestBody String status) {
+        try {
+            List<OrderDTO> order = orderService.filterOrdersByState(status);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }
