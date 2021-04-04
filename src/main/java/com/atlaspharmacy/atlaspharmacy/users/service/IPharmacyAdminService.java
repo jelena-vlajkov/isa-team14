@@ -14,4 +14,5 @@ public interface IPharmacyAdminService {
     PharmacyDTO getPharmacyByPharmacyAdmin(Long id);
     PharmacyAdmin getById(Long id);
     PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws InvalidEmail, ParseException;
+    PharmacyAdmin updatePharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO);
 }
