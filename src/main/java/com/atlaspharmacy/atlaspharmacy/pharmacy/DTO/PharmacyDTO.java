@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 public class PharmacyDTO {
     private Long id;
@@ -10,12 +11,13 @@ public class PharmacyDTO {
     private Long telephone;
     private AddressDTO address;
 
-    private Double average_grade;
+    private AverageGrade average_grade;
 
     public PharmacyDTO() {
     }
 
-    public PharmacyDTO(Long id, String name, String description, String email, Long telephone, AddressDTO address, Double average_grade) {
+    public PharmacyDTO(Long id, String name, String description, String email,
+                       Long telephone, AddressDTO address, AverageGrade average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -57,11 +59,11 @@ public class PharmacyDTO {
         this.address = address;
     }
 
-    public Double getAverage_grade() {
+    public AverageGrade getAverage_grade() {
         return average_grade;
     }
 
-    public void setAverage_grade(Double average_grade) {
+    public void setAverage_grade(AverageGrade average_grade) {
         this.average_grade = average_grade;
     }
 

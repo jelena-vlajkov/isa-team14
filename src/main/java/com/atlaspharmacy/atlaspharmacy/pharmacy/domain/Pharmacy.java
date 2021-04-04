@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ public class Pharmacy  {
     private Long id;
     private String name;
     private String description;
-    private Double average_grade;
+    private AverageGrade average_grade;
     private String email;
     private Long telephone;
 
@@ -61,7 +62,8 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
-    public Pharmacy(Long id, String name, String description, String email, Long telephone,Address address,Double average_grade) {
+    public Pharmacy(Long id, String name, String description, String email,
+                    Long telephone,Address address,AverageGrade average_grade) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -87,12 +89,16 @@ public class Pharmacy  {
         this.telephone = telephone;
     }
 
-    public Double getAverage_grade() {
+    public AverageGrade getAverage_grade() {
         return average_grade;
     }
 
-    public void setAverage_grade(Double average_grade) {
+    public void setAverage_grade(AverageGrade average_grade) {
         this.average_grade = average_grade;
+    }
+
+    public Double countAverage_grade() {
+        return average_grade.count();
     }
 }
 
