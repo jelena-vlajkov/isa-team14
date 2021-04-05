@@ -3,7 +3,10 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
@@ -13,6 +16,7 @@ import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacyAdminMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.IPharmacyAdminRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.IAuthorityService;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,37 +26,37 @@ import java.text.ParseException;
 
 @Service
 public class PharmacyAdminService implements IPharmacyAdminService {
-    private final AuthorityService authorityService;
-    private final IPharmacyAdminRepository _pharmacyAdminRepository;
+    private final IAuthorityService authorityService;
+    private final IPharmacyService pharmacyService;
+    private final IAddressService addressService;
+    private final IPharmacyAdminRepository pharmacyAdminRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AddressRepository addressRepository;
     private final PharmacyRepository pharmacyRepository;
-    private final IPharmacyService pharmacyService;
 
     @Autowired
-    public PharmacyAdminService(AuthorityService authorityService, IPharmacyAdminRepository _iPharmacyAdminRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, PharmacyService pharmacyService) {
+    public PharmacyAdminService(AuthorityService authorityService, IPharmacyAdminRepository _iPharmacyAdminRepository, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, PharmacyService pharmacyService, IAddressService addressService) {
         this.authorityService = authorityService;
-        this._pharmacyAdminRepository = _iPharmacyAdminRepository;
+        this.pharmacyAdminRepository = _iPharmacyAdminRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.addressRepository = addressRepository;
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacyService = pharmacyService;
+        this.addressService = addressService;
     }
 
     @Override
-    public Pharmacy getPharmacyByPharmacyAdmin(Long id) {
-        PharmacyAdmin pharmacyAdmin= _pharmacyAdminRepository.findAll()
-                                       .stream()
-                                       .filter(admin -> admin.getId()==id).findFirst()
-                                       .orElse(null);
-        return pharmacyAdmin.getPharmacy();
+    public PharmacyDTO getPharmacyByPharmacyAdmin(Long id) {
+        PharmacyAdmin pharmacyAdmin= pharmacyAdminRepository.findById(id).orElse(null);
+
+        return PharmacyMapper.mapPharmacyToDTO(pharmacyAdmin.getPharmacy());
     }
 
     @Override
     public PharmacyAdmin getById(Long id) {
-        return _pharmacyAdminRepository.findById(id).orElse(null);
+        return pharmacyAdminRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -73,5 +77,22 @@ public class PharmacyAdminService implements IPharmacyAdminService {
             return pharmacyAdmin;
         }
         throw new InvalidEmail();
+    }
+
+    @Override
+    public PharmacyAdmin updatePharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) {
+        PharmacyAdmin pharmacyAdminToUpdate= pharmacyAdminRepository.getOne(pharmacyAdminDTO.getId());
+        Pharmacy updatedPharmacy= pharmacyService.editPharmacy(pharmacyAdminDTO.getPharmacy());
+        pharmacyAdminToUpdate.setPharmacy(updatedPharmacy);
+        pharmacyAdminToUpdate.setDateOfBirth(pharmacyAdminDTO.getDateOfBirth());
+        pharmacyAdminToUpdate.setEmail(pharmacyAdminDTO.getEmail());
+        pharmacyAdminToUpdate.setGender(pharmacyAdminDTO.getGender());
+        pharmacyAdminToUpdate.setName(pharmacyAdminDTO.getName());
+        pharmacyAdminToUpdate.setSurname(pharmacyAdminDTO.getSurname());
+        pharmacyAdminToUpdate.setPhoneNumber(pharmacyAdminDTO.getPhoneNumber());
+        Address address=addressService.updateAddress(pharmacyAdminDTO.getAddress());
+        pharmacyAdminToUpdate.setAddress(address);
+        pharmacyAdminRepository.save(pharmacyAdminToUpdate);
+        return pharmacyAdminToUpdate;
     }
 }

@@ -19,9 +19,6 @@ export class PharmacyService {
   findAllPharmacies(): Observable<Pharmacy[]> {
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.findAll}`);
   }
-  registerPharmacyAdmin(data : PharmacyAdmin){
-    return this.http.post(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.add}`,data, {responseType : 'text'});
-  }
 
   findByName(name : String) : Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByName?name=${name}`);
@@ -30,7 +27,9 @@ export class PharmacyService {
   findByAddress(add : String) : Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/getByAddress?address=${add}`);
   }
-  
+  registerPharmacyAdmin(data : PharmacyAdmin){
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.add}`,data, {responseType : 'text'});
+  }
   getPharmacyToComplain(id : Number) :Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmacyToComplain}?id=${id}`);
   }

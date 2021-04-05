@@ -14,6 +14,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OrderRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOrderService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,6 +79,14 @@ public class OrderService implements IOrderService {
     }
 
     @Override
+    public List<Order> getSuppliersOrders(SupplierDTO supplierDTO) {
+        return null;
+    }
+
+    @Override
+    public Order addOrder(OrderDTO orderDTO) {
+        return null;
+    }
     public Order getByUniqueIdentifier(int uniqueidentifier) {
         for(Order o: getAllOrders()){
             if(o.getUniqueidentifier()==uniqueidentifier){
@@ -89,7 +98,7 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id) {
+    public List<OrderDTO> getAllOrdersWhereOfferIsNotGivenBySupplier(Long id) {
         List<Order> placedOrders = new ArrayList<>();
         for(Offer o : offerRepository.findAll()){
             if(o.getSupplier().getId().equals(id)){

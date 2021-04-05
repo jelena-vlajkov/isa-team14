@@ -44,6 +44,8 @@ export const environment = {
   findSuppliers : "findSuppliers",
   getByIdentifier : 'getByIdentifier',
   getOrderedMedicationByIdentifier : 'getOrderedMedicationByIdentifier',
+  pharmacyStorage:'pharmacyStorage',
+  getMedicationsInPharmacy:'getMedicationsInPharmacy',
   suppliersmedications : "suppliersmedications",
   getByMedication : "getByMedication",
   getByName:"getByName",
@@ -61,6 +63,7 @@ export const environment = {
   remove: "remove",
   getSubscribed : "getSubscribed",
   getByStatus: "getByStatus",
-  getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier"
+  getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier",
+  getByPharmacy:"getByPharmacy"
 };
 

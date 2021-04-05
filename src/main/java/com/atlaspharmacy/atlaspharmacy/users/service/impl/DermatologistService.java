@@ -47,11 +47,10 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public List<Dermatologist> findAllByPharmacy(Long id) {
-        List<Dermatologist> dermatologists= dermatologistRepository.findAll();
-
+        List<Dermatologist> allDermatologists= dermatologistRepository.findAll();
         List<Dermatologist> dermatologistsByPharmacy= new ArrayList<>();
-        for (Dermatologist dermatologist: dermatologists) {
-            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId()==id))
+        for (Dermatologist dermatologist: allDermatologists) {
+            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId().equals(id)))
             {
                 dermatologistsByPharmacy.add(dermatologist);
             }

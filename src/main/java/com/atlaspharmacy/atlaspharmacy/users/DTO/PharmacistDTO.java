@@ -4,6 +4,7 @@ import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 import java.util.Date;
 import java.util.List;
@@ -142,11 +143,11 @@ public class PharmacistDTO {
         this.authorities = authorities;
     }
 
-    public PharmacyDTO getPharmacy() {
-        return pharmacy;
-    }
+    public PharmacyDTO getPharmacy() { return pharmacy; }
 
     public void setPharmacy(PharmacyDTO pharmacy) {
         this.pharmacy = pharmacy;
     }
+
+
 }
