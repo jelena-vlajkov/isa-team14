@@ -23,4 +23,5 @@ public interface IPharmacyService {
     List<PharmacyDTO> getPharmaciesByMedication(Long code);
     List<PharmacyDTO> getSubscribed(Long id);
     boolean isPharamcyRegistered(String email);
+    Pharmacy editPharmacy(PharmacyDTO pharmacyDTO);
 }

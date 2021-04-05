@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.DTO;
 import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ public class DermatologistDTO {
     private List<AuthorityDTO> authorities;
     private List<PharmacyDTO> pharmacies;
     private boolean firstTimeChanged;
+    private AverageGrade averageGrade;
 
     public DermatologistDTO() {
     }
@@ -147,4 +149,10 @@ public class DermatologistDTO {
     public void setPharmacies(List<PharmacyDTO> pharmacies) {
         this.pharmacies = pharmacies;
     }
+
+    public AverageGrade getAverageGrade() { return averageGrade; }
+
+    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+
+    public Double countAverageGrade(){ return averageGrade.count(); }
 }

@@ -36,14 +36,6 @@ public class PharmacyController {
     @Autowired
     private PharmacyService pharmacyService;
 
-//    @CrossOrigin( origins = "*", allowedHeaders = "*")
-//    @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> getById(Long id){
-//
-//        Pharmacy pharmacy=pharmacyService.getById(id);
-//        return new ResponseEntity<>(pharmacy, HttpStatus.OK);
-//    }
-
     @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
@@ -110,4 +102,9 @@ public class PharmacyController {
         return new ParseException("Error while parsing values", 0);
     }
 
+    @PostMapping(value = "/editPharmacy", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
+        pharmacyService.editPharmacy(pharmacyDTO);
+    }
 }
