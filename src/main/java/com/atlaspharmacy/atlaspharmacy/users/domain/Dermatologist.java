@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
 
@@ -25,6 +26,9 @@ public class Dermatologist extends MedicalStaff {
             inverseJoinColumns = @JoinColumn(name = "pharmacy_id")
     )
     private List<Pharmacy> pharmacies;
+
+    @Embedded
+    private AverageGrade averageGrade;
 
     public Dermatologist(Long id) {
         this.id = id;
@@ -75,4 +79,10 @@ public class Dermatologist extends MedicalStaff {
     public boolean isEnabled() {
         return true;
     }
+
+    public AverageGrade getAverageGrade() { return averageGrade; }
+
+    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+
+    public double countAverageGrade() { return averageGrade.count(); }
 }
