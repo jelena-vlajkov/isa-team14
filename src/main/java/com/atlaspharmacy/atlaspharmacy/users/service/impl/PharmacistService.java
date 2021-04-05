@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.IPharmacistRepository;
@@ -103,10 +104,10 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public List<Pharmacist>  filterPharmacistsByPharmacy(List<Pharmacist> pharmacistsToFilter,String pharmacyId) {
+    public List<PharmacistDTO>  filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter,String pharmacyId) {
 
-        List<Pharmacist> filteredPharmacists=new ArrayList<>();
-        for(Pharmacist p:pharmacistsToFilter)
+        List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
+        for(PharmacistDTO p:pharmacistsToFilter)
         {
             if(p.getPharmacy().getId().equals(pharmacyId)){
                 filteredPharmacists.add(p);
@@ -116,12 +117,12 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public List<Pharmacist>  filterPharmacistsByGrade(List<Pharmacist> pharmacistsToFilter,Double grade) {
+    public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, Double grade) {
 
-        List<Pharmacist> filteredPharmacists=new ArrayList<>();
-        for(Pharmacist p:pharmacistsToFilter)
+        List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
+        for(PharmacistDTO p:pharmacistsToFilter)
         {
-            if(p.getPharmacy().countAverage_grade()>=grade){
+            if(p.getPharmacy().countAverageGrade()>=grade){
                 filteredPharmacists.add(p);
             }
         }

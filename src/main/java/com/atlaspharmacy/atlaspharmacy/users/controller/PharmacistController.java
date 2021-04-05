@@ -32,12 +32,6 @@ public class PharmacistController {
         return PharmacistMapper.mapToListDTOS(pharmacistService.getAllPharmacistsToComplain(id));
     }
 
-    @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<PharmacistDTO> searchPharmacists(@RequestParam("searchInput") String searchInput){
-        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(searchInput));
-    }
-
 
     @GetMapping(value = "/getByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
@@ -45,9 +39,30 @@ public class PharmacistController {
         return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
     }
 
+
+    @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> searchPharmacists(@RequestParam("searchInput") String searchInput){
+        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(searchInput));
+    }
+    
     @GetMapping(value = "/searchPharmacistsByPharmacyAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<PharmacistDTO> searchPharmacyByPharmacyAdmin(@RequestParam("searchInput") String searchInput,Long pharmacyId){
         return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacistsByPharmacyAdmin(searchInput,pharmacyId));
+    }
+
+    @GetMapping(value="/filterPharmacistsByPharmacy",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> filterPharmacistsByPharmacy(@RequestParam("pharmacists") List<PharmacistDTO> pharmacists,
+                                                    @RequestParam("pharmacyId") String pharmacyId) {
+        return pharmacistService.filterPharmacistsByPharmacy(pharmacists,pharmacyId);
+    }
+
+    @GetMapping(value="/filterPharmacistsByGrade",produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> filterPharmacistsByGrade(@RequestParam("pharmacists") List<PharmacistDTO> pharmacists,
+                                                    @RequestParam("grade") Double grade) {
+        return pharmacistService.filterPharmacistsByGrade(pharmacists,grade);
     }
 }

@@ -11,7 +11,7 @@ public class PharmacyMapper {
     private PharmacyMapper() { }
 
     public static PharmacyDTO mapPharmacyToDTO(Pharmacy pharmacy){
-        return new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getDescription(), pharmacy.getEmail(), pharmacy.getTelephone(), AddressMapper.mapAddressToDTO(pharmacy.getAddress()), pharmacy.getAverage_grade());
+        return new PharmacyDTO(pharmacy.getId(), pharmacy.getName(), pharmacy.getDescription(), pharmacy.getEmail(), pharmacy.getTelephone(), AddressMapper.mapAddressToDTO(pharmacy.getAddress()), pharmacy.getAverageGrade());
     }
 
     public static Pharmacy mapDTOToPharmacy(PharmacyDTO dto){
@@ -19,7 +19,7 @@ public class PharmacyMapper {
         p.setId(dto.getId());
         p.setEmail(dto.getEmail());
         p.setTelephone(dto.getTelephone());
-        p.setAverage_grade(dto.getAverage_grade());
+        p.setAverageGrade(dto.getAverageGrade());
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
