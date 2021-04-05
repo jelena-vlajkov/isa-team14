@@ -3,11 +3,11 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
-import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.EPrescriptionService;
+import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Subscription;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.ISubscriptionService;
-import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.impl.SubscriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
@@ -15,12 +15,12 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.IPharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
-import com.atlaspharmacy.atlaspharmacy.reservations.service.impl.DrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
-import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
+import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,14 +32,19 @@ import java.util.stream.Collectors;
 public class PharmacyService implements IPharmacyService {
     private final IPharmacyRepository pharmacyRepository;
     private final AddressRepository addressRepository;
-    private final AppointmentService appointmentService;
-    private final EPrescriptionService ePrescriptionService;
-    private final DrugReservationService drugReservationService;
-    private final PharmacyStorageService pharmacyStorageService;
+    private final IAppointmentService appointmentService;
+    private final IEPrescriptionService ePrescriptionService;
+    private final IDrugReservationService drugReservationService;
+    private final IPharmacyStorageService pharmacyStorageService;
     private final ISubscriptionService subscriptionService;
     private final UserRepository userRepository;
+    private final IAddressService addressService;
+
     @Autowired
-    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository, AppointmentService appointmentService, EPrescriptionService ePrescriptionService, DrugReservationService drugReservationService, PharmacyStorageService pharmacyStorageService, SubscriptionService subscriptionService , UserRepository userRepository) {
+    public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository,
+                           IAppointmentService appointmentService, IEPrescriptionService ePrescriptionService,
+                           IDrugReservationService drugReservationService, IPharmacyStorageService pharmacyStorageService,
+                           ISubscriptionService subscriptionService, UserRepository userRepository, IAddressService addressService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
         this.appointmentService = appointmentService;
@@ -48,7 +53,10 @@ public class PharmacyService implements IPharmacyService {
         this.pharmacyStorageService = pharmacyStorageService;
         this.subscriptionService = subscriptionService;
         this.userRepository = userRepository;
+        this.addressService = addressService;
     }
+
+
 
     @Override
     public PharmacyDTO getById(Long id) {
@@ -80,6 +88,20 @@ public class PharmacyService implements IPharmacyService {
         }
         return false;
     }
+
+    @Override
+    public Pharmacy editPharmacy(PharmacyDTO pharmacyDTO) {
+        Pharmacy pharmacyToUpdate=(Pharmacy) pharmacyRepository.getOne(pharmacyDTO.getId());
+        Address address = addressService.updateAddress(pharmacyDTO.getAddress());
+        pharmacyToUpdate.setAddress(address);
+        pharmacyToUpdate.setDescription(pharmacyDTO.getDescription());
+        pharmacyToUpdate.setName(pharmacyDTO.getName());
+        pharmacyToUpdate.setTelephone(pharmacyDTO.getTelephone());
+        pharmacyToUpdate.setEmail(pharmacyDTO.getEmail());
+        pharmacyRepository.save(pharmacyToUpdate);
+        return pharmacyToUpdate;
+    }
+
     @Override
     public List<PharmacyDTO> getAllPharmacies(){
         List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
@@ -211,6 +233,8 @@ public class PharmacyService implements IPharmacyService {
         pharmacies.addAll(getPatientsDrugIssuedPharmacies(id));
         return distinctPharmacyToComplain(pharmacies);
     }
+
+
 
 
 

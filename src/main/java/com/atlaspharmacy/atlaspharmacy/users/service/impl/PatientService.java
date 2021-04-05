@@ -3,6 +3,8 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
+import com.atlaspharmacy.atlaspharmacy.generalities.service.impl.AddressService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
@@ -34,8 +36,9 @@ public class PatientService implements IPatientService {
     private final PatientRepository patientRepository;
     private final EmailService emailService;
     private final IPharmacyService pharmacyService;
+    private final IAddressService addressService;
     @Autowired
-    public PatientService(UserRepository patientRepository, AuthorityService authorityService, AddressRepository addressRepository, VerificationTokenService verificationTokenService, BCryptPasswordEncoder passwordEncoder, PatientRepository patientRepository1, EmailService emailService, PharmacyService pharmacyService) {
+    public PatientService(UserRepository patientRepository, AuthorityService authorityService, AddressRepository addressRepository, VerificationTokenService verificationTokenService, BCryptPasswordEncoder passwordEncoder, PatientRepository patientRepository1, EmailService emailService, PharmacyService pharmacyService, IAddressService addressService) {
         this.userRepository = patientRepository;
         this.authorityService = authorityService;
         this.addressRepository = addressRepository;
@@ -43,6 +46,7 @@ public class PatientService implements IPatientService {
         this.patientRepository = patientRepository1;
         this.emailService = emailService;
         this.pharmacyService = pharmacyService;
+        this.addressService = addressService;
     }
     public Patient findById(Long id){
         return (Patient) userRepository.findById(id).get();
@@ -128,19 +132,10 @@ public class PatientService implements IPatientService {
     public void editPatient(PatientDTO patientDTO){
         //bolje getOne od find
         Patient patientToUpdate = (Patient) userRepository.getOne(patientDTO.getId());
-        Address a = null;
-        a = addressRepository.getOne(patientToUpdate.getAddress().getId());
-        System.out.println(a.getId() + " " + a.getStreet());
-        if(a != null){
-            a.setState(patientDTO.getAddress().getState());
-            a.setCity(patientDTO.getAddress().getCity());
-            a.setStreet(patientDTO.getAddress().getStreet());
-            a.setCoordinates(patientDTO.getAddress().getCoordinates());
-            addressRepository.save(a);
-        }
+        Address address= addressService.updateAddress(patientDTO.getAddress());
         patientToUpdate.setSurname(patientDTO.getSurname());
         patientToUpdate.setName(patientDTO.getName());
-        patientToUpdate.setAddress(a);
+        patientToUpdate.setAddress(address);
         patientToUpdate.setGender(patientDTO.getGender());
         patientToUpdate.setDateOfBirth(patientDTO.getDateOfBirth());
         patientToUpdate.setPhoneNumber(patientDTO.getPhoneNumber());

@@ -15,4 +15,6 @@ public interface IPharmacistService {
      List<Pharmacist> searchPharmacistsByPharmacyAdmin(String searchInput,Long pharmacyId);
      List<PharmacistDTO> filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter, String pharmacyId);
      List<PharmacistDTO> filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter,Double grade);
+     Pharmacist editPharmacist(PharmacistDTO pharmacistDTO);
+
 }

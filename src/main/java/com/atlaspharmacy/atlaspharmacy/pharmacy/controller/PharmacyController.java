@@ -102,4 +102,9 @@ public class PharmacyController {
         return new ParseException("Error while parsing values", 0);
     }
 
+    @PostMapping(value = "/editPharmacy", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public void editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
+        pharmacyService.editPharmacy(pharmacyDTO);
+    }
 }
