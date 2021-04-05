@@ -36,14 +36,6 @@ public class PharmacyController {
     @Autowired
     private PharmacyService pharmacyService;
 
-//    @CrossOrigin( origins = "*", allowedHeaders = "*")
-//    @GetMapping(value="/findById",produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<?> getById(Long id){
-//
-//        Pharmacy pharmacy=pharmacyService.getById(id);
-//        return new ResponseEntity<>(pharmacy, HttpStatus.OK);
-//    }
-
     @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)

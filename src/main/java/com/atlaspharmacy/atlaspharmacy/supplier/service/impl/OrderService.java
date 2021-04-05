@@ -98,7 +98,7 @@ public class OrderService implements IOrderService {
 
 
     @Override
-    public List<OrderDTO> getAllOrdersWehereOfferIsNotGivenBySupplier(Long id) {
+    public List<OrderDTO> getAllOrdersWhereOfferIsNotGivenBySupplier(Long id) {
         List<Order> placedOrders = new ArrayList<>();
         for(Offer o : offerRepository.findAll()){
             if(o.getSupplier().getId().equals(id)){

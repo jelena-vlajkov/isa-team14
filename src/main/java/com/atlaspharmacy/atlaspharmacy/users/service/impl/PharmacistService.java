@@ -51,6 +51,16 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
+    public List<Pharmacist> searchPharmacistsByPharmacyAdmin(String searchInput, Long pharmacyId) {
+        List<Pharmacist> allPharmacists = findByPharmacy(pharmacyId);
+        List<Pharmacist> searchedPharmacists = new ArrayList<>();
+        for (Pharmacist p : allPharmacists) {
+            if (searchInput.contains(p.getName()) || searchInput.contains(p.getSurname())) {
+                searchedPharmacists.add(p);
+            }
+        }
+        return searchedPharmacists;
+    }
     public Pharmacist editPharmacist(PharmacistDTO pharmacistDTO) {
         Pharmacist pharmacistToUpdate=pharmacistRepository.getOne(pharmacistDTO.getId());
         pharmacistToUpdate.setEmail(pharmacistDTO.getEmail());
@@ -101,4 +111,44 @@ public class PharmacistService implements IPharmacistService {
 
         return distinctPharmacistToComplain(pharmacistsToComplain);
     }
+
+    @Override
+    public List<Pharmacist> searchPharmacists(String searchInput) {
+        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
+        List<Pharmacist> searchedPharmacists=new ArrayList<>();
+        for(Pharmacist p:allPharmacists)
+        {
+            if(searchInput.contains(p.getName()) || searchInput.contains(p.getSurname())){
+                searchedPharmacists.add(p);
+            }
+        }
+        return searchedPharmacists;
+    }
+
+    @Override
+    public List<PharmacistDTO>  filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter,String pharmacyId) {
+
+        List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
+        for(PharmacistDTO p:pharmacistsToFilter)
+        {
+            if(p.getPharmacy().getId().equals(pharmacyId)){
+                filteredPharmacists.add(p);
+            }
+        }
+        return filteredPharmacists;
+    }
+
+    @Override
+    public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, Double grade) {
+
+        List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
+        for(PharmacistDTO p:pharmacistsToFilter)
+        {
+            if(p.getPharmacy().countAverageGrade()>=grade){
+                filteredPharmacists.add(p);
+            }
+        }
+        return filteredPharmacists;
+    }
+
 }
