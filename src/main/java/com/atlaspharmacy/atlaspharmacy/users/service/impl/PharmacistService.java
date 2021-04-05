@@ -144,7 +144,7 @@ public class PharmacistService implements IPharmacistService {
         List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
         for(PharmacistDTO p:pharmacistsToFilter)
         {
-            if(p.getPharmacy().countAverageGrade()>=grade){
+            if(p.countAverageGrade()>=grade){
                 filteredPharmacists.add(p);
             }
         }

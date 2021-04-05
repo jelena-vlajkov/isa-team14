@@ -23,6 +23,7 @@ public class PharmacistDTO {
     private List<AuthorityDTO> authorities;
     private PharmacyDTO pharmacy;
     private boolean firstTimeChanged;
+    private AverageGrade averageGrade;
 
 
     public PharmacistDTO() {
@@ -148,6 +149,12 @@ public class PharmacistDTO {
     public void setPharmacy(PharmacyDTO pharmacy) {
         this.pharmacy = pharmacy;
     }
+
+    public AverageGrade getAverageGrade() { return averageGrade; }
+
+    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+
+    public double countAverageGrade(){ return averageGrade.count(); }
 
 
 }
