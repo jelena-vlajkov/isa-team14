@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/pharmacyStorage", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PharmacyStorageController {

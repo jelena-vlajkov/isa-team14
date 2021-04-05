@@ -50,8 +50,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule } from '@angular/common';
-import { FlatpickrModule } from 'angularx-flatpickr';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 //import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
@@ -59,6 +57,7 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
 import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
+import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
@@ -103,6 +102,7 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     PharmacistReportsComponent,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
+    MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
     SupplierProfileComponent,
@@ -152,10 +152,8 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     MatGridListModule,
     MatCheckboxModule,
     MatSortModule,
-    CommonModule, 
+    CommonModule,
     MatMenuModule,
-   // NgbModalModule,
-    FlatpickrModule.forRoot(),
     //NgbModule,
     MatExpansionModule,
     MatStepperModule

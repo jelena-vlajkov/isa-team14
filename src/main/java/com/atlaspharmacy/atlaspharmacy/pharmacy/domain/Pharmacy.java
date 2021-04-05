@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 
 import javax.persistence.*;
@@ -13,26 +14,21 @@ public class Pharmacy  {
     private Long id;
     private String name;
     private String description;
+    @Embedded
+    private AverageGrade averageGrade;
     private String email;
     private Long telephone;
+
     @OneToOne(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    private Double average_grade;
 
     
     public Pharmacy(Long id) {
         this.id = id;
     }
 
-    public Pharmacy(Long id, String name, String description, Address address, Double average_grade) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.address = address;
-        this.average_grade = average_grade;
-    }
 
     public Long getId() {
         return id;
@@ -67,12 +63,15 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
-    public Pharmacy(Long id, String name, String description, String email, Long telephone) {
+    public Pharmacy(Long id, String name, String description, String email,
+                    Long telephone,Address address,AverageGrade averageGrade) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.email = email;
         this.telephone = telephone;
+        this.address = address;
+        this.averageGrade = averageGrade;
     }
 
     public String getEmail() {
@@ -91,11 +90,16 @@ public class Pharmacy  {
         this.telephone = telephone;
     }
 
-    public Double getAverage_grade() {
-        return average_grade;
+    public AverageGrade getAverageGrade() {
+        return averageGrade;
     }
 
-    public void setAverage_grade(Double average_grade) {
-        this.average_grade = average_grade;
+    public void setAverageGrade(AverageGrade averageGrade) {
+        this.averageGrade = averageGrade;
+    }
+
+    public Double countAverage_grade() {
+        return averageGrade.count();
     }
 }
+

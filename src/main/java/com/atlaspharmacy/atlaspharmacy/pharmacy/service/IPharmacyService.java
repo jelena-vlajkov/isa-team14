@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IPharmacyService {
-    Pharmacy getById(Long id);
+    PharmacyDTO getById(Long id);
     Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception;
     List<PharmacyDTO> getAllPharmacies();
     List<PharmacyDTO> findByName(String name);
@@ -23,4 +23,5 @@ public interface IPharmacyService {
     List<PharmacyDTO> getPharmaciesByMedication(Long code);
     List<PharmacyDTO> getSubscribed(Long id);
     boolean isPharamcyRegistered(String email);
+    Pharmacy editPharmacy(PharmacyDTO pharmacyDTO);
 }

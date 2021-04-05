@@ -26,6 +26,7 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
@@ -39,7 +40,7 @@ import { SupplierStorageComponent } from './supplier-storage/supplier-storage.co
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 
-const routes: Routes = [  
+const routes: Routes = [
 {
   path : 'login',
   component : LoginComponent,
@@ -145,7 +146,7 @@ const routes: Routes = [
 },
 { path: '',
   component: UnauthenticatedUserComponent,
-  
+
 },
 { path: 'pharmacist',
   component: PharmacistComponent,
@@ -182,6 +183,10 @@ const routes: Routes = [
   component: PharmacistAddReportComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+},
+{
+    path: 'medicationOrder',
+    component: MedicationOrderComponent
 },
 {
   path: 'pharmacist/medication',

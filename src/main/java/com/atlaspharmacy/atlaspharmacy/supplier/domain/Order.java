@@ -65,11 +65,10 @@ public class Order {
         this.dueDate = dueDate;
     }
 
-    public Pharmacy getPharmacy() {
-        return pharmacy;
-    }
+    public Pharmacy getPharmacy() { return pharmacy; }
 
     public void setPharmacy(Pharmacy pharmacy) {
         this.pharmacy = pharmacy;
     }
+
 }
