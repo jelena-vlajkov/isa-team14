@@ -1,7 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.MedicationServiceImpl;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
@@ -14,7 +14,6 @@ import com.atlaspharmacy.atlaspharmacy.supplier.exceptions.InsuficientFundsExcep
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OfferMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOfferService;
-import com.atlaspharmacy.atlaspharmacy.users.repository.SupplierRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +35,13 @@ public class OfferService implements IOfferService {
     private final OrderService orderService;
     private final SupplierService supplierService;
     private final EmailService emailService;
+    private final IPharmacyStorageService pharmacyStorageService;
+
     @Autowired
     public OfferService(OfferRepository offerRepository, SupplierStorageService supplierStorageService,
                         MedicationInOrderService medicationInOrderService,
                         MedicationServiceImpl medicationService, OrderService orderService,
-                        SupplierService supplierService,EmailService emailService) {
+                        SupplierService supplierService, EmailService emailService, IPharmacyStorageService pharmacyStorageService) {
         this.offerRepository = offerRepository;
         this.supplierStorageService = supplierStorageService;
         this.medicationInOrderService = medicationInOrderService;
@@ -48,6 +49,7 @@ public class OfferService implements IOfferService {
         this.orderService = orderService;
         this.supplierService = supplierService;
         this.emailService=emailService;
+        this.pharmacyStorageService = pharmacyStorageService;
     }
 
     @Override
@@ -182,14 +184,15 @@ public class OfferService implements IOfferService {
                 o.setOfferStatus(OfferStatus.ACCEPTED);
                 offerRepository.save(o);
                 emailService.sendNotificationToSupplier(o.getSupplier(),true);
-
+                pharmacyStorageService.addNewMedicationsToStorage(o.getOrder());
             }
             else{
                 o.setOfferStatus(OfferStatus.REJECTED);
                 offerRepository.save(o);
                 emailService.sendNotificationToSupplier(o.getSupplier(),false);
             }
-        }
+
+
         return allOffersByOrder;
     }
 }
