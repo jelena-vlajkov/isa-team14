@@ -115,16 +115,24 @@ public class DermatologistService implements IDermatologistService {
     }
 
     @Override
-    public List<Dermatologist> filterDermatologistsByPharmacy(List<Dermatologist> dermatologists,Long pharmacyId) {
+    public List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists, Long pharmacyId) {
         return dermatologists.stream()
-                        .filter(dermatologist -> dermatologist.getPharmacies().stream()
+                .filter(dermatologist -> dermatologist.getPharmacies().stream()
                         .anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId)))
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
+
     @Override
-    public List<Dermatologist> filterDermatologistsByGrade(List<Dermatologist> dermatologists, Double grade) {
-        return null;
+    public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, Double grade) {
+        List<DermatologistDTO> filteredDermatologists=new ArrayList<>();
+        for(DermatologistDTO d:dermatologistsToFilter)
+        {
+            if(d.countAverageGrade()>=grade){
+                filteredDermatologists.add(d);
+            }
+        }
+        return filteredDermatologists;
     }
 
 

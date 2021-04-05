@@ -12,7 +12,7 @@ public interface IDermatologistService {
     public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail;
     List<Dermatologist> getAllDermatologistsToComplain(Long id);
     List<Dermatologist> searchDermatologists(String searchInput);
-    List<Dermatologist> filterDermatologistsByPharmacy(List<Dermatologist> dermatologists,Long pharmacyId);
-    List<Dermatologist> filterDermatologistsByGrade(List<Dermatologist> dermatologists,Double grade);
+    List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists,Long pharmacyId);
+    List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologists,Double grade);
 
 }

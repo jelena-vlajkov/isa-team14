@@ -1,7 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects;
 
+import javax.persistence.Embeddable;
 import java.util.List;
 
+@Embeddable
 public class AverageGrade {
     private double Excellent ;
     private double VeryGood ;
