@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@Controller
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 @RequestMapping(value="/dermatologist")
 public class DermatologistController {
 
@@ -73,5 +73,9 @@ public class DermatologistController {
         return new ParseException("Error while parsing values", 0);
     }
 
-
+    @GetMapping(value = "/searchDermatologists", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
+        return DermatologistMapper.mapToListDTOS(_dermatologistService.searchDermatologists(searchInput));
+    }
 }

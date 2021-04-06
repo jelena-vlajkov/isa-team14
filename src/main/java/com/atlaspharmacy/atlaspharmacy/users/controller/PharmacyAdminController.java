@@ -30,10 +30,10 @@ public class PharmacyAdminController {
         this._pharmacyAdminService = _pharmacyAdminService;
     }
 
+    @CrossOrigin( origins = "*", allowedHeaders = "*")
     @GetMapping(value = "/getPharmacyByAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    Pharmacy getPharmacyByPharmacyAdmin(@RequestParam("id") Long id) throws ParseException {
-        return _pharmacyAdminService.getPharmacyByPharmacyAdmin(id);
+    public ResponseEntity<?> getPharmacyByPharmacyAdmin(@RequestParam("id") Long id) throws ParseException {
+        return new ResponseEntity<>(_pharmacyAdminService.getPharmacyByPharmacyAdmin(id),HttpStatus.OK);
     }
 
     @CrossOrigin( origins = "*", allowedHeaders = "*")

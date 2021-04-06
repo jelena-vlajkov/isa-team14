@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {AuthenticatedUser} from "../model/users/authenticatedUser";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
+
+import {Role} from "@app/model/users";
 import {Address} from "@app/model/address/address";
+import {DermatologistService} from "@app/service/dermatologist/dermatologist.service";
+import {valueReferenceToExpression} from "@angular/compiler-cli/src/ngtsc/annotations/src/util";
+import {PharmacistService} from "@app/service/pharmacist/pharmacist.service";
+import {PharmacyStorageService} from "@app/service/pharmacy-storage/pharmacy-storage.service";
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -17,29 +23,70 @@ export class PharmacyProfileComponent implements OnInit {
   grade:Number;
   about:String;
   currentUserId:String;
-
+  dermatologists: String[]=new Array();
+  pharmacists: String[]=new Array();
+  pharmacyId:Number;
+  medications:String[]=new Array();
+  private StringIsNumber = value => isNaN(Number(value)) === false;
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
 
   editProfileForm: FormGroup;
 
-  constructor(private pharmacyAdminService:PharmacyAdminService, private activatedRoute : ActivatedRoute) { 
-
-  }
+  constructor(private pharmacyAdminService:PharmacyAdminService
+              ,private dermatologistService:DermatologistService
+              ,private pharmacistService:PharmacistService
+              ,private pharmacyStorageService:PharmacyStorageService) { }
 
   ngOnInit(): void {
     this.currentUserId=localStorage.getItem('userId');
     console.log(this.currentUserId);
+
     this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
       result => {
-          this.name=result.name;
-          this.grade=result.average_grade;
-          this.about=result.description;
-      });
+        this.pharmacyId = result.id;
+        this.name = result.name;
+        this.grade = result.average_grade;
+        console.log(result.average_grade);
+        this.about = result.description;
+        this.address = result.address.street + ", " + result.address.city.name + ", " + result.address.state.name;
 
-    this.editProfileForm = new FormGroup({});
+        this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
+          result => {
+            result=this.ToArray(result);
+            for(let i=0;i<result.length;i++)
+            {
+              this.dermatologists.push(result[i].name+" "+result[i].surname);
+            }
+          });
+        this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(
+          result => {
+            result=this.ToArray(result);
+            for(let i=0;i<result.length;i++)
+            {
+              this.pharmacists.push(result[i].name+" "+result[i].surname);
+            }
+          });
+        this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
+          result=>{
+            result=this.ToArray(result);
+            for(let i=0;i<result.length;i++)
+            {
+              this.medications.push(result[i].medication.name);
+            }
 
+          });
+       });
+
+
+        this.editProfileForm = new FormGroup({});
+      }
+
+  ToArray(enumme) {
+    return Object.keys(enumme)
+      .filter(this.StringIsNumber)
+      .map(key => enumme[key]);
   }
 
 

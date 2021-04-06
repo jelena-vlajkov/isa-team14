@@ -19,7 +19,6 @@ export class PharmacyAdminService {
   getPharmacyByAdmin(id:number) : Observable<Pharmacy> {
     return this.http.get<Pharmacy>(`${environment.baseUrl}/pharmacyAdmin/getPharmacyByAdmin?id=${id}`);
   }
-  //DANICE JEBEMU MATER????????????? PA KO OVAKO ZAKUCAVA JEBENOO AAAAAAAAAA
   getById(id:number) : Observable<PharmacyAdmin> {
     return this.http.get<PharmacyAdmin>(`${environment.baseUrl}/pharmacyAdmin/getById?id=${id}`);
   }
