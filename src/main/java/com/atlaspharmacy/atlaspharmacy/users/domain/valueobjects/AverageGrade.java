@@ -1,27 +1,28 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects;
 
 import javax.persistence.Embeddable;
-import java.util.List;
 
 @Embeddable
 public class AverageGrade {
-    private double Excellent ;
-    private double VeryGood ;
-    private double Good ;
-    private double Poor ;
-    private double VeryPoor;
+    private double excellent;
+    private double veryGood;
+    private double good;
+    private double poor;
+    private double veryPoor;
+
+    public AverageGrade(){};
 
     public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
-        Excellent = 0;
-        VeryGood = 0;
-        Good = 0;
-        Poor = 0;
-        VeryPoor = 0;
+        this.excellent = 0;
+        this.veryGood = 0;
+        this.good = 0;
+        this.poor = 0;
+        this.veryPoor = 0;
     }
 
     public double count() {
-        return ((5 * Excellent) + (4 * VeryGood) + (3 * Good) + (2 * Poor) + (1 * VeryPoor))
-                / (Excellent + VeryGood + Good + Poor + VeryPoor);
+        return ((5 * excellent) + (4 * veryGood) + (3 * good) + (2 * poor) + (1 * veryPoor))
+                / (excellent + veryGood + good + poor + veryPoor);
 
     }
 }
