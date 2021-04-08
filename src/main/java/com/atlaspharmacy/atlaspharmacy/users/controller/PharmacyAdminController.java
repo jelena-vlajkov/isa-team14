@@ -55,12 +55,12 @@ public class PharmacyAdminController {
 
     @PostMapping(value = "/changepassword", consumes =  MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> changePassword(@RequestBody PasswordChangerDTO passwordChangerDTO) throws InvalidEmail, ParseException, InvalidPassword {
-        if(pharmacyAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword())){
+        if (pharmacyAdminService.changePassword(passwordChangerDTO.getOldpassword(), passwordChangerDTO.getNewpassword())) {
             return new ResponseEntity<>(HttpStatus.OK);
 
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
+    }
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
