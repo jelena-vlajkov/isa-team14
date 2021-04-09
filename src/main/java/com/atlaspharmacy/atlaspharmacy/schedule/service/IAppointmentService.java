@@ -28,6 +28,10 @@ public interface IAppointmentService {
     List<Counseling> getFinishedPatientsCounselings(Long id);
     List<Examination> getFinishedPatientsExaminations(Long id);
     List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
+    int getNumberOfScheduledByDate(Date date);
+    List<Integer> getNumberOfAppointmentsForMonth(int month, int year);
+    List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year);
+    List<Integer> getNumberOfAppointmentsForMonth(int year);
 
 
 
