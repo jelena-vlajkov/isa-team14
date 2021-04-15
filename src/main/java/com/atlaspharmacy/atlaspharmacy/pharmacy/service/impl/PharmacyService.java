@@ -59,10 +59,7 @@ public class PharmacyService implements IPharmacyService {
 
 
     @Override
-    public PharmacyDTO getById(Long id) {
-        Pharmacy pharmacy=pharmacyRepository.getById(id).orElse(null);
-        return PharmacyMapper.mapPharmacyToDTO(pharmacy);
-    }
+    public Pharmacy getById(Long id) {return pharmacyRepository.getById(id).orElse(null);}
 
     @Override
     public Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException {

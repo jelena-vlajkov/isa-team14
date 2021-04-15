@@ -146,6 +146,18 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId) {
+        List<Appointment> examinationsForDermatologistAndPharmacy=getOccupiedBy(dermatologistId)
+                .stream().filter(appointment->appointment.getPharmacy().getId()
+                        .equals(pharmacyId)).collect(Collectors.toList());
+        if(examinationsForDermatologistAndPharmacy.size()!=0){
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
     public List<Counseling> getFinishedPatientsCounselings(Long id){
         List<Counseling> counselings = new ArrayList<>();
         List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);

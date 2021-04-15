@@ -11,6 +11,7 @@ public class AverageGrade {
     private double Poor ;
     private double VeryPoor;
 
+    public AverageGrade(){}
     public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
         Excellent = 0;
         VeryGood = 0;

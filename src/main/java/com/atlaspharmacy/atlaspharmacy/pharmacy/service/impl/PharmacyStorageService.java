@@ -1,11 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
@@ -22,16 +22,20 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     private final INotificationService notificationService;
     private final IDrugReservationService drugReservationService;
     private final IMedicationService medicationService;
-    private final IPharmacyService pharmacyService;
+    private final PharmacyRepository pharmacyRepository;
 
 
     @Autowired
-    public PharmacyStorageService(PharmacyStorageRepository pharmacyStorageRepository, INotificationService notificationService, IDrugReservationService drugReservationService, IMedicationService medicationService, IPharmacyService pharmacyService) {
+    public PharmacyStorageService(PharmacyStorageRepository pharmacyStorageRepository
+                                  , INotificationService notificationService
+                                  , IDrugReservationService drugReservationService
+                                  , IMedicationService medicationService
+                                  , PharmacyRepository pharmacyRepository) {
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
         this.drugReservationService = drugReservationService;
         this.medicationService = medicationService;
-        this.pharmacyService = pharmacyService;
+        this.pharmacyRepository = pharmacyRepository;
     }
 
     @Override
@@ -95,7 +99,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         PharmacyStorage newMedicationInStorage=new PharmacyStorage();
         newMedicationInStorage.setQuantity(amount);
         newMedicationInStorage.setMedication(MedicationMapper.convertToMedication(medicationService.findById(medicationId)));
-        newMedicationInStorage.setPharmacy(PharmacyMapper.mapDTOToPharmacy(pharmacyService.getById(pharmacyId)));
+        newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
         pharmacyStorageRepository.save(newMedicationInStorage);
 
     }
