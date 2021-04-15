@@ -76,8 +76,9 @@ insert into medicalstaff(license_number, id) values('1241241', 500);
 insert into medicalstaff(license_number, id) values('124124341', 5500);
 insert into medicalstaff(license_number, id) values('1241255541', 1100);
 
-insert into pharmacists(id, pharmacy_id) values (500, 100);
-insert into pharmacists(id, pharmacy_id) values (5500, 200);
+
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (500,100,1,2,3,4,5);
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (5500,200,1,1,1,1,1);
 -- random character generator will generate verification code that will be added to database
 -- when patient activates account, code is removed
 

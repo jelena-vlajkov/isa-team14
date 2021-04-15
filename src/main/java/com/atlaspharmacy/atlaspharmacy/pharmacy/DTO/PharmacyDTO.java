@@ -82,4 +82,6 @@ public class PharmacyDTO {
     public void setTelephone(Long telephone) { this.telephone = telephone; }
 
     public Double countAverageGrade(){return averageGrade.count();}
+
+
 }

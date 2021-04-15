@@ -11,13 +11,19 @@ public class AverageGrade {
     private double Poor ;
     private double VeryPoor;
 
-    public AverageGrade(){}
-    public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
+    public AverageGrade(){
         Excellent = 0;
         VeryGood = 0;
         Good = 0;
         Poor = 0;
         VeryPoor = 0;
+    }
+    public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
+        Excellent = excellent;
+        VeryGood = veryGood;
+        Good = good;
+        Poor = poor;
+        VeryPoor = veryPoor;
     }
 
     public double count() {

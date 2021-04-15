@@ -20,6 +20,12 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -230,6 +236,8 @@ public class PharmacyService implements IPharmacyService {
         pharmacies.addAll(getPatientsDrugIssuedPharmacies(id));
         return distinctPharmacyToComplain(pharmacies);
     }
+
+
 
 
 

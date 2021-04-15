@@ -158,6 +158,9 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public boolean occupiedCounselingsExists(Long pharmacistId) { return getOccupiedBy(pharmacistId).size()!=0;}
+
+    @Override
     public List<Counseling> getFinishedPatientsCounselings(Long id){
         List<Counseling> counselings = new ArrayList<>();
         List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
