@@ -31,4 +31,40 @@ public class AverageGrade {
                 / (Excellent + VeryGood + Good + Poor + VeryPoor);
 
     }
+
+    public double getExcellent() { return Excellent; }
+
+    public void setExcellent(double excellent) { Excellent = excellent; }
+
+    public double getVeryGood() {
+        return VeryGood;
+    }
+
+    public void setVeryGood(double veryGood) {
+        VeryGood = veryGood;
+    }
+
+    public double getGood() {
+        return Good;
+    }
+
+    public void setGood(double good) {
+        Good = good;
+    }
+
+    public double getPoor() {
+        return Poor;
+    }
+
+    public void setPoor(double poor) {
+        Poor = poor;
+    }
+
+    public double getVeryPoor() {
+        return VeryPoor;
+    }
+
+    public void setVeryPoor(double veryPoor) {
+        VeryPoor = veryPoor;
+    }
 }

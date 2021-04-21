@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 
 import javax.persistence.*;
@@ -14,17 +15,20 @@ public class WorkDay {
     private Date date;
     private int startTime;
     private int endTime;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private MedicalStaff medicalStaff;
+    @OneToOne
+    private Pharmacy pharmacy;
 
     public WorkDay() {
     }
 
-    public WorkDay(Date date, int startTime, int endTime, MedicalStaff medicalStaff) {
+    public WorkDay(Date date, int startTime, int endTime, MedicalStaff medicalStaff, Pharmacy pharmacy) {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.medicalStaff = medicalStaff;
+        this.pharmacy = pharmacy;
     }
 
     public Long getId() {
@@ -91,4 +95,8 @@ public class WorkDay {
     public boolean isDermatologist() {
         return getMedicalStaff().getRole().equals(Role.Values.Dermatologist);
     }
+
+    public Pharmacy getPharmacy() { return pharmacy; }
+
+    public void setPharmacy(Pharmacy pharmacy) { this.pharmacy = pharmacy; }
 }

@@ -17,13 +17,14 @@ public class PharmacyMapper {
 
     public static Pharmacy mapDTOToPharmacy(PharmacyDTO dto){
         Pharmacy p = new Pharmacy();
+        p.setId(dto.getId());
         p.setEmail(dto.getEmail());
         p.setTelephone(dto.getTelephone());
-        //p.setAverageGrade(dto.getAverageGrade());
+        p.setAverageGrade(dto.getAverageGrade());
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
-        p.setAverageGrade(new AverageGrade());
+
         return p;
     }
     public static List<PharmacyDTO> maptToListDto(List<Pharmacy> pharmacies) {

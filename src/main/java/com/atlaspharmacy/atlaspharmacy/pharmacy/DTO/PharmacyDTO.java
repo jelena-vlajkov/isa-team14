@@ -10,7 +10,6 @@ public class PharmacyDTO {
     private String email;
     private Long telephone;
     private AddressDTO address;
-
     private AverageGrade averageGrade;
 
     public PharmacyDTO() {
