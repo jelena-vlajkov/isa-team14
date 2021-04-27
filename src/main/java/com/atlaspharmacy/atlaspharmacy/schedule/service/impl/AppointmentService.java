@@ -108,6 +108,17 @@ public class AppointmentService implements IAppointmentService {
         return examinations;
     }
 
+    @Override
+    public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) {
+        List<Examination> availableExaminations = new ArrayList<>();
+        List<WorkDay> workDaysForDermatologist=workDayService.getBy(medicalStaffId);
+        for (WorkDay workDay : workDaysForDermatologist) {
+            if (workDay.getPharmacy().getId().equals(pharmacyId))
+                availableExaminations.addAll((List<Examination>)(List<?>) findAvailableBy(workDay.getDate(), workDay.getMedicalStaff().getId()));
+        }
+        return availableExaminations;
+    }
+
 
     @Override
     public boolean isTimeValid(Date date, Long medicalStaffId) {

@@ -29,7 +29,7 @@ public interface IAppointmentService {
     List<Examination> getFinishedPatientsExaminations(Long id);
     List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
-    boolean occupiedCounselingsExists(Long pharmacistId);
+    boolean occupiedCounselingsExists(Long pharmacistId);public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
 
 
 }
