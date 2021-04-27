@@ -37,4 +37,17 @@ public class WorkDayController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/addWorkDayForDermatologist", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addWorkDayForDermatologist(@RequestBody WorkDayDTO workDayDTO) throws InvalidEmail, ParseException {
+        boolean successfull;
+        try {
+            successfull=workDayService.addWorkdayForDermatologist(workDayDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        if(successfull) {return new ResponseEntity<>(HttpStatus.OK);}
+        else {return new ResponseEntity<>(HttpStatus.FORBIDDEN);}
+    }
 }

@@ -120,8 +120,7 @@ insert into user_authority(user_id, authority_id) VALUES (990, 7);
 insert into user_authority(user_id, authority_id) VALUES (991, 7);
 insert into user_authority(user_id, authority_id) VALUES (992, 7);
 
-insert into workdays(id, date, start_time, end_time, medical_staff_id,pharmacy_id) values (15, '2021-02-10', 10, 18, 100,200);
-insert into workdays(id, date, start_time, end_time, medical_staff_id,pharmacy_id) values (20, '2021-02-10', 12, 18, 100,100);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id) values (15, '2021-02-10', '2021-02-10 12:00:00', '2021-02-10 15:30:00', 100,200);
 insert into appointment(type, id, appointment_end_time, appointment_start_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling',100, '2021-02-10 12:00:00', '2021-02-10 12:30:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 200, '2021-02-10 13:00:00', '2021-02-10 13:30:00', 1000.00,false, 100,500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 300, '2021-02-10 13:30:00', '2021-02-10 14:00:00', 1000.00, false, 100,500, 200);

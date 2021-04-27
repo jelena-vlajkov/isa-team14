@@ -13,14 +13,14 @@ import java.util.Date;
 public class WorkDayDTO {
     private Long id;
     private Date date;
-    private int startTime;
-    private int endTime;
+    private Date startTime;
+    private Date endTime;
     private MedicalStaffDTO medicalStaff;
     private PharmacyDTO pharmacy;
 
     public WorkDayDTO() { }
 
-    public WorkDayDTO(Long id, Date date, int startTime, int endTime, MedicalStaffDTO medicalStaff, PharmacyDTO pharmacy) {
+    public WorkDayDTO(Long id, Date date, Date startTime, Date endTime, MedicalStaffDTO medicalStaff, PharmacyDTO pharmacy) {
         this.id = id;
         this.date = date;
         this.startTime = startTime;
@@ -45,19 +45,19 @@ public class WorkDayDTO {
         this.date = date;
     }
 
-    public int getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public int getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

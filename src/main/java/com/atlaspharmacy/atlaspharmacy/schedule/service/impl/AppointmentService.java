@@ -232,8 +232,8 @@ public class AppointmentService implements IAppointmentService {
         if (workDay == null)
             return appointments;
 
-        int endTime = workDay.getEndTime();
-        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getStartTime(), 0, 0);
+        int endTime = workDay.getWorkDayPeriod().getEndTime().getHours();
+        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getWorkDayPeriod().getStartTime().getHours(), 0, 0);
 
         for (int i = 0; i < endTime - 1; i++)
         {
