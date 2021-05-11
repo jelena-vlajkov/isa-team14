@@ -4,9 +4,11 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
@@ -18,6 +20,7 @@ import net.bytebuddy.utility.RandomString;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class UserService implements IUserService {
@@ -52,6 +55,22 @@ public class UserService implements IUserService {
     @Override
     public User getByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void updateEmployee(PharmDermDTO pharmDermDTO) {
+        User loggedInEmployee = getByEmail(pharmDermDTO.getEmail());
+        if (pharmDermDTO.getGender().toLowerCase().trim().equals("female")) {
+            loggedInEmployee.setGender(Gender.FEMALE);
+        } else {
+            loggedInEmployee.setGender(Gender.MALE);
+        }
+        loggedInEmployee.setName(pharmDermDTO.getName());
+        loggedInEmployee.setSurname(pharmDermDTO.getSurname());
+        loggedInEmployee.setPhoneNumber(pharmDermDTO.getPhoneNumber());
+        loggedInEmployee.setDateOfBirth(pharmDermDTO.getDateOfBirth());
+        userRepository.save(loggedInEmployee);
+
     }
 
 }

@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AuthenticationService} from "../service/user";
 import {IngredientService} from "../service/medication/ingredients.service"
 import {ReportsService} from "../service/reports/reports.service"
+import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 
 declare interface RouteInfo {
     path: string;
@@ -43,22 +44,22 @@ export class PharmacistComponent implements OnInit {
   }
 
   routeToPatients() {
-    this.router.navigateByUrl('/pharmacist/patients');
+    this.router.navigateByUrl('/patients-overview');
   }
   routeToMedications() {
-    this.router.navigateByUrl('/pharmacist/medication');
+    this.router.navigateByUrl('/employee-medications');
   }
   routeToCounselings() {
-    this.router.navigateByUrl('/pharmacist/addReport');
+    this.router.navigateByUrl('/add-report');
   }
   routeToReports() {
-    this.router.navigateByUrl('/pharmacist/reports');
+    this.router.navigateByUrl('/appointment-report');
   }
   routeToProfile() {
-    this.router.navigateByUrl('/pharmacist/profile');
+    this.router.navigateByUrl('/employee-profile');
   }
   routeToCalendar() {
-    this.router.navigateByUrl('/pharmacist/calendar');
+    this.router.navigateByUrl('/employee-profile');
 
   }
 }

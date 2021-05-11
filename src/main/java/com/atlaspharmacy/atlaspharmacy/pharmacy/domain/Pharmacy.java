@@ -14,6 +14,7 @@ public class Pharmacy  {
     private Long id;
     private String name;
     private String description;
+
     @Embedded
     private AverageGrade averageGrade;
     private String email;

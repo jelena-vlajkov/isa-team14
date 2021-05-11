@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/model/users';
+import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 import { AuthenticationService } from '../service/user/authentication.service';
 import {UserService} from '../service/user/user.service';
+import { DatePipe } from '@angular/common';
+import { EmployeeService } from '@app/service/employee/employee.service';
+import { UpdateEmployee } from '@app/model/pharmderm/UpdateEmployee';
+import { Gender } from '@app/model/users/patient/gender';
 
 
 declare interface RouteInfo {
@@ -29,11 +34,17 @@ export class PharmacistProfileComponent implements OnInit {
     public isRequired:boolean = true;
     public isEditMode:boolean = false;
     public isNotEditMode:boolean = true;
-  
-  
+    public dateOfBirth:string;
+    public gender:string;
+    minDateOfBirth : Date;
+    maxDateOfBirth : Date;
+    public selected:string;
     editProfileForm: FormGroup;
+    genders:string[];
+    @ViewChild(GooglePlacesComponent) googleplaces;
+
   
-    constructor(private authService : AuthenticationService, private userService : UserService) {
+    constructor(private authService : AuthenticationService, private userService : UserService, private employeeService : EmployeeService) {
 
       this.isRequired = true;
       this.isEditMode = false;
@@ -41,10 +52,24 @@ export class PharmacistProfileComponent implements OnInit {
      }
   
     ngOnInit(): void {
+      this.genders = [];
+      this.genders.push("Female");
+      this.genders.push("Male");
+      this.minDateOfBirth = new Date();
+      this.maxDateOfBirth = new Date();
+      this.minDateOfBirth.setFullYear((new Date()).getFullYear() - 100);
+      this.maxDateOfBirth.setFullYear((new Date()).getFullYear() - 19);
       this.editProfileForm = new FormGroup({});
       this.userService.getLoggedInUser().subscribe(data =>
       {
         this.user = data;
+        if (this.user.gender === "FEMALE") {
+          this.gender = "Female";
+        } else {
+          this.gender = "Male";
+        }
+        const datepipe: DatePipe = new DatePipe('en-US')
+        this.dateOfBirth = datepipe.transform(this.user.dateOfBirth, 'dd.MM.yyyy.')
       });
     }
 
@@ -56,17 +81,66 @@ export class PharmacistProfileComponent implements OnInit {
       this.isRequired = false;
       this.isEditMode = true;
       this.isNotEditMode = false;
+      this.editProfileForm = new FormGroup({
+        'name' : new FormControl(this.user.name, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+        'surname' : new FormControl(this.user.surname, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+        'phoneNumber' : new FormControl(this.user.phoneNumber, [Validators.required, Validators.pattern("^[0-9]*$")]),
+        'gender': new FormControl(this.gender, Validators.required),
+        'dob' : new FormControl(this.user.dateOfBirth, Validators.required)
+      });
       
   
     }
-    
+    changePassword() {
+
+    }
+    cancelEdit() {
+      this.editProfileForm = new FormGroup({});
+      
+      this.isRequired = true;
+      this.isEditMode = false;
+      this.isNotEditMode = true;
+
+    }
     saveProfile(){
-        this.isRequired = true;
-        this.isEditMode = false;
-        this.isNotEditMode = true;
+        let employee = new UpdateEmployee();
+        employee.name = this.editProfileForm.controls.name.value;
+        employee.surname = this.editProfileForm.controls.surname.value;
+        employee.dateOfBirth = this.editProfileForm.controls.dob.value;;
+        employee.email = this.user.email;
+        employee.gender = this.editProfileForm.controls.gender.value;;
+        employee.phoneNumber = this.editProfileForm.controls.phoneNumber.value;
         
+        this.employeeService.updateEmployee(employee).subscribe(
+          res=>{
+            alert("Successfully updated!")
+            this.userService.getLoggedInUser().subscribe(data =>
+              {
+                this.user = data;
+                if (this.user.gender === "FEMALE") {
+                  this.gender = "Female";
+                } else {
+                  this.gender = "Male";
+                }
+                const datepipe: DatePipe = new DatePipe('en-US')
+                this.dateOfBirth = datepipe.transform(this.user.dateOfBirth, 'dd.MM.yyyy.')
+              });
+            this.isRequired = true;
+            this.isEditMode = false;
+            this.isNotEditMode = true;
+  
+          },
+          error=>{
+            alert("Oh no, something went wrong!")
+            
+            this.isRequired = true;
+            this.isEditMode = false;
+            this.isNotEditMode = true;
+          }
+        )
+      }
     
       }
-  
-}
+   
+
 

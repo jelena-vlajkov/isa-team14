@@ -19,6 +19,10 @@ public class AverageGrade {
         VeryPoor = 0;
     }
 
+    public AverageGrade() {
+
+    }
+
     public double count() {
         return ((5 * Excellent) + (4 * VeryGood) + (3 * Good) + (2 * Poor) + (1 * VeryPoor))
                 / (Excellent + VeryGood + Good + Poor + VeryPoor);
