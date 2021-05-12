@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
@@ -54,6 +55,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/changeEmployeePass", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<String> updateEmployeePass(@RequestBody EmployeePassChange employeePassChange) throws Exception {
+        userService.updateEmployeePassword(employeePassChange);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value="/getLoggedIn", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     UserDTO getLoggedInUser() {
@@ -67,7 +77,7 @@ public class UserController {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
     Exception handleException(Exception e) {
-        return new Exception("Error while saving entity");
+        return e;
     }
 
 

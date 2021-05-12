@@ -94,8 +94,56 @@
                 </table>
                 <div style="position: absolute; bottom: 5px; right: 10px;">
                   <button mat-flat-button color="primary" style="margin: 10px;" (click)="editProfile()">Edit profile</button>
-                  <button mat-flat-button color="primary">Change password</button>
+                  <button mat-flat-button color="primary" (click)="changePassword()">Change password</button>
                 </div>
+              </div>
+              
+              <div *ngIf="changePassMode">
+                
+                <form [formGroup]="changePassForm" (ngSubmit)="saveNewPass()">
+                  <table style="margin-left: 20px;">
+                    <tr style="width: 400px; margin-bottom: 10px; height: 60px;">
+                      <td style="width: 200px; margin-bottom: 10px; ">Old password:</td>
+                      <mat-form-field appearance="fill" id="oldpass-ff">
+                        <input matInput type="password" formControlName="oldpass" id="oldpass" name="oldpass-ff" style="" placeholder="Enter old password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('oldpass').valid && changePassForm.get('oldpass').touched && changePassForm.get('oldpass').errors['required']">
+                                Please enter old password</mat-error>
+                      </mat-form-field>
+                    </tr>
+                    <tr style="width: 400px; height: 60px;">
+                      <td style="width: 200px; ">New password:</td>
+                      <mat-form-field appearance="fill" id="newpass-ff">
+                        <input matInput type="password" formControlName="newpass" id="newpass" name="newpass-ff" style="" placeholder="Enter new password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['required']">
+                                Minimum 8 characters</mat-error>
+                                <mat-error
+                                *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['pattern']">
+                                Minimum 8 characters</mat-error>
+                      </mat-form-field>
+                    </tr>
+
+                    <tr style="width: 400px; height: 60px;">
+                      <td style="width: 200px; ">Repeat new password:</td>
+                      <mat-form-field appearance="fill" id="repnew-pass-ff">
+                        <input matInput type="password" formControlName="repnewpass" id="repnew-pass" name="repnew-pass-ff" style="" placeholder="Repeat new password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['required']">
+                                Minimum 8 characters</mat-error>
+                                <mat-error
+                                *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['pattern']">
+                                Minimum 8 characters</mat-error>
+                      </mat-form-field>
+                    </tr>
+                    
+                    </table>
+                    
+                <div style="position: absolute; bottom: 5px; right: 10px;">
+                  <button mat-flat-button color="primary" (click)="cancelEdit()">Cancel</button>
+                  <button mat-flat-button color="primary" style="margin: 10px;" [disabled]="!changePassForm.valid" >Save</button>
+                </div>
+                </form>
               </div>
               <div *ngIf="isEditMode">
                 
@@ -119,7 +167,7 @@
                       <input matInput [value]="user.surname" formControlName="surname" style="">
                       <mat-error
                               *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
-                              Please enter name</mat-error>
+                              Please enter surname</mat-error>
                               <mat-error
                               *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('name').touched && editProfileForm.get('surname').errors['pattern']">
                               Please enter surname in correct format</mat-error>
@@ -136,7 +184,7 @@
                     </mat-select>
                       <mat-error
                               *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
-                              Please enter name</mat-error>
+                              Please enter gender</mat-error>
                               <mat-error
                               *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['pattern']">
                               Please select gender</mat-error>
@@ -150,7 +198,7 @@
                       <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                       <mat-error
                               *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['required']">
-                              Please enter name</mat-error>
+                              Please enter date</mat-error>
                               <mat-error
                               *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['pattern']">
                               Please select a valid date</mat-error>
@@ -176,7 +224,7 @@
                         <input matInput [value]="user.phoneNumber" formControlName="phoneNumber" style="">
                         <mat-error
                               *ngIf="!editProfileForm.get('phoneNumber').valid && editProfileForm.get('phoneNumber').touched && editProfileForm.get('phoneNumber').errors['required']">
-                              Please enter name</mat-error>
+                              Please enter phoneNumber</mat-error>
                               <mat-error
                               *ngIf="!editProfileForm.get('phoneNumber').valid && editProfileForm.get('phoneNumber').touched && editProfileForm.get('phoneNumber').errors['pattern']">
                               Please enter phone number in valid format</mat-error>

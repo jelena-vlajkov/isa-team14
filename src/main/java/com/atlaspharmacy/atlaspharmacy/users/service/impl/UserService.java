@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
@@ -71,6 +72,20 @@ public class UserService implements IUserService {
         loggedInEmployee.setDateOfBirth(pharmDermDTO.getDateOfBirth());
         userRepository.save(loggedInEmployee);
 
+    }
+
+    @Override
+    public void updateEmployeePassword(EmployeePassChange employeePassChange) throws Exception {
+        User user = userRepository.findByEmail(employeePassChange.getEmail());
+        String encoded = passwordEncoder.encode(employeePassChange.getOldpassword());
+        if (!passwordEncoder.matches(employeePassChange.getOldpassword(), user.getPassword())) {
+            throw new Exception("Invalid password!");
+        }
+        if (passwordEncoder.matches(employeePassChange.getNewpassword(), user.getPassword())) {
+            throw new Exception("Password must be different from the last one!");
+        }
+        user.setPassword(passwordEncoder.encode(employeePassChange.newpassword));
+        userRepository.save(user);
     }
 
 }

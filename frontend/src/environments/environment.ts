@@ -65,6 +65,7 @@ export const environment = {
   getByStatus: "getByStatus",
   getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier",
   getByPharmacy:"getByPharmacy",
-  updateEmployees : "updateEmployee"
+  updateEmployees : "updateEmployee",
+  changeEmployeePass : "changeEmployeePass"
 };
 

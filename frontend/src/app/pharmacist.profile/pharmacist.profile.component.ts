@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { EmployeeService } from '@app/service/employee/employee.service';
 import { UpdateEmployee } from '@app/model/pharmderm/UpdateEmployee';
 import { Gender } from '@app/model/users/patient/gender';
+import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
 
 
 declare interface RouteInfo {
@@ -33,11 +34,13 @@ export class PharmacistProfileComponent implements OnInit {
     public user : User;
     public isRequired:boolean = true;
     public isEditMode:boolean = false;
+    public changePassMode:boolean = false;
     public isNotEditMode:boolean = true;
     public dateOfBirth:string;
     public gender:string;
     minDateOfBirth : Date;
     maxDateOfBirth : Date;
+    changePassForm : FormGroup;
     public selected:string;
     editProfileForm: FormGroup;
     genders:string[];
@@ -49,6 +52,7 @@ export class PharmacistProfileComponent implements OnInit {
       this.isRequired = true;
       this.isEditMode = false;
       this.isNotEditMode = true;
+      this.changePassMode = false;
      }
   
     ngOnInit(): void {
@@ -60,6 +64,7 @@ export class PharmacistProfileComponent implements OnInit {
       this.minDateOfBirth.setFullYear((new Date()).getFullYear() - 100);
       this.maxDateOfBirth.setFullYear((new Date()).getFullYear() - 19);
       this.editProfileForm = new FormGroup({});
+      this.changePassForm = new FormGroup({});
       this.userService.getLoggedInUser().subscribe(data =>
       {
         this.user = data;
@@ -76,11 +81,59 @@ export class PharmacistProfileComponent implements OnInit {
     logout() {
       this.authService.logout();
     }
-  
+    saveNewPass() {
+      let newPass = this.changePassForm.controls.newpass.value;
+      let repNewPass = this.changePassForm.controls.repnewpass.value;
+      if (newPass !== repNewPass) {
+        alert("Passwords do not match!");
+      } else {
+        let changePass = new EmployeePasswordChanger(this.user.email,
+          this.changePassForm.controls.oldpass.value,
+          this.changePassForm.controls.newpass.value,
+          true
+          );
+
+
+          
+        this.employeeService.changeEmployeePassword(changePass).subscribe(
+          res=>{
+            alert("Successfully updated!")
+            this.userService.getLoggedInUser().subscribe(data =>
+              {
+                this.user = data;
+                if (this.user.gender === "FEMALE") {
+                  this.gender = "Female";
+                } else {
+                  this.gender = "Male";
+                }
+                const datepipe: DatePipe = new DatePipe('en-US')
+                this.dateOfBirth = datepipe.transform(this.user.dateOfBirth, 'dd.MM.yyyy.')
+              });
+            this.isRequired = true;
+            this.isEditMode = false;
+            this.isNotEditMode = true;
+            this.changePassMode = false;
+
+          },
+          error=>{
+            alert(error)
+            
+            this.isRequired = true;
+            this.isEditMode = false;
+            this.isNotEditMode = false;
+            this.changePassMode = true;
+          }
+        )
+      }
+
+      
+
+    }
     editProfile(){
       this.isRequired = false;
       this.isEditMode = true;
       this.isNotEditMode = false;
+      this.changePassMode = false;
       this.editProfileForm = new FormGroup({
         'name' : new FormControl(this.user.name, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
         'surname' : new FormControl(this.user.surname, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
@@ -93,6 +146,17 @@ export class PharmacistProfileComponent implements OnInit {
     }
     changePassword() {
 
+      this.isRequired = true;
+      this.isEditMode = false;
+      this.isNotEditMode = false;
+      this.changePassMode = true;
+      this.changePassForm = new FormGroup({
+        'oldpass' : new FormControl("", [Validators.required,Validators.minLength(5)]),
+        'newpass' : new FormControl("", [Validators.required,Validators.minLength(8)]),
+        'repnewpass' : new FormControl("", [Validators.required,Validators.minLength(8)])
+      });
+
+      
     }
     cancelEdit() {
       this.editProfileForm = new FormGroup({});
@@ -100,6 +164,7 @@ export class PharmacistProfileComponent implements OnInit {
       this.isRequired = true;
       this.isEditMode = false;
       this.isNotEditMode = true;
+      this.changePassMode = false;
 
     }
     saveProfile(){
@@ -128,6 +193,7 @@ export class PharmacistProfileComponent implements OnInit {
             this.isRequired = true;
             this.isEditMode = false;
             this.isNotEditMode = true;
+            this.changePassMode = false;
   
           },
           error=>{
@@ -136,6 +202,7 @@ export class PharmacistProfileComponent implements OnInit {
             this.isRequired = true;
             this.isEditMode = false;
             this.isNotEditMode = true;
+            this.changePassMode = false;
           }
         )
       }
