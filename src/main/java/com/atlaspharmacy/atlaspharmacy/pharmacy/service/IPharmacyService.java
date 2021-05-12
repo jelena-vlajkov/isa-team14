@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface IPharmacyService {
-    PharmacyDTO getById(Long id);
+    Pharmacy getById(Long id);
     Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception;
     List<PharmacyDTO> getAllPharmacies();
     List<PharmacyDTO> findByName(String name);

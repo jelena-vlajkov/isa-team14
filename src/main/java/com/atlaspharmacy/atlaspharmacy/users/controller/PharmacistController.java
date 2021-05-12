@@ -1,13 +1,16 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,5 +67,35 @@ public class PharmacistController {
     List<PharmacistDTO> filterPharmacistsByGrade(@RequestParam("pharmacists") List<PharmacistDTO> pharmacists,
                                                     @RequestParam("grade") Double grade) {
         return pharmacistService.filterPharmacistsByGrade(pharmacists,grade);
+    }
+
+    @PostMapping(value = "/registerPharmacist",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO){
+        //fali jos za radno vreme
+        try {
+            pharmacistService.registerPharmacist(pharmacistDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/deletePharmacist")
+    public ResponseEntity<?> deleteDermatologistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId){
+        boolean successful;
+        try {
+            successful=pharmacistService.deletePharmacist(pharmacistId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        //ako vrati true,dermatolog nema zakazano nista i moze se obrisati,ako ne,ne sme se obrisatiiii,moze ovako?
+        if(successful){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
     }
 }

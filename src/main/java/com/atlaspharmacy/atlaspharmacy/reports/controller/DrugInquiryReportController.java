@@ -1,0 +1,43 @@
+package com.atlaspharmacy.atlaspharmacy.reports.controller;
+
+import com.atlaspharmacy.atlaspharmacy.customannotations.ReportAuthorization;
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugInquiryReportDTO;
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.SaveReportDTO;
+import com.atlaspharmacy.atlaspharmacy.reports.service.IDrugInquiryService;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.text.ParseException;
+
+@Controller
+@RequestMapping(value = "/drugInquiryReport", produces = MediaType.APPLICATION_JSON_VALUE)
+public class DrugInquiryReportController {
+    private final IDrugInquiryService drugInquiryService;
+
+    @Autowired
+    public DrugInquiryReportController(IDrugInquiryService drugInquiryService) {
+        this.drugInquiryService = drugInquiryService;
+    }
+
+    @PostMapping(value = "addInquiryReport", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ReportAuthorization
+    public @ResponseBody
+    ResponseEntity<?> addInquiryReport(@RequestBody DrugInquiryReportDTO reportDTO) throws ParseException {
+        try {
+            drugInquiryService.addDrugInquiry(reportDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+}
