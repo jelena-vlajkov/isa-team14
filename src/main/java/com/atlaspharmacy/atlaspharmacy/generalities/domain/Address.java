@@ -43,9 +43,6 @@ public class Address {
         this.coordinates = coordinates;
     }
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JsonIgnore()
-    private Pharmacy pharmacy;
 
     public Long getId() {
         return id;

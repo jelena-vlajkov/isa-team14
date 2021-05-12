@@ -116,6 +116,12 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public boolean medicationExistsInPharmacy(Long drugID, Long pharmacyID) {
+        List<Medication> allMedications=_medicationRepository.findAll();
+        for(Medication m:allMedications){
+            if(m.getId().equals(drugID)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -131,7 +137,14 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public List<MedicationDTO> findAllMedicationsNotInPharmacy(Long pharmacyID) throws Exception {
-        return null;
+        List<Medication> allMedications=_medicationRepository.findAll();
+        List<Medication> medicationsNotInPharmacy=new ArrayList<>();
+        for(Medication m:allMedications){
+            if(!medicationExistsInPharmacy(m.getId(),pharmacyID)){
+                medicationsNotInPharmacy.add(m);
+            }
+        }
+        return MedicationMapper.convertToDTOS(medicationsNotInPharmacy);
     }
 
     @Override
