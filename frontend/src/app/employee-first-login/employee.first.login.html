@@ -1,0 +1,65 @@
+<mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="side">
+    
+    </mat-drawer>
+      <mat-drawer-content style="height: 100%">
+        <mat-toolbar style="background-color: #385399;">
+            <span style="color: white;">Welcome!</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+
+            
+          <mat-card style=" width: 1000px; height:800px; justify-content: center;">
+            <mat-card-header>
+                <mat-card-title>
+                    <mat-label style="font-size: 30px;">Welcome!</mat-label>
+                    <mat-label style="text-align: center;"> <br> It's your first login. You will have to change your password in order to continue your journey!</mat-label>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div style="position: relative; left: 25%;">
+                <img style="width: 500px; height: 300px; border-radius: 20px;" src="assets/welcome.png">
+            </div>
+            </mat-card-content>
+
+            <mat-card-content style="justify-content: center; width: 500px; display: flex;">
+                <table>
+                <tr style="width: 400px; height: 60px;">
+                  <td style="width: 200px; ">New password:</td>
+                  <mat-form-field appearance="fill" id="newpass-ff">
+                    <input matInput type="password" formControlName="newpass" id="newpass" name="newpass-ff" style="" placeholder="Enter new password">
+                    <mat-error
+                            *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['required']">
+                            Minimum 8 characters</mat-error>
+                            <mat-error
+                            *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['pattern']">
+                            Minimum 8 characters</mat-error>
+                  </mat-form-field>
+                </tr>
+
+                <tr style="width: 400px; height: 60px;">
+                  <td style="width: 200px; ">Repeat new password:</td>
+                  <mat-form-field appearance="fill" id="repnew-pass-ff">
+                    <input matInput type="password" formControlName="repnewpass" id="repnew-pass" name="repnew-pass-ff" style="" placeholder="Repeat new password">
+                    <mat-error
+                            *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['required']">
+                            Minimum 8 characters</mat-error>
+                            <mat-error
+                            *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['pattern']">
+                            Minimum 8 characters</mat-error>
+                  </mat-form-field>
+                </tr>
+                
+                </table>
+            </mat-card-content>
+
+            <button mat-flat-button color="primary" style="position: absolute; right: 50px;">Send request</button>
+
+          </mat-card>
+
+        
+          
+      </mat-drawer-content>
+</mat-drawer-container>
+
+

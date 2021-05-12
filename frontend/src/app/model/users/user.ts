@@ -14,9 +14,11 @@ export class User {
     public gender : string;
     public city : string;
     public phoneNumber : string;
+    public firstTimePassword : boolean;
 
-    constructor(id : number, email : string, password : string, name : string, surname : string, role : string, address : Address, dateOfBirth : Date, gender : string, city : string, phoneNumber : string) {
+    constructor(id : number, email : string, password : string, name : string, surname : string, role : string, address : Address, dateOfBirth : Date, gender : string, city : string, phoneNumber : string, firstTimePassword : boolean) {
         this.id = id;
+        this.firstTimePassword = firstTimePassword;
         this.email = email;
         this.password = password;
         this.name = name;

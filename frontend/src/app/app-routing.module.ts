@@ -39,6 +39,7 @@ import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-o
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
 
 const routes: Routes = [
 {
@@ -164,6 +165,13 @@ const routes: Routes = [
   component: PharmacistCalendarComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+},
+{
+  path: "employee-welcome",
+  component: WelcomeComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
 },
 {
   path: 'patients-overview',
