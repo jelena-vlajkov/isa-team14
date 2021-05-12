@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.PharmacyAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
 
 import java.text.ParseException;
 import java.util.Optional;
@@ -15,4 +16,6 @@ public interface IPharmacyAdminService {
     PharmacyAdmin getById(Long id);
     PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws InvalidEmail, ParseException;
     PharmacyAdmin updatePharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO);
+    boolean changePassword(String oldPassword, String newPassword)  throws InvalidPassword, InvalidEmail, ParseException ;
+    PharmacyAdmin findByEmail(String email);
 }
