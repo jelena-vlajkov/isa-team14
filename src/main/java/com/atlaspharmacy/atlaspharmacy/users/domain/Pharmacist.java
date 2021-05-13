@@ -24,7 +24,6 @@ public class Pharmacist extends MedicalStaff {
     @Embedded
     private AverageGrade averageGrade;
 
-
     public Pharmacist(Long id) {
         this.id = id;
     }
@@ -78,6 +77,4 @@ public class Pharmacist extends MedicalStaff {
     public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
 
     public double countAverageGrade() { return averageGrade.count(); }
-
-
 }
