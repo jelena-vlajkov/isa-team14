@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.membershipinfo.exceptions.AlreadySubscrib
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.mapper.SubscriptionMapper;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.repository.SubscriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.ISubscriptionService;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,6 +52,18 @@ public class SubscriptionService implements ISubscriptionService {
             }
         }
         return false;
+
+    }
+
+    @Override
+    public List<Patient> getAllSubscribedForPharmacy(Long pharmacyId) {
+        List<Patient> subscribedUsers = new ArrayList<>();
+        for(Subscription s : subscriptionRepository.findAll()){
+            if(s.getPharmacy().getId().equals(pharmacyId) ){
+                subscribedUsers.add(s.getPatient());
+            }
+        }
+        return subscribedUsers;
     }
 
 //    @Override
