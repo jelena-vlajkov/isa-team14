@@ -54,6 +54,17 @@ public class AppointmentController {
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getAllFinishedAppointmentsForPatient(id));
     }
 
+    @GetMapping(value = "/getNumberOfScheduledByDate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody int getNumberOfScheduledByDate(@RequestParam("date") Date date){
+        return appointmentService.getNumberOfScheduledByDate(date);
+    }
+
+    @GetMapping(value = "/getNumberOfScheduledForMonth", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Integer> getNumberOfScheduledForMonth(@RequestParam("month") int month, @RequestParam("year") int year){
+        return appointmentService.getNumberOfAppointmentsForMonth(month,year);
+    }
+
+
     @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);

@@ -12,6 +12,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PricelistMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PricelistRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPricelistService;
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,16 @@ public class PricelistService implements IPricelistService {
     }
 
     @Override
+    public PricelistDTO getPricelistByMedicationAndPeriod(Long code, PeriodDTO period) {
+        List<PricelistDTO> pricelistsForMedication=getPricelistsByMedication(code);
+        for(PricelistDTO p:pricelistsForMedication){
+            if(p.getStartPeriod().before(period.getStartPeriod()))
+                    if( p.getEndPeriod().after(period.getEndPeriod())){
+                return p;
+            }
+        }
+        return null;
+    }
     public Pricelist addMedicationToPricelist(PricelistDTO pricelistDTO) {
         Pricelist newPricelist=new Pricelist();
         newPricelist.setPrice(pricelistDTO.getPrice());
