@@ -39,6 +39,7 @@ import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-o
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
 
 const routes: Routes = [
 {
@@ -148,38 +149,45 @@ const routes: Routes = [
   component: UnauthenticatedUserComponent,
 
 },
-{ path: 'pharmacist',
+{ path: 'dashboard',
   component: PharmacistComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 
 },
-{ path: 'pharmacist/profile',
+{ path: 'employee-profile',
   component: PharmacistProfileComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/calendar',
+  path: 'employee-calendar',
   component: PharmacistCalendarComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/patients',
+  path: "employee-welcome",
+  component: WelcomeComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
+},
+{
+  path: 'patients-overview',
   component: PharmacistPatientsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/reports',
+  path: 'appointment-report',
   component: PharmacistReportsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 
 {
-  path: 'pharmacist/addReport',
+  path: 'add-report',
   component: PharmacistAddReportComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
@@ -189,7 +197,7 @@ const routes: Routes = [
     component: MedicationOrderComponent
 },
 {
-  path: 'pharmacist/medication',
+  path: 'employee-medications',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}

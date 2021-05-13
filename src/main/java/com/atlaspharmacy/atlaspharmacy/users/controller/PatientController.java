@@ -1,30 +1,19 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.VerificationTokenService;
-import com.sun.mail.iap.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.ParseException;
 
 @RestController

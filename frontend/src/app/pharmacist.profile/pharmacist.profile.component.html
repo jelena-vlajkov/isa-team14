@@ -1,42 +1,41 @@
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
     <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
-       <mat-action-list >
-        <button mat-list-item routerLink="/pharmacist">
-          <i class="material-icons">dashboard</i>
-          <p class="list-p">Dashboard</p>
-      </button>
-      <button mat-list-item routerLink="/pharmacist/addReport">
-              <i class="material-icons">alarm</i>
-              <p class="list-p">Counselings</p>
-      </button>
-      <button mat-list-item routerLink="/pharmacist/calendar">
-
-          <i class="material-icons">calendar_today</i>
-          <p class="list-p">Calendar</p>
-      </button>
-      <button mat-list-item routerLink="/pharmacist/reports">
-
-          <i class="material-icons">article</i>
-          <p class="list-p">Counseling reports</p>
-      </button>
-      <button mat-list-item routerLink="/pharmacist/patients">
-
-          <i class="material-icons">group</i>
-          <p class="list-p">Patients</p>
-      </button>
-      <button mat-list-item routerLink="/pharmacist/medication">
-
-          <i class="material-icons">medication</i>
-          <p class="list-p">Medications</p>
-      </button>
-</mat-action-list>
-<mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-  <button mat-list-item routerLink="/pharmacist/profile">
-
+      <mat-action-list ><button mat-list-item routerLink="/dashboard">  
+        <i class="material-icons">dashboard</i>
+        <p class="list-p">Dashboard</p>
+        </button>
+        <button mat-list-item routerLink="/add-report">  
+                <i class="material-icons">alarm</i>
+                <p class="list-p">Counselings</p>
+        </button>
+        <button mat-list-item routerLink="/employee-calendar"> 
+    
+            <i class="material-icons">calendar_today</i>
+            <p class="list-p">Calendar</p>
+        </button>
+        <button mat-list-item routerLink="/appointment-report"> 
+        
+            <i class="material-icons">article</i>
+            <p class="list-p">Counseling reports</p>
+        </button>
+        <button mat-list-item routerLink="/patients-overview"> 
+            
+            <i class="material-icons">group</i>
+            <p class="list-p">Patients</p>
+        </button>
+        <button mat-list-item routerLink="/employee-medications"> 
+            
+            <i class="material-icons">medication</i>
+            <p class="list-p">Medications</p>
+        </button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+    <button mat-list-item routerLink="/employee-profile"> 
+          
             <i class="material-icons">person</i>
             <p class="list-p">Profile</p>
         </button>
-        <button  mat-list-item (click)='logout()'>
+        <button  mat-list-item (click)='logout()'> 
             <i class="material-icons">logout</i>
             <p class="list-p">Logout</p>
         </button>
@@ -53,140 +52,194 @@
 
           <div style="display: flex;">
 
-          <mat-card fxLayoutAlign="center" style=" width: 500px; height:600px;" >
+          <mat-card fxLayoutAlign="center" style=" width: 500px; height:800px;" >
 
             <mat-card-content style="align-content: center;  justify-content: center;" fxLayoutAlign="center" >
                 <mat-card-header>
                     <mat-card-title style="margin-top: 5px; margin-bottom: 25px;">
-
-                        <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu" xPosition="before">
-                            <div [hidden]="isEditMode">
-                                <button (click)="editProfile()"  mat-menu-item>Edit</button>
-                            </div>
-                            <div  [hidden]="isNotEditMode" >
-                                <button (click)="saveProfile()" mat-menu-item>Save</button>
-                            </div>
-                        </mat-menu>
-                        <mat-label style="margin-top:10px;">Personal information</mat-label>
+                      <mat-label>Personal information</mat-label>
                     </mat-card-title>
                 </mat-card-header>
-                <div  [hidden]="isEditMode">
-                <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 40px;" >
-
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Name</mat-label>
-                            <input matInput placeholder="Name" [readonly]="isRequired" [value]="user.name">
-                          </mat-form-field>
-                          <mat-form-field class="example-full-width" style="margin-left: 40px;">
-                            <mat-label>Surname</mat-label>
-                            <input matInput placeholder="Surname" [readonly]="isRequired"  [value]="user.surname">
-                          </mat-form-field>
-                </mat-card-content>
+                <div *ngIf="isNotEditMode">
+                <table style="margin-left: 20px;">
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; margin-bottom: 10px; ">Name:</td>
+                    <td style="position: right">{{user.name}}</td>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Surname:</td>
+                    <td style="position: right">{{user.surname}}</td>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Gender:</td>
+                    <td style="text-transform: capitalize;">{{gender}}</td>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Date of birth:</td>
+                    <td style="position: right">{{dateOfBirth}}</td>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">City:</td>
+                    <td style="position: right">{{user.address.city.name}}, {{user.address.state.name}}</td>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Adddress:</td>
+                    <td style="position: right">{{user.address.street}}</td>
+                  </tr>
+                  
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Phone number:</td>
+                    <td style="position: right">{{user.phoneNumber}}</td>
+                  </tr>
+                </table>
+                <div style="position: absolute; bottom: 5px; right: 10px;">
+                  <button mat-flat-button color="primary" style="margin: 10px;" (click)="editProfile()">Edit profile</button>
+                  <button mat-flat-button color="primary" (click)="changePassword()">Change password</button>
                 </div>
-                <div  [hidden]="isNotEditMode">
-                    <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 40px;" >
-
-                            <mat-form-field class="example-full-width"  appearance="outline">
-                                <mat-label>Name</mat-label>
-                                <input matInput placeholder="Name" [readonly]="isRequired" [value]="user.name">
-                              </mat-form-field>
-                              <mat-form-field class="example-full-width" style="margin-left: 40px;"  appearance="outline">
-                                <mat-label>Sruname</mat-label>
-                                <input matInput placeholder="Surname" [readonly]="isRequired"  [value]="user.surname">
-                              </mat-form-field>
-                    </mat-card-content>
-                    </div>
-                <div [hidden]="isEditMode">
-                <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 40px;" >
-
-                    <mat-form-field class="example-full-width">
-                        <mat-label>Address</mat-label>
-                        <input matInput placeholder="Address" [readonly]="isRequired"  [value]="user.address">
+              </div>
+              
+              <div *ngIf="changePassMode">
+                
+                <form [formGroup]="changePassForm" (ngSubmit)="saveNewPass()">
+                  <table style="margin-left: 20px;">
+                    <tr style="width: 400px; margin-bottom: 10px; height: 60px;">
+                      <td style="width: 200px; margin-bottom: 10px; ">Old password:</td>
+                      <mat-form-field appearance="fill" id="oldpass-ff">
+                        <input matInput type="password" formControlName="oldpass" id="oldpass" name="oldpass-ff" style="" placeholder="Enter old password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('oldpass').valid && changePassForm.get('oldpass').touched && changePassForm.get('oldpass').errors['required']">
+                                Please enter old password</mat-error>
                       </mat-form-field>
-                      <mat-form-field class="example-full-width" style="margin-left: 40px;">
-                        <mat-label>City</mat-label>
-                        <input matInput placeholder="City" [readonly]="isRequired"  [value]="user.city">
+                    </tr>
+                    <tr style="width: 400px; height: 60px;">
+                      <td style="width: 200px; ">New password:</td>
+                      <mat-form-field appearance="fill" id="newpass-ff">
+                        <input matInput type="password" formControlName="newpass" id="newpass" name="newpass-ff" style="" placeholder="Enter new password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['required']">
+                                Minimum 8 characters</mat-error>
+                                <mat-error
+                                *ngIf="!changePassForm.get('newpass').valid && changePassForm.get('newpass').touched && changePassForm.get('newpass').errors['pattern']">
+                                Minimum 8 characters</mat-error>
                       </mat-form-field>
+                    </tr>
+
+                    <tr style="width: 400px; height: 60px;">
+                      <td style="width: 200px; ">Repeat new password:</td>
+                      <mat-form-field appearance="fill" id="repnew-pass-ff">
+                        <input matInput type="password" formControlName="repnewpass" id="repnew-pass" name="repnew-pass-ff" style="" placeholder="Repeat new password">
+                        <mat-error
+                                *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['required']">
+                                Minimum 8 characters</mat-error>
+                                <mat-error
+                                *ngIf="!changePassForm.get('repnewpass').valid && changePassForm.get('repnewpass').touched && changePassForm.get('repnewpass').errors['pattern']">
+                                Minimum 8 characters</mat-error>
+                      </mat-form-field>
+                    </tr>
+                    
+                    </table>
+                    
+                <div style="position: absolute; bottom: 5px; right: 10px;">
+                  <button mat-flat-button color="primary" (click)="cancelEdit()">Cancel</button>
+                  <button mat-flat-button color="primary" style="margin: 10px;" [disabled]="!changePassForm.valid" >Save</button>
+                </div>
+                </form>
+              </div>
+              <div *ngIf="isEditMode">
+                
+              <form [formGroup]="editProfileForm" (ngSubmit)="saveProfile()">
+                <table style="margin-left: 20px;">
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; margin-bottom: 10px; ">Name:</td>
+                    <mat-form-field appearance="fill" id="name-ff">
+                      <input matInput value="{{user.name}}" formControlName="name" id="name" name="name-ff" style="">
+                      <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
+                              Please enter name</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['pattern']">
+                              Please enter name in correct format</mat-error>
+                    </mat-form-field>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Surname:</td>
+                    <mat-form-field appearance="fill" >
+                      <input matInput [value]="user.surname" formControlName="surname" style="">
+                      <mat-error
+                              *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
+                              Please enter surname</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('name').touched && editProfileForm.get('surname').errors['pattern']">
+                              Please enter surname in correct format</mat-error>
+                    </mat-form-field>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Gender:</td>
+                    <mat-form-field appearance="fill" >
+                      <mat-select [(value)] = "gender" formControlName="gender">
+                      <mat-option value="Female"> Female
+                      </mat-option>
+                      <mat-option value="Male"> Male
+                      </mat-option>
+                    </mat-select>
+                      <mat-error
+                              *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
+                              Please enter gender</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['pattern']">
+                              Please select gender</mat-error>
+                    </mat-form-field>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 100px; ">Date of birth:</td>
+                    <mat-form-field appearance="fill" >
+                      <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                      <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                      <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                      <mat-error
+                              *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['required']">
+                              Please enter date</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('dob').valid && editProfileForm.get('dob').touched && editProfileForm.get('dob').errors['pattern']">
+                              Please select a valid date</mat-error>
+                    </mat-form-field>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">City:</td>
+                    <mat-form-field appearance="fill" >
+                      <input matInput readonly [value]="user.address.city.name" style="">
+                    </mat-form-field>
+                  </tr>
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px; ">Address:</td>
+                    <mat-form-field appearance="fill" >
+                      <input matInput readonly [value]="user.address.street" style="width: 100px;">
+                    </mat-form-field>
+                  </tr>
+                  
+                  <tr style="width: 400px; height: 50px;">
+                    <td style="width: 200px;">Phone number:</td>
+                    <td style="position: right">
+                      <mat-form-field appearance="fill" >
+                        <input matInput [value]="user.phoneNumber" formControlName="phoneNumber" style="">
+                        <mat-error
+                              *ngIf="!editProfileForm.get('phoneNumber').valid && editProfileForm.get('phoneNumber').touched && editProfileForm.get('phoneNumber').errors['required']">
+                              Please enter phoneNumber</mat-error>
+                              <mat-error
+                              *ngIf="!editProfileForm.get('phoneNumber').valid && editProfileForm.get('phoneNumber').touched && editProfileForm.get('phoneNumber').errors['pattern']">
+                              Please enter phone number in valid format</mat-error>
+                      </mat-form-field>
+                    </td>
+                      
+                  </tr>
+                </table>
+                <div style="position: absolute; bottom: 5px; right: 10px;">
+                  <button mat-flat-button color="primary" (click)="cancelEdit()">Cancel</button>
+                  <button mat-flat-button color="primary" style="margin: 10px;" [disabled]="!editProfileForm.valid" >Save</button>
+                </div>
+              </form>
+              </div>
             </mat-card-content>
-        </div>
-        <div [hidden]="isNotEditMode">
-            <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 40px;" >
-
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Address</mat-label>
-                    <input matInput placeholder="Address" [readonly]="isRequired"  [value]="user.address">
-                  </mat-form-field>
-                  <mat-form-field class="example-full-width" style="margin-left: 40px;" appearance="outline">
-                    <mat-label>City</mat-label>
-                    <input matInput placeholder="Surname" [readonly]="isRequired"  [value]="user.city">
-                  </mat-form-field>
-        </mat-card-content>
-    </div>
-    <div [hidden]="isEditMode">
-            <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px;">
-
-                <mat-form-field class="example-full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="Name" [readonly]="isRequired"  value="Name">
-                  </mat-form-field>
-                  <mat-form-field class="example-full-width" style="margin-left: 40px;">
-                    <mat-label>Date of birth</mat-label>
-                    <input matInput [matDatepicker]="picker1" [readonly]="isRequired"  [value]="user.dateOfBirth">
-                </mat-form-field>
-        </mat-card-content>
-    </div>
-    <div [hidden]="isNotEditMode">
-        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px;">
-
-            <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="Name" [readonly]="isRequired"  value="Name">
-              </mat-form-field>
-              <mat-form-field class="example-full-width" style="margin-left: 40px;" appearance="outline">
-                <mat-label>Date of birth</mat-label>
-                <input matInput [matDatepicker]="picker1" [readonly]="isRequired"  [value]="user.dateOfBirth">
-                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-            </mat-form-field>
-    </mat-card-content>
-</div>
-    <div [hidden]="isEditMode">
-        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 20px;" >
-
-            <mat-form-field class="example-full-width">
-                <mat-label>Phone number</mat-label>
-                <input matInput placeholder="Phone number" [readonly]="isRequired"  [value]="user.phoneNumber">
-              </mat-form-field>
-              <mat-form-field class="example-full-width" style="margin-left: 40px;">
-                <mat-label>Gender</mat-label>
-                <input matInput placeholder="Gender" [readonly]="isRequired"  [value]="user.gender">
-            </mat-form-field>
-    </mat-card-content>
-    </div>
-
-    <div [hidden]="isNotEditMode">
-        <mat-card-content class="dashboard-card-content" style="justify-content: center; display: flex; margin-left: 50px; margin-right: 50px; margin-bottom: 20px;" >
-
-            <mat-form-field class="example-full-width"  appearance="outline">
-                <mat-label>Phone number</mat-label>
-                <input matInput placeholder="Phone number" [readonly]="isRequired"  [value]="user.phoneNumber">
-              </mat-form-field>
-              <mat-form-field class="example-full-width" style="margin-left: 40px;"  appearance="outline">
-                <mat-label>Gender</mat-label>
-                <input matInput placeholder="Gender" [readonly]="isRequired"  [value]="user.gender">
-            </mat-form-field>
-    </mat-card-content>
-    </div>
-            </mat-card-content>
-
-            <div [hidden]="isNotEditMode">
-            <button  mat-flat-button color="primary" (click)="saveProfile()" style="position: absolute; right: 50px; margin-bottom: 100px;">Save changes</button>
-            </div>
-
-            <div style="margin-bottom: 100px;"></div>
           </mat-card>
 
 

@@ -1,33 +1,4 @@
-.theme {
-    padding:32px 0 32px 0;
-  }
-  
-  .working-area {
-    width: 50%;
-    height: 95%;
-    margin: 0 auto;
-    background-color: rgba(142,36,170,0.3);
-    padding: 16px;
-    border-radius: 8px;
-  }
-  
-  .profile-image{
-    border-radius:50%;
-    width:250px;
-    height: auto;
-    margin: auto 50%;
-  }
-  
-  .submitButton{
-    background-color: #a8edea !important;
-  }
-  
-  #footer .footer_image {
-    height: 24px;
-    width:24px;
-    text-align: center;
-    padding: 4px;
-  }
+
 #loginForm {
     min-width: 400px;
     position: absolute;
@@ -51,6 +22,52 @@
     margin-bottom: 5px;
     width: 400px !important;
     font-size: 20px;
+  }
+  #name-ff {
+    margin-bottom: 3px;
+    width: 400px !important;
+    font-size: 18px;
+  }
+  #surname-ff {
+    margin-bottom: 3px;
+    width: 400px !important;
+    font-size: 18px;
+
+  }
+  mat-grid-tile {
+    background: lightblue;
+    width: 500px;
+    height: 300px;
+  }
+  #password-ff {
+    width: 400px !important;
+    margin-bottom: 3px;
+    font-size: 18px;
+
+  }
+  #address-ff {
+    width: 400px !important;
+    margin-bottom: 3px;
+    font-size: 18px;
+
+  }
+  #password1-ff {
+    width: 400px !important;
+    margin-bottom: 3px;
+    font-size: 18px;
+
+  }
+  #email-ff {
+    width: 400px !important;
+    margin-bottom: 3px;
+    font-size: 18px;
+
+  }
+  #telephone-ff {
+    width: 400px !important;
+    margin-bottom: 3px;
+    font-size: 18px;
+
   }
   .container {
     display: flex;
@@ -91,21 +108,6 @@
       align-content: center;
   }
 
-  
-  p {
-    color: white;
-  }
-  i {
-    color: white;
-  }
-  span {
-    color: white;
-  }
-
-  mat-icon {
-    color: white;
-  }
-  
   .list-p {
       margin-top: 10px;
       margin-left: 5px;
@@ -117,7 +119,6 @@
     height: 200px;
     margin: 12px; */
     /* border: 1px solid #555; */
-    /*background: rgb(164, 194, 201);*/
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
@@ -132,12 +133,18 @@
     
   }
 
+  p {
+    color: white;
+  }
+  i {
+    color: white;
+  }
   .toolbar-class {
     background: rgb(148, 206, 191);
 
   }
 
-  ::ng-deep .mat-datepicker {
-    width: 100px;
-    height: 10px;
+  img:hover {
+    webkit-filter: blur(4px); /* Chrome, Safari, Opera */
+    filter: blur(4px);
 }

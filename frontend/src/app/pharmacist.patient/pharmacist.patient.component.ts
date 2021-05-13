@@ -34,6 +34,11 @@ export class PharmacistPatientsComponent implements OnInit {
   constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router, private authService: AuthenticationService ) { }
 
   ngOnInit(): void {
+    if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+      this.router.navigate(["/employee-welcome"]);
+
+    }
+  
     this.editProfileForm = new FormGroup({});
     this.changePasswordForm = new FormGroup({});
     this.profileForm = new FormGroup({});
