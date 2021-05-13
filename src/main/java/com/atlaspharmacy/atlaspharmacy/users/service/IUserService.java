@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.service;
 
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeeFirstTimeLoginDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
@@ -16,4 +17,6 @@ public interface IUserService {
     void updateEmployee(PharmDermDTO pharmDermDTO);
 
     void updateEmployeePassword(EmployeePassChange employeePassChange) throws Exception;
+
+    void updateEmployeePassFirstTime(EmployeeFirstTimeLoginDTO employeePassChange) throws Exception;
 }

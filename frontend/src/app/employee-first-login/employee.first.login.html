@@ -22,7 +22,8 @@
             </div>
             </mat-card-content>
 
-            <mat-card-content style="justify-content: center; width: 500px; display: flex;">
+            <mat-card-content style="position: relative; width: 500px; display: flex; left: 30%">
+              <form [formGroup]="changePassForm" (ngSubmit)="changePasswordForTheFirstTime()">
                 <table>
                 <tr style="width: 400px; height: 60px;">
                   <td style="width: 200px; ">New password:</td>
@@ -49,11 +50,11 @@
                             Minimum 8 characters</mat-error>
                   </mat-form-field>
                 </tr>
-                
                 </table>
+              </form>
             </mat-card-content>
 
-            <button mat-flat-button color="primary" style="position: absolute; right: 50px;">Send request</button>
+            <button [disabled]="!changePassForm.valid" mat-flat-button color="primary" (click)="changePasswordForTheFirstTime()" style="position: absolute; left: 40%; width: 200px;" >Change password</button>
 
           </mat-card>
 

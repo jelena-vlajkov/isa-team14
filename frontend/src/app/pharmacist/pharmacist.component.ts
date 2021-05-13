@@ -32,6 +32,11 @@ export class PharmacistComponent implements OnInit {
   constructor(private authService: AuthenticationService, private router: Router, private ingredientService : IngredientService, private reportsService : ReportsService) { }
 
   ngOnInit(): void {
+    console.log(localStorage.getItem('firstTimeChanged'))
+    if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+      this.router.navigate(["/employee-welcome"]);
+
+    }
     console.log(this.authService.currentUserValue.token);
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.ingredientService.findAllIngredients().subscribe();

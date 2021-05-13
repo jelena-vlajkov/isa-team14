@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeeFirstTimeLoginDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
@@ -61,6 +62,15 @@ public class UserController {
     public @ResponseBody
     ResponseEntity<String> updateEmployeePass(@RequestBody EmployeePassChange employeePassChange) throws Exception {
         userService.updateEmployeePassword(employeePassChange);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/firstEmployeeLogin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<String> firstEmployeeLogin(@RequestBody EmployeeFirstTimeLoginDTO employeePassChange) throws Exception {
+        userService.updateEmployeePassFirstTime(employeePassChange);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -4,6 +4,7 @@ import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import {UpdateEmployee} from "@app/model/pharmderm/UpdateEmployee"
 import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
+import { FirstTimePasswordChange } from '@app/model/users/firstTimePasswordChange';
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +18,8 @@ export class EmployeeService {
   changeEmployeePassword(passChange : EmployeePasswordChanger) : Observable<EmployeePasswordChanger[]> {
       return this.http.post<EmployeePasswordChanger[]>(`${environment.baseUrl}/${environment.changeEmployeePass}`, passChange);
   }
+
+  firstTimePasswordChange(passChange : FirstTimePasswordChange) : Observable<FirstTimePasswordChange[]> {
+    return this.http.post<FirstTimePasswordChange[]>(`${environment.baseUrl}/${environment.firstTimePasswordChange}`, passChange);
+}
 }

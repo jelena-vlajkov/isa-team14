@@ -6,6 +6,8 @@ import {IngredientService} from "../service/medication/ingredients.service"
 import {ReportsService} from "../service/reports/reports.service"
 import { GooglePlacesComponent } from '@app/google-places/google-places.component';
 import { User } from '@app/model/users';
+import { FirstTimePasswordChange } from '@app/model/users/firstTimePasswordChange';
+import { EmployeeService } from '@app/service/employee/employee.service';
 
 declare interface RouteInfo {
     path: string;
@@ -32,19 +34,14 @@ export class WelcomeComponent implements OnInit {
   editProfileForm: FormGroup;
   user : User;
 
-  constructor(private authService: AuthenticationService, private userService : UserService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private userService : UserService, private router: Router, private employeeService : EmployeeService) { }
 
   ngOnInit(): void {
-  
-    this.userService.getLoggedInUser().subscribe(data =>
-        {
-          this.user = data;
-        });
-
-    if (this.user.firstTimePassword) {
+    if (localStorage.getItem('firstTimeChanged') === 'true') {
       this.router.navigate(["/dashboard"]);
-    }
 
+    }
+    
     this.changePassForm = new FormGroup({
       'newpass' : new FormControl("", [Validators.required,Validators.minLength(8)]),
       'repnewpass' : new FormControl("", [Validators.required,Validators.minLength(8)])
@@ -53,9 +50,41 @@ export class WelcomeComponent implements OnInit {
 
   }
 
+  changePasswordForTheFirstTime() {
+    let newPass = this.changePassForm.controls.newpass.value;
+    let repNewPass = this.changePassForm.controls.repnewpass.value;
+    if (newPass !== repNewPass) {
+      alert("Passwords do not match!");
+    } else {
+
+      this.userService.getLoggedInUser().subscribe(data =>
+        {
+          this.user = data;
+
+          let changePass = new FirstTimePasswordChange(this.user.email,
+            newPass,
+            repNewPass,
+            true
+            );
+  
+  
+            
+          this.employeeService.firstTimePasswordChange(changePass).subscribe(
+            res=>{
+              alert("Welcome!")
+              localStorage.setItem('firstTimeChanged', "true");
+              this.router.navigate(["/dashboard"]);
+            },
+            error=>{
+              alert(error);
+            }
+          )
+        })
+      }
+    }
+    
   logout() {
     this.authService.logout();
   }
-
 }
 

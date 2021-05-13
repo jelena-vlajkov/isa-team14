@@ -9,6 +9,7 @@ import { EmployeeService } from '@app/service/employee/employee.service';
 import { UpdateEmployee } from '@app/model/pharmderm/UpdateEmployee';
 import { Gender } from '@app/model/users/patient/gender';
 import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
+import { Router } from '@angular/router';
 
 
 declare interface RouteInfo {
@@ -47,7 +48,7 @@ export class PharmacistProfileComponent implements OnInit {
     @ViewChild(GooglePlacesComponent) googleplaces;
 
   
-    constructor(private authService : AuthenticationService, private userService : UserService, private employeeService : EmployeeService) {
+    constructor(private authService : AuthenticationService, private userService : UserService, private employeeService : EmployeeService, private router : Router) {
 
       this.isRequired = true;
       this.isEditMode = false;
@@ -56,6 +57,12 @@ export class PharmacistProfileComponent implements OnInit {
      }
   
     ngOnInit(): void {
+      
+      if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+        this.router.navigate(["/employee-welcome"]);
+  
+      }
+    
       this.genders = [];
       this.genders.push("Female");
       this.genders.push("Male");

@@ -66,6 +66,7 @@ export const environment = {
   getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier",
   getByPharmacy:"getByPharmacy",
   updateEmployees : "updateEmployee",
-  changeEmployeePass : "changeEmployeePass"
+  changeEmployeePass : "changeEmployeePass",
+  firstTimePasswordChange : "firstEmployeeLogin"
 };
 
