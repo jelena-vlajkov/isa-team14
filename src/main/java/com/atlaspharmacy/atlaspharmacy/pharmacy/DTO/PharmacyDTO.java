@@ -10,7 +10,6 @@ public class PharmacyDTO {
     private String email;
     private Long telephone;
     private AddressDTO address;
-
     private AverageGrade averageGrade;
 
     public PharmacyDTO() {
@@ -82,4 +81,6 @@ public class PharmacyDTO {
     public void setTelephone(Long telephone) { this.telephone = telephone; }
 
     public Double countAverageGrade(){return averageGrade.count();}
+
+
 }

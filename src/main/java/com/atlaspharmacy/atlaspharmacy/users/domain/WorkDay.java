@@ -1,5 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.domain;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 
 import javax.persistence.*;
@@ -12,19 +14,33 @@ public class WorkDay {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date date;
-    private int startTime;
-    private int endTime;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride( name = "startTime", column = @Column(name = "workdayStartTime")),
+            @AttributeOverride( name = "endTime", column = @Column(name = "workdayEndTime"))
+    })
+    private Period workDayPeriod;
+    @ManyToOne(fetch = FetchType.LAZY)
     private MedicalStaff medicalStaff;
+    @OneToOne
+    private Pharmacy pharmacy;
 
-    public WorkDay() {
+    public WorkDay() {}
+
+    public WorkDay(Long id, Date date, Period workDayPeriod, MedicalStaff medicalStaff, Pharmacy pharmacy) {
+        this.id = id;
+        this.date = date;
+        this.workDayPeriod = workDayPeriod;
+        this.medicalStaff = medicalStaff;
+        this.pharmacy = pharmacy;
     }
 
-    public WorkDay(Date date, int startTime, int endTime, MedicalStaff medicalStaff) {
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.medicalStaff = medicalStaff;
+    public Period getWorkDayPeriod() {
+        return workDayPeriod;
+    }
+
+    public void setWorkDayPeriod(Period workDayPeriod) {
+        this.workDayPeriod = workDayPeriod;
     }
 
     public Long getId() {
@@ -41,22 +57,6 @@ public class WorkDay {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    public int getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(int endTime) {
-        this.endTime = endTime;
     }
 
     public MedicalStaff getMedicalStaff() {
@@ -91,4 +91,13 @@ public class WorkDay {
     public boolean isDermatologist() {
         return getMedicalStaff().getRole().equals(Role.Values.Dermatologist);
     }
+
+    public Pharmacy getPharmacy() { return pharmacy; }
+
+    public boolean isOccupied(Period period) {
+       return getWorkDayPeriod().getStartTime().before(period.getEndTime()) &&
+                period.getStartTime().after(getWorkDayPeriod().getEndTime());
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) { this.pharmacy = pharmacy; }
 }

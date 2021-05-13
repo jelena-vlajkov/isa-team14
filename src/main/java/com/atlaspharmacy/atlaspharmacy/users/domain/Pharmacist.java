@@ -76,5 +76,5 @@ public class Pharmacist extends MedicalStaff {
 
     public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
 
-    public double countAverageGrade(){ return averageGrade.count(); }
+    public double countAverageGrade() { return averageGrade.count(); }
 }
