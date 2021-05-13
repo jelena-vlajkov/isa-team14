@@ -6,6 +6,7 @@ import {UpdateEmployee} from "@app/model/pharmderm/UpdateEmployee"
 import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
 import { FirstTimePasswordChange } from '@app/model/users/firstTimePasswordChange';
 import { PatientsOverview } from '@app/model/pharmderm/patientoverview';
+import {SearchParam} from '@app/model/pharmderm/searchparams'
 import { Patient } from '@app/model/users/patient/patient';
 import { env } from 'process';
 
@@ -28,5 +29,9 @@ export class EmployeeService {
 
   getAllPatientsByMedicalStaff(medicalStaffId : Number) : Observable<PatientsOverview[]> {
     return this.http.get<PatientsOverview[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getPatientsByMedicalStaff}?medicalStaffId=${medicalStaffId}`);
+  }
+
+  searchPatientsByParams(searchParams : SearchParam) : Observable<PatientsOverview[]> {
+    return this.http.post<PatientsOverview[]>(`${environment.baseUrl}/${environment.appointment}/${environment.searchPatients}`, searchParams);
   }
 }

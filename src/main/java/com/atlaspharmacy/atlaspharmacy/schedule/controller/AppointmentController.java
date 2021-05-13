@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
@@ -70,6 +71,12 @@ public class AppointmentController {
         return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
     }
 
+    @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public @ResponseBody List<PatientsOverviewDTO> searchPatients(@RequestBody SearchParametersDTO searchParametersDTO) throws Exception, InvalidMedicalStaff {
+        return appointmentService.SearchPatientsByParameters(searchParametersDTO);
+    }
 
 
     @ExceptionHandler(DueDateSoonException.class)

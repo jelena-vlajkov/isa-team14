@@ -57,20 +57,23 @@
                 </mat-card-header>
             </mat-card-title> 
             <mat-card-content style="margin-top: 30px; margin-left: 20px; display: flex;">
-                <mat-form-field class="example-full-width">
-                    <mat-label>By name and surname</mat-label>
-                    <input matInput type="search" placeholder="Name and surname">
-                </mat-form-field>
-                <mat-form-field class="example-full-width" style="margin-left: 30px;">
-                    <mat-label>Last counseling date</mat-label>
-                    <input matInput [matDatepicker]="picker2" value="12/1/2021">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field class="example-full-width" style="margin-left: 30px;">
-                    <mat-label>Prescribed medication</mat-label>
-                    <input matInput type="search" placeholder="Prescribed medication">
-                </mat-form-field>
+                <form [formGroup]="searchPatientsForm" (ngSubmit)="searchPatients()">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>By name and surname</mat-label>
+                        <input matInput formControlName="name" type="search" placeholder="Name and surname">
+                    
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 30px;">
+                        <mat-label>Appointment date</mat-label>
+                        <input matInput formControlName='date' style="font-size:18px;" placeholder="date" [matDatepicker]="dp3" id="datepicker" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                    <div style="position: absolute; bottom: 5px; right: 10px;">
+                        <button mat-flat-button color="primary" (click)="cancelSearch()">Cancel</button>
+                        <button mat-flat-button color="primary" (click)="searchPatients()" style="margin: 10px;">Search</button>
+                    </div>
+                </form>
             </mat-card-content>
             
         </mat-card>

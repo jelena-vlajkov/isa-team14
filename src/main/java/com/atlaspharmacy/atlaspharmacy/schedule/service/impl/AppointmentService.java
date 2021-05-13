@@ -7,6 +7,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionReposit
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -143,6 +145,35 @@ public class AppointmentService implements IAppointmentService {
             return findPatientsForDermatologist(medicalStaffId);
         }
         return findPatientsByPharmacist(medicalStaffId);
+    }
+
+    @Override
+    public List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception {
+        List<PatientsOverviewDTO> allPatients = getPatientsByMedicalStaff(searchParametersDTO.getMedicalStaffId());
+        if (searchParametersDTO.getName().trim().isEmpty() && searchParametersDTO.getDate() == null) {
+            return allPatients;
+        }
+        List<PatientsOverviewDTO> retVal = new ArrayList<>();
+        String fullName;
+        for (PatientsOverviewDTO dto : allPatients) {
+            if (!searchParametersDTO.getName().trim().isEmpty()) {
+                fullName = dto.getName() + " " + dto.getSurname();
+                if (fullName.toLowerCase().contains(searchParametersDTO.getName().toLowerCase().trim())) {
+                    retVal.add(dto);
+                }
+            }
+            if (searchParametersDTO.getDate() != null) {
+                for (AppointmentDTO a : dto.getPreviousAppointments()) {
+                    if (a.getStartTime().getYear() == searchParametersDTO.getDate().getYear() &&
+                        a.getStartTime().getMonth() == searchParametersDTO.getDate().getMonth() &&
+                            a.getStartTime().getDay() == searchParametersDTO.getDate().getDay()) {
+                        retVal.add(dto);
+                        break;
+                    }
+                }
+            }
+        }
+        return retVal;
     }
 
     private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {

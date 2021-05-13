@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -34,4 +35,6 @@ public interface IAppointmentService {
     boolean occupiedCounselingsExists(Long pharmacistId);
     List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
     List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
+
+    List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
 }
