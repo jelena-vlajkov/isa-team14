@@ -1,8 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Allergy;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PatientsOverviewDTO {
@@ -12,6 +14,9 @@ public class PatientsOverviewDTO {
     private List<Allergy> allergies;
     private List<AppointmentDTO> previousAppointments;
     private List<String> prescribedDrugs;
+    private Date dateOfBirth;
+    private Gender gender;
+
 
     public PatientsOverviewDTO() {
         allergies = new ArrayList<>();
@@ -19,13 +24,31 @@ public class PatientsOverviewDTO {
         previousAppointments = new ArrayList<>();
     }
 
-    public PatientsOverviewDTO(String name, String surname, Long patientId, List<Allergy> allergies, List<AppointmentDTO> previousAppointments, List<String> prescribedDrugs) {
+    public PatientsOverviewDTO(String name, String surname, Long patientId, List<Allergy> allergies, List<AppointmentDTO> previousAppointments, List<String> prescribedDrugs, Date dateOfBirth, Gender gender) {
         this.name = name;
         this.surname = surname;
         this.patientId = patientId;
         this.allergies = allergies;
         this.previousAppointments = previousAppointments;
         this.prescribedDrugs = prescribedDrugs;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 
     public Long getPatientId() {

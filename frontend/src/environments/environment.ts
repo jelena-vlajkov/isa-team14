@@ -67,6 +67,8 @@ export const environment = {
   getByPharmacy:"getByPharmacy",
   updateEmployees : "updateEmployee",
   changeEmployeePass : "changeEmployeePass",
-  firstTimePasswordChange : "firstEmployeeLogin"
+  firstTimePasswordChange : "firstEmployeeLogin",
+  appointment : "appointment",
+  getPatientsByMedicalStaff : "getPatientsByMedicalStaff"
 };
 

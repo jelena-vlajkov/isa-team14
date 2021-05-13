@@ -189,6 +189,8 @@ public class AppointmentService implements IAppointmentService {
 
         po.setName(patient.getName());
         po.setSurname(patient.getSurname());
+        po.setDateOfBirth(patient.getDateOfBirth());
+        po.setGender(patient.getGender());
 
         List<String> medications = new ArrayList<>();
         for (PrescribedDrug prescribedDrug : prescribedDrugs) {
@@ -200,6 +202,7 @@ public class AppointmentService implements IAppointmentService {
                     medications = po.getPrescribedDrugs();
                     medications.add(prescribedDrug.getPrescribedMedication().getName());
                     po.setPrescribedDrugs(medications);
+
                 }
 
             }

@@ -3,6 +3,8 @@ import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
 import { AuthenticationService } from '../service/user/authentication.service'
+import { PatientsOverview } from '@app/model/pharmderm/patientoverview';
+import { EmployeeService } from '@app/service/employee/employee.service';
 
 @Component({
   selector: 'app-pharmacy-patients',
@@ -28,10 +30,13 @@ export class PharmacistPatientsComponent implements OnInit {
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
+  public isPharmacist : boolean;
 
+  public patients : PatientsOverview[];
+  
   editProfileForm: FormGroup;
 
-  constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router, private authService: AuthenticationService ) { }
+  constructor(private employeeService:EmployeeService,private router:Router, private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
@@ -48,21 +53,13 @@ export class PharmacistPatientsComponent implements OnInit {
 
     this.oldpassword = "peraBijeKera";
 
-    this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
+    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
       result => {
-        this.name = result.name;
-        this.surname = result.surname;
-        if(result.gender==0)
-          this.gender="Žensko";
-        else if(result.gender==1)
-          this.gender="Muško";
-        else
-          this.gender="Drugo";
-        this.address = result.address.street+", "+result.address.city.name+", "+result.address.state.name;
-        this.phone = result.phoneNumber;
-        this.mail = result.email;    }
-    );
-
+        this.patients = result;
+         }, 
+         error => {
+          alert(error)
+         })
   }
   logout() {
     this.authService.logout();

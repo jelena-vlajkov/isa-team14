@@ -64,6 +64,7 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/getPatientsByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @EmployeeAuthorization
     public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId) throws Exception, InvalidMedicalStaff {
         return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
