@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "medicalRecord", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalRecordController {
 
@@ -33,7 +34,7 @@ public class MedicalRecordController {
     @GetMapping
     @MedicalRecordAuthorization
     public @ResponseBody
-    MedicalRecordDTO getMedicalRecord(@RequestBody Long patientId) {
+    MedicalRecordDTO getMedicalRecord(@RequestParam Long patientId) {
         return MedicalRecordMapper.mapToDto(medicalRecordService.getByPatientId(patientId));
 
     }
@@ -51,5 +52,12 @@ public class MedicalRecordController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getPatientIngredients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @MedicalRecordAuthorization
+    public  ResponseEntity<List<Ingredient>>  getPatientIngredient(@PathVariable Long id) {
+        return new ResponseEntity<>( medicalRecordService.getPatientIngredient(id), HttpStatus.OK);
+    }
+
 
 }

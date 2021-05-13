@@ -64,6 +64,9 @@ export const environment = {
   getSubscribed : "getSubscribed",
   getByStatus: "getByStatus",
   getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier",
-  getByPharmacy:"getByPharmacy"
+  getByPharmacy:"getByPharmacy",
+  medicalRecord : "medicalRecord",
+  getPatientIngredients : "getPatientIngredients",
+  addPatientIngredient : "addPatientIngredient"
 };
 

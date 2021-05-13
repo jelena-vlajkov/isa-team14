@@ -69,6 +69,8 @@ import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-o
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allergies-dialog.component';
+import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +115,9 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     SupplierAllOffersComponent,
     SupplierStorageComponent,
     PharmacyProfileMockComponent,
-    PatientSubscriptionsComponent
+    PatientSubscriptionsComponent,
+    AllergiesDialogComponent,
+    EditAllergiesComponent
 
   ],
   imports: [

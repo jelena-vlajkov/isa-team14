@@ -351,3 +351,4 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1100, 639, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 500, 300);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1200, 826, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 200, 300);
+

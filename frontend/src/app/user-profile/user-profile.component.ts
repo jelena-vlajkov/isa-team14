@@ -14,6 +14,9 @@ import { AuthenticationService } from '@app/service/user';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
 import { Subscription } from '@app/model/membershipinfo/subscription';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
+import {AllergiesDialogComponent } from './allergies-dialog/allergies-dialog.component'
+import { MatDialog } from '@angular/material/dialog';
+import {EditAllergiesComponent } from './edit-allergies-dialog/edit-allergies/edit-allergies.component'
 
 
 @Component({
@@ -50,7 +53,7 @@ export class UserProfileComponent implements OnInit {
     loyaltyForm: FormGroup;
     @ViewChild(GooglePlacesComponent) googleplaces;
     public allIngredients: Ingredient[] = new Array();
-    ingredientSelected: string;
+    allergiesSelected: string;
     public subscribedPharmacies : Pharmacy[];
     allergies = new FormControl();
 
@@ -61,7 +64,8 @@ export class UserProfileComponent implements OnInit {
   public patient : Patient;
   public usersSubs : Subscription[];
   public subscription : Subscription;
-  constructor(private pharmacyService: PharmacyService,private authenticationService: AuthenticationService, private patientService : PatientService, private _location: Location, private ingredientService : IngredientService, private router : Router) { }
+
+  constructor(public dialog: MatDialog, private pharmacyService: PharmacyService,private authenticationService: AuthenticationService, private patientService : PatientService, private _location: Location, private ingredientService : IngredientService, private router : Router) { }
 
   ngOnInit(): void {
     
@@ -89,7 +93,7 @@ export class UserProfileComponent implements OnInit {
   comboChange(event) {
     if(!event) {
       console.log('dropdown is closed');
-      this.ingredientSelected = this.allergies.value && this.allergies.value.toString();
+      this.allergiesSelected = this.allergies.value && this.allergies.value.toString();
       console.log(this.allergies.value);
     }
     
@@ -271,5 +275,24 @@ export class UserProfileComponent implements OnInit {
   backToolBar(){
     this._location.back();
   }
+
+  showAllergiesDialog() : void {
+      this.dialog.open(AllergiesDialogComponent, {
+        panelClass: 'my-centered-dialog',
+        width: '500px',
+        height: '400px',
+        position: {left: '50em'}
+    });
+  }
+
+  editAllergiesDialog() : void {
+    this.dialog.open(EditAllergiesComponent, {
+      panelClass: 'my-centered-dialog',
+      width: '500px',
+      height: '250px',
+      position: {left: '50em'}
+  });
+}
+
 
 }
