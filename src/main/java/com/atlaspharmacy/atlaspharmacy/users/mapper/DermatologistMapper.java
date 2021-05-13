@@ -16,7 +16,7 @@ public class DermatologistMapper {
         return new DermatologistDTO(dermatologist.getId(), dermatologist.getName(), dermatologist.getSurname(), dermatologist.getDateOfBirth(),
                 dermatologist.getPhoneNumber(), dermatologist.getEmail(), dermatologist.getPassword(), dermatologist.getGender(),
                 AddressMapper.mapAddressToDTO(dermatologist.getAddress()) , dermatologist.getRole(), AuthorityMapper.authoritiesToListDTOS(dermatologist.getAuthorities()),
-                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()), dermatologist.isFirstTimePassword());
+                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()), dermatologist.isFirstTimePassword(),dermatologist.getAverageGrade(),dermatologist.getLicenseNumber());
     }
 
     public static Dermatologist mapDTOToDermatologist(DermatologistDTO dto){
@@ -35,6 +35,7 @@ public class DermatologistMapper {
 
         d.setPharmacies(PharmacyMapper.maptDTOSToList(dto.getPharmacies()));
         d.setFirstTimePassword(dto.isFirstTimeChanged());
+        d.setAverageGrade(dto.getAverageGrade());
         return d;
     }
 

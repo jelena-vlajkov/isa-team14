@@ -109,6 +109,17 @@ public class AppointmentService implements IAppointmentService {
         return examinations;
     }
 
+    @Override
+    public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) {
+        List<Examination> availableExaminations = new ArrayList<>();
+        List<WorkDay> workDaysForDermatologist=workDayService.getBy(medicalStaffId);
+        for (WorkDay workDay : workDaysForDermatologist) {
+            if (workDay.getPharmacy().getId().equals(pharmacyId))
+                availableExaminations.addAll((List<Examination>)(List<?>) findAvailableBy(workDay.getDate(), workDay.getMedicalStaff().getId()));
+        }
+        return availableExaminations;
+    }
+
 
     @Override
     public boolean isTimeValid(Date date, Long medicalStaffId) {
@@ -145,6 +156,21 @@ public class AppointmentService implements IAppointmentService {
         }
         return appointments;
     }
+
+    @Override
+    public boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId) {
+        List<Appointment> examinationsForDermatologistAndPharmacy=getOccupiedBy(dermatologistId)
+                .stream().filter(appointment->appointment.getPharmacy().getId()
+                        .equals(pharmacyId)).collect(Collectors.toList());
+        if(examinationsForDermatologistAndPharmacy.size()!=0){
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean occupiedCounselingsExists(Long pharmacistId) { return getOccupiedBy(pharmacistId).size()!=0;}
 
     @Override
     public List<Counseling> getFinishedPatientsCounselings(Long id){
@@ -207,8 +233,8 @@ public class AppointmentService implements IAppointmentService {
         if (workDay == null)
             return appointments;
 
-        int endTime = workDay.getEndTime();
-        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getStartTime(), 0, 0);
+        int endTime = workDay.getWorkDayPeriod().getEndTime().getHours();
+        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getWorkDayPeriod().getStartTime().getHours(), 0, 0);
 
         for (int i = 0; i < endTime - 1; i++)
         {

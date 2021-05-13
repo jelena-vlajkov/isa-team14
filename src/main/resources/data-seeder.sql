@@ -62,10 +62,10 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
 
-insert into pharmacies(id, excellent,very_good,good,poor,very_poor, description, email, name, telephone, address_id) values (100, 1,1,1,1,1, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
-insert into pharmacies(id, excellent,very_good,good,poor,very_poor, description, email, name, telephone, address_id) VALUES (200, 1,1,2,3,4,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
-insert into pharmacies(id, excellent,very_good,good,poor,very_poor, description, email, name, telephone, address_id) VALUES (300, 5,6,7,8,2,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
-insert into pharmacies(id, excellent,very_good,good,poor,very_poor, description, email, name, telephone, address_id) VALUES (400, 1,1,3,5,2,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
+insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) values (100, 1,2,3,4,5, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
+insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (200, 1,1,1,0,0,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
+insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (300, 1,2,3,4,5,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
+insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
 insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 
@@ -76,17 +76,18 @@ insert into medicalstaff(license_number, id) values('1241241', 500);
 insert into medicalstaff(license_number, id) values('124124341', 5500);
 insert into medicalstaff(license_number, id) values('1241255541', 1100);
 
-insert into pharmacists(id, pharmacy_id) values (500, 100);
-insert into pharmacists(id, pharmacy_id) values (5500, 200);
+
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (500,100,1,2,3,4,5);
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (5500,200,1,1,1,1,1);
 -- random character generator will generate verification code that will be added to database
 -- when patient activates account, code is removed
 
 insert into patients(enabled, verification_code, id) values (true, null, 200);
 
-insert into dermatologists(id,excellent,very_good,good,poor,very_poor) values (100,12,1,1,1,4);
-insert into dermatologists(id,excellent,very_good,good,poor,very_poor) values (600,3,4,5,6,3);
-insert into dermatologists(id,excellent,very_good,good,poor,very_poor) values (300,2,2,2,25,5);
-insert into dermatologists(id,excellent,very_good,good,poor,very_poor) values (1100,1,1,1,1,4);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,5);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (600,1,1,1,1,1);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,4);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1100,1,1,1,3,5);
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
@@ -119,7 +120,7 @@ insert into user_authority(user_id, authority_id) VALUES (990, 7);
 insert into user_authority(user_id, authority_id) VALUES (991, 7);
 insert into user_authority(user_id, authority_id) VALUES (992, 7);
 
-insert into workdays(id, date, start_time, end_time, medical_staff_id) values (1, '2021-02-10', 10, 18, 100);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id) values (15, '2021-02-10', '2021-02-10 12:00:00', '2021-02-10 15:30:00', 100,200);
 insert into appointment(type, id, appointment_end_time, appointment_start_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling',100, '2021-02-10 12:00:00', '2021-02-10 12:30:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 200, '2021-02-10 13:00:00', '2021-02-10 13:30:00', 1000.00,false, 100,500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 300, '2021-02-10 13:30:00', '2021-02-10 14:00:00', 1000.00, false, 100,500, 200);

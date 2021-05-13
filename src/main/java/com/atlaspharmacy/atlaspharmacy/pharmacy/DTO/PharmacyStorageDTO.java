@@ -3,16 +3,16 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.DTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 
-public class MedicationInStorageDTO {
+public class PharmacyStorageDTO {
     private Medication medication;
     private double quantity;
     private Pharmacy pharmacy;
 
 
-    public MedicationInStorageDTO() {
+    public PharmacyStorageDTO() {
     }
 
-    public MedicationInStorageDTO(Medication medication, double quantity, Pharmacy pharmacy) {
+    public PharmacyStorageDTO(Medication medication, double quantity, Pharmacy pharmacy) {
         this.medication = medication;
         this.quantity = quantity;
         this.pharmacy = pharmacy;

@@ -79,7 +79,7 @@ public class PharmacyController {
     @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     PharmacyDTO getById(@RequestParam("id") Long id) throws ParseException {
-        return pharmacyService.getById(id);
+        return PharmacyMapper.mapPharmacyToDTO(pharmacyService.getById(id));
     }
     @GetMapping(value = "/getSubscribed", produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization

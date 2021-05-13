@@ -33,6 +33,8 @@ public interface IAppointmentService {
     List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year);
     List<Integer> getNumberOfAppointmentsForMonth(int year);
 
+    boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
+    boolean occupiedCounselingsExists(Long pharmacistId);public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
 
 
 }
