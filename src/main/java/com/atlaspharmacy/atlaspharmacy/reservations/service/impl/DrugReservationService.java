@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -67,5 +68,20 @@ public class DrugReservationService implements IDrugReservationService {
         }
 
         return drugReservations;
+    }
+
+    @Override
+    public List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO period) {
+        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
+        List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
+        for(DrugReservation drugReservation:allDrugReservations){
+            if(drugReservation.getPharmacy().getId().equals(pharmacyId))
+                    if( drugReservation.isIssued())
+                    if(drugReservation.getReservationDate().after(period.getStartPeriod()))
+                    if(drugReservation.getExpirationDate().before(period.getEndPeriod())){
+                drugReservationsForPharmacyAndPeriod.add(drugReservation);
+            }
+        }
+        return drugReservationsForPharmacyAndPeriod;
     }
 }

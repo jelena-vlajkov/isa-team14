@@ -90,7 +90,7 @@ public class MedicationServiceImpl implements IMedicationService {
                 && m.getDailyDose().equals(dto.getDailyDose()) && m.getDosage().equals(dto.getDosage());
     }
     @Override
-    public void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
+    public Medication modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
         Medication medication = _medicationRepository.findById(id).orElse(null);
 
         if(medication == null){
@@ -103,6 +103,7 @@ public class MedicationServiceImpl implements IMedicationService {
             e.printStackTrace();
             throw new Exception(EXCEPTION + "modifyMedication " + FAIL);
         }
+        return medication;
     }
     //ovo mora ovde za brisanja
     @Transactional
@@ -115,6 +116,12 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public boolean medicationExistsInPharmacy(Long drugID, Long pharmacyID) {
+        List<Medication> allMedications=_medicationRepository.findAll();
+        for(Medication m:allMedications){
+            if(m.getId().equals(drugID)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -130,7 +137,14 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public List<MedicationDTO> findAllMedicationsNotInPharmacy(Long pharmacyID) throws Exception {
-        return null;
+        List<Medication> allMedications=_medicationRepository.findAll();
+        List<Medication> medicationsNotInPharmacy=new ArrayList<>();
+        for(Medication m:allMedications){
+            if(!medicationExistsInPharmacy(m.getId(),pharmacyID)){
+                medicationsNotInPharmacy.add(m);
+            }
+        }
+        return MedicationMapper.convertToDTOS(medicationsNotInPharmacy);
     }
 
     @Override

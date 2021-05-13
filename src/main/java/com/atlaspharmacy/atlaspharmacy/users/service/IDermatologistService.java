@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 public interface IDermatologistService {
-    public List<Dermatologist> findAllByPharmacy(Long id);
-    public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail;
+    List<Dermatologist> findAllByPharmacy(Long id);
+    Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail;
     List<Dermatologist> getAllDermatologistsToComplain(Long id);
     List<Dermatologist> searchDermatologists(String searchInput);
     List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists,Long pharmacyId);
     List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologists,Double grade);
+    void addDermatologistToPharmacy(Long dermatologistId,Long pharmacyId);
+    boolean deleteDermatologistFromPharmacy(Long dermatologistId,Long pharmacyId);
 
 }

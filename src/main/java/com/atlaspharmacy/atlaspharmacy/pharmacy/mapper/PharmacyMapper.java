@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.mapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class PharmacyMapper {
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
+
         return p;
     }
     public static List<PharmacyDTO> maptToListDto(List<Pharmacy> pharmacies) {

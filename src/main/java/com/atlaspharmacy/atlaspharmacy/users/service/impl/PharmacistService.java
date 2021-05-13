@@ -1,19 +1,27 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
-import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,15 +34,22 @@ public class PharmacistService implements IPharmacistService {
     private final AddressRepository addressRepository;
     private final PharmacyRepository pharmacyRepository;
     private final IAddressService addressService;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthorityService authorityService;
+
 
     @Autowired
-    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService) {
+    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService) {
         this.pharmacistRepository = pharmacistRepository;
         this.pharmacyService = pharmacyService;
         this.appointmentService = appointmentService;
         this.addressRepository = addressRepository;
         this.pharmacyRepository = pharmacyRepository;
         this.addressService = addressService;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityService = authorityService;
     }
 
     @Override
@@ -144,11 +159,42 @@ public class PharmacistService implements IPharmacistService {
         List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
         for(PharmacistDTO p:pharmacistsToFilter)
         {
-            if(p.getPharmacy().countAverageGrade()>=grade){
+            if(p.countAverageGrade()>=grade){
                 filteredPharmacists.add(p);
             }
         }
         return filteredPharmacists;
+    }
+
+    @Override
+    public Pharmacist registerPharmacist(PharmacistDTO dto) throws InvalidEmail {
+        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
+            String role ="ROLE_PHARMACIST";
+            String password = passwordEncoder.encode(dto.getPassword());
+            dto.setPassword(password);
+            Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
+            addressRepository.save(a);
+
+            Pharmacist pharmacist = PharmacistMapper.mapDTOToPharmacist(dto);
+            pharmacist.setRole(role);
+            pharmacist.setAverageGrade(new AverageGrade());
+            pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
+            pharmacist.setAddress(a);
+            pharmacist.setPharmacy(pharmacyService.getById(dto.getPharmacy().getId()));
+            userRepository.save(pharmacist);
+            return pharmacist;
+        }
+        throw new InvalidEmail();
+    }
+
+    @Override
+    public boolean deletePharmacist(Long pharmacistId) {
+        if(!appointmentService.occupiedCounselingsExists(pharmacistId)){
+            pharmacistRepository.delete(pharmacistRepository.findById(pharmacistId).get());
+            return true;
+        }
+        return false;
+
     }
 
 }

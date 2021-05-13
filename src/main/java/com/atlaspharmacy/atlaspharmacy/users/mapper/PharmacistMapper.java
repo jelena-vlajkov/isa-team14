@@ -18,7 +18,7 @@ public class PharmacistMapper {
          return new PharmacistDTO(pharmacist.getId(), pharmacist.getName(), pharmacist.getSurname(), pharmacist.getDateOfBirth(),
                 pharmacist.getPhoneNumber(), pharmacist.getEmail(), pharmacist.getPassword(), pharmacist.getGender(),
                 AddressMapper.mapAddressToDTO(pharmacist.getAddress()) , pharmacist.getRole(), AuthorityMapper.authoritiesToListDTOS(pharmacist.getAuthorities()),
-                PharmacyMapper.mapPharmacyToDTO(pharmacist.getPharmacy()), pharmacist.isFirstTimePassword());
+                PharmacyMapper.mapPharmacyToDTO(pharmacist.getPharmacy()), pharmacist.isFirstTimePassword(),pharmacist.getAverageGrade(),pharmacist.getLicenseNumber());
     }
 
     public static Pharmacist mapDTOToPharmacist(PharmacistDTO dto){
@@ -37,6 +37,7 @@ public class PharmacistMapper {
 
         d.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
         d.setFirstTimePassword(dto.isFirstTimeChanged());
+        d.setAverageGrade(dto.getAverageGrade());
         return d;
     }
     public static List<PharmacistDTO> mapToListDTOS(List<Pharmacist> pharmacists){
