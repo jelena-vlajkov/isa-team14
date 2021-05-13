@@ -1,10 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 
 import java.util.Date;
 import java.util.List;
@@ -29,7 +31,7 @@ public interface IAppointmentService {
     List<Examination> getFinishedPatientsExaminations(Long id);
     List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
-    boolean occupiedCounselingsExists(Long pharmacistId);public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
-
-
+    boolean occupiedCounselingsExists(Long pharmacistId);
+    List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
+    List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
 }

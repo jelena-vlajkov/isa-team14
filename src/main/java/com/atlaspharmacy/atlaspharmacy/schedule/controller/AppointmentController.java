@@ -1,10 +1,14 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +63,26 @@ public class AppointmentController {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }
 
+    @GetMapping(value = "/getPatientsByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId) throws Exception, InvalidMedicalStaff {
+        return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
+    }
+
+
+
     @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
     AppointmentNotFreeException handleException(DueDateSoonException e) {
         return new AppointmentNotFreeException();
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody
+    Exception handleException(Exception e) {
+        return e;
     }
 
 }

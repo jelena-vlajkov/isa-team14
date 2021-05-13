@@ -1,5 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
+import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
@@ -7,9 +13,12 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
+import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +34,20 @@ public class AppointmentService implements IAppointmentService {
 
     private final UserRepository userRepository;
     private final AppointmentRepository appointmentRepository;
+    private final PrescriptionRepository prescriptionRepository;
     private final WorkDayService workDayService;
+    private final MedicalRecordRepository medicalRecordRepository;
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, WorkDayService workDayService) {
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository) {
         this.userRepository = userRepository;
         this.appointmentRepository = appointmentRepository;
+        this.prescriptionRepository = prescriptionRepository;
         this.workDayService = workDayService;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
 
 
@@ -117,6 +130,119 @@ public class AppointmentService implements IAppointmentService {
                 availableExaminations.addAll((List<Examination>)(List<?>) findAvailableBy(workDay.getDate(), workDay.getMedicalStaff().getId()));
         }
         return availableExaminations;
+    }
+
+    @Override
+    public List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception {
+        if (!userRepository.findById(medicalStaffId).isPresent()) {
+            throw new InvalidMedicalStaff();
+        }
+        User user = userRepository.findById(medicalStaffId).get();
+
+        if (user.getRole().equals(Role.Values.Dermatologist)) {
+            return findPatientsForDermatologist(medicalStaffId);
+        }
+        return findPatientsByPharmacist(medicalStaffId);
+    }
+
+    private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {
+        List<Appointment> allAppointments = appointmentRepository.findAll();
+        List<PatientsOverviewDTO> retVal = new ArrayList<>();
+        List<Long> uniquePatients = new ArrayList<>();
+        Counseling c;
+        PatientsOverviewDTO p;
+        List<AppointmentDTO> appointmentDTOS;
+        for (Appointment a : allAppointments) {
+            if (a.isCounseling()) {
+                c = (Counseling) a;
+                if (c.getPharmacist().getId().equals(medicalStaffId)){
+                    if(!uniquePatients.contains(c.getPatient().getId())) {
+                        uniquePatients.add(c.getPatient().getId());
+                        p = new PatientsOverviewDTO();
+                        p.setPatientId(a.getPatient().getId());
+                        appointmentDTOS = p.getPreviousAppointments();
+                        appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
+                        p.setPreviousAppointments(appointmentDTOS);
+                        retVal.add(p);
+                        continue;
+                    }
+                    p = retVal.stream().filter(r -> r.getPatientId().equals(a.getPatient().getId())).findFirst().get();
+                    appointmentDTOS = p.getPreviousAppointments();
+                    appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
+                    p.setPreviousAppointments(appointmentDTOS);
+                }
+            }
+        }
+
+        for (PatientsOverviewDTO po : retVal) {
+            mapPrescribedDrugsToDTO(po);
+        }
+
+        return retVal;
+    }
+
+    private void mapPrescribedDrugsToDTO(PatientsOverviewDTO po) {
+        List<PrescribedDrug> prescribedDrugs = prescriptionRepository.findAll();
+        Patient patient;
+
+        patient = (Patient) userRepository.findById(po.getPatientId()).get();
+
+        po.setName(patient.getName());
+        po.setSurname(patient.getSurname());
+
+        List<String> medications = new ArrayList<>();
+        for (PrescribedDrug prescribedDrug : prescribedDrugs) {
+            if (prescribedDrug.getEprescription().getPatient().getId().equals(po.getPatientId())) {
+                if (!userRepository.findById(po.getPatientId()).isPresent()) {
+                    continue;
+                }
+                if (!po.getPrescribedDrugs().contains(prescribedDrug.getPrescribedMedication().getName())) {
+                    medications = po.getPrescribedDrugs();
+                    medications.add(prescribedDrug.getPrescribedMedication().getName());
+                    po.setPrescribedDrugs(medications);
+                }
+
+            }
+        }
+    }
+
+
+
+    private List<PatientsOverviewDTO> findPatientsForDermatologist(Long medicalStaffId) {
+        List<Appointment> allAppointments = appointmentRepository.findAll();
+        List<PatientsOverviewDTO> retVal = new ArrayList<>();
+        Examination c;;
+        PatientsOverviewDTO p;
+        List<AppointmentDTO> appointmentDTOS;
+        List<Long> uniquePatients = new ArrayList<>();
+
+        for (Appointment a : allAppointments) {
+            if (a.isExamination()) {
+                c = (Examination) a;
+                if (c.getDermatologist().getId().equals(medicalStaffId)){
+                    if(!uniquePatients.contains(c.getPatient().getId())) {
+                        uniquePatients.add(c.getPatient().getId());
+                        p = new PatientsOverviewDTO();
+                        p.setPatientId(a.getPatient().getId());
+                        appointmentDTOS = p.getPreviousAppointments();
+                        appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
+                        p.setPreviousAppointments(appointmentDTOS);
+                        retVal.add(p);
+                        continue;
+                    }
+                    p = retVal.stream().filter(r -> r.getPatientId().equals(a.getPatient().getId())).findFirst().get();
+                    appointmentDTOS = p.getPreviousAppointments();
+                    appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
+                    p.setPreviousAppointments(appointmentDTOS);
+                }
+            }
+        }
+
+        for (PatientsOverviewDTO po : retVal) {
+            mapPrescribedDrugsToDTO(po);
+        }
+
+        return retVal;
     }
 
 
