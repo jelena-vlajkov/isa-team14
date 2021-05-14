@@ -26,13 +26,24 @@ import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.repo
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
+import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
 import { PatientHomePageComponent } from './patient/patient-home-page/patient-home-page.component';
 import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/patient-all-pharmacies.component';
+import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
+import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
+import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
+import { PatientComplainComponent } from './patient-complain/patient-complain.component';
+import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
+import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
+import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
+import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
+import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
 
-const routes: Routes = [  
+const routes: Routes = [
 {
   path : 'login',
   component : LoginComponent,
@@ -79,6 +90,12 @@ const routes: Routes = [
   data: {roles:[Role.SysAdmin]}
 },
 {
+  path: 'admin/answerComplaints',
+  component : AdminComplaintsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.SysAdmin]}
+},
+{
   path : 'pharmacyAdmin-profile',
   component : PharmacyAdminProfileComponent,
   canActivate : [AuthGuard],
@@ -87,7 +104,17 @@ const routes: Routes = [
 {
   path : 'pharmacy-profile',
   component : PharmacyProfileComponent
+},{
+  path : 'pharmacyProfileMock',
+  component : PharmacyProfileMockComponent
 },
+{
+  path: 'patientsSubscriptions',
+  component : PatientSubscriptionsComponent,
+  canActivate : [AuthGuard],
+  data:{role:[Role.Patient]}
+}
+,
 {
   path:'pharmacy-pricelist',
   component:PharmacyPricelistComponent
@@ -122,46 +149,57 @@ const routes: Routes = [
 },
 { path: '',
   component: UnauthenticatedUserComponent,
-  
+
 },
-{ path: 'pharmacist',
+{ path: 'dashboard',
   component: PharmacistComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 
 },
-{ path: 'pharmacist/profile',
+{ path: 'employee-profile',
   component: PharmacistProfileComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/calendar',
+  path: 'employee-calendar',
   component: PharmacistCalendarComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/patients',
+  path: "employee-welcome",
+  component: WelcomeComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
+},
+{
+  path: 'patients-overview',
   component: PharmacistPatientsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/reports',
+  path: 'appointment-report',
   component: PharmacistReportsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 
 {
-  path: 'pharmacist/addReport',
+  path: 'add-report',
   component: PharmacistAddReportComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'pharmacist/medication',
+    path: 'medicationOrder',
+    component: MedicationOrderComponent
+},
+{
+  path: 'employee-medications',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
@@ -185,6 +223,41 @@ const routes: Routes = [
 {
   path: 'patient/pharmacies',
   component: PatientAllPharmaciesComponent,
+},
+{
+  path:'supplier',
+  component : SupplierProfileComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/allOrders',
+  component : SupplierOrdersComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/offers',
+  component : SupplierOffersComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/allOffers',
+  component : SupplierAllOffersComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+},
+{
+  path:'supplier/storage',
+  component : SupplierStorageComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Supplier]}
+}
+,
+{
+  path:'userProfile/complain',
+  component : PatientComplainComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 }

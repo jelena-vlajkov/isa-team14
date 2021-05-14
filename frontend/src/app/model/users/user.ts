@@ -1,25 +1,28 @@
 ﻿import { Role } from "@app/model/users/role";
+import { Address } from "../address/address";
 
 export class User {
     public id: number;
-    public username: string;
+    public email: string;
     public password: string;
-    public firstName: string;
-    public lastName: string;
+    public surname: string;
+    public name: string;
     public role:string;
     public token?: string;
-    public address : string;
+    public address : Address;
     public dateOfBirth : Date;
     public gender : string;
     public city : string;
     public phoneNumber : string;
+    public firstTimeChanged : boolean;
 
-    constructor(id : number, username : string, password : string, firstName : string, lastname : string, role : string, address : string, dateOfBirth : Date, gender : string, city : string, phoneNumber : string) {
+    constructor(id : number, email : string, password : string, name : string, surname : string, role : string, address : Address, dateOfBirth : Date, gender : string, city : string, phoneNumber : string, firstTimeChanged : boolean) {
         this.id = id;
-        this.username = username;
+        this.firstTimeChanged = firstTimeChanged;
+        this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastname;
+        this.name = name;
+        this.surname = surname;
         this.address = address;
         this.dateOfBirth = dateOfBirth;
         this.role = role;
@@ -29,3 +32,4 @@ export class User {
     }
 
 }
+

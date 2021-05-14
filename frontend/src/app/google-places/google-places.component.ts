@@ -15,6 +15,7 @@ declare let google: any;
     <input name="address-ff" class="input"
       type="text"
       [(ngModel)]="autocompleteInput"
+      placeholder="Enter location*"
       #addresstext style="font-size:20px;margin-bottom: 15px; margin-top:15px;
     width: 400px !important;"
       >

@@ -8,6 +8,9 @@ import { Gender } from '@app/model/users/patient/gender';
 import { PharmacyAdmin } from '@app/model/users/pharmacyAdmin/pharmacyAdmin';
 import { Role } from '@app/model/users/role';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 @Component({
   selector: 'app-register-pharmacyadmin',
@@ -18,7 +21,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
   addAdminForm : FormGroup;
   selectedGender;
 
-
+  public sysAdmin;
   address : Address;
   name : string;
   surname : string;
@@ -30,6 +33,10 @@ export class RegisterPharmacyadminComponent implements OnInit {
   selectedDate;
   dateOfBirth : Date;
 
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
+  
+
   admin_location : Address;
   admin_location_input: String;
   public pharmacy : Pharmacy;
@@ -37,29 +44,44 @@ export class RegisterPharmacyadminComponent implements OnInit {
   public pharmacyAdmin : PharmacyAdmin;
   @ViewChild(GooglePlacesComponent) googleplaces;
 
-  constructor(private pharmacyService : PharmacyService, private router:Router) { }
+  constructor(private systemAdminService : SysadminRegistrationService ,private pharmacyService : PharmacyService, private router:Router, private authenticationService : AuthenticationService) { }
 
   ngOnInit(): void {
-
+    this.loadSystemAdmin();
+    this.maxDateOfBirth = new Date();
+    this.minDateOfBirth = new Date();
+    this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.addAdminForm = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null, [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'gender': new FormControl(null, Validators.required),
       'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'password' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'password' : new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required, Validators.minLength(8)]),
       'pharmacy' : new FormControl(null, Validators.required)
     });
     this.loadAllPharmacies();
   }
 
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   registerDermatologist(){
 
   }
-  adminLogout(){}
+  adminLogout(){
+    this.authenticationService.logout();
+  }  
   registerAdmin(){
     this.name = this.addAdminForm.value.name;
     this.surname = this.addAdminForm.value.surname;
@@ -79,7 +101,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
       role = Role.PharmacyAdmin;
       var auths : Number[] = new Array();
       if(this.password === this.confirmPassword){
-        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.pharmacy);
+        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.pharmacy);
 
         this.pharmacyService.registerPharmacyAdmin(this.pharmacyAdmin).subscribe(
           res=>{
@@ -89,7 +111,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
             this.router.navigate(['/admin']);
           },
           error=>{
-            alert("Fail");
+            alert("Failed - email address already in use! Please enter new one!");
           });
       }else{
         alert('Passwords do not match!');

@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
@@ -46,6 +47,27 @@ public class AppointmentController {
     public @ResponseBody List<AppointmentDTO> getAvailable(@RequestParam("date") String stringDate, @RequestParam("id") Long id) throws ParseException {
         Date date = new SimpleDateFormat("yyyy-MM-dd_HH:mm").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableBy(date, id));
+    }
+
+    @GetMapping(value = "/getFinishedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<AppointmentDTO> getAvailable(@RequestParam("id") Long id){
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getAllFinishedAppointmentsForPatient(id));
+    }
+
+    @GetMapping(value = "/getNumberOfScheduledByDate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody int getNumberOfScheduledByDate(@RequestParam("date") Date date){
+        return appointmentService.getNumberOfScheduledByDate(date);
+    }
+
+    @GetMapping(value = "/getNumberOfScheduledForMonth", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Integer> getNumberOfScheduledForMonth(@RequestParam("month") int month, @RequestParam("year") int year){
+        return appointmentService.getNumberOfAppointmentsForMonth(month,year);
+    }
+
+
+    @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
+       return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }
 
     @ExceptionHandler(DueDateSoonException.class)

@@ -5,6 +5,9 @@ import { GooglePlacesComponent } from '../google-places/google-places.component'
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { PharmacyService } from '@app/service/pharmacy/pharmacy.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 @Component({
   selector: 'app-register-pharmacy',
@@ -18,38 +21,34 @@ export class RegisterPharmacyComponent implements OnInit {
   pharmacy_location : Address;
   pharmacy_location_input: String;
   public pharmacy : Pharmacy;
+  public telephone : Number;
+  public email : String;
   @ViewChild(GooglePlacesComponent) googleplaces;
+  public sysAdmin;
 
-  constructor(private pharmacyService : PharmacyService, private router:Router) { }
+  constructor(private systemAdminService : SysadminRegistrationService ,private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.registerPharmacy = new FormGroup({
       'name' : new FormControl(null, Validators.required),
-      'description' : new FormControl(null, Validators.required)
+      'description' : new FormControl(null, Validators.required),
+      'telephone' : new FormControl(null, [Validators.required,Validators.pattern("^[0-9]*$")]),
+      'email' : new FormControl(null, [Validators.required, Validators.email])
     });
-    // this.addAdminForm = new FormGroup({
-    //   'name' : new FormControl(null, Validators.required),
-    //   'surname' : new FormControl(null, Validators.required),
-    //   'gender': new FormControl(null, Validators.required),
-    //   'dob' : new FormControl(null, Validators.required),
-    //   'telephone' : new FormControl(null, Validators.required),
-    //   'mail' : new FormControl(null, Validators.required),
-    //   'newpassword' : new FormControl(null, Validators.required),
-    //   'confirmpassword' : new FormControl(null, Validators.required),
-    //   'pharmacy' : new FormControl(null, Validators.required)
-    // });
   }
   addPharmacy(){
     this.pharmacy_description = this.registerPharmacy.value.description;
     this.pharmacy_name = this.registerPharmacy.value.name;
-    
-    if(this.googleplaces==undefined){
-      alert("Please fill address.");
+    this.email = this.registerPharmacy.controls.email.value;
+    this.telephone = this.registerPharmacy.controls.telephone.value;
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
     }else{
       this.pharmacy_location = this.googleplaces.address;
       this.pharmacy_location_input = this.googleplaces.autocompleteInput;
   
-      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0);
+      this.pharmacy = new Pharmacy(null, this.pharmacy_name, this.pharmacy_description, this.pharmacy_location, 0.0, this.email.toLowerCase(), this.telephone);
 
       this.pharmacyService.registerPharmacy(this.pharmacy).subscribe(
         res=>{
@@ -59,57 +58,25 @@ export class RegisterPharmacyComponent implements OnInit {
           this.router.navigate(['/admin']);
         },
         error=>{
-          alert("Fail");
+          alert("Fail - Email already in use!");
         });
     }
   }
 
-  registerDermatologist(){
 
-  }
-  // pharmacyValid(){
-  //    if(this.googleplaces.address===undefined){
-  //      return false;
-  //    }
-  //    return true;
-  // }
-  adminValid(){
-    // if(this.admin_location===undefined){
-    //   return false;
-    // }
-    // return true;
-  }
-  // registerAdmin(){
-  //   //TODO DODATI FUNKCIJE
-  //   return true;
-  // }
-  // loadAllPharmacies() {
-  //   this.pharmacyService.findAllPharmacies().subscribe(data => 
-  //     {
-  //       this.pharmacies = data
-  //     });
-  // }
-  registerSupplier(){
-
-  }
-  operationsWithDrugs(){
-
-  }
-  respondToComplaints(){
-
-  }
-  defineLoyalty(){
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
   }
   adminLogout(){
-
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
-  editProfile(){
-
-  }
-  // addAdmin(){
-  //   if(this.registerAdmin() == true){
-  //     this.adminAdded = true;
-  //   }
-  // }
 }

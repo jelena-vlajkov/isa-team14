@@ -9,6 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientReposito
 import com.atlaspharmacy.atlaspharmacy.medication.service.IIngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +42,30 @@ public class IngredientServiceImpl implements IIngredientService {
     }
 
     @Override
-    public void saveIngredient(Ingredient ingredient, IngredientDTO ingredientDTO) throws Exception {
-
+    public Ingredient saveIngredient(IngredientDTO ingredientDTO){
+        for(IngredientDTO ing : findAll()){
+            if(ing.getName().equalsIgnoreCase(ingredientDTO.getName())){
+                return null;
+            }
+        }
+        Ingredient i = new Ingredient();
+        IngredientMapper.convertToIngredient(i, ingredientDTO);
+        return _ingredientRepository.save(i);
     }
 
 
+    @Override
+    public List<IngredientDTO> getIngredientsById(List<Long> ids) {
+        List<IngredientDTO> dtos = new ArrayList<>();
+        List<IngredientDTO> allIngredients = findAll();
+        for(IngredientDTO d : allIngredients){
+            if(ids.contains(d.getId())){
+                dtos.add(d);
+            }
+        }
 
+        return dtos;
+    }
 
 
 }

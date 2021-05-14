@@ -8,8 +8,12 @@ import javax.persistence.*;
 @Table(name = "prescribed_drugs")
 public class PrescribedDrug {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long quantity;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private EPrescription eprescription;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Medication prescribedMedication;

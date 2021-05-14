@@ -1,24 +1,26 @@
-<mat-drawer-container class="example-container" hasBackdrop="true">
-    <mat-drawer style="width: 20%;" #drawer mode ="over">
-       <mat-action-list>
-        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
-        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
-        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
-        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
-        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
-        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
-        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
-        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+  <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+     <mat-action-list>
+      <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+      <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+      <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+      <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+      <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+      <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+      <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+      <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+      <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+      <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+      <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; bottom: 1px;">
+            <button style="color: white;" routerLink='/admin' mat-list-item> Profile</button>
+            <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
 
-      </mat-action-list>
-      <mat-action-list style="position: absolute; bottom: 1px;">
-              <button  mat-list-item routerLink="/admin"> Profile</button>
-              <button  mat-list-item (click)="adminLogout()"> Logout</button>
-
-      </mat-action-list>
+    </mat-action-list>
     </mat-drawer>
         <mat-drawer-content>
-          <mat-toolbar color="accent">
+          <mat-toolbar color="primary">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
             </button>
@@ -59,6 +61,10 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['required']">
                                 Please enter name</mat-error>
+
+                                <mat-error
+                                *ngIf="!addAdminForm.get('name').valid && addAdminForm.get('name').touched && addAdminForm.get('name').errors['pattern']">
+                                Please enter name in correct format</mat-error>
                         </mat-form-field>
                       </div>  
                     </mat-grid-tile>
@@ -71,6 +77,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['required']">
                                 Please enter surname</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('surname').valid && addAdminForm.get('surname').touched && addAdminForm.get('surname').errors['pattern']">
+                                Please enter surname in correct format</mat-error>
                         </mat-form-field>
                       </div> 
                     </mat-grid-tile>
@@ -88,15 +97,15 @@
                     </mat-grid-tile>
                     <mat-grid-tile>
                       <div class="inputField" >
-                        <mat-form-field color="accent" appearance="fill" id="name-ff" style="width: 400px;">
-                          <mat-label style="font-size:14px;">Birth date</mat-label>
-                          <input matInput formControlName='dob' [matDatepicker]="picker1" style="font-size:14px;" placeholder="Birth date"  [(ngModel)]="selectedDate">
-                          <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
-                          <mat-datepicker #picker1 ></mat-datepicker>
+                        <mat-form-field color="accent" appearance="fill" id="surname-ff" style="width: 400px;">
+                          <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                          <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
                           <mat-error
                           *ngIf="!addAdminForm.get('dob').valid && addAdminForm.get('dob').touched && addAdminForm.get('dob').errors['required']">
                           Please choose date of birth</mat-error>
-                        </mat-form-field>
+                        
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile>
@@ -109,9 +118,12 @@
                           <mat-label>Telephone*</mat-label>
                           <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
                               formControlName="telephone">
-                          <mat-error
+                              <mat-error
                               *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['required']">
-                              Please enter telephone</mat-error>
+                              Please enter telephone</mat-error>                          
+                              <mat-error
+                              *ngIf="!addAdminForm.get('telephone').valid && addAdminForm.get('telephone').touched && addAdminForm.get('telephone').errors['pattern']">
+                              Please enter telephone in correct format</mat-error>
                         </mat-form-field>      
                       </div>                    
                     </mat-grid-tile>
@@ -124,6 +136,9 @@
                           <mat-error
                               *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['required']">
                               Please enter email</mat-error>
+                              <mat-error
+                              *ngIf="!addAdminForm.get('mail').valid && addAdminForm.get('mail').touched && addAdminForm.get('mail').errors['email']">
+                              Please enter email in correct format</mat-error>
                         </mat-form-field>
                       </div>                           
                     </mat-grid-tile>
@@ -135,6 +150,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['required']">
                                 Please enter new password</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('password').valid && addAdminForm.get('password').touched && addAdminForm.get('password').errors['minLength']">
+                                Password has to be minimum 8 characters long</mat-error>
                         </mat-form-field> 
                       </div> 
                     </mat-grid-tile>
@@ -146,6 +164,9 @@
                             <mat-error
                                 *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['required']">
                                 Please enter again new password</mat-error>
+                                <mat-error
+                                *ngIf="!addAdminForm.get('confirmpassword').valid && addAdminForm.get('confirmpassword').touched && addAdminForm.get('confirmpassword').errors['minLength']">
+                                Password has to be minimum 8 characters long</mat-error>
                         </mat-form-field>
                       </div>
                     </mat-grid-tile>

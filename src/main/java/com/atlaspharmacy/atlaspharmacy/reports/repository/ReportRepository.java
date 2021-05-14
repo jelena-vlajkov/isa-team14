@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reports.repository;
 
+import com.atlaspharmacy.atlaspharmacy.reports.domain.DrugInquiryReport;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

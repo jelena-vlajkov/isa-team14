@@ -15,6 +15,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
 import { DermatologistService } from '@app/service/dermatologist/dermatologist.service';
+import { AuthenticationService } from '@app/service/user';
+import { SysadminRegistrationService } from '@app/service/sysadmin-registration/sysadmin-registration.service';
+import { SystemAdmin } from '@app/model/users/systemAdmin/systemAdmin';
 
 const allowMultiSelect = true;
 
@@ -28,7 +31,7 @@ export class RegisterDermatologistComponent implements OnInit {
   addAdminForm : FormGroup;
   selectedGender;
 
-  displayedColumns: string[] = ['id', 'name', 'average_grade', 'address', 'pick'];
+  displayedColumns: string[] = ['name', 'average_grade', 'address', 'pick'];
   address : Address;
   name : string;
   surname : string;
@@ -40,6 +43,10 @@ export class RegisterDermatologistComponent implements OnInit {
   selectedDate;
   dateOfBirth : Date;
 
+
+  minDateOfBirth : Date;
+  maxDateOfBirth : Date;
+
   admin_location : Address;
   admin_location_input: String;
   public pharmacies : Pharmacy[]= new Array();
@@ -49,20 +56,24 @@ export class RegisterDermatologistComponent implements OnInit {
   public chosenPharmacies : Pharmacy[] = new Array();
   dataSource2 = new MatTableDataSource<Pharmacy>();
   public dermatologist: Dermatologist;
-  constructor(private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
+  public sysAdmin;
+  constructor(private systemAdminService : SysadminRegistrationService ,private authenticationService:AuthenticationService, private pharmacyService : PharmacyService, private router:Router, private dermatologistService : DermatologistService) { }
 
   ngOnInit(): void {
+    this.loadSystemAdmin();
     this.addDermatologist = new FormGroup({
-      'name' : new FormControl(null, Validators.required),
-      'surname' : new FormControl(null, Validators.required),
+      'name' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+      'surname' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
       'gender': new FormControl(null, Validators.required),
       'dob' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(null, Validators.required),
-      'mail' : new FormControl(null, Validators.required),
-      'password' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required),
-      'pharmacy' : new FormControl(null, Validators.required)
-    });
+      'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+      'mail' : new FormControl(null, [Validators.required, Validators.email]),
+      'password' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
+        });
+        this.maxDateOfBirth = new Date();
+        this.minDateOfBirth = new Date();
+        this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.loadAllPharmacies();
   }
 
@@ -73,7 +84,17 @@ export class RegisterDermatologistComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
       });
   }
+  loadSystemAdmin(){
+    this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
+      data => 
+      {
+        this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
+        if(!this.sysAdmin.firstTimeChanged){
+          this.router.navigate(['/admin']);
+        }
+      });
 
+  }
   registerDermatologist(){
 
     this.name = this.addDermatologist.value.name;
@@ -82,8 +103,8 @@ export class RegisterDermatologistComponent implements OnInit {
     this.email = this.addDermatologist.value.mail;
     this.password = this.addDermatologist.value.password;
     this.confirmPassword = this.addDermatologist.value.confirmpassword;
-    if(this.googleplaces===undefined){
-      alert("Please fill the address!");
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
     }else{
       this.address = this.googleplaces.address;
       this.gender = this.selectedGender;
@@ -93,7 +114,7 @@ export class RegisterDermatologistComponent implements OnInit {
       var auths : Number[] = new Array();
 
       if(this.password === this.confirmPassword){
-         this.dermatologist = new Dermatologist(this.name, this.surname, this.dateOfBirth, this.phone, this.email, this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
+         this.dermatologist = new Dermatologist(null, this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
 
         this.dermatologistService.addDermatologist(this.dermatologist).subscribe(
           res=>{
@@ -103,7 +124,7 @@ export class RegisterDermatologistComponent implements OnInit {
             this.router.navigate(['/admin']);
           },
           error=>{
-            alert("Fail");
+            alert("Failed - email address already in use! Please enter new one!");
           });
       }else{
         alert('Passwords do not match!');
@@ -127,5 +148,6 @@ export class RegisterDermatologistComponent implements OnInit {
   }
 
   respondToComplaints(){}
-  adminLogout(){}
-}
+  adminLogout(){
+    this.authenticationService.logout();
+  }}

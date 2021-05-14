@@ -30,4 +30,5 @@ public class PenaltyService implements IPenaltyService {
                 .filter(penalty -> penalty.isPatient(id))
                 .collect(Collectors.toList());
     }
+
 }

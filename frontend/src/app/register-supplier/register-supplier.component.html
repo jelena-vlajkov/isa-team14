@@ -1,24 +1,27 @@
-<mat-drawer-container class="example-container" hasBackdrop="true">
-    <mat-drawer style="width: 20%;" #drawer mode ="over">
-       <mat-action-list>
-        <button mat-list-item routerLink="/admin/registerPharmacy"> Register pharmacy </button>
-        <button mat-list-item routerLink="/admin/registerPharmacyAdmin"> Register pharmacy admin</button>
-        <button mat-list-item routerLink='/admin/registerDermatologist'> Register dermatologist </button>
-        <button mat-list-item routerLink="/admin/registerSupplier"> Register supplier </button>
-        <button mat-list-item routerLink="/admin/addDrug"> Register medication</button>
-        <button mat-list-item routerLink="/admin/addAdmin"> Register system administrator</button>
-        <button mat-list-item (click)="respondToComplaints()"> Answer to complaints</button>
-        <button mat-list-item routerLink="/admin/defineLoyalty"> Define loyalty program</button>
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+  <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+     <mat-action-list>
+      <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+      <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+      <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+      <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+      <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+      <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+      <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+      <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+      <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+      <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+      <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+      
+    </mat-action-list>
+    <mat-action-list style="position: absolute; bottom: 1px;">
+            <button style="color: white;" routerLink='/admin' mat-list-item> Profile</button>
+            <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
 
-      </mat-action-list>
-      <mat-action-list style="position: absolute; bottom: 1px;">
-              <button  mat-list-item routerLink="/admin"> Profile</button>
-              <button  mat-list-item (click)="adminLogout()"> Logout</button>
-
-      </mat-action-list>
+    </mat-action-list>
     </mat-drawer>
         <mat-drawer-content>
-          <mat-toolbar color="accent">
+          <mat-toolbar color="primary">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
               <mat-icon>menu</mat-icon>
             </button>
@@ -26,84 +29,146 @@
             <span class="example-spacer"></span>
           </mat-toolbar>
 
-          <mat-card>
-              <mat-card-header>
-                  <mat-card-title>
-                    <label style="font-weight:bold; font-size: 25px;">Register supplier</label>
-                  </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <form [formGroup]="addSupplier" (ngSubmit)="registerSupplier()">
-                    <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+          <mat-card class="contact-person mat-elevation-z8">
+            <mat-card-header>
+              <mat-card-title>
+                <label style="font-weight:bold; font-size: 25px;">Contact person</label>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <form [formGroup]="addSupplier">
 
-                      <mat-grid-tile>
-                        <div class="inputField">
-                          <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
-                              <mat-label style="font-size:14px;">Name*</mat-label>
-                              <input matInput id="name" style="font-size:14px;" placeholder="Name" name="name-ff" 
-                                  formControlName="name">
-                              <mat-error
-                                  *ngIf="!addSupplier.get('name').valid && addSupplier.get('name').touched && addSupplier.get('name').errors['required']">
-                                  Please enter name</mat-error>
-                          </mat-form-field>
-                        </div>  
-                      </mat-grid-tile>
-                      <mat-grid-tile>
-                        <div class="inputField" >
-                          <mat-form-field appearance="fill" style="width: 400px;">
-                            <mat-label style="font-size:14px;">Telephone*</mat-label>
-                            <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
-                                formControlName="telephone">
-                            <mat-error
-                                *ngIf="!addSupplier.get('telephone').valid && addSupplier.get('telephone').touched && addSupplier.get('telephone').errors['required']">
-                                Please enter telephone</mat-error>
-                          </mat-form-field>      
-                        </div>                    
-                      </mat-grid-tile>
-                      <mat-grid-tile>
-                      <div class="inputField">
-                        <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
-                          <mat-label style="font-size:14px;">Email*</mat-label>
-                          <input matInput id="mail" placeholder="Email" name="mail-ff"
-                              formControlName="mail">
+                <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
+                          <mat-label style="font-size: 14px;">Name*</mat-label>
+                          <input matInput id="name" style="font-size: 14px;" placeholder="Name" name="name-ff" 
+                              formControlName="name">
                           <mat-error
-                              *ngIf="!addSupplier.get('mail').valid && addSupplier.get('mail').touched && addSupplier.get('mail').errors['required']">
-                              Please enter email</mat-error>
-                        </mat-form-field>
-                      </div>                           
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <app-google-places>
-                      </app-google-places>  
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <div class="inputField">
-                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
-                            <mat-label style="font-size:14px;">New password*:</mat-label>
-                            <input matInput type="password" style="font-size:14px;"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
-                            <mat-error
-                                *ngIf="!addSupplier.get('password').valid && addSupplier.get('password').touched && addSupplier.get('password').errors['required']">
-                                Please enter new password</mat-error>
-                        </mat-form-field> 
-                      </div> 
-                    </mat-grid-tile>
-                    <mat-grid-tile>
-                      <div class="inputField">
-                        <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
-                            <mat-label style="font-size:14px;">Confirm password*:</mat-label>
-                            <input matInput type="password" style="font-size:14px;"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
-                            <mat-error
-                                *ngIf="!addSupplier.get('confirmpassword').valid && addSupplier.get('confirmpassword').touched && addSupplier.get('confirmpassword').errors['required']">
-                                Please enter again new password</mat-error>
-                        </mat-form-field>
-                      </div>
-                    </mat-grid-tile>
-                    </mat-grid-list>
-                    <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' [disabled]="!addSupplier.valid"  color="accent">Register supplier</button>
+                              *ngIf="!addSupplier.get('name').valid && addSupplier.get('name').touched && addSupplier.get('name').errors['required']">
+                              Please enter name</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('name').valid && addSupplier.get('name').touched && addSupplier.get('name').errors['pattern']">
+                              Please enter name in correct format</mat-error>
+                      </mat-form-field>
+                    </div>  
+                  </mat-grid-tile>
 
-                    </form>
-                </mat-card-content>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
+                          <mat-label style="font-size: 14px;">Surname*</mat-label>
+                          <input matInput style="font-size: 14px;" id="surname" placeholder="Surname" name="name-ff" formControlName="surname">                   
+                          <mat-error
+                              *ngIf="!addSupplier.get('surname').valid && addSupplier.get('surname').touched && addSupplier.get('surname').errors['required']">
+                              Please enter surname</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('surname').valid && addSupplier.get('surname').touched && addSupplier.get('surname').errors['pattern']">
+                              Please enter surname in correct format</mat-error>
+                      </mat-form-field>
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField" >
+                      <mat-form-field appearance="fill" style="width: 400px;">
+                        <mat-label>Telephone*</mat-label>
+                        <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff" 
+                            formControlName="telephone">
+                            <mat-error
+                            *ngIf="!addSupplier.get('telephone').valid && addSupplier.get('telephone').touched && addSupplier.get('telephone').errors['required']">
+                            Please enter telephone</mat-error>                        
+                            <mat-error
+                            *ngIf="!addSupplier.get('telephone').valid && addSupplier.get('telephone').touched && addSupplier.get('telephone').errors['pattern']">
+                            Please enter telephone in correct format</mat-error>
+                      </mat-form-field>      
+                    </div>                    
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
+                        <mat-label style="font-size: 14px;">Email*</mat-label>
+                        <input style="font-size: 14px;" matInput id="mail" placeholder="Email" name="mail-ff"
+                            formControlName="mail">
+                        <mat-error
+                            *ngIf="!addSupplier.get('mail').valid && addSupplier.get('mail').touched && addSupplier.get('mail').errors['required']">
+                            Please enter email</mat-error>
+                            <mat-error
+                            *ngIf="!addSupplier.get('mail').valid && addSupplier.get('mail').touched && addSupplier.get('mail').errors['email']">
+                            Please enter email</mat-error>
+                      </mat-form-field>
+                    </div>                           
+                  </mat-grid-tile>
+
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                          <mat-label style="font-size: 14px;">New password*:</mat-label>
+                          <input matInput type="password" style="font-size: 14px;" id="password" placeholder="New Password" name="password-ff" formControlName="password">
+                          <mat-error
+                              *ngIf="!addSupplier.get('password').valid && addSupplier.get('password').touched && addSupplier.get('password').errors['required']">
+                              Please enter new password</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('password').valid && addSupplier.get('password').touched && addSupplier.get('password').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
+                      </mat-form-field> 
+                    </div> 
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="inputField">
+                      <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                          <mat-label style="font-size: 14px;">Confirm password*:</mat-label>
+                          <input matInput type="password" style="font-size: 14px;" id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                          <mat-error
+                              *ngIf="!addSupplier.get('confirmpassword').valid && addSupplier.get('confirmpassword').touched && addSupplier.get('confirmpassword').errors['required']">
+                              Please enter again new password</mat-error>
+                              <mat-error
+                              *ngIf="!addSupplier.get('confirmpassword').valid && addSupplier.get('confirmpassword').touched && addSupplier.get('confirmpassword').errors['minLength']">
+                              Password has to be minimum 8 characters long</mat-error>
+                      </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  
+                </mat-grid-list>
+              </form>
+
+            </mat-card-content>
+
           </mat-card>
+
+          <mat-card class="firm  mat-elevation-z8"> 
+            <mat-card-header>
+            <mat-card-title>
+              <label style="font-weight:bold; font-size: 25px;">Firm name</label>
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="addSupplier" (ngSubmit)="registerSupplier()">
+
+            <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
+                      <mat-label style="font-size: 14px;">Firm Name*</mat-label>
+                      <input matInput id="fname" style="font-size: 14px;" placeholder="Firm name" name="name-ff" 
+                          formControlName="fname">
+                      <mat-error
+                          *ngIf="!addSupplier.get('fname').valid && addSupplier.get('fname').touched && addSupplier.get('fname').errors['required']">
+                          Please enter name</mat-error>
+                  </mat-form-field>
+                </div> 
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <app-google-places>
+                </app-google-places>  
+              </mat-grid-tile>
+            </mat-grid-list>
+            <button style="float:right; position:relative; margin-right: 10px;" mat-raised-button id='editProfile' color="accent" [disabled]="!addSupplier.valid" >Register supplier</button>    
+            </form>
+            
+          </mat-card-content>
+          
+          </mat-card>              
 
     </mat-drawer-content>
 </mat-drawer-container>

@@ -14,7 +14,39 @@ with Pharmacists and Dermatologists, managing Users and their records.
 | Student 3 | Jelena Vlajkov |
 | Student 4 | Aleksandar Ignjatijević |
 
-Before starting the application, define environment variables JDBC_DATABASE_URL, JDBC_DATABASE_USERNAME, JDBC_DATABASE_PASSWORD with your local postgres configurations.
+## Jobs done for this deadline:
+
+Student 4 has done his tasks that are meeting criteria for the lowest passing grade. With the code there is also a class diagram done in Power designer. Student 4 can only guarantee for his part of the model in the class diagram, while the rest has been done using a mixture of the first draft of the model and with classes later modified by other students before they gave up. Model in pdf format is located in class_diagram floder.
+
+## How to run
+
+
+We are using:
+- [Oracle JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+  - [How to set JDK version on Windows/Linux/Mac](https://www.baeldung.com/java-home-on-windows-7-8-10-mac-os-x-linux)
+
+
+**Frontend**  
+``` bash
+    # From frontend/ run:
+    npm install
+    ng serve --o
+```
+**Backend** 
+
+After cloning project from github, first you need to set windows system variables JDBC_DATABASE_URL, JDBC_DATABASE_USERNAME, JDBC_DATABASE_PASSWORD with your local Postgres configurations. 
+
+After creating your local database, you will need to connect database source to your IntelliJ instance. Set up dataSource with your local variables and run Spring application. Before using application you will need to seed data with data-seeder.sql script. You can do that also from IntelliJ. 
+
+``` bash
+    Run as maven project
+    Before using application use data-seeder.sql to seed data. 
+```
+
+ 
+
+
+
 
 ## Emoji guideline
 It is recommended to use emoji's where adequate when commiting  

@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -8,6 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,5 +57,31 @@ public class DrugReservationService implements IDrugReservationService {
                 .stream()
                 .filter(drugReservation -> drugReservation.isPharmacy(pharmacyId))
                 .collect(Collectors.toList());
+    }
+    @Override
+    public List<DrugReservation> getPatientsIssuedDrugReservations(Long id){
+        List<DrugReservation> drugReservations = new ArrayList<>();
+        for(DrugReservation d : drugReservationRepository.findAll()){
+            if(d.getPatient().getId().equals(id) && d.isIssued()){
+                drugReservations.add(d);
+            }
+        }
+
+        return drugReservations;
+    }
+
+    @Override
+    public List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO period) {
+        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
+        List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
+        for(DrugReservation drugReservation:allDrugReservations){
+            if(drugReservation.getPharmacy().getId().equals(pharmacyId))
+                    if( drugReservation.isIssued())
+                    if(drugReservation.getReservationDate().after(period.getStartPeriod()))
+                    if(drugReservation.getExpirationDate().before(period.getEndPeriod())){
+                drugReservationsForPharmacyAndPeriod.add(drugReservation);
+            }
+        }
+        return drugReservationsForPharmacyAndPeriod;
     }
 }

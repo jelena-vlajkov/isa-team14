@@ -27,7 +27,6 @@
     height: 200px;
     margin: 12px; */
     /* border: 1px solid #555; */
-    background: wheat;
   }
   
   mat-drawer-content {
@@ -43,12 +42,12 @@
     display: flex;
     width: 100%;
   }
-  .card{
+  mat-card{
     position: relative; 
     margin-left: 20%; 
     margin-top:2%;
     width: 60%;
-    height: 40vw;
+    height: 42vw;
     
   }
   .submedicine{
@@ -57,32 +56,27 @@
     height: 25vw;
   }
   #mname-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }
   #code-ff {
-  margin-top: 15px;
   margin-left: 0px;
   width: 350px !important;
-  font-size: 18px;
+  font-size: 14px;
 }
 #notes-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }
 #contra-ff {
-  margin-top: 15px;
   margin-left: 0px;
   width: 350px !important;
-  font-size: 18px;
+  font-size: 14px;
 }
 #daily-ff {
-    margin-top: 15px;
     margin-left: 0px;
     width: 350px !important;
-    font-size: 18px;
+    font-size: 14px;
   }

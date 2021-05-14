@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -15,12 +16,12 @@ public class PharmacyStorage {
     private Pharmacy pharmacy;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Medication medication;
-    private double quantity;
+    private int quantity;
 
     public PharmacyStorage() {
     }
 
-    public PharmacyStorage(Pharmacy pharmacy, Medication medication, double quantity) {
+    public PharmacyStorage(Pharmacy pharmacy, Medication medication, int quantity) {
         this.pharmacy = pharmacy;
         this.medication = medication;
         this.quantity = quantity;
@@ -42,11 +43,11 @@ public class PharmacyStorage {
         this.medication = medication;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

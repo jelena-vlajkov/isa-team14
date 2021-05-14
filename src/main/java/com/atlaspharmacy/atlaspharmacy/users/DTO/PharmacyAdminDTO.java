@@ -20,10 +20,12 @@ public class PharmacyAdminDTO {
     private String role;
     private List<AuthorityDTO> authorities;
     private PharmacyDTO pharmacy;
+    private boolean firstTimeChanged;
+
     public PharmacyAdminDTO() {
     }
 
-    public PharmacyAdminDTO(Long id, String name, String surname, Date dateOfBirth, String phoneNumber, String email, String password, Gender gender, AddressDTO address, String role, List<AuthorityDTO> authorities, PharmacyDTO pharmacy) {
+    public PharmacyAdminDTO(Long id, String name, String surname, Date dateOfBirth, String phoneNumber, String email, String password, Gender gender, AddressDTO address, String role, List<AuthorityDTO> authorities, PharmacyDTO pharmacy, boolean firstTimePassword) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -36,6 +38,15 @@ public class PharmacyAdminDTO {
         this.role = role;
         this.authorities = authorities;
         this.pharmacy = pharmacy;
+        this.firstTimeChanged = firstTimePassword;
+    }
+
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
+    }
+
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public PharmacyDTO getPharmacy() {

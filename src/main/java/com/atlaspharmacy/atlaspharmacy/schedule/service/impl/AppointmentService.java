@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,6 @@ public class AppointmentService implements IAppointmentService {
     private final UserRepository userRepository;
     private final AppointmentRepository appointmentRepository;
     private final WorkDayService workDayService;
-
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
@@ -109,6 +109,17 @@ public class AppointmentService implements IAppointmentService {
         return examinations;
     }
 
+    @Override
+    public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) {
+        List<Examination> availableExaminations = new ArrayList<>();
+        List<WorkDay> workDaysForDermatologist=workDayService.getBy(medicalStaffId);
+        for (WorkDay workDay : workDaysForDermatologist) {
+            if (workDay.getPharmacy().getId().equals(pharmacyId))
+                availableExaminations.addAll((List<Examination>)(List<?>) findAvailableBy(workDay.getDate(), workDay.getMedicalStaff().getId()));
+        }
+        return availableExaminations;
+    }
+
 
     @Override
     public boolean isTimeValid(Date date, Long medicalStaffId) {
@@ -124,7 +135,71 @@ public class AppointmentService implements IAppointmentService {
                 .filter(appointment -> appointment.isPatient(patinetId))
                 .collect(Collectors.toList());
     }
+    public List<Appointment> getPatientsAppointments(Long id){
+        List<Appointment> appointments = appointmentRepository.findAll();
+        List<Appointment> patientsAppointments = new ArrayList<>();
+        for(Appointment a : appointments){
+            if(a.getPatient().getId().equals(id)){
+                patientsAppointments.add(a);
+            }
+        }
+        return patientsAppointments;
+    }
+    @Override
+    public List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId){
+        List<Appointment> appointments = new ArrayList<>();
+        List<Appointment> patientsAppointments = getPatientsAppointments(patientId);
+        for(Appointment a : patientsAppointments){
+            if(a.getAppointmentPeriod().getEndTime().compareTo(new Date())<0){
+                appointments.add(a);
+            }
+        }
+        return appointments;
+    }
 
+    @Override
+    public boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId) {
+        List<Appointment> examinationsForDermatologistAndPharmacy=getOccupiedBy(dermatologistId)
+                .stream().filter(appointment->appointment.getPharmacy().getId()
+                        .equals(pharmacyId)).collect(Collectors.toList());
+        if(examinationsForDermatologistAndPharmacy.size()!=0){
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public boolean occupiedCounselingsExists(Long pharmacistId) { return getOccupiedBy(pharmacistId).size()!=0;}
+
+    @Override
+    public List<Counseling> getFinishedPatientsCounselings(Long id){
+        List<Counseling> counselings = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Counseling.toString())){
+                    counselings.add((Counseling) appointmentRepository.findById(a.getId()).get());
+                }
+            }
+        }
+
+        return counselings;
+    }
+    @Override
+    public List<Examination> getFinishedPatientsExaminations(Long id){
+        List<Examination> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Examination.toString())){
+                    exams.add((Examination) appointmentRepository.findById(a.getId()).get());
+
+                }
+            }
+        }
+        return exams;
+    }
 
     @Override
     public List<Appointment> getOccupiedBy(Date date) {
@@ -158,8 +233,8 @@ public class AppointmentService implements IAppointmentService {
         if (workDay == null)
             return appointments;
 
-        int endTime = workDay.getEndTime();
-        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getStartTime(), 0, 0);
+        int endTime = workDay.getWorkDayPeriod().getEndTime().getHours();
+        Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getWorkDayPeriod().getStartTime().getHours(), 0, 0);
 
         for (int i = 0; i < endTime - 1; i++)
         {
@@ -192,4 +267,45 @@ public class AppointmentService implements IAppointmentService {
         }
         return examinations;
     }
-}
+    @Override
+    public int getNumberOfScheduledByDate(Date date) {
+        List<Appointment> allAppointments=appointmentRepository.findAll();
+        int numberOfAppointments=0;
+        for(Appointment a:allAppointments){
+            if(a.isSameDay(date) && a.getType().equals(AppointmentType.Examination)) {
+                numberOfAppointments++;
+            }
+        }
+        return numberOfAppointments;
+    }
+
+    @Override
+    public List<Integer> getNumberOfAppointmentsForMonth(int month, int year) {
+        //datum se ne pomera dobro iz nepoznatog razloga,mozda nece ni biti potrebna
+        //ova metoda,al nek stoji za sad
+        List<Integer> scheduledForMonth = new ArrayList<>();
+        Date startDate = new Date(year, month - 1, 1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Date endDate = new Date(year, month - 1, day);
+        while (startDate.before(endDate)) {
+            scheduledForMonth.add(getNumberOfScheduledByDate(startDate));
+            Long newTime = startDate.getTime() + 24 * 60 * 60 * 1000;
+            startDate = new Date(newTime);
+        }
+        return scheduledForMonth;
+    }
+        @Override
+        public List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year) {
+            return null;
+        }
+
+        @Override
+        public List<Integer> getNumberOfAppointmentsForMonth(int year) {
+            return null;
+        }
+
+    }
+
+

@@ -1,0 +1,116 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+
+          <button mat-list-item routerLink="/supplier/allOrders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
+
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item (click)="supplierLogout()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Supplier profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+
+            <div style="width: 100%; height: 100%; float: left;">
+                <mat-card style="margin-top:20px;height: fit-content; width: 47%; float: left; margin-left: 2%; " class="mat-elevation-z8">
+                    <mat-card-title style="margin-left: 40%;">
+                        Suppliers storage
+                      </mat-card-title>
+                     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style=" width: 100%; margin-right: 10px;">
+                        <ng-container matColumnDef="name">
+                            <th mat-header-cell *matHeaderCellDef> Medication </th>
+                            <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                              <p>{{element.medication.name}}</p>                 
+                          </td>
+                          </ng-container>
+                        
+                          <ng-container matColumnDef="quantity">
+                            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                            <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                              <p>{{element.quantity}}</p>                 
+                          </td>
+                          </ng-container>
+
+                          <ng-container matColumnDef="change" >
+                              <th mat-header-cell *matHeaderCellDef > Confirm </th>
+                              <td mat-cell *matCellDef="let element" style="font-size:12px"> 
+                                  <button *ngIf="!editStorage" mat-raised-button color="accent" style="font-size:12px" id="button" (click)="edit(element)" >Edit</button>
+                              </td>
+                            </ng-container>
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    
+                  </table> 
+                </mat-card>
+
+                <mat-card style="margin-top:20px;height: 50%; width: 20%;float: left; margin-left: 2%; margin-right: 2%;" class="mat-elevation-z8">
+                    <mat-card-title>
+                        Add medication to  storage
+                      </mat-card-title>
+                    <form [formGroup]="addDrug">
+                        <div class="inputField">
+                            <mat-form-field appearance="fill" id="daily-ff">
+                                <mat-label>Select medication*</mat-label>
+                                <mat-select placeholder="Medications" formControlName="drug">
+                                    <mat-option *ngFor="let medication of medications" [value]="medication">{{medication.name}}</mat-option>
+                                </mat-select>
+                                <mat-error
+                                *ngIf="!addDrug.get('drug').valid && addDrug.get('drug').touched && addDrug.get('drug').errors['required']">
+                                Please select drug</mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="inputField">
+                            <mat-form-field appearance="fill" id="daily-ff">
+                                <mat-label>Medication quantity*</mat-label>
+                                <input matInput placeholder="Quantity" formControlName="amount">   
+                                <mat-error
+                                    *ngIf="!addDrug.get('amount').valid && addDrug.get('amount').touched && addDrug.get('amount').errors['required']">
+                                    Please enter medication amount</mat-error>
+                                    <mat-error
+                                    *ngIf="!addDrug.get('amount').valid && addDrug.get('amount').touched && addDrug.get('amount').errors['pattern']">
+                                    Please enter medication amount in correct form</mat-error>
+                              </mat-form-field>
+                        </div>
+                        <button  mat-raised-button color="accent" style="font-size:12px; margin-top: 20px;" id="button" [disabled]="!addDrug.valid" (click)="addnewDrug()" >Add drug</button>
+                    </form>
+
+                </mat-card>
+                <mat-card style="margin-top:20px;height: 50%; width: 20%;float: left;margin-left: 3%; margin-right: 3%;" class="mat-elevation-z8" *ngIf="editStorage">
+                    <mat-card-title>
+                        Edit medication in storage
+                      </mat-card-title>
+                      <form [formGroup]="quantityForm">
+                        <div class="inputField">
+                            <mat-form-field appearance="fill" id="daily-ff">
+                                <mat-label>Medication quantity*</mat-label>
+                                <input matInput placeholder="Quantity" formControlName="quantity">   
+                                <!-- <mat-error
+                                    *ngIf="!quantityForm.get('quantity').valid && quantityForm.get('quantity').touched && quantityForm.get('quantity').errors['required']">
+                                    Please enter medication amount</mat-error> -->
+                              </mat-form-field>
+                        </div>
+                      </form>
+                      <button  mat-raised-button color="accent" style="font-size:12px; margin-top: 20px; margin-right: 20px;" id="button" [disabled]="!quantityForm.valid" (click)="updateDrug()" >Update drug amount</button>
+                    <button mat-raised-button color="accent" style="font-size:12px; margin-top: 20px;" id="button" (click)="cancelEdit()" >Cancel</button>
+
+                </mat-card>
+            </div>
+      </mat-drawer-content>
+  </mat-drawer-container>
+  </body>
+  

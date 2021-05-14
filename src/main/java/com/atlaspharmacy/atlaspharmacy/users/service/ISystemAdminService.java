@@ -14,5 +14,5 @@ public interface ISystemAdminService {
     SystemAdmin updateSystemAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException;
     SystemAdmin findByEmail(String email);
     SystemAdmin updateSystemAdminPassword(PasswordChangerDTO passwordChangerDTO) throws InvalidPassword;
-    void changePassword(String oldPassword, String newPassword) throws InvalidPassword;
+    boolean changePassword(String oldPassword, String newPassword);
 }

@@ -18,14 +18,14 @@ public class SystemAdminDTO {
     private AddressDTO sysAddress;
     private String sysRole;
     private List<AuthorityDTO> sysAuthorities;
-
+    private boolean firstTimeChanged;
     public SystemAdminDTO() {
     }
 
     public SystemAdminDTO(Long id, String sysName, String sysSurname, Date sysDateOfBirth,
                           String sysPhoneNumber, String sysEmail, String sysPassword,
                           Gender sysGender, AddressDTO sysAddress, String sysRole,
-                          List<AuthorityDTO> sysAuthorities) {
+                          List<AuthorityDTO> sysAuthorities, boolean firstTimeChanged) {
         this.id = id;
         this.sysName = sysName;
         this.sysSurname = sysSurname;
@@ -37,6 +37,7 @@ public class SystemAdminDTO {
         this.sysAddress = sysAddress;
         this.sysRole = sysRole;
         this.sysAuthorities = sysAuthorities;
+        this.firstTimeChanged = firstTimeChanged;
     }
 
     public Long getId() {
@@ -125,6 +126,14 @@ public class SystemAdminDTO {
 
     public void setSysAuthorities(List<AuthorityDTO> sysAuthorities) {
         this.sysAuthorities = sysAuthorities;
+    }
+
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
+    }
+
+    public void setFirstTimeChanged(boolean firstTimeChanged) {
+        this.firstTimeChanged = firstTimeChanged;
     }
 }
 

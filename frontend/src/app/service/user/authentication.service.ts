@@ -22,6 +22,10 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+  public getUserValue() : AuthenticatedUser {
+      return this.currentUserSubject.value;
+  }
+
   login(credentials: Authentication){
 
     
@@ -37,6 +41,8 @@ export class AuthenticationService {
   logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('firstTimeChanged');
         this.currentUserSubject.next(null);
         this.router.navigate(['/']);
   }

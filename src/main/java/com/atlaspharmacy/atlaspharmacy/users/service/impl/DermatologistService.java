@@ -3,7 +3,13 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
+import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
@@ -11,13 +17,12 @@ import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IDermatologistService;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DermatologistService implements IDermatologistService {
@@ -27,25 +32,28 @@ public class DermatologistService implements IDermatologistService {
     private final AddressRepository addressRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
-
-
+    private final AppointmentService appointmentService;
+    private final IPharmacyService pharmacyService;
+    private final PharmacyRepository pharmacyRepository;
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
+        this.appointmentService = appointmentService;
+        this.pharmacyService = pharmacyService;
+        this.pharmacyRepository = pharmacyRepository;
     }
 
     @Override
     public List<Dermatologist> findAllByPharmacy(Long id) {
-        List<Dermatologist> dermatologists= dermatologistRepository.findAll();
-
+        List<Dermatologist> allDermatologists= dermatologistRepository.findAll();
         List<Dermatologist> dermatologistsByPharmacy= new ArrayList<>();
-        for (Dermatologist dermatologist: dermatologists) {
-            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId()==id))
+        for (Dermatologist dermatologist: allDermatologists) {
+            if (dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId().equals(id)))
             {
                 dermatologistsByPharmacy.add(dermatologist);
             }
@@ -55,7 +63,7 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail {
-        if(userRepository.findByEmail(dto.getEmail())==null){
+        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
@@ -71,4 +79,92 @@ public class DermatologistService implements IDermatologistService {
         }
         throw new InvalidEmail();
     }
+    public List<Dermatologist> distinctDermatologistsToComplain(List<Dermatologist> list){
+        List<Dermatologist> derms = new ArrayList<>();
+        Map<Long, Dermatologist> map = new HashMap<>();
+        for (Dermatologist d : list) {
+            Long key = d.getId();
+            if (!map.containsKey(key)) {
+                map.put(key, d);
+            }
+        }
+        Collection<Dermatologist> distinct = map.values();
+        for(Dermatologist d : distinct){
+            derms.add(d);
+        }
+        return derms;
+    }
+    @Override
+    public List<Dermatologist> getAllDermatologistsToComplain(Long id){
+        List<Examination> examinations = appointmentService.getFinishedPatientsExaminations(id);
+        List<Dermatologist> dermatologistsToComplain = new ArrayList<>();
+        for(Examination e : examinations){
+            dermatologistsToComplain.add(dermatologistRepository.findById(e.getDermatologist().getId()).get());
+        }
+        return distinctDermatologistsToComplain(dermatologistsToComplain);
+    }
+
+    @Override
+    public List<Dermatologist> searchDermatologists(String searchInput) {
+        List<Dermatologist> allDermatologists=dermatologistRepository.findAll();
+        List<Dermatologist> searchedDermatologists=new ArrayList<>();
+        for(Dermatologist d:allDermatologists)
+        {
+            if(searchInput.contains(d.getName()) || searchInput.contains(d.getSurname())){
+                searchedDermatologists.add(d);
+            }
+        }
+        return searchedDermatologists;
+    }
+
+    @Override
+    public List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists, Long pharmacyId) {
+        return dermatologists.stream()
+                .filter(dermatologist -> dermatologist.getPharmacies().stream()
+                        .anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId)))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, Double grade) {
+        List<DermatologistDTO> filteredDermatologists=new ArrayList<>();
+        for(DermatologistDTO d:dermatologistsToFilter)
+        {
+            if(d.countAverageGrade()>=grade){
+                filteredDermatologists.add(d);
+            }
+        }
+        return filteredDermatologists;
+    }
+
+    @Override
+    public void addDermatologistToPharmacy(Long dermatologistId, Long pharmacyId) {
+        //fali da mu se postavi radno vreme i proveri da li se ne preklapa sa drugima.
+        Dermatologist dermatologist=dermatologistRepository.findById(dermatologistId).get();
+        List<Pharmacy> dermatologistPharmacies=dermatologist.getPharmacies();
+        dermatologistPharmacies.add(pharmacyService.getById(pharmacyId));
+        dermatologist.setPharmacies(dermatologistPharmacies);
+        dermatologistRepository.save(dermatologist);
+    }
+
+    @Override
+    public boolean deleteDermatologistFromPharmacy(Long dermatologistId, Long pharmacyId) {
+        if(!appointmentService.occupiedExaminationExists(dermatologistId,pharmacyId)){
+            Dermatologist dermatologist=dermatologistRepository.findById(dermatologistId).get();
+            List<Pharmacy> dermatologistPharmacies=dermatologist.getPharmacies();
+            Iterator<Pharmacy> iterator = dermatologistPharmacies.iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getId().equals(pharmacyId)) {
+                    iterator.remove();
+                }
+            }
+            dermatologistRepository.save(dermatologist);
+            return true;
+        }
+        return false;
+
+    }
+
+
 }

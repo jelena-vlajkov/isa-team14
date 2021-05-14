@@ -1,0 +1,174 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="over">
+       <mat-action-list>
+        <button mat-list-item routerLink="/admin" style="color: white;"> Home </button>
+
+        <button mat-list-item routerLink="/admin/registerPharmacy" style="color: white;"> Register pharmacy </button>
+        <button mat-list-item routerLink="/admin/registerPharmacyAdmin" style="color: white;"> Register pharmacy admin</button>
+        <button mat-list-item routerLink='/admin/registerDermatologist' style="color: white;"> Register dermatologist </button>
+        <button mat-list-item routerLink="/admin/registerSupplier" style="color: white;"> Register supplier </button>
+        <button mat-list-item routerLink="/admin/addDrug" style="color: white;"> Register medication</button>
+        <button mat-list-item routerLink="/admin/addAdmin" style="color: white;"> Register system administrator</button>
+        <button mat-list-item routerLink="/admin/answerComplaints" style="color: white;"> Answer to complaints</button>
+        <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
+        <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+        <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+      </mat-action-list>
+      <mat-action-list style="position: absolute; bottom: 1px;">
+              <button style="color: white;" routerLink="/admin" mat-list-item> Profile</button>
+              <button style="color: white;" mat-list-item (click)="adminLogout()"> Logout</button>
+  
+      </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>System administrator profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            <div style="overflow-y: auto; width: 100%; height: 100%; margin-top: 20px;">
+              <div style="width:100%; height: 40%;"  *ngFor="let complaint of dermatoligstComplaints">
+                <mat-card style="height:100%" class="mat-elevation-z8">
+                  <form [formGroup]="answerFormDerm">
+
+                  <mat-grid-list cols="2" rowHeight="6:1" >
+                    <mat-grid-tile>
+                      <p>Dermatologist to complain:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>{{complaint.dermatologist.name}} {{complaint.dermatologist.surname}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Patient complaining:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>{{complaint.patient.email}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Complaint:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                        <textarea matInput disabled >{{complaint.text}}</textarea>
+                      </mat-form-field>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Answer:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                        <textarea matInput formControlName='answer'></textarea>
+                        <mat-error *ngIf="!answerFormDerm.get('answer').valid && answerFormDerm.get('answer').touched && answerFormDerm.get('answer').errors['required']">
+                          Please answer complaint</mat-error>
+                      </mat-form-field>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <button style="float:right; position:relative; margin-right: 10px; margin-top: 20px; font-size: 16px;" mat-raised-button id='editProfile' [disabled]="!answerFormDerm.valid" (click)="answerToComplaintDermatologist(complaint)" color="accent">Answer</button>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                  </form>
+                </mat-card>
+              </div>
+              <div style="width:100%; height: 40%;" *ngFor="let complaint of pharmacistComplaints">
+                <mat-card style="height:100%" class="mat-elevation-z8">
+                  <form [formGroup]="answerFormPharm">
+                    <mat-grid-list cols="2" rowHeight="6:1" >
+                      <mat-grid-tile>
+                        <p>Pharmacist to complain:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <p>{{complaint.pharmacist.name}} {{complaint.pharmacist.surname}}</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <p>Patient complaining:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <p>{{complaint.patient.email}}</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <p>Complaint:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                          <textarea matInput disabled >{{complaint.text}}</textarea>
+                        </mat-form-field>                    
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <p>Answer:</p>
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                          <textarea matInput formControlName='answer' ></textarea>
+                          <mat-error *ngIf="!answerFormPharm.get('answer').valid && answerFormPharm.get('answer').touched && answerFormPharm.get('answer').errors['required']">
+                            Please answer complaint</mat-error>
+                        </mat-form-field>                    
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+  
+                      </mat-grid-tile>
+                      <mat-grid-tile>
+                        <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' [disabled]="!answerFormPharm.valid" (click)="answerToComplaintPharmacist(complaint)" color="accent">Answer</button>
+                      </mat-grid-tile>
+                    </mat-grid-list>
+                  </form>
+                  
+                </mat-card>
+              </div>
+              <div style="width:100%; height: 40%;"  *ngFor="let complaint of pharmacyComplaints">
+                <mat-card style="height:100%" class="mat-elevation-z8">
+                  <form [formGroup]="answerFormPh">
+
+                  <mat-grid-list cols="2" rowHeight="6:1" >
+                    <mat-grid-tile>
+                      <p>Pharmacy to complain:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>{{complaint.pharmacy.name}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Patient complaining:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>{{complaint.patient.email}}</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Complaint:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                        <textarea matInput disabled >{{complaint.text}}</textarea>
+                      </mat-form-field>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <p>Answer:</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field class="example-full-width" style="width: 100%; height: 100%;">
+                        <textarea matInput formControlName='answer'></textarea>
+                        <mat-error *ngIf="!answerFormPh.get('answer').valid && answerFormPh.get('answer').touched && answerFormPh.get('answer').errors['required']">
+                          Please answer complaint</mat-error>
+                      </mat-form-field>                    
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                      <button style="float:right; position:relative; margin-right: 10px; font-size: 20px;" mat-raised-button id='editProfile' [disabled]="!answerFormPh.valid" (click)="answerToComplaintPharmacy(complaint)" color="accent">Answer</button>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                  </form>
+                </mat-card>
+              </div>
+              
+            </div>
+            
+            
+              
+  
+      </mat-drawer-content>
+  </mat-drawer-container>

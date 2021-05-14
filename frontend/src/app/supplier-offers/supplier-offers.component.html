@@ -1,0 +1,103 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/supplier" style="color: white;"> Home</button>
+
+          <button mat-list-item routerLink="/supplier/allOrders" style="color: white;"> Write offers</button>
+          <button mat-list-item routerLink='/supplier/allOffers' style="color: white;"> All offers</button>
+          <button mat-list-item routerLink='/supplier/offers' style="color: white;"> Edit offers</button>
+          <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
+          <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
+
+
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item (click)="routeToProfile()"> Profile</button>
+                <button style="color: white;" mat-list-item (click)="supplierLogout()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Supplier profile</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            <div style="overflow-y: auto; width: 100%; height: 100%; margin-top: 20px;  margin-left: 9%;">
+              <div style="width:100%; height: 40%; justify-content: center; margin-bottom: 180px;"  *ngFor="let offer of offers">
+                <mat-card style="height: 480px; justify-content: center;" class="mat-elevation-z8">
+                  <mat-card-title style="text-align: center; margin-bottom: 10px; font-size: 20px;">
+                    Order from: {{offer.order.pharmacy.name}}, {{offer.order.pharmacy.address.street}}, {{offer.order.pharmacy.address.city.name}}, {{offer.order.pharmacy.address.state.name}} 
+                  </mat-card-title>
+                  <mat-card-content>
+                    <form [formGroup]="offerForm">
+                      <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+                        <mat-grid-tile>
+                          <p>Offered due delivery: </p>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                        <p *ngIf="!offer.editing">{{offer.dueDelivery | date:'MM.dd.y HH:mm' }}</p>
+                        <mat-form-field *ngIf="offer.editing" color="accent" appearance="fill" id="dob-ff" style="width: 200px; font-size: 14px;">
+                          <input matInput formControlName='dude' [max]="offer.order.dueDate" [min]="today" [(ngModel)]="selectedDate" style="font-size:18px;" [matDatepicker]="dp3" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                          <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                        </mat-form-field>
+                        <mat-error
+                        *ngIf="!offerForm.get('dude').valid && offerForm.get('dude').touched && offerForm.get('dude').errors['required']">
+                        Please select due delivery date</mat-error>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                          <p>Order due delivery: </p>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                        <p>{{offer.order.dueDate | date:'MM.dd.y HH:mm' }}</p>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                          <p>Due editable:</p>
+                        </mat-grid-tile>
+                      <mat-grid-tile>
+                      <p>{{offer.order.editableDue | date:'MM.dd.y HH:mm'}}</p>
+                      </mat-grid-tile>
+                        <mat-grid-tile>
+                          <p>Offered price: </p>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                          <p *ngIf="!offer.editing">{{offer.price}}</p>
+                          <div class="inputField" *ngIf="offer.editing" style="width: 200px; font-size: 14px;">
+                            <mat-form-field appearance="fill" style="width: 200px;">
+                                <input matInput id="price" formControlName="price">                   
+                                <mat-error
+                                    *ngIf="!offerForm.get('price').valid && offerForm.get('price').touched && offerForm.get('price').errors['required']">
+                                    Please enter price</mat-error>
+                                    <mat-error
+                                    *ngIf="!offerForm.get('price').valid && offerForm.get('price').touched && offerForm.get('price').errors['pattern']">
+                                    Please enter price in valid format</mat-error>
+                            </mat-form-field>
+                        </div> 
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                          <p>Offer status:</p>
+                        </mat-grid-tile>
+                      <mat-grid-tile>
+                      <p>{{offer.offerStatus}}</p>
+                      </mat-grid-tile>
+
+                    </mat-grid-list>
+                    <button *ngIf="!offer.editing" style="float:right; position:relative; " mat-raised-button id='editProfile' (click)='editOffer(offer)'  color="accent">Edit</button>
+                    <button *ngIf="offer.editing" style="float:right; position:relative; " mat-raised-button id='editProfile' (click)='confirmEdit(offer)' [disabled]='!offerForm.valid' color="accent">Confirm</button>
+                    <button *ngIf="offer.editing" style="float:left; position:relative;" mat-raised-button id='editProfile' (click)="cancel(offer)"  color="accent">Cancel</button>
+
+
+                    </form>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+      </mat-drawer-content>
+  </mat-drawer-container>
+  </body>
+  

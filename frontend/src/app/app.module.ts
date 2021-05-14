@@ -45,13 +45,11 @@ import { HomeComponent } from './home';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
 import { RegisterPharmacyadminComponent } from './register-pharmacyadmin/register-pharmacyadmin.component';
 import { RegisterDermatologistComponent } from './register-dermatologist/register-dermatologist.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule } from '@angular/common';
-import { FlatpickrModule } from 'angularx-flatpickr';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 //import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
@@ -59,10 +57,21 @@ import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion
 import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
+import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { PatientHomePageComponent } from './patient/patient-home-page/patient-home-page.component';
 import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/patient-all-pharmacies.component';
+import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
+import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
+import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
+import { PatientComplainComponent } from './patient-complain/patient-complain.component';
+import { AdminComplaintsComponent } from './admin-complaints/admin-complaints.component';
+import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-offers.component';
+import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
+import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
+import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
 
 @NgModule({
   declarations: [
@@ -96,10 +105,21 @@ import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/
     PharmacistReportsComponent,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
+    MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
     PatientHomePageComponent,
-    PatientAllPharmaciesComponent
+    PatientAllPharmaciesComponent,
+    SupplierProfileComponent,
+    SupplierOrdersComponent,
+    SupplierOffersComponent,
+    PatientComplainComponent,
+    AdminComplaintsComponent,
+    SupplierAllOffersComponent,
+    SupplierStorageComponent,
+    PharmacyProfileMockComponent,
+    PatientSubscriptionsComponent,
+    WelcomeComponent
 
   ],
   imports: [
@@ -138,12 +158,11 @@ import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/
     MatGridListModule,
     MatCheckboxModule,
     MatSortModule,
-    CommonModule, 
+    CommonModule,
     MatMenuModule,
-   // NgbModalModule,
-    FlatpickrModule.forRoot(),
     //NgbModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatStepperModule
     
   ],
   providers: [

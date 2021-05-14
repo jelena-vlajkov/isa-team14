@@ -5,11 +5,13 @@ export class AuthenticatedUser {
     public role : Role;
     public username : string;
     public token : Token;
-
-    constructor(id : number, role : Role, username : string, token : Token) {
+    public firstTimeChanged : boolean;
+    
+    constructor(id : number, role : Role, username : string, token : Token, firstTimeChanged : boolean) {
         this.id = id;
         this.role = role;
         this.username = username;
         this.token = token;
+        this.firstTimeChanged = firstTimeChanged;
     }
 }

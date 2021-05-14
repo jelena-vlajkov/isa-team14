@@ -10,7 +10,7 @@ public class AuthenticatedUserDTO {
     private String role;
     private String username;
     private UserTokenState token;
-    private boolean firstCangedPassword;
+    private boolean firstTimeChanged;
 
     public Long getId() {
         return id;
@@ -44,8 +44,8 @@ public class AuthenticatedUserDTO {
         this.token = token;
     }
 
-    public boolean isFirstCangedPassword() {
-        return firstCangedPassword;
+    public boolean isFirstTimeChanged() {
+        return firstTimeChanged;
     }
 
     public AuthenticatedUserDTO() {
@@ -56,6 +56,6 @@ public class AuthenticatedUserDTO {
         this.role = role;
         this.username = username;
         this.token = token;
-        this.firstCangedPassword = firstCangedPassword;
+        this.firstTimeChanged = firstCangedPassword;
     }
 }
