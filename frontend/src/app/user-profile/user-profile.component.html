@@ -51,6 +51,7 @@
                 </button>
                 <span>Patients profile</span>
                 <span class="example-spacer"></span>
+                
               </mat-toolbar>
         <mat-card *ngIf="profile" style="height: 80%;">
         <mat-card-content>
@@ -108,12 +109,13 @@
               <label>Allergies:</label>               
             </mat-grid-tile>  
             <mat-grid-tile>
-              <mat-form-field>
+              <!--mat-form-field>
                 <mat-select placeholder="Allergies" [formControl]="allergies" [(value)]="selectedAllergies" multiple>
                   <mat-option *ngFor="let allergy of alleallIngredientsrgiesList" [disabled]="true" [value]="allergies">{{allergy}}</mat-option>
                 </mat-select>
-              </mat-form-field>
-            </mat-grid-tile>            
+              </mat-form-field-->
+              <button style="float:left; position:relative;" mat-raised-button id='showAllergies' (click)="showAllergiesDialog()"  color="accent">Show allergies</button>
+            </mat-grid-tile>       
           </mat-grid-list>
         </mat-card-content>
         <mat-card-actions>
@@ -121,6 +123,7 @@
           <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' (click)='loyaltyClick()'  color="accent">Loyalty program</button>
           <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' routerLink="/userProfile/complain"  color="accent">Complain</button>
           <button style="float:left; position:relative;" mat-raised-button id='drugReservation' routerLink="/patientsSubscriptions"  color="accent">Users subscriptions</button>
+          <button style="float:left; position:relative;" mat-raised-button id='editAllergies' (click)="editAllergiesDialog()"  color="accent">Edit Allergies</button>
         </mat-card-actions>
 
       </mat-card>
@@ -260,7 +263,7 @@
                 </mat-form-field>
               </mat-grid-tile>
 
-              <mat-grid-tile>
+              <!--<mat-grid-tile>
                 <label>Allergies:</label>               
               </mat-grid-tile>  
               <mat-grid-tile>
@@ -269,7 +272,7 @@
                     <mat-option *ngFor="let allergy of allIngredients" [value]="allergy">{{allergy.name}}</mat-option>
                   </mat-select>
                 </mat-form-field>        
-              </mat-grid-tile>  
+              </mat-grid-tile>  -->
               
           
 

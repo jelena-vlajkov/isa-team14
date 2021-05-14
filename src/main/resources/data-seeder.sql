@@ -368,3 +368,4 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 
 insert into subscriptions(id,patient_id,pharmacy_id) values (100,200,200);
 insert into subscriptions(id,patient_id,pharmacy_id) values (200,1300,200);
+
