@@ -9,18 +9,27 @@ public class MedicalRecordDTO {
     private String patientName;
     private List<Allergy> allergies;
     private List<Ingredient> ingredients;
+    private Long patientId;
 
 
     public MedicalRecordDTO() {
     }
 
-    public MedicalRecordDTO(String patientName, List<Allergy> allergies, List<Ingredient> ingredients) {
+    public MedicalRecordDTO(Long patientId, String patientName, List<Allergy> allergies, List<Ingredient> ingredients) {
         this.patientName = patientName;
         this.allergies = allergies;
         this.ingredients = ingredients;
+        this.patientId = patientId;
     }
 
 
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
 
     public String getPatientName() {
         return patientName;

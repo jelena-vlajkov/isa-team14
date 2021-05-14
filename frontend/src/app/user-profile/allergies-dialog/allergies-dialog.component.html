@@ -1,0 +1,7 @@
+<div  style="height: 100px;">
+    <h1 mat-dialog-title class="benefits-dialog-titile">Patient allergies on medicament ingredient:</h1>
+    <div >
+      <div mat-dialog-conten *ngFor="let ing of ingredientsList" [value]="ingredient" class="benefits-dialog">{{ing.name}}</div>
+    </div>
+
+</div>
