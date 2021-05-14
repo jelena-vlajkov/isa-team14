@@ -58,12 +58,13 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.credentials).subscribe(
       result => {
         localStorage.setItem('userId',String(result.id))
+        localStorage.setItem('firstTimeChanged',String(result.firstTimeChanged))
         if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
         }else if(result.role == Role.SysAdmin){
           this.router.navigate(['/admin'])
         } else if (result.role == Role.Dermatologist || result.role == Role.Pharmacist) {
-          this.router.navigate(['/pharmacist'])
+          this.router.navigate(['/dashboard'])
         }
         else if(result.role == Role.Patient){
           this.router.navigate(['/'])

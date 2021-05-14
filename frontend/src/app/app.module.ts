@@ -71,6 +71,7 @@ import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-p
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allergies-dialog.component';
 import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edi
     PharmacyProfileMockComponent,
     PatientSubscriptionsComponent,
     AllergiesDialogComponent,
-    EditAllergiesComponent
+    EditAllergiesComponent,
+    WelcomeComponent
 
   ],
   imports: [

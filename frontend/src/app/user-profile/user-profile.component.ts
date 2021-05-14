@@ -250,6 +250,7 @@ export class UserProfileComponent implements OnInit {
     console.log(this.selectedAllergies.value);
   }
 
+
   submitChangePassword(){
     this.password1 = this.changePasswordForm.controls.newpassword.value;
     this.password2 = this.changePasswordForm.controls.confirmpassword.value;

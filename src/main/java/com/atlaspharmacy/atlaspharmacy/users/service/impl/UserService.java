@@ -1,23 +1,16 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
-import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
-import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PatientDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeeFirstTimeLoginDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
-import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.PatientMapper;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import net.bytebuddy.utility.RandomString;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class UserService implements IUserService {
@@ -52,6 +45,48 @@ public class UserService implements IUserService {
     @Override
     public User getByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public void updateEmployee(PharmDermDTO pharmDermDTO) {
+        User loggedInEmployee = getByEmail(pharmDermDTO.getEmail());
+        if (pharmDermDTO.getGender().toLowerCase().trim().equals("female")) {
+            loggedInEmployee.setGender(Gender.FEMALE);
+        } else {
+            loggedInEmployee.setGender(Gender.MALE);
+        }
+        loggedInEmployee.setName(pharmDermDTO.getName());
+        loggedInEmployee.setSurname(pharmDermDTO.getSurname());
+        loggedInEmployee.setPhoneNumber(pharmDermDTO.getPhoneNumber());
+        loggedInEmployee.setDateOfBirth(pharmDermDTO.getDateOfBirth());
+        userRepository.save(loggedInEmployee);
+
+    }
+
+    @Override
+    public void updateEmployeePassword(EmployeePassChange employeePassChange) throws Exception {
+        User user = userRepository.findByEmail(employeePassChange.getEmail());
+        String encoded = passwordEncoder.encode(employeePassChange.getOldpassword());
+        if (!passwordEncoder.matches(employeePassChange.getOldpassword(), user.getPassword())) {
+            throw new Exception("Invalid password!");
+        }
+        if (passwordEncoder.matches(employeePassChange.getNewpassword(), user.getPassword())) {
+            throw new Exception("Password must be different from the last one!");
+        }
+        user.setPassword(passwordEncoder.encode(employeePassChange.newpassword));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateEmployeePassFirstTime(EmployeeFirstTimeLoginDTO employeePassChange) throws Exception {
+        if (!passwordEncoder.matches(employeePassChange.getRepnewpassword(), passwordEncoder.encode(employeePassChange.getNewpassword()))) {
+            throw new Exception("Invalid repeated password!");
+        }
+
+        User user = userRepository.findByEmail(employeePassChange.getEmail());
+        user.setPassword(passwordEncoder.encode(employeePassChange.getNewpassword()));
+        user.setFirstTimePassword(true);
+        userRepository.save(user);
     }
 
 }

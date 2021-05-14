@@ -20,7 +20,7 @@ insert into addresses(id, city, latitude, longitude, state, street) VALUES (1500
 
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values('Dermatologist', 100,'2000-01-01 00:00:01',  'vlajkovj@gmail.com', true, 0, 'Jelena', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',123124124, 'Vlajkov', 100 );
+values('Dermatologist', 100,'2000-01-01 00:00:01',  'vlajkovj@gmail.com', false, 0, 'Jelena', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',123124124, 'Vlajkov', 100 );
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values('Dermatologist', 1100,'2000-01-01 00:00:01',  'zz@gmail.com', true, 0, 'Zoran', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',123124124, 'Zoric', 100 );
@@ -30,7 +30,7 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 values ('Pharmacist', 500, '1986-01-01 00:00:01', 'vlajkovn@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Pharmacist', 5500, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', true, 0, 'Tamara','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
+values ('Pharmacist', 5500, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', false, 0, 'Tamara','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 300);
@@ -65,12 +65,14 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
 
+
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) values (100, 1,2,3,4,5, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (200, 1,1,1,0,0,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (300, 1,2,3,4,5,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
-insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+
+--insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 
 insert into medicalstaff(license_number, id) values ('16657568',100);
 insert into medicalstaff(license_number, id) values ('243532',600);
@@ -88,10 +90,12 @@ insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) 
 insert into patients(enabled, verification_code, id) values (true, null, 200);
 insert into patients(enabled, verification_code, id) values (true, null, 1300);
 
+
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,5);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (600,1,1,1,1,1);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,4);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1100,1,1,1,3,5);
+
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
