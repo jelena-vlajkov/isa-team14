@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
@@ -37,4 +38,6 @@ public interface IAppointmentService {
     boolean occupiedCounselingsExists(Long pharmacistId);public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
 
 
+    List<AppointmentDTO> finishedAppointmentExamination(Long patientId);
+    List<AppointmentDTO> finishedAppointmentCounseling(Long patientId);
 }

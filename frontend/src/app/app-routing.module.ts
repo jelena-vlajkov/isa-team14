@@ -42,6 +42,8 @@ import { SupplierStorageComponent } from './supplier-storage/supplier-storage.co
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
+import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 
 const routes: Routes = [
 {
@@ -221,8 +223,24 @@ const routes: Routes = [
 
 },
 {
+  path: 'patient/finishedCounseling',
+  component: PatientFinishedCounselingComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+
+},
+{
+  path: 'patient/finishedExamination',
+  component: PatientFinishedExaminationComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+
+},
+{
   path: 'patient/pharmacies',
   component: PatientAllPharmaciesComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 },
 {
   path:'supplier',

@@ -37,17 +37,19 @@
                 <table matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
-                        <th mat-sort-header="name">Name</th>
-                        <th mat-sort-header="address">Address</th>
-                        <th mat-sort-header="grade">Grade</th>
+                        <th mat-sort-header="startTime">Start time</th>
+                        <th mat-sort-header="endTime">End time</th>
+                        <th mat-sort-header="cost">Cost</th>
+                        <th mat-sort-header="pharmName">Dermatologist</th>
                     
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let p of pharmacies">
-                        <td>{{p.name}}</td>
-                        <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
-                        <td>{{p.average_grade}}</td>
+                    <tr *ngFor="let e of examinations">
+                        <td>{{e.startTime |date : "medium" }}</td>
+                        <td>{{e.endTime | date : "medium" }}</td>
+                        <td>{{e.appointmentCost}}</td>
+                        <td>{{e.medicalStaffName}}</td>
                         
                     </tr>
                     
@@ -59,4 +61,6 @@
      
   </mat-drawer-container>
   </body>
+
+
 

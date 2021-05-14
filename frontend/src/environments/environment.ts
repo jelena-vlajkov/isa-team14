@@ -70,6 +70,9 @@ export const environment = {
   addPatientIngredient : "addPatientIngredient",
   updateEmployees : "updateEmployee",
   changeEmployeePass : "changeEmployeePass",
-  firstTimePasswordChange : "firstEmployeeLogin"
+  firstTimePasswordChange : "firstEmployeeLogin",
+  appointment : "appointment",
+  getFinishedPatientsCounselings : "getFinishedPatientsCounselings",
+  getFinishedPatientsExaminations : "getFinishedPatientsExaminations"
 };
 

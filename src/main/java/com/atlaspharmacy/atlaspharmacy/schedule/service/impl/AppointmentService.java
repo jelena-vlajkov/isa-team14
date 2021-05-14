@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
@@ -7,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
+import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
@@ -194,6 +196,35 @@ public class AppointmentService implements IAppointmentService {
             for(Appointment a : patientsFinishedAppointments){
                 if(a.getType().equals(AppointmentType.Examination.toString())){
                     exams.add((Examination) appointmentRepository.findById(a.getId()).get());
+
+                }
+            }
+        }
+        return exams;
+    }
+    @Override
+    public List<AppointmentDTO> finishedAppointmentExamination(Long id){
+        List<AppointmentDTO> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Examination.toString())){
+                    exams.add(AppointmentMapper.mapAppointmentToDTO(appointmentRepository.findById(a.getId()).get()));
+
+                }
+            }
+        }
+        return exams;
+    }
+
+    @Override
+    public List<AppointmentDTO> finishedAppointmentCounseling(Long patientId) {
+        List<AppointmentDTO> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(patientId);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Counseling.toString())){
+                    exams.add(AppointmentMapper.mapAppointmentToDTO(appointmentRepository.findById(a.getId()).get()));
 
                 }
             }

@@ -3,6 +3,8 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/appointment", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AppointmentController {
     private final IAppointmentService appointmentService;
@@ -68,6 +71,16 @@ public class AppointmentController {
     @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
+    }
+
+    @GetMapping(value = "/getFinishedPatientsCounselings", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<AppointmentDTO> getFinishedPatientsCounselings(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.finishedAppointmentCounseling(patientId);
+    }
+
+    @GetMapping(value = "/getFinishedPatientsExaminations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<AppointmentDTO> getFinishedPatientsExaminations(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.finishedAppointmentExamination(patientId);
     }
 
     @ExceptionHandler(DueDateSoonException.class)
