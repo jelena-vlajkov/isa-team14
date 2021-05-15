@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,7 +41,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException {
+    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
@@ -59,7 +57,9 @@ public class DrugReservationService implements IDrugReservationService {
         String mail = ((User)user).getEmail();
         Pharmacist pharmacist = (Pharmacist) userRepository.findByEmail(mail);
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
-
+        if (!pharmacist.getPharmacy().getId().equals(reservation.getPharmacy().getId())) {
+            throw new Exception("Cannot read reservation from other pharmacies!");
+        }
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         return reservation;
