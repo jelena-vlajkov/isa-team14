@@ -52,122 +52,66 @@
           <mat-card style="height: fit-content;">
             <mat-card-title>
                 <mat-card-header>
-                    <mat-label>Search medications</mat-label>
+                    <mat-label>Issue reservation</mat-label>
                 </mat-card-header>
 
             </mat-card-title> 
             <mat-card-content style="margin-top: 30px; margin-left: 40px; display: flex;">
                 
-                <mat-form-field class="example-full-width">
-                    <mat-label>By medication name</mat-label>
-                    <input matInput type="search" placeholder="Name and surname">
-                </mat-form-field>
+                <form [formGroup]="searchForm" (ngSubmit)="searchReservation()">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>By reservation serial number</mat-label>
+                        <input matInput type="search" formControlName="uniqueIdentifier" placeholder="Name and surname">
+                        <mat-error
+                                *ngIf="!searchForm.get('uniqueIdentifier').valid && searchForm.get('uniqueIdentifier').touched && searchForm.get('uniqueIdentifier').errors['required']">
+                                Minimum 8 characters</mat-error>
+                                <mat-error
+                                *ngIf="!searchForm.get('uniqueIdentifier').valid && searchForm.get('uniqueIdentifier').touched && searchForm.get('uniqueIdentifier').errors['pattern']">
+                                Minimum 8 characters</mat-error>
+                    </mat-form-field>
+                    <div style="position: relative; bottom: 5px; left: 0px;">
+                        <button mat-flat-button color="primary" style="width: 100px;">Search</button>
+                    </div>
+                </form>
                 
             </mat-card-content>
-            
         </mat-card>
-          <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Brufen</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p> Dosage:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Company:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Quantity:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Content
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
+        <div *ngIf="showResults">
+            <mat-card style="height: fit-content; width: 1000px;">
+                <mat-card-title>
+                    <mat-card-header>
+                        <mat-label>Patient: {{reservation.patientName}}</mat-label>
+                    </mat-card-header>
+                </mat-card-title> 
+                <mat-card-content>
+                    <mat-list style="margin-left: 20px;">
+                        <mat-list-item><p style="color: black;"> Expiration date: {{reservation.expirationDate}} </p></mat-list-item>
                     </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Side effects:
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
+                </mat-card-content>
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel  style="margin-top:20px;" >
+                        <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Details
+                        </mat-panel-title>
+                        
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <mat-list-item>Medication: {{reservation.medicationName}}</mat-list-item>
+                            <mat-list-item>Unique identifier: {{reservation.uniqueIdentifier}}</mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-card-actions align='end'>
 
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
+                <div style="position: relative; bottom: 5px; right: 10px;">
+                    <button mat-flat-button color="primary" style="margin: 10px;" [disabled]="!issueAvailable" (click)="issueReservation()">Issue</button>
+                </div>
+                    
+                </mat-card-actions> 
+            </mat-card>
+        </div>
         
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Brufen</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p> Dosage:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Company:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Quantity:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Content
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Side effects:
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
           
      </mat-drawer-content>
 </mat-drawer-container>

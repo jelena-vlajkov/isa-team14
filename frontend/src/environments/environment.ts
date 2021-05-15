@@ -70,6 +70,9 @@ export const environment = {
   firstTimePasswordChange : "firstEmployeeLogin",
   appointment : "appointment",
   getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
-  searchPatients : "searchPatients"
+  searchPatients : "searchPatients",
+  findReservations : "getReservationByIdentifier",
+  issueReservation : "issueReservation"
+
 };
 
