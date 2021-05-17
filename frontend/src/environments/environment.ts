@@ -73,6 +73,7 @@ export const environment = {
   firstTimePasswordChange : "firstEmployeeLogin",
   appointment : "appointment",
   getFinishedPatientsCounselings : "getFinishedPatientsCounselings",
-  getFinishedPatientsExaminations : "getFinishedPatientsExaminations"
+  getFinishedPatientsExaminations : "getFinishedPatientsExaminations",
+  getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient"
 };
 

@@ -44,6 +44,7 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
 import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
+import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 
 const routes: Routes = [
 {
@@ -239,6 +240,12 @@ const routes: Routes = [
 {
   path: 'patient/pharmacies',
   component: PatientAllPharmaciesComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/scheduledAppointments',
+  component: PatientScheduledAppointmentsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },

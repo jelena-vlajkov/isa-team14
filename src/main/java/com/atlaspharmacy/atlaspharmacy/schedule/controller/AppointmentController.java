@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
@@ -74,13 +75,21 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/getFinishedPatientsCounselings", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
     public @ResponseBody List<AppointmentDTO> getFinishedPatientsCounselings(@RequestParam("patientId") Long patientId) throws  ParseException{
         return appointmentService.finishedAppointmentCounseling(patientId);
     }
 
     @GetMapping(value = "/getFinishedPatientsExaminations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
     public @ResponseBody List<AppointmentDTO> getFinishedPatientsExaminations(@RequestParam("patientId") Long patientId) throws  ParseException{
         return appointmentService.finishedAppointmentExamination(patientId);
+    }
+
+    @GetMapping(value = "/getNotFinishedAppointmentsForPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody List<AppointmentDTO> getNotFinishedAppointmentsForPatient(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.getNotFinishedAppointmentsForPatient(patientId);
     }
 
     @ExceptionHandler(DueDateSoonException.class)

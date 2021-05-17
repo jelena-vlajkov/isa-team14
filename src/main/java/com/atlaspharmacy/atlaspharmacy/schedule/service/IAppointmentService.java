@@ -40,4 +40,5 @@ public interface IAppointmentService {
 
     List<AppointmentDTO> finishedAppointmentExamination(Long patientId);
     List<AppointmentDTO> finishedAppointmentCounseling(Long patientId);
+    List<AppointmentDTO> getNotFinishedAppointmentsForPatient(Long patientId);
 }

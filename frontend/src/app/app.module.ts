@@ -76,6 +76,7 @@ import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edi
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
 import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
+import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { PatientFinishedExaminationComponent } from './patient/patient-finished-
     EditAllergiesComponent,
     WelcomeComponent,
     PatientFinishedCounselingComponent,
-    PatientFinishedExaminationComponent
+    PatientFinishedExaminationComponent,
+    PatientScheduledAppointmentsComponent
 
   ],
   imports: [

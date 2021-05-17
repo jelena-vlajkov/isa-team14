@@ -34,4 +34,9 @@ export class PatientService {
       return this.http.get<Appointment[]>
       (`${environment.baseUrl}/${environment.appointment}/${environment.getFinishedPatientsExaminations}?patientId=${id}`);
     }
+
+    getNotFinishedAppointmentsForPatient(id : Number): Observable<Appointment[]> {
+      return this.http.get<Appointment[]>
+      (`${environment.baseUrl}/${environment.appointment}/${environment.getNotFinishedAppointmentsForPatient}?patientId=${id}`);
+    }
 }

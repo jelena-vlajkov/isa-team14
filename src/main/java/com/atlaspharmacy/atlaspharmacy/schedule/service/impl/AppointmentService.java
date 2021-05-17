@@ -233,6 +233,19 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public List<AppointmentDTO> getNotFinishedAppointmentsForPatient(Long patientId) {
+        List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
+        for(Appointment appointment : getPatientsAppointments(patientId)) {
+            if (!appointment.isCanceled() && (appointment.getAppointmentPeriod().getStartTime().compareTo(new Date()) > 0)) {
+                appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(appointment));
+            }
+        }
+
+        return appointmentDTOS;
+    }
+
+    @Override
     public List<Appointment> getOccupiedBy(Date date) {
         return appointmentRepository.findAll()
                 .stream()

@@ -34,20 +34,25 @@
             </mat-toolbar>
             
             <div class="table-wrapper">
-                <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                <table matSort  class="fl-table">
                     <thead>
                     <tr>
-                        <th mat-sort-header="name">Name</th>
-                        <th mat-sort-header="address">Address</th>
-                        <th mat-sort-header="grade">Grade</th>
+                        <th>Type of appointment</th>
+                        <th mat-sort-header="pharmName">Pharmacist/Dermatologist</th>
+                        <th mat-sort-header="startTime">Start time</th>
+                        <th mat-sort-header="cost">Cost</th>
+                        <th>Cancel here:</th>
+                        
                     
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let p of pharmacies">
-                        <td>{{p.name}}</td>
-                        <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
-                        <td>{{p.average_grade}}</td>
+                    <tr *ngFor="let a of appointments" >
+                        <td>{{a.appointmentType}}</td>
+                        <td>{{a.medicalStaffName}}</td>
+                        <td>{{a.startTime | date : "medium"}}</td>
+                        <td>{{a.appointmentCost}}</td>
+                        <td><button mat-button style="background-color: #385399; color: white;">Cancel</button></td>
                         
                     </tr>
                     
@@ -59,4 +64,6 @@
      
   </mat-drawer-container>
   </body>
+
+
 
