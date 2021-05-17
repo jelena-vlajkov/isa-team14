@@ -1,11 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.medicalrecord.controller;
 
 import ch.qos.logback.core.boolex.EvaluationException;
+import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicalRecordDTO;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.mapper.MedicalRecordMapper;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.service.IMedicalRecordService;
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.service.impl.MedicalRecordService;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
@@ -50,6 +52,12 @@ public class MedicalRecordController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "recommendMedicationByPatient", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public List<MedicationDTO> getMedicationsByPatient(@RequestParam Long patientId) {
+        return medicalRecordService.recommendMedicationForPatient(patientId);
     }
 
 }

@@ -33,8 +33,9 @@ public interface IAppointmentService {
     List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
     boolean occupiedCounselingsExists(Long pharmacistId);
-    List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
+    List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId);
     List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
+    List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date);
 
     List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
 }

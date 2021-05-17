@@ -71,12 +71,23 @@ public class AppointmentController {
         return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
     }
 
+    @GetMapping(value = "/getAppointmentsForEmployee", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public @ResponseBody List<AppointmentDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId,
+                                                                        @RequestParam("date") Date date) throws Exception, InvalidMedicalStaff {
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableByEmployeeAndPharmacy(pharmacyId, medicalStaffId, date));
+    }
+
+
     @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @EmployeeAuthorization
     public @ResponseBody List<PatientsOverviewDTO> searchPatients(@RequestBody SearchParametersDTO searchParametersDTO) throws Exception, InvalidMedicalStaff {
         return appointmentService.SearchPatientsByParameters(searchParametersDTO);
     }
+
+
 
 
     @ExceptionHandler(DueDateSoonException.class)

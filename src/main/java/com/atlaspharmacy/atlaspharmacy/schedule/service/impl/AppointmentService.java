@@ -148,6 +148,18 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    public List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date) {
+        List<Appointment> appointmentsByDate = findAvailableBy(date, employeeId);
+        List<Appointment> retVal = new ArrayList<>();
+        for(Appointment a : appointmentsByDate) {
+            if (a.isSameDay(date)) {
+                retVal.add(a);
+            }
+        }
+        return retVal;
+    }
+
+    @Override
     public List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception {
         List<PatientsOverviewDTO> allPatients = getPatientsByMedicalStaff(searchParametersDTO.getMedicalStaffId());
         if (searchParametersDTO.getName().trim().isEmpty() && searchParametersDTO.getDate() == null) {

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +43,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
+    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
