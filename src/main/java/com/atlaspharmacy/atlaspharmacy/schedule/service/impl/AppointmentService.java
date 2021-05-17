@@ -67,7 +67,7 @@ public class AppointmentService implements IAppointmentService {
     public boolean cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).get();
         int hoursAvailableToCancel = 3600 * 1000 * 24;
-        if (appointment.canCancel(hoursAvailableToCancel))
+        if (!appointment.canCancelAppointment(hoursAvailableToCancel))
             return false;
         appointment.setCanceled(true);
         appointmentRepository.save(appointment);

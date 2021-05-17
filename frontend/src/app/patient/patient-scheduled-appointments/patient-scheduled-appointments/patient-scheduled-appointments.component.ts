@@ -38,7 +38,34 @@ export class PatientScheduledAppointmentsComponent implements OnInit {
     this.authenticationService.logout();
   }
 
+  cancelAppointment(appointment : Appointment) {
+    this.patientService.cancelAppointment(appointment.id).subscribe(
+     res => {
+      alert('Success');
+      location.reload(); 
+     }, 
+     err => {
+      alert("There is less than 24h to cancel this appointment");
+     }
+    )
+  }
+
   sortData(sort: Sort){
+    const data = this.appointments.slice();
+    if (!sort.active || sort.direction === '') {
+      this.appointments = data;
+      return;
+    }
+
+    this.appointments = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      console.log(this.appointments)
+      switch (sort.active) {
+        case 'startTime': return compare(a.startTime, b.startTime, isAsc);   
+        case 'cost': return compare(a.appointmentCost, b.appointmentCost, isAsc); 
+        default: return 0;
+      }
+     });
     
   
   }

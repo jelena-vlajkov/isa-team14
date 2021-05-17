@@ -13,6 +13,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -90,6 +91,17 @@ public class AppointmentController {
     @PatientAuthorization
     public @ResponseBody List<AppointmentDTO> getNotFinishedAppointmentsForPatient(@RequestParam("patientId") Long patientId) throws  ParseException{
         return appointmentService.getNotFinishedAppointmentsForPatient(patientId);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cancelAppointment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<String> cancelAppointment(@RequestBody Long appointmentId) throws  ParseException{
+        if(appointmentService.cancelAppointment(appointmentId)) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DueDateSoonException.class)

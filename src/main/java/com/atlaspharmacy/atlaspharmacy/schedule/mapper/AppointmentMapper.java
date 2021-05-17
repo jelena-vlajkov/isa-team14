@@ -32,7 +32,8 @@ public class AppointmentMapper {
                 appointment.getPatient().getName() + " " + appointment.getPatient().getSurname(),
                 appointment.getPatient().getEmail(),
                 medicalStaffName,
-                medicalStaffEmail);
+                medicalStaffEmail,
+                appointment.getId());
     }
 
     public static List<AppointmentDTO> mapAppointmentsToListDTO(List<Appointment> appointments) {

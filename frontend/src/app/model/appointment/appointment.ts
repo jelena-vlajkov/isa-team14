@@ -1,4 +1,5 @@
 export class Appointment{
+    public id : Number;
     public startTime :Date;
     public endTime : Date; 
     public appointmentCost : Number;

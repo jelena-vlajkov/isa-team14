@@ -74,6 +74,7 @@ export const environment = {
   appointment : "appointment",
   getFinishedPatientsCounselings : "getFinishedPatientsCounselings",
   getFinishedPatientsExaminations : "getFinishedPatientsExaminations",
-  getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient"
+  getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient",
+  cancelAppointment : "cancelAppointment"
 };
 

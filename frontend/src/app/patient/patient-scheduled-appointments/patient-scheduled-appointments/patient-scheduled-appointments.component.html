@@ -34,11 +34,11 @@
             </mat-toolbar>
             
             <div class="table-wrapper">
-                <table matSort  class="fl-table">
+                <table matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
                         <th>Type of appointment</th>
-                        <th mat-sort-header="pharmName">Pharmacist/Dermatologist</th>
+                        <th>Pharmacist/Dermatologist</th>
                         <th mat-sort-header="startTime">Start time</th>
                         <th mat-sort-header="cost">Cost</th>
                         <th>Cancel here:</th>
@@ -52,7 +52,7 @@
                         <td>{{a.medicalStaffName}}</td>
                         <td>{{a.startTime | date : "medium"}}</td>
                         <td>{{a.appointmentCost}}</td>
-                        <td><button mat-button style="background-color: #385399; color: white;">Cancel</button></td>
+                        <td><button mat-button style="background-color: #385399; color: white;" (click)="cancelAppointment(a)">Cancel</button></td>
                         
                     </tr>
                     

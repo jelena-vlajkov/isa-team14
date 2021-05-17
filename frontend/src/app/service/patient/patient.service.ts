@@ -39,4 +39,10 @@ export class PatientService {
       return this.http.get<Appointment[]>
       (`${environment.baseUrl}/${environment.appointment}/${environment.getNotFinishedAppointmentsForPatient}?patientId=${id}`);
     }
+
+    cancelAppointment(id : Number){
+      return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.cancelAppointment}`, id, {responseType : 'text'});
+    }
+
+
 }
