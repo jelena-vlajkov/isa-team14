@@ -11,6 +11,7 @@ public class PharmacyDTO {
     private Long telephone;
     private AddressDTO address;
     private AverageGrade averageGrade;
+    private double averageGradeCount;
 
     public PharmacyDTO() {
     }
@@ -24,6 +25,15 @@ public class PharmacyDTO {
         this.telephone = telephone;
         this.address = address;
         this.averageGrade = averageGrade;
+        this.averageGradeCount = this.averageGrade.count();
+    }
+
+    public double getAverageGradeCount() {
+        return averageGradeCount;
+    }
+
+    public void setAverageGradeCount(double averageGradeCount) {
+        this.averageGradeCount = averageGradeCount;
     }
 
     public Long getId() {

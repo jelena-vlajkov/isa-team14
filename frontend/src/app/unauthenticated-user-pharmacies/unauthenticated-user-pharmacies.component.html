@@ -79,7 +79,7 @@
                 <tr *ngFor="let p of pharmacies">
                     <td>{{p.name}}</td>
                     <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
-                    <td>{{p.average_grade}}</td>
+                    <td>{{p.averageGradeCount}}</td>
                     <td><button mat-raised-button color="accent" style="font-size:12px" id="button" (click)="routeToPharmacyProfileMock(p)">Show</button></td>
 
                 </tr>
