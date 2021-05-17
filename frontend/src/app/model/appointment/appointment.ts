@@ -1,12 +1,14 @@
 export class Appointment{
-    private startTime :Date;
-    private endTime : Date; 
-    private appointmentCost : Number;
-    private appointmentType : String;
-    private patientName : String;
-    private canceled : boolean;
-    private patientEmail : String;
-    private medicalStaffName : String;
-    private medicalStaffEmail : String;
+    public startTime :Date;
+    public endTime : Date; 
+    public appointmentCost : Number;
+    public appointmentType : String;
+    public patientName : String;
+    public canceled : boolean;
+    public patientEmail : String;
+    public medicalStaffName : String;
+    public medicalStaffEmail : String;
+    public startDateString : string;
     
+    constructor() {}
 }

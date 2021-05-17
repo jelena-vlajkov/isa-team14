@@ -9,6 +9,7 @@ import { PatientsOverview } from '@app/model/pharmderm/patientoverview';
 import {SearchParam} from '@app/model/pharmderm/searchparams'
 import { Patient } from '@app/model/users/patient/patient';
 import { env } from 'process';
+import { Appointment } from '@app/model/appointment/appointment';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,13 @@ export class EmployeeService {
 
   searchPatientsByParams(searchParams : SearchParam) : Observable<PatientsOverview[]> {
     return this.http.post<PatientsOverview[]>(`${environment.baseUrl}/${environment.appointment}/${environment.searchPatients}`, searchParams);
+  }
+
+  getScheduledAppointmentsForDate(medicalStaffId : Number, date : string) : Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.scheduledAppointments}?date=${date}&id=${medicalStaffId}`);
+  }
+
+  getAvailable(medicalStaffId : Number, date : string, pharmacyid : Number) : Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.findAvailableForEmployee}?date=${date}&medicalStaffId=${medicalStaffId}&pharmacyId=${pharmacyid}`);
   }
 }

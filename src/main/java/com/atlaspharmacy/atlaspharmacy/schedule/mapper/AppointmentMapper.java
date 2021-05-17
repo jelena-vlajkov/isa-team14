@@ -32,15 +32,23 @@ public class AppointmentMapper {
                 appointment.getPatient().getName() + " " + appointment.getPatient().getSurname(),
                 appointment.getPatient().getEmail(),
                 medicalStaffName,
-                medicalStaffEmail);
+                medicalStaffEmail, appointment.getPharmacy().getId());
     }
 
     public static List<AppointmentDTO> mapAppointmentsToListDTO(List<Appointment> appointments) {
         List<AppointmentDTO> mappedAppointments = new ArrayList<>();
+
         for (Appointment appointment : appointments) {
-            mappedAppointments.add(mapAppointmentToDTO(appointment));
+            if (appointment.getPatient() == null) {
+                mappedAppointments.add(mapForAvailable(appointment));
+            } else {
+                mappedAppointments.add(mapAppointmentToDTO(appointment));
+
+            }
         }
         return mappedAppointments;
     }
-
+    public static AppointmentDTO mapForAvailable(Appointment appointment) {
+        return new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(), appointment.getAppointmentPeriod().getEndTime());
+    }
 }
