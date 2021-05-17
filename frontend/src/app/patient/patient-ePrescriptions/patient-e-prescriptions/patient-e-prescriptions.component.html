@@ -39,19 +39,22 @@
                 <table matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
-                        <th mat-sort-header="startTime">Start time</th>
-                        <th mat-sort-header="endTime">End time</th>
-                        <th mat-sort-header="cost">Cost</th>
-                        <th mat-sort-header="pharmName">Pharmacist</th>
+                        <th>Type of ePrescriptions</th>
+                        <th>Id</th>
+                        <th mat-sort-header="date">Date</th>
+                        <th>Patient name</th>
+                        <th>Pharmacy name:</th>
+                        
                     
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let c of counselings">
-                        <td>{{c.startTime |date : "medium" }}</td>
-                        <td>{{c.endTime | date : "medium" }}</td>
-                        <td>{{c.appointmentCost}}</td>
-                        <td>{{c.medicalStaffName}}</td>
+                    <tr *ngFor="let a of prescriptions" >
+                        <td>Nema napravljeno</td>
+                        <td>{{a.id}}</td>
+                        <td>{{a.date | date : "medium"}}</td>
+                        <td>{{a.patientName}}</td>
+                        <td>{{a.pharmacyName}}</td>
                         
                     </tr>
                     
@@ -63,5 +66,7 @@
      
   </mat-drawer-container>
   </body>
+
+
 
 

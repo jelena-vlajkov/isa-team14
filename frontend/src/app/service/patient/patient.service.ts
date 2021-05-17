@@ -4,6 +4,7 @@ import { Patient } from 'src/app/model/users/patient/patient';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';        
 import { Appointment } from '@app/model/appointment/appointment';
+import { EPrescription } from '@app/model/medications/ePrescription';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +43,11 @@ export class PatientService {
 
     cancelAppointment(id : Number){
       return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.cancelAppointment}`, id, {responseType : 'text'});
+    }
+
+    getPatientEPrescriptions(id : Number): Observable<EPrescription[]> {
+      return this.http.get<EPrescription[]>
+      (`${environment.baseUrl}/${environment.ePrescription}/${environment.getPatientEPrescriptions}?patientId=${id}`);
     }
 
 

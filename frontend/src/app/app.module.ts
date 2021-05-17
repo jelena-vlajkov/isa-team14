@@ -77,6 +77,7 @@ import { WelcomeComponent } from './employee-first-login/employee.first.login';
 import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
+import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 
 @NgModule({
   declarations: [
@@ -129,7 +130,8 @@ import { PatientScheduledAppointmentsComponent } from './patient/patient-schedul
     WelcomeComponent,
     PatientFinishedCounselingComponent,
     PatientFinishedExaminationComponent,
-    PatientScheduledAppointmentsComponent
+    PatientScheduledAppointmentsComponent,
+    PatientEPrescriptionsComponent
 
   ],
   imports: [
