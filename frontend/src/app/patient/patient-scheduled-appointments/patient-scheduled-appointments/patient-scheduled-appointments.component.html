@@ -2,6 +2,8 @@
     <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
           <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
           <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
           <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
