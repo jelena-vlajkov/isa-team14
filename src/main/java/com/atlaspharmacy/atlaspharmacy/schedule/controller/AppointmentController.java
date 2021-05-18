@@ -1,6 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
@@ -15,6 +20,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -23,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/appointment", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AppointmentController {
     private final IAppointmentService appointmentService;
@@ -75,6 +82,35 @@ public class AppointmentController {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }
 
+    @GetMapping(value = "/getFinishedPatientsCounselings", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody List<AppointmentDTO> getFinishedPatientsCounselings(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.finishedAppointmentCounseling(patientId);
+    }
+
+    @GetMapping(value = "/getFinishedPatientsExaminations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody List<AppointmentDTO> getFinishedPatientsExaminations(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.finishedAppointmentExamination(patientId);
+    }
+
+    @GetMapping(value = "/getNotFinishedAppointmentsForPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody List<AppointmentDTO> getNotFinishedAppointmentsForPatient(@RequestParam("patientId") Long patientId) throws  ParseException{
+        return appointmentService.getNotFinishedAppointmentsForPatient(patientId);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cancelAppointment", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<String> cancelAppointment(@RequestBody Long appointmentId) throws  ParseException{
+        if(appointmentService.cancelAppointment(appointmentId)) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     @GetMapping(value = "/getPatientsByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @EmployeeAuthorization
@@ -88,7 +124,6 @@ public class AppointmentController {
     public @ResponseBody List<PatientsOverviewDTO> searchPatients(@RequestBody SearchParametersDTO searchParametersDTO) throws Exception, InvalidMedicalStaff {
         return appointmentService.SearchPatientsByParameters(searchParametersDTO);
     }
-
 
     @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

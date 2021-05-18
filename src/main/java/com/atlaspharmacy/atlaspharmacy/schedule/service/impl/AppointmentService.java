@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
@@ -80,7 +81,7 @@ public class AppointmentService implements IAppointmentService {
     public boolean cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId).get();
         int hoursAvailableToCancel = 3600 * 1000 * 24;
-        if (appointment.canCancel(hoursAvailableToCancel))
+        if (!appointment.canCancelAppointment(hoursAvailableToCancel))
             return false;
         appointment.setCanceled(true);
         appointmentRepository.save(appointment);
@@ -359,6 +360,48 @@ public class AppointmentService implements IAppointmentService {
             }
         }
         return exams;
+    }
+    @Override
+    public List<AppointmentDTO> finishedAppointmentExamination(Long id){
+        List<AppointmentDTO> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(id);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Examination.toString())){
+                    exams.add(AppointmentMapper.mapAppointmentToDTO(appointmentRepository.findById(a.getId()).get()));
+
+                }
+            }
+        }
+        return exams;
+    }
+
+    @Override
+    public List<AppointmentDTO> finishedAppointmentCounseling(Long patientId) {
+        List<AppointmentDTO> exams = new ArrayList<>();
+        List<Appointment> patientsFinishedAppointments = getAllFinishedAppointmentsForPatient(patientId);
+        if(patientsFinishedAppointments!=null){
+            for(Appointment a : patientsFinishedAppointments){
+                if(a.getType().equals(AppointmentType.Counseling.toString())){
+                    exams.add(AppointmentMapper.mapAppointmentToDTO(appointmentRepository.findById(a.getId()).get()));
+
+                }
+            }
+        }
+        return exams;
+    }
+
+    @Override
+    public List<AppointmentDTO> getNotFinishedAppointmentsForPatient(Long patientId) {
+        List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
+        for(Appointment appointment : getPatientsAppointments(patientId)) {
+            if (!appointment.isCanceled() && (appointment.getAppointmentPeriod().getStartTime().compareTo(new Date()) > 0)) {
+                appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(appointment));
+            }
+        }
+
+        return appointmentDTOS;
     }
 
     @Override

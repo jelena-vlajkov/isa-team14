@@ -147,6 +147,12 @@ public class Appointment {
         return getAppointmentPeriod().getStartTime().before(validDate);
     }
 
+    public boolean canCancelAppointment(int hoursAvailableToCancel) {
+        Date today = new Date(); //17.05 21:30
+        Date validDate = new Date(today.getTime() + hoursAvailableToCancel); //18.05 21:30
+        return getAppointmentPeriod().getStartTime().after(validDate); //19.05 21:30
+    }
+
     private boolean checkExamination(Long medicalStaffId) {
         Examination examination = (Examination) this;
         return examination.getDermatologist().getId().equals(medicalStaffId);

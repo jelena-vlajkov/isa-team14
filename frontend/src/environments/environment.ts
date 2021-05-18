@@ -72,10 +72,15 @@ export const environment = {
   changeEmployeePass : "changeEmployeePass",
   firstTimePasswordChange : "firstEmployeeLogin",
   appointment : "appointment",
+  getFinishedPatientsCounselings : "getFinishedPatientsCounselings",
+  getFinishedPatientsExaminations : "getFinishedPatientsExaminations",
+  getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient",
+  cancelAppointment : "cancelAppointment",
+  ePrescription : "ePrescription",
+  getPatientEPrescriptions : "getPatientEPrescriptions",
   getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
   searchPatients : "searchPatients",
   findReservations : "getReservationByIdentifier",
   issueReservation : "issueReservation"
-
 };
 

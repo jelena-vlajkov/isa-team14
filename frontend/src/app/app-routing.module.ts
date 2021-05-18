@@ -30,6 +30,8 @@ import { MedicationOrderComponent } from './medication-order/medication-order.co
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
 import { Role } from './model/users';
+import { PatientHomePageComponent } from './patient/patient-home-page/patient-home-page.component';
+import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/patient-all-pharmacies.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
@@ -40,6 +42,10 @@ import { SupplierStorageComponent } from './supplier-storage/supplier-storage.co
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
+import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
+import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
+import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 
 const routes: Routes = [
 {
@@ -209,6 +215,46 @@ const routes: Routes = [
 {
   path: 'searchMedications',
   component: UnauthenticatedUserMedicationsComponent
+
+},
+{
+  path: 'patient/home',
+  component: PatientHomePageComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+
+},
+{
+  path: 'patient/finishedCounseling',
+  component: PatientFinishedCounselingComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+
+},
+{
+  path: 'patient/finishedExamination',
+  component: PatientFinishedExaminationComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+
+},
+{
+  path: 'patient/pharmacies',
+  component: PatientAllPharmaciesComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/scheduledAppointments',
+  component: PatientScheduledAppointmentsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/ePrescriptions',
+  component: PatientEPrescriptionsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 },
 {
   path:'supplier',

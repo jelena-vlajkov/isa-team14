@@ -9,6 +9,7 @@ export class Pharmacy{
   public email : String;
   public telephone : Number;
   checked?: boolean;
+  public averageGradeCount : Number;
 
   constructor(id:Number, name : String,description:String,address: Address, average_grade: Number, email : String, telephone : Number){
     this.id=id;

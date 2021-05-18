@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.DTO;
 import java.util.Date;
 
 public class AppointmentDTO {
+    private Long id;
     private Date startTime;
     private Date endTime;
     private double appointmentCost;
@@ -16,7 +17,7 @@ public class AppointmentDTO {
     public AppointmentDTO() {
     }
 
-    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail) {
+    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long id) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.appointmentCost = appointmentCost;
@@ -26,6 +27,15 @@ public class AppointmentDTO {
         this.patientEmail = patientEmail;
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalStaffName = medicalStaffName;
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Date getStartTime() {

@@ -101,29 +101,28 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
   }
 
   getGradeValues(event) {
-
     console.log(event.value);
     if (event.value == 1){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 0 &&
-         p.average_grade <=1);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 0 &&
+         p.averageGradeCount <=1);
     }else if(event.value == 2){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 1 &&
-         p.average_grade <=2);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 1 &&
+         p.averageGradeCount <=2);
     }else if(event.value == 3){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 2 &&
-         p.average_grade <=3);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 2 &&
+         p.averageGradeCount <=3);
     }
     else if(event.value == 4){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 3 &&
-         p.average_grade <=4);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 3 &&
+         p.averageGradeCount <=4);
     } else if(event.value == 5){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.average_grade >= 4 &&
-         p.average_grade <=5);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 4 &&
+         p.averageGradeCount <=5);
     }else {
       this.pharmacies = this.pharmaciesCopy;
     }
@@ -141,6 +140,8 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
         this.pharmacies = data;
         this.pharmaciesCopy = data;
       });
+
+      console.log(this.pharmacies)
   }
 
   findByName(inputName : String){
@@ -167,7 +168,7 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     this.pharmacies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'grade': return compare(a.average_grade, b.average_grade, isAsc);     
+        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);     
         default: return 0;
       }
      });

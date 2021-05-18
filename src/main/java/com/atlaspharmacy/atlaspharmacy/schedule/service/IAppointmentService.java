@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
@@ -41,5 +42,8 @@ public interface IAppointmentService {
     List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId);
     List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
 
+    List<AppointmentDTO> finishedAppointmentExamination(Long patientId);
+    List<AppointmentDTO> finishedAppointmentCounseling(Long patientId);
+    List<AppointmentDTO> getNotFinishedAppointmentsForPatient(Long patientId);
     List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
 }
