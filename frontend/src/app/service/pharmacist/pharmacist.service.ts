@@ -5,6 +5,7 @@ import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import {User} from "@app/model/users";
 import {UpdateEmployee} from "@app/model/pharmderm/UpdateEmployee"
+import { Reservation } from '@app/model/pharmderm/reservations';
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +23,13 @@ export class PharmacistService {
   updateEmployee(employee : UpdateEmployee) : Observable<UpdateEmployee[]> {
     return this.http.post<UpdateEmployee[]>(`${environment.baseUrl}/${environment.updateEmployees}`, employee);
   }
+
+  getReservationsByUniqueIdentifier(uniqueIdentifier : Number) : Observable<Reservation> {
+    return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.findReservations}?uniqueIdentifier=${uniqueIdentifier}`);
+  }
+
+  issueReservation(uniqueIdentifier : Number) : Observable<Reservation> {
+    return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.issueReservation}?uniqueIdentifier=${uniqueIdentifier}`);
+  }
+
 }
