@@ -6,8 +6,15 @@ import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonExcepti
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
+import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,11 +111,32 @@ public class AppointmentController {
         return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping(value = "/getPatientsByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId) throws Exception, InvalidMedicalStaff {
+        return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
+    }
+
+    @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public @ResponseBody List<PatientsOverviewDTO> searchPatients(@RequestBody SearchParametersDTO searchParametersDTO) throws Exception, InvalidMedicalStaff {
+        return appointmentService.SearchPatientsByParameters(searchParametersDTO);
+    }
+
     @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
     AppointmentNotFreeException handleException(DueDateSoonException e) {
         return new AppointmentNotFreeException();
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody
+    Exception handleException(Exception e) {
+        return e;
     }
 
 }

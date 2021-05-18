@@ -77,6 +77,10 @@ export const environment = {
   getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient",
   cancelAppointment : "cancelAppointment",
   ePrescription : "ePrescription",
-  getPatientEPrescriptions : "getPatientEPrescriptions"
+  getPatientEPrescriptions : "getPatientEPrescriptions",
+  getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
+  searchPatients : "searchPatients",
+  findReservations : "getReservationByIdentifier",
+  issueReservation : "issueReservation"
 };
 
