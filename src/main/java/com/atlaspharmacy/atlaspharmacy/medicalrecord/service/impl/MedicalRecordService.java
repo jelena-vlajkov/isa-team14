@@ -53,7 +53,7 @@ public class MedicalRecordService implements IMedicalRecordService {
     @Override
     public List<MedicationDTO> recommendMedicationForPatient(Long patientId) {
         MedicalRecord medicalRecord = getByPatientId(patientId);
-        List<Allergy> allergies = medicalRecord.getAllergies();
+        //List<Allergy> allergies = medicalRecord.getAllergies();
 
         List<Medication> medications = medicationRepository.findAll();
         /*

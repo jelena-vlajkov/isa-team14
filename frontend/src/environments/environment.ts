@@ -74,7 +74,9 @@ export const environment = {
   findReservations : "getReservationByIdentifier",
   issueReservation : "issueReservation",
   scheduledAppointments : "getScheduledByDateAndStaff",
-  findAvailableForEmployee : "getAppointmentsForEmployee"
+  findAvailableForEmployee : "getAppointmentsForEmployee",
+  medicalRecord : "medicalRecord",
+  recommendMedications : "recommendMedicationByPatient"
 
 };
 
