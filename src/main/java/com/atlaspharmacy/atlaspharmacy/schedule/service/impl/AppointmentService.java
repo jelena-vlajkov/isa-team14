@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -426,4 +427,45 @@ public class AppointmentService implements IAppointmentService {
         }
         return examinations;
     }
-}
+    @Override
+    public int getNumberOfScheduledByDate(Date date) {
+        List<Appointment> allAppointments=appointmentRepository.findAll();
+        int numberOfAppointments=0;
+        for(Appointment a:allAppointments){
+            if(a.isSameDay(date) && a.getType().equals(AppointmentType.Examination)) {
+                numberOfAppointments++;
+            }
+        }
+        return numberOfAppointments;
+    }
+
+    @Override
+    public List<Integer> getNumberOfAppointmentsForMonth(int month, int year) {
+        //datum se ne pomera dobro iz nepoznatog razloga,mozda nece ni biti potrebna
+        //ova metoda,al nek stoji za sad
+        List<Integer> scheduledForMonth = new ArrayList<>();
+        Date startDate = new Date(year, month - 1, 1);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        Date endDate = new Date(year, month - 1, day);
+        while (startDate.before(endDate)) {
+            scheduledForMonth.add(getNumberOfScheduledByDate(startDate));
+            Long newTime = startDate.getTime() + 24 * 60 * 60 * 1000;
+            startDate = new Date(newTime);
+        }
+        return scheduledForMonth;
+    }
+        @Override
+        public List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year) {
+            return null;
+        }
+
+        @Override
+        public List<Integer> getNumberOfAppointmentsForMonth(int year) {
+            return null;
+        }
+
+    }
+
+

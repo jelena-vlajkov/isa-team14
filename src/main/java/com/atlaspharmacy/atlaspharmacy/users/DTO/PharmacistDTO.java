@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PharmacistDTO extends MedicalStaffDTO{
     private PharmacyDTO pharmacy;
+    private boolean firstTimeChanged;
     private AverageGrade averageGrade;
 
 
@@ -35,4 +36,6 @@ public class PharmacistDTO extends MedicalStaffDTO{
     public AverageGrade getAverageGrade() { return averageGrade; }
 
     public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+
+    public double countAverageGrade(){ return averageGrade.count();  }
 }

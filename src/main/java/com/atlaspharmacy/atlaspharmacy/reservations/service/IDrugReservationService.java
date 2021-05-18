@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service;
 
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -17,4 +18,5 @@ public interface IDrugReservationService {
     DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception;
     List<DrugReservation> findAllReservation(Long pharmacyId);
     List<DrugReservation> getPatientsIssuedDrugReservations(Long id);
+    List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO periodDTO);
 }
