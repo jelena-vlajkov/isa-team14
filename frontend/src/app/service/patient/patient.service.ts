@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Patient } from 'src/app/model/users/patient/patient';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';        
+import { Appointment } from '@app/model/appointment/appointment';
+import { EPrescription } from '@app/model/medications/ePrescription';
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +25,30 @@ export class PatientService {
     updatePatient(data : Patient){
       return this.http.post(`${environment.baseUrl}/${environment.patient}/${environment.editPatient}`,data, {responseType : 'text'});
     }
+
+    getFinishedPatientsCounselings(id : Number): Observable<Appointment[]> {
+      return this.http.get<Appointment[]>
+      (`${environment.baseUrl}/${environment.appointment}/${environment.getFinishedPatientsCounselings}?patientId=${id}`);
+    }
+
+    getFinishedPatientsExaminations(id : Number): Observable<Appointment[]> {
+      return this.http.get<Appointment[]>
+      (`${environment.baseUrl}/${environment.appointment}/${environment.getFinishedPatientsExaminations}?patientId=${id}`);
+    }
+
+    getNotFinishedAppointmentsForPatient(id : Number): Observable<Appointment[]> {
+      return this.http.get<Appointment[]>
+      (`${environment.baseUrl}/${environment.appointment}/${environment.getNotFinishedAppointmentsForPatient}?patientId=${id}`);
+    }
+
+    cancelAppointment(id : Number){
+      return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.cancelAppointment}`, id, {responseType : 'text'});
+    }
+
+    getPatientEPrescriptions(id : Number): Observable<EPrescription[]> {
+      return this.http.get<EPrescription[]>
+      (`${environment.baseUrl}/${environment.ePrescription}/${environment.getPatientEPrescriptions}?patientId=${id}`);
+    }
+
+
 }

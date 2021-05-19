@@ -6,9 +6,16 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +24,13 @@ import java.util.stream.Collectors;
 public class DrugReservationService implements IDrugReservationService {
 
     private final DrugReservationRepository drugReservationRepository;
-
+    private final UserRepository userRepository;
+    private final EmailService emailService;
     @Autowired
-    public DrugReservationService(DrugReservationRepository drugReservationRepository) {
+    public DrugReservationService(DrugReservationRepository drugReservationRepository, UserRepository userRepository, EmailService emailService) {
         this.drugReservationRepository = drugReservationRepository;
+        this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -34,18 +44,23 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
+    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         reservation.setIssued(true);
         drugReservationRepository.save(reservation);
+        emailService.sendMailForIssuingReservation(reservation.getPatient(), reservation);
         return true;
     }
 
     @Override
-    public DrugReservation findDrugReservation(int uniqueIdentifier) throws DueDateSoonException {
+    public DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception {
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String mail = ((User)user).getEmail();
+        Pharmacist pharmacist = (Pharmacist) userRepository.findByEmail(mail);
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
+
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         return reservation;

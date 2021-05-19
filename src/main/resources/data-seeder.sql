@@ -30,7 +30,7 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 values ('Pharmacist', 500, '1986-01-01 00:00:01', 'vlajkovn@gmail.com', true, 0, 'Nadezda','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Pharmacist', 5500, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', true, 0, 'Tamara','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
+values ('Pharmacist', 5500, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', false, 0, 'Tamara','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Vlajkov', 200);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values('PharmacyAdmin', 400, '1966-01-01 00:00:01', 'vojvodicd@gmail.com', true, 0, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Vojvodic', 300);
@@ -65,12 +65,14 @@ insert into users(role, id, date_of_birth, email, first_time_password, gender, n
 VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
 
+
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) values (100, 1,2,3,4,5, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (200, 1,1,1,0,0,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (300, 1,2,3,4,5,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
-insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+
+--insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 
 insert into medicalstaff(license_number, id) values ('16657568',100);
 insert into medicalstaff(license_number, id) values ('243532',600);
@@ -88,10 +90,12 @@ insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) 
 insert into patients(enabled, verification_code, id) values (true, null, 200);
 insert into patients(enabled, verification_code, id) values (true, null, 1300);
 
+
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,5);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (600,1,1,1,1,1);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,4);
 insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1100,1,1,1,3,5);
+
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,200);
@@ -146,6 +150,13 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1800, '2021-02-02 13:00:00', '2021-02-02 13:30:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1900, '2021-02-07 13:30:00', '2021-02-07 14:00:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2000, '2021-02-01 14:00:00', '2021-02-01 14:30:00', 1000.00, false, 100, 100, 200);
+
+
+/*moj test*/
+
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2100, '2021-05-18 14:00:00', '2021-05-18 14:30:00', 1200.00, false, 100, 100, 200);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2200, '2021-05-22 14:00:00', '2021-05-22 14:30:00', 1200.00, false, 100, 100, 200);
+
 
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 0, 'Borozepam', 'Loncar Doo', 1,2.4, 6);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 4.4,3);
@@ -247,17 +258,22 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (600, 600);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 100);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 200);
 
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (100, '2021-06-28 12:00:00', '2021-02-03 12:00:00', 123, 200, 300, true, 100);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (200, '2021-11-28 12:00:00', '2021-12-28 12:00:00', 1234, 200,300, true, 200);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (300, '2021-12-28 12:00:00', '2021-12-03 12:00:00', 1235, 200, 300, false, 300);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (400, '2021-10-28 12:00:00', '2021-11-03 12:00:00', 1236, 200, 300, false, 400);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (500, '2021-05-20 12:00:00', '2021-06-03 12:00:00', 1237, 200, 300, false, 500);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (100, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 123, 200, 300, true, 100);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (200, '2021-01-28 12:00:00', '2021-01-28 12:00:00', 1234, 200,300, true, 200);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (300, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1235, 200, 300, false, 300);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (400, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1236, 200, 300, false, 400);
-insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (500, '2021-01-28 12:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (1000, '2021-01-28 12:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (600, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, true, 500);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (700, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, true, 500);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (800, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, true, 500);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (900, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, true, 500);
 
-insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (1000, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id) values (1100, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500);
 
 insert into medical_record(id, patient_id) values (100, 200);
 
@@ -364,3 +380,4 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 
 insert into subscriptions(id,patient_id,pharmacy_id) values (100,200,200);
 insert into subscriptions(id,patient_id,pharmacy_id) values (200,1300,200);
+
