@@ -4,6 +4,8 @@ import {Pharmacy} from "@app/model/pharmacy/pharmacy";
 import {environment} from "@environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {medicationInStorage} from "@app/model/pharmacyStorage/medicationInStorage";
+import {PharmacyStorage} from "@app/model/pharmacyStorage/pharmacyStorage";
+import {Medication} from "@app/model/medications/medication";
 
 
 @Injectable({
@@ -13,7 +15,11 @@ export class PharmacyStorageService {
 
   constructor(private http: HttpClient) { }
 
-  getByPharmacy(id : Number) :Observable<medicationInStorage[]>{
-    return this.http.get<medicationInStorage[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsInPharmacy}?ph=${id}`);
+  getByPharmacy(id : Number) :Observable<PharmacyStorage[]>{
+    return this.http.get<PharmacyStorage[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsInPharmacy}?ph=${id}`);
+  }
+
+  getMedicationsNotInPharmacy(pharmacyId: Number) :Observable<Medication[]>{
+    return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsNotInPharmacy}?ph=${pharmacyId}`);
   }
 }

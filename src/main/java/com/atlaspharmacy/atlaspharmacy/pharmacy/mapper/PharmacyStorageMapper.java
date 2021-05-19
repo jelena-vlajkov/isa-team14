@@ -10,8 +10,8 @@ public class PharmacyStorageMapper {
     private PharmacyStorageMapper() { }
 
     public static PharmacyStorageDTO mapToDto(PharmacyStorage pharmacyStorage) {
-        return new PharmacyStorageDTO(pharmacyStorage.getMedication(),
-                pharmacyStorage.getQuantity(), pharmacyStorage.getPharmacy());
+        return new PharmacyStorageDTO(pharmacyStorage.getMedication().getId(),pharmacyStorage.getMedication().getName(),
+                pharmacyStorage.getQuantity(), pharmacyStorage.getPharmacy(),pharmacyStorage.getMedication().getCode());
     }
 
     public static List<PharmacyStorageDTO> maptToListDto(List<PharmacyStorage> pharmacyStorageList) {

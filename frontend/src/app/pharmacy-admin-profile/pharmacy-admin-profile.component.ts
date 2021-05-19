@@ -154,7 +154,13 @@ export class PharmacyAdminProfileComponent implements OnInit {
     this.gender=this.editProfileForm.value.selectedGender;
     this.telephone=this.editProfileForm.value.telephone;
     //this.pharmacyAdmin=new PharmacyAdmin(this.name,this.surname,this.phoneNumber,this.telephone)
+}
+  checkLoggedInUser(){
+    return this.authenticationService.getUserValue();
+  }
 
-
+  logout(){
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

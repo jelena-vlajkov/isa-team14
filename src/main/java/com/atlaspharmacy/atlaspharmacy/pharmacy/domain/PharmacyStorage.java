@@ -12,11 +12,12 @@ public class PharmacyStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Pharmacy pharmacy;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Medication medication;
     private int quantity;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Pharmacy pharmacy;
 
     public PharmacyStorage() {
     }

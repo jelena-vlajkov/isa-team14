@@ -64,6 +64,17 @@ export const environment = {
   getSubscribed : "getSubscribed",
   getByStatus: "getByStatus",
   getAllOrdersWehereOfferIsNotGivenBySupplier :"getAllOrdersWehereOfferIsNotGivenBySupplier",
-  getByPharmacy:"getByPharmacy"
+  getByPharmacy:"getByPharmacy",
+  appointment:"appointment",
+  getAvailableExaminationsForDermatologist:"getAvailableExaminationsForDermatologist",
+  getPharmacyByAdmin:"getPharmacyByAdmin",
+  editPharmacy:"editPharmacy",
+  getByMedicationAndPharmacy:"getByMedicationAndPharmacy",
+  editPricelistEntity:"editPricelistEntity",
+  promotion:"promotion",
+  getPromotionsByPharmacy:"getPromotionsByPharmacy",
+  getMedicationsNotInPharmacy:"getMedicationsNotInPharmacy",
+  addPricelistEntity:"addPricelistEntity",
+  deletePricelistEntity:"deletePricelistEntity"
 };
 

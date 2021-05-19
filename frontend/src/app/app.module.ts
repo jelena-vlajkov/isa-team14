@@ -156,13 +156,13 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     MatMenuModule,
     //NgbModule,
     MatExpansionModule,
-    MatStepperModule
-    
+    MatStepperModule,
+    MatCardModule
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
   ],
 
   bootstrap: [AppComponent]

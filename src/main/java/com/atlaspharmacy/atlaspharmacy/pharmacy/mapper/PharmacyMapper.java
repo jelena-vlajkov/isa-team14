@@ -20,7 +20,7 @@ public class PharmacyMapper {
         p.setId(dto.getId());
         p.setEmail(dto.getEmail());
         p.setTelephone(dto.getTelephone());
-        p.setAverageGrade(dto.getAverageGrade());
+        p.setAverageGrade(new AverageGrade());
         p.setAddress(AddressMapper.mapAddressDTOToAddress(dto.getAddress()));
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
