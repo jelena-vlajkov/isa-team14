@@ -75,6 +75,22 @@ export const environment = {
   getPromotionsByPharmacy:"getPromotionsByPharmacy",
   getMedicationsNotInPharmacy:"getMedicationsNotInPharmacy",
   addPricelistEntity:"addPricelistEntity",
-  deletePricelistEntity:"deletePricelistEntity"
+  deletePricelistEntity:"deletePricelistEntity",
+  medicalRecord : "medicalRecord",
+  getPatientIngredients : "getPatientIngredients",
+  addPatientIngredient : "addPatientIngredient",
+  updateEmployees : "updateEmployee",
+  changeEmployeePass : "changeEmployeePass",
+  firstTimePasswordChange : "firstEmployeeLogin",
+  getFinishedPatientsCounselings : "getFinishedPatientsCounselings",
+  getFinishedPatientsExaminations : "getFinishedPatientsExaminations",
+  getNotFinishedAppointmentsForPatient : "getNotFinishedAppointmentsForPatient",
+  cancelAppointment : "cancelAppointment",
+  ePrescription : "ePrescription",
+  getPatientEPrescriptions : "getPatientEPrescriptions",
+  getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
+  searchPatients : "searchPatients",
+  findReservations : "getReservationByIdentifier",
+  issueReservation : "issueReservation"
 };
 

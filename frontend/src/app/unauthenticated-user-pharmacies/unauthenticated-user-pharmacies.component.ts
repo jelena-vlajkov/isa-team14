@@ -102,7 +102,6 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
   }
 
   getGradeValues(event) {
-
     console.log(event.value);
     if (event.value == 1){
       this.pharmacies = this.pharmaciesCopy;
@@ -142,6 +141,8 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
         this.pharmacies = data;
         this.pharmaciesCopy = data;
       });
+
+      console.log(this.pharmacies)
   }
 
   findByName(inputName : String){

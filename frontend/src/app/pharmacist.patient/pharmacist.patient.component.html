@@ -1,46 +1,45 @@
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
     <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
-       <mat-action-list >
-        <button mat-list-item routerLink="/pharmacist">  
+        <mat-action-list ><button mat-list-item routerLink="/dashboard">  
             <i class="material-icons">dashboard</i>
             <p class="list-p">Dashboard</p>
-        </button>
-        <button mat-list-item routerLink="/pharmacist/addReport">  
-                <i class="material-icons">alarm</i>
-                <p class="list-p">Counselings</p>
-        </button>
-        <button mat-list-item routerLink="/pharmacist/calendar"> 
-      
-            <i class="material-icons">calendar_today</i>
-            <p class="list-p">Calendar</p>
-        </button>
-        <button mat-list-item routerLink="/pharmacist/reports"> 
+            </button>
+            <button mat-list-item routerLink="/add-report">  
+                    <i class="material-icons">alarm</i>
+                    <p class="list-p">Counselings</p>
+            </button>
+            <button mat-list-item routerLink="/employee-calendar"> 
         
-            <i class="material-icons">article</i>
-            <p class="list-p">Counseling reports</p>
-        </button>
-        <button mat-list-item routerLink="/pharmacist/patients"> 
+                <i class="material-icons">calendar_today</i>
+                <p class="list-p">Calendar</p>
+            </button>
+            <button mat-list-item routerLink="/appointment-report"> 
             
-            <i class="material-icons">group</i>
-            <p class="list-p">Patients</p>
-        </button>
-        <button mat-list-item routerLink="/pharmacist/medication"> 
-            
-            <i class="material-icons">medication</i>
-            <p class="list-p">Medications</p>
-        </button>
-  </mat-action-list>
-  <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-    <button mat-list-item routerLink="/pharmacist/profile"> 
-          
-            <i class="material-icons">person</i>
-            <p class="list-p">Profile</p>
-        </button>
-        <button  mat-list-item (click)='logout()'> 
-            <i class="material-icons">logout</i>
-            <p class="list-p">Logout</p>
-        </button>
-      </mat-action-list>
+                <i class="material-icons">article</i>
+                <p class="list-p">Counseling reports</p>
+            </button>
+            <button mat-list-item routerLink="/patients-overview"> 
+                
+                <i class="material-icons">group</i>
+                <p class="list-p">Patients</p>
+            </button>
+            <button mat-list-item routerLink="/employee-medications"> 
+                
+                <i class="material-icons">medication</i>
+                <p class="list-p">Medications</p>
+            </button>
+        </mat-action-list>
+        <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+        <button mat-list-item routerLink="/employee-profile"> 
+              
+                <i class="material-icons">person</i>
+                <p class="list-p">Profile</p>
+            </button>
+            <button  mat-list-item (click)='logout()'> 
+                <i class="material-icons">logout</i>
+                <p class="list-p">Logout</p>
+            </button>
+          </mat-action-list>
     </mat-drawer>
     <mat-drawer-content>
         <mat-toolbar style="background-color: #385399;">
@@ -50,434 +49,80 @@
             <span>Patients</span>
             <span class="example-spacer"></span>
         </mat-toolbar>
-
-        <mat-card style="height: fit-conteny;">
+        <div style="position: relative; left: 10%;">
+        <mat-card style="height: fit-content; width: 1000px;">
             <mat-card-title>
                 <mat-card-header>
                     <mat-label>Search patient</mat-label>
                 </mat-card-header>
             </mat-card-title> 
             <mat-card-content style="margin-top: 30px; margin-left: 20px; display: flex;">
-                <mat-form-field class="example-full-width">
-                    <mat-label>By name and surname</mat-label>
-                    <input matInput type="search" placeholder="Name and surname">
-                </mat-form-field>
-                <mat-form-field class="example-full-width" style="margin-left: 30px;">
-                    <mat-label>Last counseling date</mat-label>
-                    <input matInput [matDatepicker]="picker2" value="12/1/2021">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field class="example-full-width" style="margin-left: 30px;">
-                    <mat-label>Prescribed medication</mat-label>
-                    <input matInput type="search" placeholder="Prescribed medication">
-                </mat-form-field>
+                <form [formGroup]="searchPatientsForm" (ngSubmit)="searchPatients()">
+                    <mat-form-field class="example-full-width">
+                        <mat-label>By name and surname</mat-label>
+                        <input matInput formControlName="name" type="search" placeholder="Name and surname">
+                    
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width" style="margin-left: 30px;">
+                        <mat-label>Appointment date</mat-label>
+                        <input matInput formControlName='date' style="font-size:18px;" placeholder="date" [matDatepicker]="dp3" id="datepicker" disabled>
+                        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                    <div style="position: absolute; bottom: 5px; right: 10px;">
+                        <button mat-flat-button color="primary" (click)="cancelSearch()">Cancel</button>
+                        <button mat-flat-button color="primary" (click)="searchPatients()" style="margin: 10px;">Search</button>
+                    </div>
+                </form>
             </mat-card-content>
             
         </mat-card>
+        <div *ngFor="let p of patients" >
+            <mat-card  style="height: fit-content; width: 1000px;">
+                <mat-card-title>
+                    <mat-card-header>
+                        <mat-label>{{p.name}} {{p.surname}}</mat-label>
+                    </mat-card-header>
+                </mat-card-title> 
+                <mat-card-content style="margin-left: 10px;">
+                        <mat-list-item><p style="color: black;">Date of birth: {{p.dateOfBirth}} </p></mat-list-item>
+                        
+                        <mat-list-item><p style="color: black;">Gender: {{p.gender}}</p></mat-list-item>
 
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
+                </mat-card-content>
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel  style="margin-top:20px;" >
+                        <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Prescribed medications
+                        </mat-panel-title>
+                        
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <mat-list-item *ngFor="let m of p.prescribedDrugs">{{m}} </mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel  style="margin-top:20px;" >
+                        <mat-expansion-panel-header>
+                        <mat-panel-title *ngIf="isPharmacist">
+                            Previously scheduled counselings
+                        </mat-panel-title>
+                        <mat-panel-title *ngIf="!isPharmacist">
+                            Previously scheduled examinations
+                        </mat-panel-title>
+                        
+                        </mat-expansion-panel-header>
+                        <mat-list>
+                            <mat-list-item *ngFor="let c of p.previousAppointments"> Start time: {{c.startTime}} - End time: {{c.endTime}} </mat-list-item>
+                        </mat-list>
+                    </mat-expansion-panel>
+                </mat-accordion>
 
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-
-
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-
-
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-
-
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
-
-        <mat-card style="height: fit-content;">
-            <mat-card-title>
-                <mat-card-header>
-                    <mat-label>Petar Petrovic</mat-label>
-                </mat-card-header>
-            </mat-card-title> 
-            <mat-card-content>
-                <mat-list style="margin-left: 20px;">
-                    <mat-list-item><p>Date of birth:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p> Address:  </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>City: </p></mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item><p>Gender: </p></mat-list-item>
-
-                  </mat-list>
-            </mat-card-content>
-            <mat-accordion class="example-headers-align" multi>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Prescribed medications
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Medication 1: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-                <mat-expansion-panel  style="margin-top:20px;" >
-                    <mat-expansion-panel-header>
-                      <mat-panel-title>
-                        Previously scheduled counselings
-                      </mat-panel-title>
-                      
-                    </mat-expansion-panel-header>
-                    <mat-list>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                        <mat-list-item>Date: 12.2.2021. Counseling 1: Pharmacist: </mat-list-item>
-                    </mat-list>
-                </mat-expansion-panel>
-            </mat-accordion>
-
-            <mat-card-actions align='end'>
-                
-            </mat-card-actions> 
-        </mat-card>
-
+                <mat-card-actions align='end'>
+                    
+                </mat-card-actions> 
+            </mat-card>
+        </div>
+    </div>
     </mat-drawer-content>
 </mat-drawer-container>

@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
+import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
@@ -45,6 +46,35 @@ public class EmailService implements IEmailService {
         emailDTO.setSubject("Confirm registration");
 
         return emailDTO;
+    }
+
+    public void sendMailForIssuingReservation(Patient p, DrugReservation drugReservation) throws IOException, MessagingException {
+
+        String FilePath = "./reservationmail.html";
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/reservations/service/reservationmail.html");
+
+
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[medicationName]", drugReservation.getMedication().getName());
+        body = body.replace("[name]", p.getName());
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, p.getEmail());
+
+        message.setSubject("Drug reservation picked up!");
+
+        javaMailSender.send(message);
     }
 
     public void sendConfirmationEmail(Patient p) throws FileNotFoundException, MessagingException, IOException{

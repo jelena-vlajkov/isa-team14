@@ -11,6 +11,7 @@ export class Pharmacy{
   public address: Address;
   public averageGrade: AverageGrade;
   checked?: boolean;
+  public averageGradeCount : Number;
 
   constructor(id:Number, name : String,description:String,address: Address, average_grade: AverageGrade, email : String, telephone : Number){
     this.id=id;

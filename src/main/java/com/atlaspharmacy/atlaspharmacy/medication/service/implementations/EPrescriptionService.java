@@ -1,6 +1,8 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.EPrescriptionDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.EPrescriptionMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.EPrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +31,17 @@ public class EPrescriptionService implements IEPrescriptionService {
         }
 
         return patientsEPrescriptions;
+    }
+
+    @Override
+    public List<EPrescriptionDTO> getAllEPrescritpions(Long patientId) {
+        List<EPrescriptionDTO> ePrescriptionDTOS = new ArrayList<>();
+        List<EPrescription> ePrescriptions = getPatientsEPrescription(patientId);
+        for (EPrescription e : ePrescriptions) {
+            ePrescriptionDTOS.add(EPrescriptionMapper.mapEPrescriptionToDTO(e));
+        }
+
+        return ePrescriptionDTOS;
+
     }
 }

@@ -219,7 +219,7 @@
           <td style="font-size: 25px;"> {{pricelist.medication.name}} </td>
           <span style="margin-left: 100px;"></span>
           <td style="font-size: 25px;margin-left: 30px;" contenteditable="true" (focusout)="changeValue(pricelist.id)" id="{{pricelist.id}}" *ngIf="isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;">din</label>
-          <td style="font-size: 25px;margin-left: 30px;" *ngIf="!isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;">din</label>
+          <td style="font-size: 25px;margin-left: 30px;" *ngIf="!isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;" *ngIf="!isPharmacyAdmin">din</label>
 
           <span style="margin-left: 100px;"></span>
           <td *ngIf="isPharmacyAdmin"><button class="btn" mat-raised-button (click)="deletePricelistEntity(pricelist.id)"><i class="fa fa-trash" ></i></button></td>

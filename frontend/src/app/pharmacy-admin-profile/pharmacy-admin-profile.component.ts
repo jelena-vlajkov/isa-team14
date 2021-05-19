@@ -53,6 +53,7 @@ export class PharmacyAdminProfileComponent implements OnInit {
 
     this.oldpassword = "peraBijeKera";
 
+    console.log(localStorage.getItem('userId'));
     this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
       result => {
         this.name = result.name;

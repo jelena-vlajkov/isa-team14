@@ -1,0 +1,72 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of reserved medications by eRecepts</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of subscibed pharmacies</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Write complaint</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Get reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by pharmacist</button>
+          
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>All pharmacies</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            
+            <div class="table-wrapper">
+                <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>Type of ePrescriptions</th>
+                        <th>Id</th>
+                        <th mat-sort-header="date">Date</th>
+                        <th>Patient name</th>
+                        <th>Pharmacy name:</th>
+                        
+                    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let a of prescriptions" >
+                        <td>Nema napravljeno</td>
+                        <td>{{a.id}}</td>
+                        <td>{{a.date | date : "medium"}}</td>
+                        <td>{{a.patientName}}</td>
+                        <td>{{a.pharmacyName}}</td>
+                        
+                    </tr>
+                    
+                    <tbody>
+                </table>
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>
+
+
+
+

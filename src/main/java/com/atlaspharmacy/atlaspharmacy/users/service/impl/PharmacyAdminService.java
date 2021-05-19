@@ -65,7 +65,7 @@ public class PharmacyAdminService implements IPharmacyAdminService {
 
     @Override
     public PharmacyAdmin getById(Long id) {
-        return pharmacyAdminRepository.findById(id).orElse(null);
+        return pharmacyAdminRepository.findById(id).get();
     }
 
     @Override

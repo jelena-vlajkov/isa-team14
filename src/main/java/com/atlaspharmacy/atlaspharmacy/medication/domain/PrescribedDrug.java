@@ -1,7 +1,5 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
-import org.hibernate.event.spi.PreCollectionRecreateEvent;
-
 import javax.persistence.*;
 
 @Entity
@@ -15,14 +13,31 @@ public class PrescribedDrug {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private EPrescription eprescription;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Medication prescribedMedication;
 
     public PrescribedDrug(){}
 
-    public PrescribedDrug(Long id, Long quantity) {
+    public PrescribedDrug(Long id, Long quantity, EPrescription eprescription) {
         this.id = id;
         this.quantity = quantity;
+        this.eprescription = eprescription;
+    }
+
+    public EPrescription getEprescription() {
+        return eprescription;
+    }
+
+    public void setEprescription(EPrescription eprescription) {
+        this.eprescription = eprescription;
+    }
+
+    public Medication getPrescribedMedication() {
+        return prescribedMedication;
+    }
+
+    public void setPrescribedMedication(Medication prescribedMedication) {
+        this.prescribedMedication = prescribedMedication;
     }
 
     public Long getId() {

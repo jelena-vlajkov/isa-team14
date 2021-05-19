@@ -8,6 +8,7 @@ import java.util.List;
 
 public class DrugReservationMapper {
     private DrugReservationMapper() {}
+
     public static DrugReservationDTO mapDrugReservationToDTO(DrugReservation drugReservation) {
         String patientName = drugReservation.getPatient().getName() + " " + drugReservation.getPatient().getSurname();
         return new DrugReservationDTO(patientName,
