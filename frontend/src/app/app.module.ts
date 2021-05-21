@@ -78,6 +78,7 @@ import { PatientFinishedCounselingComponent } from './patient/patient-finished-c
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
+import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
     PatientFinishedCounselingComponent,
     PatientFinishedExaminationComponent,
     PatientScheduledAppointmentsComponent,
-    PatientEPrescriptionsComponent
+    PatientEPrescriptionsComponent,
+    PatientIssuedEDrugsComponent
 
   ],
   imports: [
