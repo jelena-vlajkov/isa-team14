@@ -154,7 +154,7 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 
 /*moj test*/
 
-insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2100, '2021-05-18 14:00:00', '2021-05-18 14:30:00', 1200.00, false, 100, 100, 200);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2100, '2021-05-18 14:00:00', '2021-05-18 15:30:00', 1200.00, false, 100, 100, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2200, '2021-05-22 14:00:00', '2021-05-22 14:30:00', 1200.00, false, 100, 100, 200);
 
 

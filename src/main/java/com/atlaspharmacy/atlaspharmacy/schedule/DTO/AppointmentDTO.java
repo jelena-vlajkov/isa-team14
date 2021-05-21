@@ -13,11 +13,12 @@ public class AppointmentDTO {
     private String patientEmail;
     private String medicalStaffName;
     private String medicalStaffEmail;
+    private long duration;
 
     public AppointmentDTO() {
     }
 
-    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long id) {
+    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long id, long duration) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.appointmentCost = appointmentCost;
@@ -28,6 +29,15 @@ public class AppointmentDTO {
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalStaffName = medicalStaffName;
         this.id = id;
+        this.duration = duration;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public Long getId() {

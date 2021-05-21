@@ -45,7 +45,7 @@ export class PatientAllPharmaciesComponent implements OnInit {
     this.pharmacies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'grade': return compare(a.average_grade, b.average_grade, isAsc);   
+        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);   
         case 'name': return compare(a.name, b.name, isAsc);    
         case 'address': return compare(a.address.city.name, b.address.city.name, isAsc);    
         default: return 0;

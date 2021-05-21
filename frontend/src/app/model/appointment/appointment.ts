@@ -9,9 +9,10 @@ export class Appointment{
     public patientEmail : String;
     public medicalStaffName : String;
     public medicalStaffEmail : String;
+    public duration : Number;
 
     constructor(startTime : Date, endTime : Date, appointmentCost : Number, appointmentType : String, patientName : String, canceled : boolean, 
-        patientEmail : String, medicalStaffName : String, medicalStaffEmail : String ){
+        patientEmail : String, medicalStaffName : String, medicalStaffEmail : String, duration : Number){
         this.startTime = startTime;
         this.endTime = endTime;
         this.appointmentCost = appointmentCost;
@@ -21,6 +22,7 @@ export class Appointment{
         this.canceled = canceled;
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalStaffName = medicalStaffName;
+        this.duration = duration;
     }
     
 }

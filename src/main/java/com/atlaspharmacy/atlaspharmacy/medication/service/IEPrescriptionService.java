@@ -8,4 +8,5 @@ import java.util.List;
 public interface IEPrescriptionService {
     List<EPrescription> getPatientsEPrescription(Long id);
     List<EPrescriptionDTO> getAllEPrescritpions(Long patientId);
+
 }

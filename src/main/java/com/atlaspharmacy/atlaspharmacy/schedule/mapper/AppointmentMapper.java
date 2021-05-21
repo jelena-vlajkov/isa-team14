@@ -24,6 +24,10 @@ public class AppointmentMapper {
             medicalStaffEmail = examination.getDermatologist().getEmail();
         }
 
+        long appointmentDuration = appointment.getAppointmentPeriod().getEndTime().getTime() - appointment.getAppointmentPeriod().getStartTime().getTime();
+        long appointmentDurationInMinutes = appointmentDuration / (60 * 1000);
+
+
         return new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(),
                 appointment.getAppointmentPeriod().getEndTime(),
                 appointment.getCost(),
@@ -33,7 +37,8 @@ public class AppointmentMapper {
                 appointment.getPatient().getEmail(),
                 medicalStaffName,
                 medicalStaffEmail,
-                appointment.getId());
+                appointment.getId(),
+                appointmentDurationInMinutes);
     }
 
     public static List<AppointmentDTO> mapAppointmentsToListDTO(List<Appointment> appointments) {
