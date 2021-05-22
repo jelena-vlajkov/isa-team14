@@ -75,4 +75,10 @@ export class MedicationOrderOffersComponent implements OnInit {
     this.showMedicationOrderInfo = false;
     this.showOffers = true;
   }
+
+  chooseOffer(offer: Offer) {
+    this.offerService.chooseOffer(offer).subscribe(result => {
+      this.ngOnInit();
+    });
+  }
 }

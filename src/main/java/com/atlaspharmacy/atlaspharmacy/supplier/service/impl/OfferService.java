@@ -145,7 +145,7 @@ public class OfferService implements IOfferService {
         List<Offer> allOffers = offerRepository.findAll();
         List<OfferDTO> offersForOrder = new ArrayList();
         for (Offer o : allOffers) {
-            if (o.getOrder().getId().equals(orderId)) {
+            if (o.getOrder().getId().equals(orderId) && o.getOfferStatus().equals(OfferStatus.PENDING)) {
                 OfferDTO dto = OfferMapper.mapOfferToDTO(o);
                 List<OrderedMedicationDTO> omDTO = setMedicationDTOStoOrderDTO(o);
                 dto.getOrder().setOrderedMedications(omDTO);
@@ -190,8 +190,11 @@ public class OfferService implements IOfferService {
                 o.setOfferStatus(OfferStatus.ACCEPTED);
                 offerRepository.save(o);
                 emailService.sendNotificationToSupplier(o.getSupplier(), true);
-                pharmacyStorageService.addNewMedicationsToStorage(o.getOrder());
-            } else {
+                List<MedicationInOrder> medicationsByOrder=medicationInOrderService.getAllMedicationsByOrder(o.getOrder().getId());
+                for(MedicationInOrder m:medicationsByOrder) {
+                    pharmacyStorageService.addMedicationToPharmacy(m.getOrderedMedication().getMedication(),o.getOrder().getPharmacy().getId(), 0L);
+                }
+                } else {
                 o.setOfferStatus(OfferStatus.REJECTED);
                 offerRepository.save(o);
                 emailService.sendNotificationToSupplier(o.getSupplier(), false);

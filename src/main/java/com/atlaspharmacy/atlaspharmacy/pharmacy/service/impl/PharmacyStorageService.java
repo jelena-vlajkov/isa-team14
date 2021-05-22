@@ -146,7 +146,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     public void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount) {
         PharmacyStorage newMedicationInStorage=new PharmacyStorage();
         newMedicationInStorage.setQuantity(amount);
-        newMedicationInStorage.setMedication(MedicationMapper.convertToMedication(medicationService.findById(medicationId)));
+        newMedicationInStorage.setMedication(medicationService.getById(medicationId));
         newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
         pharmacyStorageRepository.save(newMedicationInStorage);
 

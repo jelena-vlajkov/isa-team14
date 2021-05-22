@@ -25,7 +25,7 @@
             <span style="margin-left: 100px;"></span>
             <td style="font-size: 25px;margin-left: 30px;" > {{ offer.dueDelivery | date :  "dd.MM.y" }}</td>
             <span style="margin-left: 100px;"></span>
-            <td><button class="btn"><i style="color: blue;">Choose this offer</i></button></td>
+            <td><button class="btn"><i style="color: blue;" (click)="chooseOffer(offer)">Choose this offer</i></button></td>
           </tr>
         </table>
       <div style="margin-top: 100px;">
