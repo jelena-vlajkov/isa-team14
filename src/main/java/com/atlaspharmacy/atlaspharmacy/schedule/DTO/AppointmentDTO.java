@@ -15,6 +15,9 @@ public class AppointmentDTO {
     private String medicalStaffName;
     private String medicalStaffEmail;
     private Long pharmacyId;
+    private Long patientId;
+    private Long id;
+    private boolean finished;
 
 
     public AppointmentDTO() {
@@ -36,6 +39,30 @@ public class AppointmentDTO {
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalStaffName = medicalStaffName;
         this.pharmacyId = pharmacyId;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
     }
 
     public Long getPharmacyId() {

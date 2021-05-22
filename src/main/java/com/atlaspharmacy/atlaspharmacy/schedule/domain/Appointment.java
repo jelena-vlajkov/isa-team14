@@ -30,12 +30,13 @@ public class Appointment {
     @Column(insertable = false, updatable = false)
     private String type;
     private boolean isCanceled;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
+    private boolean finished;
 
     public Appointment() {
     }
@@ -49,6 +50,14 @@ public class Appointment {
         this.cost = cost;
         this.type = type;
         this.isCanceled = isCanceled;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 
     public Long getId() {

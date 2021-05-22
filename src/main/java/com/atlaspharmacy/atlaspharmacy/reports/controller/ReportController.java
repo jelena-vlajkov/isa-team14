@@ -30,8 +30,9 @@ public class ReportController {
 
     @PostMapping(value = "saveReport", produces = MediaType.APPLICATION_JSON_VALUE)
     @ReportAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody
-    ResponseEntity<?> saveReport(@RequestBody SaveReportDTO reportDTO) throws ParseException {
+    ResponseEntity<?> saveReport(@RequestBody SaveReportDTO reportDTO) throws Exception {
         reportService.saveReport(reportDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

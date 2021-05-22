@@ -24,7 +24,7 @@ public class AppointmentMapper {
             medicalStaffEmail = examination.getDermatologist().getEmail();
         }
 
-        return new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(),
+        AppointmentDTO dto = new AppointmentDTO(appointment.getAppointmentPeriod().getStartTime(),
                 appointment.getAppointmentPeriod().getEndTime(),
                 appointment.getCost(),
                 appointment.getType(),
@@ -33,6 +33,11 @@ public class AppointmentMapper {
                 appointment.getPatient().getEmail(),
                 medicalStaffName,
                 medicalStaffEmail, appointment.getPharmacy().getId());
+        dto.setId(appointment.getId());
+        dto.setPatientId(appointment.getPatient().getId());
+        dto.setPharmacyId(appointment.getPharmacy().getId());
+        dto.setFinished(appointment.isFinished());
+        return dto;
     }
 
     public static List<AppointmentDTO> mapAppointmentsToListDTO(List<Appointment> appointments) {

@@ -16,6 +16,7 @@ public interface IAppointmentService {
 
     Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
     Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
+    Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws AppointmentNotFreeException;
     boolean cancelAppointment(Long appointmentId);
     List<Appointment> findAvailableBy(Date date, Long medicalStaffId);
     List<Counseling> findAvailableCounselingsBy(Date date);
@@ -43,4 +44,6 @@ public interface IAppointmentService {
     List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date);
 
     List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
+
+    void finishAppointment(Long appointmentId) throws Exception;
 }

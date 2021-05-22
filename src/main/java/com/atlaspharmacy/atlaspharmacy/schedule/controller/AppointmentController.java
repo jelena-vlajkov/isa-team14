@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -15,6 +16,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -39,6 +41,21 @@ public class AppointmentController {
     public @ResponseBody List<AppointmentDTO> getScheduledByDate(@RequestParam("date") String stringDate) throws ParseException {
         Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(date));
+    }
+
+    @PostMapping(value = "/scheduleAppointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> scheduleAppointment(@RequestBody ScheduleAppointmentDTO dto) throws AppointmentNotFreeException {
+        appointmentService.saveAppointment(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping(value = "/finishAppointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> scheduleAppointment(@RequestBody Long appointmentId) throws Exception {
+        appointmentService.finishAppointment(appointmentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/getScheduledByDateAndStaff", produces = MediaType.APPLICATION_JSON_VALUE)

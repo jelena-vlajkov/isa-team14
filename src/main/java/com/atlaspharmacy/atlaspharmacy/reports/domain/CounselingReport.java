@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.reports.domain;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.enums.ReportType;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
@@ -13,15 +14,15 @@ import java.util.List;
 @DiscriminatorValue(value = ReportType.Values.Counseling)
 public class CounselingReport extends Report {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacist pharmacist;
 
     public CounselingReport() {
         super();
     }
 
-    public CounselingReport(Date date, List<Medication> medication, Patient patient, String reportNotes, String reportType, Pharmacist pharmacist) {
-        super(date, medication, patient, reportNotes, reportType);
+    public CounselingReport(Date date, List<Medication> medication, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes, Pharmacist pharmacist) {
+        super(date, medication, patient, pharmacy, reportType, reportNotes);
         this.pharmacist = pharmacist;
     }
 

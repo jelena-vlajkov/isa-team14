@@ -12,6 +12,10 @@ import { env } from 'process';
 import { Appointment } from '@app/model/appointment/appointment';
 import { Medication } from '@app/model/medications/medication';
 import { PrescribeMedication } from '@app/model/pharmderm/prescribemeds';
+import { MedicationsToRecommend } from '@app/model/pharmderm/medicationstorecommend';
+import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
+import { SaveReport } from '@app/model/pharmderm/createreport';
+import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 
 @Injectable({
   providedIn: 'root'
@@ -46,11 +50,41 @@ export class EmployeeService {
     return this.http.get<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.findAvailableForEmployee}?date=${date}&medicalStaffId=${medicalStaffId}&pharmacyId=${pharmacyid}`);
   }
 
-  recommendMedications(patientId : Number) : Observable<Medication[]> {
-    return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}`);
+  recommendMedications(patientId : Number) : Observable<MedicationsToRecommend[]> {
+    return this.http.get<MedicationsToRecommend[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}`);
   }
 
-  recommendAvailableMedications(patientId : Number, pharmacyId : Number) : Observable<PrescribeMedication[]> {
-    return this.http.get<PrescribeMedication[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}&pharmacyId=${pharmacyId}`);
+  recommendAvailableMedications(patientId : Number, pharmacyId : Number) : Observable<MedicationsToRecommend[]> {
+    return this.http.get<MedicationsToRecommend[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}&pharmacyId=${pharmacyId}`);
   }
+
+  recommendSimilarMedications(medicationId : Number, pharmacyId : Number) : Observable<MedicationsToRecommend[]> {
+    return this.http.get<MedicationsToRecommend[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendSimilarMedication}?medicationId=${medicationId}&pharmacyId=${pharmacyId}`);
+  }
+
+  addPenalty(penalty : CreatePenalty) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.penalty}/${environment.savePenalty}`, penalty);
+  }
+
+  addReport(report : SaveReport) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.reports}/${environment.saveReport}`, report);
+  }
+
+  addDrugReservation(drugReservation : CreaeteReservation) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.reservations}/${environment.saveResevation}`, drugReservation);
+  }
+
+  scheduleAppointment(appointment : Appointment) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.appointment}/${environment.scheduleAppointment}`, appointment);
+  }
+
+  finishAppointment(appointmentId : Number) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.appointment}/${environment.finishAppointment}`, appointmentId);
+  }
+
+
+
+
+
+
 }

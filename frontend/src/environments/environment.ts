@@ -78,8 +78,15 @@ export const environment = {
   issueReservation : "issueReservation",
   scheduledAppointments : "getScheduledByDateAndStaff",
   findAvailableForEmployee : "getAppointmentsForEmployee",
-  medicalRecord : "medicalRecord",
-  recommendMedications : "recommendMedicationByPatient"
+  recommendMedications : "recommendMedicationByPatient",
+  saveResevation : "saveReservation",
+  recommendSimilarMedication : "recommendSimilarMedication",
+  savePenalty : "addPenalty",
+  penalty : "penalty",
+  reports : "report",
+  saveReport : "saveReport", 
+  scheduleAppointment : "scheduleAppointment",
+  finishAppointment : "finishAppointment"
 
 };
 

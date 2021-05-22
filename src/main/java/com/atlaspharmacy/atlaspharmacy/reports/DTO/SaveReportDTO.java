@@ -12,17 +12,29 @@ public class SaveReportDTO {
     private String reportNotes;
     private Long medicalStaffId;
     private String type;
+    private Long pharmacyId;
 
     public SaveReportDTO() {
+        date = new Date();
     }
 
-    public SaveReportDTO(Date date, List<String> medications, Long patientId, String reportNotes, Long dermatologistId, String type) {
+
+    public SaveReportDTO(Date date, List<String> medications, Long patientId, String reportNotes, Long medicalStaffId, String type, Long pharmacyId) {
         this.date = date;
         this.medications = medications;
         this.patientId = patientId;
         this.reportNotes = reportNotes;
-        this.medicalStaffId = dermatologistId;
+        this.medicalStaffId = medicalStaffId;
         this.type = type;
+        this.pharmacyId = pharmacyId;
+    }
+
+    public Long getPharmacyId() {
+        return pharmacyId;
+    }
+
+    public void setPharmacyId(Long pharmacyId) {
+        this.pharmacyId = pharmacyId;
     }
 
     public Date getDate() {
