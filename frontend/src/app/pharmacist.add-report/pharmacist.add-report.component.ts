@@ -26,6 +26,7 @@ export class PharmacistAddReportComponent {
     public searchAppointmentForm : FormGroup;
     public searchMedicationsForm : FormGroup;
     public showSearchResultsForMedications : boolean;
+    
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 

@@ -11,6 +11,7 @@ import { Patient } from '@app/model/users/patient/patient';
 import { env } from 'process';
 import { Appointment } from '@app/model/appointment/appointment';
 import { Medication } from '@app/model/medications/medication';
+import { PrescribeMedication } from '@app/model/pharmderm/prescribemeds';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class EmployeeService {
 
   recommendMedications(patientId : Number) : Observable<Medication[]> {
     return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}`);
+  }
+
+  recommendAvailableMedications(patientId : Number, pharmacyId : Number) : Observable<PrescribeMedication[]> {
+    return this.http.get<PrescribeMedication[]>(`${environment.baseUrl}/${environment.medicalRecord}/${environment.recommendMedications}?patientId=${patientId}&pharmacyId=${pharmacyId}`);
   }
 }

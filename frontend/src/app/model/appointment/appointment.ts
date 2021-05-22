@@ -1,4 +1,5 @@
 import { Medication } from "../medications/medication";
+import { PrescribeMedication } from "../pharmderm/prescribemeds";
 
 export class Appointment{
     public startTime :Date;
@@ -13,6 +14,7 @@ export class Appointment{
     public medicalStaffEmail : String;
     public startDateString : string;
     public endDateString : string;
+    public availableMedicationsForPatients : PrescribeMedication[];
     public medicationsForPatients : Medication[];
     
     constructor() {}

@@ -168,8 +168,8 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1501, '2021-05-19 16:30:00', '2021-05-19 17:00:00', 1000.00, false, 100,500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1601, '2021-05-18 11:00:00', '2021-05-18 11:30:00', 1000.00, false, 100, 500, 200);
 
-insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1702, '2021-05-17 12:00:00', '2021-05-17 12:30:00', 1000.00, false, 100, 500, 200);
-insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1802, '2021-05-17 13:00:00', '2021-05-17 13:30:00', 1000.00, false, 100, 500, 200);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1702, '2021-05-22 12:00:00', '2021-05-22 12:30:00', 1000.00, false, 100, 500, 200);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1802, '2021-05-22 13:00:00', '2021-05-22 13:30:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id) values ('Counseling', 1903, '2021-05-17 13:30:00', '2021-05-17 14:00:00', 1000.00, false, 100, 500, 200);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id) values ('Examination', 2001, '2021-02-01 14:00:00', '2021-02-01 14:30:00', 1000.00, false, 100, 100, 200);
 
