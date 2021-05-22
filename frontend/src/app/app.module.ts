@@ -80,6 +80,8 @@ import { PatientFinishedExaminationComponent } from './patient/patient-finished-
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -135,7 +137,8 @@ import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/pa
     PatientFinishedExaminationComponent,
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
-    PatientIssuedEDrugsComponent
+    PatientIssuedEDrugsComponent,
+    PatientScheduleCounselingComponent
 
   ],
   imports: [
@@ -179,7 +182,8 @@ import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/pa
     //NgbModule,
     MatExpansionModule,
     MatStepperModule,
-    MatCardModule
+    MatCardModule,
+    NgxMaterialTimepickerModule
 
   ],
   providers: [

@@ -48,6 +48,7 @@ import { PatientFinishedExaminationComponent } from './patient/patient-finished-
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
 
 const routes: Routes = [
 {
@@ -267,6 +268,12 @@ const routes: Routes = [
 {
   path: 'patient/issuedEdrugs',
   component: PatientIssuedEDrugsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/scheduleCounseling',
+  component: PatientScheduleCounselingComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },
