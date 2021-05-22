@@ -46,4 +46,6 @@ public interface IAppointmentService {
     List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
 
     void finishAppointment(Long appointmentId) throws Exception;
+
+    Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
 }

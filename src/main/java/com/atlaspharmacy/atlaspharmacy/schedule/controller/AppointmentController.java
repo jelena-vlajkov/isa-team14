@@ -66,6 +66,15 @@ public class AppointmentController {
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(date, id));
     }
 
+    @GetMapping(value = "/findSpecificAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AppointmentAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public @ResponseBody AppointmentDTO getScheduledByDateAndStaff(@RequestParam("date") String date, @RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("patientId") Long patientId) throws Exception {
+        Date dateObj = new SimpleDateFormat("dd.MM.yyyy.").parse(date);
+        return AppointmentMapper.mapAppointmentToDTO(appointmentService.findSpecificAppointment(dateObj, medicalStaffId, patientId));
+    }
+
+
     @GetMapping(value = "/getAvailableForStaff", produces = MediaType.APPLICATION_JSON_VALUE)
     @AppointmentAuthorization
     @CrossOrigin(origins = "*", allowedHeaders = "*")

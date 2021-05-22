@@ -40,6 +40,7 @@ import { SupplierStorageComponent } from './supplier-storage/supplier-storage.co
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientExaminationComoponent } from './patient-examination/patient-examination.component';
 
 const routes: Routes = [
 {
@@ -151,6 +152,12 @@ const routes: Routes = [
 },
 { path: 'dashboard',
   component: PharmacistComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+
+},
+{ path: 'appointment',
+  component: PatientExaminationComoponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 

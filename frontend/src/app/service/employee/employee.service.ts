@@ -82,6 +82,10 @@ export class EmployeeService {
     return this.http.post<Response>(`${environment.baseUrl}/${environment.appointment}/${environment.finishAppointment}`, appointmentId);
   }
 
+  getAppointmentForPatient(medicalStaffId : Number, date : String, patientId : Number) : Observable<Appointment> {
+    return this.http.get<Appointment>(`${environment.baseUrl}/${environment.appointment}/${environment.getSpecificAppointment}?medicalStaffId=${medicalStaffId}&date=${date}&patientId=${patientId}`);
+  }
+
 
 
 

@@ -72,6 +72,7 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
 import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allergies-dialog.component';
 import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientExaminationComoponent } from './patient-examination/patient-examination.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { WelcomeComponent } from './employee-first-login/employee.first.login';
     PatientSubscriptionsComponent,
     AllergiesDialogComponent,
     EditAllergiesComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    PatientExaminationComoponent
 
   ],
   imports: [

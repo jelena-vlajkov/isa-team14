@@ -86,7 +86,8 @@ export const environment = {
   reports : "report",
   saveReport : "saveReport", 
   scheduleAppointment : "scheduleAppointment",
-  finishAppointment : "finishAppointment"
+  finishAppointment : "finishAppointment",
+  getSpecificAppointment : "findSpecificAppointment"
 
 };
 

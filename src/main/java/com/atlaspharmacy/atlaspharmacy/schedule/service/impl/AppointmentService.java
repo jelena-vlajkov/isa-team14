@@ -206,6 +206,11 @@ public class AppointmentService implements IAppointmentService {
                 }
             }
         }
+
+        for (PatientsOverviewDTO po : retVal) {
+            mapPrescribedDrugsToDTO(po);
+            po.setUpcomingAppointment(findUpcomingAppointments(po.getPatientId(), searchParametersDTO.getMedicalStaffId()));
+        }
         return retVal;
     }
 
@@ -218,6 +223,17 @@ public class AppointmentService implements IAppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId).get();
         appointment.setFinished(true);
         appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception {
+        List<Appointment> appointments = getOccupiedBy(dateObj, medicalStaffId);
+        for (Appointment appointment : appointments) {
+            if (appointment.getPatient().getId().equals(patientId) && !appointment.isFinished()) {
+                return appointment;
+            }
+        }
+        throw new Exception("No such appointment!");
     }
 
     private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {
@@ -251,9 +267,20 @@ public class AppointmentService implements IAppointmentService {
 
         for (PatientsOverviewDTO po : retVal) {
             mapPrescribedDrugsToDTO(po);
+            po.setUpcomingAppointment(findUpcomingAppointments(po.getPatientId(), medicalStaffId));
         }
 
         return retVal;
+    }
+
+    private boolean findUpcomingAppointments(Long patientId, Long medicalStaffId) {
+        List<Appointment> scheduled = getOccupiedBy(new Date(), medicalStaffId);
+        for (Appointment a : scheduled) {
+            if (a.getPatient().getId().equals(patientId) && !a.isFinished()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void mapPrescribedDrugsToDTO(PatientsOverviewDTO po) {
