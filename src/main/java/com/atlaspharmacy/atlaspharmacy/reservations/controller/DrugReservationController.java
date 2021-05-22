@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DrugReservationController {
@@ -29,7 +30,7 @@ public class DrugReservationController {
         this.drugReservationService = drugReservationService;
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+
     @GetMapping(value = "/getReservations", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     public @ResponseBody
@@ -52,6 +53,11 @@ public class DrugReservationController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     DrugReservationDTO getReservationByIdentifier(@RequestParam("uniqueIdentifier") int uniqueIdentifier) throws Exception {
         return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(uniqueIdentifier));
+    }
+
+    @GetMapping(value = "/isDrugReserved")
+    boolean isDrugReserved(@RequestParam("medicationId") Long medicationId,@RequestParam("pharmacyId") Long pharmacyId) throws Exception {
+        return drugReservationService.isDrugReserved(medicationId,pharmacyId);
     }
 
 

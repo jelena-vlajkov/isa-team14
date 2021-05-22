@@ -91,6 +91,14 @@ export const environment = {
   getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
   searchPatients : "searchPatients",
   findReservations : "getReservationByIdentifier",
-  issueReservation : "issueReservation"
+  issueReservation : "issueReservation",
+  registerPharmacist : "registerPharmacist",
+  deletePharmacist : "deletePharmacist",
+  isDrugReserved:"isDrugReserved",
+  getOrdersByPharmacy:"getOrdersByPharmacy",
+  getByOrder:"getByOrder",
+  medicationInOrder:"medicationInOrder",
+  addMedicationInOrder:"addMedicationInOrder",
+  findById:"findById"
 };
 

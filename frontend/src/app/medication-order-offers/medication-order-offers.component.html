@@ -1,0 +1,66 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+  <mat-drawer-content >
+    <mat-toolbar style="background-color: #385399;">
+    </mat-toolbar>
+
+    <div *ngIf="showOffers" style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:300px">Medication orders offers</label>
+        <button style="float:right; background-color: #385399; margin-left:100px;" color="accent" mat-raised-button routerLink="/medicationOrder" >Add medication order</button>
+      </div>
+        <table style="margin-top: 50px;margin-left: 50px;">
+          <th>Order number</th>
+          <span style="margin-left: 100px;"></span>
+          <th>Supplier name</th>
+          <span style="margin-left: 100px;"></span>
+          <th>Offered price</th>
+          <span style="margin-left: 100px;"></span>
+          <th>Due delivery</th>
+          <tr *ngFor="let offer of offersForOrders" style="margin-bottom: 10px;">
+            <td><i style="color: blue;" (click)="seeMedicationOrderInfo(offer.order.id)">See order info</i></td>
+            <span style="margin-left: 100px;"></span>
+            <td style="font-size: 25px;"> {{offer.supplier.firmName}} </td>
+            <span style="margin-left: 100px;"></span>
+            <td style="font-size: 25px;margin-left: 30px;" contenteditable="true"> {{offer.price}}din</td>
+            <span style="margin-left: 100px;"></span>
+            <td style="font-size: 25px;margin-left: 30px;" > {{ offer.dueDelivery | date :  "dd.MM.y" }}</td>
+            <span style="margin-left: 100px;"></span>
+            <td><button class="btn"><i style="color: blue;">Choose this offer</i></button></td>
+          </tr>
+        </table>
+      <div style="margin-top: 100px;">
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
+      </div>
+    </div>
+
+    <div *ngIf="showMedicationOrderInfo" style="margin-left:200px;">
+        <label style="font-size:25px;margin-left:200px;font-family: 'Segoe UI Semibold';font-color:blue;">Medication order info</label>
+      <table style="margin-top: 50px;margin-left: 100px;font-size: 20px;">
+        <tr>
+          <td>Order number:</td>
+          <span style="margin-left: 100px;"></span>
+          <td>{{medicationOrder.id}}</td>
+          <span style="margin-left: 100px;"></span>
+        </tr>
+        <tr>
+          <td>Due date:</td>
+          <span style="margin-left: 100px;"></span>
+          <td>{{ medicationOrder.dueDate | date :  "dd.MM.y." }}</td>
+          <span style="margin-left: 100px;"></span>
+        </tr>
+        <tr>
+          <td>Ordered medications:</td>
+        </tr>
+        <tr *ngFor="let orderedMedication of medicationOrder.orderedMedications" style="margin-bottom: 10px;">
+          <span style="margin-left: 200px;"></span>
+          <td> {{orderedMedication.medicationName}}
+            <span style="margin-left: 100px;"></span>
+          <td style="margin-left: 30px;" > {{orderedMedication.quantity}} pieces</td>
+        </tr>
+      </table>
+      <div>
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button (click)="cancelMedicationOrderInfoDialog()" >Back</button>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

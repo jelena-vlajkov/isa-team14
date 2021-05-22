@@ -20,16 +20,17 @@ export class Offer{
     public price : Number;
     public dueDelivery : Date;
     public editing : boolean;
+
     constructor(id : Number, supplier: Supplier, order : Order, offerStatus : OfferStatus, uniqueidentifier : number, price : Number, dueDelivery : Date){
 
         this.id = id;
         this.supplier = supplier;
         this.order= order;
-        this.offerStatus = offerStatus; 
+        this.offerStatus = offerStatus;
         this.uniqueidentifier = uniqueidentifier;
         this.price = price;
         this. dueDelivery = dueDelivery;
         this.editing = false;
     }
-    
+
 }

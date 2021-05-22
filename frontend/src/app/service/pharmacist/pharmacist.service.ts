@@ -32,4 +32,11 @@ export class PharmacistService {
     return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.issueReservation}?uniqueIdentifier=${uniqueIdentifier}`);
   }
 
+  registerPharmacist(pharmacist:Pharmacist) {
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.registerPharmacist}`, pharmacist);
+  }
+  deletePharmacist(pharmacistId:Number) {
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.deletePharmacist}?pharmacistId=${pharmacistId}`,null);
+  }
+
 }

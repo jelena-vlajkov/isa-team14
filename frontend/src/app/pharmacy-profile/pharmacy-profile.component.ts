@@ -24,6 +24,7 @@ import {Promotion} from "@app/model/promotions/promotion";
 import {Medication} from "@app/model/medications/medication";
 import {Period} from "@app/model/appointment/period";
 import {AuthenticationService} from "@app/service/user";
+import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
 
 
 @Component({
@@ -73,7 +74,8 @@ export class PharmacyProfileComponent implements OnInit {
               ,private router:Router
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
-              ,private authenticationService:AuthenticationService) { }
+              ,private authenticationService:AuthenticationService
+              ,private drugReservationsService:DrugReservationsService) { }
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
@@ -93,6 +95,7 @@ export class PharmacyProfileComponent implements OnInit {
         this.email=result.email;
         this.telephone=result.telephone;
         this.address = result.address.street + ", " + result.address.city.name + ", " + result.address.state.name;
+
 
 
         this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
@@ -129,7 +132,8 @@ export class PharmacyProfileComponent implements OnInit {
                     + ":" + startTime.getMinutes()
                     + "-" + endTime.getHours()
                     + ":" + endTime.getMinutes()
-                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+".");
+                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+"."
+                    +" "+result[i].cost+"din");
                 }
               });
             }
@@ -398,11 +402,20 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPharmacyPricelist();
   }
 
-  deletePricelistEntity(pricelistEntityId: Number) {
-    console.log("pricelist entity id:"+pricelistEntityId);
-    this.pricelistService.deletePricelist(pricelistEntityId).subscribe(result=>{
-      this.showPharmacyPricelist();
+  deletePricelistEntity(pricelistEntityId: Number,medicationId:Number) {
+    console.log(medicationId);
+    console.log(this.pharmacyId);
+    this.drugReservationsService.isDrugReserved(medicationId,this.pharmacyId).subscribe(result=>{
+      if(result==false){
+        this.pricelistService.deletePricelist(pricelistEntityId).subscribe(result=>{
+          this.showPharmacyPricelist();
+        });
+      }
+      else{
+        alert("Can't delete medication from pharmacy,there is active drug reservation for this medication.");
+      }
     });
+
   }
 
   checkLoggedInUser(){
@@ -413,4 +426,6 @@ export class PharmacyProfileComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
+
 }

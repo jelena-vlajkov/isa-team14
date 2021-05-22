@@ -4,13 +4,15 @@ import {AuthenticationService} from "@app/service/user";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Medication} from "@app/model/medications/medication";
 import {MedicationService} from "@app/service/medication/medication.service";
-import {MedicationOrder} from "@app/model/medicationOrder/medicationOrder";
+import {MedicationInOrder} from "@app/model/medicationOrder/medicationInOrder";
 import {Supplier} from "@app/model/users/supplier/supplier";
 import {PharmacyService} from "@app/service/pharmacy/pharmacy.service";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Pharmacy} from "@app/model/pharmacy/pharmacy";
-import {OrderService} from "@app/service/orders/order.service";
+import {OrderedMedication} from "@app/model/medicationOrder/orderedMedication";
+import {OrdersService} from "@app/service/orders/orders.service";
 import {Order} from "@app/model/medicationOrder/order";
+import {MedicationOrdersService} from "@app/service/medication-orders/medication-orders.service";
 
 @Component({
   selector: 'app-medication-order',
@@ -23,17 +25,20 @@ export class MedicationOrderComponent implements OnInit {
   addMedicationOrderForm: FormGroup;
   orderForm: FormGroup;
   medications:Medication[]=new Array();
-  orderList:MedicationOrder[]=new Array();
+  orderList:OrderedMedication[]=new Array();
   suppliers:Supplier[]=new Array();
   dueDate:Date;
   medication:Medication;
   amount:Number;
   currentUserId:Number;
   pharmacy:Pharmacy;
+  medicationsInOrder:MedicationInOrder[]=new Array();
 
-  constructor(private router: Router, private authenticationService: AuthenticationService
-    , private medicationService: MedicationService,
-              private pharmacyAdminService: PharmacyAdminService, private orderService: OrderService) {
+  constructor(private router: Router
+             ,private authenticationService: AuthenticationService
+             ,private medicationService: MedicationService
+             ,private pharmacyAdminService: PharmacyAdminService
+              ,private medicationOrdersService: MedicationOrdersService) {
 
   }
 
@@ -47,6 +52,7 @@ export class MedicationOrderComponent implements OnInit {
     this.medicationService.findAllMedications().subscribe(data=>
       {
         this.medications = data;
+        console.log(this.medications);
       });
   }
 
@@ -61,21 +67,22 @@ export class MedicationOrderComponent implements OnInit {
   }
 
   addOrder() {
-      let orderItemExists=this.orderList.filter(order => order.medicationName==this.addMedicationOrderForm.value.medication.name).length==0;
+      let orderItemExists=this.orderList.filter(order => order.medicationId==this.addMedicationOrderForm.value.medication.id).length==0;
       if(orderItemExists)
         {
-          let newOrder=new MedicationOrder(this.addMedicationOrderForm.value.medication.id
-                                        ,this.addMedicationOrderForm.value.amount
-                                        ,this.addMedicationOrderForm.value.medication.name);
+          let medication=this.medications.filter(medication=>medication.id==this.addMedicationOrderForm.value.medication.id);
+          let newOrder=new OrderedMedication(medication[0].id,medication[0].name,this.addMedicationOrderForm.value.amount);
+          console.log(newOrder);
           this.orderList.push(newOrder);
         }
       else
         {
           for (var i in this.orderList)
           {
-            if (this.orderList[i].medicationName == this.addMedicationOrderForm.value.medication.name)
+            if (this.orderList[i].medicationId == this.addMedicationOrderForm.value.medication.id)
             {
               this.orderList[i].quantity += this.addMedicationOrderForm.value.amount;
+              console.log(this.orderList[i]);
               break;
             }
           }
@@ -93,8 +100,20 @@ export class MedicationOrderComponent implements OnInit {
     this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
       result => {
         this.pharmacy = result;
-        let order=new Order(null, this.orderList,this.dueDate,this.pharmacy);
-        this.orderService.addOrder(order);
+        let order=new Order(null,this.orderList,this.orderForm.value.dueDate,this.pharmacy,null);
+        this.medicationOrdersService.addOrder(order).subscribe(result =>{
+          console.log(result);
+          for(let i=0;i<this.orderList.length;i++){
+            console.log(this.orderList[i]);
+            let medicationInOrder=new MedicationInOrder(null,this.orderList[i],result);
+            this.medicationsInOrder.push(medicationInOrder);
+            console.log(this.medicationsInOrder);
+          }
+          this.medicationOrdersService.addMedicationInOrder(this.medicationsInOrder).subscribe(result =>{
+            this.router.navigate(['/medication-order-offers']);
+          });
+        });
+
       });
 
     }

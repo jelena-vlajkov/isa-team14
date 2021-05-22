@@ -181,6 +181,7 @@ public class PharmacistService implements IPharmacistService {
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
             pharmacist.setAddress(a);
             pharmacist.setPharmacy(pharmacyService.getById(dto.getPharmacy().getId()));
+            pharmacist.setFirstTimePassword(false);
             userRepository.save(pharmacist);
             return pharmacist;
         }

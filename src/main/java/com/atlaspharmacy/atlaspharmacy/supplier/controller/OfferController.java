@@ -73,4 +73,10 @@ public class OfferController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getByOrder", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<OfferDTO> getAllOffersByOrder(@RequestParam("orderId") Long orderId){
+        return offerService.getAllOfersForOrder(orderId);
+    }
 }

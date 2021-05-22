@@ -36,7 +36,7 @@ export class SupplierOrdersComponent implements OnInit {
   public dataSource = new MatTableDataSource<OrderedMedication>();
   public dataSourceStorage;
   public helpmepls : Order;
-   
+
   constructor(private offerService: OffersService, private orderService: OrdersService, private authenticationService : AuthenticationService, private supplierService : SupplierService, private router:Router) { }
 
   ngOnInit(): void {
@@ -52,7 +52,7 @@ export class SupplierOrdersComponent implements OnInit {
       data=>{
         this.orderedMedication = data;
         this.dataSource = new MatTableDataSource(data);
-        this.selectedOrder.orderedMedication = data;
+        this.selectedOrder.orderedMedications = data;
       }
     );
 
@@ -100,29 +100,29 @@ export class SupplierOrdersComponent implements OnInit {
     this.showmore = false;
   }
 
-  
+
   loadSupplier(){
     this.supplierService.getSupplier(Number(localStorage.getItem('userId'))).subscribe(
-      data => 
-      { 
+      data =>
+      {
         this.supplier = new Supplier(data.name, data.surname, data.dateOfBirth, data.phoneNumber, data.email,data.password,data.address,data.role, data.authorities,data.firmName,data.firstTimeChanged);
         if(!this.supplier.firstTimeChanged){
           this.router.navigate(['/supplier']);
         }
       });
-      this.orderService.getAllOrdersWehereOfferIsNotGivenBySupplier(Number(localStorage.getItem('userId'))).subscribe(data => 
+      this.orderService.getAllOrdersWehereOfferIsNotGivenBySupplier(Number(localStorage.getItem('userId'))).subscribe(data =>
         {
           this.orders = data;
           console.log(this.orders);
-        });   
-        // this.orderService.getAllUnfinishedOrders().subscribe(data => 
+        });
+        // this.orderService.getAllUnfinishedOrders().subscribe(data =>
         //   {
         //     this.orderimmakillmyself = data;
         //     console.log(this.orderimmakillmyself);
-        //   }); 
+        //   });
         this.supplierService.getSuppliersStorage(Number(localStorage.getItem('userId'))).subscribe(
-          data => 
-          { 
+          data =>
+          {
             this.dataSourceStorage = new MatTableDataSource(data.medicationInStorage);
           });
 

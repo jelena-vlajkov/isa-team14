@@ -11,7 +11,6 @@ public class OrderDTO {
     private Date dueDate;
     private List<OrderedMedicationDTO> orderedMedications;
     private PharmacyDTO pharmacy;
-    private Date editableDue;
     private int uniqueidentifier;
 
     public OrderDTO() {
@@ -29,34 +28,17 @@ public class OrderDTO {
         return pharmacy;
     }
 
-    public Date getEditableDue() {
-        return editableDue;
-    }
-
-    public void setEditableDue(Date editableDue) {
-        this.editableDue = editableDue;
-    }
-
     public void setPharmacy(PharmacyDTO pharmacy) {
         this.pharmacy = pharmacy;
-    }
-
-    public List<OrderedMedicationDTO> getOrderedMedication() {
-        return orderedMedications;
-    }
-
-    public void setOrderedMedication(List<OrderedMedicationDTO> orderedMedication) {
-        this.orderedMedications = orderedMedication;
     }
 
     public List<OrderedMedicationDTO> getOrderedMedications() {
         return orderedMedications;
     }
 
-    public void setOrderedMedications(List<OrderedMedicationDTO> orderedMedications) {
-        this.orderedMedications = orderedMedications;
+    public void setOrderedMedications(List<OrderedMedicationDTO> orderedMedication) {
+        this.orderedMedications = orderedMedication;
     }
-
 
     public Date getDueDate() {
         return dueDate;

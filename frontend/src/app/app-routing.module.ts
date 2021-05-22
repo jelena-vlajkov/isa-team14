@@ -46,6 +46,8 @@ import { PatientFinishedCounselingComponent } from './patient/patient-finished-c
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
+import {RegisterPharmacistComponent} from "@app/register-pharmacist/register-pharmacist.component";
+import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medication-order-offers.component";
 
 const routes: Routes = [
 {
@@ -292,7 +294,16 @@ const routes: Routes = [
   component : PatientComplainComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
-}
+},
+  {
+    path: 'registerPharmacist',
+    component: RegisterPharmacistComponent
+
+  },
+  {
+    path:'medication-order-offers',
+    component : MedicationOrderOffersComponent
+  }
 ];
 
 @NgModule({

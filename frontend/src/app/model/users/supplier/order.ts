@@ -2,17 +2,17 @@ import { OrderedMedication } from "@app/model/medications/orderedMedication";
 import { Pharmacy } from "@app/model/pharmacy/pharmacy";
 
 export class Order{
+    public id: Number;
     public dueDate : Date;
-    public orderedMedication : OrderedMedication[];
+    public orderedMedications : OrderedMedication[];
     public pharmacy : Pharmacy;
-    public editableDue : Date;
     public uniqueidentifier : number;
 
-    constructor(dueDate : Date, orderedMedication : OrderedMedication[], pharmacy :Pharmacy, editableDue : Date, uniqueidentifier: number){
-        this.dueDate=dueDate;
-        this.orderedMedication = orderedMedication;
+    constructor(id:Number,dueDate : Date, orderedMedication : OrderedMedication[], pharmacy :Pharmacy, uniqueidentifier: number){
+        this.id = id;
+        this.dueDate = dueDate;
+        this.orderedMedications = orderedMedication;
         this.pharmacy = pharmacy;
-        this.editableDue = editableDue;
         this.uniqueidentifier = uniqueidentifier;
     }
 }

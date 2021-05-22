@@ -4,12 +4,8 @@
   <mat-drawer style="width: 20%;" #drawer mode ="over">
     <mat-action-list>
       <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info </button>
-      <button mat-list-item> Dermatology appointments </button>
       <button mat-list-item routerLink="/business-report"> Business reports </button>
-      <button mat-list-item> Drugs</button>
-      <button mat-list-item> Employees</button>
-      <button mat-list-item> Drug purchases</button>
-      <button mat-list-item> Actions and special offers</button>
+      <button mat-list-item routerLink="/medication-order-offers">Medication orders and offers</button>
 
     </mat-action-list>
     <mat-action-list style="position: absolute; bottom: 1px;">
@@ -34,13 +30,15 @@
       </span>
     </mat-toolbar>
 
-    <div *ngIf="profile" style="margin-left: 200px;margin-top:20px;margin-bottom: 30px;">
+    <div *ngIf="profile" style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
       <div style="display: flex;margin-left:30px;">
         <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='editPharmacy' (click)='showEditProfileDialog()' *ngIf="isPharmacyAdmin">Edit pharmacy</button>
         <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='reserveDrug' (click)='showEditProfileDialog()' *ngIf="!isPharmacyAdmin">Reserve drug</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button (click)='showScheduleAppointment()'>Free appointments</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='SpecialOffers' (click)='showPromotionsDialog()'>Pharmacy promotions</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='Pricelist' (click)='showPharmacyPricelist()'>Pharmacy pricelist</button>
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button routerLink="/registerPharmacist" *ngIf="isPharmacyAdmin">Add pharmacists</button>
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button (click)='showEditProfileDialog()' *ngIf="isPharmacyAdmin">Add dermatologists</button>
       </div>
       <div style="display:grid;margin-left:200px;margin-top:20px;">
         <div><label>Name:</label></div>
@@ -201,8 +199,8 @@
 
         </mat-grid-list>
         <div style="display:flex;float:right;">
-            <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button  (click)="addPricelistCanceled()">Cancel</button>
             <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button id='addOrder' [disabled]="!addPricelistEntityFormGroup.valid">Add pricelist entity</button>
+          <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button  (click)="addPricelistCanceled()">Cancel</button>
         </div>
 
       </form>
@@ -222,7 +220,7 @@
           <td style="font-size: 25px;margin-left: 30px;" *ngIf="!isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;" *ngIf="!isPharmacyAdmin">din</label>
 
           <span style="margin-left: 100px;"></span>
-          <td *ngIf="isPharmacyAdmin"><button class="btn" mat-raised-button (click)="deletePricelistEntity(pricelist.id)"><i class="fa fa-trash" ></i></button></td>
+          <td *ngIf="isPharmacyAdmin"><button class="btn" mat-raised-button (click)="deletePricelistEntity(pricelist.id,pricelist.medication.id)"><i class="fa fa-trash" ></i></button></td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">

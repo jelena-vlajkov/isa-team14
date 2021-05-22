@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,5 +100,19 @@ public class DrugReservationService implements IDrugReservationService {
             }
         }
         return drugReservationsForPharmacyAndPeriod;
+    }
+
+    @Override
+    public boolean isDrugReserved(Long medicationId, Long pharmacyId) {
+       List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
+       for(DrugReservation d:allDrugReservations){
+           if(d.getMedication().getId().equals(medicationId))
+              if(d.getPharmacy().getId().equals(pharmacyId))
+                   if(d.getExpirationDate().after(new Date()))
+                   if( d.getReservationDate().before(new Date())){
+               return true;
+           }
+       }
+       return false;
     }
 }

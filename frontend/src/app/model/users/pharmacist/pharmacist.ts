@@ -2,6 +2,7 @@ import { Address } from "@app/model/address/address";
 import { Pharmacy } from "@app/model/pharmacy/pharmacy";
 import { Gender } from "../patient/gender";
 import { Role } from "../role";
+import {AverageGrade} from "@app/model/users/averageGrade";
 
 export class Pharmacist{
     public id:Number;
@@ -15,9 +16,16 @@ export class Pharmacist{
     public address : Address;
     public role : Role;
     public authorities : Number[];
+    public firstTimeChanged : boolean;
+    public licenceNumber : String;
     public pharmacy : Pharmacy;
+    public averageGrade : AverageGrade;
 
-    constructor(id:Number,name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], pharmacy: Pharmacy){
+    constructor(id:Number,name:String, surname : String, dateOfBirth: Date
+                , phoneNumber : String, email : String, password : String
+                , gender: Gender, address : Address, role : Role
+                , autorities : Number[], pharmacy: Pharmacy
+                , licenceNumber :String,averageGrade : AverageGrade,firstTimeChanged : boolean){
         this.id=id;
         this.name = name;
         this.surname = surname;
@@ -29,6 +37,9 @@ export class Pharmacist{
         this.address = address;
         this.role = role;
         this.authorities = autorities;
-        this.pharmacy = this.pharmacy;
+        this.pharmacy = pharmacy;
+        this.licenceNumber = licenceNumber;
+        this.averageGrade = averageGrade;
+        this.firstTimeChanged = firstTimeChanged;
     }
 }

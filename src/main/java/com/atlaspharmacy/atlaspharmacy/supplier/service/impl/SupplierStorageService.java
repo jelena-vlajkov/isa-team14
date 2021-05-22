@@ -102,7 +102,7 @@ public class SupplierStorageService implements ISupplierStorageService {
         List<SupplierStorageMedication> supplierStorage = getSuppliersMedications(supplierId);
 
         for(SupplierStorageMedication storageMedication: supplierStorage){
-            if(storageMedication.getMedications().getMedication_id().equals(orderedMedicationDTO.getMedication().getId()) && storageMedication.getMedications().getQuantity()>=orderedMedicationDTO.getQuantity()){
+            if(storageMedication.getMedications().getMedication_id().equals(orderedMedicationDTO.getMedicationId()) && storageMedication.getMedications().getQuantity()>=orderedMedicationDTO.getQuantity()){
                return true;
             }
         }

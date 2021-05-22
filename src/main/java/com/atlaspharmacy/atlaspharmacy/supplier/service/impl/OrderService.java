@@ -3,13 +3,13 @@ package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.MedicationServiceImpl;
-import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.MedicationInOrderDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
-import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OfferMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OrderRepository;
@@ -27,11 +27,14 @@ public class OrderService implements IOrderService {
     private final MedicationInOrderService medicationInOrderService;
     private final MedicationServiceImpl medicationService;
     private final OfferRepository offerRepository;
-    public OrderService(OrderRepository orderRepository, MedicationInOrderService medicationInOrderService, MedicationServiceImpl medicationService, OfferRepository offerRepository) {
+    private final IPharmacyService pharmacyService;
+
+    public OrderService(OrderRepository orderRepository, MedicationInOrderService medicationInOrderService, MedicationServiceImpl medicationService, OfferRepository offerRepository, IPharmacyService pharmacyService) {
         this.orderRepository = orderRepository;
         this.medicationInOrderService = medicationInOrderService;
         this.medicationService = medicationService;
         this.offerRepository = offerRepository;
+        this.pharmacyService = pharmacyService;
     }
 
     @Override
@@ -57,12 +60,10 @@ public class OrderService implements IOrderService {
                 //orderedMedications.add(m.getOrderedMedication());
                 MedicationDTO mdto = MedicationMapper.convertToMedicationDTO(medicationService.getById(m.getOrderedMedication().getMedication()));
                 OrderedMedicationDTO odto = new OrderedMedicationDTO();
-                odto.setMedication(mdto);
+                odto.setMedicationId(mdto.getId());
                 odto.setQuantity(m.getOrderedMedication().getQuantity());
                 orderedMedications.add(odto);
             }
-
-            dto.setOrderedMedication(orderedMedications);
             dtos.add(dto);
         }
         return dtos;
@@ -85,7 +86,11 @@ public class OrderService implements IOrderService {
 
     @Override
     public Order addOrder(OrderDTO orderDTO) {
-        return null;
+        Order order=new Order();
+        order.setPharmacy(pharmacyService.getById(orderDTO.getPharmacy().getId()));
+        order.setDueDate(orderDTO.getDueDate());
+        orderRepository.save(order);
+        return order;
     }
     public Order getByUniqueIdentifier(int uniqueidentifier) {
         for(Order o: getAllOrders()){
@@ -124,7 +129,35 @@ public class OrderService implements IOrderService {
 
     @Override
     public List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(int id) {
-        return getByIdentifier(id).getOrderedMedication();
+        return getByIdentifier(id).getOrderedMedications();
+    }
+
+    @Override
+    public List<Order> getAllOrdersByPharmacy(Long pharmacyId) {
+        List<Order> allOrders=orderRepository.findAll();
+        List<Order> ordersForPharmacy=new ArrayList();
+        for(Order o:allOrders){
+            if(o.getPharmacy().getId().equals(pharmacyId) && o.getDueDate().after(new Date())){
+                ordersForPharmacy.add(o);
+            }
+        }
+        return ordersForPharmacy;
+    }
+
+    @Override
+    public OrderDTO findById(Long orderId) {
+        OrderDTO order=OrderMapper.mapOrderToDTO(orderRepository.findById(orderId).get());
+        List<OrderedMedicationDTO> orderedMedicationDTOS=new ArrayList();
+        for(MedicationInOrder m : medicationInOrderService.getAllMedicationsByOrder(orderId)){
+            OrderedMedicationDTO dto = new OrderedMedicationDTO();
+            dto.setMedicationId(m.getOrderedMedication().getMedication());
+            dto.setMedicationName(medicationService.findById(m.getOrderedMedication().getMedication()).getName());
+            dto.setQuantity(m.getOrderedMedication().getQuantity());
+            orderedMedicationDTOS.add(dto);
+        }
+        order.setOrderedMedications(orderedMedicationDTOS);
+        return order;
+
     }
 
 }

@@ -48,8 +48,8 @@ public class OfferService implements IOfferService {
             if(o.getSupplier().getId().equals(id)){
                 OfferDTO dto = OfferMapper.mapOfferToDTO(o);
                 OrderDTO orderDTO = dto.getOrder();
-                List<OrderedMedicationDTO> kasfbaf = setMedicationDTOStoOrderDTO(o);
-                orderDTO.setOrderedMedication(kasfbaf);
+              //  List<OrderedMedicationDTO> kasfbaf = setMedicationDTOStoOrderDTO(o);
+                //orderDTO.setOrderedMedication(kasfbaf);
                 dto.setOrder(orderDTO);
                 suppliersOffers.add(dto);
             }
@@ -63,7 +63,8 @@ public class OfferService implements IOfferService {
         List<OrderedMedicationDTO> medicationDTOS = new ArrayList<>();
         for(MedicationInOrder m : medicationInOrderService.getAllMedicationsByOrder(offer.getOrder().getId())){
             OrderedMedicationDTO dto = new OrderedMedicationDTO();
-            dto.setMedication(MedicationMapper.convertToMedicationDTO(medicationService.getById(m.getOrderedMedication().getMedication())));
+            dto.setMedicationId(m.getOrderedMedication().getMedication());
+            dto.setMedicationName(medicationService.findById(m.getOrderedMedication().getMedication()).getName());
             dto.setQuantity(m.getOrderedMedication().getQuantity());
             medicationDTOS.add(dto);
         }
@@ -126,6 +127,21 @@ public class OfferService implements IOfferService {
         return usersOffers;
     }
 
+    @Override
+    public List<OfferDTO> getAllOfersForOrder(Long orderId) {
+        List<Offer> allOffers = offerRepository.findAll();
+        List<OfferDTO> offersForOrder=new ArrayList();
+        for(Offer o:allOffers){
+            if(o.getOrder().getId().equals(orderId)){
+                OfferDTO dto=OfferMapper.mapOfferToDTO(o);
+                List<OrderedMedicationDTO> omDTO=setMedicationDTOStoOrderDTO(o);
+                dto.getOrder().setOrderedMedications(omDTO);
+                offersForOrder.add(dto);
+            }
+        }
+        return offersForOrder;
+    }
+
     public Offer getOfferByIdentifier(int uniqueidentifier){
         List<Offer> allOffers = getAllOffers();
         for(Offer o: allOffers){
@@ -139,7 +155,7 @@ public class OfferService implements IOfferService {
     @Override
     public Offer editOffer(OfferDTO offer) throws DueDateSoonException {
         Date currentDate = new Date();
-        if(currentDate.compareTo(offer.getOrder().getEditableDue())<0){
+        if(currentDate.compareTo(offer.getOrder().getDueDate())<0){
             Offer editedOffer = getOfferByIdentifier(offer.getUniqueidentifier());
             editedOffer.setPrice(offer.getPrice());
             editedOffer.setDueDelivery(offer.getDueDelivery());
