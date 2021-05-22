@@ -54,7 +54,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
-import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { UsersPreview } from './users.preview/users.preview.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
@@ -109,7 +109,7 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
     PharmacistPatientsComponent,
-    PharmacistReportsComponent,
+    UsersPreview,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
     MedicationOrderComponent,

@@ -103,6 +103,8 @@ export const environment = {
   saveReport : "saveReport", 
   scheduleAppointment : "scheduleAppointment",
   finishAppointment : "finishAppointment",
-  getSpecificAppointment : "findSpecificAppointment"
+  getSpecificAppointment : "findSpecificAppointment",
+  usersForEmployee : "usersForEmployee",
+  searchUsers : "searchUsers"
 };
 

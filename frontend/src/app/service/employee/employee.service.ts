@@ -16,6 +16,7 @@ import { MedicationsToRecommend } from '@app/model/pharmderm/medicationstorecomm
 import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
+import { UserPreview } from '@app/model/pharmderm/userspreview'
 
 @Injectable({
   providedIn: 'root'
@@ -84,6 +85,14 @@ export class EmployeeService {
 
   getAppointmentForPatient(medicalStaffId : Number, date : String, patientId : Number) : Observable<Appointment> {
     return this.http.get<Appointment>(`${environment.baseUrl}/${environment.appointment}/${environment.getSpecificAppointment}?medicalStaffId=${medicalStaffId}&date=${date}&patientId=${patientId}`);
+  }
+
+  getAllUsers() : Observable<UserPreview[]> {
+    return this.http.get<UserPreview[]>(`${environment.baseUrl}/${environment.usersForEmployee}`);
+  }
+
+  searchUsers(name : String) : Observable<UserPreview[]> {
+    return this.http.get<UserPreview[]>(`${environment.baseUrl}/${environment.searchUsers}?name=${name}`);
   }
 
 
