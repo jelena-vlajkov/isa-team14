@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import java.util.Date;
 
 public class AppointmentDTO {
+    private Long id;
     private Date startTime;
     private Date endTime;
     private double appointmentCost;
@@ -16,7 +17,6 @@ public class AppointmentDTO {
     private String medicalStaffEmail;
     private Long pharmacyId;
     private Long patientId;
-    private Long id;
     private boolean finished;
 
 
@@ -29,7 +29,7 @@ public class AppointmentDTO {
     }
 
     public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long pharmacyId) {
-        this.startTime = startTime;
+       this.startTime = startTime;
         this.endTime = endTime;
         this.appointmentCost = appointmentCost;
         this.appointmentType = type;
@@ -47,6 +47,7 @@ public class AppointmentDTO {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+        this.id = id;
     }
 
     public Long getId() {

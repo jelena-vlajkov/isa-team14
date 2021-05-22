@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyStorageDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
@@ -13,4 +14,5 @@ public interface IPharmacyStorageService {
     void deleteMedicationFromPharmacyStorage(Long medicationId,Long pharmacyId);
     void editMedicationAmount(Long medicationId,Long pharmacyId,int amount);
     void addMedicationToPharmacy(Long medicationId,Long pharmacyId,int amount);
+    List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId);
 }

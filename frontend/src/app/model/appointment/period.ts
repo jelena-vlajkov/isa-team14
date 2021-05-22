@@ -1,9 +1,9 @@
 export class Period{
-    public startPeriod : Date;
-    public endPeriod : Date;
-    
+    public startTime : Date;
+    public endTime : Date;
+
     constructor(startPeriod : Date, endPeriod : Date){
-        this.startPeriod=startPeriod;
-        this.endPeriod = endPeriod;
+        this.startTime=startPeriod;
+        this.endTime = endPeriod;
     }
 }

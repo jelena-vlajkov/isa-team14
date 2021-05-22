@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
@@ -15,6 +16,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +63,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     }
 
+
     @Override
     public boolean isMedicationInPharmacy(Long code, Long id) {
         List<PharmacyStorage> storages = getMedicationsByPharmacy(id);
@@ -106,6 +109,17 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     }
 
+    @Override
+    public List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId) {
+        List<MedicationDTO> allMedications=medicationService.findAll();
+        List<MedicationDTO> medicationsNotInPharmacy=new ArrayList();
+        for(MedicationDTO m:allMedications){
+            if(!isMedicationInPharmacy(m.getCode(),pharmacyId)){
+                medicationsNotInPharmacy.add(m);
+            }
+        }
+        return medicationsNotInPharmacy;
+    }
 
 
 

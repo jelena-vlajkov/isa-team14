@@ -72,7 +72,7 @@ insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description,
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
 
---insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+insert into pharmacy_admins(id, pharmacy_id) values(400,200);
 
 insert into medicalstaff(license_number, id) values ('16657568',100);
 insert into medicalstaff(license_number, id) values ('243532',600);
@@ -178,6 +178,16 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id, finished) values ('Examination', 2001, '2021-02-01 14:00:00', '2021-02-01 14:30:00', 1000.00, false, 100, 100, 200, false);
 
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 0, 'Bromazepam', 'Loncar Doo', 1,2.4, 6);
+
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id) values (15, '2021-02-10', '2021-02-10 12:00:00', '2021-02-10 15:30:00', 100,200);
+
+
+/*moj test*/
+
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id, finished) values ('Examination', 2100, '2021-05-18 14:00:00', '2021-05-18 14:30:00', 1200.00, false, 100, 100, 200, false);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id, finished) values ('Examination', 2200, '2021-05-22 14:00:00', '2021-05-22 14:30:00', 1200.00, false, 100, 100, 200, false);
+
+
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 4.4,3);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (300, null, 123401233,null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0,3, 800);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 3, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 1, 200);
@@ -289,7 +299,6 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days) values (1000, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500, 10);
 
-
 insert into medical_record(id, patient_id) values (100, 200);
 
 insert into medical_record_ingredients(medical_record_id, ingredients_id) values (100, 900);
@@ -383,10 +392,10 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (300, 330, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 300, 100);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (400, 580, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 400, 100);
 
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (500, 920, '2021-02-12 12:00:00', '2021-01-26 12:00:00', 200, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2021-02-26 12:00:00', '2021-01-26 12:00:00', 600, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (800, 978, '2021-03-26 12:00:00', '2021-01-26 12:00:00', 100, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (500, 920, '2021-07-12 12:00:00', '2021-01-26 12:00:00', 200, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 600, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (800, 978, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 100, 200);
 
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (900, 123, '2021-05-26 12:00:00', '2021-01-23 12:00:00', 300, 300);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
@@ -396,3 +405,7 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 insert into subscriptions(id,patient_id,pharmacy_id) values (100,200,200);
 insert into subscriptions(id,patient_id,pharmacy_id) values (200,1300,200);
 
+insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(200,'2021-07-20 12:00:00', '2021-01-23 12:00:00','Xanax na snizenju 200din.',200);
+insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(300,'2021-05-26 12:00:00', '2021-01-23 12:00:00','Svi biodermini proizvodi na snizenju -35%.',200);
+insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(400,'2021-05-26 12:00:00', '2021-01-23 12:00:00','Srecni uskrsnji praznici!Apoteka ZEGIN vam poklanja do -50% na ceo asortiman.',200);
+insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(100,'2021-06-10 12:00:00', '2021-03-08 12:00:00','Povodom 8.marta svim zenama -20%.',200);

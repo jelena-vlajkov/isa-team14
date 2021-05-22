@@ -1,8 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.EPrescriptionDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.EPrescriptionMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.EPrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
@@ -82,6 +84,16 @@ public class EPrescriptionService implements IEPrescriptionService {
         prescribedDrug.setQuantity(new Long(dto.getTherapyDays()));
 
         prescriptionRepository.save(prescribedDrug);
+    }
+
+    public List<EPrescriptionDTO> getAllEPrescritpions(Long patientId) {
+        List<EPrescriptionDTO> ePrescriptionDTOS = new ArrayList<>();
+        List<EPrescription> ePrescriptions = getPatientsEPrescription(patientId);
+        for (EPrescription e : ePrescriptions) {
+            ePrescriptionDTOS.add(EPrescriptionMapper.mapEPrescriptionToDTO(e));
+        }
+
+        return ePrescriptionDTOS;
 
     }
 }

@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PricelistDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pricelist;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PricelistMapper;
@@ -13,9 +14,11 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PricelistRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPricelistService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,25 +63,48 @@ public class PricelistService implements IPricelistService {
         }
         return null;
     }
+
     public Pricelist addMedicationToPricelist(PricelistDTO pricelistDTO) {
         Pricelist newPricelist=new Pricelist();
         newPricelist.setPrice(pricelistDTO.getPrice());
+        newPricelist.setPeriod(new Period(pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()));
         newPricelist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(pricelistDTO.getPharmacy()));
         newPricelist.setMedication(MedicationMapper.convertToMedication(pricelistDTO.getMedication()));
         pricelistRepository.save(newPricelist);
+     //   pharmacyStorageService.addMedicationToPharmacy(pricelistDTO.getMedication().getId(),pricelistDTO.getPharmacy().getId(),0);
         return newPricelist;
     }
 
-    @Override
-    public Pricelist editPricelistEntity(PricelistDTO pricelistDTO) throws Exception {
-        Pricelist updatedPricelist=pricelistRepository.getOne(pricelistDTO.getId());
-        updatedPricelist.setPrice(pricelistDTO.getPrice());
-        Pharmacy updatedPharmacy=pharmacyService.editPharmacy(pricelistDTO.getPharmacy());
-        updatedPricelist.setPharmacy(updatedPharmacy);
-        Medication updatedMedication=medicationService.modifyMedication(pricelistDTO.getMedication().getId(),pricelistDTO.getMedication());
-        updatedPricelist.setMedication(updatedMedication);
-        pricelistRepository.save(updatedPricelist);
-        return updatedPricelist;
+    @Transactional
+    public void editPricelist(List<PricelistDTO> pricelistDTO) throws Exception {
+        for(PricelistDTO p:pricelistDTO) {
+            Pricelist updatedPricelist = pricelistRepository.getOne(p.getId());
+            updatedPricelist.setPrice(p.getPrice());
+            pricelistRepository.save(updatedPricelist);
+        }
     }
+
+    @Override
+    public Pricelist getPricelistForMedicationAndPharmacy(Long code, Long pharmacyId) {
+        Date today = new Date();
+        for(Pricelist p : pricelistRepository.findAll()){
+            if(p.getMedication().getCode().equals(code) && today.compareTo(p.getPeriod().getEndTime())<0 && today.compareTo(p.getPeriod().getStartTime())>0
+               && p.getPharmacy().getId().equals(pharmacyId)){
+                if(pharmacyStorageService.isMedicationInPharmacy(p.getMedication().getCode(), p.getPharmacy().getId())){
+                   return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public void deletePricelistEntity(Long pricelistId) {
+        Pricelist pricelistToDelete=pricelistRepository.findById(pricelistId).get();
+        pharmacyStorageService.deleteMedicationFromPharmacyStorage(pricelistToDelete.getMedication().getId()
+                                                                    ,pricelistToDelete.getPharmacy().getId());
+        pricelistRepository.delete(pricelistToDelete);
+    }
+
 
 }

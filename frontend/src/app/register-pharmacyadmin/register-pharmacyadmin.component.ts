@@ -35,7 +35,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
 
   minDateOfBirth : Date;
   maxDateOfBirth : Date;
-  
+
 
   admin_location : Address;
   admin_location_input: String;
@@ -67,7 +67,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
 
   loadSystemAdmin(){
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
-      data => 
+      data =>
       {
         this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
         if(!this.sysAdmin.firstTimeChanged){
@@ -81,7 +81,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
   }
   adminLogout(){
     this.authenticationService.logout();
-  }  
+  }
   registerAdmin(){
     this.name = this.addAdminForm.value.name;
     this.surname = this.addAdminForm.value.surname;
@@ -101,7 +101,7 @@ export class RegisterPharmacyadminComponent implements OnInit {
       role = Role.PharmacyAdmin;
       var auths : Number[] = new Array();
       if(this.password === this.confirmPassword){
-        this.pharmacyAdmin = new PharmacyAdmin(this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.pharmacy);
+        this.pharmacyAdmin = new PharmacyAdmin(null,this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.pharmacy,false);
 
         this.pharmacyService.registerPharmacyAdmin(this.pharmacyAdmin).subscribe(
           res=>{

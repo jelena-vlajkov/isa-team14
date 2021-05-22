@@ -37,6 +37,7 @@ public class AppointmentMapper {
         dto.setPatientId(appointment.getPatient().getId());
         dto.setPharmacyId(appointment.getPharmacy().getId());
         dto.setFinished(appointment.isFinished());
+        dto.setMedicalStaffEmail(medicalStaffEmail);
         return dto;
     }
 

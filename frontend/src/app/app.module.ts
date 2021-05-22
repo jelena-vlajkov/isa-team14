@@ -60,6 +60,8 @@ import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.de
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
+import { PatientHomePageComponent } from './patient/patient-home-page/patient-home-page.component';
+import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/patient-all-pharmacies.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
@@ -73,6 +75,10 @@ import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allerg
 import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
 import { PatientExaminationComoponent } from './patient-examination/patient-examination.component';
+import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
+import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
+import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
+import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +115,8 @@ import { PatientExaminationComoponent } from './patient-examination/patient-exam
     MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
+    PatientHomePageComponent,
+    PatientAllPharmaciesComponent,
     SupplierProfileComponent,
     SupplierOrdersComponent,
     SupplierOffersComponent,
@@ -121,7 +129,11 @@ import { PatientExaminationComoponent } from './patient-examination/patient-exam
     AllergiesDialogComponent,
     EditAllergiesComponent,
     WelcomeComponent,
-    PatientExaminationComoponent
+    PatientExaminationComoponent,
+    PatientFinishedCounselingComponent,
+    PatientFinishedExaminationComponent,
+    PatientScheduledAppointmentsComponent,
+    PatientEPrescriptionsComponent
 
   ],
   imports: [
@@ -164,8 +176,9 @@ import { PatientExaminationComoponent } from './patient-examination/patient-exam
     MatMenuModule,
     //NgbModule,
     MatExpansionModule,
-    MatStepperModule
-    
+    MatStepperModule,
+    MatCardModule
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

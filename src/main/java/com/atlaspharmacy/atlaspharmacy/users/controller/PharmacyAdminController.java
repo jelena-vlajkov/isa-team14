@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.PharmacyAdmin;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacyAdminMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacyAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
+@CrossOrigin( origins = "*", allowedHeaders = "*")
 @RestController
-@CrossOrigin
 @RequestMapping(value="/pharmacyAdmin")
 public class PharmacyAdminController {
     private IPharmacyAdminService pharmacyAdminService;
@@ -26,16 +27,16 @@ public class PharmacyAdminController {
         this.pharmacyAdminService = pharmacyAdminService;
     }
 
-    @CrossOrigin( origins = "*", allowedHeaders = "*")
+
     @GetMapping(value = "/getPharmacyByAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPharmacyByPharmacyAdmin(@RequestParam("id") Long id) throws ParseException {
         return new ResponseEntity<>(pharmacyAdminService.getPharmacyByPharmacyAdmin(id),HttpStatus.OK);
     }
 
-    @CrossOrigin( origins = "*", allowedHeaders = "*")
+
     @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getById(@RequestParam("id") Long id) throws ParseException {
-        return new ResponseEntity<>(pharmacyAdminService.getById(id), HttpStatus.OK);
+    public PharmacyAdminDTO getById(@RequestParam("id") Long id) throws ParseException {
+        return PharmacyAdminMapper.mapToDTO(pharmacyAdminService.getById(id));
     }
 
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
