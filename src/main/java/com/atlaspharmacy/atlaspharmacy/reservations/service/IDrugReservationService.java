@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public interface IDrugReservationService {
-    boolean reserveDrug(CreateDrugReservationDTO drugReservationDTO);
+    void reserveDrug(CreateDrugReservationDTO drugReservationDTO) throws Exception;
     boolean cancelDrugReservation(int uniqueIdentifier);
     boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException;
     DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception;

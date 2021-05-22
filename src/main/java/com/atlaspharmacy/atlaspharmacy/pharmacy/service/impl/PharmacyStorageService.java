@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class PharmacyStorageService implements IPharmacyStorageService {
     private final PharmacyStorageRepository pharmacyStorageRepository;
     private final INotificationService notificationService;
-    private final IDrugReservationService drugReservationService;
     private final IMedicationService medicationService;
     private final PharmacyRepository pharmacyRepository;
 
@@ -30,12 +29,10 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Autowired
     public PharmacyStorageService(PharmacyStorageRepository pharmacyStorageRepository
                                   , INotificationService notificationService
-                                  , IDrugReservationService drugReservationService
                                   , IMedicationService medicationService
                                   , PharmacyRepository pharmacyRepository) {
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
-        this.drugReservationService = drugReservationService;
         this.medicationService = medicationService;
         this.pharmacyRepository = pharmacyRepository;
     }

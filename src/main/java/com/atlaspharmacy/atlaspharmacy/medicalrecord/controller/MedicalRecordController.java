@@ -63,6 +63,13 @@ public class MedicalRecordController {
         return medicalRecordService.recommendMedicationForPatient(patientId, pharmacyId);
     }
 
+    @GetMapping(value = "/recommendSimilarMedication", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public List<MedicationToRecommendDTO> getSimilarMedicationForPatient(@RequestParam Long medicationId, Long pharmacyId) throws Exception {
+        return medicalRecordService.recommendSimilarMedication(medicationId, pharmacyId);
+    }
+
     @GetMapping(value = "/getPatientIngredients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @MedicalRecordAuthorization
     public  ResponseEntity<List<Ingredient>>  getPatientIngredient(@PathVariable Long id) {

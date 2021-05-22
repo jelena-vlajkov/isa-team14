@@ -132,5 +132,32 @@ public class MedicalRecordService implements IMedicalRecordService {
         return  medicalRecord.getIngredients();
     }
 
+    @Override
+    public List<MedicationToRecommendDTO> recommendSimilarMedication(Long medicationId, Long pharmacyId) throws Exception {
+        if (!medicationRepository.findById(medicationId).isPresent()) {
+            throw new Exception("Invalid medication");
+        }
+        List<MedicationToRecommendDTO> toRecommend = new ArrayList<>();
+
+        Medication medication = medicationRepository.findById(medicationId).get();
+        for (Medication m : medication.getSubstituteMedication()) {
+            if (pharmacyStorageService.isMedicationInPharmacy(m.getCode(), pharmacyId)) {
+                MedicationToRecommendDTO dto = new MedicationToRecommendDTO();
+                dto.setName(m.getName());
+                dto.setId(m.getId());
+                dto.setAvailable(true);
+                toRecommend.add(dto);
+                break;
+            }
+            MedicationToRecommendDTO dto = new MedicationToRecommendDTO();
+            dto.setName(m.getName());
+            dto.setId(m.getId());
+            dto.setAvailable(false);
+            toRecommend.add(dto);
+
+        }
+        return toRecommend;
+    }
+
 
 }

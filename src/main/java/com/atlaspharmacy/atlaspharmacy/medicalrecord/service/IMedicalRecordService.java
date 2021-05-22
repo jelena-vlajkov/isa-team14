@@ -13,4 +13,6 @@ public interface IMedicalRecordService {
     boolean addPatientIngredients(MedicalRecordDTO dto);
     List<MedicationToRecommendDTO> recommendMedicationForPatient(Long patientId, Long pharmacyId);
     List<Ingredient> getPatientIngredient(Long id);
+
+    List<MedicationToRecommendDTO> recommendSimilarMedication(Long medicationId, Long pharmacyId) throws Exception;
 }
