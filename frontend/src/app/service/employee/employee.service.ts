@@ -17,6 +17,7 @@ import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { UserPreview } from '@app/model/pharmderm/userspreview'
+import { VacationRequest } from '@app/model/pharmderm/vacationrequest';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,9 @@ export class EmployeeService {
     return this.http.get<UserPreview[]>(`${environment.baseUrl}/${environment.searchUsers}?name=${name}`);
   }
 
+  addVacationRequest(vacationRequest : VacationRequest) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.vacationRequest}/${environment.sendVacationRequest}`, vacationRequest);
+  }
 
 
 
