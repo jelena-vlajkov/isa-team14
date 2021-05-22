@@ -91,7 +91,7 @@ public class MedicationServiceImpl implements IMedicationService {
                 && m.getDailyDose().equals(dto.getDailyDose()) && m.getDosage().equals(dto.getDosage());
     }
     @Override
-    public void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
+    public Medication modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
         Medication medication = _medicationRepository.findById(id).orElse(null);
 
         if(medication == null){
@@ -104,6 +104,7 @@ public class MedicationServiceImpl implements IMedicationService {
             e.printStackTrace();
             throw new Exception(EXCEPTION + "modifyMedication " + FAIL);
         }
+        return medication;
     }
     //ovo mora ovde za brisanja
     @Transactional

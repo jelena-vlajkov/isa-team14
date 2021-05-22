@@ -1,0 +1,17 @@
+<div  style="height: 100px;">
+    <h1 mat-dialog-title class="benefits-dialog-titile">Choose allergies on med. ingredients:</h1>
+    <div style="display: flex; margin-left: 10em; position: relative;">       
+        <mat-form-field>
+            <mat-label>Add here:</mat-label>
+            <mat-select placeholder="Allergies"  (openedChange)="comboChange($event)" [formControl]="ingredinets" multiple>
+            <mat-option *ngFor="let ingredient of allIngredients" [value]="ingredient">{{ingredient.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>        
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button (click)="saveChanges()" >Save</button>
+      </div>
+
+</div>
+

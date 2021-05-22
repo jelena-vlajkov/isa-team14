@@ -4,6 +4,7 @@ import ch.qos.logback.core.boolex.EvaluationException;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicalRecordDTO;
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicationToRecommendDTO;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.mapper.MedicalRecordMapper;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.service.IMedicalRecordService;
@@ -36,7 +37,7 @@ public class MedicalRecordController {
     @GetMapping
     @MedicalRecordAuthorization
     public @ResponseBody
-    MedicalRecordDTO getMedicalRecord(@RequestBody Long patientId) {
+    MedicalRecordDTO getMedicalRecord(@RequestParam Long patientId) {
         return MedicalRecordMapper.mapToDto(medicalRecordService.getByPatientId(patientId));
 
     }
@@ -58,8 +59,14 @@ public class MedicalRecordController {
     @GetMapping(value = "/recommendMedicationByPatient", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @EmployeeAuthorization
-    public List<MedicationDTO> getMedicationsByPatient(@RequestParam Long patientId) {
-        return medicalRecordService.recommendMedicationForPatient(patientId);
+    public List<MedicationToRecommendDTO> getMedicationsByPatient(@RequestParam Long patientId, @RequestParam Long pharmacyId) {
+        return medicalRecordService.recommendMedicationForPatient(patientId, pharmacyId);
+    }
+
+    @GetMapping(value = "/getPatientIngredients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @MedicalRecordAuthorization
+    public  ResponseEntity<List<Ingredient>>  getPatientIngredient(@PathVariable Long id) {
+        return new ResponseEntity<>( medicalRecordService.getPatientIngredient(id), HttpStatus.OK);
     }
 
 }

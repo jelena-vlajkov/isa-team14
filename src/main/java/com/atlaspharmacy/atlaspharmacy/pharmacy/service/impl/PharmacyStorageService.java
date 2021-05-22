@@ -1,7 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
+import com.atlaspharmacy.atlaspharmacy.notifications.domain.Notification;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -69,6 +71,9 @@ public class PharmacyStorageService implements IPharmacyStorageService {
             if(p.getMedication().getCode().equals(code) && p.getQuantity()>0){
                 return true;
             }
+            if (p.getMedication().getCode().equals(code) && p.getQuantity() <= 0) {
+                notificationService.medicationQuantityLow(p);
+            }
         }
         return false;
     }
@@ -103,6 +108,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         pharmacyStorageRepository.save(newMedicationInStorage);
 
     }
+
 
 
 

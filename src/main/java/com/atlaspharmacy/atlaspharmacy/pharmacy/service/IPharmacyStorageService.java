@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.service;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyStorageDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 
