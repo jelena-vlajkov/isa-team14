@@ -30,10 +30,10 @@ import { Pricelist } from '@app/model/pharmacy/pricelist';
 
 export interface DialogData {
   name: String;
-  producer : String; 
+  producer : String;
   drugType: DrugType;
   drugKind : DrugKind;
-  drugForm : DrugForm; 
+  drugForm : DrugForm;
   typeOfPrescribing : TypeOfPrescribing;
   contraindications : String;
   additionalNotes : String;
@@ -43,7 +43,7 @@ export interface DialogData {
   code : Number;
   grade : Number;
   dosage : Number;
-} 
+}
 
 @Component({
   selector: 'app-unauthenticated-user-medications',
@@ -74,14 +74,14 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   public medsIngs : Ingredient[] = new Array();
 
   @ViewChild(MatSort) sort: MatSort;
-  
+
   ngAfterViewInit() {
   }
 
   animal: string;
   name: string;
 
-  constructor(public pricelistService :PricelistService, public ingredientService:IngredientService, public dialog: MatDialog, private pharmacyService:PharmacyService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, public medicationService : MedicationService, private auth : AuthenticationService) { 
+  constructor(public pricelistService :PricelistService, public ingredientService:IngredientService, public dialog: MatDialog, private pharmacyService:PharmacyService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, public medicationService : MedicationService, private auth : AuthenticationService) {
 
   }
 
@@ -98,15 +98,15 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
           this.loadPatient();
         }else if (this.isAdmin()){
           this.loadAdmin();
-        }   
-      
+        }
+
     }catch(error){
       console.log('UPUCACU SE VISE AAAAAAAA');
       console.log('ok radi sve kul idegasnamax');
     }
 
   }
-  
+
 
   checkLoggedInUser(){
     return this.auth.getUserValue();
@@ -177,10 +177,10 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
         this.pharmacyDataSource = data;
         console.log(this.pharmacyDataSource);
       });  }
-  
+
   getPricelists(medication){
     this.showinfo=true;
-    this.pricelistService.getPharmacyByMedication(medication.code).subscribe(data =>
+    this.pricelistService.getPricelistByMedication(medication.code).subscribe(data =>
       {
         this.pricelistDataSource = data;
         console.log(this.pricelistDataSource);
@@ -206,9 +206,9 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'grade': return this.compare(a.grade, b.grade, isAsc);
-        case 'producer': return this.compare(a.producer, b.producer, isAsc);     
-        case 'type': return this.compare(a.drugType, b.drugType, isAsc);     
-        case 'name': return this.compare(a.name, b.name, isAsc);     
+        case 'producer': return this.compare(a.producer, b.producer, isAsc);
+        case 'type': return this.compare(a.drugType, b.drugType, isAsc);
+        case 'name': return this.compare(a.name, b.name, isAsc);
 
         default: return 0;
       }
@@ -224,9 +224,9 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
     this.pricelistDataSource = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'grade': return this.compare(a.pharmacy.average_grade, b.pharmacy.average_grade, isAsc);
-        case 'name': return this.compare(a.pharmacy.name, b.pharmacy.name, isAsc);     
-        case 'price': return this.compare(a.price, b.price, isAsc);     
+        case 'grade': return this.compare(a.pharmacy.averageGrade.count(), b.pharmacy.averageGrade.count(), isAsc);
+        case 'name': return this.compare(a.pharmacy.name, b.pharmacy.name, isAsc);
+        case 'price': return this.compare(a.price, b.price, isAsc);
 
         default: return 0;
       }
@@ -279,7 +279,7 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
           this.dataSource = data;
         });
     }
-    
+
   }
   getKinds(event) {
     if(event.value==4){
@@ -303,7 +303,7 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   }
   reset(){
     this.dataSource = this.medications;
-    
+
   }
   ToArray(enumme) {
     return Object.keys(enumme)
@@ -314,7 +314,7 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
   openDialog(m): void {
 
     this.selectedMedication = m;
-  
+
     // console.log(this.selectedMedication.ingredients);
     this.ingredientsString = "";
     try{
@@ -335,7 +335,7 @@ export class UnauthenticatedUserMedicationsComponent implements OnInit {
      }
     console.log(this.subMedsString)
     } catch (error) {
-      
+
     }
 
     const dialogRef = this.dialog.open(UnauthenticatedUserMedicationsComponentDialog, {
@@ -367,13 +367,13 @@ export class UnauthenticatedUserMedicationsComponentDialog {
   }
   exportAsPDF(divId)
     {
-        let data = document.getElementById(divId);  
+        let data = document.getElementById(divId);
         html2canvas(data).then(canvas => {
-        const contentDataURL = canvas.toDataURL('image/png')  
+        const contentDataURL = canvas.toDataURL('image/png')
         let pdf = new jsPDF('p', 'cm', 'a4'); //Generates PDF in landscape mode
         // let pdf = new jspdf('p', 'cm', 'a4'); Generates PDF in portrait mode
-        pdf.addImage(contentDataURL, 'PNG', 0, 0, 29.7, 21.0);  
-        pdf.save('PLSMAN.pdf');   
-      }); 
+        pdf.addImage(contentDataURL, 'PNG', 0, 0, 29.7, 21.0);
+        pdf.save('PLSMAN.pdf');
+      });
     }
 }

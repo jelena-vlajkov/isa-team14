@@ -1,3 +1,7 @@
+import { Medication } from "../medications/medication";
+import { MedicationsToRecommend } from "../pharmderm/medicationstorecommend";
+import { PrescribeMedication } from "../pharmderm/prescribemeds";
+
 export class Appointment{
     public id : Number;
     public startTime :Date;
@@ -6,23 +10,24 @@ export class Appointment{
     public appointmentType : String;
     public patientName : String;
     public canceled : boolean;
+    public patientId : Number;
     public patientEmail : String;
     public medicalStaffName : String;
     public medicalStaffEmail : String;
     public duration : Number;
-
-    constructor(startTime : Date, endTime : Date, appointmentCost : Number, appointmentType : String, patientName : String, canceled : boolean, 
-        patientEmail : String, medicalStaffName : String, medicalStaffEmail : String, duration : Number){
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.appointmentCost = appointmentCost;
-        this.appointmentType = appointmentType;
-        this.patientEmail = patientEmail;
-        this.patientName = patientName;
-        this.canceled = canceled;
-        this.medicalStaffEmail = medicalStaffEmail;
-        this.medicalStaffName = medicalStaffName;
-        this.duration = duration;
+    public startDateString : string;
+    public endDateString : string;
+    public availableMedicationsForPatients : MedicationsToRecommend[];
+    public medicationsForPatients : MedicationsToRecommend[];
+    public pharmacyId : Number;
+    public prescribedMedications : String[];
+    public availableAppointment : Appointment[]
+    public medicalStaffId : Number;
+    public finished : boolean;
+    public canAddPenalty : boolean;
+    constructor() {
+        this.prescribedMedications = [];
+        this.finished = false;
     }
-    
+
 }

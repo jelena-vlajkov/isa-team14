@@ -53,7 +53,7 @@ export class PatientAllPharmaciesComponent implements OnInit {
      });
   }
 
-  
+
 }
 
 function compare(a: Number | String, b: Number | String, isAsc: boolean) {

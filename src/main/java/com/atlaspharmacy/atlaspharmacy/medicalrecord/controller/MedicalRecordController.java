@@ -1,11 +1,14 @@
 package com.atlaspharmacy.atlaspharmacy.medicalrecord.controller;
 
 import ch.qos.logback.core.boolex.EvaluationException;
+import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicalRecordDTO;
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicationToRecommendDTO;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.mapper.MedicalRecordMapper;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.service.IMedicalRecordService;
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.service.impl.MedicalRecordService;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
@@ -20,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "medicalRecord", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MedicalRecordController {
 
@@ -53,11 +56,24 @@ public class MedicalRecordController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/recommendMedicationByPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public List<MedicationToRecommendDTO> getMedicationsByPatient(@RequestParam Long patientId, @RequestParam Long pharmacyId) {
+        return medicalRecordService.recommendMedicationForPatient(patientId, pharmacyId);
+    }
+
+    @GetMapping(value = "/recommendSimilarMedication", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public List<MedicationToRecommendDTO> getSimilarMedicationForPatient(@RequestParam Long medicationId, Long pharmacyId) throws Exception {
+        return medicalRecordService.recommendSimilarMedication(medicationId, pharmacyId);
+    }
+
     @GetMapping(value = "/getPatientIngredients/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @MedicalRecordAuthorization
     public  ResponseEntity<List<Ingredient>>  getPatientIngredient(@PathVariable Long id) {
         return new ResponseEntity<>( medicalRecordService.getPatientIngredient(id), HttpStatus.OK);
     }
-
 
 }

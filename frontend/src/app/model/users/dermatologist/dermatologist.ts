@@ -31,5 +31,5 @@ export class Dermatologist{
         this.authorities = autorities;
         this.pharmacies = pharmacies;
     }
-    
+
 }

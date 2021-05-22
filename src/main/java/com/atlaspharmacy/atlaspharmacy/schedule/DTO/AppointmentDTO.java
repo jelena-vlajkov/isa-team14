@@ -1,5 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+
 import java.util.Date;
 
 public class AppointmentDTO {
@@ -14,12 +16,22 @@ public class AppointmentDTO {
     private String medicalStaffName;
     private String medicalStaffEmail;
     private long duration;
+    private Long pharmacyId;
+    private Long patientId;
+    private boolean finished;
+
 
     public AppointmentDTO() {
     }
 
-    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long id, long duration) {
+    public AppointmentDTO(Date startTime, Date endTime) {
+
         this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public AppointmentDTO(Date startTime, Date endTime, double appointmentCost, String type, boolean isCanceled, String patientName, String patientEmail, String medicalStaffName, String medicalStaffEmail, Long pharmacyId, long duration) {
+       this.startTime = startTime;
         this.endTime = endTime;
         this.appointmentCost = appointmentCost;
         this.appointmentType = type;
@@ -28,6 +40,16 @@ public class AppointmentDTO {
         this.patientEmail = patientEmail;
         this.medicalStaffEmail = medicalStaffEmail;
         this.medicalStaffName = medicalStaffName;
+        this.pharmacyId = pharmacyId;
+        this.duration = duration;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
         this.id = id;
         this.duration = duration;
     }
@@ -46,6 +68,22 @@ public class AppointmentDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(Long patientId) {
+        this.patientId = patientId;
+    }
+
+    public Long getPharmacyId() {
+        return pharmacyId;
+    }
+
+    public void setPharmacyId(Long pharmacyId) {
+        this.pharmacyId = pharmacyId;
     }
 
     public Date getStartTime() {

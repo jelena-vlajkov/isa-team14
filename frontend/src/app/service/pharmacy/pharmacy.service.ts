@@ -37,7 +37,7 @@ export class PharmacyService {
   getPharmacyByMedication(code : Number) :Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getByMedication}?code=${code}`);
   }
-  
+
   getPharmacyById(id:Number) : Observable<Pharmacy>{
     return this.http.get<Pharmacy>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getById}?id=${id}`);
   }
@@ -53,5 +53,8 @@ export class PharmacyService {
   }
   getSubscribed(id : Number) :Observable<Pharmacy[]>{
     return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getSubscribed}?id=${id}`);
+  }
+  editPharmacy(data : Pharmacy){
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacy}/${environment.editPharmacy}`,data, {responseType : 'text'});
   }
 }

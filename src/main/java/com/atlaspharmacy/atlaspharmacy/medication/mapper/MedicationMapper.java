@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.mapper;
 
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.DTO.MedicationToRecommendDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 
@@ -83,5 +84,21 @@ public class MedicationMapper {
 
             return dtos;
         }
+
+    public static List<MedicationToRecommendDTO> convertRecommendations(List<Medication> medications) {
+        List<MedicationToRecommendDTO> medicationsConverted = new ArrayList<>();
+        for (Medication m : medications) {
+            medicationsConverted.add(convertOneRecommendation(m));
+        }
+        return medicationsConverted;
+    }
+
+    public static MedicationToRecommendDTO convertOneRecommendation(Medication medication) {
+            MedicationToRecommendDTO dto = new MedicationToRecommendDTO();
+            dto.setName(medication.getName());
+            dto.setId(medication.getId());
+            return dto;
+
+    }
 }
 

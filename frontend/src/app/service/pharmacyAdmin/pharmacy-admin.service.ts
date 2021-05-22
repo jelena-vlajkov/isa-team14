@@ -17,9 +17,9 @@ export class PharmacyAdminService {
   constructor(private http : HttpClient) { }
 
   getPharmacyByAdmin(id:number) : Observable<Pharmacy> {
-    return this.http.get<Pharmacy>(`${environment.baseUrl}/pharmacyAdmin/getPharmacyByAdmin?id=${id}`);
+    return this.http.get<Pharmacy>(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.getPharmacyByAdmin}?id=${id}`);
   }
   getById(id:number) : Observable<PharmacyAdmin> {
-    return this.http.get<PharmacyAdmin>(`${environment.baseUrl}/pharmacyAdmin/getById?id=${id}`);
+    return this.http.get<PharmacyAdmin>(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.getById}?id=${id}`);
   }
 }

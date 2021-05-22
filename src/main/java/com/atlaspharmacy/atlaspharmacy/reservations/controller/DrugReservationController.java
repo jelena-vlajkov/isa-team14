@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.DrugReservationAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
@@ -9,6 +10,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationServ
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -27,6 +29,15 @@ public class DrugReservationController {
     @Autowired
     public DrugReservationController(IDrugReservationService drugReservationService) {
         this.drugReservationService = drugReservationService;
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping(value = "/saveReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<?> saveReservation(@RequestBody CreateDrugReservationDTO dto) throws Exception {
+        drugReservationService.reserveDrug(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -67,6 +78,13 @@ public class DrugReservationController {
     public @ResponseBody
     ParseException handleException(ParseException e) {
         return new ParseException("Error while parsing values", 0);
+    }
+
+    @ExceptionHandler(ParseException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public @ResponseBody
+    Exception handleException(Exception e) {
+        return e;
     }
 
 }

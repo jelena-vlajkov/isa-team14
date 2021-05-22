@@ -24,13 +24,14 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
   public noone : boolean = true;
   public sysAdmin : SystemAdmin;
   public supplier : Supplier;
-  
+
+
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {
   }
 
-  constructor(private auth: AuthenticationService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, private pharmacyService : PharmacyService) { 
-    
+  constructor(private auth: AuthenticationService, private supplierService : SupplierService, private systemAdmin : SysadminRegistrationService, private router: Router, private patientService: PatientService, private pharmacyService : PharmacyService) {
+
   }
 
   public pharmacies : Pharmacy[] = new Array();
@@ -45,8 +46,8 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
           this.loadAdmin();
         }else if(this.isSupplier()){
           this.loadSupplier();
-        }    
-      
+        }
+
     }catch(error){
       console.log('UPUCACU SE VISE AAAAAAAA');
       console.log('ok radi sve kul idegasnamax');
@@ -60,7 +61,7 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     // }else if(this.isSupplier()){
     //   this.loadSupplier();
     // }
-    
+
   }
   checkLoggedInUser(){
     return this.auth.getUserValue();
@@ -104,25 +105,25 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     console.log(event.value);
     if (event.value == 1){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 0 &&
-         p.averageGradeCount <=1);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 0 &&
+         p.averageGrade.count() <=1);
     }else if(event.value == 2){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 1 &&
-         p.averageGradeCount <=2);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 1 &&
+         p.averageGrade.count() <=2);
     }else if(event.value == 3){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 2 &&
-         p.averageGradeCount <=3);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 2 &&
+         p.averageGrade.count() <=3);
     }
     else if(event.value == 4){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 3 &&
-         p.averageGradeCount <=4);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 3 &&
+         p.averageGrade.count() <=4);
     } else if(event.value == 5){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 4 &&
-         p.averageGradeCount <=5);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 4 &&
+         p.averageGrade.count() <=5);
     }else {
       this.pharmacies = this.pharmaciesCopy;
     }
@@ -168,13 +169,13 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     this.pharmacies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);     
+        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);
         default: return 0;
       }
      });
   }
 
-  
+
 }
 
 function compare(a: Number | string, b: Number | string, isAsc: boolean) {

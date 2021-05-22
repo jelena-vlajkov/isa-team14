@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService implements IUserService {
     private final UserRepository userRepository;
@@ -87,6 +90,26 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(employeePassChange.getNewpassword()));
         user.setFirstTimePassword(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<User> getUsersForEmployee() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> searchUsersByName(String name) {
+        List<User> users = userRepository.findAll();
+        List<User> retVal = new ArrayList<>();
+        String fullName = "";
+        for (User u : users) {
+            fullName = u.getName() + " " + u.getSurname();
+
+            if (fullName.toLowerCase().contains(name.toLowerCase().trim())) {
+                retVal.add(u);
+            }
+        }
+        return retVal;
     }
 
 }

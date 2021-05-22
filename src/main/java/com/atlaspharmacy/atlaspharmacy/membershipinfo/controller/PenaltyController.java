@@ -28,8 +28,9 @@ public class PenaltyController {
 
     @PostMapping(value = "addPenalty")
     @PenaltyAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody
-    ResponseEntity<?> savePenalty(@RequestBody PenaltyDTO penaltyDTO) {
+    ResponseEntity<?> savePenalty(@RequestBody PenaltyDTO penaltyDTO) throws Exception {
         penaltyService.savePenalty(PenaltyMapper.mapPenaltyFromDto(penaltyDTO));
         return new ResponseEntity<>(HttpStatus.OK);
     }

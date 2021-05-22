@@ -3,6 +3,15 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
 import {AuthenticationService} from '../service/user/authentication.service'
+import { DatePipe } from '@angular/common';
+import { Appointment } from '@app/model/appointment/appointment';
+import { EmployeeService } from '@app/service/employee/employee.service';
+import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Medication } from '@app/model/medications/medication';
+import { MedicationsToRecommend } from '@app/model/pharmderm/medicationstorecommend';
+import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
+import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
+import { SaveReport } from '@app/model/pharmderm/createreport';
 
 @Component({
   selector: 'pharmacist-reports',
@@ -11,40 +20,195 @@ import {AuthenticationService} from '../service/user/authentication.service'
 })
 export class PharmacistAddReportComponent {
   
-    displayedColumns: string[] = ['position', 'name', 'dosage', '#'];
-    dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-    constructor(private authService: AuthenticationService, private router : Router) { }
+    displayedColumns: string[] = ['position', 'name', 'dosage', "available", '#'];
+    displayedColumns2: string[] = ['position', 'startTime', 'endTime', '#'];
+    constructor(private authService: AuthenticationService, private router : Router, private datePipe: DatePipe, private employeeService : EmployeeService) { }
+    public todaysDate : string;
+    public appointments : Appointment[];
+    public availableAppointments : Appointment[];
+    public showSearchResults : boolean;
+    public searchAppointmentForm : FormGroup;
+    public searchMedicationsForm : FormGroup;
+    public showSearchResultsForMedications : boolean;
+    public addReportForm : FormGroup;
+    
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-    }
 
     ngOnInit() {
       if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
         this.router.navigate(["/employee-welcome"]);
-  
       }
+      this.showSearchResultsForMedications = false;
+      this.todaysDate = this.datePipe.transform(new Date(), 'dd.MM.yyyy.');
+      this.employeeService.getScheduledAppointmentsForDate(Number(localStorage.getItem("userId")), this.todaysDate).subscribe(
+        data => {
+          this.appointments = data;
+          for(let appointment of this.appointments) {
+            appointment.startDateString = this.datePipe.transform(appointment.startTime, 'hh:mm');
+            appointment.prescribedMedications = [];
+            appointment.canAddPenalty = true;
+            console.log(appointment.finished)
+          }
+          this.showSearchResults = false;
+          this.searchAppointmentForm = new FormGroup({
+            'date' : new FormControl(null, []),
+          });
+          this.searchMedicationsForm = new FormGroup({
+            'name' : new FormControl("", [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
+        
+          })
+          this.addReportForm = new FormGroup({
+            'details' : new FormControl("", [Validators.required]),
+        
+          })
+
+        }, 
+        error => {
+          alert(error);
+        })
     }
 
-    addMedication() {}
+    addPenalty(a : Appointment) {
+      let penalty = new CreatePenalty();
+      penalty.appointmentId = a.id;
+      penalty.patientId = a.patientId;
 
+      this.employeeService.addPenalty(penalty).subscribe(
+        data => {
+          a.finished = true;
+          alert("Successfully reported patient!");
+        }, error => {
+          alert(error)
+        }
+      )
+    }
+
+    addReport(a : Appointment) {
+      let report = new SaveReport();
+      report.medicalStaffId = Number(localStorage.getItem("userId"));
+      report.medications = a.prescribedMedications;
+      report.patientId = a.patientId;
+      report.pharmacyId = a.pharmacyId;
+      let details = this.addReportForm.controls.details.value;
+      console.log(details)
+      report.reportNotes = details;
+      this.employeeService.addReport(report).subscribe(
+        data => {
+          this.employeeService.finishAppointment(a.id).subscribe(
+            data => {
+              alert("Successfully added report!");
+              a.finished = true;
+
+            }, error => {
+              alert(error)
+            }
+          )
+        }, error => {
+          alert(error);
+        }
+      )
+    }
+
+    recommendSimilar(medication : MedicationsToRecommend, a : Appointment) {
+      console.log(medication)
+      this.employeeService.recommendSimilarMedications(medication.id, a.pharmacyId).subscribe(
+        data => {
+          a.medicationsForPatients = data;
+          this.showSearchResultsForMedications = true;
+        },
+        error => {
+          alert(error);
+        }
+      )
+    }
+
+    searchMedications(a : Appointment) {
+      console.log(a)
+      a.canAddPenalty = false;
+      this.employeeService.recommendAvailableMedications(a.patientId, a.pharmacyId).subscribe(
+        data => {
+          a.medicationsForPatients = [];
+          for (let medication of data) {
+            medication.prescribed = false;
+            a.medicationsForPatients.push(medication);
+          }
+          this.showSearchResultsForMedications = true;
+        },
+        error => {
+          alert(error);
+        }
+      )
+    }
+
+    scheduleAppointment(a : Appointment, app : Appointment) {
+      console.log(a)
+      let schedule = new Appointment();
+      schedule.startTime = a.startTime;
+      schedule.endTime = a.endTime;
+      schedule.medicalStaffId = a.medicalStaffId;
+      schedule.patientId = a.patientId;
+      schedule.pharmacyId = app.pharmacyId;
+      console.log(schedule)
+      schedule.medicalStaffId = Number(localStorage.getItem("userId"));
+      schedule.patientId = app.patientId;
+      
+      this.employeeService.scheduleAppointment(schedule).subscribe(
+        response => {
+          alert("Successfully scheduled appoinmtnet");
+
+        }, error => {
+          alert(error);
+        }
+      )
+    }
+    prescribeMedication(medication : MedicationsToRecommend, a : Appointment) {
+      a.prescribedMedications.push(medication.name);
+      let reservation = new CreaeteReservation();
+      reservation.medicationId = medication.id;
+      reservation.patientId = a.patientId;
+      reservation.pharmacyId = a.pharmacyId;
+      console.log(medication)
+      reservation.therapyDays = medication.days;
+
+      this.employeeService.addDrugReservation(reservation).subscribe(
+        response => {
+          a.prescribedMedications.push(medication.name);
+          medication.prescribed = true;
+          alert("Successfully prescribed medication for patient!");
+        }, error => {
+          alert(error);
+        }
+      )
+    }
+    searchAppointments(a : Appointment) {
+      let date = this.searchAppointmentForm.controls.date.value;
+      if (date === null) {
+        alert("Please select a date!");
+      } else {
+        let stringDate = this.datePipe.transform(date, 'dd.MM.yyyy.');
+        this.employeeService.getAvailable(Number(localStorage.getItem("userId")), stringDate, 100).subscribe(
+          data => {
+            let availableapps = data;
+            this.showSearchResults = true;
+
+            for (let a of availableapps) {
+              a.startDateString = this.datePipe.transform(a.startTime, 'hh:mm');
+              a.endDateString = this.datePipe.transform(a.endTime, 'hh:mm');
+            }
+
+            a.availableAppointment = availableapps;
+          }, 
+          error => {
+            alert(error)
+            
+            this.showSearchResults = false;
+          }
+        )
+      }
+    }
     logout() {
       this.authService.logout();
     }
   }
-  
-  export interface PeriodicElement {
-    name: string;
-    position: number;
-  }
-  
-  const ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Brufen'},
-    {position: 1, name: 'Brufen'},
-    {position: 1, name: 'Brufen'},
-    {position: 1, name: 'Brufen'},
-    {position: 1, name: 'Brufen'},
-    {position: 1, name: 'Brufen'}
-  ];

@@ -12,5 +12,16 @@ export class Pricelist{
     public price : Number;
     public medication : Medication;
     public pharmacy : Pharmacy;
-    public period : Period;
+    public startPeriod : Date;
+    public endPeriod : Date;
+
+    constructor(id:Number,medication:Medication,price:Number,startPeriod:Date,endPeriod:Date,pharmacy:Pharmacy) {
+      this.id = id;
+      this.medication = medication;
+      this.pharmacy = pharmacy;
+      this.price = price;
+      this.startPeriod = startPeriod;
+      this.endPeriod = endPeriod;
+
+    }
 }
