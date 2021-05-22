@@ -105,6 +105,8 @@ export const environment = {
   finishAppointment : "finishAppointment",
   getSpecificAppointment : "findSpecificAppointment",
   usersForEmployee : "usersForEmployee",
-  searchUsers : "searchUsers"
+  searchUsers : "searchUsers",
+  vacationRequest : "vacationRequest",
+  sendVacationRequest : "saveVacationRequest"
 };
 
