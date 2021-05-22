@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.MedicationServiceImpl;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
@@ -11,10 +12,13 @@ import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
+import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderedMedicationMapper;
+import com.atlaspharmacy.atlaspharmacy.supplier.repository.MedicationInOrderRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OfferRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.OrderRepository;
 import com.atlaspharmacy.atlaspharmacy.supplier.service.IOrderService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,13 +32,21 @@ public class OrderService implements IOrderService {
     private final MedicationServiceImpl medicationService;
     private final OfferRepository offerRepository;
     private final IPharmacyService pharmacyService;
+    private final MedicationInOrderRepository medicationInOrderRepository;
 
-    public OrderService(OrderRepository orderRepository, MedicationInOrderService medicationInOrderService, MedicationServiceImpl medicationService, OfferRepository offerRepository, IPharmacyService pharmacyService) {
+   
+    public OrderService(OrderRepository orderRepository,
+                        MedicationInOrderService medicationInOrderService,
+                        MedicationServiceImpl medicationService,
+                        OfferRepository offerRepository,
+                        MedicationInOrderRepository medicationInOrderRepository,
+                        IPharmacyService pharmacyService) {
         this.orderRepository = orderRepository;
         this.medicationInOrderService = medicationInOrderService;
         this.medicationService = medicationService;
         this.offerRepository = offerRepository;
         this.pharmacyService = pharmacyService;
+        this.medicationInOrderRepository=medicationInOrderRepository;
     }
 
     @Override
@@ -159,5 +171,18 @@ public class OrderService implements IOrderService {
         return order;
 
     }
+
+    @Override
+    public List<OrderDTO> filterOrdersByState(String status) {
+        List<Order> allOrders=orderRepository.findAll();
+        List<Order> filteredOrders=new ArrayList<>();
+        for(Order o:allOrders) {
+            if(o.getStatus().equals(status)){
+                filteredOrders.add(o);
+            }
+        }
+        return OrderMapper.mapToListDTOS(filteredOrders);
+    }
+
 
 }

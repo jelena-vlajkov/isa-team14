@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OrderedMedication } from '@app/model/medications/orderedMedication';
-import { Order } from '@app/model/users/supplier/order';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
-import {MedicationInOrder} from "@app/model/medicationOrder/medicationInOrder";
+import {Order} from "@app/model/medicationOrder/order";
+import {MedicationOrder} from "@app/model/medicationOrder/medicationOrder";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,7 @@ export class OrdersService {
    getAllOrdersWehereOfferIsNotGivenBySupplier(id : Number):Observable<Order[]>{
     return this.http.get<Order[]>(`${environment.baseUrl}/${environment.order}/${environment.getAllOrdersWehereOfferIsNotGivenBySupplier}?id=${id}`);
   }
-
-
+   addOrder(data : Order){
+    return this.http.post(`${environment.baseUrl}/${environment.order}/${environment.addOrder}`,data, {responseType : 'text'});
+  }
 }

@@ -57,6 +57,7 @@ public class OrderController {
         }
         return order;
     }
+
     @GetMapping(value = "/getAllOrdersWehereOfferIsNotGivenBySupplier", produces = MediaType.APPLICATION_JSON_VALUE)
     @OrderAuthorization
     public @ResponseBody
@@ -75,5 +76,18 @@ public class OrderController {
     OrderDTO findById(@RequestParam("id") Long id){
         return orderService.findById(id);
     }
+
+    @PostMapping (value = "/filterOrdersByStatus")
+    public ResponseEntity<?> filterOrdersByStatus(@RequestBody String status) {
+        try {
+            List<OrderDTO> order = orderService.filterOrdersByState(status);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

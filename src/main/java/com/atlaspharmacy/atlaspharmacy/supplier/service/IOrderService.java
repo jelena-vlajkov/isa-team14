@@ -19,4 +19,5 @@ public interface IOrderService {
     List<OrderedMedicationDTO> getOrderedMedicationByIdentifier(int id);
     List<Order> getAllOrdersByPharmacy(Long pharmacyId);
     OrderDTO findById(Long orderId);
+    List<OrderDTO> filterOrdersByState(String status);
 }

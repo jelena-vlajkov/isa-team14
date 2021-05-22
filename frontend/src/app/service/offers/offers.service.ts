@@ -26,6 +26,6 @@ export class OffersService {
     return this.http.get<Offer[]>(`${environment.baseUrl}/${environment.offer}/${environment.getByStatus}?id=${id}&status=${status}`);
   }
   getAllByOrder(orderId : Number): Observable<Offer[]>{
-    return this.http.get<Offer[]>(`${environment.baseUrl}/${environment.offer}/${environment.getByOrder}?orderId=${orderId}`);
+    return this.http.get<Offer[]>(`${environment.baseUrl}/${environment.offer}/${environment.getByOrder}?id=${orderId}`);
   }
 }

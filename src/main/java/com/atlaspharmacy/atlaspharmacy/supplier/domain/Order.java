@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.domain;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.MedicationOrderStatus;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -19,11 +20,14 @@ public class Order {
     private Pharmacy pharmacy;
     private int uniqueidentifier;
 
+    private MedicationOrderStatus status;
+
     public Order(Long id, Date dueDate, Pharmacy pharmacy, int uniqueidentifier) {
         this.id = id;
         this.dueDate = dueDate;
         this.pharmacy = pharmacy;
         this.uniqueidentifier = uniqueidentifier;
+        this.status = MedicationOrderStatus.WAITING_FOR_OFFERS;
     }
 
     public Order() {
@@ -61,4 +65,7 @@ public class Order {
         this.pharmacy = pharmacy;
     }
 
+    public MedicationOrderStatus getStatus() { return status; }
+
+    public void setStatus(MedicationOrderStatus status) { this.status = status; }
 }

@@ -8,8 +8,8 @@
 
 import { NumberValueAccessor } from "@angular/forms";
 import { OfferStatus } from "./offerStatus";
-import { Order } from "./order";
 import { Supplier } from "./supplier";
+import {Order} from "@app/model/medicationOrder/order";
 
 export class Offer{
     public id : Number;

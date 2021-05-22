@@ -99,6 +99,7 @@ export const environment = {
   getByOrder:"getByOrder",
   medicationInOrder:"medicationInOrder",
   addMedicationInOrder:"addMedicationInOrder",
-  findById:"findById"
+  findById:"findById",
+  addOrder:"addOrder"
 };
 

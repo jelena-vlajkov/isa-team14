@@ -12,6 +12,12 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageReposi
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.service.IMedicationInOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +32,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     private final IDrugReservationService drugReservationService;
     private final IMedicationService medicationService;
     private final PharmacyRepository pharmacyRepository;
+    private final IMedicationInOrderService medicationInOrderService;
 
 
     @Autowired
@@ -33,13 +40,18 @@ public class PharmacyStorageService implements IPharmacyStorageService {
                                   , INotificationService notificationService
                                   , IDrugReservationService drugReservationService
                                   , IMedicationService medicationService
-                                  , PharmacyRepository pharmacyRepository) {
+                                  , PharmacyRepository pharmacyRepository
+                                  , IMedicationInOrderService medicationInOrderService) {
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
         this.drugReservationService = drugReservationService;
         this.medicationService = medicationService;
         this.pharmacyRepository = pharmacyRepository;
+        this.medicationInOrderService = medicationInOrderService;
+
+
     }
+    
 
     @Override
     public List<PharmacyStorage> getMedicationsByPharmacy(Long pharmacyId) {
@@ -88,7 +100,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
-    public void editMedicationAmount(Long medicationId,Long pharmacyId,int amount) {
+    public void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount) {
         List<PharmacyStorage> allPharmacyStorage=getMedicationsByPharmacy(pharmacyId);
         for(PharmacyStorage p:allPharmacyStorage){
             if(p.getMedication().getId().equals(medicationId)){
@@ -96,16 +108,6 @@ public class PharmacyStorageService implements IPharmacyStorageService {
                 pharmacyStorageRepository.save(p);
             }
         }
-    }
-
-    @Override
-    public void addMedicationToPharmacy(Long medicationId,Long pharmacyId,int amount) {
-        PharmacyStorage newMedicationInStorage=new PharmacyStorage();
-        newMedicationInStorage.setQuantity(amount);
-        newMedicationInStorage.setMedication(MedicationMapper.convertToMedication(medicationService.findById(medicationId)));
-        newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
-        pharmacyStorageRepository.save(newMedicationInStorage);
-
     }
 
     @Override
@@ -120,5 +122,34 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         return medicationsNotInPharmacy;
     }
 
+
+    public void addNewMedicationsToStorage(Order order) {
+        List<MedicationInOrder> medicationsByOrder=medicationInOrderService.getAllMedicationsByOrder(order.getId());
+        List<PharmacyStorage> medicationsInPharmacy=getMedicationsByPharmacy(order.getPharmacy().getId());
+        for(MedicationInOrder medicationInOrder:medicationsByOrder){
+            for(PharmacyStorage medicationInPharmacy:medicationsInPharmacy){
+                if(medicationInOrder.getOrderedMedication().getMedication().equals(medicationInPharmacy.getMedication().getId())) {
+                    break;
+                }
+                PharmacyStorage newMedication=new PharmacyStorage();
+                newMedication.setMedication(MedicationMapper.convertToMedication
+                        (medicationService.findById(medicationInOrder.getOrderedMedication().getMedication())));
+                newMedication.setPharmacy(order.getPharmacy());
+                newMedication.setQuantity(medicationInOrder.getOrderedMedication().getQuantity());
+                pharmacyStorageRepository.save(newMedication);
+                
+            }
+        }
+
+    }
+    @Override
+    public void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount) {
+        PharmacyStorage newMedicationInStorage=new PharmacyStorage();
+        newMedicationInStorage.setQuantity(amount);
+        newMedicationInStorage.setMedication(MedicationMapper.convertToMedication(medicationService.findById(medicationId)));
+        newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
+        pharmacyStorageRepository.save(newMedicationInStorage);
+
+    }
 
 }

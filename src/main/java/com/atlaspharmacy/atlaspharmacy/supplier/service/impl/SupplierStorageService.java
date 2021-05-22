@@ -2,7 +2,6 @@ package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
-import com.atlaspharmacy.atlaspharmacy.supplier.DTO.MedicationInStorageDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.NewMedicationToStorageDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.DTO.SupplierStorageMedicationDTO;
@@ -48,9 +47,9 @@ public class SupplierStorageService implements ISupplierStorageService {
     @Override
     public SupplierStorageMedicationDTO getSuppliersStorage(Long id){
         List<Medication> allMedications = medicationRepository.findAll();
-        List<MedicationInStorageDTO> storage = new ArrayList<>();
+        List<OrderedMedicationDTO> storage = new ArrayList<>();
         for(SupplierStorageMedication s : getSuppliersMedications(id)){
-            MedicationInStorageDTO dto = MedicationInStorageMapper.mapToDTO(s.getMedications(), medicationRepository.findById(s.getMedications().getMedication_id()).get());
+            OrderedMedicationDTO dto = MedicationInStorageMapper.mapToDTO(s.getMedications(), medicationRepository.findById(s.getMedications().getMedication_id()).get());
             storage.add(dto);
         }
         SupplierStorageMedicationDTO suppliersMeds = new SupplierStorageMedicationDTO();

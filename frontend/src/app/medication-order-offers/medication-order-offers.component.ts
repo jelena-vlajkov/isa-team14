@@ -20,7 +20,7 @@ export class MedicationOrderOffersComponent implements OnInit {
   private StringIsNumber = value => isNaN(Number(value)) === false;
 
   showMedicationOrderInfo : boolean = false;
-  private showOffers : boolean = true;
+  showOffers : boolean = true;
   medicationOrder : Order;
 
   constructor(private authenticationService:AuthenticationService

@@ -44,11 +44,16 @@ export class MedicationOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.addItem = false;
+
     this.addMedicationOrderForm = new FormGroup({
       'medication' : new FormControl(null, Validators.required),
       'amount' : new FormControl(null,Validators.required)});
+
     this.orderForm = new FormGroup({
-      'dueDate' : new FormControl(null,Validators.required)});
+      'dueDate' : new FormControl(null,Validators.required),
+      'editableDue' : new FormControl(null,Validators.required),
+      });
+
     this.medicationService.findAllMedications().subscribe(data=>
       {
         this.medications = data;
@@ -97,6 +102,7 @@ export class MedicationOrderComponent implements OnInit {
 
   submitOrder() {
     this.currentUserId=Number(localStorage.getItem('userId'));
+    console.log(this.currentUserId);
     this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
       result => {
         this.pharmacy = result;

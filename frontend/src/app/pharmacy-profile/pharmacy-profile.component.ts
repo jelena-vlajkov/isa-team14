@@ -44,6 +44,7 @@ export class PharmacyProfileComponent implements OnInit {
   pharmacists: String[]=new Array();
   pharmacyId:Number;
   medications:String[]=new Array();
+  viewPricelist:boolean=false;
   private StringIsNumber = value => isNaN(Number(value)) === false;
   availableAppointments:String[] = new Array();
   @ViewChild(GooglePlacesComponent) googleplaces;
@@ -359,6 +360,9 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPromotions=true;
     this.scheduleAppointment=false;
     this.addPricelistEntityDialog = false;
+  }
+  showPricelistDialog(){
+    this.viewPricelist=true;
   }
 
 

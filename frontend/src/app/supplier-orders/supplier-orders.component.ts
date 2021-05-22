@@ -7,13 +7,14 @@ import { Medication } from '@app/model/medications/medication';
 import { OrderedMedication } from '@app/model/medications/orderedMedication';
 import { Offer } from '@app/model/users/supplier/offer';
 import { OfferStatus } from '@app/model/users/supplier/offerStatus';
-import { Order } from '@app/model/users/supplier/order';
 import { Supplier } from '@app/model/users/supplier/supplier';
 import { SupplierStorage } from '@app/model/users/supplier/supplierStorage';
 import { OffersService } from '@app/service/offers/offers.service';
 import { OrdersService } from '@app/service/orders/orders.service';
 import { SupplierService } from '@app/service/supplier/supplier.service';
 import { AuthenticationService } from '@app/service/user';
+import {Order} from "@app/model/medicationOrder/order";
+import {MedicationOrder} from "@app/model/medicationOrder/medicationOrder";
 
 @Component({
   selector: 'app-supplier-orders',
@@ -25,7 +26,7 @@ export class SupplierOrdersComponent implements OnInit {
   public offerGroup : FormGroup;
   public orders : Order[];
   public showmore : boolean = false;
-  public orderedMedication : OrderedMedication[];
+  public orderedMedication : MedicationOrder[];
   public myfirstorder : Order;
   public displayedColumns: string[] = ['name', 'quantity'];
   public selectedOrder : Order;
@@ -33,7 +34,7 @@ export class SupplierOrdersComponent implements OnInit {
   public unique : number;
   public myOffer : Offer;
   public orderimmakillmyself : Order[];
-  public dataSource = new MatTableDataSource<OrderedMedication>();
+  public dataSource = new MatTableDataSource<MedicationOrder>();
   public dataSourceStorage;
   public helpmepls : Order;
 
@@ -47,7 +48,7 @@ export class SupplierOrdersComponent implements OnInit {
   showMoreInfo(order){
     this.unique = order.uniqueidentifier;
     this.showmore = true;
-    this.selectedOrder = new Order(order.dueDate, null, order.pharmacy, order.editableDue, order.uniqueidentifier);
+    this.selectedOrder = new Order(null, null,order.dueDate, order.pharmacy, order.uniqueidentifier);
     this.orderService.getOrderedMedicationByIdentifier(order.uniqueidentifier).subscribe(
       data=>{
         this.orderedMedication = data;

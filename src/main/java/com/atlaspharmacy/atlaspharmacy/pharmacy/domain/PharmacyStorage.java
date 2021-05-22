@@ -15,14 +15,14 @@ public class PharmacyStorage {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Medication medication;
-    private int quantity;
+    private Long quantity;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Pharmacy pharmacy;
 
     public PharmacyStorage() {
     }
 
-    public PharmacyStorage(Pharmacy pharmacy, Medication medication, int quantity) {
+    public PharmacyStorage(Pharmacy pharmacy, Medication medication, Long quantity) {
         this.pharmacy = pharmacy;
         this.medication = medication;
         this.quantity = quantity;
@@ -44,11 +44,11 @@ public class PharmacyStorage {
         this.medication = medication;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 

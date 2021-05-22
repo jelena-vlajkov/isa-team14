@@ -5,6 +5,8 @@ import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OfferDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.exceptions.InsuficientFundsException;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.List;
 
 public interface IOfferService {
@@ -15,4 +17,5 @@ public interface IOfferService {
     Offer giveOffer(OfferDTO o) throws DueDateSoonException, InsuficientFundsException;
     List<OfferDTO> getUsersOffersByStatus(Long status, Long supplier);
     List<OfferDTO> getAllOfersForOrder(Long orderId);
+    List<Offer> chooseOffer(OfferDTO offerDTO) throws IOException, MessagingException;
 }

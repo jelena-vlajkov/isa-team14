@@ -95,7 +95,7 @@
         <tr *ngFor="let promotion of pharmacyPromotions" style="margin-bottom: 30px;border-bottom:1px solid black;">
           <td style="font-size: 20px;height: fit-content;width: 400px;">{{promotion.description}}</td>
           <span style="margin-left: 40px;"></span>
-          <td style="font-size: 20px;width: fit-content;">{{ promotion.startTime | date :  "dd.MM.y" }} - {{ promotion.endTime | date :  "dd.MM.y" }}</td>
+          <td style="font-size: 20px;width: fit-content;"> - {{ promotion.endTime | date :  "dd.MM.y" }}</td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">
