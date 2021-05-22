@@ -10,6 +10,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -42,22 +43,49 @@ public class AppointmentController {
 
     @GetMapping(value = "/getScheduledByDate", produces = MediaType.APPLICATION_JSON_VALUE)
     @AppointmentAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<AppointmentDTO> getScheduledByDate(@RequestParam("date") String stringDate) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(date));
+    }
+
+    @PostMapping(value = "/scheduleAppointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> scheduleAppointment(@RequestBody ScheduleAppointmentDTO dto) throws AppointmentNotFreeException {
+        appointmentService.saveAppointment(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping(value = "/finishAppointment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> scheduleAppointment(@RequestBody Long appointmentId) throws Exception {
+        appointmentService.finishAppointment(appointmentId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/getScheduledByDateAndStaff", produces = MediaType.APPLICATION_JSON_VALUE)
     @AppointmentAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<AppointmentDTO> getScheduledByDateAndStaff(@RequestParam("date") String stringDate, @RequestParam("id") Long id) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(stringDate);
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(date, id));
     }
 
+    @GetMapping(value = "/findSpecificAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AppointmentAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public @ResponseBody AppointmentDTO getScheduledByDateAndStaff(@RequestParam("date") String date, @RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("patientId") Long patientId) throws Exception {
+        Date dateObj = new SimpleDateFormat("dd.MM.yyyy.").parse(date);
+        return AppointmentMapper.mapAppointmentToDTO(appointmentService.findSpecificAppointment(dateObj, medicalStaffId, patientId));
+    }
+
+
     @GetMapping(value = "/getAvailableForStaff", produces = MediaType.APPLICATION_JSON_VALUE)
     @AppointmentAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<AppointmentDTO> getAvailable(@RequestParam("date") String stringDate, @RequestParam("id") Long id) throws ParseException {
-        Date date = new SimpleDateFormat("yyyy-MM-dd_HH:mm").parse(stringDate);
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableBy(date, id));
     }
 
@@ -117,6 +145,16 @@ public class AppointmentController {
     public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId) throws Exception, InvalidMedicalStaff {
         return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
     }
+
+    @GetMapping(value = "/getAppointmentsForEmployee", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @EmployeeAuthorization
+    public @ResponseBody List<AppointmentDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId,
+                                                                        @RequestParam("date") String stringDate) throws Exception, InvalidMedicalStaff {
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableByEmployeeAndPharmacy(pharmacyId, medicalStaffId, date));
+    }
+
 
     @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")

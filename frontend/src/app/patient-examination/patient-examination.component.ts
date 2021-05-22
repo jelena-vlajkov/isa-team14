@@ -14,11 +14,11 @@ import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 
 @Component({
-  selector: 'pharmacist-reports',
-  templateUrl: './pharmacist.add-report.component.html',
-  styleUrls: ['./pharmacist.add-report.component.css']
+  selector: 'patient-examination',
+  templateUrl: './patient-examination.component.html',
+  styleUrls: ['./patient-examination.component.css']
 })
-export class PharmacistAddReportComponent {
+export class PatientExaminationComoponent {
   
     displayedColumns: string[] = ['position', 'name', 'dosage', "available", '#'];
     displayedColumns2: string[] = ['position', 'startTime', 'endTime', '#'];
@@ -31,6 +31,8 @@ export class PharmacistAddReportComponent {
     public searchMedicationsForm : FormGroup;
     public showSearchResultsForMedications : boolean;
     public addReportForm : FormGroup;
+    public a : Appointment;
+    public patientId : Number;
     
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -42,15 +44,18 @@ export class PharmacistAddReportComponent {
       }
       this.showSearchResultsForMedications = false;
       this.todaysDate = this.datePipe.transform(new Date(), 'dd.MM.yyyy.');
-      this.employeeService.getScheduledAppointmentsForDate(Number(localStorage.getItem("userId")), this.todaysDate).subscribe(
+      this.patientId = history.state.data;
+      if (this.patientId === null) {
+          this.router.navigate(["/dashboard"])
+      }
+      this.employeeService.getAppointmentForPatient(Number(localStorage.getItem("userId")), this.todaysDate, this.patientId).subscribe(
         data => {
-          this.appointments = data;
-          for(let appointment of this.appointments) {
-            appointment.startDateString = this.datePipe.transform(appointment.startTime, 'hh:mm');
-            appointment.prescribedMedications = [];
-            appointment.canAddPenalty = true;
-            console.log(appointment.finished)
-          }
+          this.a = data;
+            this.a.startDateString = this.datePipe.transform(this.a.startTime, 'hh:mm');
+            this.a.prescribedMedications = [];
+            this.a.canAddPenalty = true;
+            console.log(this.a.finished)
+          
           this.showSearchResults = false;
           this.searchAppointmentForm = new FormGroup({
             'date' : new FormControl(null, []),

@@ -58,10 +58,7 @@
             </mat-card-header>
         </mat-card>
         <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
-            <mat-tab-group style="height: fit-content; width: 950px; margin-left: 10px; justify-content: center;">
-                <div *ngFor="let a of appointments">
-
-                <mat-tab [label]="a.startDateString"> 
+                
                     
                 <div *ngIf="!a.finished">
                     
@@ -228,9 +225,6 @@
                         <mat-label style="margin-top: 20px; font-size: 18px;"> <br> Appointment finished </mat-label>
                     </div>
                 </div>
-                </mat-tab>
-            </div>
-              </mat-tab-group>
         
         </mat-card>
 

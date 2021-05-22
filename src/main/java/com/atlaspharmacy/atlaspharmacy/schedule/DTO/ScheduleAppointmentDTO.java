@@ -4,20 +4,29 @@ import java.util.Date;
 
 public class ScheduleAppointmentDTO {
     private Long medicalStaffId;
-    private Date startDate;
-    private Date endDate;
+    private Date startTime;
+    private Date endTime;
     private Long patientId;
     private String type;
+    private Long pharmacyId;
 
-    public ScheduleAppointmentDTO(Long medicalStaffId, Date startDate, Date endDate, Long patientId, String type) {
+    public ScheduleAppointmentDTO(Long medicalStaffId, Date startTime, Date endTime, Long patientId, String type) {
         this.medicalStaffId = medicalStaffId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.patientId = patientId;
         this.type = type;
     }
 
     public ScheduleAppointmentDTO() {
+    }
+
+    public Long getPharmacyId() {
+        return pharmacyId;
+    }
+
+    public void setPharmacyId(Long pharmacyId) {
+        this.pharmacyId = pharmacyId;
     }
 
     public Long getMedicalStaffId() {
@@ -28,20 +37,20 @@ public class ScheduleAppointmentDTO {
         this.medicalStaffId = medicalStaffId;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Long getPatientId() {

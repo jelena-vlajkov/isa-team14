@@ -91,6 +91,18 @@ export const environment = {
   getPatientsByMedicalStaff : "getPatientsByMedicalStaff",
   searchPatients : "searchPatients",
   findReservations : "getReservationByIdentifier",
-  issueReservation : "issueReservation"
+  issueReservation : "issueReservation",
+  scheduledAppointments : "getScheduledByDateAndStaff",
+  findAvailableForEmployee : "getAppointmentsForEmployee",
+  recommendMedications : "recommendMedicationByPatient",
+  saveResevation : "saveReservation",
+  recommendSimilarMedication : "recommendSimilarMedication",
+  savePenalty : "addPenalty",
+  penalty : "penalty",
+  reports : "report",
+  saveReport : "saveReport", 
+  scheduleAppointment : "scheduleAppointment",
+  finishAppointment : "finishAppointment",
+  getSpecificAppointment : "findSpecificAppointment"
 };
 

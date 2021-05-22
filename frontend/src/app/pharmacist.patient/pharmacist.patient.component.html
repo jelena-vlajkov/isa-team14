@@ -85,7 +85,7 @@
                     </mat-card-header>
                 </mat-card-title> 
                 <mat-card-content style="margin-left: 10px;">
-                        <mat-list-item><p style="color: black;">Date of birth: {{p.dateOfBirth}} </p></mat-list-item>
+                        <mat-list-item><p style="color: black;">Date of birth: {{p.dateOfBirthString}} </p></mat-list-item>
                         
                         <mat-list-item><p style="color: black;">Gender: {{p.gender}}</p></mat-list-item>
 
@@ -113,10 +113,13 @@
                         
                         </mat-expansion-panel-header>
                         <mat-list>
-                            <mat-list-item *ngFor="let c of p.previousAppointments"> Start time: {{c.startTime}} - End time: {{c.endTime}} </mat-list-item>
+                            <mat-list-item *ngFor="let c of p.previousAppointments"> Start time: {{c.startTimeString}} - End time: {{c.endTimeString}} </mat-list-item>
                         </mat-list>
                     </mat-expansion-panel>
                 </mat-accordion>
+                <div *ngIf="p.upcomingAppointment">
+                    <button mat-raised-button color="primary" id="button" style=" margin-top: 20px;"  (click)="startExamination(p)">Start appointment</button>
+                </div>
 
                 <mat-card-actions align='end'>
                     

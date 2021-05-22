@@ -4,6 +4,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
+import com.atlaspharmacy.atlaspharmacy.notifications.domain.Notification;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -23,7 +24,6 @@ import java.util.stream.Collectors;
 public class PharmacyStorageService implements IPharmacyStorageService {
     private final PharmacyStorageRepository pharmacyStorageRepository;
     private final INotificationService notificationService;
-    private final IDrugReservationService drugReservationService;
     private final IMedicationService medicationService;
     private final PharmacyRepository pharmacyRepository;
 
@@ -31,12 +31,10 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Autowired
     public PharmacyStorageService(PharmacyStorageRepository pharmacyStorageRepository
                                   , INotificationService notificationService
-                                  , IDrugReservationService drugReservationService
                                   , IMedicationService medicationService
                                   , PharmacyRepository pharmacyRepository) {
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
-        this.drugReservationService = drugReservationService;
         this.medicationService = medicationService;
         this.pharmacyRepository = pharmacyRepository;
     }
@@ -72,6 +70,9 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         for(PharmacyStorage p : storages){
             if(p.getMedication().getCode().equals(code) && p.getQuantity()>0){
                 return true;
+            }
+            if (p.getMedication().getCode().equals(code) && p.getQuantity() <= 0) {
+                notificationService.medicationQuantityLow(p);
             }
         }
         return false;
@@ -119,6 +120,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         }
         return medicationsNotInPharmacy;
     }
+
 
 
 }
