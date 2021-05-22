@@ -62,7 +62,7 @@ export class GooglePlacesComponent implements OnInit {
 
         //   this.address.street = place.formated_address();
           this.coords = new Coordinates(place.geometry.location.lng(), place.geometry.location.lat());
-           this.addressArray = place.address_components;         
+           this.addressArray = place.address_components;
         //   this.state = this.retriveAddressComponents('administrative_area_level_1');
         this.parseAddress(place.formatted_address, this.coords);
         });
@@ -81,7 +81,7 @@ export class GooglePlacesComponent implements OnInit {
       this.state = new State(state_name);
       this.city = new City(city_name);
 
-      this.address = new Address(street, this.city, coords, this.state);
+      this.address = new Address(null,street, this.city, coords, this.state);
   }
   invokeEvent(place: Object) {
       this.setAddress.emit(place);

@@ -10,7 +10,23 @@ import { Observable } from 'rxjs';
 export class PricelistService {
 
   constructor(private http : HttpClient) { }
-  getPharmacyByMedication(code : Number) :Observable<Pricelist[]>{
+  getPricelistByMedication(code : Number) :Observable<Pricelist[]>{
     return this.http.get<Pricelist[]>(`${environment.baseUrl}/${environment.pricelist}/${environment.getByMedication}?code=${code}`);
+  }
+
+  getPricelistByMedicationAndPharmacy(code : Number,pharmacyId:Number) :Observable<Pricelist>{
+    return this.http.get<Pricelist>(`${environment.baseUrl}/${environment.pricelist}/${environment.getByMedicationAndPharmacy}?code=${code}&pharmacyId=${pharmacyId}`);
+  }
+
+  editPricelistEntity(pricelistEntities:Pricelist[]){
+    return this.http.post(`${environment.baseUrl}/${environment.pricelist}/editPricelistEntity`,pricelistEntities);
+  }
+
+  addPricelistEntity(pricelistEntity:Pricelist){
+    return this.http.post(`${environment.baseUrl}/${environment.pricelist}/${environment.addPricelistEntity}`,pricelistEntity);
+  }
+
+  deletePricelist(pricelistId:Number){
+    return this.http.post(`${environment.baseUrl}/${environment.pricelist}/deletePricelistEntity`,pricelistId);
   }
 }

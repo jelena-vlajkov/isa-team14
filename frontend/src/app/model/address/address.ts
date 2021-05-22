@@ -3,11 +3,15 @@ import { Coordinates } from "./coordinates";
 import { State } from "./state";
 
 export class Address{
-    public street : String;
-    public city : City;
-    public coordinates : Coordinates
+    public id: Number;
+    public coordinates : Coordinates;
     public state : State;
-    constructor(street:String,city:City, coords : Coordinates, state : State){
+    public city : City;
+    public street : String;
+
+
+    constructor(id:Number,street:String,city:City, coords : Coordinates, state : State){
+        this.id = id;
         this.street = street;
         this.city = city;
         this.coordinates = coords;

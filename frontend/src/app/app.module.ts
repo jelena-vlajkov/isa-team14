@@ -174,13 +174,13 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
     MatMenuModule,
     //NgbModule,
     MatExpansionModule,
-    MatStepperModule
-    
+    MatStepperModule,
+    MatCardModule
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
   ],
 
   bootstrap: [AppComponent]

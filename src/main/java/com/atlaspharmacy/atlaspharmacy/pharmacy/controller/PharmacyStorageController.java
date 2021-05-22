@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.StorageAuthorization;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyStorageDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyStorageMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
@@ -27,7 +28,7 @@ public class PharmacyStorageController {
     @GetMapping(value = "/getMedicationsInPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
     @StorageAuthorization
     public @ResponseBody
-    List<PharmacyStorageDTO> getAllPharmacyStorage(@RequestParam("ph") Long pharmacyId) {
+    List<PharmacyStorageDTO> getMedicationsInPharmacy(@RequestParam("ph") Long pharmacyId) {
         return PharmacyStorageMapper.maptToListDto(pharmacyStorageService.getMedicationsByPharmacy(pharmacyId));
     }
 
@@ -77,6 +78,12 @@ public class PharmacyStorageController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getMedicationsNotInPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<MedicationDTO> getMedicationsNotInPharmacy(@RequestParam("ph") Long pharmacyId) {
+        return pharmacyStorageService.getMedicationsNotInPharmacy(pharmacyId);
     }
 
     @ExceptionHandler(Exception.class)

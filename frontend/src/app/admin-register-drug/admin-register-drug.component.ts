@@ -102,7 +102,7 @@ export class AdminRegisterDrugComponent implements OnInit {
   }
   loadSystemAdmin(){
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
-      data => 
+      data =>
       {
         this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
         if(!this.sysAdmin.firstTimeChanged){
@@ -111,7 +111,7 @@ export class AdminRegisterDrugComponent implements OnInit {
       });
 
   }
-  
+
   registerDermatologist(){
 
   }
@@ -127,13 +127,13 @@ export class AdminRegisterDrugComponent implements OnInit {
       error=>{
         alert("Fail - Already added that ingredient")
       }
-    )  
+    )
   }
   respondToComplaints(){
 
   }
   defineLoyalty(){
-    
+
   }
   adminLogout(){
     this.authenticationService.logout();
@@ -168,14 +168,14 @@ export class AdminRegisterDrugComponent implements OnInit {
 
     // for(let med of this.selectedMedications){
     //   this.subMeds.push(med.id);
-    // }    
-    
+    // }
+
     // for(let ing of this.selectedIngredients){
     //   this.ings.push(ing.id);
     // }
 
     console.log(this.subMeds)
-    this.newMedication = new Medication(this.name.toLowerCase(), this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.chosenIngredients,0, this.registerMedication.controls.dosage.value);
+    this.newMedication = new Medication(null,this.name.toLowerCase(), this.drugForm, this.drugType, this.producer, this.prescribtion,this.contraindications, this.additionalNotes, this.dailyDose, this.drugKind, this.selectedMedications, this.hashCode(this.sysAdmin.sysEmail), this.chosenIngredients,0, this.registerMedication.controls.dosage.value);
 
     this.medicationService.addMedication(this.newMedication).subscribe(
       res=>{
@@ -197,15 +197,15 @@ export class AdminRegisterDrugComponent implements OnInit {
 
       });
   }
-      
+
   loadAllMedications() {
-    this.medicationService.findAllMedications().subscribe(data => 
+    this.medicationService.findAllMedications().subscribe(data =>
       {
         this.allMedications = data
       });
   }
   loadAllAllergies() {
-    this.allergyService.findAllAllergies().subscribe(data => 
+    this.allergyService.findAllAllergies().subscribe(data =>
       {
         this.allAllergies = data
       });

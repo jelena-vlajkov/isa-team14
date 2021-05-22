@@ -125,6 +125,7 @@ public class AppointmentService implements IAppointmentService {
         return examinations;
     }
 
+    //slobodni termini kod dermatologa
     @Override
     public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) {
         List<Examination> availableExaminations = new ArrayList<>();
