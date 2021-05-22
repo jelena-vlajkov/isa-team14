@@ -22,7 +22,7 @@ import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { PharmacistCalendarComponent } from './pharmacist.calendar/pharmacist.calendar.component';
 import { PharmacistPatientsComponent } from './pharmacist.patient/pharmacist.patient.component';
-import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { UsersPreview } from './users.preview/users.preview.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { UnauthenticatedUserComponent } from './unauthenticated-user/unauthenticated-user.component';
@@ -193,8 +193,8 @@ const routes: Routes = [
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },
 {
-  path: 'appointment-report',
-  component: PharmacistReportsComponent,
+  path: 'users',
+  component: UsersPreview,
   canActivate : [AuthGuard],
   data: {roles:[Role.Pharmacist, Role.Dermatologist]}
 },

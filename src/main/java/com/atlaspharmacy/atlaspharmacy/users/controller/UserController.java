@@ -3,10 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeeFirstTimeLoginDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
@@ -19,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -48,6 +46,22 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/usersForEmployee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    List<UserPreviewDTO> getUsers() throws ParseException {
+        return UserMapper.mapUsersToDTOs(userService.getUsersForEmployee());
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/searchUsers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    List<UserPreviewDTO> searchUsers(@RequestParam("name") String name) throws ParseException {
+        return UserMapper.mapUsersToDTOs(userService.searchUsersByName(name));
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @EmployeeAuthorization
     public @ResponseBody
@@ -55,6 +69,7 @@ public class UserController {
         userService.updateEmployee(pharmDermDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/changeEmployeePass", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
