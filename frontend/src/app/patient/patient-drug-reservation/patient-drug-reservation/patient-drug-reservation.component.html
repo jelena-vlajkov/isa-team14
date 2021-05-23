@@ -44,24 +44,30 @@
                             <ng-template matStepLabel>Medication choosing</ng-template>
                             <mat-form-field>
                                 <mat-label>Medication</mat-label>
-                                <input id="selectedMedication" type="text" [formControl]="medicationName" matInput formControlName="firstCtrl" placeholder="Insert med for search" required>
+                                <input id="selectedMedication" type="text" matInput formControlName="firstCtrl" placeholder="Insert med for search" required>
                             </mat-form-field>
                             <button mat-stroked-button color="primary" style="margin-left:8px" (click)="searchMedication()">Search</button>
                         
                             <h4 style="padding-top: 10px;">Choose one medication:</h4>
+                            <div style="width: 40em; margin-bottom: 10px;">
                             <mat-selection-list (ngModelChange)="onChangeMedication($event)" [multiple]="false" formControlName="firstCtrl" required> 
-                                <mat-list-option  *ngFor="let m of medications"  [value]="m">
-                                {{medicine.name}}
+                                <mat-list-option  *ngFor="let m of medications"  [value]="m.id">
+                                {{m.name}}
                                 </mat-list-option>
                             </mat-selection-list>
                             </div>
+                            </div>
                             
-                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="medicationButtonNext()" >Next</button>
                         </form>
                     </mat-step> 
                     <mat-step [stepControl]="secondFormGroup"  *ngIf="secondFormGroup">
                         <form [formGroup]="secondFormGroup">
                             <ng-template matStepLabel>Pharmacy choosing</ng-template>
+                            <span *ngIf="isPharmChosen">
+                                <label >Your pharm: {{chosenPharmacy.name}}</label>
+                            </span>
+                            
                             <table matSort  class="fl-table">
                                 <thead>
                                 <tr>
@@ -72,10 +78,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td>NAZIV</td>
-                                    <td>MESTO</td>
-                                    <td><button mat-button style="background-color: #385399; color: white;">Choose</button></td>
+                                <tr *ngFor="let p of pharmacies">
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
+                                    <td><button mat-button style="background-color: #385399; color: white;" (click)="choosePharmacy(p)">Choose</button></td>
                                     
                                 </tr>
                                 

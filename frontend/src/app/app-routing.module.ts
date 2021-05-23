@@ -273,7 +273,9 @@ const routes: Routes = [
 },
 {
   path: 'patient/drugReservation',
-  component: PatientDrugReservationComponent
+  component: PatientDrugReservationComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 },
 {
   path:'supplier',
