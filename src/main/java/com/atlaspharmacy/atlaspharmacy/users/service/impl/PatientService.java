@@ -67,7 +67,7 @@ public class PatientService implements IPatientService {
     }
 
     @Override
-    public Patient registerPatient(PatientDTO patientDTO) throws InvalidEmail, IOException, MessagingException {
+    public Patient registerPatient(PatientDTO patientDTO) throws Exception {
         if(userRepository.findByEmail(patientDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(patientDTO.getEmail())){
             String role ="ROLE_PATIENT";
 

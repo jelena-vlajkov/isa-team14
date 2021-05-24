@@ -44,6 +44,16 @@ export class PharmacistComponent implements OnInit {
   
   }
 
+  isPharmacist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Dermatologist'; 
+  }
+
+  isDermatologist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Pharmacist'; 
+  }
+
   logout() {
     this.authService.logout();
   }

@@ -25,6 +25,7 @@ public class PharmacyMapper {
         p.setName(dto.getName());
         p.setDescription(dto.getDescription());
 
+
         return p;
     }
     public static List<PharmacyDTO> maptToListDto(List<Pharmacy> pharmacies) {

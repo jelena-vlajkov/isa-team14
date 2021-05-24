@@ -9,7 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPassword;
 import java.text.ParseException;
 
 public interface ISystemAdminService {
-    SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException;
+    SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws Exception;
     SystemAdminDTO getById(Long id) throws Exception;
     SystemAdmin updateSystemAdmin(SystemAdminDTO systemAdminDTO) throws InvalidEmail, ParseException;
     SystemAdmin findByEmail(String email);
