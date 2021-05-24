@@ -86,7 +86,7 @@ public class DrugReservationController {
         return new ParseException("Error while parsing values", 0);
     }
 
-    @ExceptionHandler(ParseException.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public @ResponseBody
     Exception handleException(Exception e) {
