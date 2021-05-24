@@ -38,6 +38,8 @@ public class SupplierController {
         } catch (InvalidEmail email) {
             email.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

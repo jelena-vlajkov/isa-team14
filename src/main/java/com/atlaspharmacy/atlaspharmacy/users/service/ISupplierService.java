@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.text.ParseException;
 
 public interface ISupplierService {
-    Supplier registerSupplier(SupplierDTO supplierDTO) throws InvalidEmail;
+    Supplier registerSupplier(SupplierDTO supplierDTO) throws Exception;
     SupplierDTO getById(Long id);
     Supplier findByEmail(String email);
     Supplier updateSupplier(SupplierDTO supplierDTO) throws InvalidEmail, ParseException;

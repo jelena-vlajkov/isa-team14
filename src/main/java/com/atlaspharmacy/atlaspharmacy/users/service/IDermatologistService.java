@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IDermatologistService {
     List<Dermatologist> findAllByPharmacy(Long id);
-    Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail;
+    Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception;
     List<Dermatologist> getAllDermatologistsToComplain(Long id);
     List<Dermatologist> searchDermatologists(String searchInput);
     List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists,Long pharmacyId);

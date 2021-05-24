@@ -16,12 +16,12 @@ import java.util.List;
 public interface IPharmacyService {
     Pharmacy getById(Long id);
     Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception;
-    List<PharmacyDTO> getAllPharmacies();
+    List<PharmacyDTO> getAllPharmacies() throws Exception;
     List<PharmacyDTO> findByName(String name);
     List<PharmacyDTO> findByAddress(String address);
     List<Pharmacy> getPharmaciesToComplain(Long id);
-    List<PharmacyDTO> getPharmaciesByMedication(Long code);
+    List<PharmacyDTO> getPharmaciesByMedication(Long code) throws Exception;
     List<PharmacyDTO> getSubscribed(Long id);
-    boolean isPharamcyRegistered(String email);
+    boolean isPharamcyRegistered(String email) throws Exception;
     Pharmacy editPharmacy(PharmacyDTO pharmacyDTO);
 }
