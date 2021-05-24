@@ -14,6 +14,7 @@ export class Appointment{
     public patientEmail : String;
     public medicalStaffName : String;
     public medicalStaffEmail : String;
+    public duration : Number;
     public startDateString : string;
     public endDateString : string;
     public availableMedicationsForPatients : MedicationsToRecommend[];
@@ -24,9 +25,9 @@ export class Appointment{
     public medicalStaffId : Number;
     public finished : boolean;
     public canAddPenalty : boolean;
-
     constructor() {
         this.prescribedMedications = [];
         this.finished = false;
     }
+
 }
