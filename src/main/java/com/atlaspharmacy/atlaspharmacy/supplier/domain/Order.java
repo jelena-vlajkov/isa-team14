@@ -22,16 +22,38 @@ public class Order {
 
     private MedicationOrderStatus status;
 
-    public Order(Long id, Date dueDate, Pharmacy pharmacy, int uniqueidentifier) {
+    public Order(Long id, Date dueDate, Pharmacy pharmacy, int uniqueidentifier, MedicationOrderStatus status) {
         this.id = id;
         this.dueDate = dueDate;
         this.pharmacy = pharmacy;
         this.uniqueidentifier = uniqueidentifier;
-        this.status = MedicationOrderStatus.WAITING_FOR_OFFERS;
+        this.status = status;
     }
 
-    public Order() {
+    public Order() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public int getUniqueidentifier() {
@@ -42,30 +64,11 @@ public class Order {
         this.uniqueidentifier = uniqueidentifier;
     }
 
-    public Long getId() {
-        return id;
+    public MedicationOrderStatus getStatus() {
+        return status;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setStatus(MedicationOrderStatus status) {
+        this.status = status;
     }
-
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Pharmacy getPharmacy() { return pharmacy; }
-
-    public void setPharmacy(Pharmacy pharmacy) {
-        this.pharmacy = pharmacy;
-    }
-
-    public MedicationOrderStatus getStatus() { return status; }
-
-    public void setStatus(MedicationOrderStatus status) { this.status = status; }
 }

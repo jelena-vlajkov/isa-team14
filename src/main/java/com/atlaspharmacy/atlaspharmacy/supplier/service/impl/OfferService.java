@@ -9,6 +9,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.MedicationOrderStatus;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.OfferStatus;
 import com.atlaspharmacy.atlaspharmacy.supplier.exceptions.InsuficientFundsException;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OfferMapper;
@@ -180,6 +181,7 @@ public class OfferService implements IOfferService {
 
     @Override
     public List<Offer> chooseOffer(OfferDTO offerDTO) throws IOException, MessagingException {
+        orderService.changeOrderStatus(offerDTO.getOrder().getId(), MedicationOrderStatus.PROCESSED);
         List<Offer> allOffersByOrder = getAllOffers().stream()
                 .filter(offer -> offer.getOrder().getId()
                         .equals(offerDTO.getOrder().getId()))

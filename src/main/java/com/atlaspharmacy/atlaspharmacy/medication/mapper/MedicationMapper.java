@@ -47,9 +47,12 @@ public class MedicationMapper {
                     m.getDosage());
             medicationDTO.setSubstituteMedication(new ArrayList<>());
 
-            for(Medication med: m.getSubstituteMedication()){
-                medicationDTO.getSubstituteMedication().add(convertToSubMedDTO(med));
+            if(m.getSubstituteMedication().size()!=0){
+                for(Medication med: m.getSubstituteMedication()){
+                    medicationDTO.getSubstituteMedication().add(convertToSubMedDTO(med));
+                }
             }
+
 
             medicationDTO.setIngredients(IngredientMapper.convertToDTOS(m.getIngredients()));
 

@@ -6,9 +6,12 @@
     <div *ngIf="showOffers" style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
       <div style="display:flex;">
         <label style="font-size:25px;margin-left:300px">Medication orders offers</label>
-        <button style="float:right; background-color: #385399; margin-left:100px;" color="accent" mat-raised-button routerLink="/medicationOrder" >Add medication order</button>
+        <button style="float:right; background-color: #385399; margin-left:180px;height: 40px;" color="accent" mat-raised-button routerLink="/medicationOrder" >Add medication order</button>
+        <button style="float:right; background-color: #385399; margin-left:40px;height: 40px;" color="accent" mat-raised-button (click)="viewAllMedicationOrders()">View all medication orders</button>
+
       </div>
-        <table style="margin-top: 50px;margin-left: 50px;">
+        <label *ngIf="!offersExists()" style="margin-left:300px;margin-top:50px;">No current offers.</label>
+        <table style="margin-top: 50px;margin-left: 50px;margin-bottom:50px;" *ngIf="offersExists()">
           <th>Order number</th>
           <span style="margin-left: 100px;"></span>
           <th>Supplier name</th>
@@ -60,6 +63,43 @@
       </table>
       <div>
         <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button (click)="cancelMedicationOrderInfoDialog()" >Back</button>
+      </div>
+    </div>
+
+    <div *ngIf="allMedicationOrders" style="margin-left:200px;">
+      <label style="font-size:25px;margin-left:200px;font-family: 'Segoe UI Semibold';font-color:blue;">Medication orders</label>
+      <mat-radio-group (change)="filterMedicationOrders()" [(ngModel)]="filter" style="margin-left:50px;">
+        <mat-radio-button value="ALL" style="font-size:18px; margin-left: 20px;" >All</mat-radio-button>
+        <mat-radio-button value="WAITING_FOR_OFFERS" style="font-size:18px; margin-left: 20px;">Waiting for offers</mat-radio-button>
+        <mat-radio-button value="PROCESSED" style="font-size:18px;margin-left: 20px;">Processed</mat-radio-button>
+      </mat-radio-group>
+      <div *ngFor="let medicationOrder of medicationOrders">
+        <table style="margin-top: 50px;margin-left: 100px;font-size: 20px;">
+          <tr>
+            <td>Order number:</td>
+            <span style="margin-left: 100px;"></span>
+            <td>{{medicationOrder.id}}</td>
+            <span style="margin-left: 100px;"></span>
+          </tr>
+          <tr>
+            <td>Due date:</td>
+            <span style="margin-left: 100px;"></span>
+            <td>{{ medicationOrder.dueDate | date :  "dd.MM.y." }}</td>
+            <span style="margin-left: 100px;"></span>
+          </tr>
+          <tr>
+            <td>Ordered medications:</td>
+          </tr>
+          <tr *ngFor="let orderedMedication of medicationOrder.orderedMedications" style="margin-bottom: 10px;">
+            <span style="margin-left: 200px;"></span>
+            <td> {{orderedMedication.medicationName}}
+              <span style="margin-left: 100px;"></span>
+            <td style="margin-left: 30px;" > {{orderedMedication.quantity}} pieces</td>
+          </tr>
+        </table>
+    </div>
+      <div>
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button (click)="cancelAllMedicationOrderInfoDialog()" >Back</button>
       </div>
     </div>
   </mat-drawer-content>

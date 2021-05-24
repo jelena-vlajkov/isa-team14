@@ -19,7 +19,7 @@ public class OrderMapper {
         orderDTO.setDueDate(order.getDueDate());
         orderDTO.setPharmacy(PharmacyMapper.mapPharmacyToDTO(order.getPharmacy()));
         List<OrderedMedicationDTO> orderedMedications = new ArrayList<>();
-
+        orderDTO.setStatus(order.getStatus());
         orderDTO.setOrderedMedications(orderedMedications);
         return orderDTO;
 
@@ -38,6 +38,7 @@ public class OrderMapper {
         o.setDueDate(dto.getDueDate());
         o.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
         o.setUniqueidentifier(dto.getUniqueidentifier());
+        o.setStatus(dto.getStatus());
        return o;
    }
 //    public static List<OrderDTO> mapToListDTOS(List<Order> orders){

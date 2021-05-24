@@ -50,7 +50,6 @@ export class PharmacyProfileComponent implements OnInit {
   @ViewChild(GooglePlacesComponent) googleplaces;
   pharmacy:Pharmacy;
   editProfileForm: FormGroup;
-  pricelist:String[]=new Array();
   pharmacyPricelist:Pricelist[]=new Array();
   pharmacyPromotions:Promotion[]=new Array();
   medicationsNotInPharmacy:Medication[]=new Array();
@@ -80,7 +79,6 @@ export class PharmacyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
-    console.log(localStorage.getItem('userRole'));
     if(localStorage.getItem('userRole') == "PharmacyAdmin"){
       this.isPharmacyAdmin = true;
     }
@@ -240,15 +238,13 @@ export class PharmacyProfileComponent implements OnInit {
     this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(result=>
     {
       result=this.ToArray(result);
-      console.log("length:"+result.length);
+      console.log(result);
       for(let i=0;i<result.length;i++){
           this.pricelistService.getPricelistByMedicationAndPharmacy(result[i].medicationCode,result[i].pharmacy.id).subscribe(result => {
-            if(result != null){
-              this.pricelist.push(result.medication.name+"         "+result.price+"din");
-              this.pharmacyPricelist.push(result);
-            }
+            this.pharmacyPricelist.push(result);
           });
       }
+      console.log(this.pharmacyPricelist);
     });
   }
   changeValue(pricelistEntityId:any){
@@ -361,10 +357,6 @@ export class PharmacyProfileComponent implements OnInit {
     this.scheduleAppointment=false;
     this.addPricelistEntityDialog = false;
   }
-  showPricelistDialog(){
-    this.viewPricelist=true;
-  }
-
 
   addPricelistClicked() {
     this.getMedicationsNotInPharmacy();
@@ -395,9 +387,6 @@ export class PharmacyProfileComponent implements OnInit {
                                 ,this.pharmacy);
     this.pricelistService.addPricelistEntity(pricelist).subscribe(result => {
       this.showPharmacyPricelist();
-      this.addPricelistEntityFormGroup.value.price = null;
-      this.addPricelistEntityFormGroup.value.startDate = null;
-      this.addPricelistEntityFormGroup.value.endDate = null;
     });
 
   }
@@ -407,8 +396,6 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   deletePricelistEntity(pricelistEntityId: Number,medicationId:Number) {
-    console.log(medicationId);
-    console.log(this.pharmacyId);
     this.drugReservationsService.isDrugReserved(medicationId,this.pharmacyId).subscribe(result=>{
       if(result==false){
         this.pricelistService.deletePricelist(pricelistEntityId).subscribe(result=>{

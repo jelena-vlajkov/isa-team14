@@ -11,6 +11,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.MedicationInOrder;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Offer;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.supplier.domain.enums.MedicationOrderStatus;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.mapper.OrderedMedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.supplier.repository.MedicationInOrderRepository;
@@ -101,6 +102,7 @@ public class OrderService implements IOrderService {
         Order order=new Order();
         order.setPharmacy(pharmacyService.getById(orderDTO.getPharmacy().getId()));
         order.setDueDate(orderDTO.getDueDate());
+        order.setStatus(orderDTO.getStatus());
         orderRepository.save(order);
         return order;
     }
@@ -145,12 +147,12 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Order> getAllOrdersByPharmacy(Long pharmacyId) {
-        List<Order> allOrders=orderRepository.findAll();
-        List<Order> ordersForPharmacy=new ArrayList();
-        for(Order o:allOrders){
+    public List<OrderDTO> getAllOrdersByPharmacy(Long pharmacyId) {
+        List<OrderDTO> allOrders=OrderMapper.mapToListDTOS(orderRepository.findAll());
+        List<OrderDTO> ordersForPharmacy=new ArrayList();
+        for(OrderDTO o:allOrders){
             if(o.getPharmacy().getId().equals(pharmacyId) && o.getDueDate().after(new Date())){
-                ordersForPharmacy.add(o);
+                ordersForPharmacy.add(findById(o.getId()));
             }
         }
         return ordersForPharmacy;
@@ -182,6 +184,13 @@ public class OrderService implements IOrderService {
             }
         }
         return OrderMapper.mapToListDTOS(filteredOrders);
+    }
+
+    @Override
+    public void changeOrderStatus(Long orderId, MedicationOrderStatus status){
+        Order order = orderRepository.findById(orderId).get();
+        order.setStatus(status);
+        orderRepository.save(order);
     }
 
 

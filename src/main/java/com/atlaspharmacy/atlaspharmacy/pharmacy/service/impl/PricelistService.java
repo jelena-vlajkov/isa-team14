@@ -69,9 +69,10 @@ public class PricelistService implements IPricelistService {
         newPricelist.setPrice(pricelistDTO.getPrice());
         newPricelist.setPeriod(new Period(pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()));
         newPricelist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(pricelistDTO.getPharmacy()));
-        newPricelist.setMedication(MedicationMapper.convertToMedication(pricelistDTO.getMedication()));
+        Medication medication = MedicationMapper.convertToMedication(medicationService.findById(pricelistDTO.getMedication().getId()));
+        newPricelist.setMedication(medication);
         pricelistRepository.save(newPricelist);
-     //   pharmacyStorageService.addMedicationToPharmacy(pricelistDTO.getMedication().getId(),pricelistDTO.getPharmacy().getId(),0);
+        pharmacyStorageService.addMedicationToPharmacy(medication.getId(),pricelistDTO.getPharmacy().getId(),0L);
         return newPricelist;
     }
 
@@ -105,6 +106,8 @@ public class PricelistService implements IPricelistService {
                                                                     ,pricelistToDelete.getPharmacy().getId());
         pricelistRepository.delete(pricelistToDelete);
     }
+
+
 
 
 

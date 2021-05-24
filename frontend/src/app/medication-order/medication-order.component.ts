@@ -13,6 +13,7 @@ import {OrderedMedication} from "@app/model/medicationOrder/orderedMedication";
 import {OrdersService} from "@app/service/orders/orders.service";
 import {Order} from "@app/model/medicationOrder/order";
 import {MedicationOrdersService} from "@app/service/medication-orders/medication-orders.service";
+import {MedicationOrderStatus} from "@app/model/medicationOrder/medicationOrderStatus";
 
 @Component({
   selector: 'app-medication-order',
@@ -33,6 +34,7 @@ export class MedicationOrderComponent implements OnInit {
   currentUserId:Number;
   pharmacy:Pharmacy;
   medicationsInOrder:MedicationInOrder[]=new Array();
+  today:Date = new Date();
 
   constructor(private router: Router
              ,private authenticationService: AuthenticationService
@@ -43,6 +45,7 @@ export class MedicationOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //document.getElementById('dueDateInput').setAttribute("min",this.today.toString());
     this.addItem = false;
 
     this.addMedicationOrderForm = new FormGroup({
@@ -106,7 +109,7 @@ export class MedicationOrderComponent implements OnInit {
     this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
       result => {
         this.pharmacy = result;
-        let order=new Order(null,this.orderList,this.orderForm.value.dueDate,this.pharmacy,null);
+        let order=new Order(null,this.orderList,this.orderForm.value.dueDate,this.pharmacy,null,MedicationOrderStatus.WAITING_FOR_OFFERS);
         this.medicationOrdersService.addOrder(order).subscribe(result =>{
           console.log(result);
           for(let i=0;i<this.orderList.length;i++){

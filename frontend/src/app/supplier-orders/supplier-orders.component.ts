@@ -48,7 +48,7 @@ export class SupplierOrdersComponent implements OnInit {
   showMoreInfo(order){
     this.unique = order.uniqueidentifier;
     this.showmore = true;
-    this.selectedOrder = new Order(null, null,order.dueDate, order.pharmacy, order.uniqueidentifier);
+    this.selectedOrder = new Order(null, null,order.dueDate, order.pharmacy, order.uniqueidentifier,order.status);
     this.orderService.getOrderedMedicationByIdentifier(order.uniqueidentifier).subscribe(
       data=>{
         this.orderedMedication = data;

@@ -68,7 +68,7 @@ public class OrderController {
     @GetMapping(value = "/getOrdersByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<OrderDTO> getAllByPharmacy(@RequestParam("pharmacyId") Long pharmacyId){
-        return OrderMapper.mapToListDTOS(orderService.getAllOrdersByPharmacy(pharmacyId));
+        return orderService.getAllOrdersByPharmacy(pharmacyId);
     }
 
     @GetMapping(value = "/findById", produces = MediaType.APPLICATION_JSON_VALUE)

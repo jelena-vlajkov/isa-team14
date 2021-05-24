@@ -82,7 +82,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     public boolean isMedicationInPharmacy(Long code, Long id) {
         List<PharmacyStorage> storages = getMedicationsByPharmacy(id);
         for(PharmacyStorage p : storages){
-            if(p.getMedication().getCode().equals(code) && p.getQuantity()>0){
+            if(p.getMedication().getCode().equals(code)){
                 return true;
             }
         }
