@@ -6,6 +6,7 @@ import { AuthenticationService } from '../service/user/authentication.service'
 import { PatientsOverview } from '@app/model/pharmderm/patientoverview';
 import { EmployeeService } from '@app/service/employee/employee.service';
 import {SearchParam} from '@app/model/pharmderm/searchparams'
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-pharmacy-patients',
   templateUrl: './pharmacist.patient.component.html',
@@ -37,7 +38,7 @@ export class PharmacistPatientsComponent implements OnInit {
   
   editProfileForm: FormGroup;
 
-  constructor(private employeeService:EmployeeService,private router:Router, private authService: AuthenticationService) { }
+  constructor(private employeeService:EmployeeService,private router:Router, private authService: AuthenticationService, private datePipe : DatePipe) { }
 
   ngOnInit(): void {
     if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
@@ -56,6 +57,17 @@ export class PharmacistPatientsComponent implements OnInit {
     this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
       result => {
         this.patients = result;
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
+
+          }
+        }
          }, 
          error => {
           alert(error)
@@ -80,14 +92,37 @@ export class PharmacistPatientsComponent implements OnInit {
     console.log(searchParams)
     this.employeeService.searchPatientsByParams(searchParams).subscribe(
       result => {
+        
         this.patients = result;
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
+
+          }
+        }
          }, 
          error => {
           alert(error)
           this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
             result => {
               this.patients = result;
-               }, 
+              for (let p of this.patients) {
+                let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+                p.dateOfBirthString = date;
+                for (let app of p.previousAppointments) {
+                  let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+                  let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+                  app.endTimeString = end;
+                  app.startTimeString = start;
+      
+                }
+               }
+              },
                error => {
                 alert(error)
                })
@@ -96,12 +131,28 @@ export class PharmacistPatientsComponent implements OnInit {
 
   }
 
+  startExamination(p : PatientsOverview) {
+    this.router.navigate(['/appointment'], {state: {data: p.patientId}})
+    
+  }
+
   cancelSearch() {
     this.searchPatientsForm.controls.name.setValue("");
     this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
       result => {
         this.patients = result;
-         }, 
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
+
+          }
+        }
+      }, 
          error => {
           alert(error)
          });

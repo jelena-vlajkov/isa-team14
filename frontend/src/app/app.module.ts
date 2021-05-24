@@ -49,12 +49,12 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 //import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
-import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { UsersPreview } from './users.preview/users.preview.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
@@ -74,6 +74,7 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
 import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allergies-dialog.component';
 import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
 import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientExaminationComoponent } from './patient-examination/patient-examination.component';
 import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
@@ -110,7 +111,7 @@ import { MedicationOrderOffersComponent } from './medication-order-offers/medica
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
     PharmacistPatientsComponent,
-    PharmacistReportsComponent,
+    UsersPreview,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
     MedicationOrderComponent,
@@ -130,6 +131,7 @@ import { MedicationOrderOffersComponent } from './medication-order-offers/medica
     AllergiesDialogComponent,
     EditAllergiesComponent,
     WelcomeComponent,
+    PatientExaminationComoponent,
     PatientFinishedCounselingComponent,
     PatientFinishedExaminationComponent,
     PatientScheduledAppointmentsComponent,
@@ -185,6 +187,7 @@ import { MedicationOrderOffersComponent } from './medication-order-offers/medica
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    DatePipe
   ],
 
   bootstrap: [AppComponent]

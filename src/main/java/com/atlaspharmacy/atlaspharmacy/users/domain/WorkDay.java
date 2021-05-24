@@ -22,7 +22,7 @@ public class WorkDay {
     private Period workDayPeriod;
     @ManyToOne(fetch = FetchType.LAZY)
     private MedicalStaff medicalStaff;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Pharmacy pharmacy;
 
     public WorkDay() {}

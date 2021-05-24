@@ -10,6 +10,7 @@ import { UpdateEmployee } from '@app/model/pharmderm/UpdateEmployee';
 import { Gender } from '@app/model/users/patient/gender';
 import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
 import { Router } from '@angular/router';
+import { VacationRequest } from '@app/model/pharmderm/vacationrequest';
 
 
 declare interface RouteInfo {
@@ -39,12 +40,14 @@ export class PharmacistProfileComponent implements OnInit {
     public isNotEditMode:boolean = true;
     public dateOfBirth:string;
     public gender:string;
+    minVacationDate : Date;
     minDateOfBirth : Date;
     maxDateOfBirth : Date;
     changePassForm : FormGroup;
     public selected:string;
     editProfileForm: FormGroup;
     genders:string[];
+    public vacationRequestForm : FormGroup;
     @ViewChild(GooglePlacesComponent) googleplaces;
 
   
@@ -68,6 +71,7 @@ export class PharmacistProfileComponent implements OnInit {
       this.genders.push("Male");
       this.minDateOfBirth = new Date();
       this.maxDateOfBirth = new Date();
+      this.minVacationDate = new Date();
       this.minDateOfBirth.setFullYear((new Date()).getFullYear() - 100);
       this.maxDateOfBirth.setFullYear((new Date()).getFullYear() - 19);
       this.editProfileForm = new FormGroup({});
@@ -83,8 +87,47 @@ export class PharmacistProfileComponent implements OnInit {
         const datepipe: DatePipe = new DatePipe('en-US')
         this.dateOfBirth = datepipe.transform(this.user.dateOfBirth, 'dd.MM.yyyy.')
       });
-    }
 
+      this.vacationRequestForm =  new FormGroup({
+        'startDate' : new FormControl(this.minVacationDate, [Validators.required,]),
+        'endDate' : new FormControl(this.minVacationDate, [Validators.required]),
+        'vacationReason' : new FormControl("", [Validators.required])
+      });
+
+
+
+    }
+    sendRequest() {
+      let startDate = this.vacationRequestForm.controls.startDate.value;
+      let endDate = this.vacationRequestForm.controls.endDate.value;
+      let vacationReason = this.vacationRequestForm.controls.vacationReason.value;
+      
+      if (startDate.getTime() > endDate.getTime()) {
+        alert("Start date must be before end date!")
+      }
+      else { 
+        let vacationRequest = new VacationRequest();
+        
+        const datepipe: DatePipe = new DatePipe('en-US')
+        let startDateSTring = datepipe.transform(startDate, 'dd.MM.yyyy.')
+        let endDateString = datepipe.transform(endDate, 'dd.MM.yyyy.')
+        vacationRequest.startDate = startDateSTring;
+        vacationRequest.endDate = endDateString;
+        vacationRequest.medicalStaffId = Number(localStorage.getItem("userId"))
+        vacationRequest.vacationReason = vacationReason;
+
+        this.employeeService.addVacationRequest(vacationRequest).subscribe(
+          data => {
+            alert("Successfully added vacation request!")
+            this.vacationRequestForm.controls.startDate.setValue(this.minVacationDate);
+            this.vacationRequestForm.controls.endDate.setValue(this.minVacationDate);
+            this.vacationRequestForm.controls.vacationReason.setValue("");
+          }, error => {
+            alert(error)
+          }
+        )
+      }
+    }
     logout() {
       this.authService.logout();
     }

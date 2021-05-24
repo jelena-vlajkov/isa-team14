@@ -9,6 +9,8 @@ export class PatientsOverview{
     public previousAppointments : AppointmentOverview[];
     public dateOfBirth : Date;
     public gender : Gender
+    public upcomingAppointment : boolean;
+    public dateOfBirthString : String;
     constructor(name : string, surname : string, patientId : Number, prescribedDrugs : string[], previousAppointments : AppointmentOverview[], dateOfBirth : Date, gender : Gender) {
         name = name;
         gender = gender;

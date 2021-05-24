@@ -8,6 +8,8 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidPatientData;
 
+import java.util.List;
+
 public interface IUserService {
     User getUserBy(Long id);
     User getUserByMail(String mail);
@@ -19,4 +21,7 @@ public interface IUserService {
     void updateEmployeePassword(EmployeePassChange employeePassChange) throws Exception;
 
     void updateEmployeePassFirstTime(EmployeeFirstTimeLoginDTO employeePassChange) throws Exception;
+
+    List<User> getUsersForEmployee();
+    List<User> searchUsersByName(String name);
 }

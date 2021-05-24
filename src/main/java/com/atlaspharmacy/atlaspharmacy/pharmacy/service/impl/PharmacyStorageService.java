@@ -4,6 +4,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
+import com.atlaspharmacy.atlaspharmacy.notifications.domain.Notification;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 public class PharmacyStorageService implements IPharmacyStorageService {
     private final PharmacyStorageRepository pharmacyStorageRepository;
     private final INotificationService notificationService;
-    private final IDrugReservationService drugReservationService;
     private final IMedicationService medicationService;
     private final PharmacyRepository pharmacyRepository;
     private final IMedicationInOrderService medicationInOrderService;
@@ -38,13 +38,11 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Autowired
     public PharmacyStorageService(PharmacyStorageRepository pharmacyStorageRepository
                                   , INotificationService notificationService
-                                  , IDrugReservationService drugReservationService
                                   , IMedicationService medicationService
                                   , PharmacyRepository pharmacyRepository
                                   , IMedicationInOrderService medicationInOrderService) {
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
-        this.drugReservationService = drugReservationService;
         this.medicationService = medicationService;
         this.pharmacyRepository = pharmacyRepository;
         this.medicationInOrderService = medicationInOrderService;
@@ -85,6 +83,9 @@ public class PharmacyStorageService implements IPharmacyStorageService {
             if(p.getMedication().getCode().equals(code)){
                 return true;
             }
+            if (p.getMedication().getCode().equals(code) && p.getQuantity() <= 0) {
+                notificationService.medicationQuantityLow(p);
+            }
         }
         return false;
     }
@@ -122,7 +123,6 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         return medicationsNotInPharmacy;
     }
 
-
     public void addNewMedicationsToStorage(Order order) {
         List<MedicationInOrder> medicationsByOrder=medicationInOrderService.getAllMedicationsByOrder(order.getId());
         List<PharmacyStorage> medicationsInPharmacy=getMedicationsByPharmacy(order.getPharmacy().getId());
@@ -151,5 +151,4 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         pharmacyStorageRepository.save(newMedicationInStorage);
 
     }
-
 }

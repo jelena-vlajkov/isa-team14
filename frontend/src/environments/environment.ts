@@ -101,6 +101,22 @@ export const environment = {
   addMedicationInOrder:"addMedicationInOrder",
   findById:"findById",
   addOrder:"addOrder",
-  chooseOffer:"chooseOffer"
+  chooseOffer:"chooseOffer",
+  scheduledAppointments : "getScheduledByDateAndStaff",
+  findAvailableForEmployee : "getAppointmentsForEmployee",
+  recommendMedications : "recommendMedicationByPatient",
+  saveResevation : "saveReservation",
+  recommendSimilarMedication : "recommendSimilarMedication",
+  savePenalty : "addPenalty",
+  penalty : "penalty",
+  reports : "report",
+  saveReport : "saveReport", 
+  scheduleAppointment : "scheduleAppointment",
+  finishAppointment : "finishAppointment",
+  getSpecificAppointment : "findSpecificAppointment",
+  usersForEmployee : "usersForEmployee",
+  searchUsers : "searchUsers",
+  vacationRequest : "vacationRequest",
+  sendVacationRequest : "saveVacationRequest"
 };
 

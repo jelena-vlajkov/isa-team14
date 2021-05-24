@@ -16,7 +16,7 @@ public class PatientsOverviewDTO {
     private List<String> prescribedDrugs;
     private Date dateOfBirth;
     private Gender gender;
-
+    private boolean upcomingAppointment;
 
     public PatientsOverviewDTO() {
         allergies = new ArrayList<>();
@@ -33,6 +33,14 @@ public class PatientsOverviewDTO {
         this.prescribedDrugs = prescribedDrugs;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
+    }
+
+    public boolean isUpcomingAppointment() {
+        return upcomingAppointment;
+    }
+
+    public void setUpcomingAppointment(boolean upcomingAppointment) {
+        this.upcomingAppointment = upcomingAppointment;
     }
 
     public Date getDateOfBirth() {
