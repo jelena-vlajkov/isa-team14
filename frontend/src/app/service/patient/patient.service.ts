@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';        
 import { Appointment } from '@app/model/appointment/appointment';
 import { EPrescription } from '@app/model/medications/ePrescription';
+import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,13 @@ export class PatientService {
       return this.http.get<EPrescription[]>
       (`${environment.baseUrl}/${environment.ePrescription}/${environment.getPatientEPrescriptions}?patientId=${id}`);
     }
+
+    
+    getAllPrescribedDrugForPatient(id : Number): Observable<PrescribedEdrugs[]> {
+      return this.http.get<PrescribedEdrugs[]>
+      (`${environment.baseUrl}/${environment.ePrescription}/${environment.getAllPrescribedDrugForPatient}?patientId=${id}`);
+    }
+
 
 
 }

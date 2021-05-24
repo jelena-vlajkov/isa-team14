@@ -169,7 +169,7 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     this.pharmacies = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'grade': return compare(a.averageGrade.count(), b.averageGrade.count(), isAsc);
+        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);
         default: return 0;
       }
      });

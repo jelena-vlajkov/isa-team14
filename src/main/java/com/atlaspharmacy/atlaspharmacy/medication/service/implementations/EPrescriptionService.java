@@ -1,10 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.EPrescriptionDTO;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.PrescribedDrugDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.EPrescriptionMapper;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.PrescribedDrugMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.EPrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
@@ -96,4 +98,24 @@ public class EPrescriptionService implements IEPrescriptionService {
         return ePrescriptionDTOS;
 
     }
+
+    @Override
+    public List<PrescribedDrugDTO> getAllPrescribedDrugForPatient(Long patientId) {
+       List<EPrescription> ePrescriptions = getPatientsEPrescription(patientId);
+       List<PrescribedDrug> prescribedDrugs = prescriptionRepository.findAll();
+       List<PrescribedDrugDTO> prescribedDrugDTOS = new ArrayList<>();
+
+       for (EPrescription e : ePrescriptions) {
+           for (PrescribedDrug p : prescribedDrugs) {
+               if(p.getEprescription().getId().equals(e.getId())) {
+                   prescribedDrugDTOS.add(PrescribedDrugMapper.drugToDto(p));
+               }
+           }
+       }
+
+       return prescribedDrugDTOS;
+
+    }
+
+
 }
