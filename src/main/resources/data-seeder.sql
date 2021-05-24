@@ -188,6 +188,7 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id, finished) values ('Examination', 2200, '2021-05-22 14:00:00', '2021-05-22 14:30:00', 1200.00, false, 100, 100, 200, false);
 
 
+
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 4.4,3);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (300, null, 123401233,null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0,3, 800);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 3, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 1, 200);

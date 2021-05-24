@@ -54,6 +54,7 @@ export class PatientFinishedExaminationComponent implements OnInit {
         case 'endTime': return compare(a.endTime, b.endTime, isAsc);    
         case 'cost': return compare(a.appointmentCost, b.appointmentCost, isAsc);   
         case 'pharmName': return compare(a.medicalStaffName, b.medicalStaffName, isAsc);   
+        case 'duration': return compare(a.duration, b.duration, isAsc);  
         default: return 0;
       }
      });

@@ -102,6 +102,7 @@ export const environment = {
   findById:"findById",
   addOrder:"addOrder",
   chooseOffer:"chooseOffer",
+  getAllPrescribedDrugForPatient : "getAllPrescribedDrugForPatient",
   scheduledAppointments : "getScheduledByDateAndStaff",
   findAvailableForEmployee : "getAppointmentsForEmployee",
   recommendMedications : "recommendMedicationByPatient",

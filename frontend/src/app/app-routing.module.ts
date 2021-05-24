@@ -49,6 +49,7 @@ import { PatientScheduledAppointmentsComponent } from './patient/patient-schedul
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 import {RegisterPharmacistComponent} from "@app/register-pharmacist/register-pharmacist.component";
 import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medication-order-offers.component";
+import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 
 const routes: Routes = [
 {
@@ -262,6 +263,12 @@ const routes: Routes = [
 {
   path: 'patient/ePrescriptions',
   component: PatientEPrescriptionsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/issuedEdrugs',
+  component: PatientIssuedEDrugsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },
