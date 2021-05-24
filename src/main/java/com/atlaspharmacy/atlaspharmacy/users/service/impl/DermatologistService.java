@@ -62,7 +62,7 @@ public class DermatologistService implements IDermatologistService {
     }
 
     @Override
-    public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail {
+    public Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception {
         if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
