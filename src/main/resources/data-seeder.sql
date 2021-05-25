@@ -413,6 +413,8 @@ insert into promotions(id,promotion_end_time,promotion_start_time,description,ph
 insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(400,'2021-05-26 12:00:00', '2021-01-23 12:00:00','Srecni uskrsnji praznici!Apoteka ZEGIN vam poklanja do -50% na ceo asortiman.',200);
 insert into promotions(id,promotion_end_time,promotion_start_time,description,pharmacy_id) values(100,'2021-06-10 12:00:00', '2021-03-08 12:00:00','Povodom 8.marta svim zenama -20%.',200);
 
-
-insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (100, 1000, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 100, 'Counseling');
-insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (200, 750, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 100, 'Examination');
+insert into druginquiries(id,medication_id,date) values (100,200,'2021-05-26 12:00:00');
+insert into druginquiries(id,medication_id,date) values (200,100,'2021-05-20 12:00:00');
+insert into druginquiries(id,medication_id,date) values (300,400,'2021-05-15 12:00:00');
+insert into druginquiries(id,medication_id,date) values (400,500,'2021-05-03 12:00:00');
+insert into druginquiries(id,medication_id,date) values (500,100,'2021-01-26 12:00:00');

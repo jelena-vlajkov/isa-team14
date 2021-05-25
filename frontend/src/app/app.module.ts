@@ -82,6 +82,7 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import { RegisterPharmacistComponent } from './register-pharmacist/register-pharmacist.component';
 import { MedicationOrderOffersComponent } from './medication-order-offers/medication-order-offers.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.component';
 
 @NgModule({
   declarations: [
@@ -139,7 +140,8 @@ import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/pa
     PatientEPrescriptionsComponent,
     RegisterPharmacistComponent,
     MedicationOrderOffersComponent,
-    PatientIssuedEDrugsComponent
+    PatientIssuedEDrugsComponent,
+    DrugInquiriesComponent
 
   ],
   imports: [

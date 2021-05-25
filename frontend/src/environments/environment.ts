@@ -121,6 +121,8 @@ export const environment = {
   sendVacationRequest : "saveVacationRequest",
   workDay : "workDay",
   addWorkDay : "addWorkDay",
-  addWorkDayForDermatologist:"addWorkDayForDermatologist"
+  addWorkDayForDermatologist:"addWorkDayForDermatologist",
+  drugInquiry:"drugInquiryReport",
+  getAll:"getAll"
 };
 

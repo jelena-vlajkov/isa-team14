@@ -50,6 +50,7 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import {RegisterPharmacistComponent} from "@app/register-pharmacist/register-pharmacist.component";
 import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medication-order-offers.component";
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import {DrugInquiriesComponent} from "@app/drug-inquiries/drug-inquiries.component";
 
 const routes: Routes = [
 {
@@ -317,6 +318,10 @@ const routes: Routes = [
   {
     path:'medication-order-offers',
     component : MedicationOrderOffersComponent
+  },
+  {
+    path:'drug-inquiries',
+    component : DrugInquiriesComponent
   }
 ];
 
