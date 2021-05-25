@@ -17,7 +17,7 @@ public interface IPharmacistService {
      List<PharmacistDTO> filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter, String pharmacyId);
      List<PharmacistDTO> filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter,Double grade);
      Pharmacist editPharmacist(PharmacistDTO pharmacistDTO);
-     Pharmacist registerPharmacist(PharmacistDTO dto) throws InvalidEmail;
+     Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception;
      boolean deletePharmacist(Long pharmacistId);
 
 }

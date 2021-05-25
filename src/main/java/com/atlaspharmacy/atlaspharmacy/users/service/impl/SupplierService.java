@@ -46,7 +46,7 @@ public class SupplierService implements ISupplierService {
 
 
     @Override
-    public Supplier registerSupplier(SupplierDTO supplierDTO) throws InvalidEmail{
+    public Supplier registerSupplier(SupplierDTO supplierDTO) throws Exception {
         if(_userUserRepository.findByEmail(supplierDTO.getEmail())==null && !_pharmacyService.isPharamcyRegistered(supplierDTO.getEmail())){
             String role ="ROLE_SUPPLIER";
             String password = _passwordEncoder.encode(supplierDTO.getPassword());

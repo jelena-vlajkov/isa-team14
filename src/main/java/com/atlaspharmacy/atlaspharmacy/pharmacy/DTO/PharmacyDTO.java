@@ -12,6 +12,8 @@ public class PharmacyDTO {
     private AddressDTO address;
     private AverageGrade averageGrade;
     private double averageGradeCount;
+    private double counselingCost;
+    private double examinationCost;
 
     public PharmacyDTO() {
     }
@@ -26,6 +28,22 @@ public class PharmacyDTO {
         this.address = address;
         this.averageGrade = averageGrade;
         this.averageGradeCount = this.averageGrade.count();
+    }
+
+    public double getCounselingCost() {
+        return counselingCost;
+    }
+
+    public void setCounselingCost(double counselingCost) {
+        this.counselingCost = counselingCost;
+    }
+
+    public double getExaminationCost() {
+        return examinationCost;
+    }
+
+    public void setExaminationCost(double examinationCost) {
+        this.examinationCost = examinationCost;
     }
 
     public double getAverageGradeCount() {

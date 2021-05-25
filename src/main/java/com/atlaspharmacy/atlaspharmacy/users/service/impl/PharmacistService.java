@@ -168,7 +168,7 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public Pharmacist registerPharmacist(PharmacistDTO dto) throws InvalidEmail {
+    public Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception {
         if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_PHARMACIST";
             String password = passwordEncoder.encode(dto.getPassword());
