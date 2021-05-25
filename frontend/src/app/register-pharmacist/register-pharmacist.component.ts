@@ -11,6 +11,10 @@ import {GooglePlacesComponent} from "@app/google-places/google-places.component"
 import {Pharmacy} from "@app/model/pharmacy/pharmacy";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Pharmacist} from "@app/model/users/pharmacist/pharmacist";
+import {WorkDay} from "@app/model/schedule/workDay";
+import { AverageGrade } from '@app/model/users/averageGrade';
+import {WorkdayService} from "@app/service/workday/workday.service";
+import {moment} from "ngx-bootstrap/chronos/test/chain";
 
 @Component({
   selector: 'app-register-pharmacist',
@@ -37,16 +41,20 @@ export class RegisterPharmacistComponent implements OnInit {
   pharmacy : Pharmacy;
   pharmacistsInPharmacy:boolean = true;
   registerPharmacistDialog:boolean = false;
-  pharmacists : Pharmacist[]= new Array();
   isPharmacistsEmpty:boolean = false;
-  private StringIsNumber = value => isNaN(Number(value)) === false;
-  selectedTimeRange;
-  workTime : FormGroup;
+  setWorkTime : boolean = false;
+  pharmacists : Pharmacist[]= new Array();
+  workdays:WorkDay[] = new Array();
 
+  private StringIsNumber = value => isNaN(Number(value)) === false;
+  workTime : FormGroup;
+  currentDate: Date;
   constructor(private authenticationService:AuthenticationService
               ,private router:Router
               ,private pharmacistService:PharmacistService
-              ,private pharmacyAdminService:PharmacyAdminService) { }
+              ,private pharmacyAdminService:PharmacyAdminService
+              ,private workdayService:WorkdayService
+  ) { }
 
   ngOnInit(): void {
     this.addPharmacist = new FormGroup({
@@ -60,30 +68,19 @@ export class RegisterPharmacistComponent implements OnInit {
       'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
     });
     this.workTime = new FormGroup({
-      'mondayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'mondayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'tuesdayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'tuesdayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'wednesdayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'wednesdayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'thursdayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'thursdayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'fridayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'fridayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'saturdayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'saturdayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'sundayStartTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-      'sundayEndTime' : new FormControl(null,  [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
-    });
+      'startTime' : new FormControl(null,  [Validators.required]),
+      'endTime' : new FormControl(null,  [Validators.required]),
+      'date': new FormControl(null,  [Validators.required])
+      });
     this.maxDateOfBirth = new Date();
     this.minDateOfBirth = new Date();
+    this.currentDate = new Date();
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.pharmacyAdminService.getPharmacyByAdmin(Number(localStorage.getItem('userId'))).subscribe(
       result => {
         this.pharmacy = result;
         this.getPharmacistByPharmacy();
       });
-
   }
 
   toArray(enumme) {
@@ -120,8 +117,8 @@ export class RegisterPharmacistComponent implements OnInit {
       var auths : Number[] = new Array();
 
       if(this.password === this.confirmPassword){
-        var pharmacist = new Pharmacist(null, this.name, this.surname, this.dateOfBirth, this.phone
-                                        ,this.email.toLowerCase(),this.password, this.gender
+        var pharmacist = new Pharmacist(null, this.name, this.surname, this.addPharmacist.value.dob, this.addPharmacist.value.telephone
+                                        ,this.addPharmacist.value.mail,this.password, this.gender
                                         , this.address, role, auths,this.pharmacy,null,null,null);
 
         this.pharmacistService.registerPharmacist(pharmacist).subscribe(
@@ -144,12 +141,14 @@ export class RegisterPharmacistComponent implements OnInit {
 
   showRegisterPharmacistDialog() {
     this.pharmacistsInPharmacy = false;
-    this.registerPharmacistDialog = true;
+    this.registerPharmacistDialog = false;
+    this.setWorkTime = true;
   }
 
   cancelRegisterPharmacistDialog() {
     this.pharmacistsInPharmacy = true;
     this.registerPharmacistDialog = false;
+    this.setWorkTime = false;
   }
 
   deletePharmacist(id: Number) {
@@ -171,5 +170,61 @@ export class RegisterPharmacistComponent implements OnInit {
   setMondayEndTime() {
     console.log(this.workTime.value.mondayStartTime);
     this.workTime.value.mondayEndTime=this.workTime.value.mondayStartTime+1800;
+  }
+
+  registrationNextPage() {
+    this.pharmacistsInPharmacy = false;
+    this.registerPharmacistDialog = false;
+    this.setWorkTime = true;
+  }
+
+  addWorkDay() {
+    var inputDate=new Date(this.workTime.value.date);
+    var startTime=new Date(inputDate.toString().split(":")[0].slice(0,-2) + this.workTime.value.startTime);
+    var endTime=new Date(inputDate.toString().split(":")[0].slice(0,-2) + this.workTime.value.endTime);
+
+    let workday = this.workdays.filter(workday => workday.date == this.workTime.value.date
+      && (workday.startTime.getTime() <= endTime.getTime()) && (startTime.getTime() <= workday.endTime.getTime()));
+    if(this.workTime.value.startTime > this.workTime.value.endTime  || (inputDate.getTime() < this.currentDate.getTime())){
+      alert("Invalid work time input.Check if start time is after end time or selected date is before current date.Work time must be at least one hour.");
+    }
+    else if(workday.length!=0){
+      alert("Invalid work time.Check if your inputs are overlapping with some of already existing workdays.");
+    }
+    else{
+      let workDay=new WorkDay(null,this.workTime.value.date,startTime
+        ,endTime,null,null);
+      console.log(workDay);
+      this.workdays.push(workDay);
+    }
+  }
+
+  isWorkDaysEmpty() {
+    return this.workdays.length==0;
+  }
+
+  deleteWorkday(workday: WorkDay) {
+    this.workdays=this.workdays.filter( wd => wd.endTime!=workday.endTime
+      || wd.startTime!=workday.startTime || wd.date!=workday.date);
+  }
+
+  registerPharmacistSubmitted() {
+    let pharmacist=new Pharmacist(null,this.addPharmacist.value.name,this.addPharmacist.value.surname
+      ,this.addPharmacist.value.dob,this.addPharmacist.value.telephone,this.addPharmacist.value.mail
+      ,this.addPharmacist.value.password,this.addPharmacist.value.gender,null,null
+      ,null,this.pharmacy,null,new AverageGrade(),false);
+    this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
+      for(let i=0;i<this.workdays.length;i++){
+        this.workdays[i].pharmacy=this.pharmacy;
+        this.workdays[i].medicalStaff=result;
+        console.log(this.workdays[i]);
+        this.workdayService.addWorkday(this.workdays[i]).subscribe(result=>{});
+      }
+      this.getPharmacistByPharmacy();
+      this.pharmacistsInPharmacy=true;
+      this.setWorkTime=false;
+      this.registerPharmacistDialog = false;
+
+    });
   }
 }

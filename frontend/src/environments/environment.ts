@@ -111,13 +111,16 @@ export const environment = {
   savePenalty : "addPenalty",
   penalty : "penalty",
   reports : "report",
-  saveReport : "saveReport", 
+  saveReport : "saveReport",
   scheduleAppointment : "scheduleAppointment",
   finishAppointment : "finishAppointment",
   getSpecificAppointment : "findSpecificAppointment",
   usersForEmployee : "usersForEmployee",
   searchUsers : "searchUsers",
   vacationRequest : "vacationRequest",
-  sendVacationRequest : "saveVacationRequest"
+  sendVacationRequest : "saveVacationRequest",
+  workDay : "workDay",
+  addWorkDay : "addWorkDay",
+  addWorkDayForDermatologist:"addWorkDayForDermatologist"
 };
 

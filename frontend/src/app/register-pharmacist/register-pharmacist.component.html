@@ -4,12 +4,6 @@
 
   <mat-drawer-content>
     <mat-toolbar style="background-color: #385399;">
-      <span class="example-spacer">
-        <button *ngIf="checkLoggedInUser()" style="margin-left:1200px;margin-top:10px;" mat-icon-button (click)="logout()" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
-                    <mat-icon style="color:white;">logout <span class="tooltiptext"></span>
-                    </mat-icon>
-                    </button>
-      </span>
     </mat-toolbar>
 
 
@@ -17,7 +11,7 @@
       <mat-card class="dermatologist-card">
         <mat-card-header style="font-size: 25px;margin-left:60px;">Register pharmacist</mat-card-header>
         <mat-card-content>
-          <form [formGroup]="addPharmacist" (ngSubmit)="registerPharmacist()">
+          <form [formGroup]="addPharmacist" (ngSubmit)="registrationNextPage()">
             <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
 
               <mat-grid-tile>
@@ -78,10 +72,6 @@
                 </div>
               </mat-grid-tile>
               <mat-grid-tile>
-                <app-google-places>
-                </app-google-places>
-              </mat-grid-tile>
-              <mat-grid-tile>
                 <div class="inputField" >
                   <mat-form-field appearance="fill" style="width: 400px;">
                     <mat-label style="font-size:14px;">Telephone*</mat-label>
@@ -140,95 +130,70 @@
                   </mat-form-field>
                 </div>
               </mat-grid-tile>
-
+              <mat-grid-tile>
+                <div style="display:flex;float:right;">
+                  <button style="width:50px;float:right;position: relative; background-color: #385399; margin-left:500px;height: 40px;vertical-align: bottom;" color="accent"  [disabled]="!addPharmacist.valid">Next</button>
+                </div>
+              </mat-grid-tile>
             </mat-grid-list>
           </form>
         </mat-card-content>
-        <form [formGroup]="workTime" (ngSubmit)="registerPharmacist()">
-        <div style="display: flex;">
-          <mat-card-header style="font-size: 25px;margin-left:60px;">Work time</mat-card-header>
-          <mat-radio-group  [(ngModel)]="selectedTimeRange" required>
-            <mat-radio-button value="Month" style="font-size:18px; margin-left: 20px;margin-top:10px;">Month</mat-radio-button>
-            <mat-radio-button value="Three months" style="font-size:18px;margin-left: 20px;margin-top:10px;">3 Months</mat-radio-button>
-            <mat-radio-button value="Year" style="font-size:18px;margin-left: 20px;margin-top:10px;">Year</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <table style="margin-top:40px;margin-left:70px;">
-          <tr>
-          <td>
-            <label style="margin-left: 30px;">Monday</label>
-          </td>
-          <td>
-            <mat-form-field >
-            <input required type="time"  id="mondayStartTime" style="width: 100px;margin-left: 30px;" formControlName="mondayStartTime" name="mondayStartTime" (focusout)="setMondayEndTime()">
-            </mat-form-field>
-            <input style="margin-left:30px;width:100px;" id="mondayEndTime" required type="time">
-          </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Tuesday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24" placeholder="Start time" style="width: 100px;margin-left: 30px;">
-              <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24" placeholder="End time">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Wednesday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24"  placeholder="Start time" style="width: 100px;margin-left: 30px;">
-              <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24" placeholder="End time">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Thursday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24" placeholder="Start time" style="width: 100px;margin-left: 30px;">
-              <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24"  placeholder="End time">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Friday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24"  placeholder="Start time" style="width: 100px;margin-left: 30px;">
-              <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24" placeholder="End time">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Saturday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24"  placeholder="Start time" style="width: 100px;margin-left: 30px;">
-              <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24"  placeholder="End time">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label style="margin-left: 30px;">Sunday</label>
-            </td>
-            <td>
-              <input required type="number" min="0" max="24"  placeholder="Start time" style="width: 100px;margin-left: 30px;">
-               <input style="margin-left: 30px;width:100px;" required type="number" min="0" max="24"  placeholder="End time">
-            </td>
-          </tr>
-          <div style="display:flex;float:right;">
-            <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button [disabled]="!addPharmacist.valid || !workTime.valid">Register pharmacist</button>
-            <button style="float:right;position: relative; background-color: #385399; margin-left:20px;height: 40px;" color="accent" mat-raised-button (click)="cancelRegisterPharmacistDialog()">Cancel</button>
-          </div>
-        </table>
-        </form>
-
       </mat-card>
-
     </div>
+
+        <div style="overflow-y: auto; width: 100%;display:flex;" *ngIf="setWorkTime" >
+          <mat-card style="width:50%;">
+            <form [formGroup]="workTime" (ngSubmit)="addWorkDay()">
+            <div style="display: flex;">
+              <mat-card-header style="font-size: 25px;margin-left:60px;">Add work time</mat-card-header>
+            </div>
+            <mat-grid-list cols="2" rowHeight="3:1">
+                    <mat-grid-tile><label style="margin-left: 30px;">Select date:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='date'  [min]="currentDate"  style="font-size:18px;" placeholder="Select date" required type="date">
+                      </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile><label style="margin-left: 30px;">Select start time:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='startTime' required type="time" style="font-size:18px;"  >
+                      </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile><label style="margin-left: 30px;">Select end time:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='endTime' required type="time" style="font-size:18px;"  >
+                      </mat-form-field>
+                    </mat-grid-tile>
+              <mat-grid-tile></mat-grid-tile>
+               <mat-grid-tile>
+                 <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button [disabled]="!workTime.valid">Add work day</button>
+               </mat-grid-tile>
+              </mat-grid-list>
+
+            </form>
+          </mat-card>
+
+          <mat-card *ngIf="setWorkTime && ! isWorkDaysEmpty()">
+          <div> <label style="font-size:25px;margin-left:200px">Work days</label> </div>
+            <table style="margin-top: 20px;margin-left: 100px;">
+              <tr *ngFor="let workday of workdays" style="margin-bottom: 20px;">
+                <td style="font-size: 25px;"> {{workday.date | date :  "dd.MM.y." }} </td>
+                <span style="margin-left: 50px;"></span>
+                <td style="font-size: 25px;width: fit-content;" > {{workday.startTime | date:"HH:mm"}}-{{workday.endTime | date:"HH:mm "}}</td>
+                <span style="margin-left: 100px;"></span>
+                <td><button class="btn" mat-raised-button (click)="deleteWorkday(workday)"><i class="fa fa-trash" ></i></button></td>
+              </tr>
+            </table>
+          </mat-card>
+        </div>
+     <div *ngIf="setWorkTime">
+      <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;margin-bottom:10px;margin-right: 10px;" color="accent" mat-raised-button (click)='registerPharmacistSubmitted()' [disabled]="!addPharmacist.valid || isWorkDaysEmpty()">Register pharmacist</button>
+    </div>
+
 
     <mat-card *ngIf="pharmacistsInPharmacy" style="margin-left:200px;">
       <div style="display:flex;">
@@ -238,12 +203,12 @@
       <label style="font-size:15px;margin-left:200px;margin-top:40px;" *ngIf="isPharmacistsEmpty" >No pharmacists in pharmacy.</label>
       <table style="margin-top: 20px;margin-left: 200px;">
         <tr *ngFor="let pharmacist of pharmacists" style="margin-bottom: 10px;">
-          <td style="font-size: 25px;"> {{pharmacist.name}} {{pharmacist.surname}} </td>
-          <span style="margin-left: 100px;"></span>
+          <td style="font-size: 20px;"> {{pharmacist.name}} {{pharmacist.surname}} </td>
+          <span style="margin-left: 50px;"></span>
           <td><button class="btn" mat-raised-button (click)="deletePharmacist(pharmacist.id)"><i class="fa fa-trash" ></i></button></td>
         </tr>
         <div style="display:flex;float:right;">
-          <button style="float:right;position: relative; background-color: #385399; margin-left:500px;height: 40px;vertical-align: bottom;" color="accent" mat-raised-button routerLink="/pharmacy-profile">Back</button>
+          <button style="float:right;position: relative; background-color: #385399; margin-left:500px;height: 40px;vertical-align: bottom;margin-top:300px;" color="accent" mat-raised-button routerLink="/pharmacy-profile">Back</button>
         </div>
       </table>
 

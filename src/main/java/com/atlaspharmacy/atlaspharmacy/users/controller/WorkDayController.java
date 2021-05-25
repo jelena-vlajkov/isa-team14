@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(allowedHeaders = "*",origins="*")
 @RequestMapping(value = "/workDay")
 public class WorkDayController {
     private final IWorkDayService workDayService;
