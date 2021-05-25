@@ -123,6 +123,12 @@ export const environment = {
   addWorkDay : "addWorkDay",
   addWorkDayForDermatologist:"addWorkDayForDermatologist",
   drugInquiry:"drugInquiryReport",
-  getAll:"getAll"
+  getAll:"getAll",
+  deleteDermatologistFromPharmacy:"deleteDermatologistFromPharmacy",
+  getDermatologistNotInPharmacy:"getDermatologistsNotInPharmacy",
+  getByMedicalStaff:"getByMedicalStaff",
+  addDermatologistToPharmacy:"addDermatologistToPharmacy",
+  occupiedCounselingExists:"occupiedCounselingsExists",
+  occupiedExaminationsExists:"occupiedExaminationsExists"
 };
 

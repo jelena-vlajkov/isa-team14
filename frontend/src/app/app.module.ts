@@ -83,6 +83,7 @@ import { RegisterPharmacistComponent } from './register-pharmacist/register-phar
 import { MedicationOrderOffersComponent } from './medication-order-offers/medication-order-offers.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.component';
+import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/dermatologists-in-pharmacy.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,8 @@ import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.componen
     RegisterPharmacistComponent,
     MedicationOrderOffersComponent,
     PatientIssuedEDrugsComponent,
-    DrugInquiriesComponent
+    DrugInquiriesComponent,
+    DermatologistsInPharmacyComponent
 
   ],
   imports: [

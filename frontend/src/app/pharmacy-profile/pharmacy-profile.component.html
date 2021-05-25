@@ -39,7 +39,7 @@
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='SpecialOffers' (click)='showPromotionsDialog()'>Pharmacy promotions</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='Pricelist' (click)='showPharmacyPricelist()'>Pharmacy pricelist</button>
         <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button routerLink="/registerPharmacist" *ngIf="isPharmacyAdmin">Add pharmacists</button>
-        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button (click)='showEditProfileDialog()' *ngIf="isPharmacyAdmin">Add dermatologists</button>
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button routerLink="/dermatologistsInPharmacy"  *ngIf="isPharmacyAdmin">Add dermatologists</button>
       </div>
       <div style="display:grid;margin-left:200px;margin-top:20px;">
         <div><label>Name:</label></div>
@@ -63,7 +63,7 @@
         <div><label>Drugs:</label></div>
         <div>
           <p class="text-grid"  *ngFor="let drug of medications">
-            {{drug}}
+            {{drug}}authority
           </p>
         </div>
       </div>

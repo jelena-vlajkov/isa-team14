@@ -392,8 +392,8 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId) {
         List<Appointment> examinationsForDermatologistAndPharmacy=getOccupiedBy(dermatologistId)
-                .stream().filter(appointment->appointment.getPharmacy().getId()
-                        .equals(pharmacyId)).collect(Collectors.toList());
+                .stream().filter(appointment->appointment.getPharmacy().getId().equals(pharmacyId)
+                ).collect(Collectors.toList());
         if(examinationsForDermatologistAndPharmacy.size()!=0){
             return true;
         }
@@ -487,7 +487,7 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> getOccupiedBy(Long medicalStaffId) {
         return appointmentRepository.findAll()
                 .stream()
-                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
+                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
                 .collect(Collectors.toList());
     }
 

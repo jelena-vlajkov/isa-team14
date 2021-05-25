@@ -15,6 +15,7 @@ import {WorkDay} from "@app/model/schedule/workDay";
 import { AverageGrade } from '@app/model/users/averageGrade';
 import {WorkdayService} from "@app/service/workday/workday.service";
 import {moment} from "ngx-bootstrap/chronos/test/chain";
+import {AppointmentService} from "@app/service/appointment/appointment.service";
 
 @Component({
   selector: 'app-register-pharmacist',
@@ -54,6 +55,7 @@ export class RegisterPharmacistComponent implements OnInit {
               ,private pharmacistService:PharmacistService
               ,private pharmacyAdminService:PharmacyAdminService
               ,private workdayService:WorkdayService
+              ,private appointmentService:AppointmentService
   ) { }
 
   ngOnInit(): void {
@@ -152,9 +154,17 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   deletePharmacist(id: Number) {
-    this.pharmacistService.deletePharmacist(id).subscribe(result => {
-        this.getPharmacistByPharmacy();
+    this.appointmentService.occupiedCounselingsExists(id).subscribe(result=>{
+      if(!result){
+        this.pharmacistService.deletePharmacist(id).subscribe(result => {
+          this.getPharmacistByPharmacy();
+        });
+      }
+      else{
+        alert("Can't delete this pharmacist at the moment.There are already scheduled future counselings");
+      }
     });
+
   }
 
   private getPharmacistByPharmacy() {
@@ -165,11 +175,6 @@ export class RegisterPharmacistComponent implements OnInit {
           this.isPharmacistsEmpty=true;
         }
       });
-  }
-
-  setMondayEndTime() {
-    console.log(this.workTime.value.mondayStartTime);
-    this.workTime.value.mondayEndTime=this.workTime.value.mondayStartTime+1800;
   }
 
   registrationNextPage() {
@@ -184,7 +189,7 @@ export class RegisterPharmacistComponent implements OnInit {
     var endTime=new Date(inputDate.toString().split(":")[0].slice(0,-2) + this.workTime.value.endTime);
 
     let workday = this.workdays.filter(workday => workday.date == this.workTime.value.date
-      && (workday.startTime.getTime() <= endTime.getTime()) && (startTime.getTime() <= workday.endTime.getTime()));
+      && (workday.startTime.getTime() <= endTime.getTime()) || (startTime.getTime() <= workday.endTime.getTime()));
     if(this.workTime.value.startTime > this.workTime.value.endTime  || (inputDate.getTime() < this.currentDate.getTime())){
       alert("Invalid work time input.Check if start time is after end time or selected date is before current date.Work time must be at least one hour.");
     }
@@ -192,7 +197,7 @@ export class RegisterPharmacistComponent implements OnInit {
       alert("Invalid work time.Check if your inputs are overlapping with some of already existing workdays.");
     }
     else{
-      let workDay=new WorkDay(null,this.workTime.value.date,startTime
+      let workDay=new WorkDay(null,new Date(this.workTime.value.date),startTime
         ,endTime,null,null);
       console.log(workDay);
       this.workdays.push(workDay);

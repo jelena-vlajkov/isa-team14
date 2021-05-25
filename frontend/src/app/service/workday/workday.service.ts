@@ -14,7 +14,7 @@ export class WorkdayService {
   addWorkday(data : WorkDay){
     return this.http.post(`${environment.baseUrl}/${environment.workDay}/${environment.addWorkDay}`,data );
   }
-  addWorkdayForDermatologist(data : WorkDay){
-    return this.http.post(`${environment.baseUrl}/${environment.workDay}/${environment.addWorkDayForDermatologist}`,data, {responseType : 'text'});
+  getWorkdaysByMedicalStaff(medicalStaffId:Number){
+    return this.http.get(`${environment.baseUrl}/${environment.workDay}/${environment.getByMedicalStaff}/?medicalStaffId=${medicalStaffId}`);
   }
 }
