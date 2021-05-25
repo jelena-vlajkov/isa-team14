@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.reports.domain;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.enums.ReportType;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
@@ -30,20 +31,32 @@ public class Report {
     )
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Medication> medication;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Pharmacy pharmacy;
     private String reportType;
     private String reportNotes;
 
     public Report() {
     }
 
-    public Report(Date date, List<Medication> medication, Patient patient, String reportNotes, String reportType) {
+    public Report(Date date, List<Medication> medication, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes) {
         this.date = date;
         this.medication = medication;
         this.patient = patient;
-        this.reportNotes = reportNotes;
+        this.pharmacy = pharmacy;
         this.reportType = reportType;
+        this.reportNotes = reportNotes;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public Long getId() {

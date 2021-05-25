@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -33,9 +34,10 @@ public class DermatologistService implements IDermatologistService {
     private final AuthorityService authorityService;
     private final AppointmentService appointmentService;
     private final IPharmacyService pharmacyService;
+    private final PharmacyRepository pharmacyRepository;
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
@@ -43,6 +45,7 @@ public class DermatologistService implements IDermatologistService {
         this.authorityService = authorityService;
         this.appointmentService = appointmentService;
         this.pharmacyService = pharmacyService;
+        this.pharmacyRepository = pharmacyRepository;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class DermatologistService implements IDermatologistService {
     }
 
     @Override
-    public Dermatologist registerDermatologist(DermatologistDTO dto) throws InvalidEmail {
+    public Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception {
         if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
@@ -133,6 +136,34 @@ public class DermatologistService implements IDermatologistService {
             }
         }
         return filteredDermatologists;
+    }
+
+    @Override
+    public void addDermatologistToPharmacy(Long dermatologistId, Long pharmacyId) {
+        //fali da mu se postavi radno vreme i proveri da li se ne preklapa sa drugima.
+        Dermatologist dermatologist=dermatologistRepository.findById(dermatologistId).get();
+        List<Pharmacy> dermatologistPharmacies=dermatologist.getPharmacies();
+        dermatologistPharmacies.add(pharmacyService.getById(pharmacyId));
+        dermatologist.setPharmacies(dermatologistPharmacies);
+        dermatologistRepository.save(dermatologist);
+    }
+
+    @Override
+    public boolean deleteDermatologistFromPharmacy(Long dermatologistId, Long pharmacyId) {
+        if(!appointmentService.occupiedExaminationExists(dermatologistId,pharmacyId)){
+            Dermatologist dermatologist=dermatologistRepository.findById(dermatologistId).get();
+            List<Pharmacy> dermatologistPharmacies=dermatologist.getPharmacies();
+            Iterator<Pharmacy> iterator = dermatologistPharmacies.iterator();
+            while (iterator.hasNext()) {
+                if (iterator.next().getId().equals(pharmacyId)) {
+                    iterator.remove();
+                }
+            }
+            dermatologistRepository.save(dermatologist);
+            return true;
+        }
+        return false;
+
     }
 
 

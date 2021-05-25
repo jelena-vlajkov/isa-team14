@@ -4,6 +4,7 @@ import {Role} from "../role";
 import { Pharmacy } from "../../pharmacy/pharmacy";
 
 export class PharmacyAdmin{
+  public id : Number;
   public name : String;
   public surname : String;
   public dateOfBirth : Date;
@@ -15,8 +16,13 @@ export class PharmacyAdmin{
   public role : Role;
   public authorities : Number[];
   public pharmacy : Pharmacy;
+  public firstTimeChanged : boolean;
 
-  constructor(name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], pharmacy:Pharmacy) {
+  constructor(id:Number,name:String, surname : String, dateOfBirth: Date,
+              phoneNumber : String, email : String, password : String, gender: Gender
+              , address : Address, role : Role, autorities : Number[], pharmacy:Pharmacy,firstTimeChanged :boolean) {
+    this.id = id;
+    this.firstTimeChanged = firstTimeChanged;
     this.name = name;
     this.surname = surname;
     this.dateOfBirth = dateOfBirth;

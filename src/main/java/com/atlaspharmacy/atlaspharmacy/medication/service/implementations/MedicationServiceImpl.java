@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
+import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
@@ -7,9 +8,8 @@ import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,7 @@ public class MedicationServiceImpl implements IMedicationService {
 
     private final MedicationRepository _medicationRepository;
     private final IIngredientRepository _ingredientRepository;
+
 
     final private static String EXCEPTION = "Exception in Medication Service Implementation method:";
     final private static String DOES_NOT_EXIST = "Medication with Id does not exist";
@@ -90,7 +91,7 @@ public class MedicationServiceImpl implements IMedicationService {
                 && m.getDailyDose().equals(dto.getDailyDose()) && m.getDosage().equals(dto.getDosage());
     }
     @Override
-    public void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
+    public Medication modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception {
         Medication medication = _medicationRepository.findById(id).orElse(null);
 
         if(medication == null){
@@ -103,6 +104,7 @@ public class MedicationServiceImpl implements IMedicationService {
             e.printStackTrace();
             throw new Exception(EXCEPTION + "modifyMedication " + FAIL);
         }
+        return medication;
     }
     //ovo mora ovde za brisanja
     @Transactional
@@ -115,6 +117,12 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public boolean medicationExistsInPharmacy(Long drugID, Long pharmacyID) {
+        List<Medication> allMedications=_medicationRepository.findAll();
+        for(Medication m:allMedications){
+            if(m.getId().equals(drugID)){
+                return true;
+            }
+        }
         return false;
     }
 
@@ -130,7 +138,14 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public List<MedicationDTO> findAllMedicationsNotInPharmacy(Long pharmacyID) throws Exception {
-        return null;
+        List<Medication> allMedications=_medicationRepository.findAll();
+        List<Medication> medicationsNotInPharmacy=new ArrayList<>();
+        for(Medication m:allMedications){
+            if(!medicationExistsInPharmacy(m.getId(),pharmacyID)){
+                medicationsNotInPharmacy.add(m);
+            }
+        }
+        return MedicationMapper.convertToDTOS(medicationsNotInPharmacy);
     }
 
     @Override
@@ -205,6 +220,7 @@ public class MedicationServiceImpl implements IMedicationService {
         }
         return filter;
     }
+
 
     @Override
     public void saveMedication(MedicationDTO medicationDTO) throws Exception {

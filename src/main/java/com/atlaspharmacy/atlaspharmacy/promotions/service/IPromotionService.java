@@ -3,7 +3,11 @@ package com.atlaspharmacy.atlaspharmacy.promotions.service;
 import com.atlaspharmacy.atlaspharmacy.promotions.DTO.PromotionDTO;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
 
-public interface IPromotionService {
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.List;
 
-    public Promotion addPromotion(PromotionDTO promotionDTO);
+public interface IPromotionService {
+    public Promotion addPromotion(PromotionDTO promotionDTO) throws IOException, MessagingException;
+    public List<Promotion> getPromotionsByPharmacy(Long pharmacyId);
 }

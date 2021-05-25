@@ -13,6 +13,7 @@ import java.util.Date;
 @Proxy(lazy = false)
 public class DrugReservation {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date reservationDate;
     private int uniqueIdentifier;
@@ -24,19 +25,30 @@ public class DrugReservation {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
     private boolean issued;
+    private int therapyDays;
+
     public DrugReservation() {
 
     }
 
-    public DrugReservation(Long id, int uniqueIdentificator, Date expirationDate, Medication medication, Patient patient, Pharmacy pharmacy) {
+    public DrugReservation(Long id, Date reservationDate, int uniqueIdentifier, Date expirationDate, Medication medication, Patient patient, Pharmacy pharmacy, boolean issued, int therapyDays) {
         this.id = id;
-        this.reservationDate = new Date();
-        this.uniqueIdentifier = uniqueIdentificator;
+        this.reservationDate = reservationDate;
+        this.uniqueIdentifier = uniqueIdentifier;
         this.expirationDate = expirationDate;
         this.medication = medication;
         this.patient = patient;
         this.pharmacy = pharmacy;
-        this.issued = false;
+        this.issued = issued;
+        this.therapyDays = therapyDays;
+    }
+
+    public int getTherapyDays() {
+        return therapyDays;
+    }
+
+    public void setTherapyDays(int therapyDays) {
+        this.therapyDays = therapyDays;
     }
 
     public Long getId() {

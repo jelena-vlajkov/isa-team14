@@ -14,7 +14,7 @@ public interface IMedicationService {
 
     List<MedicationDTO> findAllPatientsMedications(Long patientId);
     void createMedication(MedicationDTO medicationDTO) throws Exception;
-    void modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception;
+    Medication modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception;
     void deleteMedication(Long id, MedicationDTO medicationDTO) throws Exception;
     void saveMedication(MedicationDTO medicationDTO) throws Exception;
     void addMedicationToPharmacy(MedicationDTO medicationDTO, Long pharmacyID) throws Exception;
@@ -27,5 +27,4 @@ public interface IMedicationService {
     List<MedicationDTO> findByForm(Long form) throws ParseException;
     List<MedicationDTO> findByKind(Long kind) throws ParseException;
     List<MedicationDTO> findByPrescribing(Long prescribing) throws ParseException;
-
 }

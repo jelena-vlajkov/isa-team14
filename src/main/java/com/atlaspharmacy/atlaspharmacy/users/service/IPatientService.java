@@ -10,7 +10,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 
 public interface IPatientService {
-    Patient registerPatient(PatientDTO patientDTO) throws InvalidPatientData, IOException, MessagingException, InvalidEmail;
+    Patient registerPatient(PatientDTO patientDTO) throws Exception;
     Patient enablePatient(String token) ;
     void editPatient(PatientDTO patientDTO);
 }

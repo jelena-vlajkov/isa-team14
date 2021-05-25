@@ -1,21 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AllergiesDialogComponent } from './allergies-dialog.component';
 
-import { PharmacistReportsComponent } from './pharmacist.reports.component';
-
-describe('PharmacistComponent', () => {
-  let component: PharmacistReportsComponent;
-  let fixture: ComponentFixture<PharmacistReportsComponent>;
+describe('AllergiesDialogComponent', () => {
+  let component: AllergiesDialogComponent;
+  let fixture: ComponentFixture<AllergiesDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PharmacistReportsComponent ]
+      declarations: [ AllergiesDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PharmacistReportsComponent);
+    fixture = TestBed.createComponent(AllergiesDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

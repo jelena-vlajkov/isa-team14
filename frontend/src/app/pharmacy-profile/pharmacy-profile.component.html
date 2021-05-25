@@ -1,164 +1,290 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <mat-drawer-container class="example-container" hasBackdrop="true">
-      <mat-drawer style="width: 20%;" #drawer mode ="over">
-        <mat-action-list>
-         <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info </button>
-         <button mat-list-item> Dermatology appointments </button>
-         <button mat-list-item routerLink="/business-report"> Business reports </button>
-         <button mat-list-item> Drugs</button>
-         <button mat-list-item> Employees</button>
-         <button mat-list-item> Drug purchases</button>
-         <button mat-list-item> Actions and special offers</button>
+  <mat-drawer style="width: 20%;" #drawer mode ="over">
+    <mat-action-list>
+      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info </button>
+      <button mat-list-item> Dermatology appointments </button>
+      <button mat-list-item routerLink="/business-report"> Business reports </button>
+      <button mat-list-item> Drugs</button>
+      <button mat-list-item> Employees</button>
+      <button mat-list-item> Drug purchases</button>
+      <button mat-list-item> Actions and special offers</button>
 
-       </mat-action-list>
-       <mat-action-list style="position: absolute; bottom: 1px;">
-               <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
-               <button  mat-list-item > Logout</button>
+    </mat-action-list>
+    <mat-action-list style="position: absolute; bottom: 1px;">
+      <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
+      <button  mat-list-item > Logout</button>
 
-       </mat-action-list>
+    </mat-action-list>
 
-    </mat-drawer>
+  </mat-drawer>
 
-        <mat-drawer-content>
-          <mat-toolbar color="accent">
-            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
-              <mat-icon>menu</mat-icon>
-            </button>
-            <span>Pharmacy profile</span>
-            <span class="example-spacer"></span>
-          </mat-toolbar>
+  <mat-drawer-content >
+    <mat-toolbar style="background-color: #385399;">
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+        <mat-icon style="color:white;">menu</mat-icon>
+      </button>
+      <span style="color:white;">Pharmacy profile</span>
+      <span class="example-spacer">
+        <button *ngIf="checkLoggedInUser()" style="margin-left:1000px;margin-top:10px;" mat-icon-button (click)="logout()" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
+                    <mat-icon style="color:white;">logout <span class="tooltiptext"></span>
+                    </mat-icon>
+                    </button>
+      </span>
+    </mat-toolbar>
 
-          <mat-card *ngIf="profile" style="height: auto;">
-            <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;" >
-              <mat-grid-tile>
-                <label>Name:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{name}}</p>
-              </mat-grid-tile>
+    <div *ngIf="profile" style="margin-left: 200px;margin-top:20px;margin-bottom: 30px;">
+      <div style="display: flex;margin-left:30px;">
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='editPharmacy' (click)='showEditProfileDialog()' *ngIf="isPharmacyAdmin">Edit pharmacy</button>
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='reserveDrug' (click)='showEditProfileDialog()' *ngIf="!isPharmacyAdmin">Reserve drug</button>
+        <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button (click)='showScheduleAppointment()'>Free appointments</button>
+        <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='SpecialOffers' (click)='showPromotionsDialog()'>Pharmacy promotions</button>
+        <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='Pricelist' (click)='showPharmacyPricelist()'>Pharmacy pricelist</button>
+      </div>
+      <div style="display:grid;margin-left:200px;margin-top:20px;">
+        <div><label>Name:</label></div>
+        <div><p>{{name}}</p></div>
+        <div><label>Address:</label></div>
+        <div style="height: fit-content;"><p>{{address}}</p></div>
+        <div><label>About:</label></div>
+        <div style="width: 500px;height: fit-content;"><p>{{about}}</p></div>
+        <div><label>Grade:</label></div>
+        <div><p>{{grade|number:'1.0-2'}}</p></div>
+        <div><label>Dermatologists:</label></div>
+        <div aria-colspan="1">
+          <p *ngFor="let dermatologist of dermatologists">{{dermatologist.name}} {{dermatologist.surname}}  </p>
+        </div>
+        <div><label>Pharmacists:</label></div>
+        <div>
+          <p class="text-grid" *ngFor="let pharmacist of pharmacists">
+            {{pharmacist}}
+          </p>
+        </div>
+        <div><label>Drugs:</label></div>
+        <div>
+          <p class="text-grid"  *ngFor="let drug of medications">
+            {{drug}}
+          </p>
+        </div>
+      </div>
+    </div>
 
-              <mat-grid-tile>
-                <label>Address:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{address}}</p>
-              </mat-grid-tile>
+    <mat-card *ngIf="scheduleAppointment">
+      <mat-grid-list cols="1" rowHeight="5:1" style="margin-left: 10px;height:200px;">
+      <mat-grid-tile>
+        <label>Free appointments:</label>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="1">
+        <div style="margin-top: 20px;margin-bottom: 5px;" >
+          <p *ngFor="let availableAppointment of availableAppointments">{{availableAppointment}}  </p>
+        </div>
+      </mat-grid-tile>
+      </mat-grid-list>
+      <div style="vertical-align: bottom;">
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button id='cancelScheduling' (click)='cancelScheduling()'>Cancel</button>
+        <button style="float:right;position: relative; background-color: #385399;margin-right:20px;margin-top: 100px;"  color="accent" mat-raised-button (click)='showScheduleAppointment()' *ngIf="!isPharmacyAdmin">Schedule appointment</button>
+      </div>
+    </mat-card>
 
-              <mat-grid-tile>
-                <label>About:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{about}}</p>
-              </mat-grid-tile>
+    <mat-card *ngIf="showPromotions" style="height: fit-content;">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:200px">Pharmacy promotions</label>
+        <button *ngIf="isPharmacyAdmin" style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button (click)='addPromotionClicked()'>Add promotion</button>
+      </div>
 
-              <mat-grid-tile>
-                <label>Grade:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>{{grade | number:'1.0-2'}}</p>
-              </mat-grid-tile>
+      <table style="margin-top: 40px;margin-left: 50px;border-bottom: 40px;height: fit-content;" >
+        <tr *ngFor="let promotion of pharmacyPromotions" style="margin-bottom: 30px;border-bottom:1px solid black;">
+          <td style="font-size: 20px;height: fit-content;width: 400px;">{{promotion.description}}</td>
+          <span style="margin-left: 40px;"></span>
+          <td style="font-size: 20px;width: fit-content;">{{ promotion.startTime | date :  "dd.MM.y" }} - {{ promotion.endTime | date :  "dd.MM.y" }}</td>
+        </tr>
+      </table>
+      <div style="vertical-align: bottom;">
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 200px;" color="accent" mat-raised-button (click)='cancelScheduling()'>Back</button>
+      </div>
+    </mat-card>
+
+    <mat-card *ngIf="addPromotion">
+      <label style="font-size:25px;margin-left:200px">Add promotion</label>
+      <table style="margin-top: 20px;margin-left: 50px;" >
+        <tr>
+          <td style="font-size: 20px;">Description:</td>
+          <td style="font-size: 20px;margin-left: 20px;"><input placeholder="Write description..." style="height: 150px;width: 500px;font-size: 15px;" id="promotionDescription"></td>
+        </tr>
+        <tr style="height: 30px;"></tr>
+        <tr>
+          <td style="font-size: 20px;">Start time:</td>
+          <td style="font-size: 20px;"><input placeholder="Start time" id="promotionStartTime" required type="date" style="height: 50px;width: 200px;"></td>
+        </tr>
+        <tr style="height: 30px;"></tr>
+        <tr>
+          <td style="font-size: 20px;">End time:</td>
+          <td style="font-size: 20px;"><input placeholder="End time"  id="promotionEndTime" required type="date" style="height: 50px;width: 200px;"></td>
+
+        </tr>
+      </table>
+      <div style="vertical-align: bottom;">
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 50px;" color="accent" mat-raised-button (click)='addPromotionCanceled()'>Cancel</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 50px;" color="accent" mat-raised-button (click)='addPromotionSubmitted()'>Add promotion</button>
+      </div>
+    </mat-card>
+
+    <mat-card style="flex: 1 1 auto;width: 50%;" *ngIf="addPricelistEntityDialog">
+      <form [formGroup]="addPricelistEntityFormGroup" (ngSubmit)="addPricelistSubmitted()">
+        <mat-grid-list cols="2" rowHeight="5:2"  >
+          <mat-grid-tile><label>Medication:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;">
+              <mat-form-field appearance="fill" >
+                <mat-label>Choose medication*</mat-label>
+                <mat-select formControlName = 'medication' >
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let medication of medicationsNotInPharmacy" [value]="medication">
+                    {{medication.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!addPricelistEntityFormGroup.get('medication').valid
+                  && addPricelistEntityFormGroup.get('medication').touched
+                  && addPricelistEntityFormGroup.get('medication').errors['required']">
+                  Please choose a medication</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile><label>Price:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <mat-form-field appearance="fill" id="amount-ff" >
+                <mat-label >Price</mat-label>
+                <input matInput id="price" placeholder="price" name="price-ff"
+                       formControlName="price" style="height: 25px;" required type="number">
+                <mat-error
+                  *ngIf="!addPricelistEntityFormGroup.get('price').valid
+                     && addPricelistEntityFormGroup.get('price').touched
+                     && addPricelistEntityFormGroup.get('price').errors['required']">
+                  Please enter price</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile><label>Start date:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <mat-form-field appearance="fill" id="startDate-ff" >
+                <mat-label >Start date</mat-label>
+                <input matInput id="startDate" placeholder="startDate" name="startDate-ff"
+                       formControlName="startDate" style="height: 25px;" required type="date" >
+                <mat-error
+                  *ngIf="!addPricelistEntityFormGroup.get('startDate').valid
+                     && addPricelistEntityFormGroup.get('startDate').touched
+                     && addPricelistEntityFormGroup.get('startDate').errors['required']">
+                  Please enter start date</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile><label>End date:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <mat-form-field appearance="fill" id="endDate-ff" >
+                <mat-label >End date:</mat-label>
+                <input matInput id="endDate" placeholder="endDate" name="endDate-ff"
+                       formControlName="endDate" style="height: 25px;" required type="date">
+                <mat-error
+                  *ngIf="!addPricelistEntityFormGroup.get('endDate').valid
+                     && addPricelistEntityFormGroup.get('endDate').touched
+                     && addPricelistEntityFormGroup.get('endDate').errors['required']">
+                  Please enter end date</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+        <div style="display:flex;float:right;">
+            <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button  (click)="addPricelistCanceled()">Cancel</button>
+            <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button id='addOrder' [disabled]="!addPricelistEntityFormGroup.valid">Add pricelist entity</button>
+        </div>
+
+      </form>
+    </mat-card>
+
+    <mat-card *ngIf="showPricelist">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:200px">Pharmacy pricelist</label>
+        <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button (click)='addPricelistClicked()' *ngIf="isPharmacyAdmin">Add pricelist entity</button>
+      </div>
+      <table style="margin-top: 20px;margin-left: 200px;">
+        <tr *ngFor="let pricelist of pharmacyPricelist" style="margin-bottom: 10px;">
+
+          <td style="font-size: 25px;"> {{pricelist.medication.name}} </td>
+          <span style="margin-left: 100px;"></span>
+          <td style="font-size: 25px;margin-left: 30px;" contenteditable="true" (focusout)="changeValue(pricelist.id)" id="{{pricelist.id}}" *ngIf="isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;">din</label>
+          <td style="font-size: 25px;margin-left: 30px;" *ngIf="!isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;" *ngIf="!isPharmacyAdmin">din</label>
+
+          <span style="margin-left: 100px;"></span>
+          <td *ngIf="isPharmacyAdmin"><button class="btn" mat-raised-button (click)="deletePricelistEntity(pricelist.id)"><i class="fa fa-trash" ></i></button></td>
+        </tr>
+      </table>
+      <div style="vertical-align: bottom;">
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button (click)='cancelScheduling()'>Back</button>
+        <button style="float:right;position: relative; background-color: #385399;margin-right:20px;margin-top: 100px;" *ngIf="isPharmacyAdmin" color="accent" mat-raised-button (click)='editPricelist()'>Edit pricelist</button>
+      </div>
+
+    </mat-card>
+
+    <mat-card *ngIf="edit">
+      <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
+        <mat-grid-list cols="2" rowHeight="4:1" style="margin-top:100px;">
+
+          <mat-grid-tile>
+            <label>Name:</label>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="inputField" >
+              <mat-form-field appearance="fill" id="name-ff">
+                <mat-label style="margin-left: 5px;">Name*</mat-label>
+                <input matInput id="name" placeholder="Name" style="margin-left: 5px;" name="name-ff" value="{{name}}"
+                       formControlName="name">
+                <mat-error
+                  *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
+                  Please enter name</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <label>Description:</label>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="inputField" >
+              <mat-form-field appearance="fill" id="description-ff">
+                <mat-label style="margin-left: 5px;">Description*</mat-label>
+                <input matInput id="description" placeholder="Description" style="margin-left: 5px;" name="description-ff" value="{{about}}"
+                       formControlName="description">
+                <mat-error
+                  *ngIf="!editProfileForm.get('description').valid && editProfileForm.get('description').touched && editProfileForm.get('description').errors['required']">
+                  Please enter description</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <label>Address:</label>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <app-google-places></app-google-places>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <button style="float:right; position:relative; background-color: #385399;margin-right: 20px;" mat-raised-button id='cancelEdit' (click)='cancelEdit()'color="accent">Cancel</button>
+        <button style="float:right; position:relative; background-color: #385399;margin-right: 20px;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
 
 
-                <mat-grid-tile>
-                  <label>Dermatologists:</label>
-                </mat-grid-tile>
-                <mat-grid-tile colspan="1">
-                    <div style="margin-top: 30px;">
-                    <p *ngFor="let dermatologist of dermatologists">{{dermatologist}} </p>
-                    </div>
-                </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Pharmacists:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <div style="margin-top: 30px;">
-                <p class="text-grid" *ngFor="let pharmacist of pharmacists">
-                  {{pharmacist}}
-                </p>
-                </div>
-              </mat-grid-tile>
-            </mat-grid-list>
-
-          <mat-grid-list cols="3" rowHeight="5:1" style="margin-left: 10px;" >
-            <mat-grid-tile>
-              <label>Drugs:</label>
-            </mat-grid-tile>
-            <mat-grid-tile>
-              <div style="margin-top: 30px;">
-                <p class="text-grid" *ngFor="let drug of medications">
-                  {{drug}}
-                </p>
-              </div>
-            </mat-grid-tile>
-              <mat-grid-tile>
-              <button style="float:right; position:relative;" mat-raised-button id='reserveDrug' (click)='editProfile()' color="accent">Reserve drug</button>
-              </mat-grid-tile>
-
-              <mat-grid-tile>
-                <label>Free appointments:</label>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <p>Uraditi</p>
-              </mat-grid-tile>
-              <mat-grid-tile>
-                <button style="float:right; position:relative;" mat-raised-button id='scheduleAppointment' (click)='editProfile()' color="accent">Schedule appointment</button>
-                </mat-grid-tile>
-            </mat-grid-list>
-            <mat-action-list>
-              <button style="float:right; position:relative;" mat-raised-button id='SpecialOffers' (click)='editProfile()' color="accent">Special Offers</button>
-              <button style="float:right; position:relative;" mat-raised-button id='Pricelist' routerLink='/drugs-pricelist' color="accent">Pricelist</button>
-            </mat-action-list>
-          </mat-card>
-
-
-          <mat-card *ngIf="edit">
-              <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
-                <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
-
-                  <mat-grid-tile>
-                    <label>Name:</label>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <div class="inputField">
-                      <mat-form-field appearance="fill" id="name-ff">
-                          <mat-label>Name*</mat-label>
-                          <input matInput id="name" placeholder="Name" name="name-ff" value="{{name}}"
-                              formControlName="name">
-                          <mat-error
-                              *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
-                              Please enter name</mat-error>
-                      </mat-form-field>
-                  </div>
-                </mat-grid-tile>
+      </form>
+    </mat-card>
 
 
 
+  </mat-drawer-content>
 
-                  <mat-grid-tile>
-                    <label>Address:</label>
-                  </mat-grid-tile>
-                  <mat-grid-tile>
-                    <div class="inputField">
-                      <mat-form-field appearance="fill" id="address-ff">
-                          <mat-label>Address*</mat-label>
-                          <input matInput id="address" placeholder="Address" name="address-ff" value="{{address}}" formControlName="address">
-
-                          <mat-error
-                              *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
-                              Please enter address</mat-error>
-                      </mat-form-field>
-                  </div>
-                  </mat-grid-tile>
-                </mat-grid-list>
-
-
-
-                <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
-
-              </form>
-          </mat-card>
-
-
-
-    </mat-drawer-content>
-  </mat-drawer-container>
+</mat-drawer-container>

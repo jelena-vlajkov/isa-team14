@@ -49,17 +49,19 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 //import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
-import { PharmacistReportsComponent } from './pharmacist.reports/pharmacist.reports.component';
+import { UsersPreview } from './users.preview/users.preview.component';
 import { PharmacistAddReportComponent } from './pharmacist.add-report/pharmacist.add-report.component';
 import { PharmDermMedicationsComponent } from './pharm-derm-medications/pharm.derm.medication.component';
 import { MedicationOrderComponent } from './medication-order/medication-order.component';
 import { UnauthenticatedUserPharmaciesComponent } from './unauthenticated-user-pharmacies/unauthenticated-user-pharmacies.component';
 import { UnauthenticatedUserMedicationsComponent } from './unauthenticated-user-medications/unauthenticated-user-medications.component';
+import { PatientHomePageComponent } from './patient/patient-home-page/patient-home-page.component';
+import { PatientAllPharmaciesComponent } from './patient/patient-all-pharmacies/patient-all-pharmacies.component';
 import { SupplierProfileComponent } from './supplier-profile/supplier-profile.component';
 import { SupplierOrdersComponent } from './supplier-orders/supplier-orders.component';
 import { SupplierOffersComponent } from './supplier-offers/supplier-offers.component';
@@ -69,6 +71,15 @@ import { SupplierAllOffersComponent } from './supplier-all-offers/supplier-all-o
 import { SupplierStorageComponent } from './supplier-storage/supplier-storage.component';
 import { PharmacyProfileMockComponent } from './pharmacy-profile-mock/pharmacy-profile-mock.component';
 import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-subscriptions.component';
+import { AllergiesDialogComponent } from './user-profile/allergies-dialog/allergies-dialog.component';
+import { EditAllergiesComponent } from './user-profile/edit-allergies-dialog/edit-allergies/edit-allergies.component';
+import { WelcomeComponent } from './employee-first-login/employee.first.login';
+import { PatientExaminationComoponent } from './patient-examination/patient-examination.component';
+import { PatientFinishedCounselingComponent } from './patient/patient-finished-counseling/patient-finished-counseling/patient-finished-counseling.component';
+import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
+import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
+import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
+import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 
 @NgModule({
   declarations: [
@@ -99,12 +110,14 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     PharmacistProfileComponent,
     PharmacistCalendarComponent,
     PharmacistPatientsComponent,
-    PharmacistReportsComponent,
+    UsersPreview,
     PharmacistAddReportComponent,
     PharmDermMedicationsComponent,
     MedicationOrderComponent,
     UnauthenticatedUserPharmaciesComponent,
     UnauthenticatedUserMedicationsComponent,
+    PatientHomePageComponent,
+    PatientAllPharmaciesComponent,
     SupplierProfileComponent,
     SupplierOrdersComponent,
     SupplierOffersComponent,
@@ -113,7 +126,16 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     SupplierAllOffersComponent,
     SupplierStorageComponent,
     PharmacyProfileMockComponent,
-    PatientSubscriptionsComponent
+    PatientSubscriptionsComponent,
+    AllergiesDialogComponent,
+    EditAllergiesComponent,
+    WelcomeComponent,
+    PatientExaminationComoponent,
+    PatientFinishedCounselingComponent,
+    PatientFinishedExaminationComponent,
+    PatientScheduledAppointmentsComponent,
+    PatientEPrescriptionsComponent,
+    PatientIssuedEDrugsComponent
 
   ],
   imports: [
@@ -156,13 +178,14 @@ import { PatientSubscriptionsComponent } from './patient-subscriptions/patient-s
     MatMenuModule,
     //NgbModule,
     MatExpansionModule,
-    MatStepperModule
-    
+    MatStepperModule,
+    MatCardModule
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-
+    DatePipe
   ],
 
   bootstrap: [AppComponent]

@@ -12,16 +12,17 @@ public class PharmacyStorage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Pharmacy pharmacy;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Medication medication;
-    private double quantity;
+    private int quantity;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Pharmacy pharmacy;
 
     public PharmacyStorage() {
     }
 
-    public PharmacyStorage(Pharmacy pharmacy, Medication medication, double quantity) {
+    public PharmacyStorage(Pharmacy pharmacy, Medication medication, int quantity) {
         this.pharmacy = pharmacy;
         this.medication = medication;
         this.quantity = quantity;
@@ -43,11 +44,11 @@ public class PharmacyStorage {
         this.medication = medication;
     }
 
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

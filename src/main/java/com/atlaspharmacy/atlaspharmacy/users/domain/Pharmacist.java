@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -20,6 +21,8 @@ public class Pharmacist extends MedicalStaff {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
 
+    @Embedded
+    private AverageGrade averageGrade;
 
     public Pharmacist(Long id) {
         this.id = id;
@@ -69,6 +72,9 @@ public class Pharmacist extends MedicalStaff {
         return true;
     }
 
+    public AverageGrade getAverageGrade() { return averageGrade; }
 
+    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
 
+    public double countAverageGrade() { return averageGrade.count(); }
 }

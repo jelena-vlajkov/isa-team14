@@ -39,12 +39,12 @@ public class PharmacyController {
     @PreAuthorize("hasRole('SYSADMIN')")
     @PostMapping(value = "/add", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public void registerPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
+    public void registerPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws Exception {
          pharmacyService.registerPharmacy(pharmacyDTO);
     }
 
     @GetMapping(value = "/findAll", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<PharmacyDTO> findAll(){
+    public @ResponseBody List<PharmacyDTO> findAll() throws Exception {
         return pharmacyService.getAllPharmacies();
     }
 
@@ -73,13 +73,13 @@ public class PharmacyController {
 
     @GetMapping(value = "/getByMedication", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<PharmacyDTO> getByMedication(@RequestParam("code") Long code) throws ParseException {
+    List<PharmacyDTO> getByMedication(@RequestParam("code") Long code) throws Exception {
         return pharmacyService.getPharmaciesByMedication(code);
     }
     @GetMapping(value = "/getById", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     PharmacyDTO getById(@RequestParam("id") Long id) throws ParseException {
-        return pharmacyService.getById(id);
+        return PharmacyMapper.mapPharmacyToDTO(pharmacyService.getById(id));
     }
     @GetMapping(value = "/getSubscribed", produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization

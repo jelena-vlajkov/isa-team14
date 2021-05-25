@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
   credentials: Authentication;
 
 
-  constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, private router: Router, private registrationService : RegistrationService) { 
+  constructor(private activatedRoute: ActivatedRoute, private authService: AuthenticationService, private router: Router, private registrationService : RegistrationService) {
     this.activatedRoute.queryParams.subscribe(params => {
       let token = params['token'];
-      console.log(token); // Print the parameter to the console. 
+      console.log(token); // Print the parameter to the console.
       // this.registrationService.activatePatient(token).subscribe()
       if(token!==undefined){
         this.registrationService.activatePatient(token).subscribe(
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
           }
         )
       }
-      
+
   });
   }
 
@@ -57,16 +57,21 @@ export class LoginComponent implements OnInit {
     console.log(this.credentials);
     this.authService.login(this.credentials).subscribe(
       result => {
-        localStorage.setItem('userId',String(result.id))
+        localStorage.setItem('userId',String(result.id));
+        localStorage.setItem('userRole',String(result.role));
+        localStorage.setItem('firstTimeChanged',String(result.firstTimeChanged));
         if(result.role == Role.PharmacyAdmin){
           this.router.navigate(['/pharmacyAdmin-profile'])
         }else if(result.role == Role.SysAdmin){
           this.router.navigate(['/admin'])
         } else if (result.role == Role.Dermatologist || result.role == Role.Pharmacist) {
-          this.router.navigate(['/pharmacist'])
+          this.router.navigate(['/dashboard'])
         }
         else if(result.role == Role.Patient){
           this.router.navigate(['/'])
+        }
+        if(result.role == Role.Patient){
+          this.router.navigate(['/patient/home'])
         }
         else if(result.role == Role.Supplier){
          this.router.navigate(['/supplier']);

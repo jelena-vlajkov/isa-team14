@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.reports.DTO.SaveReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.Report;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ReportMapper {
@@ -15,7 +16,7 @@ public class ReportMapper {
             medications.add(medication.getName());
         }
 
-        return new ReportDTO(report.getDate(), medications,
+        return new ReportDTO(new Date(), medications,
                 report.getPatient().getName() + " " + report.getPatient().getSurname(),
                 report.getPatient().getEmail(),
                 report.getReportNotes());

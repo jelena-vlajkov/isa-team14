@@ -3,7 +3,10 @@ import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
 import { AuthenticationService } from '../service/user/authentication.service'
-
+import { PatientsOverview } from '@app/model/pharmderm/patientoverview';
+import { EmployeeService } from '@app/service/employee/employee.service';
+import {SearchParam} from '@app/model/pharmderm/searchparams'
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-pharmacy-patients',
   templateUrl: './pharmacist.patient.component.html',
@@ -28,102 +31,130 @@ export class PharmacistPatientsComponent implements OnInit {
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
+  public isPharmacist : boolean;
+  public searchPatientsForm : FormGroup;
 
+  public patients : PatientsOverview[];
+  
   editProfileForm: FormGroup;
 
-  constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router, private authService: AuthenticationService ) { }
+  constructor(private employeeService:EmployeeService,private router:Router, private authService: AuthenticationService, private datePipe : DatePipe) { }
 
   ngOnInit(): void {
-    this.editProfileForm = new FormGroup({});
-    this.changePasswordForm = new FormGroup({});
-    this.profileForm = new FormGroup({});
-    this.password1 = "";
-    this.password2 = "";
+    if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+      this.router.navigate(["/employee-welcome"]);
+
+    }
+
+    
+  
+    this.searchPatientsForm = new FormGroup({
+      'name' : new FormControl("", []),
+      'date' : new FormControl(null, [])
+    });
 
 
-    this.oldpassword = "peraBijeKera";
-
-    this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
+    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
       result => {
-        this.name = result.name;
-        this.surname = result.surname;
-        if(result.gender==0)
-          this.gender="Žensko";
-        else if(result.gender==1)
-          this.gender="Muško";
-        else
-          this.gender="Drugo";
-        this.address = result.address.street+", "+result.address.city.name+", "+result.address.state.name;
-        this.phone = result.phoneNumber;
-        this.mail = result.email;    }
-    );
+        this.patients = result;
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
 
+          }
+        }
+         }, 
+         error => {
+          alert(error)
+         })
   }
   logout() {
     this.authService.logout();
   }
-  registerPharmacy(){
+  searchPatients() {
+    let name = this.searchPatientsForm.controls.name.value;
+    let date = this.searchPatientsForm.controls.date.value;
+    console.log(date);
+
+    if (date === null) {
+      console.log("ASADASDASD")
+    } 
+    console.log(Number(localStorage.getItem('userId')))
+    console.log(name);
+
+    let searchParams = new SearchParam(name, date, Number(localStorage.getItem('userId')));
+    console.log(searchParams.name)
+    console.log(searchParams)
+    this.employeeService.searchPatientsByParams(searchParams).subscribe(
+      result => {
+        
+        this.patients = result;
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
+
+          }
+        }
+         }, 
+         error => {
+          alert(error)
+          this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
+            result => {
+              this.patients = result;
+              for (let p of this.patients) {
+                let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+                p.dateOfBirthString = date;
+                for (let app of p.previousAppointments) {
+                  let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+                  let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+                  app.endTimeString = end;
+                  app.startTimeString = start;
+      
+                }
+               }
+              },
+               error => {
+                alert(error)
+               })
+         })
+
 
   }
-  registerDermatologist(){
 
+  startExamination(p : PatientsOverview) {
+    this.router.navigate(['/appointment'], {state: {data: p.patientId}})
+    
   }
-  registerAdmin(){
 
-  }
-  registerSupplier(){
+  cancelSearch() {
+    this.searchPatientsForm.controls.name.setValue("");
+    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
+      result => {
+        this.patients = result;
+        for (let p of this.patients) {
+          let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
+          p.dateOfBirthString = date;
+          for (let app of p.previousAppointments) {
+            let start = this.datePipe.transform(app.startTime, 'dd.MM.yyyy. hh:mm');
+            let end = this.datePipe.transform(app.endTime, 'dd.MM.yyyy. hh:mm');
+            app.endTimeString = end;
+            app.startTimeString = start;
 
-  }
-  operationsWithDrugs(){
-
-  }
-  respondToComplaints(){
-
-  }
-  defineLoyalty(){
-
-  }
-  adminLogout(){
-
-  }
-  cancelEdit(){
-    this.profile = true;
-    this.edit = false;
-    this.changePassword = false;
-  }
-  changePasswordFunction(){
-    this.edit = false;
-    this.profile = false;
-    this.changePassword = true;
-
-    this.changePasswordForm = new FormGroup({
-      'oldpassword' : new FormControl(null, Validators.required),
-      'newpassword' : new FormControl(null, Validators.required),
-      'confirmpassword' : new FormControl(null, Validators.required)
-    });
-  }
-  submitChangePassword(){
-    this.password1 = this.changePasswordForm.value.newpassword;
-    this.password2 = this.changePasswordForm.value.confirmpassword;
-    if(this.password1 !== this.password2){
-      console.log('NISU ISTI NE MOZE MATORI KONTAS BRT MOJ');
-    }
-  }
-  addAdmin(){}
-  editProfile(){
-    this.edit = true;
-
-    this.profile= false;
-    this.changePassword = false;
-
-    this.editProfileForm = new FormGroup({
-
-      'name' : new FormControl(this.name, Validators.required),
-      'surname' : new FormControl(this.surname, Validators.required),
-      'email' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(this.phone, Validators.required),
-      'address' : new FormControl(this.address, Validators.required),
-      'gender': new FormControl(this.selectedGender, Validators.required)
-    });
+          }
+        }
+      }, 
+         error => {
+          alert(error)
+         });
   }
 }

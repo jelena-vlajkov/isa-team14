@@ -1,11 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicalRecordAuthorization;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.UserDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
-import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.UserMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -46,13 +45,64 @@ public class UserController {
         return userService.getUserBy(id);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/usersForEmployee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    List<UserPreviewDTO> getUsers() throws ParseException {
+        return UserMapper.mapUsersToDTOs(userService.getUsersForEmployee());
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/searchUsers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    List<UserPreviewDTO> searchUsers(@RequestParam("name") String name) throws ParseException {
+        return UserMapper.mapUsersToDTOs(userService.searchUsersByName(name));
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<String> updateEmployee(@RequestBody PharmDermDTO pharmDermDTO) throws ParseException {
+        userService.updateEmployee(pharmDermDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/changeEmployeePass", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<String> updateEmployeePass(@RequestBody EmployeePassChange employeePassChange) throws Exception {
+        userService.updateEmployeePassword(employeePassChange);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/firstEmployeeLogin", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    public @ResponseBody
+    ResponseEntity<String> firstEmployeeLogin(@RequestBody EmployeeFirstTimeLoginDTO employeePassChange) throws Exception {
+        userService.updateEmployeePassFirstTime(employeePassChange);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value="/getLoggedIn", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     UserDTO getLoggedInUser() {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String mail = ((User)user).getEmail();
-        return UserMapper.mapToDTO(userService.getByEmail(mail));
+        User loggedIn = userService.getByEmail(mail);
+        return UserMapper.mapToDTO(loggedIn);
 
+    }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public @ResponseBody
+    Exception handleException(Exception e) {
+        return e;
     }
 
 

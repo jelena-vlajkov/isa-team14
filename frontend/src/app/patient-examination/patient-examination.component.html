@@ -1,0 +1,233 @@
+<mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
+    <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
+        <mat-action-list ><button mat-list-item routerLink="/dashboard">  
+            <i class="material-icons">dashboard</i>
+            <p class="list-p">Dashboard</p>
+            </button>
+            <button mat-list-item routerLink="/add-report">  
+                    <i class="material-icons">alarm</i>
+                    <p class="list-p">Counselings</p>
+            </button>
+            <button mat-list-item routerLink="/employee-calendar"> 
+        
+                <i class="material-icons">calendar_today</i>
+                <p class="list-p">Calendar</p>
+            </button>
+            <button mat-list-item routerLink="/appointment-report"> 
+            
+                <i class="material-icons">article</i>
+                <p class="list-p">Counseling reports</p>
+            </button>
+            <button mat-list-item routerLink="/patients-overview"> 
+                
+                <i class="material-icons">group</i>
+                <p class="list-p">Patients</p>
+            </button>
+            <button mat-list-item routerLink="/employee-medications"> 
+                
+                <i class="material-icons">medication</i>
+                <p class="list-p">Medications</p>
+            </button>
+        </mat-action-list>
+        <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+        <button mat-list-item routerLink="/employee-profile"> 
+              
+                <i class="material-icons">person</i>
+                <p class="list-p">Profile</p>
+            </button>
+            <button  mat-list-item (click)='logout()'> 
+                <i class="material-icons">logout</i>
+                <p class="list-p">Logout</p>
+            </button>
+          </mat-action-list>
+    </mat-drawer>
+      <mat-drawer-content>
+        <mat-toolbar style="background-color: #385399;">
+            <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>Add reports</span>
+            <span class="example-spacer"></span>
+          </mat-toolbar>
+          
+        <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
+            <mat-card-header>
+                <mat-card-title>
+                    Counselings for date: {{todaysDate}}
+                </mat-card-title>
+            </mat-card-header>
+        </mat-card>
+        <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
+                
+                    
+                <div *ngIf="!a.finished">
+                    
+                    <div style="margin-top: 20px;">
+                        <mat-label style="margin-top: 20px; font-size: 18px;"> {{a.patientName}}</mat-label>
+                    </div>
+                         
+                                
+
+                    <mat-form-field class="example-full-width" style="width: 100%; margin-top: 50px;">
+                        <mat-label>Counseling info</mat-label>
+                        <form [formGroup]="addReportForm">
+                            <textarea matInput formGroupName="details" placeholder="Patient has..."></textarea>
+                            <mat-error
+                                    *ngIf="!addReportForm.get('details').valid && addReportForm.get('details').touched">
+                                    Please enter report details
+                            </mat-error>
+                            <mat-error
+                                    *ngIf="!addReportForm.get('details').valid && addReportForm.get('details').touched">
+                                    Please enter report details
+                            </mat-error>
+                        </form>
+                    </mat-form-field>
+
+                    <mat-accordion class="example-headers-align" multi>
+                        <mat-expansion-panel  style="margin-top:20px;" >
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                Prescribe medications
+                              </mat-panel-title>
+                              
+                            </mat-expansion-panel-header>      
+                            
+                                
+                            <button mat-raised-button color="primary" style="margin-right: 10px; position: relative; float: left;" id="button" (click)="searchMedications(a)"  >Search available for patients</button>
+                                 
+                        <div *ngIf="showSearchResultsForMedications" class="container">
+                            <table mat-table [dataSource]="a.medicationsForPatients" class="mat-elevation-z8">
+                                <ng-container  matColumnDef="position">
+                                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                                    <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                                    </ng-container>
+                                        
+                                <ng-container  matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                                    <td mat-cell *matCellDef="let element" style="padding: 10px;"> {{element.name}} </td>
+                                </ng-container>
+                                        
+                                <ng-container  matColumnDef="dosage" style="width:100px !important">
+                                    <th mat-header-cell *matHeaderCellDef> Treatment in days </th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Days</mat-label>
+                                            <input matInput type="number" value="8" [(ngModel)]="element.days" placeholder="Days" style="width:50px !important">
+                                        </mat-form-field>
+
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="available" >
+                                    <th mat-header-cell *matHeaderCellDef> On stock </th>
+                                    <td mat-cell *matCellDef="let element" style="padding: 10px;"> 
+                                        <div *ngIf="element.available">
+                                            Yes
+                                        </div>
+                                        <div *ngIf="!element.available">
+                                            No
+                                        </div>
+                                    </td>
+                                    
+                                </ng-container>
+
+                                <ng-container matColumnDef="#" style="margin-left: 80px;">
+                                    <th mat-header-cell *matHeaderCellDef> # </th>
+                                    <td  mat-cell *matCellDef="let element"> 
+                                        <div *ngIf="element.available">
+                                            <div *ngIf="!element.prescribed">
+                                                <button mat-raised-button color="primary" id="button" (click)="prescribeMedication(element, a)" style="margin-left: 10px;" >Prescribe</button>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="!element.available">
+                                            <button mat-raised-button color="primary" id="button" (click)="recommendSimilar(element, a)" style="margin-left: 10px;" >Recommend similar</button>
+                                        </div>
+                                        <div *ngIf="element.prescribed">
+                                            <button mat-raised-button color="primary" id="button" disabled style="margin-left: 10px;" >Already prescribed</button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                        
+                                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel  style="margin-top:20px;" >
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Schedule next counseling
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>  
+                        <form [formGroup]="searchAppointmentForm" (ngSubmit)="searchAppointments()">
+                            <mat-form-field class="example-full-width" style="margin-left: 30px;">
+                                <mat-label>Select date</mat-label>
+                                <input matInput formControlName="date" [matDatepicker]="picker2" [value]="todaysDate" [min]="todaysDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                
+                            </mat-form-field> 
+                        </form>
+                        <button mat-raised-button color="primary" style="margin-right: 10px; position: relative; float: right;" id="button" (click)="searchAppointments(a)"  >Search</button>
+                            
+                        
+                        <div class="container" *ngIf="showSearchResults">
+                        <table mat-table [dataSource]="a.availableAppointment" class="mat-elevation-z8">
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef> No. </th>
+                                <td mat-cell *matCellDef="let element; index as i"> {{i+1}} </td>
+                                </ng-container>
+                                    
+                            <ng-container matColumnDef="startTime">
+                                <th mat-header-cell *matHeaderCellDef> Start time </th>
+                                <td mat-cell *matCellDef="let appoinmtent" style="padding: 10px;"> {{appoinmtent.startDateString}} </td>
+                            </ng-container>
+                                    
+                            <ng-container matColumnDef="endTime" style="width:100px !important">
+                                <th mat-header-cell *matHeaderCellDef> End time </th>
+                                
+                                <td mat-cell *matCellDef="let appoinmtent" style="padding: 10px;"> {{appoinmtent.endDateString}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="#" style="margin-left: 80px;">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <button mat-raised-button color="primary" style="margin-left: 10px;" id="button" (click)="scheduleAppointment(element, a)"  >Schedule</button>
+                                </td>
+                            </ng-container>
+                                    
+                                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                        </table>
+                    </div>
+
+
+                          
+                                
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+                
+                <div>
+                    <button mat-raised-button color="primary" id="button" style="float: right; margin-top: 20px;" (click)="addReport(a)">Finish counseling</button>
+                    <button mat-raised-button color="primary" id="button" style="float: right; margin-top: 20px; margin-right: 10px;" [disabled]="!a.canAddPenalty" (click)="addPenalty(a)">Didn't show up</button>
+                </div>
+                </div>
+
+                <div *ngIf="a.finished">
+                    <div style="margin-top: 20px;">
+                        <mat-label style="margin-top: 20px; font-size: 18px;"> {{a.patientName}}</mat-label>
+                        <mat-label style="margin-top: 20px; font-size: 18px;"> <br> Appointment finished </mat-label>
+                    </div>
+                </div>
+        
+        </mat-card>
+
+
+    </mat-drawer-content>
+</mat-drawer-container>

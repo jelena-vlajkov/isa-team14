@@ -5,17 +5,32 @@
     text-align: center;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     font-size: 20px;
   }
-  
+#btn {
+  background-color: transparent; /* Blue background */
+  border: 0px transparent; /* Remove borders */
+  color: black; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
+#tooltipR {
+  position: relative;
+  display: inline-block;
+  align: right;
+  color:white;
+}
+
   #registerForm {
     min-width: 400px;
     position: absolute;
     text-align: center;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); 
+    transform: translate(-50%, -50%);
     font-size: 20px;
   }
 
@@ -66,14 +81,14 @@
     padding-top: 5vw;
   }
   mat-card {
-    position: relative; 
-    margin-left: 20%; 
+    position: relative;
+    margin-left: 20%;
     margin-top:2%;
     width: 60%;
     height: 40vw;
-    
+
   }
-  
+
   label {
     font-size: 20px;
     font-weight: 500;
@@ -99,17 +114,17 @@
     height: 200px;
     margin: 12px; */
     /* border: 1px solid #555; */
-    background: wheat;
+    background: white;
     background-size: cover;
     background-position: center;
     overflow-y: scroll;
   }
-  
+
   mat-drawer-content {
     /* padding: 12px; */
     display: flex;
     height: 100%;
     flex-direction: column;
     align-items: flex-start;
-    
+
   }
