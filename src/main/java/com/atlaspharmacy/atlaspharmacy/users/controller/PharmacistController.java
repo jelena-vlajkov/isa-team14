@@ -71,7 +71,7 @@ public class PharmacistController {
     }
 
     @PostMapping(value = "/registerPharmacist",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public PharmacistDTO registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO) throws InvalidEmail {
+    public PharmacistDTO registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO) throws Exception {
         return PharmacistMapper.mapPharmacistToDTO(pharmacistService.registerPharmacist(pharmacistDTO));
     }
 
