@@ -52,9 +52,17 @@
           
         <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
             <mat-card-header>
+            <div *ngIf="isPharmacist()">
                 <mat-card-title>
                     Counselings for date: {{todaysDate}}
                 </mat-card-title>
+            </div>
+
+            <div *ngIf="isDermatologist()">
+                <mat-card-title>
+                    Examinations for date: {{todaysDate}}
+                </mat-card-title>
+            </div>
             </mat-card-header>
         </mat-card>
         <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
@@ -87,7 +95,7 @@
                         <mat-expansion-panel  style="margin-top:20px;" >
                             <mat-expansion-panel-header>
                               <mat-panel-title>
-                                Prescribe medications
+                                Prescribe medications from current pharmacy
                               </mat-panel-title>
                               
                             </mat-expansion-panel-header>      
@@ -159,14 +167,21 @@
                 <mat-accordion class="example-headers-align" multi>
                     <mat-expansion-panel  style="margin-top:20px;" >
                         <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Schedule next counseling
-                          </mat-panel-title>
+                            <div *ngIf="isPharmacist()">
+                                <mat-panel-title>
+                                    Schedule next counseling in this pharmacy
+                                </mat-panel-title>
+                            </div>
+                            <div *ngIf="isDermatologist()">
+                                <mat-panel-title>
+                                    Schedule next examination in this pharmacy
+                                </mat-panel-title>
+                            </div>
                         </mat-expansion-panel-header>  
                         <form [formGroup]="searchAppointmentForm" (ngSubmit)="searchAppointments()">
                             <mat-form-field class="example-full-width" style="margin-left: 30px;">
                                 <mat-label>Select date</mat-label>
-                                <input matInput formControlName="date" [matDatepicker]="picker2" [value]="todaysDate" [min]="todaysDate">
+                                <input matInput formControlName="date" [matDatepicker]="picker2" [value]="todaysDate" [min]="todaysDateDate">
                                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                                 

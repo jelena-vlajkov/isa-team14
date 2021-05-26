@@ -32,6 +32,8 @@ export class PharmacistAddReportComponent {
     public searchMedicationsForm : FormGroup;
     public showSearchResultsForMedications : boolean;
     public addReportForm : FormGroup;
+    public todaysDateDate : Date;
+
     
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -41,6 +43,9 @@ export class PharmacistAddReportComponent {
       if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
         this.router.navigate(["/employee-welcome"]);
       }
+
+      this.todaysDateDate = new Date();
+      this.todaysDateDate.setDate(this.todaysDateDate.getDate() + 1);
       this.showSearchResultsForMedications = false;
       this.todaysDate = this.datePipe.transform(new Date(), 'dd.MM.yyyy.');
       this.employeeService.getScheduledAppointmentsForDate(Number(localStorage.getItem("userId")), this.todaysDate).subscribe(
