@@ -41,6 +41,10 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
 
 
   ngOnInit(): void {
+    let user = this.auth.currentUserValue;
+    if (user.role === 'Pharmacist' || user.role === 'Dermatologist') {
+      this.router.navigate(["/dashboard"])
+    }
 
     this.pharmacy = false;
     this.medcs = false;
