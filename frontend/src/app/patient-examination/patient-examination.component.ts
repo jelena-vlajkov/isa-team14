@@ -12,6 +12,7 @@ import { MedicationsToRecommend } from '@app/model/pharmderm/medicationstorecomm
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
+import {PatientAppointmentDTO} from '@app/model/pharmderm/patientappointmentdto'
 
 @Component({
   selector: 'patient-examination',
@@ -24,6 +25,7 @@ export class PatientExaminationComoponent {
     displayedColumns2: string[] = ['position', 'startTime', 'endTime', '#'];
     constructor(private authService: AuthenticationService, private router : Router, private datePipe: DatePipe, private employeeService : EmployeeService) { }
     public todaysDate : string;
+    public todaysDateDate : Date;
     public appointments : Appointment[];
     public availableAppointments : Appointment[];
     public showSearchResults : boolean;
@@ -42,10 +44,13 @@ export class PatientExaminationComoponent {
       if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
         this.router.navigate(["/employee-welcome"]);
       }
+      this.todaysDateDate = new Date();
+      this.todaysDateDate.setDate(this.todaysDateDate.getDate() + 1);
       this.showSearchResultsForMedications = false;
       this.todaysDate = this.datePipe.transform(new Date(), 'dd.MM.yyyy.');
       this.patientId = history.state.data;
-      if (this.patientId === null) {
+
+      if (this.patientId === undefined) {
           this.router.navigate(["/dashboard"])
       }
       this.employeeService.getAppointmentForPatient(Number(localStorage.getItem("userId")), this.todaysDate, this.patientId).subscribe(
@@ -74,6 +79,18 @@ export class PatientExaminationComoponent {
           alert(error);
         })
     }
+    
+
+    isPharmacist() {
+      let user = this.authService.currentUserValue;
+      return user.role === 'Pharmacist'; 
+    }
+  
+    isDermatologist() {
+      let user = this.authService.currentUserValue;
+      return user.role === 'Dermatologist'; 
+    }
+
 
     addPenalty(a : Appointment) {
       let penalty = new CreatePenalty();
@@ -192,8 +209,14 @@ export class PatientExaminationComoponent {
       if (date === null) {
         alert("Please select a date!");
       } else {
-        let stringDate = this.datePipe.transform(date, 'dd.MM.yyyy.');
-        this.employeeService.getAvailable(Number(localStorage.getItem("userId")), stringDate, 100).subscribe(
+        let stringDate = this.datePipe.transform(date, 'dd.MM.yyyy.'); 
+        let appointmentPatientDTO = new PatientAppointmentDTO();
+        appointmentPatientDTO.date = stringDate;
+        appointmentPatientDTO.medicalStaffId = Number(localStorage.getItem("userId"));
+        appointmentPatientDTO.patientId = a.patientId;
+        appointmentPatientDTO.pharmacyId = a.pharmacyId;
+
+        this.employeeService.getAvailableAppointmentsForPatient(appointmentPatientDTO).subscribe(
           data => {
             let availableapps = data;
             this.showSearchResults = true;
