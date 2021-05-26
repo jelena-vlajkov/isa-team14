@@ -91,9 +91,9 @@ public class PharmacyService implements IPharmacyService {
 
     @Override
     public Pharmacy editPharmacy(PharmacyDTO pharmacyDTO) {
-        Pharmacy pharmacyToUpdate=(Pharmacy) pharmacyRepository.getOne(pharmacyDTO.getId());
-        Address address = addressService.updateAddress(pharmacyDTO.getAddress());
-        pharmacyToUpdate.setAddress(address);
+        Pharmacy pharmacyToUpdate= pharmacyRepository.findById(pharmacyDTO.getId()).get();
+       // Address address = addressService.updateAddress(pharmacyDTO.getAddress());
+        //pharmacyToUpdate.setAddress(address);
         pharmacyToUpdate.setDescription(pharmacyDTO.getDescription());
         pharmacyToUpdate.setName(pharmacyDTO.getName());
         pharmacyToUpdate.setTelephone(pharmacyDTO.getTelephone());

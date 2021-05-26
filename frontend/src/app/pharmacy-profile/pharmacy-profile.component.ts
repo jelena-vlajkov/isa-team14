@@ -33,13 +33,8 @@ import {DrugReservationsService} from "@app/service/drug-reservations/drug-reser
   styleUrls: ['./pharmacy-profile.component.css']
 })
 export class PharmacyProfileComponent implements OnInit {
-  name:String;
-  address:String;
   grade:Number;
-  about:String;
   currentUserId:String;
-  email:String;
-  telephone:Number;
   dermatologists: Dermatologist[]=new Array();
   pharmacists: String[]=new Array();
   pharmacyId:Number;
@@ -88,14 +83,7 @@ export class PharmacyProfileComponent implements OnInit {
       result => {
         this.pharmacy=result;
         this.pharmacyId = result.id;
-        this.name = result.name;
         this.grade=this.countAverageGrade(result.averageGrade);
-        this.about = result.description;
-        this.email=result.email;
-        this.telephone=result.telephone;
-        this.address = result.address.street + ", " + result.address.city.name + ", " + result.address.state.name;
-
-
 
         this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
           result=>{
@@ -148,11 +136,6 @@ export class PharmacyProfileComponent implements OnInit {
        });
 
 
-        this.editProfileForm = new FormGroup({
-          'name' : new FormControl(null, Validators.required),
-          'description' : new FormControl(null, Validators.required)
-        });
-
         this.addPricelistEntityFormGroup=new FormGroup({
           'medication': new FormControl(null,Validators.required),
           'startDate':new FormControl(null,Validators.required),
@@ -188,7 +171,14 @@ export class PharmacyProfileComponent implements OnInit {
     return grade;
   }
   showEditProfileDialog(){
-      this.showPromotions = false;
+    this.editProfileForm = new FormGroup({
+      'name' : new FormControl(this.pharmacy.name, Validators.required),
+      'description' : new FormControl(this.pharmacy.description, Validators.required),
+      'telephone' : new FormControl(this.pharmacy.telephone,[ Validators.required,Validators.pattern("^[0-9]*$")]),
+      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required])
+    });
+
+    this.showPromotions = false;
       this.addPromotion = false;
       this.profile = false;
       this.edit = true;
@@ -207,19 +197,17 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   editProfile(){
-    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
-      result => {
-        if(this.googleplaces.address==undefined){
-          alert('Please enter address using location picker. Just start typing and pick your address from combobox');
-        }else{
-        this.pharmacy=new Pharmacy(result.id,this.editProfileForm.value.name,result.description
-          ,this.googleplaces.address
-          ,result.averageGrade,result.email,result.telephone);
-        }
-        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
-          this.router.navigate(['/pharmacy-profile']);
+       // if(this.googleplaces.address==undefined){
+         // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
+        //}else{
+        this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
+          ,null,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
 
-        });
+        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
+          this.edit=false;
+          this.profile=true;
+        console.log(this.pharmacy);
+
 
       });
 
