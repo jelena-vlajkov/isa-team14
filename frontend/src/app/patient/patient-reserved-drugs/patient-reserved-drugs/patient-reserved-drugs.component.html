@@ -31,29 +31,30 @@
               <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
                 <mat-icon>menu</mat-icon>
               </button>
-              <span>All pharmacies</span>
+              <span>All reserved medications</span>
               <span class="example-spacer"></span>
             </mat-toolbar>
             
             <div class="table-wrapper">
-                <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                <table matSort class="fl-table">
                     <thead>
                     <tr>
-                        <th mat-sort-header="startTime">Start time</th>
-                        <th mat-sort-header="endTime">End time</th>
-                        <th mat-sort-header="duration">Duration in minutes</th>
-                        <th mat-sort-header="cost">Cost</th>
-                        <th mat-sort-header="pharmName">Pharmacist</th>                       
+                        <th>Name</th>
+                        <th>Producer</th>
+                        <th>Pharmacy</th>
+                        <th>Expiration of reservation</th>
+                        <th>Cancel here:</th>
+                        
                     
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let c of counselings">
-                        <td>{{c.startTime |date : "medium" }}</td>
-                        <td>{{c.endTime | date : "medium" }}</td>
-                        <td>{{c.duration}} min.</td>
-                        <td>{{c.appointmentCost}}</td>
-                        <td>{{c.medicalStaffName}}</td>
+                    <tr  >
+                        <td>LEK</td>
+                        <td>PROIZ</td>
+                        <td>Apoteka</td>
+                        <td>1.1.2021</td>
+                        <td><button mat-button style="background-color: #385399; color: white;" >Cancel</button></td>
                         
                     </tr>
                     
@@ -65,5 +66,7 @@
      
   </mat-drawer-container>
   </body>
+
+
 
 

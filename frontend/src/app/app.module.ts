@@ -84,6 +84,7 @@ import { PatientDrugReservationComponent } from './patient/patient-drug-reservat
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
     PatientIssuedEDrugsComponent,
-    PatientDrugReservationComponent
+    PatientDrugReservationComponent,
+    PatientReservedDrugsComponent
 
   ],
   imports: [
