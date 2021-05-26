@@ -106,6 +106,10 @@ export class EmployeeService {
     return this.http.post<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.availableForPatients}`, patientDto);
   }
 
+  getAppointmentsByMonth(date : String, medicalStaffId : Number) : Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.appointmentsByMonth}?medicalStaffId=${medicalStaffId}&date=${date}`);
+  }
+
 
 
 

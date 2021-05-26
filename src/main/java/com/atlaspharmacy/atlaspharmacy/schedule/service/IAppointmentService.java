@@ -46,4 +46,6 @@ public interface IAppointmentService {
     void finishAppointment(Long appointmentId) throws Exception;
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
+
+    List<Appointment> getScheduledByMonth(Date date, Long id);
 }

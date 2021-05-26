@@ -56,7 +56,8 @@
             <span>Calendar</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
-          
+          <div>
+          <div style="margin-top: 30px; width: 1000px; margin-left: 200px;">
           <div class="row text-center">
             <div class="col-md-4">
               <div class="btn-group">
@@ -66,6 +67,7 @@
                   [view]="view"
                   [(viewDate)]="viewDate"
                   (viewDateChange)="closeOpenMonthViewDay()"
+                  style="color: white; background-color: #385399;"
                 >
                   Previous
                 </div>
@@ -73,6 +75,7 @@
                   class="btn btn-outline-secondary"
                   mwlCalendarToday
                   [(viewDate)]="viewDate"
+                  style="color: white; background-color: #385399;"
                 >
                   Today
                 </div>
@@ -82,6 +85,7 @@
                   [view]="view"
                   [(viewDate)]="viewDate"
                   (viewDateChange)="closeOpenMonthViewDay()"
+                  style="color: white; background-color: #385399;"
                 >
                   Next
                 </div>
@@ -96,6 +100,7 @@
                   class="btn btn-primary"
                   (click)="setView(CalendarView.Month)"
                   [class.active]="view === CalendarView.Month"
+                  style="color: white; background-color: #385399;"
                 >
                   Month
                 </div>
@@ -103,6 +108,7 @@
                   class="btn btn-primary"
                   (click)="setView(CalendarView.Week)"
                   [class.active]="view === CalendarView.Week"
+                  style="color: white; background-color: #385399;"
                 >
                   Week
                 </div>
@@ -110,6 +116,8 @@
                   class="btn btn-primary"
                   (click)="setView(CalendarView.Day)"
                   [class.active]="view === CalendarView.Day"
+
+                  style="color: white; background-color: #385399;"
                 >
                   Day
                 </div>
@@ -148,7 +156,8 @@
             >
             </mwl-calendar-day-view>
           </div>
-          
+        </div>
+      </div>
 
       </mat-drawer-content>
 

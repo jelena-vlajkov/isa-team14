@@ -255,6 +255,21 @@ public class AppointmentService implements IAppointmentService {
         return retVal;
     }
 
+    @Override
+    public List<Appointment> getScheduledByMonth(Date date, Long id) {
+        List<Appointment> appointments = getOccupiedBy(id);
+        List<Appointment> appointmentsByMonth = new ArrayList<>();
+
+        for (Appointment a : appointments) {
+            if (a.getAppointmentPeriod().getStartTime().getMonth() == date.getMonth() &&
+                a.getAppointmentPeriod().getStartTime().getYear() == date.getYear()) {
+                appointmentsByMonth.add(a);
+            }
+        }
+
+        return appointmentsByMonth;
+    }
+
     private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {
         List<Appointment> allAppointments = appointmentRepository.findAll();
         List<PatientsOverviewDTO> retVal = new ArrayList<>();
