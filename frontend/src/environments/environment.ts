@@ -109,6 +109,8 @@ export const environment = {
   searchUsers : "searchUsers",
   vacationRequest : "vacationRequest",
   sendVacationRequest : "saveVacationRequest",
-  getPharmaciesByMedicationId : "getPharmaciesByMedicationId"
+  getPharmaciesByMedicationId : "getPharmaciesByMedicationId",
+  availableForPatients : "findAvailableByPatient",
+  appointmentsByMonth : "getScheduledByMonth"
 };
 

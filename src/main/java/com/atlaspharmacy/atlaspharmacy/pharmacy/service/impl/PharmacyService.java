@@ -14,18 +14,13 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.exceptions.InvalidPharmacyData;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.IPharmacyRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
-import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,12 +40,13 @@ public class PharmacyService implements IPharmacyService {
     private final ISubscriptionService subscriptionService;
     private final UserRepository userRepository;
     private final IAddressService addressService;
+    private final IPharmacyPricelistService pricelistService;
 
     @Autowired
     public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository,
                            IAppointmentService appointmentService, IEPrescriptionService ePrescriptionService,
                            IDrugReservationService drugReservationService, IPharmacyStorageService pharmacyStorageService,
-                           ISubscriptionService subscriptionService, UserRepository userRepository, IAddressService addressService) {
+                           ISubscriptionService subscriptionService, UserRepository userRepository, IAddressService addressService, IPharmacyPricelistService pricelistService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
         this.appointmentService = appointmentService;
@@ -60,6 +56,7 @@ public class PharmacyService implements IPharmacyService {
         this.subscriptionService = subscriptionService;
         this.userRepository = userRepository;
         this.addressService = addressService;
+        this.pricelistService = pricelistService;
     }
 
 
@@ -68,7 +65,7 @@ public class PharmacyService implements IPharmacyService {
     public Pharmacy getById(Long id) {return pharmacyRepository.getById(id).orElse(null);}
 
     @Override
-    public Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException {
+    public Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception {
         if(userRepository.findByEmail(pharmacyDTO.getEmail())==null && !isPharamcyRegistered(pharmacyDTO.getEmail())){
             Address a = AddressMapper.mapAddressDTOToAddress(pharmacyDTO.getAddress());
 
@@ -83,7 +80,7 @@ public class PharmacyService implements IPharmacyService {
         throw new InvalidPharmacyData();
     }
     @Override
-    public boolean isPharamcyRegistered(String email){
+    public boolean isPharamcyRegistered(String email) throws Exception {
         for(PharmacyDTO dto : getAllPharmacies()){
             if(dto.getEmail().equals(email)){
                 return true;
@@ -107,19 +104,23 @@ public class PharmacyService implements IPharmacyService {
 
 
     @Override
-    public List<PharmacyDTO> getAllPharmacies(){
+    public List<PharmacyDTO> getAllPharmacies() throws Exception {
         List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
         List<PharmacyDTO> dtos = new ArrayList<>();
         if(pharmacies.size()!=0){
+            PharmacyDTO dto;
             for(Pharmacy p : pharmacies){
-                dtos.add(PharmacyMapper.mapPharmacyToDTO(p));
+                dto = PharmacyMapper.mapPharmacyToDTO(p);
+                dto.setCounselingCost(pricelistService.counselingCost(p.getId()));
+                dto.setExaminationCost(pricelistService.examinationCost(p.getId()));
+                dtos.add(dto);
             }
         }
 
         return dtos;
     }
     @Override
-    public List<PharmacyDTO> getPharmaciesByMedication(Long  code){
+    public List<PharmacyDTO> getPharmaciesByMedication(Long  code) throws Exception {
         List<PharmacyDTO> pharmacies = getAllPharmacies();
         List<PharmacyDTO> pharmaciesContainingMedication = new ArrayList<>();
         for(PharmacyDTO p : pharmacies){
@@ -243,7 +244,7 @@ public class PharmacyService implements IPharmacyService {
 
 
     @Override
-    public List<PharmacyDTO> getPharmaciesByMedicationId(Long id) {
+    public List<PharmacyDTO> getPharmaciesByMedicationId(Long id) throws Exception {
         List<PharmacyDTO> pharmacyDTOS = getAllPharmacies();
         List<PharmacyDTO> pharmacyWithMedication = new ArrayList<>();
         for (PharmacyDTO p : pharmacyDTOS) {

@@ -215,7 +215,7 @@ const routes: Routes = [
   path: 'employee-medications',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
-  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+  data: {roles:[Role.Pharmacist]}
 },
 {
   path: 'searchPharmacies',

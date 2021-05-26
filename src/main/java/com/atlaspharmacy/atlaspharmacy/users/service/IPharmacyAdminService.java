@@ -14,7 +14,7 @@ public interface IPharmacyAdminService {
 
     PharmacyDTO getPharmacyByPharmacyAdmin(Long id);
     PharmacyAdmin getById(Long id);
-    PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws InvalidEmail, ParseException;
+    PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws Exception;
     PharmacyAdmin updatePharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO);
     boolean changePassword(String oldPassword, String newPassword)  throws InvalidPassword, InvalidEmail, ParseException ;
     PharmacyAdmin findByEmail(String email);
