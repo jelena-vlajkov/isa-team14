@@ -112,6 +112,7 @@ export const environment = {
   getPharmaciesByMedicationId : "getPharmaciesByMedicationId",
   availableForPatients : "findAvailableByPatient",
   appointmentsByMonth : "getScheduledByMonth",
-  patientDrugReservation : "patientDrugReservation"
+  patientDrugReservation : "patientDrugReservation",
+  getDrugReservationForPatient : "getDrugReservationForPatient"
 };
 

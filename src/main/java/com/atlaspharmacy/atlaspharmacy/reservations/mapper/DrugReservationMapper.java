@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 
 import java.util.ArrayList;
@@ -44,5 +45,15 @@ public class DrugReservationMapper {
         drugReservation.setTherapyDays(10);
         drugReservation.setExpirationDate(drugReservationDTO.getExpirationDate());
         return  drugReservation;
+    }
+
+
+    public static PatientDrugReservationDTO mapReservationToPatientReservationDTO(DrugReservation drugReservation){
+        return new PatientDrugReservationDTO(
+                drugReservation.getMedication().getName(),
+                drugReservation.getPharmacy().getName(),
+                drugReservation.getMedication().getProducer(),
+                drugReservation.getExpirationDate()
+        );
     }
 }

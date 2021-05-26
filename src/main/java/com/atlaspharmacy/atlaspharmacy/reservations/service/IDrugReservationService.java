@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.service;
 
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,5 @@ public interface IDrugReservationService {
     List<DrugReservation> getPatientsIssuedDrugReservations(Long id);
     List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO periodDTO);
     void patientDrugReservation(CreateDrugReservationDTO drugReservationDTO) throws Exception;
+    List<PatientDrugReservationDTO> getDrugReservationForPatient(Long patientId);
 }

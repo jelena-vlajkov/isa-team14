@@ -10,6 +10,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
@@ -183,5 +184,27 @@ public class DrugReservationService implements IDrugReservationService {
 
         drugReservationRepository.save(drugReservation);
         emailService.sendDrugReservation(patient, drugReservation);
+    }
+
+    @Override
+    public List<PatientDrugReservationDTO> getDrugReservationForPatient(Long patientId) {
+        List<PatientDrugReservationDTO> patientDrugReservationDTOS = new ArrayList<>();
+
+        List<DrugReservation> drugReservationsByPatient = drugReservationRepository.findAll()
+                .stream().filter(drugReservation -> drugReservation.getPatient().getId().equals(patientId))
+                .collect(Collectors.toList());
+        /*FALI OTKAZAN*/
+
+        if(drugReservationsByPatient.isEmpty()) {
+            return new ArrayList<>();
+        }
+        for (DrugReservation drugReservation : drugReservationsByPatient) {
+            if(!drugReservation.isIssued()) {
+                patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
+            }
+        }
+
+
+        return patientDrugReservationDTOS;
     }
 }
