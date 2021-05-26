@@ -44,8 +44,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     let user = this.authService.currentUserValue;
-    if (user.role === 'Pharmacist' || user.role === 'Dermatologist') {
-      this.router.navigate(["/dashboard"])
+    if (user !== null) { 
+      if (user !== undefined) {
+        if (user.role === 'Pharmacist' || user.role === 'Dermatologist') {
+          this.router.navigate(["/dashboard"])
+        }
+      }
     }
     this.loginForm = new FormGroup({
       'username' : new FormControl(null, [Validators.required, Validators.email]),
