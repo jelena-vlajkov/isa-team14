@@ -415,3 +415,9 @@ insert into promotions(id,promotion_end_time,promotion_start_time,description,ph
 
 insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (100, 1000, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 100, 'Counseling');
 insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (200, 750, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 100, 'Examination');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (300, 1200, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 200, 'Counseling');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (400, 850, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 200, 'Examination');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (500, 900, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 300, 'Counseling');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (600, 900, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 300, 'Examination');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (700, 1500, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 400, 'Counseling');
+insert into pharmacy_pricelist(id, cost, end_date, start_date, pharmacy_id, type) values (800, 2000, '2022-01-01 12:00:00', '2021-01-01 12:00:00', 400, 'Examination');
