@@ -189,7 +189,7 @@ public class EmailService implements IEmailService {
         message.setContent(multiPart);
         message.setRecipients(Message.RecipientType.TO, patient.getEmail());
 
-        message.setSubject("Drug reservation picked up!");
+        message.setSubject("Created reservation!");
 
         javaMailSender.send(message);
     }

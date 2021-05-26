@@ -32,7 +32,7 @@
               <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
                 <mat-icon>menu</mat-icon>
               </button>
-              <span>All pharmacies</span>
+              <span>Create medication reservation</span>
               <span class="example-spacer"></span>
             </mat-toolbar>
             
@@ -93,6 +93,7 @@
                     </mat-step>
                     <mat-step [stepControl]="thirdFormGroup"  *ngIf="thirdFormGroup">
                         <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Date choosing</ng-template>
                             <div>
                             <mat-form-field color="accent" appearance="fill">
                                 <mat-label>Datum preuzimanja</mat-label>
@@ -102,6 +103,15 @@
                               </mat-form-field>
                             </div>
                             <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
+                        <form [formGroup]="fourthFormGroup">
+                            <ng-template matStepLabel>Reserve medication</ng-template>
+                            <div>
+                                <label>Reserve medication here</label>
+                            </div>
+                            <button mat-raised-button  color="primary" class="button-position-first-form" (click)="reserveMedication()">Reserve</button>
                         </form>
                     </mat-step>
 

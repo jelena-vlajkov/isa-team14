@@ -43,7 +43,7 @@ values('Dermatologist', 300, '1966-01-01 00:00:01', 'lazic@gmail.com', true, 1, 
 
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
-values ('Patient', 200, '1997-01-01 00:00:01', 'danica.vojvodic1234@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Ignjatijevic',600);
+values ('Patient', 200, '1997-01-01 00:00:01', 'stefan.aradjanin@gmail.com', true, 1, 'Aleksandar', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Ignjatijevic',600);
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values ('Patient', 1300, '1997-01-01 00:00:01', 'danica123.vojvodic@gmail.com', true, 1, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Vojvodic',600);

@@ -111,6 +111,7 @@ export const environment = {
   sendVacationRequest : "saveVacationRequest",
   getPharmaciesByMedicationId : "getPharmaciesByMedicationId",
   availableForPatients : "findAvailableByPatient",
-  appointmentsByMonth : "getScheduledByMonth"
+  appointmentsByMonth : "getScheduledByMonth",
+  patientDrugReservation : "patientDrugReservation"
 };
 

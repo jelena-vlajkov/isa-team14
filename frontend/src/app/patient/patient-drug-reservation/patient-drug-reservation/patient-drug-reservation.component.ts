@@ -5,6 +5,8 @@ import {Medication} from '../../../model/medications/medication';
 import {MedicationService} from '../../../service/medication/medication.service';
 import {PatientService} from '../../../service/patient/patient.service';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
+import {CreaeteReservation} from '@app/model/pharmderm/createreservation';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-drug-reservation',
@@ -17,6 +19,7 @@ export class PatientDrugReservationComponent implements OnInit, AfterViewInit {
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
+  public fourthFormGroup : FormGroup;
 
   public medications : Medication[] = new Array();
   public searchedMedication : String;
@@ -26,10 +29,11 @@ export class PatientDrugReservationComponent implements OnInit, AfterViewInit {
   public pharmacies : Pharmacy[] = new Array();
   public chosenPharmacy : Pharmacy;
   public isPharmChosen : Boolean;
+  public createReservation : CreaeteReservation;
 
 
   constructor(private formBuilder: FormBuilder, private authenticationService : AuthenticationService, private medicationService : MedicationService,
-    private patientService : PatientService ) { }
+    private patientService : PatientService, private router : Router ) { }
 
   ngOnInit(): void {
     this.maxDate = new Date();
@@ -43,7 +47,10 @@ export class PatientDrugReservationComponent implements OnInit, AfterViewInit {
     });
     this.thirdFormGroup = this.formBuilder.group({
         thirdCtrl: ['', Validators.required]
-    });
+    }); 
+    this.fourthFormGroup = this.formBuilder.group({
+      
+  });
 
   }
 
@@ -109,6 +116,25 @@ export class PatientDrugReservationComponent implements OnInit, AfterViewInit {
     this.chosenPharmacy = pharmacy;
     console.log(pharmacy);
     this.isPharmChosen = true;
+  }
+
+  reserveMedication() {
+    this.createReservation = new CreaeteReservation();
+    this.createReservation.medicationId = this.chosenMedicationId;
+    this.createReservation.pharmacyId = this.chosenPharmacy.id;
+    this.createReservation.therapyDays = 10;
+    this.createReservation.patientId = this.authenticationService.currentUserValue.id;
+    this.createReservation.expirationDate = this.chosenDate;
+    console.log(this.createReservation);
+    this.patientService.createDrugReservation(this.createReservation).subscribe(
+      res => {
+        alert('Success');
+        location.reload();
+      },
+      err => {
+        alert('Failed to reserve medication')
+      }
+    );
   }
 
 

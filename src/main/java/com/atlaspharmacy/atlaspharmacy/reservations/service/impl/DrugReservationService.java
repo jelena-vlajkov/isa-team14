@@ -151,4 +151,37 @@ public class DrugReservationService implements IDrugReservationService {
         }
         return drugReservationsForPharmacyAndPeriod;
     }
+
+    @Override
+    public void patientDrugReservation(CreateDrugReservationDTO drugReservationDTO) throws Exception {
+        if (!medicationRepository.findById(drugReservationDTO.getMedicationId()).isPresent()) {
+            throw new Exception("Invalid medication");
+        }
+        if (!pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).isPresent()) {
+            throw new Exception("Invalid pharmacy");
+        }
+
+        if (!userRepository.findById(drugReservationDTO.getPatientId()).isPresent()) {
+            throw new Exception("Invalid patient");
+        }
+
+        Medication m = medicationRepository.findById(drugReservationDTO.getMedicationId()).get();
+        if (!pharmacyStorageService.isMedicationInPharmacy(m.getCode(), drugReservationDTO.getPharmacyId())) {
+            throw new Exception("Invalid request");
+        }
+
+        Pharmacy p = pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).get();
+        Patient patient = (Patient) userRepository.findById(drugReservationDTO.getPatientId()).get();
+
+        DrugReservation drugReservation = DrugReservationMapper.mapPatientNewReservation(drugReservationDTO);
+        drugReservation.setMedication(m);
+        drugReservation.setPatient(patient);
+        drugReservation.setPharmacy(p);
+
+        Random randomGenerator = new Random();
+        drugReservation.setUniqueIdentifier(randomGenerator.nextInt(99999999));
+
+        drugReservationRepository.save(drugReservation);
+        emailService.sendDrugReservation(patient, drugReservation);
+    }
 }

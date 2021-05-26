@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.DrugReservationAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -65,8 +66,17 @@ public class DrugReservationController {
         return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(uniqueIdentifier));
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping(value = "/patientDrugReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<?> patientDrugReservation(@RequestBody CreateDrugReservationDTO dto) throws Exception {
+        drugReservationService.patientDrugReservation(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-    @ExceptionHandler(DueDateSoonException.class)
+
+        @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
     DueDateSoonException handleException(DueDateSoonException e) {

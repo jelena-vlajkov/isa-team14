@@ -8,6 +8,7 @@ import { EPrescription } from '@app/model/medications/ePrescription';
 import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { env } from 'process';
+import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,10 @@ export class PatientService {
 
     getPharmaciesByMedicationId(id : Number) : Observable<Pharmacy[]> {
       return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmaciesByMedicationId}?id=${id}`);
+    }
+
+    createDrugReservation(reservation : CreaeteReservation) {
+      return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.patientDrugReservation}`, reservation, {responseType : 'text'});
     }
 
 
