@@ -1,14 +1,11 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.medicalrecord.domain.MedicalRecord;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -26,6 +23,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,29 +39,32 @@ public class AppointmentService implements IAppointmentService {
     private final WorkDayService workDayService;
     private final MedicalRecordRepository medicalRecordRepository;
     private final PharmacyRepository pharmacyRepository;
+    private final IPharmacyPricelistService pharmacyPricelistService;
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService) {
         this.userRepository = userRepository;
         this.appointmentRepository = appointmentRepository;
         this.prescriptionRepository = prescriptionRepository;
         this.workDayService = workDayService;
         this.medicalRecordRepository = medicalRecordRepository;
         this.pharmacyRepository = pharmacyRepository;
+        this.pharmacyPricelistService = pharmacyPricelistService;
     }
 
 
     @Override
-    public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException {
+    public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
             Counseling counseling = new Counseling(new Period(appointmentDTO.getStartTime(), appointmentDTO.getEndTime()), cost, AppointmentType.Values.Counseling,
                     false, (Pharmacist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             Patient patient = (Patient) userRepository.findById(appointmentDTO.getPatientId()).get();
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
+            counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -71,13 +72,14 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException {
+    public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
             Examination counseling = new Examination(new Period(appointmentDTO.getStartTime(), appointmentDTO.getEndTime()), cost, AppointmentType.Values.Counseling,
                     false, (Dermatologist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             Patient patient = (Patient) userRepository.findById(appointmentDTO.getPatientId()).get();
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
+            counseling.setCost(pharmacyPricelistService.examinationCost(appointmentDTO.getPharmacyId()));
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -85,7 +87,7 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws AppointmentNotFreeException {
+    public Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws Exception {
         if (!userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).isPresent()) {
             throw new AppointmentNotFreeException("Invalid request!");
         }
@@ -175,7 +177,7 @@ public class AppointmentService implements IAppointmentService {
         List<Appointment> appointmentsByDate = findAvailableBy(date, employeeId);
         List<Appointment> retVal = new ArrayList<>();
         for(Appointment a : appointmentsByDate) {
-            if (a.isSameDay(date)) {
+            if (a.isSameDay(date) && a.getPharmacy().getId().equals(pharmacyId)) {
                 retVal.add(a);
             }
         }
@@ -236,6 +238,21 @@ public class AppointmentService implements IAppointmentService {
             }
         }
         throw new Exception("No such appointment!");
+    }
+
+    @Override
+    public List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception {
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(dto.getDate());
+        List<Appointment> availableForStaff = findAvailableByEmployeeAndPharmacy(dto.getPharmacyId(),dto.getMedicalStaffId(),  date);
+        List<Appointment> appointments = getPatientsAppointments(dto.getPatientId());
+        List<Appointment> retVal = new ArrayList<>();
+
+        for (Appointment a : availableForStaff) {
+            if (appointments.stream().noneMatch(app -> app.isOccupied(a.getAppointmentPeriod()))) {
+                retVal.add(a);
+            }
+        }
+        return retVal;
     }
 
     private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {
@@ -515,6 +532,7 @@ public class AppointmentService implements IAppointmentService {
             Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + (long) appointmentDuration * i),
                     new Date(appointmentStart.getTime() + (long) appointmentDuration * (i + 1))),
                     cost, "", false, null);
+            appointment.setPharmacy(workDay.getPharmacy());
             appointments.add(appointment);
         }
         return appointments;

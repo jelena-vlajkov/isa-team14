@@ -64,6 +64,7 @@ public class Pharmacy  {
         this.description = description;
     }
     public Pharmacy(){}
+
     public Pharmacy(Long id, String name, String description, String email,
                     Long telephone,Address address,AverageGrade averageGrade) {
         this.id = id;

@@ -1,9 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
@@ -15,9 +12,9 @@ import java.util.List;
 
 public interface IAppointmentService {
 
-    Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
-    Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws AppointmentNotFreeException;
-    Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws AppointmentNotFreeException;
+    Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception;
+    Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception;
+    Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws Exception;
     boolean cancelAppointment(Long appointmentId);
     List<Appointment> findAvailableBy(Date date, Long medicalStaffId);
     List<Counseling> findAvailableCounselingsBy(Date date);
@@ -37,19 +34,16 @@ public interface IAppointmentService {
     List<Integer> getNumberOfAppointmentsForMonth(int month, int year);
     List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year);
     List<Integer> getNumberOfAppointmentsForMonth(int year);
-
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
     boolean occupiedCounselingsExists(Long pharmacistId);
     List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId);
     List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
     List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date);
-
     List<AppointmentDTO> finishedAppointmentExamination(Long patientId);
     List<AppointmentDTO> finishedAppointmentCounseling(Long patientId);
     List<AppointmentDTO> getNotFinishedAppointmentsForPatient(Long patientId);
     List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception;
-
     void finishAppointment(Long appointmentId) throws Exception;
-
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
+    List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
 }

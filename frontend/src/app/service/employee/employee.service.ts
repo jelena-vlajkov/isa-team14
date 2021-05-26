@@ -18,6 +18,7 @@ import { SaveReport } from '@app/model/pharmderm/createreport';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { UserPreview } from '@app/model/pharmderm/userspreview'
 import { VacationRequest } from '@app/model/pharmderm/vacationrequest';
+import { PatientAppointmentDTO } from '@app/model/pharmderm/patientappointmentdto';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,11 @@ export class EmployeeService {
 
   addVacationRequest(vacationRequest : VacationRequest) : Observable<Response> {
     return this.http.post<Response>(`${environment.baseUrl}/${environment.vacationRequest}/${environment.sendVacationRequest}`, vacationRequest);
+  }
+
+
+  getAvailableAppointmentsForPatient(patientDto : PatientAppointmentDTO) : Observable<Appointment[]> {
+    return this.http.post<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.availableForPatients}`, patientDto);
   }
 
 

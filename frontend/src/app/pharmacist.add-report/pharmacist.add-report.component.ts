@@ -12,6 +12,7 @@ import { MedicationsToRecommend } from '@app/model/pharmderm/medicationstorecomm
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
+import { PatientAppointmentDTO } from '@app/model/pharmderm/patientappointmentdto';
 
 @Component({
   selector: 'pharmacist-reports',
@@ -68,6 +69,16 @@ export class PharmacistAddReportComponent {
         error => {
           alert(error);
         })
+    }
+
+    isPharmacist() {
+      let user = this.authService.currentUserValue;
+      return user.role === 'Pharmacist'; 
+    }
+  
+    isDermatologist() {
+      let user = this.authService.currentUserValue;
+      return user.role === 'Dermatologist'; 
     }
 
     addPenalty(a : Appointment) {
@@ -188,7 +199,14 @@ export class PharmacistAddReportComponent {
         alert("Please select a date!");
       } else {
         let stringDate = this.datePipe.transform(date, 'dd.MM.yyyy.');
-        this.employeeService.getAvailable(Number(localStorage.getItem("userId")), stringDate, 100).subscribe(
+        
+        let appointmentPatientDTO = new PatientAppointmentDTO();
+        appointmentPatientDTO.date = stringDate;
+        appointmentPatientDTO.medicalStaffId = Number(localStorage.getItem("userId"));
+        appointmentPatientDTO.patientId = a.patientId;
+        appointmentPatientDTO.pharmacyId = a.pharmacyId;
+
+        this.employeeService.getAvailableAppointmentsForPatient(appointmentPatientDTO).subscribe(
           data => {
             let availableapps = data;
             this.showSearchResults = true;
