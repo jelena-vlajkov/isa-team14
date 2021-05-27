@@ -105,25 +105,25 @@ export class UnauthenticatedUserPharmaciesComponent implements AfterViewInit {
     console.log(event.value);
     if (event.value == 1){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 0 &&
-         p.averageGrade.count() <=1);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 0 &&
+         p.averageGradeCount <=1);
     }else if(event.value == 2){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 1 &&
-         p.averageGrade.count() <=2);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 1 &&
+         p.averageGradeCount <=2);
     }else if(event.value == 3){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 2 &&
-         p.averageGrade.count() <=3);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 2 &&
+         p.averageGradeCount <=3);
     }
     else if(event.value == 4){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 3 &&
-         p.averageGrade.count() <=4);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 3 &&
+         p.averageGradeCount <=4);
     } else if(event.value == 5){
       this.pharmacies = this.pharmaciesCopy;
-      this.pharmacies = this.pharmacies.filter(p => p.averageGrade.count() >= 4 &&
-         p.averageGrade.count() <=5);
+      this.pharmacies = this.pharmacies.filter(p => p.averageGradeCount >= 4 &&
+         p.averageGradeCount <=5);
     }else {
       this.pharmacies = this.pharmaciesCopy;
     }

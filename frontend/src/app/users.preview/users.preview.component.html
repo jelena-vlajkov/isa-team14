@@ -2,51 +2,51 @@
     <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
         <mat-action-list ><button mat-list-item routerLink="/dashboard">  
             <i class="material-icons">dashboard</i>
-            <p class="list-p">Dashboard</p>
-            </button>
-            <button mat-list-item routerLink="/add-report">  
-                    <i class="material-icons">alarm</i>
-                    <p class="list-p">Counselings</p>
-            </button>
-            <button mat-list-item routerLink="/employee-calendar"> 
-        
-                <i class="material-icons">calendar_today</i>
-                <p class="list-p">Calendar</p>
-            </button>
-            <button mat-list-item routerLink="/appointment-report"> 
-            
-                <i class="material-icons">article</i>
-                <p class="list-p">Counseling reports</p>
-            </button>
-            <button mat-list-item routerLink="/patients-overview"> 
-                
-                <i class="material-icons">group</i>
-                <p class="list-p">Patients</p>
-            </button>
-            <button mat-list-item routerLink="/employee-medications"> 
-                
-                <i class="material-icons">medication</i>
-                <p class="list-p">Medications</p>
-            </button>
-        </mat-action-list>
-        <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-        <button mat-list-item routerLink="/employee-profile"> 
-              
-                <i class="material-icons">person</i>
-                <p class="list-p">Profile</p>
-            </button>
-            <button  mat-list-item (click)='logout()'> 
-                <i class="material-icons">logout</i>
-                <p class="list-p">Logout</p>
-            </button>
-          </mat-action-list>
-    </mat-drawer>
-      <mat-drawer-content>
+           <p class="list-p">Dashboard</p>
+           </button>
+           <button mat-list-item routerLink="/add-report">  
+                   <i class="material-icons">alarm</i>
+                   <p class="list-p">Appointments</p>
+           </button>
+           <button mat-list-item routerLink="/employee-calendar"> 
+       
+               <i class="material-icons">calendar_today</i>
+               <p class="list-p">Calendar</p>
+           </button>
+           <button mat-list-item routerLink="/users"> 
+           
+               <i class="material-icons">article</i>
+               <p class="list-p">Search users</p>
+           </button>
+           <button mat-list-item routerLink="/patients-overview"> 
+               
+               <i class="material-icons">group</i>
+               <p class="list-p">Patients</p>
+           </button>
+           <button mat-list-item routerLink="/employee-medications"> 
+               
+               <i class="material-icons">medication</i>
+               <p class="list-p">Issue reservation</p>
+           </button>
+       </mat-action-list>
+       <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+       <button mat-list-item routerLink="/employee-profile"> 
+             
+               <i class="material-icons">person</i>
+               <p class="list-p">Profile</p>
+           </button>
+           <button  mat-list-item (click)='logout()'> 
+               <i class="material-icons">logout</i>
+               <p class="list-p">Logout</p>
+           </button>
+         </mat-action-list>
+        </mat-drawer>
+      <mat-drawer-content style="height: 100%">
         <mat-toolbar style="background-color: #385399;">
             <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
-              <mat-icon>menu</mat-icon>
+              <mat-icon style="color: white;">menu</mat-icon>
             </button>
-            <span>Reports</span>
+            <span style="color: white;">Search users</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
 

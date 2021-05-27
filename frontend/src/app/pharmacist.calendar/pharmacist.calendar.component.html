@@ -1,45 +1,52 @@
+<link href="https://unpkg.com/bootstrap-css-only@4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://unpkg.com/@fortawesome/fontawesome-free@5.15.1/css/all.css" rel="stylesheet">
+<link href="https://unpkg.com/angular-calendar@0.28.24/css/angular-calendar.css" rel="stylesheet">
+<link href="https://unpkg.com/flatpickr@4.6.6/dist/flatpickr.css" rel="stylesheet">
+
+
+
 <mat-drawer-container class="example-container" autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true" >
     <mat-drawer style="width: 20%; height: 100%; background-color: #385399;" #drawer mode ="side">
       <mat-action-list ><button mat-list-item routerLink="/dashboard">  
         <i class="material-icons">dashboard</i>
-        <p class="list-p">Dashboard</p>
-        </button>
-        <button mat-list-item routerLink="/add-report">  
-                <i class="material-icons">alarm</i>
-                <p class="list-p">Counselings</p>
-        </button>
-        <button mat-list-item routerLink="/employee-calendar"> 
-    
-            <i class="material-icons">calendar_today</i>
-            <p class="list-p">Calendar</p>
-        </button>
-        <button mat-list-item routerLink="/appointment-report"> 
-        
-            <i class="material-icons">article</i>
-            <p class="list-p">Counseling reports</p>
-        </button>
-        <button mat-list-item routerLink="/patients-overview"> 
-            
-            <i class="material-icons">group</i>
-            <p class="list-p">Patients</p>
-        </button>
-        <button mat-list-item routerLink="/employee-medications"> 
-            
-            <i class="material-icons">medication</i>
-            <p class="list-p">Medications</p>
-        </button>
-    </mat-action-list>
-    <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
-    <button mat-list-item routerLink="/employee-profile"> 
-          
-            <i class="material-icons">person</i>
-            <p class="list-p">Profile</p>
-        </button>
-        <button  mat-list-item (click)='logout()'> 
-            <i class="material-icons">logout</i>
-            <p class="list-p">Logout</p>
-        </button>
-      </mat-action-list>
+       <p class="list-p">Dashboard</p>
+       </button>
+       <button mat-list-item routerLink="/add-report">  
+               <i class="material-icons">alarm</i>
+               <p class="list-p">Appointments</p>
+       </button>
+       <button mat-list-item routerLink="/employee-calendar"> 
+   
+           <i class="material-icons">calendar_today</i>
+           <p class="list-p">Calendar</p>
+       </button>
+       <button mat-list-item routerLink="/users"> 
+       
+           <i class="material-icons">article</i>
+           <p class="list-p">Search users</p>
+       </button>
+       <button mat-list-item routerLink="/patients-overview"> 
+           
+           <i class="material-icons">group</i>
+           <p class="list-p">Patients</p>
+       </button>
+       <button mat-list-item routerLink="/employee-medications"> 
+           
+           <i class="material-icons">medication</i>
+           <p class="list-p">Issue reservation</p>
+       </button>
+   </mat-action-list>
+   <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
+   <button mat-list-item routerLink="/employee-profile"> 
+         
+           <i class="material-icons">person</i>
+           <p class="list-p">Profile</p>
+       </button>
+       <button  mat-list-item (click)='logout()'> 
+           <i class="material-icons">logout</i>
+           <p class="list-p">Logout</p>
+       </button>
+     </mat-action-list>
     </mat-drawer>
       <mat-drawer-content>
         <mat-toolbar style="background-color: #385399;">
@@ -49,190 +56,108 @@
             <span>Calendar</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
-          <div style="display: flex;">
-
-          <mat-card style="width: 1000px; height: fit-content;">
-            <mat-calendar>
-
-            </mat-calendar>
-              
-          </mat-card>
-          <mat-card style="margin-left: 150px; height: fit-content;">
-            <mat-card-header>
-                <mat-card-title>
-                    <mat-label>Scheduled counselings for date: </mat-label>
-                </mat-card-title>
-            </mat-card-header>
-
-            <div style="display: flex;">
-            <button style="position: absolute; right: 270px; margin-bottom: 100px;" mat-flat-button color="primary">Schedule new</button>
-            <button style="position: absolute; right: 150px;" mat-flat-button color="primary">Edit existing</button>
-            <button style="position: absolute; right: 10px;" mat-flat-button color="primary">Delete existing</button>
+          <div>
+          <div style="margin-top: 30px; width: 1000px; margin-left: 200px;">
+          <div class="row text-center">
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div
+                  class="btn btn-primary"
+                  mwlCalendarPreviousView
+                  [view]="view"
+                  [(viewDate)]="viewDate"
+                  (viewDateChange)="closeOpenMonthViewDay()"
+                  style="color: white; background-color: #385399;"
+                >
+                  Previous
+                </div>
+                <div
+                  class="btn btn-outline-secondary"
+                  mwlCalendarToday
+                  [(viewDate)]="viewDate"
+                  style="color: white; background-color: #385399;"
+                >
+                  Today
+                </div>
+                <div
+                  class="btn btn-primary"
+                  mwlCalendarNextView
+                  [view]="view"
+                  [(viewDate)]="viewDate"
+                  (viewDateChange)="closeOpenMonthViewDay()"
+                  style="color: white; background-color: #385399;"
+                >
+                  Next
+                </div>
+              </div>
             </div>
+            <div class="col-md-4">
+              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div
+                  class="btn btn-primary"
+                  (click)="setView(CalendarView.Month)"
+                  [class.active]="view === CalendarView.Month"
+                  style="color: white; background-color: #385399;"
+                >
+                  Month
+                </div>
+                <div
+                  class="btn btn-primary"
+                  (click)="setView(CalendarView.Week)"
+                  [class.active]="view === CalendarView.Week"
+                  style="color: white; background-color: #385399;"
+                >
+                  Week
+                </div>
+                <div
+                  class="btn btn-primary"
+                  (click)="setView(CalendarView.Day)"
+                  [class.active]="view === CalendarView.Day"
 
-
-            <mat-accordion class="example-headers-align" multi>
-                    <mat-expansion-panel  style="margin-top:100px;" >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Counseling informations
-                          </mat-panel-title>
-                          <mat-panel-description>
-                             Petar Petrovic, 21.02.2021.
-                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                    <div>
-                    <mat-form-field>
-                        <mat-label style="margin-right: 10px;">First name</mat-label>
-                        <input readonly matInput value="Petar">
-                    </mat-form-field>
-                
-                    <mat-form-field style="margin-left: 20px;">
-                        <mat-label style="margin-right: 10px;">Surname</mat-label>
-                        <input readonly matInput value="Petrovic">
-                    </mat-form-field>
-                    </div>
-
-                    <div>
-                        <mat-form-field style="width: 100%;">
-                            <mat-label style="margin-right: 10px;">Description</mat-label>
-                            <input  readonly matInput value="Petar">
-                        </mat-form-field>
-                    
-                    </div>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel  style="margin-top:10px;" >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Counseling informations
-                          </mat-panel-title>
-                          <mat-panel-description>
-                             Petar Petrovic, 21.02.2021.
-                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                    <div>
-                    <mat-form-field>
-                        <mat-label style="margin-right: 10px;">First name</mat-label>
-                        <input readonly matInput value="Petar">
-                    </mat-form-field>
-                
-                    <mat-form-field style="margin-left: 20px;">
-                        <mat-label style="margin-right: 10px;">Surname</mat-label>
-                        <input readonly matInput value="Petrovic">
-                    </mat-form-field>
-                    </div>
-
-                    <div>
-                        <mat-form-field style="width: 100%;">
-                            <mat-label style="margin-right: 10px;">Description</mat-label>
-                            <input  readonly matInput value="Petar">
-                        </mat-form-field>
-                    
-                    </div>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel  style="margin-top:10px;" >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Counseling informations
-                          </mat-panel-title>
-                          <mat-panel-description>
-                             Petar Petrovic, 21.02.2021.
-                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                    <div>
-                    <mat-form-field>
-                        <mat-label style="margin-right: 10px;">First name</mat-label>
-                        <input readonly matInput value="Petar">
-                    </mat-form-field>
-                
-                    <mat-form-field style="margin-left: 20px;">
-                        <mat-label style="margin-right: 10px;">Surname</mat-label>
-                        <input readonly matInput value="Petrovic">
-                    </mat-form-field>
-                    </div>
-
-                    <div>
-                        <mat-form-field style="width: 100%;">
-                            <mat-label style="margin-right: 10px;">Description</mat-label>
-                            <input  readonly matInput value="Petar">
-                        </mat-form-field>
-                    
-                    </div>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel  style="margin-top:10px;" >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Counseling informations
-                          </mat-panel-title>
-                          <mat-panel-description>
-                             Petar Petrovic, 21.02.2021.
-                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                    <div>
-                    <mat-form-field>
-                        <mat-label style="margin-right: 10px;">First name</mat-label>
-                        <input readonly matInput value="Petar">
-                    </mat-form-field>
-                
-                    <mat-form-field style="margin-left: 20px;">
-                        <mat-label style="margin-right: 10px;">Surname</mat-label>
-                        <input readonly matInput value="Petrovic">
-                    </mat-form-field>
-                    </div>
-
-                    <div>
-                        <mat-form-field style="width: 100%;">
-                            <mat-label style="margin-right: 10px;">Description</mat-label>
-                            <input  readonly matInput value="Petar">
-                        </mat-form-field>
-                    
-                    </div>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel  style="margin-top:10px;" >
-                        <mat-expansion-panel-header>
-                          <mat-panel-title>
-                            Counseling informations
-                          </mat-panel-title>
-                          <mat-panel-description>
-                             Petar Petrovic, 21.02.2021.
-                            <mat-icon style="margin-left: 10px;">account_circle</mat-icon>
-                          </mat-panel-description>
-                        </mat-expansion-panel-header>
-                    <div>
-                    <mat-form-field>
-                        <mat-label style="margin-right: 10px;">First name</mat-label>
-                        <input readonly matInput value="Petar">
-                    </mat-form-field>
-                
-                    <mat-form-field style="margin-left: 20px;">
-                        <mat-label style="margin-right: 10px;">Surname</mat-label>
-                        <input readonly matInput value="Petrovic">
-                    </mat-form-field>
-                    </div>
-
-                    <div>
-                        <mat-form-field style="width: 100%;">
-                            <mat-label style="margin-right: 10px;">Description</mat-label>
-                            <input  readonly matInput value="Petar">
-                        </mat-form-field>
-                    
-                    </div>
-                    </mat-expansion-panel>
-
-                    <div style="margin-bottom: 100px;"></div>
-
-
-              </mat-accordion>
-        </mat-card>
+                  style="color: white; background-color: #385399;"
+                >
+                  Day
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div [ngSwitch]="view">
+            <mwl-calendar-month-view
+              *ngSwitchCase="CalendarView.Month"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              [activeDayIsOpen]="activeDayIsOpen"
+              (dayClicked)="dayClicked($event.day)"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+            >
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view
+              *ngSwitchCase="CalendarView.Week"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+            >
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view
+              *ngSwitchCase="CalendarView.Day"
+              [viewDate]="viewDate"
+              [events]="events"
+              [refresh]="refresh"
+              (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+            >
+            </mwl-calendar-day-view>
+          </div>
         </div>
+      </div>
 
       </mat-drawer-content>
 
