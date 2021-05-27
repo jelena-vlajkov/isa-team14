@@ -20,10 +20,10 @@ public class Offer {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Order order;
-    private OfferStatus offerStatus;
     private int uniqueidentifier;
     private Long price;
     private Date dueDelivery;
+    private OfferStatus offerStatus;
 
     public Offer(Long id, Supplier supplier, Order order, int uniqueidentifier, Long price, Date dueDelivery, Date editableDue) {
         this.id = id;

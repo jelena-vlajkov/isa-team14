@@ -15,6 +15,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.AuthorityMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
@@ -172,15 +173,24 @@ public class PharmacistService implements IPharmacistService {
             String role ="ROLE_PHARMACIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
-            Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
-            addressRepository.save(a);
+           // Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
+            //addressRepository.save(a);
 
-            Pharmacist pharmacist = PharmacistMapper.mapDTOToPharmacist(dto);
+            Pharmacist pharmacist = new Pharmacist();
+            pharmacist.setName(dto.getName());
+            pharmacist.setSurname(dto.getSurname());
+            pharmacist.setDateOfBirth(dto.getDateOfBirth());
+            pharmacist.setPhoneNumber(dto.getPhoneNumber());
+            pharmacist.setEmail(dto.getEmail());
+            pharmacist.setPassword(dto.getPassword());
+            pharmacist.setGender(dto.getGender());
+            pharmacist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+            pharmacist.setFirstTimePassword(dto.isFirstTimeChanged());
+            pharmacist.setAverageGrade(dto.getAverageGrade());
             pharmacist.setRole(role);
             pharmacist.setAverageGrade(new AverageGrade());
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
-            pharmacist.setAddress(a);
-            pharmacist.setPharmacy(pharmacyService.getById(dto.getPharmacy().getId()));
+            //pharmacist.setAddress(a);
             userRepository.save(pharmacist);
             return pharmacist;
         }
@@ -195,6 +205,11 @@ public class PharmacistService implements IPharmacistService {
         }
         return false;
 
+    }
+
+    @Override
+    public Pharmacist findById(Long pharmacistId) {
+        return pharmacistRepository.findById(pharmacistId).get();
     }
 
 }

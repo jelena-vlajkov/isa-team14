@@ -2,13 +2,13 @@
 export class MedicationOrder{
 
   public medicationId:Number;
-  public quantity:Number;
   public medicationName:String;
+  public quantity:Number;
 
-  constructor(medicationId:Number,quantity:Number,medicationName:String){
+  constructor(medicationId:Number, medicationName:String,quantity:Number){
     this.medicationId=medicationId;
-    this.quantity=quantity;
     this.medicationName=medicationName;
+    this.quantity=quantity;
 
   }
 }

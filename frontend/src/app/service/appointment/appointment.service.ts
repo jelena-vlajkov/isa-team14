@@ -15,4 +15,10 @@ export class AppointmentService {
   getAvailableAppointmentsForDermatologists(dermatologistId:Number,pharmacyId:Number):Observable<Examination[]> {
     return this.http.get<Examination[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getAvailableExaminationsForDermatologist}/?medicalStaffId=${dermatologistId}&pharmacyId=${pharmacyId}`);
   }
+  occupiedCounselingsExists(pharmacistId:Number):Observable<boolean> {
+    return this.http.get<boolean>(`${environment.baseUrl}/${environment.appointment}/${environment.occupiedCounselingExists}/?pharmacistId=${pharmacistId}`);
+  }
+  occupiedExaminationsExists(dermatologistId:Number,pharmacyId:Number):Observable<boolean> {
+    return this.http.get<boolean>(`${environment.baseUrl}/${environment.appointment}/${environment.occupiedExaminationsExists}/?dermatologistId=${dermatologistId}&pharmacyId=${pharmacyId}`);
+  }
 }

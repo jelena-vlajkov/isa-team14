@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VerificationToken;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import org.apache.tomcat.jni.Directory;
@@ -135,6 +136,40 @@ public class EmailService implements IEmailService {
         javaMailSender.send(message);
     }
 
+    @Override
+    public void sendNotificationToSupplier(Supplier supplier,boolean accepted) throws IOException, MessagingException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/notificationToSupplier.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", supplier.getName());
+        body = body.replace("[message]","There is a reply to you offer for our medication order.");
+        if(accepted) {
+            body=body.replace("[answer]"
+                    ,"Congrats!We are happy to inform you that your offer has been accepted.");
+        }
+        else{
+            body=body.replace("[answer]"
+                    ,"We are sorry to inform you that your offer has been rejected.");
+
+        }
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, supplier.getEmail());
+
+        message.setSubject("Medication order offer reply");
+
+        javaMailSender.send(message);
+    }
     @Override
     public void sendPromotionNotification(Patient patient, Promotion promotion) throws FileNotFoundException, MessagingException, IOException {
         File starting = new File(System.getProperty("user.dir"));

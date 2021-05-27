@@ -6,11 +6,11 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class OrderedMedication {
-    private Long medication;
+    private Long medicationId;
     private Long quantity;
 
     public OrderedMedication(Long medication, Long quantity) {
-        this.medication = medication;
+        this.medicationId = medication;
         this.quantity = quantity;
     }
 
@@ -18,11 +18,11 @@ public class OrderedMedication {
     }
 
     public Long getMedication() {
-        return medication;
+        return medicationId;
     }
 
     public void setMedication(Long medicationId) {
-        this.medication = medicationId;
+        this.medicationId = medicationId;
     }
 
     public Long getQuantity() {

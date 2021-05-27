@@ -3,6 +3,8 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -140,7 +142,6 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public void addDermatologistToPharmacy(Long dermatologistId, Long pharmacyId) {
-        //fali da mu se postavi radno vreme i proveri da li se ne preklapa sa drugima.
         Dermatologist dermatologist=dermatologistRepository.findById(dermatologistId).get();
         List<Pharmacy> dermatologistPharmacies=dermatologist.getPharmacies();
         dermatologistPharmacies.add(pharmacyService.getById(pharmacyId));
@@ -164,6 +165,20 @@ public class DermatologistService implements IDermatologistService {
         }
         return false;
 
+    }
+
+
+    @Override
+    public List<DermatologistDTO> getDermatologistsNotInPharmacy(Long pharmacyId) {
+        List<Dermatologist> allDermatologists= dermatologistRepository.findAll();
+        List<Dermatologist> dermatologistsNotInPharmacy= new ArrayList<>();
+        for (Dermatologist dermatologist: allDermatologists) {
+            if (!dermatologist.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId)))
+            {
+                dermatologistsNotInPharmacy.add(dermatologist);
+            }
+        }
+        return DermatologistMapper.mapToListDTOS(dermatologistsNotInPharmacy);
     }
 
 

@@ -16,6 +16,7 @@ import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonExcepti
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -204,14 +206,27 @@ public class DrugReservationService implements IDrugReservationService {
                 .collect(Collectors.toList());
         /*OTKAZAN*/
 
-        if(drugReservationsByPatient.isEmpty()) {
+        if (drugReservationsByPatient.isEmpty()) {
             return new ArrayList<>();
         }
         for (DrugReservation drugReservation : drugReservationsByPatient) {
-                patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
+            patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
         }
 
 
         return patientDrugReservationDTOS;
+    }
+    @Override
+    public boolean isDrugReserved(Long medicationId, Long pharmacyId) {
+       List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
+       for(DrugReservation d:allDrugReservations){
+           if(d.getMedication().getId().equals(medicationId))
+              if(d.getPharmacy().getId().equals(pharmacyId))
+                   if(d.getExpirationDate().after(new Date()))
+                   if( d.getReservationDate().before(new Date())){
+               return true;
+           }
+       }
+       return false;
     }
 }

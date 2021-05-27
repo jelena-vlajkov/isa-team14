@@ -61,25 +61,10 @@ public class WorkDayService implements IWorkDayService {
     public void addWorkday(WorkDayDTO workDayDTO) {
         WorkDay workDay=new WorkDay();
         workDay.setPharmacy(pharmacyRepository.findById(workDayDTO.getPharmacy().getId()).get());
-        workDay.setDate(workDayDTO.getDate());workDay.setWorkDayPeriod(new Period(workDayDTO.getStartTime(),workDayDTO.getEndTime()));
+        workDay.setDate(workDayDTO.getDate());
+        workDay.setWorkDayPeriod(new Period(workDayDTO.getStartTime(),workDayDTO.getEndTime()));
         workDay.setMedicalStaff((MedicalStaff) userRepository.findById(workDayDTO.getMedicalStaff().getId()).get());
         workDayRepository.save(workDay);
     }
 
-    @Override
-    public boolean addWorkdayForDermatologist(WorkDayDTO workDayDTO) {
-        List<WorkDay> allWorkDaysForDermatologist=getBy(workDayDTO.getMedicalStaff().getId());
-        if(allWorkDaysForDermatologist.stream()
-                .anyMatch(w-> w.isOccupied(new Period(workDayDTO.getStartTime(),workDayDTO.getEndTime()))))
-        {
-            WorkDay workDay = new WorkDay();
-            workDay.setPharmacy(pharmacyRepository.findById(workDayDTO.getPharmacy().getId()).get());
-            workDay.setDate(workDayDTO.getDate());
-            workDay.setWorkDayPeriod(new Period(workDayDTO.getStartTime(), workDayDTO.getEndTime()));
-            workDay.setMedicalStaff((MedicalStaff) userRepository.findById(workDayDTO.getMedicalStaff().getId()).get());
-            workDayRepository.save(workDay);
-            return true;
-        }
-        return false;
-    }
 }

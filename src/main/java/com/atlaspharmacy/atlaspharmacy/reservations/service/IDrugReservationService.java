@@ -22,4 +22,5 @@ public interface IDrugReservationService {
     List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO periodDTO);
     void patientDrugReservation(CreateDrugReservationDTO drugReservationDTO) throws Exception;
     List<PatientDrugReservationDTO> getDrugReservationForPatient(Long patientId);
+    boolean isDrugReserved(Long medicationId,Long pharmacyId);
 }

@@ -12,5 +12,4 @@ public interface IWorkDayService {
     List<WorkDay> getAll();
     List<WorkDay> getByDate(Date date);
     void addWorkday(WorkDayDTO workDayDTO);
-    boolean addWorkdayForDermatologist(WorkDayDTO workDayDTO);
 }

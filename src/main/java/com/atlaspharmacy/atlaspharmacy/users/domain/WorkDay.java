@@ -20,9 +20,9 @@ public class WorkDay {
             @AttributeOverride( name = "endTime", column = @Column(name = "workdayEndTime"))
     })
     private Period workDayPeriod;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private MedicalStaff medicalStaff;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
 
     public WorkDay() {}

@@ -22,4 +22,8 @@ export class PharmacyAdminService {
   getById(id:number) : Observable<PharmacyAdmin> {
     return this.http.get<PharmacyAdmin>(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.getById}?id=${id}`);
   }
+  editPharmacyAdmin(data:PharmacyAdmin) {
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacyAdmin}/${environment.editPharmacyAdmin}`,data);
+  }
+
 }

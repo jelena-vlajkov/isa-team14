@@ -3,23 +3,25 @@ package com.atlaspharmacy.atlaspharmacy.supplier.DTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 
 public class OrderedMedicationDTO {
-    private MedicationDTO medication;
+    private Long medicationId;
+    private String medicationName;
     private Long quantity;
 
-    public OrderedMedicationDTO(MedicationDTO medication, Long quantity) {
-        this.medication = medication;
+    public OrderedMedicationDTO() {
+    }
+
+    public OrderedMedicationDTO(Long medicationId, String medicationName, Long quantity) {
+        this.medicationId = medicationId;
+        this.medicationName = medicationName;
         this.quantity = quantity;
     }
 
-    public OrderedMedicationDTO( ) {
+    public Long getMedicationId() {
+        return medicationId;
     }
 
-    public MedicationDTO getMedication() {
-        return medication;
-    }
-
-    public void setMedication(MedicationDTO medication) {
-        this.medication = medication;
+    public void setMedicationId(Long medicationId) {
+        this.medicationId = medicationId;
     }
 
     public Long getQuantity() {
@@ -28,5 +30,13 @@ public class OrderedMedicationDTO {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
+    }
+
+    public String getMedicationName() {
+        return medicationName;
+    }
+
+    public void setMedicationName(String medicationName) {
+        this.medicationName = medicationName;
     }
 }

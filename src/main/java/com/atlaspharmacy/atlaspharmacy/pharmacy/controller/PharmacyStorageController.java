@@ -55,7 +55,7 @@ public class PharmacyStorageController {
     @PostMapping(value = "/editMedicationAmount",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteMedicationFromPharmacy(@RequestParam("medicationId") Long medicationId,
                                                           @RequestParam("pharmacyId") Long pharmacyId,
-                                                          @RequestParam("amount") int amount){
+                                                          @RequestParam("amount") Long amount){
         try {
             pharmacyStorageService.editMedicationAmount(medicationId,pharmacyId,amount);
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class PharmacyStorageController {
     @PostMapping(value = "/addMedicationToStorage",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMedicationToPharmacy(@RequestParam("medicationId") Long medicationId,
                                                      @RequestParam("pharmacyId") Long pharmacyId,
-                                                     @RequestParam("amount") int amount){
+                                                     @RequestParam("amount") Long amount){
         try {
             pharmacyStorageService.addMedicationToPharmacy(medicationId,pharmacyId,amount);
         } catch (Exception e) {
