@@ -83,6 +83,17 @@ public class DrugReservationController {
         return drugReservationService.getDrugReservationForPatient(patientId);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cancelDrugReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<String> cancelDrugReservation(@RequestBody Long reservationId) throws  ParseException{
+        if(drugReservationService.cancelDrugReservation(reservationId)) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
 
         @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

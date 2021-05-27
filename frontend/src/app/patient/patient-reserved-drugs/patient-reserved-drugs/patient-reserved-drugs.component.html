@@ -43,6 +43,8 @@
                         <th>Producer</th>
                         <th>Pharmacy</th>
                         <th>Expiration of reservation</th>
+                        <th>Is issued?</th>
+                        <th>Is canceled?</th>
                         <th>Cancel here:</th>
                         
                     
@@ -54,7 +56,11 @@
                         <td>{{r.medicationProducer}}</td>
                         <td>{{r.pharmacyName}}</td>
                         <td>{{r.expirationDate | date : "medium"}}</td>
-                        <td><button mat-button style="background-color: #385399; color: white;" >Cancel</button></td>
+                        <td *ngIf="r.issued">Yes</td>
+                        <td *ngIf="r.issued === false">No</td>
+                        <td *ngIf="r.canceled">Yes</td>
+                        <td *ngIf="r.canceled === false">No</td>
+                        <td><button *ngIf="r.issued === false && r.canceled === false" mat-button style="background-color: #385399; color: white;" (click)="cancelReservation(r)" >Cancel</button></td>
                         
                     </tr>
                     

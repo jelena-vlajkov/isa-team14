@@ -18,6 +18,7 @@ export class PatientReservedDrugsComponent implements OnInit {
   constructor(private authenticationService : AuthenticationService, private patientService : PatientService) { }
 
   public reservations : PatientDrugReservation[] = new Array();
+  
 
   ngOnInit(): void {
     this.patientService.getDrugReservationForPatient(this.authenticationService.currentUserValue.id).subscribe(
@@ -33,6 +34,18 @@ export class PatientReservedDrugsComponent implements OnInit {
 
   patientLogOut(){
     this.authenticationService.logout();
+  }
+
+  cancelReservation(reservation : PatientDrugReservation) {
+    this.patientService.cancelDrugReservation(reservation.id).subscribe(
+     res => {
+      alert('Success');
+      location.reload(); 
+     }, 
+     err => {
+      alert("There is less than 24h to cancel this reservation");
+     }
+    )
   }
 
 }

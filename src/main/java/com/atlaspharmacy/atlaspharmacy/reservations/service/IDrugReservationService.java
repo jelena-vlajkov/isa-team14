@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public interface IDrugReservationService {
     void reserveDrug(CreateDrugReservationDTO drugReservationDTO) throws Exception;
-    boolean cancelDrugReservation(int uniqueIdentifier);
+    boolean cancelDrugReservation(Long reservationId);
     boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException;
     DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception;
     List<DrugReservation> findAllReservation(Long pharmacyId);

@@ -113,6 +113,7 @@ export const environment = {
   availableForPatients : "findAvailableByPatient",
   appointmentsByMonth : "getScheduledByMonth",
   patientDrugReservation : "patientDrugReservation",
-  getDrugReservationForPatient : "getDrugReservationForPatient"
+  getDrugReservationForPatient : "getDrugReservationForPatient",
+  cancelDrugReservation : "cancelDrugReservation"
 };
 

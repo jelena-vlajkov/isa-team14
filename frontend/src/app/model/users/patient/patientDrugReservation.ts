@@ -5,6 +5,7 @@ export class PatientDrugReservation {
     public pharmacyName : String;
     public medicationProducer : String;
     public expirationDate : String;
+    public id : Number;
 
     constructor() {
         

@@ -74,6 +74,10 @@ export class PatientService {
       return this.http.get<PatientDrugReservation[]>(`${environment.baseUrl}/${environment.reservations}/${environment.getDrugReservationForPatient}?patientId=${id}`);
     }
 
+    
+    cancelDrugReservation(reservationId : Number){
+      return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.cancelDrugReservation}`, reservationId, {responseType : 'text'});
+    }
 
 
 }

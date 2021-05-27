@@ -90,8 +90,17 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean cancelDrugReservation(int uniqueIdentifier) {
-        return false;
+    public boolean cancelDrugReservation(Long reservationId) {
+        DrugReservation drugReservation = drugReservationRepository.findById(reservationId).get();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
+
+        if(drugReservation.canCancelReservation(hoursAvailableToCancel) == false)
+            return  false;
+        drugReservation.setCanceled(true);
+        drugReservationRepository.save(drugReservation);
+        return  true;
+
+
     }
 
     @Override
@@ -193,15 +202,13 @@ public class DrugReservationService implements IDrugReservationService {
         List<DrugReservation> drugReservationsByPatient = drugReservationRepository.findAll()
                 .stream().filter(drugReservation -> drugReservation.getPatient().getId().equals(patientId))
                 .collect(Collectors.toList());
-        /*FALI OTKAZAN*/
+        /*OTKAZAN*/
 
         if(drugReservationsByPatient.isEmpty()) {
             return new ArrayList<>();
         }
         for (DrugReservation drugReservation : drugReservationsByPatient) {
-            if(!drugReservation.isIssued()) {
                 patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
-            }
         }
 
 
