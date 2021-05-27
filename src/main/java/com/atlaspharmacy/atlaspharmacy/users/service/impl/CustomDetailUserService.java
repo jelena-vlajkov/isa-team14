@@ -26,8 +26,6 @@ public class CustomDetailUserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,29 +35,5 @@ public class CustomDetailUserService implements UserDetailsService {
         } else {
             return user;
         }
-    }
-
-    public void changePassword(String oldPassword, String newPassword) {
-
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        String username = currentUser.getName();
-
-        if (authenticationManager != null) {
-            LOGGER.debug("Re-authenticating user '" + username + "' for password change request.");
-
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, oldPassword));
-        } else {
-            LOGGER.debug("No authentication manager set. can't change Password!");
-
-            return;
-        }
-
-        LOGGER.debug("Changing password for user '" + username + "'");
-
-        User user = (User) loadUserByUsername(username);
-
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
-
     }
 }

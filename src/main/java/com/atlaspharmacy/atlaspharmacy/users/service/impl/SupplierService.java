@@ -31,16 +31,16 @@ public class SupplierService implements ISupplierService {
     private final AddressRepository _addressRepository;
     private final UserRepository _userUserRepository;
     private final BCryptPasswordEncoder _passwordEncoder;
-    private final AuthenticationManager _authenticationManager;
+    //private final AuthenticationManager _authenticationManager;
     private final IPharmacyService _pharmacyService;
     @Autowired
-    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, PharmacyService pharmacyService ) {
+    public SupplierService(AuthorityService authAuthorityService, SupplierRepository supplierRepository, AddressRepository addressRepository, UserRepository userUserRepository, BCryptPasswordEncoder passwordEncoder, PharmacyService pharmacyService ) {
         _authAuthorityService = authAuthorityService;
         _supplierRepository = supplierRepository;
         _addressRepository = addressRepository;
         _userUserRepository = userUserRepository;
         _passwordEncoder = passwordEncoder;
-        _authenticationManager = authenticationManager;
+        //_authenticationManager = authenticationManager;
         _pharmacyService = pharmacyService;
     }
 
@@ -106,9 +106,9 @@ public class SupplierService implements ISupplierService {
     @Override
     public boolean changePassword(String oldPassword, String newPassword) throws InvalidPassword, InvalidEmail, ParseException {
         // Ocitavamo trenutno ulogovanog korisnika
-        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-        String email = currentUser.getName();
-
+       // Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        //String email = currentUser.getName();
+/*
         if (_authenticationManager != null) {
             _authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, oldPassword));
             Supplier supplier = findByEmail(email);
@@ -118,7 +118,7 @@ public class SupplierService implements ISupplierService {
             _supplierRepository.save(supplier);
             return true;
 
-        }
+        }*/
         return false;
 
 

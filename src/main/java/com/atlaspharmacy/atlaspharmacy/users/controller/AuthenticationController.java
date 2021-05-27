@@ -36,11 +36,6 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private CustomDetailUserService userDetailsService;
-
-    @Autowired
-    private UserService userService;
-    @Autowired
     private PatientService patientService;
     
     @CrossOrigin(origins = "*", allowedHeaders = "*")
