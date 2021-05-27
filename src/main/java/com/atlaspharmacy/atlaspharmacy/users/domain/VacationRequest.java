@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.users.domain;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.VacationRequestStatus;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class VacationRequest {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private MedicalStaff medicalStaff;
     private String vacationReason;
+    private VacationRequestStatus status;
 
     public VacationRequest() {
     }
@@ -29,6 +31,7 @@ public class VacationRequest {
         this.endDate = endDate;
         this.medicalStaff = medicalStaff;
         this.vacationReason = vacationReason;
+        this.status = VacationRequestStatus.PENDING;
     }
 
     public String getVacationReason() {
@@ -70,4 +73,8 @@ public class VacationRequest {
     public void setMedicalStaff(MedicalStaff medicalStaff) {
         this.medicalStaff = medicalStaff;
     }
+
+    public VacationRequestStatus getStatus() { return status; }
+
+    public void setStatus(VacationRequestStatus status) { this.status = status; }
 }

@@ -22,5 +22,15 @@ export class DermatologistService {
   getDermatologistsToComplain(id : Number) :Observable<Dermatologist[]>{
     return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.getDermatologistToComplain}?id=${id}`);
   }
+  deleteDermatologistFromPharmacy(dermatologistId:Number,pharmacyId:Number) {
+    return this.http.post(`${environment.baseUrl}/${environment.dermatologist}/${environment.deleteDermatologistFromPharmacy}/?pharmacyId=${pharmacyId}&dermatologistId=${dermatologistId}`,null);
+  }
+  getDermatologistsNotInPharmacy(pharmacyId:Number):Observable<Dermatologist[]>{
+    return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.getDermatologistNotInPharmacy}/?pharmacyId=${pharmacyId}`);
+  }
+
+  addDermatologistToPharmacy(pharmacyId:Number,dermatologistId:Number) {
+    return this.http.post(`${environment.baseUrl}/${environment.dermatologist}/${environment.addDermatologistToPharmacy}/?pharmacyId=${pharmacyId}&dermatologistId=${dermatologistId}`,null);
+  }
 
 }

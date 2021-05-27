@@ -5,22 +5,22 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 import java.util.List;
 
 public class SupplierStorageMedicationDTO {
-    private List<MedicationInStorageDTO> medicationInStorage;
+    private List<OrderedMedicationDTO> medicationInStorage;
     private SupplierDTO supplier;
 
     public SupplierStorageMedicationDTO() {
     }
 
-    public SupplierStorageMedicationDTO(List<MedicationInStorageDTO> medicationInStorage, SupplierDTO supplier) {
+    public SupplierStorageMedicationDTO(List<OrderedMedicationDTO> medicationInStorage, SupplierDTO supplier) {
         this.medicationInStorage = medicationInStorage;
         this.supplier = supplier;
     }
 
-    public List<MedicationInStorageDTO> getMedicationInStorage() {
+    public List<OrderedMedicationDTO> getMedicationInStorage() {
         return medicationInStorage;
     }
 
-    public void setMedicationInStorage(List<MedicationInStorageDTO> medicationInStorage) {
+    public void setMedicationInStorage(List<OrderedMedicationDTO> medicationInStorage) {
         this.medicationInStorage = medicationInStorage;
     }
 

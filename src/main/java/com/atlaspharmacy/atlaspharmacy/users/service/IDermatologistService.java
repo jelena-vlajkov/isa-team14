@@ -16,5 +16,6 @@ public interface IDermatologistService {
     List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologists,Double grade);
     void addDermatologistToPharmacy(Long dermatologistId,Long pharmacyId);
     boolean deleteDermatologistFromPharmacy(Long dermatologistId,Long pharmacyId);
+    List<DermatologistDTO> getDermatologistsNotInPharmacy(Long pharmacyId);
 
 }

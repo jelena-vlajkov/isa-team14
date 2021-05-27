@@ -169,6 +169,15 @@ public class AppointmentController {
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableByEmployeeAndPharmacy(pharmacyId, medicalStaffId, date));
     }
 
+    @GetMapping(value = "/occupiedExaminationsExists")
+    public boolean occupiedExaminationsExists(@RequestParam("dermatologistId") Long dermatologistId, @RequestParam("pharmacyId") Long pharmacyId) {
+        return appointmentService.occupiedExaminationExists(dermatologistId,pharmacyId);
+    }
+    @GetMapping(value = "/occupiedCounselingsExists")
+    public boolean occupiedCounselingExists(@RequestParam("pharmacistId") Long pharmacistId){
+        return appointmentService.occupiedCounselingsExists(pharmacistId);
+    }
+
 
     @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")

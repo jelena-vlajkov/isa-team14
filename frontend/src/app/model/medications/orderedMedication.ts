@@ -1,11 +1,13 @@
 import { Medication } from "./medication";
 
 export class OrderedMedication{
-    public medication : Medication;
+    public medicationId : Number;
+    public medicationName : String
     public quantity : Number;
 
-    constructor(medication: Medication, quantity : Number){
-        this.medication = medication;
+    constructor(medicationId:Number,medicationName:String, quantity : Number){
+        this.medicationId = medicationId;
+        this.medicationName = medicationName;
         this.quantity = quantity;
     }
 }

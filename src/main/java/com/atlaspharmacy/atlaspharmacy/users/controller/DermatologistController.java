@@ -87,6 +87,16 @@ public class DermatologistController {
 
     }
 
+    @GetMapping(value = "/searchDermatologists", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
+        return DermatologistMapper.mapToListDTOS(dermatologistService.searchDermatologists(searchInput));
+    }
+    @GetMapping(value = "/getDermatologistsNotInPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> getDermatologistsNotInPharmacy(@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
+        return dermatologistService.getDermatologistsNotInPharmacy(pharmacyId);
+    }
 
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -102,9 +112,5 @@ public class DermatologistController {
         return new ParseException("Error while parsing values", 0);
     }
 
-    @GetMapping(value = "/searchDermatologists", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<DermatologistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
-        return DermatologistMapper.mapToListDTOS(dermatologistService.searchDermatologists(searchInput));
-    }
+
 }

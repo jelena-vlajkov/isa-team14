@@ -1,0 +1,32 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+  <mat-drawer-content >
+    <mat-toolbar style="background-color: #385399;">
+    </mat-toolbar>
+
+    <div style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:300px">All drug inquiries</label>
+      </div>
+      <div style="display:flex;">
+        <label style="font-size:15px;margin-left:200px;color:gray;font-family: inherit;">All inquiries made by pharmacist or dermatologist for drugs not present in storage.</label>
+      </div>
+      <label *ngIf="!inquiriesExists()" style="margin-left:300px;margin-top:50px;">No drug inquiries.</label>
+      <table style="margin-top: 50px;margin-left: 200px;margin-bottom:50px;" >
+        <th>Medication name</th>
+        <span style="margin-left: 100px;"></span>
+        <th>Date</th>
+        <span style="margin-left: 100px;"></span>
+        <tr *ngFor="let drugInquiry of drugInquiries" style="margin-bottom: 10px;">
+          <td>{{drugInquiry.medication.name}}</td>
+          <span style="margin-left: 100px;"></span>
+          <td style="font-size: 25px;"> {{drugInquiry.date| date : "dd.MM.y"}} </td>
+          <span style="margin-left: 100px;"></span>
+         </tr>
+      </table>
+      <div style="margin-top: 100px;">
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
+      </div>
+    </div>
+
+  </mat-drawer-content>
+</mat-drawer-container>

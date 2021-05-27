@@ -24,6 +24,7 @@ import {Promotion} from "@app/model/promotions/promotion";
 import {Medication} from "@app/model/medications/medication";
 import {Period} from "@app/model/appointment/period";
 import {AuthenticationService} from "@app/service/user";
+import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
 
 
 @Component({
@@ -32,23 +33,18 @@ import {AuthenticationService} from "@app/service/user";
   styleUrls: ['./pharmacy-profile.component.css']
 })
 export class PharmacyProfileComponent implements OnInit {
-  name:String;
-  address:String;
   grade:Number;
-  about:String;
   currentUserId:String;
-  email:String;
-  telephone:Number;
   dermatologists: Dermatologist[]=new Array();
   pharmacists: String[]=new Array();
   pharmacyId:Number;
   medications:String[]=new Array();
+  viewPricelist:boolean=false;
   private StringIsNumber = value => isNaN(Number(value)) === false;
   availableAppointments:String[] = new Array();
   @ViewChild(GooglePlacesComponent) googleplaces;
   pharmacy:Pharmacy;
   editProfileForm: FormGroup;
-  pricelist:String[]=new Array();
   pharmacyPricelist:Pricelist[]=new Array();
   pharmacyPromotions:Promotion[]=new Array();
   medicationsNotInPharmacy:Medication[]=new Array();
@@ -73,11 +69,11 @@ export class PharmacyProfileComponent implements OnInit {
               ,private router:Router
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
-              ,private authenticationService:AuthenticationService) { }
+              ,private authenticationService:AuthenticationService
+              ,private drugReservationsService:DrugReservationsService) { }
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
-    console.log(localStorage.getItem('userRole'));
     if(localStorage.getItem('userRole') == "PharmacyAdmin"){
       this.isPharmacyAdmin = true;
     }
@@ -87,13 +83,7 @@ export class PharmacyProfileComponent implements OnInit {
       result => {
         this.pharmacy=result;
         this.pharmacyId = result.id;
-        this.name = result.name;
         this.grade=this.countAverageGrade(result.averageGrade);
-        this.about = result.description;
-        this.email=result.email;
-        this.telephone=result.telephone;
-        this.address = result.address.street + ", " + result.address.city.name + ", " + result.address.state.name;
-
 
         this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
           result=>{
@@ -129,7 +119,8 @@ export class PharmacyProfileComponent implements OnInit {
                     + ":" + startTime.getMinutes()
                     + "-" + endTime.getHours()
                     + ":" + endTime.getMinutes()
-                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+".");
+                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+"."
+                    +" "+result[i].cost+"din");
                 }
               });
             }
@@ -144,11 +135,6 @@ export class PharmacyProfileComponent implements OnInit {
           });
        });
 
-
-        this.editProfileForm = new FormGroup({
-          'name' : new FormControl(null, Validators.required),
-          'description' : new FormControl(null, Validators.required)
-        });
 
         this.addPricelistEntityFormGroup=new FormGroup({
           'medication': new FormControl(null,Validators.required),
@@ -185,7 +171,14 @@ export class PharmacyProfileComponent implements OnInit {
     return grade;
   }
   showEditProfileDialog(){
-      this.showPromotions = false;
+    this.editProfileForm = new FormGroup({
+      'name' : new FormControl(this.pharmacy.name, Validators.required),
+      'description' : new FormControl(this.pharmacy.description, Validators.required),
+      'telephone' : new FormControl(this.pharmacy.telephone,[ Validators.required,Validators.pattern("^[0-9]*$")]),
+      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required])
+    });
+
+    this.showPromotions = false;
       this.addPromotion = false;
       this.profile = false;
       this.edit = true;
@@ -204,19 +197,17 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   editProfile(){
-    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
-      result => {
-        if(this.googleplaces.address==undefined){
-          alert('Please enter address using location picker. Just start typing and pick your address from combobox');
-        }else{
-        this.pharmacy=new Pharmacy(result.id,this.editProfileForm.value.name,result.description
-          ,this.googleplaces.address
-          ,result.averageGrade,result.email,result.telephone);
-        }
-        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
-          this.router.navigate(['/pharmacy-profile']);
+       // if(this.googleplaces.address==undefined){
+         // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
+        //}else{
+        this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
+          ,null,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
 
-        });
+        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
+          this.edit=false;
+          this.profile=true;
+        console.log(this.pharmacy);
+
 
       });
 
@@ -235,15 +226,13 @@ export class PharmacyProfileComponent implements OnInit {
     this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(result=>
     {
       result=this.ToArray(result);
-      console.log("length:"+result.length);
+      console.log(result);
       for(let i=0;i<result.length;i++){
           this.pricelistService.getPricelistByMedicationAndPharmacy(result[i].medicationCode,result[i].pharmacy.id).subscribe(result => {
-            if(result != null){
-              this.pricelist.push(result.medication.name+"         "+result.price+"din");
-              this.pharmacyPricelist.push(result);
-            }
+            this.pharmacyPricelist.push(result);
           });
       }
+      console.log(this.pharmacyPricelist);
     });
   }
   changeValue(pricelistEntityId:any){
@@ -357,7 +346,6 @@ export class PharmacyProfileComponent implements OnInit {
     this.addPricelistEntityDialog = false;
   }
 
-
   addPricelistClicked() {
     this.getMedicationsNotInPharmacy();
     this.addPricelistEntityDialog = true;
@@ -387,9 +375,6 @@ export class PharmacyProfileComponent implements OnInit {
                                 ,this.pharmacy);
     this.pricelistService.addPricelistEntity(pricelist).subscribe(result => {
       this.showPharmacyPricelist();
-      this.addPricelistEntityFormGroup.value.price = null;
-      this.addPricelistEntityFormGroup.value.startDate = null;
-      this.addPricelistEntityFormGroup.value.endDate = null;
     });
 
   }
@@ -398,11 +383,18 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPharmacyPricelist();
   }
 
-  deletePricelistEntity(pricelistEntityId: Number) {
-    console.log("pricelist entity id:"+pricelistEntityId);
-    this.pricelistService.deletePricelist(pricelistEntityId).subscribe(result=>{
-      this.showPharmacyPricelist();
+  deletePricelistEntity(pricelistEntityId: Number,medicationId:Number) {
+    this.drugReservationsService.isDrugReserved(medicationId,this.pharmacyId).subscribe(result=>{
+      if(result==false){
+        this.pricelistService.deletePricelist(pricelistEntityId).subscribe(result=>{
+          this.showPharmacyPricelist();
+        });
+      }
+      else{
+        alert("Can't delete medication from pharmacy,there is active drug reservation for this medication.");
+      }
     });
+
   }
 
   checkLoggedInUser(){
@@ -413,4 +405,6 @@ export class PharmacyProfileComponent implements OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
   }
+
+
 }

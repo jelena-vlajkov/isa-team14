@@ -14,7 +14,7 @@ export class PharmacistService {
 
   constructor(private http:HttpClient) { }
   getPharmacistsByPharmacy(id : Number):Observable<User[]>{
-    return this.http.get<User[]>(`${environment.baseUrl}/pharmacist/getByPharmacy/?id=${id}`);}
+    return this.http.get<User[]>(`${environment.baseUrl}/${environment.pharmacist}/${environment.getByPharmacy}/?id=${id}`);}
 
   getPharmacistsToComplain(id : Number) :Observable<Pharmacist[]>{
     return this.http.get<Pharmacist[]>(`${environment.baseUrl}/${environment.pharmacist}/${environment.getPharmacistToComplain}?id=${id}`);
@@ -30,6 +30,16 @@ export class PharmacistService {
 
   issueReservation(uniqueIdentifier : Number) : Observable<Reservation> {
     return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.issueReservation}?uniqueIdentifier=${uniqueIdentifier}`);
+  }
+
+  registerPharmacist(pharmacist:Pharmacist):Observable<Pharmacist> {
+    return this.http.post<Pharmacist>(`${environment.baseUrl}/${environment.pharmacist}/${environment.registerPharmacist}`, pharmacist);
+  }
+  deletePharmacist(pharmacistId:Number) {
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.deletePharmacist}?pharmacistId=${pharmacistId}`,null);
+  }
+  getById(id:Number) : Observable<Pharmacist> {
+    return this.http.get<Pharmacist>(`${environment.baseUrl}/${environment.pharmacist}/${environment.getById}?pharmacistId=${id}`);
   }
 
 }

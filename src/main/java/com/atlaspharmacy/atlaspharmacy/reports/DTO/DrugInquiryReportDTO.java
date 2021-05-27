@@ -6,13 +6,13 @@ import java.util.Date;
 
 public class DrugInquiryReportDTO {
     private Date date;
-    private MedicationDTO medicationDTO;
+    private MedicationDTO medication;
 
     public DrugInquiryReportDTO() {}
 
     public DrugInquiryReportDTO(Date date, MedicationDTO medicationDTO) {
         this.date = date;
-        this.medicationDTO = medicationDTO;
+        this.medication = medicationDTO;
     }
 
     public Date getDate() {
@@ -23,11 +23,11 @@ public class DrugInquiryReportDTO {
         this.date = date;
     }
 
-    public MedicationDTO getMedicationDTO() {
-        return medicationDTO;
+    public MedicationDTO getMedication() {
+        return medication;
     }
 
-    public void setMedicationDTO(MedicationDTO medicationDTO) {
-        this.medicationDTO = medicationDTO;
+    public void setMedication(MedicationDTO medicationDTO) {
+        this.medication = medicationDTO;
     }
 }

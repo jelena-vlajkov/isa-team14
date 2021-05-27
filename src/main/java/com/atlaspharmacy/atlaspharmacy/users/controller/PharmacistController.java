@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,16 +71,13 @@ public class PharmacistController {
     }
 
     @PostMapping(value = "/registerPharmacist",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO){
-        //fali jos za radno vreme
-        try {
-            pharmacistService.registerPharmacist(pharmacistDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public PharmacistDTO registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO) throws Exception {
+        return PharmacistMapper.mapPharmacistToDTO(pharmacistService.registerPharmacist(pharmacistDTO));
+    }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping(value = "/getById",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PharmacistDTO getById(@RequestParam("pharmacistId") Long pharmacistId) throws Exception {
+        return PharmacistMapper.mapPharmacistToDTO(pharmacistService.findById(pharmacistId));
     }
 
     @PostMapping(value = "/deletePharmacist")

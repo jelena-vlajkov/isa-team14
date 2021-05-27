@@ -8,10 +8,8 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface IMedicationService {
-
     MedicationDTO findById(Long id);
     List<MedicationDTO> findAll();
-
     List<MedicationDTO> findAllPatientsMedications(Long patientId);
     void createMedication(MedicationDTO medicationDTO) throws Exception;
     Medication modifyMedication(Long id, MedicationDTO medicationDTO) throws Exception;
@@ -27,4 +25,6 @@ public interface IMedicationService {
     List<MedicationDTO> findByForm(Long form) throws ParseException;
     List<MedicationDTO> findByKind(Long kind) throws ParseException;
     List<MedicationDTO> findByPrescribing(Long prescribing) throws ParseException;
+    Medication getById(Long medicationId);
+
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Proxy(lazy = false)
 public class MedicationInOrder {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Embedded
     @AttributeOverrides({
