@@ -132,6 +132,9 @@ export const environment = {
   occupiedExaminationsExists:"occupiedExaminationsExists",
   editPharmacyAdmin:"editPharmacyAdmin",
   approveVacationRequest:"approveVacationRequest",
-  denyVacationRequest:"denyVacationRequest"
+  denyVacationRequest:"denyVacationRequest",
+  searchDermatologists:"searchDermatologists",
+  filterDermatologistsByPharmacy:"filterDermatologistsByPharmacy",
+  filterDermatologistsByGrade:"filterDermatologistsByGrade"
 };
 

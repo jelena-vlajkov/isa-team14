@@ -24,4 +24,5 @@ public interface IPharmacyService {
     List<PharmacyDTO> getSubscribed(Long id);
     boolean isPharamcyRegistered(String email) throws Exception;
     Pharmacy editPharmacy(PharmacyDTO pharmacyDTO);
+    List<Pharmacy> findAll();
 }

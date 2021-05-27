@@ -188,7 +188,7 @@ public class PharmacistService implements IPharmacistService {
             pharmacist.setFirstTimePassword(dto.isFirstTimeChanged());
             pharmacist.setAverageGrade(dto.getAverageGrade());
             pharmacist.setRole(role);
-            pharmacist.setAverageGrade(new AverageGrade());
+            pharmacist.setAverageGrade(new AverageGrade(0,0,0,0,0));
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
             //pharmacist.setAddress(a);
             userRepository.save(pharmacist);

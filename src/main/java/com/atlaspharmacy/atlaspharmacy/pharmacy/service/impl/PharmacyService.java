@@ -102,6 +102,10 @@ public class PharmacyService implements IPharmacyService {
         return pharmacyToUpdate;
     }
 
+    @Override
+    public List<Pharmacy> findAll() {
+        return pharmacyRepository.findAll();
+    }
 
 
     @Override

@@ -53,6 +53,8 @@ import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/pa
 import {DrugInquiriesComponent} from "@app/drug-inquiries/drug-inquiries.component";
 import {DermatologistsInPharmacyComponent} from "@app/dermatologists-in-pharmacy/dermatologists-in-pharmacy.component";
 import {VacationRequestsComponent} from "@app/vacation-requests/vacation-requests.component";
+import {DermatologistListAndFilterComponent} from "@app/dermatologist-list-and-filter/dermatologist-list-and-filter.component";
+import {PharmacistListAndFilterComponent} from "@app/pharmacist-list-and-filter/pharmacist-list-and-filter.component";
 
 const routes: Routes = [
 {
@@ -332,6 +334,14 @@ const routes: Routes = [
   {
     path:'vacation-requests',
     component:VacationRequestsComponent
+  },
+  {
+    path:'dermatologist-search-and-filter',
+    component:DermatologistListAndFilterComponent
+  },
+  {
+    path:'pharmacist-search-and-filter',
+    component:PharmacistListAndFilterComponent
   }
 ];
 

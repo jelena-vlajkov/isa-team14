@@ -107,4 +107,10 @@ public class PharmacyController {
     public void editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
         pharmacyService.editPharmacy(pharmacyDTO);
     }
+
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> findAllPharmacies()  {
+        return PharmacyMapper.maptToListDto(pharmacyService.findAll());
+    }
 }

@@ -107,12 +107,17 @@ public class DermatologistService implements IDermatologistService {
     }
 
     @Override
-    public List<Dermatologist> searchDermatologists(String searchInput) {
-        List<Dermatologist> allDermatologists=dermatologistRepository.findAll();
-        List<Dermatologist> searchedDermatologists=new ArrayList<>();
-        for(Dermatologist d:allDermatologists)
+    public List<Dermatologist> searchDermatologists(Long pharmacyId, String searchInput) {
+        List<Dermatologist> dermatologistsToSearch = new ArrayList<>();
+        if(pharmacyId!=null){ dermatologistsToSearch = findAllByPharmacy(pharmacyId); }
+        else{ dermatologistsToSearch = getAll(); }
+        List<Dermatologist> searchedDermatologists = new ArrayList<>();
+        if(searchInput.equals("")){
+            return dermatologistsToSearch;
+        }
+        for(Dermatologist d:dermatologistsToSearch)
         {
-            if(searchInput.contains(d.getName()) || searchInput.contains(d.getSurname())){
+            if(searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())){
                 searchedDermatologists.add(d);
             }
         }
@@ -120,25 +125,29 @@ public class DermatologistService implements IDermatologistService {
     }
 
     @Override
-    public List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists, Long pharmacyId) {
-        return dermatologists.stream()
-                .filter(dermatologist -> dermatologist.getPharmacies().stream()
-                        .anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId)))
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, Double grade) {
-        List<DermatologistDTO> filteredDermatologists=new ArrayList<>();
-        for(DermatologistDTO d:dermatologistsToFilter)
-        {
-            if(d.countAverageGrade()>=grade){
+    public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, int grade) {
+        List<DermatologistDTO> filteredDermatologists = new ArrayList<>();
+        for(DermatologistDTO d:dermatologistsToFilter){
+            if(d.getAverageGrade().count()>=grade){
                 filteredDermatologists.add(d);
             }
         }
         return filteredDermatologists;
     }
+
+    @Override
+    public List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologistsToFilter,Long pharmacyId) {
+        List<DermatologistDTO> filteredDermatologists = new ArrayList<>();
+        for(DermatologistDTO d:dermatologistsToFilter){
+            if(d.getPharmacies().stream().anyMatch(pharmacy -> pharmacy.getId().equals(pharmacyId))){
+                filteredDermatologists.add(d);
+            }
+        }
+        return filteredDermatologists;
+    }
+
+
+
 
     @Override
     public void addDermatologistToPharmacy(Long dermatologistId, Long pharmacyId) {
@@ -179,6 +188,11 @@ public class DermatologistService implements IDermatologistService {
             }
         }
         return DermatologistMapper.mapToListDTOS(dermatologistsNotInPharmacy);
+    }
+
+    @Override
+    public List<Dermatologist> getAll() {
+        return dermatologistRepository.findAll();
     }
 
 

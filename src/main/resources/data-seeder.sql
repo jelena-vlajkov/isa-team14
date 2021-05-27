@@ -64,6 +64,8 @@ VALUES ('Supplier', 991, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Ped
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 VALUES ('Supplier', 992, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Dermatologist', 1700,'1966-01-01 00:00:01', 'marko@gmail.com', true, 1, 'Marko', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',12125126, 'Zdrnic', 400);
 
 
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) values (100, 1,2,3,4,5, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
@@ -80,6 +82,7 @@ insert into medicalstaff(license_number, id) values ('333666',300);
 insert into medicalstaff(license_number, id) values('1241241', 500);
 insert into medicalstaff(license_number, id) values('124124341', 5500);
 insert into medicalstaff(license_number, id) values('1241255541', 1100);
+insert into medicalstaff(license_number, id) values('12415541', 1700);
 
 
 insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (500,100,1,2,3,4,5);
@@ -91,16 +94,21 @@ insert into patients(enabled, verification_code, id) values (true, null, 200);
 insert into patients(enabled, verification_code, id) values (true, null, 1300);
 
 
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,5);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (600,1,1,1,1,1);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,4);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1100,1,1,1,3,5);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,6);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (600,27,1,1,1,7);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,8);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1100,1,1,2,3,5);
+insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (1700,10,1,2,3,5);
 
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,200);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1100,200);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,100);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,100);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1100,100);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1700,200);
 
 insert into sysadmins(id) values(900);
 insert into sysadmins(id) values(905);
