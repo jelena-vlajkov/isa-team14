@@ -49,6 +49,8 @@ import { PatientScheduledAppointmentsComponent } from './patient/patient-schedul
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
+import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
+import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
 
 const routes: Routes = [
 {
@@ -215,7 +217,7 @@ const routes: Routes = [
   path: 'employee-medications',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
-  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+  data: {roles:[Role.Pharmacist]}
 },
 {
   path: 'searchPharmacies',
@@ -274,6 +276,16 @@ const routes: Routes = [
 {
   path: 'patient/scheduleCounseling',
   component: PatientScheduleCounselingComponent,
+},
+{
+  path: 'patient/drugReservation',
+  component: PatientDrugReservationComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/reservedDrugs',
+  component: PatientReservedDrugsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },

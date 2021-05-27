@@ -50,7 +50,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule, DatePipe } from '@angular/common';
-//import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
@@ -82,6 +82,11 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +143,9 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
     PatientIssuedEDrugsComponent,
-    PatientScheduleCounselingComponent
+    PatientScheduleCounselingComponent,
+    PatientDrugReservationComponent,
+    PatientReservedDrugsComponent
 
   ],
   imports: [
@@ -146,6 +153,7 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatListModule,
@@ -183,8 +191,18 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     MatExpansionModule,
     MatStepperModule,
     MatCardModule,
-    NgxMaterialTimepickerModule
-
+    NgxMaterialTimepickerModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    CommonModule,
+    FormsModule
+  ],
+  exports: [
+    PharmacistCalendarComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -6,7 +6,7 @@ import {UserPreview} from '@app/model/pharmderm/userspreview'
 
 import { AuthenticationService } from '../service/user/authentication.service'
 @Component({
-  selector: 'pharmacist-reports',
+  selector: 'users-preview',
   templateUrl: './users.preview.component.html',
   styleUrls: ['./users.preview.component.css']
 })
