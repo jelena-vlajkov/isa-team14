@@ -80,6 +80,7 @@ import { PatientFinishedExaminationComponent } from './patient/patient-finished-
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -138,7 +139,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     PatientFinishedExaminationComponent,
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
-    PatientIssuedEDrugsComponent
+    PatientIssuedEDrugsComponent,
+    PatientDrugReservationComponent
 
   ],
   imports: [

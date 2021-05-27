@@ -36,4 +36,13 @@ public class DrugReservationMapper {
         drugReservation.setExpirationDate(new Date((new Date()).getTime() + 864000000));
         return  drugReservation;
     }
+
+    public static DrugReservation mapPatientNewReservation(CreateDrugReservationDTO drugReservationDTO) {
+        DrugReservation drugReservation = new DrugReservation();
+        drugReservation.setReservationDate(new Date());
+        drugReservation.setIssued(false);
+        drugReservation.setTherapyDays(10);
+        drugReservation.setExpirationDate(drugReservationDTO.getExpirationDate());
+        return  drugReservation;
+    }
 }

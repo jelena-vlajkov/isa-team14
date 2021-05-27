@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { Appointment } from '@app/model/appointment/appointment';
 import { EPrescription } from '@app/model/medications/ePrescription';
 import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
+import { Pharmacy } from '@app/model/pharmacy/pharmacy';
+import { env } from 'process';
+import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +58,14 @@ export class PatientService {
     getAllPrescribedDrugForPatient(id : Number): Observable<PrescribedEdrugs[]> {
       return this.http.get<PrescribedEdrugs[]>
       (`${environment.baseUrl}/${environment.ePrescription}/${environment.getAllPrescribedDrugForPatient}?patientId=${id}`);
+    }
+
+    getPharmaciesByMedicationId(id : Number) : Observable<Pharmacy[]> {
+      return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmaciesByMedicationId}?id=${id}`);
+    }
+
+    createDrugReservation(reservation : CreaeteReservation) {
+      return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.patientDrugReservation}`, reservation, {responseType : 'text'});
     }
 
 
