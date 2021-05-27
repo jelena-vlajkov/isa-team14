@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
@@ -73,6 +74,24 @@ public class DrugReservationController {
     ResponseEntity<?> patientDrugReservation(@RequestBody CreateDrugReservationDTO dto) throws Exception {
         drugReservationService.patientDrugReservation(dto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getDrugReservationForPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    List<PatientDrugReservationDTO> getDrugReservationForPatient(@RequestParam("patientId") Long patientId) throws Exception {
+        return drugReservationService.getDrugReservationForPatient(patientId);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cancelDrugReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<String> cancelDrugReservation(@RequestBody Long reservationId) throws  ParseException{
+        if(drugReservationService.cancelDrugReservation(reservationId)) {
+            return  new ResponseEntity<>(HttpStatus.OK);
+        }
+        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

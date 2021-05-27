@@ -26,12 +26,13 @@ public class DrugReservation {
     private Pharmacy pharmacy;
     private boolean issued;
     private int therapyDays;
+    private boolean canceled;
 
     public DrugReservation() {
 
     }
 
-    public DrugReservation(Long id, Date reservationDate, int uniqueIdentifier, Date expirationDate, Medication medication, Patient patient, Pharmacy pharmacy, boolean issued, int therapyDays) {
+    public DrugReservation(Long id, Date reservationDate, int uniqueIdentifier, Date expirationDate, Medication medication, Patient patient, Pharmacy pharmacy, boolean issued, int therapyDays, boolean canceled) {
         this.id = id;
         this.reservationDate = reservationDate;
         this.uniqueIdentifier = uniqueIdentifier;
@@ -41,6 +42,15 @@ public class DrugReservation {
         this.pharmacy = pharmacy;
         this.issued = issued;
         this.therapyDays = therapyDays;
+        this.canceled = canceled;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        this.canceled = canceled;
     }
 
     public int getTherapyDays() {
@@ -123,5 +133,12 @@ public class DrugReservation {
 
     public boolean isPharmacy(Long pharmacyId) {
         return getPharmacy().getId() == pharmacyId;
+    }
+
+    public boolean canCancelReservation(int hoursAvailableToCancel) {
+        Date today = new Date();
+        Date validDate = new Date(today.getTime() + hoursAvailableToCancel);
+        return getExpirationDate().after(validDate);
+
     }
 }

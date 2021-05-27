@@ -9,6 +9,7 @@ import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
+import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,15 @@ export class PatientService {
       return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.patientDrugReservation}`, reservation, {responseType : 'text'});
     }
 
+
+    getDrugReservationForPatient(id : Number) : Observable<PatientDrugReservation[]> {
+      return this.http.get<PatientDrugReservation[]>(`${environment.baseUrl}/${environment.reservations}/${environment.getDrugReservationForPatient}?patientId=${id}`);
+    }
+
+    
+    cancelDrugReservation(reservationId : Number){
+      return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.cancelDrugReservation}`, reservationId, {responseType : 'text'});
+    }
 
 
 }

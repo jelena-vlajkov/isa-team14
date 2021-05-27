@@ -499,7 +499,7 @@ public class AppointmentService implements IAppointmentService {
         List<AppointmentDTO> appointmentDTOS = new ArrayList<>();
         int hoursAvailableToCancel = 3600 * 1000 * 24;
         for(Appointment appointment : getPatientsAppointments(patientId)) {
-            if (!appointment.isCanceled() && (appointment.getAppointmentPeriod().getStartTime().compareTo(new Date()) > 0)) {
+            if (!appointment.isCanceled() && (appointment.getAppointmentPeriod().getStartTime().compareTo(new Date()) >= 0)) {
                 appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(appointment));
             }
         }

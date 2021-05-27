@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.reservations.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class DrugReservationMapper {
         drugReservation.setIssued(false);
         drugReservation.setTherapyDays(drugReservationDTO.getTherapyDays());
         drugReservation.setExpirationDate(new Date((new Date()).getTime() + 864000000));
+        drugReservation.setCanceled(false);
         return  drugReservation;
     }
 
@@ -43,6 +45,24 @@ public class DrugReservationMapper {
         drugReservation.setIssued(false);
         drugReservation.setTherapyDays(10);
         drugReservation.setExpirationDate(drugReservationDTO.getExpirationDate());
+        drugReservation.setCanceled(false);
         return  drugReservation;
+    }
+
+
+    public static PatientDrugReservationDTO mapReservationToPatientReservationDTO(DrugReservation drugReservation){
+
+        PatientDrugReservationDTO dto = new PatientDrugReservationDTO(
+                drugReservation.getMedication().getName(),
+                drugReservation.getPharmacy().getName(),
+                drugReservation.getMedication().getProducer(),
+                drugReservation.getExpirationDate(),
+                drugReservation.isIssued(),
+                drugReservation.isCanceled()
+        );
+
+        dto.setId(drugReservation.getId());
+
+        return dto;
     }
 }
