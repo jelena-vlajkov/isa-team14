@@ -10,6 +10,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
@@ -91,8 +92,17 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean cancelDrugReservation(int uniqueIdentifier) {
-        return false;
+    public boolean cancelDrugReservation(Long reservationId) {
+        DrugReservation drugReservation = drugReservationRepository.findById(reservationId).get();
+        int hoursAvailableToCancel = 3600 * 1000 * 24;
+
+        if(drugReservation.canCancelReservation(hoursAvailableToCancel) == false)
+            return  false;
+        drugReservation.setCanceled(true);
+        drugReservationRepository.save(drugReservation);
+        return  true;
+
+
     }
 
     @Override
@@ -154,6 +164,58 @@ public class DrugReservationService implements IDrugReservationService {
         return drugReservationsForPharmacyAndPeriod;
     }
 
+    @Override
+    public void patientDrugReservation(CreateDrugReservationDTO drugReservationDTO) throws Exception {
+        if (!medicationRepository.findById(drugReservationDTO.getMedicationId()).isPresent()) {
+            throw new Exception("Invalid medication");
+        }
+        if (!pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).isPresent()) {
+            throw new Exception("Invalid pharmacy");
+        }
+
+        if (!userRepository.findById(drugReservationDTO.getPatientId()).isPresent()) {
+            throw new Exception("Invalid patient");
+        }
+
+        Medication m = medicationRepository.findById(drugReservationDTO.getMedicationId()).get();
+        if (!pharmacyStorageService.isMedicationInPharmacy(m.getCode(), drugReservationDTO.getPharmacyId())) {
+            throw new Exception("Invalid request");
+        }
+
+        Pharmacy p = pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).get();
+        Patient patient = (Patient) userRepository.findById(drugReservationDTO.getPatientId()).get();
+
+        DrugReservation drugReservation = DrugReservationMapper.mapPatientNewReservation(drugReservationDTO);
+        drugReservation.setMedication(m);
+        drugReservation.setPatient(patient);
+        drugReservation.setPharmacy(p);
+
+        Random randomGenerator = new Random();
+        drugReservation.setUniqueIdentifier(randomGenerator.nextInt(99999999));
+
+        drugReservationRepository.save(drugReservation);
+        emailService.sendDrugReservation(patient, drugReservation);
+    }
+
+    @Override
+    public List<PatientDrugReservationDTO> getDrugReservationForPatient(Long patientId) {
+        List<PatientDrugReservationDTO> patientDrugReservationDTOS = new ArrayList<>();
+
+        List<DrugReservation> drugReservationsByPatient = drugReservationRepository.findAll()
+                .stream().filter(drugReservation -> drugReservation.getPatient().getId().equals(patientId))
+                .collect(Collectors.toList());
+        /*OTKAZAN*/
+
+        if (drugReservationsByPatient.isEmpty()) {
+            return new ArrayList<>();
+        }
+        for (DrugReservation drugReservation : drugReservationsByPatient) {
+            patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
+        }
+
+
+        return patientDrugReservationDTOS;
+    }
     @Override
     public boolean isDrugReserved(Long medicationId, Long pharmacyId) {
        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();

@@ -27,6 +27,12 @@ export class PharmDermMedicationsComponent {
         this.router.navigate(["/employee-welcome"]);
       }
 
+      let user = this.authService.currentUserValue;
+
+      if (user.role !== 'Pharmacist') {
+        this.router.navigate(["/dashboard"]);
+      }
+
       this.uniqueId = null;
       this.issueAvailable = false;
       this.showResults  = false;

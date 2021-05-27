@@ -107,7 +107,6 @@ public class PharmacyService implements IPharmacyService {
         return pharmacyRepository.findAll();
     }
 
-
     @Override
     public List<PharmacyDTO> getAllPharmacies() throws Exception {
         List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();
@@ -245,6 +244,24 @@ public class PharmacyService implements IPharmacyService {
     }
 
 
+
+
+
+    @Override
+    public List<PharmacyDTO> getPharmaciesByMedicationId(Long id) throws Exception {
+        List<PharmacyDTO> pharmacyDTOS = getAllPharmacies();
+        List<PharmacyDTO> pharmacyWithMedication = new ArrayList<>();
+        for (PharmacyDTO p : pharmacyDTOS) {
+            List<PharmacyStorage> pharmacyStorages = pharmacyStorageService.getMedicationsByPharmacy(p.getId());
+
+            for(PharmacyStorage ph : pharmacyStorages) {
+                if(ph.getMedication().getId().equals(id)){
+                    pharmacyWithMedication.add(p);
+                }
+            }
+        }
+        return pharmacyWithMedication;
+    }
 
 
 

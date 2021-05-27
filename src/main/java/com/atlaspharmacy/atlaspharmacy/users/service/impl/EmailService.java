@@ -197,5 +197,37 @@ public class EmailService implements IEmailService {
         javaMailSender.send(message);
     }
 
+    @Override
+    public void sendDrugReservation(Patient patient, DrugReservation drugReservation) throws IOException, MessagingException {
+        String FilePath = "./drugreservationmail.html";
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/reservations/service/drugreservationmail.html");
+
+
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        int code = drugReservation.getUniqueIdentifier();
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[medicationName]", drugReservation.getMedication().getName());
+        body = body.replace("[name]", patient.getName());
+        body = body.replace("[code]", String.valueOf(code));
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, patient.getEmail());
+
+        message.setSubject("Created reservation!");
+
+        javaMailSender.send(message);
+    }
+
 
 }

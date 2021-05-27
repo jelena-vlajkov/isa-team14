@@ -1,10 +1,13 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.DTO;
 
+import java.util.Date;
+
 public class CreateDrugReservationDTO {
     private Long patientId;
     private Long pharmacyId;
     private Long medicationId;
     private int therapyDays;
+    private Date expirationDate;
 
     public CreateDrugReservationDTO() {
     }
@@ -14,6 +17,23 @@ public class CreateDrugReservationDTO {
         this.pharmacyId = pharmacyId;
         this.medicationId = medicationId;
         this.therapyDays = therapyDays;
+    }
+
+    public CreateDrugReservationDTO(Long patientId, Long pharmacyId, Long medicationId, int therapyDays, Date expirationDate) {
+        this.patientId = patientId;
+        this.pharmacyId = pharmacyId;
+        this.medicationId = medicationId;
+        this.therapyDays = therapyDays;
+        this.expirationDate = expirationDate;
+    }
+
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     public int getTherapyDays() {

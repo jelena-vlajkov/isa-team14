@@ -50,6 +50,8 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import {RegisterPharmacistComponent} from "@app/register-pharmacist/register-pharmacist.component";
 import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medication-order-offers.component";
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
+import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
 import {DrugInquiriesComponent} from "@app/drug-inquiries/drug-inquiries.component";
 import {DermatologistsInPharmacyComponent} from "@app/dermatologists-in-pharmacy/dermatologists-in-pharmacy.component";
 import {VacationRequestsComponent} from "@app/vacation-requests/vacation-requests.component";
@@ -221,7 +223,7 @@ const routes: Routes = [
   path: 'employee-medications',
   component: PharmDermMedicationsComponent,
   canActivate : [AuthGuard],
-  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+  data: {roles:[Role.Pharmacist]}
 },
 {
   path: 'searchPharmacies',
@@ -274,6 +276,18 @@ const routes: Routes = [
 {
   path: 'patient/issuedEdrugs',
   component: PatientIssuedEDrugsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/drugReservation',
+  component: PatientDrugReservationComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/reservedDrugs',
+  component: PatientReservedDrugsComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },

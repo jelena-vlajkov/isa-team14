@@ -6,46 +6,70 @@ import java.util.Date;
 
 public class VacationRequestDTO {
     private Long id;
+    private Long medicalStaffId;
     private Date startDate;
     private Date endDate;
-    private MedicalStaffDTO medicalStaff;
     private String vacationReason;
-    private PharmacyDTO pharmacy;
+    private MedicalStaffDTO medicalStaffDTO;
 
-    public VacationRequestDTO() {}
-
-    public VacationRequestDTO(Long id, Date startDate, Date endDate, MedicalStaffDTO medicalStaff, String vacationReason, PharmacyDTO pharmacy) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.medicalStaff = medicalStaff;
-        this.vacationReason = vacationReason;
-        this.pharmacy = pharmacy;
+    public VacationRequestDTO() {
     }
 
-    public Long getId() { return id; }
+    public VacationRequestDTO(Long id, Long medicalStaffId, Date startDate, Date endDate, String vacationReason, MedicalStaffDTO medicalStaffDTO) {
+        this.id = id;
+        this.medicalStaffId = medicalStaffId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.vacationReason = vacationReason;
+        this.medicalStaffDTO = medicalStaffDTO;
+    }
 
-    public void setId(Long id) { this.id = id; }
+    public MedicalStaffDTO getMedicalStaffDTO() {
+        return medicalStaffDTO;
+    }
 
-    public Date getStartDate() { return startDate; }
+    public void setMedicalStaffDTO(MedicalStaffDTO medicalStaffDTO) {
+        this.medicalStaffDTO = medicalStaffDTO;
+    }
 
-    public void setStartDate(Date startDate) { this.startDate = startDate; }
+    public Long getId() {
+        return id;
+    }
 
-    public Date getEndDate() { return endDate; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setEndDate(Date endDate) { this.endDate = endDate; }
+    public Date getStartDate() {
+        return startDate;
+    }
 
-    public MedicalStaffDTO getMedicalStaff() { return medicalStaff; }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-    public void setMedicalStaff(MedicalStaffDTO medicalStaff) { this.medicalStaff = medicalStaff; }
+    public Date getEndDate() {
+        return endDate;
+    }
 
-    public String getVacationReason() { return vacationReason; }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+
+    public String getVacationReason() {
+        return vacationReason;
+    }
 
     public void setVacationReason(String vacationReason) {
         this.vacationReason = vacationReason;
     }
 
-    public PharmacyDTO getPharmacy() { return pharmacy; }
+    public Long getMedicalStaffId() {
+        return medicalStaffId;
+    }
 
-    public void setPharmacy(PharmacyDTO pharmacy) { this.pharmacy = pharmacy; }
+    public void setMedicalStaffId(Long medicalStaffId) {
+        this.medicalStaffId = medicalStaffId;
+    }
 }

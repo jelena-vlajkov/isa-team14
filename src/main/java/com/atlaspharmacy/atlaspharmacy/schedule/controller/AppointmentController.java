@@ -3,15 +3,12 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.ScheduleAppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
@@ -52,10 +49,19 @@ public class AppointmentController {
     @PostMapping(value = "/scheduleAppointment", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @EmployeeAuthorization
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<?> scheduleAppointment(@RequestBody ScheduleAppointmentDTO dto) throws AppointmentNotFreeException {
+    public ResponseEntity<?> scheduleAppointment(@RequestBody ScheduleAppointmentDTO dto) throws Exception {
         appointmentService.saveAppointment(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/findAvailableByPatient", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public List<AppointmentDTO> findAvailableByPatient(@RequestBody PatientAppointmentDTO dto) throws Exception {
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableForPatient(dto));
+    }
+
+
     @PostMapping(value = "/finishAppointment", consumes = MediaType.APPLICATION_JSON_VALUE)
     @EmployeeAuthorization
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -87,6 +93,14 @@ public class AppointmentController {
     public @ResponseBody List<AppointmentDTO> getAvailable(@RequestParam("date") String stringDate, @RequestParam("id") Long id) throws ParseException {
         Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.findAvailableBy(date, id));
+    }
+
+    @GetMapping(value = "/getScheduledByMonth", produces = MediaType.APPLICATION_JSON_VALUE)
+    @EmployeeAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public @ResponseBody List<AppointmentDTO> getScheduledByMonth(@RequestParam("date") String stringDate, @RequestParam("medicalStaffId") Long id) throws ParseException {
+        Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
+        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(id));
     }
 
     @GetMapping(value = "/getFinishedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -2,8 +2,10 @@ package com.atlaspharmacy.atlaspharmacy.reservations.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.DrugReservationAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
@@ -66,13 +68,41 @@ public class DrugReservationController {
         return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(uniqueIdentifier));
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @PostMapping(value = "/patientDrugReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<?> patientDrugReservation(@RequestBody CreateDrugReservationDTO dto) throws Exception {
+        drugReservationService.patientDrugReservation(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getDrugReservationForPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    List<PatientDrugReservationDTO> getDrugReservationForPatient(@RequestParam("patientId") Long patientId) throws Exception {
+        return drugReservationService.getDrugReservationForPatient(patientId);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/cancelDrugReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    ResponseEntity<String> cancelDrugReservation(@RequestBody Long reservationId) throws  ParseException {
+        if (drugReservationService.cancelDrugReservation(reservationId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
     @GetMapping(value = "/isDrugReserved")
     boolean isDrugReserved(@RequestParam("medicationId") Long medicationId,@RequestParam("pharmacyId") Long pharmacyId) throws Exception {
         return drugReservationService.isDrugReserved(medicationId,pharmacyId);
     }
 
 
-    @ExceptionHandler(DueDateSoonException.class)
+        @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody
     DueDateSoonException handleException(DueDateSoonException e) {

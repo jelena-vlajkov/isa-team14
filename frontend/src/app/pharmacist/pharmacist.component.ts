@@ -46,12 +46,12 @@ export class PharmacistComponent implements OnInit {
 
   isPharmacist() {
     let user = this.authService.currentUserValue;
-    return user.role === 'Dermatologist'; 
+    return user.role === 'Pharmacist'; 
   }
 
   isDermatologist() {
     let user = this.authService.currentUserValue;
-    return user.role === 'Pharmacist'; 
+    return user.role === 'Dermatologist'; 
   }
 
   logout() {
@@ -68,13 +68,13 @@ export class PharmacistComponent implements OnInit {
     this.router.navigateByUrl('/add-report');
   }
   routeToReports() {
-    this.router.navigateByUrl('/appointment-report');
+    this.router.navigateByUrl('/users');
   }
   routeToProfile() {
     this.router.navigateByUrl('/employee-profile');
   }
   routeToCalendar() {
-    this.router.navigateByUrl('/employee-profile');
+    this.router.navigateByUrl('/employee-calendar');
 
   }
 }

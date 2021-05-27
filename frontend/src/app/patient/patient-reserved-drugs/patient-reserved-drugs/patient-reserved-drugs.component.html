@@ -1,0 +1,78 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/patient/reservedDrugs" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/patient/issuedEdrugs" style="color: white;"> List of issued medications by eRecepts</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of subscibed pharmacies</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Write complaint</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Get reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by pharmacist</button>
+          <button mat-list-item routerLink="/patient/drugReservation" style="color: white;"> Reserve medication</button>
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: relative; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>All reserved medications</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            
+            <div class="table-wrapper">
+                <table matSort class="fl-table">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Producer</th>
+                        <th>Pharmacy</th>
+                        <th>Expiration of reservation</th>
+                        <th>Is issued?</th>
+                        <th>Is canceled?</th>
+                        <th>Cancel here:</th>
+                        
+                    
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let r of reservations" >
+                        <td>{{r.medicationName}}</td>
+                        <td>{{r.medicationProducer}}</td>
+                        <td>{{r.pharmacyName}}</td>
+                        <td>{{r.expirationDate | date : "medium"}}</td>
+                        <td *ngIf="r.issued">Yes</td>
+                        <td *ngIf="r.issued === false">No</td>
+                        <td *ngIf="r.canceled">Yes</td>
+                        <td *ngIf="r.canceled === false">No</td>
+                        <td><button *ngIf="r.issued === false && r.canceled === false" mat-button style="background-color: #385399; color: white;" (click)="cancelReservation(r)" >Cancel</button></td>
+                        
+                    </tr>
+                    
+                    <tbody>
+                </table>
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>
+
+
+
+

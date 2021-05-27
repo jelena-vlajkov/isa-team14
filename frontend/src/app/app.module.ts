@@ -50,7 +50,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { PharmacistComponent } from './pharmacist/pharmacist.component';
 import { PharmacistProfileComponent } from './pharmacist.profile/pharmacist.profile.component';
 import { CommonModule, DatePipe } from '@angular/common';
-//import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {PharmacistCalendarComponent} from './pharmacist.calendar/pharmacist.calendar.component';
 import {PharmacistPatientsComponent} from './pharmacist.patient/pharmacist.patient.component';
 import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
@@ -82,6 +82,11 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import { RegisterPharmacistComponent } from './register-pharmacist/register-pharmacist.component';
 import { MedicationOrderOffersComponent } from './medication-order-offers/medication-order-offers.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
 import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.component';
 import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/dermatologists-in-pharmacy.component';
 import { VacationRequestsComponent } from './vacation-requests/vacation-requests.component';
@@ -142,6 +147,9 @@ import { DermatologistListAndFilterComponent } from './dermatologist-list-and-fi
     PatientFinishedExaminationComponent,
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
+    PatientIssuedEDrugsComponent,
+    PatientDrugReservationComponent,
+    PatientReservedDrugsComponent,
     RegisterPharmacistComponent,
     MedicationOrderOffersComponent,
     PatientIssuedEDrugsComponent,
@@ -157,6 +165,7 @@ import { DermatologistListAndFilterComponent } from './dermatologist-list-and-fi
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatListModule,
@@ -193,8 +202,18 @@ import { DermatologistListAndFilterComponent } from './dermatologist-list-and-fi
     //NgbModule,
     MatExpansionModule,
     MatStepperModule,
-    MatCardModule
-
+    MatCardModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    CommonModule,
+    FormsModule
+  ],
+  exports: [
+    PharmacistCalendarComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

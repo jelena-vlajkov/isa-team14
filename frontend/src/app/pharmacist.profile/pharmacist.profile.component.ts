@@ -98,9 +98,6 @@ export class PharmacistProfileComponent implements OnInit {
         'vacationReason' : new FormControl("", [Validators.required])
       });
 
-      this.pharmacistService.getById(Number(localStorage.getItem('userId'))).subscribe(result=>{
-        this.pharmacist = result;
-      });
 
     }
     sendRequest() {
@@ -116,8 +113,10 @@ export class PharmacistProfileComponent implements OnInit {
         let startDateSTring = datepipe.transform(startDate, 'dd.MM.yyyy.')
         let endDateString = datepipe.transform(endDate, 'dd.MM.yyyy.')
 
-        let vacationRequest = new VacationRequest(null,new Date(startDateSTring),new Date(endDateString),this.pharmacist,
-          vacationReason,this.pharmacist.pharmacy);
+        console.log(startDateSTring)
+        console.log(endDateString)
+
+        let vacationRequest = new VacationRequest(Number(localStorage.getItem("userId")), startDate , endDate, vacationReason);
 
 
         this.employeeService.addVacationRequest(vacationRequest).subscribe(

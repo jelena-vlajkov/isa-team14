@@ -1,0 +1,124 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/patient/reservedDrugs" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/patient/issuedEdrugs" style="color: white;"> List of issued medications by eRecepts</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of subscibed pharmacies</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Write complaint</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Get reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/patient/scheduleCounseling" style="color: white;"> Schedule appointment by pharmacist</button>
+          <button mat-list-item routerLink="/patient/drugReservation" style="color: white;"> Reserve medication</button>
+          
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: relative; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Create medication reservation</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            
+            <div class="table-wrapper">
+                <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear">
+                    <mat-step [stepControl]="firstFormGroup"  *ngIf="firstFormGroup">
+                        <form [formGroup]="firstFormGroup">
+                            <div>
+                            <ng-template matStepLabel>Medication choosing</ng-template>
+                            <mat-form-field>
+                                <mat-label>Medication</mat-label>
+                                <input id="selectedMedication" type="text" matInput formControlName="firstCtrl" placeholder="Insert med for search" required>
+                            </mat-form-field>
+                            <button mat-stroked-button color="primary" style="margin-left:8px" (click)="searchMedication()">Search</button>
+                        
+                            <h4 style="padding-top: 10px;">Choose one medication:</h4>
+                            <div style="width: 40em; margin-bottom: 10px;">
+                            <mat-selection-list (ngModelChange)="onChangeMedication($event)" [multiple]="false" formControlName="firstCtrl" required> 
+                                <mat-list-option  *ngFor="let m of medications"  [value]="m.id">
+                                {{m.name}}
+                                </mat-list-option>
+                            </mat-selection-list>
+                            </div>
+                            </div>
+                            
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="medicationButtonNext()" >Next</button>
+                        </form>
+                    </mat-step> 
+                    <mat-step [stepControl]="secondFormGroup"  *ngIf="secondFormGroup">
+                        <form [formGroup]="secondFormGroup">
+                            <ng-template matStepLabel>Pharmacy choosing</ng-template>
+                            <span *ngIf="isPharmChosen">
+                                <label >Your pharm: {{chosenPharmacy.name}}</label>
+                            </span>
+                            
+                            <table matSort  class="fl-table">
+                                <thead>
+                                <tr>
+                                    <th >Name</th>
+                                    <th >Address</th>
+                                    <th>Choose pharamcy</th>
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let p of pharmacies">
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
+                                    <td><button mat-button style="background-color: #385399; color: white;" (click)="choosePharmacy(p)">Choose</button></td>
+                                    
+                                </tr>
+                                
+                                <tbody>
+                            </table>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
+                        </form>
+
+                    </mat-step>
+                    <mat-step [stepControl]="thirdFormGroup"  *ngIf="thirdFormGroup">
+                        <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Date choosing</ng-template>
+                            <div>
+                            <mat-form-field color="accent" appearance="fill">
+                                <mat-label>Datum preuzimanja</mat-label>
+                                <input matInput [matDatepicker]="picker"  [min]="maxDate"  formControlName="thirdCtrl" readonly required (dateInput)="onDateChange($event.value)">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker color="primary"></mat-datepicker>
+                              </mat-form-field>
+                            </div>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
+                        <form [formGroup]="fourthFormGroup">
+                            <ng-template matStepLabel>Reserve medication</ng-template>
+                            <div>
+                                <label>Reserve medication here</label>
+                            </div>
+                            <button mat-raised-button  color="primary" class="button-position-first-form" (click)="reserveMedication()">Reserve</button>
+                        </form>
+                    </mat-step>
+
+                </mat-horizontal-stepper>
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>

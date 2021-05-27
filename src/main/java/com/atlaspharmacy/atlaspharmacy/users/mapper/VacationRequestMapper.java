@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VacationRequest;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.VacationRequestStatus;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ public class VacationRequestMapper {
         vacationRequest.setVacationReason(dto.getVacationReason());
         vacationRequest.setStartDate(startDate);
         vacationRequest.setEndDate(endDate);
+        vacationRequest.setStatus(VacationRequestStatus.PENDING);
         return vacationRequest;
     }
 
@@ -28,7 +30,7 @@ public class VacationRequestMapper {
         dto.setVacationReason(vacationRequest.getVacationReason());
         dto.setEndDate(vacationRequest.getEndDate());
         dto.setStartDate(vacationRequest.getStartDate());
-        dto.setMedicalStaff(MedicalStaffMapper.MapMedicalStaffToDTO(vacationRequest.getMedicalStaff()));
+        dto.setMedicalStaffDTO(MedicalStaffMapper.MapMedicalStaffToDTO(vacationRequest.getMedicalStaff()));
         return dto;
     }
 
