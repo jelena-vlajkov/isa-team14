@@ -207,4 +207,9 @@ public class PharmacistService implements IPharmacistService {
 
     }
 
+    @Override
+    public Pharmacist findById(Long pharmacistId) {
+        return pharmacistRepository.findById(pharmacistId).get();
+    }
+
 }

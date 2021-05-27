@@ -11,6 +11,8 @@ import { Gender } from '@app/model/users/patient/gender';
 import { EmployeePasswordChanger } from '@app/model/pharmderm/changepass';
 import { Router } from '@angular/router';
 import { VacationRequest } from '@app/model/pharmderm/vacationrequest';
+import {PharmacistService} from "@app/service/pharmacist/pharmacist.service";
+import {Pharmacist} from "@app/model/users/pharmacist/pharmacist";
 
 
 declare interface RouteInfo {
@@ -32,7 +34,7 @@ export const ROUTES: RouteInfo[] = [
   })
 
 export class PharmacistProfileComponent implements OnInit {
-  
+
     public user : User;
     public isRequired:boolean = true;
     public isEditMode:boolean = false;
@@ -47,25 +49,27 @@ export class PharmacistProfileComponent implements OnInit {
     public selected:string;
     editProfileForm: FormGroup;
     genders:string[];
+    pharmacist:Pharmacist;
     public vacationRequestForm : FormGroup;
     @ViewChild(GooglePlacesComponent) googleplaces;
 
-  
-    constructor(private authService : AuthenticationService, private userService : UserService, private employeeService : EmployeeService, private router : Router) {
+
+    constructor(private authService : AuthenticationService, private userService : UserService, private employeeService : EmployeeService
+                , private router : Router,private pharmacistService:PharmacistService) {
 
       this.isRequired = true;
       this.isEditMode = false;
       this.isNotEditMode = true;
       this.changePassMode = false;
      }
-  
+
     ngOnInit(): void {
-      
-      if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+
+      if ((localStorage.getItem('firstTimeChanged') === 'false')) {
         this.router.navigate(["/employee-welcome"]);
-  
+
       }
-    
+
       this.genders = [];
       this.genders.push("Female");
       this.genders.push("Male");
@@ -94,27 +98,27 @@ export class PharmacistProfileComponent implements OnInit {
         'vacationReason' : new FormControl("", [Validators.required])
       });
 
-
+      this.pharmacistService.getById(Number(localStorage.getItem('userId'))).subscribe(result=>{
+        this.pharmacist = result;
+      });
 
     }
     sendRequest() {
       let startDate = this.vacationRequestForm.controls.startDate.value;
       let endDate = this.vacationRequestForm.controls.endDate.value;
       let vacationReason = this.vacationRequestForm.controls.vacationReason.value;
-      
+
       if (startDate.getTime() > endDate.getTime()) {
         alert("Start date must be before end date!")
       }
-      else { 
-        let vacationRequest = new VacationRequest();
-        
+      else {
         const datepipe: DatePipe = new DatePipe('en-US')
         let startDateSTring = datepipe.transform(startDate, 'dd.MM.yyyy.')
         let endDateString = datepipe.transform(endDate, 'dd.MM.yyyy.')
-        vacationRequest.startDate = startDateSTring;
-        vacationRequest.endDate = endDateString;
-        vacationRequest.medicalStaffId = Number(localStorage.getItem("userId"))
-        vacationRequest.vacationReason = vacationReason;
+
+        let vacationRequest = new VacationRequest(null,new Date(startDateSTring),new Date(endDateString),this.pharmacist,
+          vacationReason,this.pharmacist.pharmacy);
+
 
         this.employeeService.addVacationRequest(vacationRequest).subscribe(
           data => {
@@ -144,7 +148,7 @@ export class PharmacistProfileComponent implements OnInit {
           );
 
 
-          
+
         this.employeeService.changeEmployeePassword(changePass).subscribe(
           res=>{
             alert("Successfully updated!")
@@ -167,7 +171,7 @@ export class PharmacistProfileComponent implements OnInit {
           },
           error=>{
             alert(error)
-            
+
             this.isRequired = true;
             this.isEditMode = false;
             this.isNotEditMode = false;
@@ -176,7 +180,7 @@ export class PharmacistProfileComponent implements OnInit {
         )
       }
 
-      
+
 
     }
     editProfile(){
@@ -191,8 +195,8 @@ export class PharmacistProfileComponent implements OnInit {
         'gender': new FormControl(this.gender, Validators.required),
         'dob' : new FormControl(this.user.dateOfBirth, Validators.required)
       });
-      
-  
+
+
     }
     changePassword() {
 
@@ -206,11 +210,11 @@ export class PharmacistProfileComponent implements OnInit {
         'repnewpass' : new FormControl("", [Validators.required,Validators.minLength(8)])
       });
 
-      
+
     }
     cancelEdit() {
       this.editProfileForm = new FormGroup({});
-      
+
       this.isRequired = true;
       this.isEditMode = false;
       this.isNotEditMode = true;
@@ -225,7 +229,7 @@ export class PharmacistProfileComponent implements OnInit {
         employee.email = this.user.email;
         employee.gender = this.editProfileForm.controls.gender.value;;
         employee.phoneNumber = this.editProfileForm.controls.phoneNumber.value;
-        
+
         this.employeeService.updateEmployee(employee).subscribe(
           res=>{
             alert("Successfully updated!")
@@ -244,11 +248,11 @@ export class PharmacistProfileComponent implements OnInit {
             this.isEditMode = false;
             this.isNotEditMode = true;
             this.changePassMode = false;
-  
+
           },
           error=>{
             alert("Oh no, something went wrong!")
-            
+
             this.isRequired = true;
             this.isEditMode = false;
             this.isNotEditMode = true;
@@ -256,8 +260,8 @@ export class PharmacistProfileComponent implements OnInit {
           }
         )
       }
-    
+
       }
-   
+
 
 

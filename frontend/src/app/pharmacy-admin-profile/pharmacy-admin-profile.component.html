@@ -2,12 +2,8 @@
   <mat-drawer style="width: 20%;" #drawer mode ="over">
     <mat-action-list>
       <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info</button>
-      <button mat-list-item> Dermatology appointments </button>
       <button mat-list-item routerLink="/business-report"> Business reports </button>
-      <button mat-list-item> Drugs</button>
-      <button mat-list-item> Employees</button>
-      <button mat-list-item> Drug purchases</button>
-      <button mat-list-item> Actions and special offers</button>
+      <button mat-list-item routerLink="/vacation-requests"> Vacation requests </button>
 
     </mat-action-list>
     <mat-action-list style="position: absolute; bottom: 1px;">
@@ -37,42 +33,42 @@
           <label>Name:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{name}}</p>
+          <p>{{pharmacyAdmin.name}}</p>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <label>Surname:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{surname}}</p>
+          <p>{{pharmacyAdmin.surname}}</p>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <label>Gender:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{gender}}</p>
+          <p>{{pharmacyAdmin.gender}}</p>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <label>Address:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{address}}</p>
+          <p>{{pharmacyAdmin.address.street}}, {{pharmacyAdmin.address.city.name}}</p>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <label>Telephone:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{telephone}}</p>
+          <p>{{pharmacyAdmin.phoneNumber}}</p>
         </mat-grid-tile>
 
         <mat-grid-tile>
           <label>Email:</label>
         </mat-grid-tile>
         <mat-grid-tile>
-          <p>{{mail}}</p>
+          <p>{{pharmacyAdmin.email}}</p>
         </mat-grid-tile>
 
       </mat-grid-list>
@@ -90,7 +86,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="name-ff">
               <mat-label>Name*</mat-label>
-              <input matInput id="name" placeholder="Name" value="{{name}}" name="name-ff"
+              <input matInput id="name" placeholder="Name" value="{{pharmacyAdmin.name}}" name="name-ff"
                      formControlName="name">
               <mat-error
                 *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
@@ -104,7 +100,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="surname-ff">
               <mat-label>Surname*</mat-label>
-              <input matInput id="surname" placeholder="Surname" value="{{surname}}" name="surname-ff"
+              <input matInput id="surname" placeholder="Surname" value="{{pharmacyAdmin.surname}}" name="surname-ff"
                      formControlName="surname">
               <mat-error
                 *ngIf="!editProfileForm.get('surname').valid && editProfileForm.get('surname').touched && editProfileForm.get('surname').errors['required']">
@@ -119,9 +115,9 @@
             <div class="inputField">
 
               <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
-                <mat-radio-button value="Female" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
-                <mat-radio-button value="Male" style="font-size:20px">Male</mat-radio-button>
-                <mat-radio-button value="Other" style="font-size:20px;margin-left: 10px;" >Other</mat-radio-button>
+                <mat-radio-button value="FEMALE" style="font-size:20px;margin-right:20px">Female</mat-radio-button>
+                <mat-radio-button value="MALE" style="font-size:20px">Male</mat-radio-button>
+                <mat-radio-button value="OTHER" style="font-size:20px;margin-left: 10px;" >Other</mat-radio-button>
               </mat-radio-group>
               <mat-error
                 *ngIf="!editProfileForm.get('gender').valid && editProfileForm.get('gender').touched && editProfileForm.get('gender').errors['required']">
@@ -129,13 +125,13 @@
             </div>
           </mat-grid-tile>
 
-          <mat-grid-tile>
-            <label>Address:</label>
-          </mat-grid-tile>
-          <mat-grid-tile>
-            <mat-form-field appearance="fill" id="address-ff">
-              <mat-label>Address*</mat-label>
-              <app-google-places style="background:transparent;border:none;">
+        <!-- <mat-grid-tile>
+          //  <label>Address:</label>
+         // </mat-grid-tile>
+         // <mat-grid-tile>
+          //  <mat-form-field appearance="fill" id="address-ff">
+           //   <mat-label>Address*</mat-label>
+             // <app-google-places style="background:transparent;border:none;">
                 <input matInput id="address" placeholder="Address" value="{{address}}" name="address-ff"
                        formControlName="surname"></app-google-places>
               <mat-error
@@ -143,7 +139,7 @@
                 Please enter address</mat-error>
             </mat-form-field>
           </mat-grid-tile>
-          <!--   <mat-grid-tile>
+             <mat-grid-tile>
                <app-google-places></app-google-places>
              </mat-grid-tile>-->
 
@@ -153,7 +149,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="telephone-ff">
               <mat-label>Telephone*</mat-label>
-              <input matInput id="telephone" placeholder="Telephone" value="{{telephone}}" name="telephone-ff"
+              <input matInput id="telephone" placeholder="Telephone" value="{{pharmacyAdmin.phoneNumber}}" name="telephone-ff"
                      formControlName="telephone">
               <mat-error
                 *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
@@ -165,7 +161,7 @@
             <label>Email:</label>
           </mat-grid-tile>
           <mat-grid-tile>
-            <p>{{mail}}</p>
+            <p>{{pharmacyAdmin.email}}</p>
           </mat-grid-tile>
 
         </mat-grid-list>

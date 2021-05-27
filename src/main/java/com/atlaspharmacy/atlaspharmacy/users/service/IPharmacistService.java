@@ -19,5 +19,6 @@ public interface IPharmacistService {
      Pharmacist editPharmacist(PharmacistDTO pharmacistDTO);
      Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception;
      boolean deletePharmacist(Long pharmacistId);
+     Pharmacist findById(Long pharmacistId);
 
 }

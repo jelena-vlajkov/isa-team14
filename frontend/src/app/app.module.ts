@@ -84,6 +84,7 @@ import { MedicationOrderOffersComponent } from './medication-order-offers/medica
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.component';
 import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/dermatologists-in-pharmacy.component';
+import { VacationRequestsComponent } from './vacation-requests/vacation-requests.component';
 
 @NgModule({
   declarations: [
@@ -143,7 +144,8 @@ import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/
     MedicationOrderOffersComponent,
     PatientIssuedEDrugsComponent,
     DrugInquiriesComponent,
-    DermatologistsInPharmacyComponent
+    DermatologistsInPharmacyComponent,
+    VacationRequestsComponent
 
   ],
   imports: [

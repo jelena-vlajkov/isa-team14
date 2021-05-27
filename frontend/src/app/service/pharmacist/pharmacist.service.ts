@@ -38,5 +38,8 @@ export class PharmacistService {
   deletePharmacist(pharmacistId:Number) {
     return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.deletePharmacist}?pharmacistId=${pharmacistId}`,null);
   }
+  getById(id:Number) : Observable<Pharmacist> {
+    return this.http.get<Pharmacist>(`${environment.baseUrl}/${environment.pharmacist}/${environment.getById}?pharmacistId=${id}`);
+  }
 
 }

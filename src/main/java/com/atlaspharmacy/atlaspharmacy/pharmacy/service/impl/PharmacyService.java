@@ -102,6 +102,8 @@ public class PharmacyService implements IPharmacyService {
         return pharmacyToUpdate;
     }
 
+
+
     @Override
     public List<PharmacyDTO> getAllPharmacies() throws Exception {
         List<Pharmacy> pharmacies = (List<Pharmacy>) pharmacyRepository.findAll();

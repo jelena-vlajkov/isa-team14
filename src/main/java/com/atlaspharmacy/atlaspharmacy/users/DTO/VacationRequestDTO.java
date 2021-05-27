@@ -1,50 +1,51 @@
 package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+
+import java.util.Date;
+
 public class VacationRequestDTO {
-    private String startDate;
-    private String endDate;
-    private Long medicalStaffId;
+    private Long id;
+    private Date startDate;
+    private Date endDate;
+    private MedicalStaffDTO medicalStaff;
     private String vacationReason;
+    private PharmacyDTO pharmacy;
 
-    public VacationRequestDTO() {
-    }
+    public VacationRequestDTO() {}
 
-    public VacationRequestDTO(String startDate, String endDate, Long medicalStaffId, String vacationReason) {
+    public VacationRequestDTO(Long id, Date startDate, Date endDate, MedicalStaffDTO medicalStaff, String vacationReason, PharmacyDTO pharmacy) {
+        this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.medicalStaffId = medicalStaffId;
+        this.medicalStaff = medicalStaff;
         this.vacationReason = vacationReason;
+        this.pharmacy = pharmacy;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
+    public Long getId() { return id; }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
+    public void setId(Long id) { this.id = id; }
 
-    public String getEndDate() {
-        return endDate;
-    }
+    public Date getStartDate() { return startDate; }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
+    public void setStartDate(Date startDate) { this.startDate = startDate; }
 
-    public Long getMedicalStaffId() {
-        return medicalStaffId;
-    }
+    public Date getEndDate() { return endDate; }
 
-    public void setMedicalStaffId(Long medicalStaffId) {
-        this.medicalStaffId = medicalStaffId;
-    }
+    public void setEndDate(Date endDate) { this.endDate = endDate; }
 
-    public String getVacationReason() {
-        return vacationReason;
-    }
+    public MedicalStaffDTO getMedicalStaff() { return medicalStaff; }
+
+    public void setMedicalStaff(MedicalStaffDTO medicalStaff) { this.medicalStaff = medicalStaff; }
+
+    public String getVacationReason() { return vacationReason; }
 
     public void setVacationReason(String vacationReason) {
         this.vacationReason = vacationReason;
     }
+
+    public PharmacyDTO getPharmacy() { return pharmacy; }
+
+    public void setPharmacy(PharmacyDTO pharmacy) { this.pharmacy = pharmacy; }
 }

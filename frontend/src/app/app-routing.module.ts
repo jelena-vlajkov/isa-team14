@@ -52,6 +52,7 @@ import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medic
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import {DrugInquiriesComponent} from "@app/drug-inquiries/drug-inquiries.component";
 import {DermatologistsInPharmacyComponent} from "@app/dermatologists-in-pharmacy/dermatologists-in-pharmacy.component";
+import {VacationRequestsComponent} from "@app/vacation-requests/vacation-requests.component";
 
 const routes: Routes = [
 {
@@ -188,7 +189,7 @@ const routes: Routes = [
   path: "employee-welcome",
   component: WelcomeComponent,
   canActivate : [AuthGuard],
-  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+  data: {roles:[Role.Pharmacist, Role.Dermatologist,Role.PharmacyAdmin]}
 
 },
 {
@@ -327,6 +328,10 @@ const routes: Routes = [
   {
     path:'dermatologistsInPharmacy',
     component:DermatologistsInPharmacyComponent
+  },
+  {
+    path:'vacation-requests',
+    component:VacationRequestsComponent
   }
 ];
 

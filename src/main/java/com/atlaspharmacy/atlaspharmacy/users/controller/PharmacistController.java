@@ -75,6 +75,11 @@ public class PharmacistController {
         return PharmacistMapper.mapPharmacistToDTO(pharmacistService.registerPharmacist(pharmacistDTO));
     }
 
+    @GetMapping(value = "/getById",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PharmacistDTO getById(@RequestParam("pharmacistId") Long pharmacistId) throws Exception {
+        return PharmacistMapper.mapPharmacistToDTO(pharmacistService.findById(pharmacistId));
+    }
+
     @PostMapping(value = "/deletePharmacist")
     public ResponseEntity<?> deleteDermatologistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId){
         boolean successful;

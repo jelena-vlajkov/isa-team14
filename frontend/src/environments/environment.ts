@@ -129,6 +129,9 @@ export const environment = {
   getByMedicalStaff:"getByMedicalStaff",
   addDermatologistToPharmacy:"addDermatologistToPharmacy",
   occupiedCounselingExists:"occupiedCounselingsExists",
-  occupiedExaminationsExists:"occupiedExaminationsExists"
+  occupiedExaminationsExists:"occupiedExaminationsExists",
+  editPharmacyAdmin:"editPharmacyAdmin",
+  approveVacationRequest:"approveVacationRequest",
+  denyVacationRequest:"denyVacationRequest"
 };
 
