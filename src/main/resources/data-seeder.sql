@@ -48,6 +48,12 @@ values ('Patient', 200, '1997-01-01 00:00:01', 'danica.vojvodic1234@gmail.com', 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 values ('Patient', 1300, '1997-01-01 00:00:01', 'danica123.vojvodic@gmail.com', true, 1, 'Danica', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 1241251,'Vojvodic',600);
 
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Pharmacist', 2000, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', false, 0, 'Lazo','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Lazic', 200);
+
+insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
+values ('Pharmacist', 2100, '1986-01-01 00:00:01', 'vlajkovt@gmail.com', false, 0, 'Jela','$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe',9766098, 'Lazic', 200);
+
 
 
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
@@ -83,10 +89,14 @@ insert into medicalstaff(license_number, id) values('1241241', 500);
 insert into medicalstaff(license_number, id) values('124124341', 5500);
 insert into medicalstaff(license_number, id) values('1241255541', 1100);
 insert into medicalstaff(license_number, id) values('12415541', 1700);
+insert into medicalstaff(license_number, id) values('12415541', 2000);
+insert into medicalstaff(license_number, id) values('415541', 2100);
 
 
 insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (500,100,1,2,3,4,5);
 insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (5500,200,1,1,1,1,1);
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (2000,200,30,2,3,4,5);
+insert into pharmacists(id,pharmacy_id,excellent,good,poor,very_good,very_poor) values (2100,200,50,1,5,1,1);
 -- random character generator will generate verification code that will be added to database
 -- when patient activates account, code is removed
 

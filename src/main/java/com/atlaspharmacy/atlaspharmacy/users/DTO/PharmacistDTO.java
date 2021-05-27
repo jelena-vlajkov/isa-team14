@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PharmacistDTO extends MedicalStaffDTO{
     private PharmacyDTO pharmacy;
-    private AverageGrade averageGrade;
+    private AverageGradeDTO averageGrade;
 
 
     public PharmacistDTO() {
@@ -20,7 +20,7 @@ public class PharmacistDTO extends MedicalStaffDTO{
     public PharmacistDTO(Long id, String name, String surname, Date dateOfBirth,
                          String phoneNumber, String email, String password, Gender gender,
                          AddressDTO address, String role, List<AuthorityDTO> authorities,
-                         PharmacyDTO pharmacy, boolean firstTimePassword,AverageGrade averageGrade,String licenceNumber) {
+                         PharmacyDTO pharmacy, boolean firstTimePassword,AverageGradeDTO averageGrade,String licenceNumber) {
         super(id,name,surname,dateOfBirth,phoneNumber,email,password,gender,address,role,authorities,firstTimePassword,licenceNumber);
         this.pharmacy = pharmacy;
         this.averageGrade = averageGrade;
@@ -32,9 +32,9 @@ public class PharmacistDTO extends MedicalStaffDTO{
         this.pharmacy = pharmacy;
     }
 
-    public AverageGrade getAverageGrade() { return averageGrade; }
+    public AverageGradeDTO getAverageGrade() { return averageGrade; }
 
-    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+    public void setAverageGrade(AverageGradeDTO averageGrade) { this.averageGrade = averageGrade; }
 
     public double countAverageGrade(){ return averageGrade.count();  }
 }

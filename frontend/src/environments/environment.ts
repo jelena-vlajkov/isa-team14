@@ -135,6 +135,9 @@ export const environment = {
   denyVacationRequest:"denyVacationRequest",
   searchDermatologists:"searchDermatologists",
   filterDermatologistsByPharmacy:"filterDermatologistsByPharmacy",
-  filterDermatologistsByGrade:"filterDermatologistsByGrade"
+  filterDermatologistsByGrade:"filterDermatologistsByGrade",
+  searchPharmacists:"searchPharmacists",
+  filterPharmacistsByPharmacy:"filterPharmacistsByPharmacy",
+  filterPharmacistsByGrade:"filterPharmacistsByGrade",
 };
 
