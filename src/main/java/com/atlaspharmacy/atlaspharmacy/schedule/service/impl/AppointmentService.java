@@ -1,5 +1,4 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
@@ -19,6 +18,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,12 +41,13 @@ public class AppointmentService implements IAppointmentService {
     private final MedicalRecordRepository medicalRecordRepository;
     private final PharmacyRepository pharmacyRepository;
     private final IPharmacyPricelistService pharmacyPricelistService;
+    private final IEmailService emailService;
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService) {
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService, IEmailService emailService) {
         this.userRepository = userRepository;
         this.appointmentRepository = appointmentRepository;
         this.prescriptionRepository = prescriptionRepository;
@@ -54,6 +55,7 @@ public class AppointmentService implements IAppointmentService {
         this.medicalRecordRepository = medicalRecordRepository;
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacyPricelistService = pharmacyPricelistService;
+        this.emailService = emailService;
     }
 
 
@@ -66,6 +68,7 @@ public class AppointmentService implements IAppointmentService {
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
+            emailService.successfullyScheduledCounseling(counseling);
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -82,6 +85,7 @@ public class AppointmentService implements IAppointmentService {
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.examinationCost(appointmentDTO.getPharmacyId()));
             appointmentRepository.save(counseling);
+            emailService.successfullyScheduledAppointment(counseling);
             return counseling;
         }
         throw new AppointmentNotFreeException();

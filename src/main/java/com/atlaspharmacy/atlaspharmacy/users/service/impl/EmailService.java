@@ -4,6 +4,8 @@ import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
@@ -254,9 +256,73 @@ public class EmailService implements IEmailService {
         multiPart.addBodyPart(htmlPart);
 
         message.setContent(multiPart);
-        message.setRecipients(Message.RecipientType.TO, "vlajkovj31@gmail.com");//patient.getEmail());
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
 
         message.setSubject("Appointment cancelation");
+
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void successfullyScheduledAppointment(Examination c) throws MessagingException, IOException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/successfullyscheduled.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[pharmacyName]", c.getPharmacy().getName());
+        body=body.replace("[endDate]", endDate);
+        body = body.replace("[medicalStaffName]" , c.getDermatologist().getName());
+        body=body.replace("[medicalStaffSurname]", c.getDermatologist().getSurname());
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Appointment scheduled");
+
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void successfullyScheduledCounseling(Counseling c) throws MessagingException, IOException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/successfullyscheduled.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[endDate]", endDate);
+        body = body.replace("[medicalStaffName]" , c.getPharmacist().getName());
+        body=body.replace("[medicalStaffSurname]", c.getPharmacist().getSurname());
+        body=body.replace("[pharmacyName]", c.getPharmacy().getName());
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Appointment scheduled");
 
         javaMailSender.send(message);
     }
