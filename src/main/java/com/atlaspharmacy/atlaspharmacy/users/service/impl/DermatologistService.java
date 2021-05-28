@@ -65,7 +65,7 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception {
-        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
+        if(userRepository.findUserByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
@@ -109,21 +109,22 @@ public class DermatologistService implements IDermatologistService {
     @Override
     public List<Dermatologist> searchDermatologists(Long pharmacyId, String searchInput) {
         List<Dermatologist> dermatologistsToSearch = new ArrayList<>();
-        if(pharmacyId!=null){ dermatologistsToSearch = findAllByPharmacy(pharmacyId); }
-        else{ dermatologistsToSearch = getAll(); }
+        if (pharmacyId != null) {
+            dermatologistsToSearch = findAllByPharmacy(pharmacyId);
+        } else {
+            dermatologistsToSearch = getAll();
+        }
         List<Dermatologist> searchedDermatologists = new ArrayList<>();
-        if(searchInput.equals("")){
+        if (searchInput.equals("")) {
             return dermatologistsToSearch;
         }
-        for(Dermatologist d:dermatologistsToSearch)
-        {
-            if(searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())){
+        for (Dermatologist d : dermatologistsToSearch) {
+            if (searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())) {
                 searchedDermatologists.add(d);
             }
         }
         return searchedDermatologists;
     }
-
     @Override
     public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, int grade) {
         List<DermatologistDTO> filteredDermatologists = new ArrayList<>();

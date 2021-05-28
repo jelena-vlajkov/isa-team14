@@ -57,15 +57,7 @@ public class PharmacistService implements IPharmacistService {
 
     @Override
     public List<Pharmacist> findByPharmacy(Long id) {
-        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
-
-        List<Pharmacist> pharmacistsByPharmacy=new ArrayList<>();
-        for(Pharmacist p: allPharmacists){
-            if(p.getPharmacy().getId().equals(id)){
-                pharmacistsByPharmacy.add(p);
-            }
-        }
-        return pharmacistsByPharmacy;
+        return pharmacistRepository.findPharmacistByPharmacy(id);
     }
 
     @Override
@@ -173,7 +165,7 @@ public class PharmacistService implements IPharmacistService {
 
     @Override
     public Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception {
-        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
+        if(userRepository.findUserByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_PHARMACIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);

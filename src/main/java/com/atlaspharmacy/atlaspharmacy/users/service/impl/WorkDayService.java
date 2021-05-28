@@ -20,6 +20,7 @@ public class WorkDayService implements IWorkDayService {
     private final WorkDayRepository workDayRepository;
     private final PharmacyRepository pharmacyRepository;
     private final UserRepository userRepository;
+
     @Autowired
     public WorkDayService(WorkDayRepository workDayRepository, PharmacyRepository pharmacyRepository, UserRepository userRepository) {
         this.workDayRepository = workDayRepository;
@@ -29,19 +30,12 @@ public class WorkDayService implements IWorkDayService {
 
     @Override
     public WorkDay getBy(Long medicalStaffId, Date date) {
-        return workDayRepository.findAll()
-                .stream()
-                .filter(workDay -> workDay.isSameDateAndMedicalStaff(date, medicalStaffId))
-                .findFirst()
-                .orElse(null);
+        return workDayRepository.getByMedicalStaffAndDate(medicalStaffId, date);
     }
 
     @Override
     public List<WorkDay> getBy(Long medicalStaffId) {
-        return workDayRepository.findAll()
-                .stream()
-                .filter(workDay -> workDay.isMedicalStaff(medicalStaffId))
-                .collect(Collectors.toList());
+        return workDayRepository.getByMedicalStaff(medicalStaffId);
     }
 
     @Override
@@ -51,10 +45,7 @@ public class WorkDayService implements IWorkDayService {
 
     @Override
     public List<WorkDay> getByDate(Date date) {
-        return workDayRepository.findAll()
-                .stream()
-                .filter(workDay -> workDay.isSameDate(date))
-                .collect(Collectors.toList());
+        return workDayRepository.getByDate(date);
     }
 
     @Override

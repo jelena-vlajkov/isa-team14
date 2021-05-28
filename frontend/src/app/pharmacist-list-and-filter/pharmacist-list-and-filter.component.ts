@@ -42,11 +42,17 @@ export class PharmacistListAndFilterComponent implements OnInit {
       if (this.user.role == "PharmacyAdmin") {
         this.pharmacyAdminService.getPharmacyByAdmin(this.user.id).subscribe(result => {
           this.pharmacyId = result.id;
-          this.getPharmacistsByPharmacy(this.pharmacyId);
+          this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(result => {
+            this.pharmacists = result;
+            this.pharmacists2 = result;
+          });
         });
       } else {
         this.isRegisteredUser = true;
-        this.getAllPharmacists();
+        this.pharmacistService.getAll().subscribe(result => {
+          this.pharmacists = result;
+          this.pharmacists2 = result;
+        });
       }
     });
 
@@ -65,6 +71,11 @@ export class PharmacistListAndFilterComponent implements OnInit {
     }
     else if(this.pharmacyFiltered && this.searched){
       this.pharmacistService.filterPharmacistsByPharmacy(this.searchedPharmacists,pharmacy.id).subscribe(result =>{
+        this.pharmacists = result;
+      });
+    }
+    else if(this.pharmacyFiltered){
+      this.pharmacistService.filterPharmacistsByPharmacy(this.pharmacists2,pharmacy.id).subscribe(result =>{
         this.pharmacists = result;
       });
     }
@@ -94,12 +105,18 @@ export class PharmacistListAndFilterComponent implements OnInit {
         this.pharmacists = result;
       });
     }
-    else{
+    else if(this.gradeFiltered){
+      this.pharmacistService.filterPharmacistsByGrade(this.pharmacists2,grade).subscribe(result =>{
+        this.pharmacists= result;
+        this.gradeFiltered = true;
+      });
     }
+    else{
     this.pharmacistService.filterPharmacistsByGrade(this.pharmacists,grade).subscribe(result =>{
       this.pharmacists = result;
       this.gradeFiltered = true;
     });
+    }
 
   }
 
@@ -116,7 +133,6 @@ export class PharmacistListAndFilterComponent implements OnInit {
   private getPharmacistsByPharmacy(id: Number) {
     this.pharmacistService.getPharmacistsByPharmacy(id).subscribe(result => {
       this.pharmacists = result;
-      this.pharmacists2 = result;
     });
     return this.pharmacists;
   }
@@ -124,7 +140,7 @@ export class PharmacistListAndFilterComponent implements OnInit {
   private getAllPharmacists() {
     this.pharmacistService.getAll().subscribe(result => {
       this.pharmacists = result;
-      this.pharmacists2 = result;
+
     });
     return this.pharmacists;
   }

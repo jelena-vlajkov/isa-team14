@@ -40,11 +40,17 @@ export class DermatologistListAndFilterComponent implements OnInit {
       if (this.user.role == "PharmacyAdmin") {
         this.pharmacyAdminService.getPharmacyByAdmin(this.user.id).subscribe(result => {
           this.pharmacyId = result.id;
-          this.getDermatologistsByPharmacy(this.pharmacyId);
+          this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(result => {
+            this.dermatologists = result;
+            this.dermatologists2 = result;
+          });
         });
       } else {
         this.isRegisteredUser = true;
-        this.getAllDermatologists();
+        this.dermatologistService.getAll().subscribe(result => {
+          this.dermatologists = result;
+          this.dermatologists2 = result;
+        });
       }
   });
 
@@ -63,6 +69,11 @@ export class DermatologistListAndFilterComponent implements OnInit {
     }
     else if(this.pharmacyFiltered && this.searched){
       this.dermatologistService.filterDermatologistsByPharmacy(this.searchedDermatologists,pharmacy.id).subscribe(result =>{
+        this.dermatologists = result;
+      });
+    }
+    else if(this.pharmacyFiltered){
+      this.dermatologistService.filterDermatologistsByPharmacy(this.dermatologists2,pharmacy.id).subscribe(result =>{
         this.dermatologists = result;
       });
     }
@@ -90,6 +101,12 @@ export class DermatologistListAndFilterComponent implements OnInit {
     else if(this.gradeFiltered && this.searched){
       this.dermatologistService.filterDermatologistsByGrade(this.searchedDermatologists,grade).subscribe(result =>{
         this.dermatologists = result;
+      });
+    }
+    else if(this.gradeFiltered){
+      this.dermatologistService.filterDermatologistsByGrade(this.dermatologists2,grade).subscribe(result =>{
+        this.dermatologists = result;
+        this.gradeFiltered = true;
       });
     }
     else{

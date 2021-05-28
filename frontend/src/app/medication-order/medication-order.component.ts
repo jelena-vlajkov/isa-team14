@@ -53,9 +53,8 @@ export class MedicationOrderComponent implements OnInit {
       'amount' : new FormControl(null,Validators.required)});
 
     this.orderForm = new FormGroup({
-      'dueDate' : new FormControl(null,Validators.required),
-      'editableDue' : new FormControl(null,Validators.required),
-      });
+      'dueDate' : new FormControl(null,Validators.required)
+  });
 
     this.medicationService.findAllMedications().subscribe(data=>
       {

@@ -120,7 +120,7 @@ public class DrugReservationService implements IDrugReservationService {
     public DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String mail = ((User)user).getEmail();
-        Pharmacist pharmacist = (Pharmacist) userRepository.findByEmail(mail);
+        Pharmacist pharmacist = (Pharmacist) userRepository.findUserByEmail(mail);
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if (!pharmacist.getPharmacy().getId().equals(reservation.getPharmacy().getId())) {
             throw new Exception("Cannot read reservation from other pharmacies!");

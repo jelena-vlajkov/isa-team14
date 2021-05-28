@@ -18,4 +18,8 @@ public interface IPharmacyStorageService {
     List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId);
     void addNewMedicationsToStorage(Order order);
     void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount);
+
+    List<PharmacyStorage> getAllPharmaciesByMedication(Long id);
+
+    List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code);
 }

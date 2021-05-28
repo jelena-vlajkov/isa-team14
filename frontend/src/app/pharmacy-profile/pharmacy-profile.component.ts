@@ -95,9 +95,7 @@ export class PharmacyProfileComponent implements OnInit {
 
           });
 
-        this.getMedicationsNotInPharmacy();
 
-        this.getPromotionsByPharmacy();
 
         this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
           result => {
@@ -193,6 +191,7 @@ export class PharmacyProfileComponent implements OnInit {
     this.promotionsService.getPromotionsByPharmacy(this.pharmacyId).subscribe(result =>{
       result=this.ToArray(result);
       this.pharmacyPromotions=result;
+      console.log(this.pharmacyPromotions);
     });
   }
 
@@ -270,6 +269,7 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPromotions=true;
     this.scheduleAppointment=false;
     this.addPricelistEntityDialog = false;
+    this.getPromotionsByPharmacy();
   }
   cancelEdit(){
     this.showPricelist = false;

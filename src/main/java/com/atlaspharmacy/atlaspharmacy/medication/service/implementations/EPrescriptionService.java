@@ -42,15 +42,7 @@ public class EPrescriptionService implements IEPrescriptionService {
 
     @Override
     public List<EPrescription> getPatientsEPrescription(Long id) {
-        List<EPrescription> allEprescriptions = ePrescriptionRepository.findAll();
-        List<EPrescription> patientsEPrescriptions = new ArrayList<>();
-        for(EPrescription ep : allEprescriptions){
-            if(ep.getPatient().getId().equals(id)){
-                patientsEPrescriptions.add(ep);
-            }
-        }
-
-        return patientsEPrescriptions;
+        return ePrescriptionRepository.findByPatientId(id);
     }
 
     @Override
@@ -101,16 +93,11 @@ public class EPrescriptionService implements IEPrescriptionService {
 
     @Override
     public List<PrescribedDrugDTO> getAllPrescribedDrugForPatient(Long patientId) {
-       List<EPrescription> ePrescriptions = getPatientsEPrescription(patientId);
-       List<PrescribedDrug> prescribedDrugs = prescriptionRepository.findAll();
+       List<PrescribedDrug> prescribedDrugs = prescriptionRepository.getPrescribedDrugBy(patientId);
        List<PrescribedDrugDTO> prescribedDrugDTOS = new ArrayList<>();
 
-       for (EPrescription e : ePrescriptions) {
-           for (PrescribedDrug p : prescribedDrugs) {
-               if(p.getEprescription().getId().equals(e.getId())) {
-                   prescribedDrugDTOS.add(PrescribedDrugMapper.drugToDto(p));
-               }
-           }
+       for (PrescribedDrug p : prescribedDrugs) {
+           prescribedDrugDTOS.add(PrescribedDrugMapper.drugToDto(p));
        }
 
        return prescribedDrugDTOS;

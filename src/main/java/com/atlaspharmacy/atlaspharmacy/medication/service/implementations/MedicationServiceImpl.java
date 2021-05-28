@@ -44,11 +44,12 @@ public class MedicationServiceImpl implements IMedicationService {
             throw  new NoSuchElementException(EXCEPTION + " findById" + DOES_NOT_EXIST);
         }
         return MedicationMapper.convertToMedicationDTO(medication);
-       // return  MedicationDTO.convertToMedicationDTO(medication);
     }
+
     public Medication getById(Long id){
         return _medicationRepository.findById(id).get();
     }
+
     @Override
     public List<MedicationDTO> findAll() {
         List<Medication> medications = _medicationRepository.findAll();
@@ -114,15 +115,13 @@ public class MedicationServiceImpl implements IMedicationService {
     }
 
 
-
     @Override
     public boolean medicationExistsInPharmacy(Long drugID, Long pharmacyID) {
-        List<Medication> allMedications=_medicationRepository.findAll();
-        for(Medication m:allMedications){
-            if(m.getId().equals(drugID)){
-                return true;
-            }
+        Medication allMedications=_medicationRepository.findById(drugID).orElse(null);
+        if (allMedications != null) {
+            return true;
         }
+
         return false;
     }
 
@@ -155,68 +154,55 @@ public class MedicationServiceImpl implements IMedicationService {
 
     @Override
     public List<MedicationDTO> findByName(String name) throws ParseException {
-        List<Medication> medications = (List<Medication>) _medicationRepository.findAll();
         List<MedicationDTO> dtos = new ArrayList<>();
-        if(medications.size()!=0){
-            for(Medication p : medications){
-                dtos.add(MedicationMapper.convertToMedicationDTO(p));
-            }
-        }
+        List<Medication> medications = _medicationRepository.findByName(name.trim().toLowerCase());
         if(name.trim().equals("")){
             return dtos;
         }
-        return  dtos.stream()
-                .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase().trim()))
-                .collect(Collectors.toList());
+        for (Medication m : medications) {
+            dtos.add(MedicationMapper.convertToMedicationDTO(m));
+        }
+        return dtos;
     }
 
     @Override
     public List<MedicationDTO> findByType(Long type) throws ParseException {
-        List<Medication> medications = _medicationRepository.findAll();
+        List<Medication> medications = _medicationRepository.findByType(type);
         List<MedicationDTO> filter = new ArrayList<>();
         for(Medication m : medications){
-
-            if(m.getDrugType().ordinal() == type){
-                filter.add(MedicationMapper.convertToMedicationDTO(m));
-            }
+            filter.add(MedicationMapper.convertToMedicationDTO(m));
         }
         return filter;
     }
 
     @Override
     public List<MedicationDTO> findByForm(Long form) throws ParseException {
-        List<Medication> medications = _medicationRepository.findAll();
+        List<Medication> medications = _medicationRepository.findByForm(form);
         List<MedicationDTO> filter = new ArrayList<>();
         for(Medication m : medications){
-
-            if(m.getDrugForm().ordinal() == form){
-                filter.add(MedicationMapper.convertToMedicationDTO(m));
-            }
+            filter.add(MedicationMapper.convertToMedicationDTO(m));
         }
         return filter;
     }
     @Override
     public List<MedicationDTO> findByKind(Long kind) throws ParseException {
-        List<Medication> medications = _medicationRepository.findAll();
+        List<Medication> medications = _medicationRepository.findByKind(kind);
         List<MedicationDTO> filter = new ArrayList<>();
         for(Medication m : medications){
 
-            if(m.getDrugKind().ordinal() == kind){
-                filter.add(MedicationMapper.convertToMedicationDTO(m));
-            }
+            filter.add(MedicationMapper.convertToMedicationDTO(m));
+
         }
         return filter;
     }
 
     @Override
     public List<MedicationDTO> findByPrescribing(Long prescribing) throws ParseException {
-        List<Medication> medications = _medicationRepository.findAll();
+        List<Medication> medications = _medicationRepository.findByPrescribing();
         List<MedicationDTO> filter = new ArrayList<>();
         for(Medication m : medications){
 
-            if(m.getTypeOfPrescribing().ordinal() == prescribing){
-                filter.add(MedicationMapper.convertToMedicationDTO(m));
-            }
+            filter.add(MedicationMapper.convertToMedicationDTO(m));
         }
         return filter;
     }

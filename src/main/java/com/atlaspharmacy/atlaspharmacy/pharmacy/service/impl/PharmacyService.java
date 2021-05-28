@@ -66,7 +66,7 @@ public class PharmacyService implements IPharmacyService {
 
     @Override
     public Pharmacy registerPharmacy(PharmacyDTO pharmacyDTO) throws Exception {
-        if(userRepository.findByEmail(pharmacyDTO.getEmail())==null && !isPharamcyRegistered(pharmacyDTO.getEmail())){
+        if(userRepository.findUserByEmail(pharmacyDTO.getEmail())==null && !isPharamcyRegistered(pharmacyDTO.getEmail())){
             Address a = AddressMapper.mapAddressDTOToAddress(pharmacyDTO.getAddress());
 
             Pharmacy p = PharmacyMapper.mapDTOToPharmacy(pharmacyDTO);
@@ -81,10 +81,9 @@ public class PharmacyService implements IPharmacyService {
     }
     @Override
     public boolean isPharamcyRegistered(String email) throws Exception {
-        for(PharmacyDTO dto : getAllPharmacies()){
-            if(dto.getEmail().equals(email)){
-                return true;
-            }
+        Pharmacy pharmacy = pharmacyRepository.isPharmacyRegistered(email);
+        if (pharmacy != null) {
+            return true;
         }
         return false;
     }
@@ -125,15 +124,10 @@ public class PharmacyService implements IPharmacyService {
     }
     @Override
     public List<PharmacyDTO> getPharmaciesByMedication(Long  code) throws Exception {
-        List<PharmacyDTO> pharmacies = getAllPharmacies();
+        List<PharmacyStorage> pharmacyStorages = pharmacyStorageService.getAllPharmaciesByMedicationCode(code);
         List<PharmacyDTO> pharmaciesContainingMedication = new ArrayList<>();
-        for(PharmacyDTO p : pharmacies){
-            List<PharmacyStorage> storages = pharmacyStorageService.getMedicationsByPharmacy(p.getId());
-            for(PharmacyStorage s : storages){
-                if(s.getMedication().getCode().equals(code)){
-                    pharmaciesContainingMedication.add(p);
-                }
-            }
+        for(PharmacyStorage p : pharmacyStorages){
+            pharmaciesContainingMedication.add(PharmacyMapper.mapPharmacyToDTO(p.getPharmacy()));
         }
 
         return pharmaciesContainingMedication;
@@ -244,23 +238,14 @@ public class PharmacyService implements IPharmacyService {
     }
 
 
-
-
-
     @Override
     public List<PharmacyDTO> getPharmaciesByMedicationId(Long id) throws Exception {
-        List<PharmacyDTO> pharmacyDTOS = getAllPharmacies();
-        List<PharmacyDTO> pharmacyWithMedication = new ArrayList<>();
-        for (PharmacyDTO p : pharmacyDTOS) {
-            List<PharmacyStorage> pharmacyStorages = pharmacyStorageService.getMedicationsByPharmacy(p.getId());
-
-            for(PharmacyStorage ph : pharmacyStorages) {
-                if(ph.getMedication().getId().equals(id)){
-                    pharmacyWithMedication.add(p);
-                }
-            }
+        List<PharmacyStorage> allPharmacies = pharmacyStorageService.getAllPharmaciesByMedication(id);
+        List<PharmacyDTO> dtos = new ArrayList<>();
+        for (PharmacyStorage p : allPharmacies) {
+            dtos.add(PharmacyMapper.mapPharmacyToDTO(p.getPharmacy()));
         }
-        return pharmacyWithMedication;
+        return dtos;
     }
 
 

@@ -42,6 +42,7 @@ public class ComplaintService implements IComplaintService {
     public Complaint getById(Long id){
         return complaintRepository.findById(id).get();
     }
+
     @Override
     public List<ComplaintDTO> getAllUnasweredComplaints() {
         List<ComplaintDTO> unansweredComplaints = new ArrayList<>();
@@ -52,45 +53,42 @@ public class ComplaintService implements IComplaintService {
         }
         return unansweredComplaints;
     }
+
     @Override
     public List<DermatologistComplaintDTO> getDermatologistComplaints(){
         List<DermatologistComplaintDTO> dtos = new ArrayList<>();
-        List<ComplaintDTO> complaints = getAllUnasweredComplaints();
-        if(complaints!=null){
+        List<Complaint> complaints = complaintRepository.getAllUnansweredComplaintsDermatologists("dermatologist");
+        ComplaintDTO mapped;
+        if(complaints!=null) {
+            for (Complaint c : complaints) {
+                mapped = ComplaintMapper.mapComplantToDTO(c);
+                DermatologistComplaintDTO dto = new DermatologistComplaintDTO();
+                dto.setId(c.getId());
+                dto.setDermatologist(DermatologistMapper.mapDermatologistToDTO(dermatologistRepository.findById(c.getUsertToComplainId()).get()));
+                dto.setPatient(mapped.getPatient());
+                dto.setText(c.getText());
+                dto.setAnswered(c.isAnswered());
+                dtos.add(dto);
 
-            for(ComplaintDTO c : complaints){
-                if(c.getRole().equals("dermatologist")){
-                    DermatologistComplaintDTO dto = new DermatologistComplaintDTO();
-                    dto.setId(c.getId());
-                    dto.setDermatologist(DermatologistMapper.mapDermatologistToDTO(dermatologistRepository.findById(c.getUsertToComplainId()).get()));
-                    dto.setPatient(c.getPatient());
-                    dto.setText(c.getText());
-                    dto.setAnswered(c.isAnswered());
-                    dtos.add(dto);
-
-                }
             }
         }
-
         return dtos;
     }
     @Override
     public List<PharmacistComplaintDTO> getPharmacistComplaints(){
         List<PharmacistComplaintDTO> dtos = new ArrayList<>();
-        List<ComplaintDTO> complaints = getAllUnasweredComplaints();
-
+        List<Complaint> complaints = complaintRepository.getAllUnansweredComplaintsDermatologists("pharmacist");
+        ComplaintDTO mapped;
         if(complaints!=null){
-
-            for(ComplaintDTO c : complaints){
-                if(c.getRole().equals("pharmacist")){
-                    PharmacistComplaintDTO dto = new PharmacistComplaintDTO();
-                    dto.setId(c.getId());
-                    dto.setPharmacist(PharmacistMapper.mapPharmacistToDTO(pharmacistRepository.findById(c.getUsertToComplainId()).get()));
-                    dto.setPatient(c.getPatient());
-                    dto.setText(c.getText());
-                    dto.setAnswered(c.isAnswered());
-                    dtos.add(dto);
-                }
+            for(Complaint c : complaints){
+                mapped = ComplaintMapper.mapComplantToDTO(c);
+                PharmacistComplaintDTO dto = new PharmacistComplaintDTO();
+                dto.setId(c.getId());
+                dto.setPharmacist(PharmacistMapper.mapPharmacistToDTO(pharmacistRepository.findById(c.getUsertToComplainId()).get()));
+                dto.setPatient(mapped.getPatient());
+                dto.setText(c.getText());
+                dto.setAnswered(c.isAnswered());
+                dtos.add(dto);
             }
         }
 
@@ -99,20 +97,18 @@ public class ComplaintService implements IComplaintService {
     @Override
     public List<PharmacyComplaintDTO> getPharmacyComplaints(){
         List<PharmacyComplaintDTO> dtos = new ArrayList<>();
-        List<ComplaintDTO> complaints = getAllUnasweredComplaints();
+        List<Complaint> complaints = complaintRepository.getAllUnansweredComplaintsDermatologists("pharmacy");
+        ComplaintDTO mapped;
         if(complaints!=null){
-
-            for(ComplaintDTO c : complaints){
-                if(c.getRole().equals("pharmacy")){
-                    PharmacyComplaintDTO dto = new PharmacyComplaintDTO();
-                    dto.setId(c.getId());
-                    dto.setPharmacy(PharmacyMapper.mapPharmacyToDTO(pharmacyRepository.findById(c.getUsertToComplainId()).get()));
-                    dto.setPatient(c.getPatient());
-                    dto.setText(c.getText());
-                    dto.setAnswered(c.isAnswered());
-                    dtos.add(dto);
-
-                }
+            for(Complaint c : complaints){
+                mapped = ComplaintMapper.mapComplantToDTO(c);
+                PharmacyComplaintDTO dto = new PharmacyComplaintDTO();
+                dto.setId(c.getId());
+                dto.setPharmacy(PharmacyMapper.mapPharmacyToDTO(pharmacyRepository.findById(c.getUsertToComplainId()).get()));
+                dto.setPatient(mapped.getPatient());
+                dto.setText(c.getText());
+                dto.setAnswered(c.isAnswered());
+                dtos.add(dto);
             }
         }
 
