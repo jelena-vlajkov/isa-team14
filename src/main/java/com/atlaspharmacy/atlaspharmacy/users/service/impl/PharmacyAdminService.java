@@ -71,7 +71,7 @@ public class PharmacyAdminService implements IPharmacyAdminService {
 
     @Override
     public PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws Exception {
-        if(userRepository.findByEmail(pharmacyAdminDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(pharmacyAdminDTO.getEmail())){
+        if(userRepository.findUserByEmail(pharmacyAdminDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(pharmacyAdminDTO.getEmail())){
             String role ="ROLE_PHARMACYADMIN";
             String password = passwordEncoder.encode(pharmacyAdminDTO.getPassword());
             pharmacyAdminDTO.setPassword(password);

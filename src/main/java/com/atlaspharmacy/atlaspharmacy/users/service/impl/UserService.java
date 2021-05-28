@@ -41,7 +41,7 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserByMail(String mail) {
-        return userRepository.findByEmail(mail);
+        return userRepository.findUserByEmail(mail);
     }
 
     public User getPharmacyAdmin(Long pharmacyId) {
@@ -50,7 +50,7 @@ public class UserService implements IUserService {
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class UserService implements IUserService {
 
     @Override
     public void updateEmployeePassword(EmployeePassChange employeePassChange) throws Exception {
-        User user = userRepository.findByEmail(employeePassChange.getEmail());
+        User user = userRepository.findUserByEmail(employeePassChange.getEmail());
         String encoded = passwordEncoder.encode(employeePassChange.getOldpassword());
         if (!passwordEncoder.matches(employeePassChange.getOldpassword(), user.getPassword())) {
             throw new Exception("Invalid password!");
@@ -89,7 +89,7 @@ public class UserService implements IUserService {
             throw new Exception("Invalid repeated password!");
         }
 
-        User user = userRepository.findByEmail(employeePassChange.getEmail());
+        User user = userRepository.findUserByEmail(employeePassChange.getEmail());
         user.setPassword(passwordEncoder.encode(employeePassChange.getNewpassword()));
         user.setFirstTimePassword(true);
         userRepository.save(user);
@@ -102,17 +102,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> searchUsersByName(String name) {
-        List<User> users = userRepository.findAll();
-        List<User> retVal = new ArrayList<>();
-        String fullName = "";
-        for (User u : users) {
-            fullName = u.getName() + " " + u.getSurname();
-
-            if (fullName.toLowerCase().contains(name.toLowerCase().trim())) {
-                retVal.add(u);
-            }
-        }
-        return retVal;
+        return userRepository.findUsersByFullName(name.trim().toLowerCase());
     }
 
 }

@@ -54,13 +54,6 @@ public class PromotionService implements IPromotionService {
 
     @Override
     public List<Promotion> getPromotionsByPharmacy(Long pharmacyId) {
-        List<Promotion> promotionsForPharmacy = new ArrayList<>();
-        Date today = new Date();
-        for(Promotion p : promotionRepository.findAll()){
-            if(today.compareTo(p.getActivePeriod().getEndTime())<0 && today.compareTo(p.getActivePeriod().getStartTime())>0){
-                    promotionsForPharmacy.add(p);
-            }
-        }
-        return promotionsForPharmacy;
+        return promotionRepository.getPromotionBy(pharmacyId);
     }
 }

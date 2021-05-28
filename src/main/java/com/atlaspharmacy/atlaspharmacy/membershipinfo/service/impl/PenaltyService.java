@@ -38,10 +38,7 @@ public class PenaltyService implements IPenaltyService {
 
     @Override
     public List<Penalty> getByPatient(Long id) {
-        return penaltyRepository.findAll()
-                .stream()
-                .filter(penalty -> penalty.isPatient(id))
-                .collect(Collectors.toList());
+        return penaltyRepository.getAllPenaltiesForUser(id);
     }
 
 }

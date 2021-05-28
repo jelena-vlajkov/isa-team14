@@ -22,16 +22,27 @@ public class VacationRequest {
     private MedicalStaff medicalStaff;
     private String vacationReason;
     private VacationRequestStatus status;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private Pharmacy pharmacy;
 
     public VacationRequest() {
     }
 
-    public VacationRequest(Date startDate, Date endDate, MedicalStaff medicalStaff, String vacationReason) {
+    public VacationRequest(Date startDate, Date endDate, MedicalStaff medicalStaff, String vacationReason, VacationRequestStatus status, Pharmacy pharmacy) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.medicalStaff = medicalStaff;
         this.vacationReason = vacationReason;
-        this.status = VacationRequestStatus.PENDING;
+        this.status = status;
+        this.pharmacy = pharmacy;
+    }
+
+    public Pharmacy getPharmacy() {
+        return pharmacy;
+    }
+
+    public void setPharmacy(Pharmacy pharmacy) {
+        this.pharmacy = pharmacy;
     }
 
     public String getVacationReason() {

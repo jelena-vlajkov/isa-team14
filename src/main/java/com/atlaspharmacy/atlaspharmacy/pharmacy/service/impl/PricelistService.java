@@ -42,26 +42,15 @@ public class PricelistService implements IPricelistService {
     public List<PricelistDTO> getPricelistsByMedication(Long code) {
         List<PricelistDTO> pricelists = new ArrayList<>();
         Date today = new Date();
-        for(Pricelist p : pricelistRepository.findAll()){
-            if(p.getMedication().getCode().equals(code) && today.compareTo(p.getPeriod().getEndTime())<0 && today.compareTo(p.getPeriod().getStartTime())>0){
-                if(pharmacyStorageService.isMedicationInPharmacy(p.getMedication().getCode(), p.getPharmacy().getId())){
-                    pricelists.add(PricelistMapper.mapPricelistToDTO(p));
-                }
-            }
+        for(Pricelist p : pricelistRepository.getPricelistsByMedicationCode(code)){
+            pricelists.add(PricelistMapper.mapPricelistToDTO(p));
         }
         return pricelists;
     }
 
     @Override
     public PricelistDTO getPricelistByMedicationAndPeriod(Long code, PeriodDTO period) {
-        List<PricelistDTO> pricelistsForMedication=getPricelistsByMedication(code);
-        for(PricelistDTO p:pricelistsForMedication){
-            if(p.getStartPeriod().before(period.getStartPeriod()))
-                    if( p.getEndPeriod().after(period.getEndPeriod())){
-                return p;
-            }
-        }
-        return null;
+        return PricelistMapper.mapPricelistToDTO(pricelistRepository.getPricelistsByMedicationCodeAndPeriod(code, period.getStartPeriod(), period.getEndPeriod()));
     }
 
     public Pricelist addMedicationToPricelist(PricelistDTO pricelistDTO) {
@@ -87,16 +76,7 @@ public class PricelistService implements IPricelistService {
 
     @Override
     public Pricelist getPricelistForMedicationAndPharmacy(Long code, Long pharmacyId) {
-        Date today = new Date();
-        for(Pricelist p : pricelistRepository.findAll()){
-            if(p.getMedication().getCode().equals(code) && today.compareTo(p.getPeriod().getEndTime())<0 && today.compareTo(p.getPeriod().getStartTime())>0
-               && p.getPharmacy().getId().equals(pharmacyId)){
-                if(pharmacyStorageService.isMedicationInPharmacy(p.getMedication().getCode(), p.getPharmacy().getId())){
-                   return p;
-                }
-            }
-        }
-        return null;
+        return pricelistRepository.getPricelistsByMedicationCodeAndPharmacy(code, pharmacyId);
     }
 
     @Transactional
