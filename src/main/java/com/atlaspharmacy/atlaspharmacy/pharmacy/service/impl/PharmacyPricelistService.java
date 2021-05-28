@@ -21,26 +21,18 @@ public class PharmacyPricelistService implements IPharmacyPricelistService {
 
     @Override
     public double counselingCost(Long pharmacyId) throws Exception {
-        List<PharmacyPricelist> allPricelists = pharmacyPricelistRepository.findAll();
-
-        for (PharmacyPricelist pharmacyPricelist : allPricelists) {
-            if (pharmacyPricelist.isInRange(new Date()) && pharmacyPricelist.getPharmacy().getId().equals(pharmacyId)
-                && pharmacyPricelist.getType().equals(PricelistType.Values.Counseling))  {
-                return pharmacyPricelist.getCost();
-            }
+        PharmacyPricelist pharmacyPricelist = pharmacyPricelistRepository.findPricelistByPharmacyAndType(pharmacyId, PricelistType.Values.Counseling);
+        if (pharmacyPricelist != null) {
+            return pharmacyPricelist.getCost();
         }
         throw new Exception("No pricelist for todays date");
     }
 
     @Override
     public double examinationCost(Long pharmacyId) throws Exception {
-        List<PharmacyPricelist> allPricelists = pharmacyPricelistRepository.findAll();
-
-        for (PharmacyPricelist pharmacyPricelist : allPricelists) {
-            if (pharmacyPricelist.isInRange(new Date()) && pharmacyPricelist.getPharmacy().getId().equals(pharmacyId)
-                    && pharmacyPricelist.getType().equals(PricelistType.Values.Examination))  {
-                return pharmacyPricelist.getCost();
-            }
+        PharmacyPricelist pharmacyPricelist = pharmacyPricelistRepository.findPricelistByPharmacyAndType(pharmacyId, PricelistType.Values.Examination);
+        if (pharmacyPricelist != null) {
+            return pharmacyPricelist.getCost();
         }
         throw new Exception("No pricelist for todays date");
     }

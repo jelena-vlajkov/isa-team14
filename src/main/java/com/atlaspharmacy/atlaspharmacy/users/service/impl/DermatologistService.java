@@ -65,7 +65,7 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception {
-        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
+        if(userRepository.findUserByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_DERMATOLOGIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
@@ -108,15 +108,7 @@ public class DermatologistService implements IDermatologistService {
 
     @Override
     public List<Dermatologist> searchDermatologists(String searchInput) {
-        List<Dermatologist> allDermatologists=dermatologistRepository.findAll();
-        List<Dermatologist> searchedDermatologists=new ArrayList<>();
-        for(Dermatologist d:allDermatologists)
-        {
-            if(searchInput.contains(d.getName()) || searchInput.contains(d.getSurname())){
-                searchedDermatologists.add(d);
-            }
-        }
-        return searchedDermatologists;
+        return dermatologistRepository.findUsersByFullName(searchInput.trim().toLowerCase());
     }
 
     @Override

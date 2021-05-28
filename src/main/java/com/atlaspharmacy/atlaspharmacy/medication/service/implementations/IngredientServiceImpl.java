@@ -57,13 +57,9 @@ public class IngredientServiceImpl implements IIngredientService {
     @Override
     public List<IngredientDTO> getIngredientsById(List<Long> ids) {
         List<IngredientDTO> dtos = new ArrayList<>();
-        List<IngredientDTO> allIngredients = findAll();
-        for(IngredientDTO d : allIngredients){
-            if(ids.contains(d.getId())){
-                dtos.add(d);
-            }
+        for(Long id : ids){
+            dtos.add(IngredientMapper.convertToIngredientDto(_ingredientRepository.findIngredientById(id)));
         }
-
         return dtos;
     }
 

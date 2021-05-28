@@ -48,15 +48,7 @@ public class VacationRequestService implements IVacationRequestService {
 
     @Override
     public List<VacationRequest> getAllByPharmacy(Long pharmacyId) {
-        List<VacationRequest> allVacationRequests=vacationRequestRepository.findAll();
-        List<VacationRequest> vacationRequestsForPharmacy = new ArrayList();
-        for(VacationRequest v:allVacationRequests){
-                if(v.getStatus().equals(VacationRequestStatus.PENDING)){
-                    vacationRequestsForPharmacy.add(v);
-
-            }
-        }
-        return vacationRequestsForPharmacy;
+        return vacationRequestRepository.getAllPendingVacationRequests(pharmacyId);
     }
 
     @Override

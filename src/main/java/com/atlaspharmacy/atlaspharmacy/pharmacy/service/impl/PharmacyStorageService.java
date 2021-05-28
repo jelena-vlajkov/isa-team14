@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import com.atlaspharmacy.atlaspharmacy.notifications.domain.Notification;
 import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -53,24 +54,19 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     @Override
     public List<PharmacyStorage> getMedicationsByPharmacy(Long pharmacyId) {
-        return pharmacyStorageRepository.findAll()
-                .stream()
-                .filter(pharmacyStorage -> pharmacyStorage.isPharmacy(pharmacyId))
-                .collect(Collectors.toList());
+        return pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacy(pharmacyId);
     }
 
     @Override
     public PharmacyStorage getMedicationInPharmacy(Long medicationId, Long pharmacyId) {
-        PharmacyStorage medication = pharmacyStorageRepository.findAll()
-                .stream()
-                .filter(pharmacyStorage -> pharmacyStorage.isPharmacy(pharmacyId))
-                .findFirst()
-                .orElse(null);
+        PharmacyStorage medication = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId,medicationId);
+
         if(medication!=null){
             if (medication.getQuantity() == 0)
                 notificationService.medicationQuantityLow(medication);
             return medication;
         }
+
         return null;
 
     }
@@ -78,36 +74,27 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     @Override
     public boolean isMedicationInPharmacy(Long code, Long id) {
-        List<PharmacyStorage> storages = getMedicationsByPharmacy(id);
-        for(PharmacyStorage p : storages){
-            if(p.getMedication().getCode().equals(code)){
-                return true;
-            }
-            if (p.getMedication().getCode().equals(code) && p.getQuantity() <= 0) {
-                notificationService.medicationQuantityLow(p);
-            }
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndCode(id, code);
+        if (pharmacyStorage != null) {
+            return true;
         }
         return false;
     }
 
     @Override
     public void deleteMedicationFromPharmacyStorage(Long medicationId,Long pharmacyId) {
-        List<PharmacyStorage> allPharmacyStorage=getMedicationsByPharmacy(pharmacyId);
-        for(PharmacyStorage p:allPharmacyStorage){
-            if(p.getMedication().getId().equals(medicationId)){
-                pharmacyStorageRepository.delete(p);
-            }
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        if (pharmacyStorage != null) {
+            pharmacyStorageRepository.delete(pharmacyStorage);
         }
     }
 
     @Override
     public void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount) {
-        List<PharmacyStorage> allPharmacyStorage=getMedicationsByPharmacy(pharmacyId);
-        for(PharmacyStorage p:allPharmacyStorage){
-            if(p.getMedication().getId().equals(medicationId)){
-                p.setQuantity(amount);
-                pharmacyStorageRepository.save(p);
-            }
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        if (pharmacyStorage != null) {
+            pharmacyStorage.setQuantity(amount);
+            pharmacyStorageRepository.save(pharmacyStorage);
         }
     }
 
@@ -150,5 +137,15 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
         pharmacyStorageRepository.save(newMedicationInStorage);
 
+    }
+
+    @Override
+    public List<PharmacyStorage> getAllPharmaciesByMedication(Long id) {
+        return pharmacyStorageRepository.getAllPharmaciesByMedication(id);
+    }
+
+    @Override
+    public List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code) {
+        return pharmacyStorageRepository.getAllPharmaciesByMedicationCode(code);
     }
 }
