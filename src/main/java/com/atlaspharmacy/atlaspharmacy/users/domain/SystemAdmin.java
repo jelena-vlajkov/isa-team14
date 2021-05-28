@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sysadmins")
 @DiscriminatorValue(value = Role.Values.SysAdmin)
-@Proxy(lazy = false)
 public class SystemAdmin extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

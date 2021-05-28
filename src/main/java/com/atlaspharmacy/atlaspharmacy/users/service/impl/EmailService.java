@@ -3,8 +3,12 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VerificationToken;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import org.apache.tomcat.jni.Directory;
@@ -27,6 +31,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Service
 public class EmailService implements IEmailService {
@@ -136,6 +142,40 @@ public class EmailService implements IEmailService {
     }
 
     @Override
+    public void sendNotificationToSupplier(Supplier supplier,boolean accepted) throws IOException, MessagingException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/notificationToSupplier.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", supplier.getName());
+        body = body.replace("[message]","There is a reply to you offer for our medication order.");
+        if(accepted) {
+            body=body.replace("[answer]"
+                    ,"Congrats!We are happy to inform you that your offer has been accepted.");
+        }
+        else{
+            body=body.replace("[answer]"
+                    ,"We are sorry to inform you that your offer has been rejected.");
+
+        }
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, supplier.getEmail());
+
+        message.setSubject("Medication order offer reply");
+
+        javaMailSender.send(message);
+    }
+    @Override
     public void sendPromotionNotification(Patient patient, Promotion promotion) throws FileNotFoundException, MessagingException, IOException {
         File starting = new File(System.getProperty("user.dir"));
         File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/promotionNotification.html");
@@ -194,5 +234,96 @@ public class EmailService implements IEmailService {
         javaMailSender.send(message);
     }
 
+    @Override
+    public void sendEmailForCanceledAppointmentDueVacation(Appointment c) throws IOException, MessagingException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/appointmentcanceled.html");
 
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[endDate]", endDate);
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Appointment cancelation");
+
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void successfullyScheduledAppointment(Examination c) throws MessagingException, IOException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/successfullyscheduled.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[pharmacyName]", c.getPharmacy().getName());
+        body=body.replace("[endDate]", endDate);
+        body = body.replace("[medicalStaffName]" , c.getDermatologist().getName());
+        body=body.replace("[medicalStaffSurname]", c.getDermatologist().getSurname());
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Appointment scheduled");
+
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void successfullyScheduledCounseling(Counseling c) throws MessagingException, IOException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/successfullyscheduled.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[endDate]", endDate);
+        body = body.replace("[medicalStaffName]" , c.getPharmacist().getName());
+        body=body.replace("[medicalStaffSurname]", c.getPharmacist().getSurname());
+        body=body.replace("[pharmacyName]", c.getPharmacy().getName());
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
+
+        message.setSubject("Appointment scheduled");
+
+        javaMailSender.send(message);
+    }
 }

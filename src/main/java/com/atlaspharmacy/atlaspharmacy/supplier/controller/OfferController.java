@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/offer", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OfferController {
@@ -44,6 +44,14 @@ public class OfferController {
     List<OfferDTO> getAllOffersBySuppllierWithStatus(@RequestParam("id") Long id, @RequestParam("status") Long status){
         return offerService.getUsersOffersByStatus(status, id);
     }
+
+    @GetMapping(value = "/getByOrder", produces = MediaType.APPLICATION_JSON_VALUE)
+    @OrderAuthorization
+    public @ResponseBody
+    List<OfferDTO> getAllOffersByOrder(@RequestParam("id") Long id){
+        return offerService.getAllOfersForOrder(id);
+    }
+
 
 
 
@@ -73,4 +81,20 @@ public class OfferController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+   
+    @PostMapping(value = "/chooseOffer",consumes =MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> chooseOffer(@RequestBody OfferDTO offerDTO)
+    {
+        try{
+            offerService.chooseOffer(offerDTO);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

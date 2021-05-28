@@ -1,30 +1,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <mat-drawer-container class="example-container" hasBackdrop="true">
-  <mat-drawer style="width: 20%;" #drawer mode ="over">
-    <mat-action-list>
-      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info</button>
-      <button mat-list-item> Dermatology appointments </button>
-      <button mat-list-item routerLink="/business-report"> Business reports </button>
-      <button mat-list-item> Drugs</button>
-      <button mat-list-item> Employees</button>
-      <button mat-list-item> Drug purchases</button>
-      <button mat-list-item> Actions and special offers</button>
-    </mat-action-list>
-
-    <mat-action-list style="position: absolute; bottom: 1px;">
-      <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
-      <button  mat-list-item (click)="Logout()"> Logout</button>
-    </mat-action-list>
-  </mat-drawer>
 
   <mat-drawer-content>
-    <mat-toolbar style="color:#385399;">
-      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>Medication order</span>
-      <span class="example-spacer"></span>
+    <mat-toolbar style="background-color: #385399;">
+      <span style="color:white;">Add medication order</span>
     </mat-toolbar>
 <div style="display: flex;">
   <mat-card style="flex: 1 1 auto;width: 50%;">
@@ -54,7 +34,7 @@
                 <mat-form-field appearance="fill" id="amount-ff" >
                   <mat-label >Amount</mat-label>
                   <input matInput id="amount" placeholder="Amount" name="amount-ff"
-                         formControlName="amount" required type="number" style="height: 25px;">
+                         formControlName="amount" required type="number" min="1-" style="height: 25px;">
                   <mat-error
                     *ngIf="!addMedicationOrderForm.get('amount').valid
                      && addMedicationOrderForm.get('amount').touched
@@ -64,7 +44,7 @@
               </div>
             </mat-grid-tile>
 
-            <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-bottom:10px;width: auto;color: #385399;" mat-raised-button id='addOrder' [disabled]="!addMedicationOrderForm.valid">Add medication</button></mat-grid-tile>
+            <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-bottom:10px;width: auto;background-color: #385399;" color="accent" mat-raised-button id='addOrder' [disabled]="!addMedicationOrderForm.valid">Add medication</button></mat-grid-tile>
 
           </mat-grid-list>
       </form>
@@ -74,11 +54,14 @@
       <mat-grid-list  cols="3" rowHeight="50" width="400" align="left" *ngIf="orderList.length!=0">
         <mat-grid-tile> <p style="font-weight: bold;size:50px;color: #385399;" >Order list</p></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>
-          <div class="inputField" style="width: auto;" >
+          <div class="inputField" style="width: auto;margin-left:20px;" >
             <mat-form-field appearance="fill" id="duedate-ff" >
               <mat-label>Due date</mat-label>
-              <input matInput id="dueDate" placeholder="Due date" name="duedate-ff"
+              <input matInput id="dueDateInput" placeholder="Due date" name="duedate-ff"
                      formControlName="dueDate" required type="date">
               <mat-error
                 *ngIf="!orderForm.get('dueDate').valid
@@ -99,15 +82,15 @@
             </p>
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile></mat-grid-tile>
-          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;color: #385399;" mat-raised-button id='sumbitOrder' [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
-
+          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;background-color: #385399;" mat-raised-button id='submitOrder'  [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
         </div>
-
-
       </mat-grid-list>
       </form>
     </mat-card>
 </div>
+    <mat-card style="height:100px;">
+      <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/medication-order-offers" >Cancel</button>
+    </mat-card>
   </mat-drawer-content>
 </mat-drawer-container>
 

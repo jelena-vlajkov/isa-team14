@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.security.domain.UserTokenState;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.AuthenticatedUserDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.CustomDetailUserService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.UserService;
@@ -18,6 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,20 +36,17 @@ public class AuthenticationController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private CustomDetailUserService userDetailsService;
-
     @Autowired
     private UserService userService;
     @Autowired
     private PatientService patientService;
-    
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
-                                                                    HttpServletResponse response) {
+                                                       HttpServletResponse response) {
         AuthenticatedUserDTO authenticatedUserDTO = new AuthenticatedUserDTO();
+        User u = userService.getByEmail(authenticationRequest.getUsername());
         Patient patient = patientService.getByMail(authenticationRequest.getUsername());
         if(patient!=null){
             if(patient.getEnabled()){
@@ -84,7 +83,6 @@ public class AuthenticationController {
         }
         return new ResponseEntity<>(authenticatedUserDTO, HttpStatus.BAD_REQUEST);
     }
-
 
 
 }

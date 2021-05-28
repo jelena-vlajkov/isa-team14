@@ -1,0 +1,55 @@
+<mat-drawer-container class="example-container" hasBackdrop="true">
+  <mat-drawer-content >
+    <mat-toolbar style="background-color: #385399;">
+    </mat-toolbar>
+
+    <div style="margin-left:200px;width:fit-content;margin-top: 20px;">
+      <div style="diplay:flex;">
+        <label style="font-size:25px;margin-left:100px;font-family: 'Segoe UI Semibold';font-color:blue;">Pharmacists</label>
+
+        <mat-select *ngIf="isRegisteredUser" style="margin-left: 70px;border:0px;width:150px;height: 40px;" [(ngModel)]="selectedPharmacy"   id="selectedPharmacy" placeholder="filter by pharmacy">
+          <mat-option>--</mat-option>
+          <mat-option style="margin-top:10px;" *ngFor="let pharmacy of allPharmacies" [value]="pharmacy" (click)="filterByPharmacy(pharmacy)" >
+            {{pharmacy.name}}
+          </mat-option>
+        </mat-select>
+        <mat-select style="margin-left: 20px;border:0px;width:150px;height: 40px;" [(ngModel)]="selectedGrade"   id="selectedGrade" placeholder="filter by grade">
+          <mat-option>--</mat-option>
+          <mat-option [value]="1" (click)="filterByGrade(1)">1</mat-option>
+          <mat-option [value]="2" (click)="filterByGrade(2)">2</mat-option>
+          <mat-option [value]="3" (click)="filterByGrade(3)">3</mat-option>
+          <mat-option [value]="4" (click)="filterByGrade(4)">4</mat-option>
+          <mat-option [value]="5" (click)="filterByGrade(5)">5</mat-option>
+        </mat-select>
+        <input matInput type="text" placeholder="Search..." (change)="search()" [(ngModel)]="searchInput" style="border-color: whitesmoke;margin-left: 30px;">
+
+      </div>
+
+      <div *ngFor="let pharmacist of pharmacists">
+        <table style="margin-top: 50px;margin-left: 100px;font-size: 20px;">
+          <tr>
+            <td>Name:</td>
+            <span style="margin-left: 100px;"></span>
+            <td>{{pharmacist.name}} {{pharmacist.surname}}</td>
+            <span style="margin-left: 100px;"></span>
+          </tr>
+          <tr>
+            <td>Average grade:</td>
+            <span style="margin-left: 100px;"></span>
+            <td>{{count(pharmacist.averageGrade)}}</td>
+            <span style="margin-left: 100px;"></span>
+          </tr>
+          <tr *ngIf="isRegisteredUser">
+            <td>Pharmacy:</td>
+            <span style="margin-left: 100px;"></span>
+            <td>{{pharmacist.pharmacy.name}}</td>
+            <span style="margin-left: 100px;"></span>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -8,15 +8,26 @@ public class CreateDrugReservationDTO {
     private Long medicationId;
     private int therapyDays;
     private Date expirationDate;
+    private Long medicalStaffId;
 
     public CreateDrugReservationDTO() {
     }
 
-    public CreateDrugReservationDTO(Long patientId, Long pharmacyId, Long medicationId, int therapyDays) {
+    public CreateDrugReservationDTO(Long patientId, Long pharmacyId, Long medicationId, int therapyDays, Date expirationDate, Long medicalStaffId) {
         this.patientId = patientId;
         this.pharmacyId = pharmacyId;
         this.medicationId = medicationId;
         this.therapyDays = therapyDays;
+        this.expirationDate = expirationDate;
+        this.medicalStaffId = medicalStaffId;
+    }
+
+    public Long getMedicalStaffId() {
+        return medicalStaffId;
+    }
+
+    public void setMedicalStaffId(Long medicalStaffId) {
+        this.medicalStaffId = medicalStaffId;
     }
 
     public CreateDrugReservationDTO(Long patientId, Long pharmacyId, Long medicationId, int therapyDays, Date expirationDate) {

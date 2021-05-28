@@ -18,16 +18,18 @@ public class MedicationDTO {
     private String contraindications;
     private Long dailyDose;
     private DrugKind drugKind;
-    private List<MedicationDTO> substituteMedication;
     private Long code;
-    private List<IngredientDTO> ingredients;
     private Double grade;
     private Long dosage;
+    private List<IngredientDTO> ingredients;
+    private List<MedicationDTO> substituteMedication;
     public MedicationDTO() {
 
     }
 
-    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType, String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes, String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade, Long dosage) {
+    public MedicationDTO(Long id, String name, DrugForm drugForm, DrugType drugType,
+                         String producer, TypeOfPrescribing typeOfPrescribing, String additionalNotes,
+                         String contraindications, Long dailyDose, DrugKind drugKind, Long code, Double grade, Long dosage) {
         this.id = id;
         this.name = name;
         this.drugForm = drugForm;
@@ -41,47 +43,6 @@ public class MedicationDTO {
         this.code = code;
         this.grade = grade;
         this.dosage = dosage;
-    }
-
-    public Long getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(Long dosage) {
-        this.dosage = dosage;
-    }
-
-    public Double getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Double grade) {
-        this.grade = grade;
-    }
-
-
-    public List<IngredientDTO> getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(List<IngredientDTO> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public Long getCode() {
-        return code;
-    }
-
-    public void setCode(Long code) {
-        this.code = code;
-    }
-
-    public List<MedicationDTO> getSubstituteMedication() {
-        return substituteMedication;
-    }
-
-    public void setSubstituteMedication(List<MedicationDTO> substituteMedication) {
-        this.substituteMedication = substituteMedication;
     }
 
     public Long getId() {
@@ -164,4 +125,43 @@ public class MedicationDTO {
         this.drugKind = drugKind;
     }
 
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
+    }
+
+    public Long getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(Long dosage) {
+        this.dosage = dosage;
+    }
+
+    public List<IngredientDTO> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<IngredientDTO> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<MedicationDTO> getSubstituteMedication() {
+        return substituteMedication;
+    }
+
+    public void setSubstituteMedication(List<MedicationDTO> substituteMedication) {
+        this.substituteMedication = substituteMedication;
+    }
 }

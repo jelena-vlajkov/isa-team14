@@ -32,14 +32,7 @@ public class SubscriptionService implements ISubscriptionService {
 
     @Override
     public List<Subscription> getAllUsersSubscriptions(Long userId) {
-        List<Subscription> subscriptions = new ArrayList<>();
-        for(Subscription s : subscriptionRepository.findAll()){
-            if(s.getPatient().getId().equals(userId) ){
-                subscriptions.add(s);
-            }
-        }
-
-        return subscriptions;
+        return subscriptionRepository.getAllUsersSubscriptions(userId);
     }
 
     @Override
@@ -58,10 +51,8 @@ public class SubscriptionService implements ISubscriptionService {
     @Override
     public List<Patient> getAllSubscribedForPharmacy(Long pharmacyId) {
         List<Patient> subscribedUsers = new ArrayList<>();
-        for(Subscription s : subscriptionRepository.findAll()){
-            if(s.getPharmacy().getId().equals(pharmacyId) ){
-                subscribedUsers.add(s.getPatient());
-            }
+        for(Subscription s : subscriptionRepository.getAllPharmacySubscriptions(pharmacyId)){
+            subscribedUsers.add(s.getPatient());
         }
         return subscribedUsers;
     }

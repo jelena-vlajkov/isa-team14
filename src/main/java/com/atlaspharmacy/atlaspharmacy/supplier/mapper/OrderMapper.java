@@ -16,12 +16,11 @@ public class OrderMapper {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setUniqueidentifier(order.getUniqueidentifier());
         orderDTO.setId(order.getId());
-        orderDTO.setEditableDue(order.getEditableDue());
         orderDTO.setDueDate(order.getDueDate());
         orderDTO.setPharmacy(PharmacyMapper.mapPharmacyToDTO(order.getPharmacy()));
         List<OrderedMedicationDTO> orderedMedications = new ArrayList<>();
-
-        orderDTO.setOrderedMedication(orderedMedications);
+        orderDTO.setStatus(order.getStatus());
+        orderDTO.setOrderedMedications(orderedMedications);
         return orderDTO;
 
     }
@@ -33,15 +32,15 @@ public class OrderMapper {
         }
         return dtos;
     }
-//
-//    public static Order mapDTOToOrder(OrderDTO dto){
-//        Order o = new Order();
-//        o.setId(dto.getId());
-//        o.setMedicationOrder(dto.getMedicationOrder());
-//        o.setDueDate(dto.getDueDate());
-//        o.setSupplier(SupplierMapper.mapDTOToSupplier(dto.getSupplier()));
-//        return o;
-//    }
+
+    public static Order mapDTOToOrder(OrderDTO dto){
+        Order o = new Order();
+        o.setDueDate(dto.getDueDate());
+        o.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+        o.setUniqueidentifier(dto.getUniqueidentifier());
+        o.setStatus(dto.getStatus());
+       return o;
+   }
 //    public static List<OrderDTO> mapToListDTOS(List<Order> orders){
 //        List<OrderDTO> dtos = new ArrayList<>();
 //        for(Order o : orders){

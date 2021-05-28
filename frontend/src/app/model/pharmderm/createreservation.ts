@@ -4,6 +4,7 @@ export class CreaeteReservation {
     public medicationId : Number;
     public therapyDays : Number;
     public expirationDate : Date;
+    public medicalStaffId : Number;
 
     constructor() {}
 }

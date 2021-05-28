@@ -40,8 +40,8 @@ export class RegisterDermatologistComponent implements OnInit {
   password : string;
   confirmPassword : string;
   gender : Gender;
-  selectedDate;
   dateOfBirth : Date;
+  selectedDate;
 
 
   minDateOfBirth : Date;
@@ -86,7 +86,7 @@ export class RegisterDermatologistComponent implements OnInit {
   }
   loadSystemAdmin(){
     this.systemAdminService.getSysAdmin(Number(localStorage.getItem('userId'))).subscribe(
-      data => 
+      data =>
       {
         this.sysAdmin = new SystemAdmin(Number(localStorage.getItem('userId')), data.sysName, data.sysSurname, data.sysDateOfBirth, data.sysPhoneNumber, data.sysEmail, data.sysPassword, data.sysGender, data.sysAddress, data.sysRole, data.sysAuthorities, data.firstTimeChanged);
         if(!this.sysAdmin.firstTimeChanged){
@@ -114,7 +114,7 @@ export class RegisterDermatologistComponent implements OnInit {
       var auths : Number[] = new Array();
 
       if(this.password === this.confirmPassword){
-         this.dermatologist = new Dermatologist(null, this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.chosenPharmacies);
+         this.dermatologist = new Dermatologist(null, this.name, this.surname, this.dateOfBirth, this.phone, this.email.toLowerCase(), this.password, this.gender, this.address, role, auths, this.chosenPharmacies,null);
 
         this.dermatologistService.addDermatologist(this.dermatologist).subscribe(
           res=>{

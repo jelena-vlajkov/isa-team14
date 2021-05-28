@@ -36,19 +36,15 @@ public class MedicalRecordService implements IMedicalRecordService {
 
     @Override
     public MedicalRecord getByPatientId(Long patientId) {
-        return medicalRecordRepository.findAll()
-                .stream()
-                .filter(medicalRecord -> medicalRecord.isPatient(patientId))
-                .findFirst()
-                .orElse(null);
+        return medicalRecordRepository.getByPatientId(patientId);
     }
 
     public MedicalRecord getByPatientName(String name){
-        return medicalRecordRepository.findAll()
-                .stream()
-                .filter(m -> m.getPatient().getName().equals(name))
-                .findFirst()
-                .orElse(null);
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.getByPatientName(name);
+        if (medicalRecords.size() != 0) {
+            return medicalRecords.get(0);
+        }
+        return null;
     }
 
     @Override

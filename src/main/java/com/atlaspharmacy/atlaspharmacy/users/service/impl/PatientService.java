@@ -68,7 +68,7 @@ public class PatientService implements IPatientService {
 
     @Override
     public Patient registerPatient(PatientDTO patientDTO) throws Exception {
-        if(userRepository.findByEmail(patientDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(patientDTO.getEmail())){
+        if(userRepository.findUserByEmail(patientDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(patientDTO.getEmail())){
             String role ="ROLE_PATIENT";
 
             String password = passwordEncoder.encode(patientDTO.getPassword());
@@ -107,13 +107,7 @@ public class PatientService implements IPatientService {
 //        return true;
 //    }
     public Patient findByVerificattionCode(String token){
-        List<Patient> patients = patientRepository.findAll();
-        for(Patient p : patients){
-            if(p.getVerificationCode().equals(token)){
-                return p;
-            }
-        }
-        return null;
+        return patientRepository.findByVerificationCode(token);
     }
     @Override
     public Patient enablePatient(String token) {
@@ -131,7 +125,7 @@ public class PatientService implements IPatientService {
     @Transactional
     public void editPatient(PatientDTO patientDTO){
         //bolje getOne od find
-        Patient patientToUpdate = (Patient) userRepository.getOne(patientDTO.getId());
+        User patientToUpdate = userRepository.getOne(patientDTO.getId());
         Address address= addressService.updateAddress(patientDTO.getAddress());
         patientToUpdate.setSurname(patientDTO.getSurname());
         patientToUpdate.setName(patientDTO.getName());
@@ -145,13 +139,7 @@ public class PatientService implements IPatientService {
     }
 
     public Patient getByMail(String mail){
-        List<Patient> patients = patientRepository.findAll();
-        for(Patient p : patients){
-            if(p.getEmail().equalsIgnoreCase(mail)){
-                return p;
-            }
-        }
-        return null;
+        return patientRepository.findByEmail(mail);
 
     }
 }

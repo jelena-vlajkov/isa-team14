@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -15,10 +16,11 @@ public class PharmacistMapper {
     private PharmacistMapper(){}
 
     public static PharmacistDTO mapPharmacistToDTO(Pharmacist pharmacist){
+        //vratiti za adresu!!!!
          return new PharmacistDTO(pharmacist.getId(), pharmacist.getName(), pharmacist.getSurname(), pharmacist.getDateOfBirth(),
                 pharmacist.getPhoneNumber(), pharmacist.getEmail(), pharmacist.getPassword(), pharmacist.getGender(),
-                AddressMapper.mapAddressToDTO(pharmacist.getAddress()) , pharmacist.getRole(), AuthorityMapper.authoritiesToListDTOS(pharmacist.getAuthorities()),
-                PharmacyMapper.mapPharmacyToDTO(pharmacist.getPharmacy()), pharmacist.isFirstTimePassword(),pharmacist.getAverageGrade(),pharmacist.getLicenseNumber());
+                AddressMapper.mapAddressToDTO(new Address()) , pharmacist.getRole(), AuthorityMapper.authoritiesToListDTOS(pharmacist.getAuthorities()),
+                PharmacyMapper.mapPharmacyToDTO(pharmacist.getPharmacy()), pharmacist.isFirstTimePassword(),AverageGradeMapper.mapToDTO(pharmacist.getAverageGrade()),pharmacist.getLicenseNumber());
     }
 
     public static Pharmacist mapDTOToPharmacist(PharmacistDTO dto){
@@ -37,7 +39,7 @@ public class PharmacistMapper {
 
         d.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
         d.setFirstTimePassword(dto.isFirstTimeChanged());
-        d.setAverageGrade(dto.getAverageGrade());
+        d.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
         return d;
     }
     public static List<PharmacistDTO> mapToListDTOS(List<Pharmacist> pharmacists){

@@ -10,21 +10,14 @@ public class AverageGrade {
     private double poor;
     private double veryPoor;
 
-
-    public AverageGrade(){
-        excellent = 0;
-        veryGood = 0;
-        good = 0;
-        poor = 0;
-        veryPoor = 0;
-    }
+    public AverageGrade(){}
     
     public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
-        excellent = excellent;
-        veryGood = veryGood;
-        good = good;
-        poor = poor;
-        veryPoor = veryPoor;
+        this.excellent = excellent;
+        this.veryGood = veryGood;
+        this.good = good;
+        this.poor = poor;
+        this.veryPoor = veryPoor;
     }
 
 

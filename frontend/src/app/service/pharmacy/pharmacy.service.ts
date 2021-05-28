@@ -57,4 +57,8 @@ export class PharmacyService {
   editPharmacy(data : Pharmacy){
     return this.http.post(`${environment.baseUrl}/${environment.pharmacy}/${environment.editPharmacy}`,data, {responseType : 'text'});
   }
+  getAll(): Observable<Pharmacy[]> {
+    return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getAll}`);
+  }
+
 }

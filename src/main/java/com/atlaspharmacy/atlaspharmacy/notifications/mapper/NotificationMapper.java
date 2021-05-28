@@ -10,7 +10,7 @@ public class NotificationMapper {
     private NotificationMapper() {}
 
     public static PharmacyStorage mapMedicationFromDTO(MedicationNotificationDTO medicationNotificationDTO) {
-        return new PharmacyStorage(new Pharmacy(medicationNotificationDTO.getPharmacyId()), new Medication(medicationNotificationDTO.getMedicationId()), 0);
+        return new PharmacyStorage(new Pharmacy(medicationNotificationDTO.getPharmacyId()), new Medication(medicationNotificationDTO.getMedicationId()), 0L);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PasswordChangerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacyAdminDTO;
@@ -64,6 +65,19 @@ public class PharmacyAdminController {
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PostMapping(value = "/editPharmacyAdmin", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> editPharmacyAdmin(@RequestBody PharmacyAdminDTO dto)  {
+        try{
+            pharmacyAdminService.updatePharmacyAdmin(dto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

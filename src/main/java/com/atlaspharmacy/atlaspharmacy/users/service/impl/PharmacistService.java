@@ -10,11 +10,14 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.AuthorityMapper;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.AverageGradeMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
@@ -54,15 +57,7 @@ public class PharmacistService implements IPharmacistService {
 
     @Override
     public List<Pharmacist> findByPharmacy(Long id) {
-        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
-
-        List<Pharmacist> pharmacistsByPharmacy=new ArrayList<>();
-        for(Pharmacist p: allPharmacists){
-            if(p.getPharmacy().getId().equals(id)){
-                pharmacistsByPharmacy.add(p);
-            }
-        }
-        return pharmacistsByPharmacy;
+        return pharmacistRepository.findPharmacistByPharmacy(id);
     }
 
     @Override
@@ -128,12 +123,17 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public List<Pharmacist> searchPharmacists(String searchInput) {
-        List<Pharmacist> allPharmacists=pharmacistRepository.findAll();
-        List<Pharmacist> searchedPharmacists=new ArrayList<>();
-        for(Pharmacist p:allPharmacists)
+    public List<Pharmacist> searchPharmacists(Long pharmacyId,String searchInput) {
+        List<Pharmacist> pharmacistsToSearch = new ArrayList<>();
+        if(pharmacyId!=null){ pharmacistsToSearch = findByPharmacy(pharmacyId); }
+        else{ pharmacistsToSearch = getAll(); }
+        List<Pharmacist> searchedPharmacists = new ArrayList<>();
+        if(searchInput.equals("")){
+            return pharmacistsToSearch;
+        }
+        for(Pharmacist p:pharmacistsToSearch)
         {
-            if(searchInput.contains(p.getName()) || searchInput.contains(p.getSurname())){
+            if(searchInput.toLowerCase().contains(p.getName().toLowerCase()) || searchInput.toLowerCase().contains(p.getSurname().toLowerCase())){
                 searchedPharmacists.add(p);
             }
         }
@@ -141,8 +141,7 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public List<PharmacistDTO>  filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter,String pharmacyId) {
-
+    public List<PharmacistDTO>  filterPharmacistsByPharmacy(List<PharmacistDTO> pharmacistsToFilter,Long pharmacyId) {
         List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
         for(PharmacistDTO p:pharmacistsToFilter)
         {
@@ -154,12 +153,10 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, Double grade) {
-
-        List<PharmacistDTO> filteredPharmacists=new ArrayList<>();
-        for(PharmacistDTO p:pharmacistsToFilter)
-        {
-            if(p.countAverageGrade()>=grade){
+    public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, int grade) {
+        List<PharmacistDTO> filteredPharmacists = new ArrayList<>();
+        for(PharmacistDTO p:pharmacistsToFilter){
+            if(p.getAverageGrade().count()>=grade){
                 filteredPharmacists.add(p);
             }
         }
@@ -168,19 +165,27 @@ public class PharmacistService implements IPharmacistService {
 
     @Override
     public Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception {
-        if(userRepository.findByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
+        if(userRepository.findUserByEmail(dto.getEmail())==null && !pharmacyService.isPharamcyRegistered(dto.getEmail())){
             String role ="ROLE_PHARMACIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
-            Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
-            addressRepository.save(a);
+           // Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
+            //addressRepository.save(a);
 
-            Pharmacist pharmacist = PharmacistMapper.mapDTOToPharmacist(dto);
+            Pharmacist pharmacist = new Pharmacist();
+            pharmacist.setName(dto.getName());
+            pharmacist.setSurname(dto.getSurname());
+            pharmacist.setDateOfBirth(dto.getDateOfBirth());
+            pharmacist.setPhoneNumber(dto.getPhoneNumber());
+            pharmacist.setEmail(dto.getEmail());
+            pharmacist.setPassword(dto.getPassword());
+            pharmacist.setGender(dto.getGender());
+            pharmacist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+            pharmacist.setFirstTimePassword(dto.isFirstTimeChanged());
+            pharmacist.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
             pharmacist.setRole(role);
-            pharmacist.setAverageGrade(new AverageGrade());
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
-            pharmacist.setAddress(a);
-            pharmacist.setPharmacy(pharmacyService.getById(dto.getPharmacy().getId()));
+            //pharmacist.setAddress(a);
             userRepository.save(pharmacist);
             return pharmacist;
         }
@@ -195,6 +200,16 @@ public class PharmacistService implements IPharmacistService {
         }
         return false;
 
+    }
+
+    @Override
+    public Pharmacist findById(Long pharmacistId) {
+        return pharmacistRepository.findById(pharmacistId).get();
+    }
+
+    @Override
+    public List<Pharmacist> getAll() {
+        return pharmacistRepository.findAll();
     }
 
 }

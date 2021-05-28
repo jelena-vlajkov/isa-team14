@@ -28,7 +28,7 @@ export const ROUTES: RouteInfo[] = [
   })
 
 export class WelcomeComponent implements OnInit {
-  
+
   menuItems: any[];
   changePassForm : FormGroup;
   editProfileForm: FormGroup;
@@ -41,7 +41,7 @@ export class WelcomeComponent implements OnInit {
       this.router.navigate(["/dashboard"]);
 
     }
-    
+
     this.changePassForm = new FormGroup({
       'newpass' : new FormControl("", [Validators.required,Validators.minLength(8)]),
       'repnewpass' : new FormControl("", [Validators.required,Validators.minLength(8)])
@@ -66,14 +66,21 @@ export class WelcomeComponent implements OnInit {
             repNewPass,
             true
             );
-  
-  
-            
+
+
+
           this.employeeService.firstTimePasswordChange(changePass).subscribe(
             res=>{
               alert("Welcome!")
               localStorage.setItem('firstTimeChanged', "true");
-              this.router.navigate(["/dashboard"]);
+              console.log(this.user.role);
+              if(this.user.role=="PharmacyAdmin"){
+                this.router.navigate(["/pharmacyAdmin-profile"]);
+              }
+              else{
+                this.router.navigate(["/dashboard"]);
+              }
+
             },
             error=>{
               alert(error);
@@ -82,7 +89,7 @@ export class WelcomeComponent implements OnInit {
         })
       }
     }
-    
+
   logout() {
     this.authService.logout();
   }

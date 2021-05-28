@@ -47,10 +47,17 @@ import { PatientFinishedCounselingComponent } from './patient/patient-finished-c
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
+import {RegisterPharmacistComponent} from "@app/register-pharmacist/register-pharmacist.component";
+import {MedicationOrderOffersComponent} from "@app/medication-order-offers/medication-order-offers.component";
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
 import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
 import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
+import {DrugInquiriesComponent} from "@app/drug-inquiries/drug-inquiries.component";
+import {DermatologistsInPharmacyComponent} from "@app/dermatologists-in-pharmacy/dermatologists-in-pharmacy.component";
+import {VacationRequestsComponent} from "@app/vacation-requests/vacation-requests.component";
+import {DermatologistListAndFilterComponent} from "@app/dermatologist-list-and-filter/dermatologist-list-and-filter.component";
+import {PharmacistListAndFilterComponent} from "@app/pharmacist-list-and-filter/pharmacist-list-and-filter.component";
 
 const routes: Routes = [
 {
@@ -187,7 +194,7 @@ const routes: Routes = [
   path: "employee-welcome",
   component: WelcomeComponent,
   canActivate : [AuthGuard],
-  data: {roles:[Role.Pharmacist, Role.Dermatologist]}
+  data: {roles:[Role.Pharmacist, Role.Dermatologist,Role.PharmacyAdmin]}
 
 },
 {
@@ -325,7 +332,36 @@ const routes: Routes = [
   component : PatientComplainComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
-}
+},
+  {
+    path: 'registerPharmacist',
+    component: RegisterPharmacistComponent
+
+  },
+  {
+    path:'medication-order-offers',
+    component : MedicationOrderOffersComponent
+  },
+  {
+    path:'drug-inquiries',
+    component : DrugInquiriesComponent
+  },
+  {
+    path:'dermatologistsInPharmacy',
+    component:DermatologistsInPharmacyComponent
+  },
+  {
+    path:'vacation-requests',
+    component:VacationRequestsComponent
+  },
+  {
+    path:'dermatologist-search-and-filter',
+    component:DermatologistListAndFilterComponent
+  },
+  {
+    path:'pharmacist-search-and-filter',
+    component:PharmacistListAndFilterComponent
+  }
 ];
 
 @NgModule({

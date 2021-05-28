@@ -23,11 +23,13 @@
                <i class="material-icons">group</i>
                <p class="list-p">Patients</p>
            </button>
-           <button mat-list-item routerLink="/employee-medications"> 
-               
-               <i class="material-icons">medication</i>
-               <p class="list-p">Issue reservation</p>
-           </button>
+           <div *ngIf="isPharmacist()">
+            <button mat-list-item routerLink="/employee-medications"> 
+                
+                <i class="material-icons">medication</i>
+                <p class="list-p">Issue reservation</p>
+            </button>
+            </div>
        </mat-action-list>
        <mat-action-list style="position: absolute; width: 100%; bottom : 1px;">
        <button mat-list-item routerLink="/employee-profile"> 

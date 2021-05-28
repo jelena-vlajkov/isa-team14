@@ -23,6 +23,7 @@ public interface IAppointmentService {
     List<Appointment> getScheduledForPatient(Long patinetId);
     List<Appointment> getOccupiedBy(Date date);
     List<Appointment> getOccupiedBy(Long medicalStaffId);
+    List<AppointmentDTO> getOccupiedBy2(Long medicalStaffId);
     List<Appointment> getOccupiedBy(Date date, Long medicalStaffId);
     List<Appointment> initializeAppointmentTime(Date date, Long medicalStaffId);
     List<Counseling> getAllOccupiedCounselings(Date date);

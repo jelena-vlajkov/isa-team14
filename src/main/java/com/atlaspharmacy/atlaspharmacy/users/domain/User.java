@@ -17,7 +17,6 @@ import java.util.List;
 @Table(name = "users")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType=DiscriminatorType.STRING)
-@Proxy(lazy = false)
 public abstract class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

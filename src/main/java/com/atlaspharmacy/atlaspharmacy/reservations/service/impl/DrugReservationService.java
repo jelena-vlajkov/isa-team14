@@ -6,16 +6,19 @@ import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepositor
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.User;
@@ -26,8 +29,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -54,6 +59,7 @@ public class DrugReservationService implements IDrugReservationService {
         this.prescriptionService = prescriptionService;
     }
 
+    @Transactional
     @Override
     public void reserveDrug(CreateDrugReservationDTO drugReservationDTO) throws Exception {
         if (!medicationRepository.findById(drugReservationDTO.getMedicationId()).isPresent()) {
@@ -84,11 +90,12 @@ public class DrugReservationService implements IDrugReservationService {
         drugReservation.setUniqueIdentifier(randomGenerator.nextInt(99999999));
 
         PrescribedDrug prescribedDrug = new PrescribedDrug();
-
+        pharmacyStorageService.medicationReserved(drugReservationDTO.getMedicationId(), drugReservationDTO.getPharmacyId());
         drugReservationRepository.save(drugReservation);
-        prescriptionService.saveNewPrescription(drugReservationDTO);
+        //prescriptionService.saveNewPrescription(drugReservationDTO);
     }
 
+    @Transactional
     @Override
     public boolean cancelDrugReservation(Long reservationId) {
         DrugReservation drugReservation = drugReservationRepository.findById(reservationId).get();
@@ -97,6 +104,7 @@ public class DrugReservationService implements IDrugReservationService {
         if(drugReservation.canCancelReservation(hoursAvailableToCancel) == false)
             return  false;
         drugReservation.setCanceled(true);
+        pharmacyStorageService.reduceMedicationQuantity(drugReservation.getMedication().getId(), drugReservation.getPharmacy().getId());
         drugReservationRepository.save(drugReservation);
         return  true;
 
@@ -118,7 +126,7 @@ public class DrugReservationService implements IDrugReservationService {
     public DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception {
         Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String mail = ((User)user).getEmail();
-        Pharmacist pharmacist = (Pharmacist) userRepository.findByEmail(mail);
+        Pharmacist pharmacist = (Pharmacist) userRepository.findUserByEmail(mail);
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if (!pharmacist.getPharmacy().getId().equals(reservation.getPharmacy().getId())) {
             throw new Exception("Cannot read reservation from other pharmacies!");
@@ -129,11 +137,8 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public List<DrugReservation> findAllReservation(Long pharmacyId) {
-        return drugReservationRepository.findAll()
-                .stream()
-                .filter(drugReservation -> drugReservation.isPharmacy(pharmacyId))
-                .collect(Collectors.toList());
+    public List<DrugReservationDTO> findAllReservation(Long pharmacyId) {
+        return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationRepository.findByPharmacy(pharmacyId));
     }
     @Override
     public List<DrugReservation> getPatientsIssuedDrugReservations(Long id){
@@ -204,14 +209,27 @@ public class DrugReservationService implements IDrugReservationService {
                 .collect(Collectors.toList());
         /*OTKAZAN*/
 
-        if(drugReservationsByPatient.isEmpty()) {
+        if (drugReservationsByPatient.isEmpty()) {
             return new ArrayList<>();
         }
         for (DrugReservation drugReservation : drugReservationsByPatient) {
-                patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
+            patientDrugReservationDTOS.add(DrugReservationMapper.mapReservationToPatientReservationDTO(drugReservation));
         }
 
 
         return patientDrugReservationDTOS;
+    }
+    @Override
+    public boolean isDrugReserved(Long medicationId, Long pharmacyId) {
+       List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
+       for(DrugReservation d:allDrugReservations){
+           if(d.getMedication().getId().equals(medicationId))
+              if(d.getPharmacy().getId().equals(pharmacyId))
+                   if(d.getExpirationDate().after(new Date()))
+                   if( d.getReservationDate().before(new Date())){
+               return true;
+           }
+       }
+       return false;
     }
 }

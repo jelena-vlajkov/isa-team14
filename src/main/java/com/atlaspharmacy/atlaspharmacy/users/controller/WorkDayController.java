@@ -1,9 +1,12 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.WorkDayDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.WorkDayMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(allowedHeaders = "*",origins="*")
 @RequestMapping(value = "/workDay")
 public class WorkDayController {
     private final IWorkDayService workDayService;
@@ -38,16 +42,9 @@ public class WorkDayController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/addWorkDayForDermatologist", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addWorkDayForDermatologist(@RequestBody WorkDayDTO workDayDTO) throws InvalidEmail, ParseException {
-        boolean successfull;
-        try {
-            successfull=workDayService.addWorkdayForDermatologist(workDayDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        if(successfull) {return new ResponseEntity<>(HttpStatus.OK);}
-        else {return new ResponseEntity<>(HttpStatus.FORBIDDEN);}
+    @GetMapping(value = "/getByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<WorkDayDTO> getByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId){
+        return  WorkDayMapper.mapToListDTO(workDayService.getBy(medicalStaffId));
     }
 }

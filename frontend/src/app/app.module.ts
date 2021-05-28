@@ -79,6 +79,8 @@ import { PatientFinishedCounselingComponent } from './patient/patient-finished-c
 import { PatientFinishedExaminationComponent } from './patient/patient-finished-examination/patient-finished-examination/patient-finished-examination.component';
 import { PatientScheduledAppointmentsComponent } from './patient/patient-scheduled-appointments/patient-scheduled-appointments/patient-scheduled-appointments.component';
 import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions/patient-e-prescriptions/patient-e-prescriptions.component';
+import { RegisterPharmacistComponent } from './register-pharmacist/register-pharmacist.component';
+import { MedicationOrderOffersComponent } from './medication-order-offers/medication-order-offers.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
 import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
@@ -87,6 +89,11 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/patient-reserved-drugs/patient-reserved-drugs.component';
+import { DrugInquiriesComponent } from './drug-inquiries/drug-inquiries.component';
+import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/dermatologists-in-pharmacy.component';
+import { VacationRequestsComponent } from './vacation-requests/vacation-requests.component';
+import { PharmacistListAndFilterComponent } from './pharmacist-list-and-filter/pharmacist-list-and-filter.component';
+import { DermatologistListAndFilterComponent } from './dermatologist-list-and-filter/dermatologist-list-and-filter.component';
 
 @NgModule({
   declarations: [
@@ -145,7 +152,15 @@ import { PatientReservedDrugsComponent } from './patient/patient-reserved-drugs/
     PatientIssuedEDrugsComponent,
     PatientScheduleCounselingComponent,
     PatientDrugReservationComponent,
-    PatientReservedDrugsComponent
+    PatientReservedDrugsComponent,
+    RegisterPharmacistComponent,
+    MedicationOrderOffersComponent,
+    PatientIssuedEDrugsComponent,
+    DrugInquiriesComponent,
+    DermatologistsInPharmacyComponent,
+    VacationRequestsComponent,
+    PharmacistListAndFilterComponent,
+    DermatologistListAndFilterComponent
 
   ],
   imports: [

@@ -2,25 +2,22 @@ package com.atlaspharmacy.atlaspharmacy.supplier.mapper;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
-import com.atlaspharmacy.atlaspharmacy.supplier.DTO.MedicationInStorageDTO;
+import com.atlaspharmacy.atlaspharmacy.supplier.DTO.OrderedMedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.SupplierMedicationInStorage;
-import com.atlaspharmacy.atlaspharmacy.supplier.domain.SupplierStorageMedication;
-
-import java.util.List;
 
 public class MedicationInStorageMapper {
     private MedicationInStorageMapper(){}
 
-    public static MedicationInStorageDTO mapToDTO(SupplierMedicationInStorage supplierMedicationInStorage, Medication medication){
-        MedicationInStorageDTO dto = new MedicationInStorageDTO();
-        dto.setMedication(MedicationMapper.convertToMedicationDTO(medication));
+    public static OrderedMedicationDTO mapToDTO(SupplierMedicationInStorage supplierMedicationInStorage, Medication medication){
+        OrderedMedicationDTO dto = new OrderedMedicationDTO();
+        dto.setMedicationId(medication.getId());
         dto.setQuantity(supplierMedicationInStorage.getQuantity());
         return dto;
     }
 
-    public static SupplierMedicationInStorage mapToSupplierMedicationStorage(MedicationInStorageDTO dto){
+    public static SupplierMedicationInStorage mapToSupplierMedicationStorage(OrderedMedicationDTO dto){
         SupplierMedicationInStorage supplierMedicationInStorage = new SupplierMedicationInStorage();
-        supplierMedicationInStorage.setMedication_id(dto.getMedication().getId());
+        supplierMedicationInStorage.setMedication_id(dto.getMedicationId());
         supplierMedicationInStorage.setQuantity(dto.getQuantity());
         return supplierMedicationInStorage;
     }

@@ -1,0 +1,220 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<mat-drawer-container class="example-container" hasBackdrop="true">
+
+
+  <mat-drawer-content>
+    <mat-toolbar style="background-color: #385399;">
+    </mat-toolbar>
+
+
+    <div style="overflow-y: auto; width: 100%;" *ngIf="registerPharmacistDialog">
+      <mat-card class="dermatologist-card">
+        <mat-card-header style="font-size: 25px;margin-left:60px;">Register pharmacist</mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="addPharmacist" (ngSubmit)="registrationNextPage()">
+            <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;" >
+
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="name-ff" style="width: 400px;">
+                    <mat-label style="font-size:14px;">Name*</mat-label>
+                    <input matInput id="name" placeholder="Name" name="name-ff"
+                           formControlName="name">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('name').valid && addPharmacist.get('name').touched && addPharmacist.get('name').errors['required']">
+                      Please enter name</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('name').valid && addPharmacist.get('name').touched && addPharmacist.get('name').errors['pattern']">
+                      Please enter name in correct format</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="surname-ff" style="width: 400px;">
+                    <mat-label style="font-size:14px;">Surname*</mat-label>
+                    <input matInput id="surname" placeholder="Surname" name="name-ff" formControlName="surname">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('surname').valid && addPharmacist.get('surname').touched && addPharmacist.get('surname').errors['required']">
+                      Please enter surname</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('surname').valid && addPharmacist.get('surname').touched && addPharmacist.get('surname').errors['pattern']">
+                      Please enter surname in correct format</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField" style="width: 400px;">
+                  <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
+                    <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
+                    <mat-radio-button value="MALE" style="font-size:18px;margin-left: 20px;">Male</mat-radio-button>
+                    <mat-radio-button value="OTHER" style="font-size:18px;margin-left: 20px;">Other</mat-radio-button>
+                  </mat-radio-group>
+                  <mat-error
+                    *ngIf="!addPharmacist.get('gender').valid && addPharmacist.get('gender').touched && selectedGender && addPharmacist.get('gender').errors['required']">
+                    Please choose gender</mat-error>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+
+                  <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
+                    <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                  </mat-form-field>
+
+
+                  <mat-error
+                    *ngIf="!addPharmacist.get('dob').valid && addPharmacist.get('dob').touched && addPharmacist.get('dob').errors['required']">
+                    Please choose date of birth</mat-error>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField" >
+                  <mat-form-field appearance="fill" style="width: 400px;">
+                    <mat-label style="font-size:14px;">Telephone*</mat-label>
+                    <input matInput id="telephone" placeholder="Telephone"  name="telephone-ff"
+                           formControlName="telephone">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('telephone').valid && addPharmacist.get('telephone').touched && addPharmacist.get('telephone').errors['required']">
+                      Please enter telephone</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('telephone').valid && addPharmacist.get('telephone').touched && addPharmacist.get('telephone').errors['pattern']">
+                      Please enter telephone in correct format</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="mail-ff" style="width: 400px;">
+                    <mat-label style="font-size:14px;">Email*</mat-label>
+                    <input matInput id="mail" placeholder="Email" name="mail-ff"
+                           formControlName="mail">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('mail').valid && addPharmacist.get('mail').touched && addPharmacist.get('mail').errors['required']">
+                      Please enter email</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('mail').valid && addPharmacist.get('mail').touched && addPharmacist.get('mail').errors['email']">
+                      Please enter email in correct format</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill"  style="width: 400px;">
+                    <mat-label style="font-size:14px;">New password*:</mat-label>
+                    <input matInput type="password"  id="password" placeholder="New Password" name="password-ff" formControlName="password">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('password').valid && addPharmacist.get('password').touched && addPharmacist.get('password').errors['required']">
+                      Please enter new password</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('password').valid && addPharmacist.get('password').touched && addPharmacist.get('password').errors['minLength']">
+                      Password has to be minimum 8 characters long</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile></mat-grid-tile>
+              <mat-grid-tile>
+                <div class="inputField">
+                  <mat-form-field appearance="fill" id="password-ff" style="width: 400px;">
+                    <mat-label style="font-size:14px;">Confirm password*:</mat-label>
+                    <input matInput type="password"  id="confirmpassword" placeholder="Confirm Password" name="password-ff" formControlName="confirmpassword">
+                    <mat-error
+                      *ngIf="!addPharmacist.get('confirmpassword').valid && addPharmacist.get('confirmpassword').touched && addPharmacist.get('confirmpassword').errors['required']">
+                      Please enter again new password</mat-error>
+                    <mat-error
+                      *ngIf="!addPharmacist.get('confirmpassword').valid && addPharmacist.get('confirmpassword').touched && addPharmacist.get('confirmpassword').errors['minLength']">
+                      Password has to be minimum 8 characters long</mat-error>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div style="display:flex;float:right;">
+                  <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;width:100px;" color="accent" mat-raised-button [disabled]="!addPharmacist.valid">Next</button>
+                  <button style="float:right;position: relative; background-color: #385399;height: 40px;width:100px;margin-left:30px;" color="accent" mat-raised-button routerLink="/pharmacy-profile">Cancel</button>
+                </div>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+        <div style="overflow-y: auto; width: 100%;display:flex;" *ngIf="setWorkTime" >
+          <mat-card style="width:50%;">
+            <form [formGroup]="workTime" (ngSubmit)="addWorkDay()">
+            <div style="display: flex;">
+              <mat-card-header style="font-size: 25px;margin-left:60px;">Add work time</mat-card-header>
+            </div>
+            <mat-grid-list cols="2" rowHeight="3:1">
+                    <mat-grid-tile><label style="margin-left: 30px;">Select date:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='date'  [min]="currentDate"  style="font-size:18px;" placeholder="Select date" required type="date">
+                      </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile><label style="margin-left: 30px;">Select start time:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='startTime' required type="time" style="font-size:18px;"  >
+                      </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile><label style="margin-left: 30px;">Select end time:</label></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-form-field>
+                        <input matInput formControlName='endTime' required type="time" style="font-size:18px;"  >
+                      </mat-form-field>
+                    </mat-grid-tile>
+              <mat-grid-tile></mat-grid-tile>
+               <mat-grid-tile>
+                 <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button [disabled]="!workTime.valid">Add work day</button>
+               </mat-grid-tile>
+              </mat-grid-list>
+
+            </form>
+          </mat-card>
+
+          <mat-card *ngIf="setWorkTime && ! isWorkDaysEmpty()">
+          <div> <label style="font-size:25px;margin-left:200px">Work days</label> </div>
+            <table style="margin-top: 20px;margin-left: 100px;">
+              <tr *ngFor="let workday of workdays" style="margin-bottom: 20px;">
+                <td style="font-size: 25px;"> {{workday.date | date :  "dd.MM.y." }} </td>
+                <span style="margin-left: 50px;"></span>
+                <td style="font-size: 25px;width: fit-content;" > {{workday.startTime | date:"HH:mm"}}-{{workday.endTime | date:"HH:mm "}}</td>
+                <span style="margin-left: 100px;"></span>
+                <td><button class="btn" mat-raised-button (click)="deleteWorkday(workday)"><i class="fa fa-trash" ></i></button></td>
+              </tr>
+            </table>
+          </mat-card>
+        </div>
+     <div *ngIf="setWorkTime">
+      <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;margin-bottom:10px;margin-right: 10px;" color="accent" mat-raised-button (click)='registerPharmacistSubmitted()' [disabled]="!addPharmacist.valid || isWorkDaysEmpty()">Register pharmacist</button>
+    </div>
+
+
+    <mat-card *ngIf="pharmacistsInPharmacy" style="margin-left:200px;">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:200px">Pharmacists in pharmacy</label>
+        <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button (click)='showRegisterPharmacistDialog()'>Register pharmacist</button>
+      </div>
+      <label style="font-size:15px;margin-left:200px;margin-top:40px;" *ngIf="isPharmacistsEmpty" >No pharmacists in pharmacy.</label>
+      <table style="margin-top: 20px;margin-left: 200px;">
+        <tr *ngFor="let pharmacist of pharmacists" style="margin-bottom: 10px;">
+          <td style="font-size: 20px;"> {{pharmacist.name}} {{pharmacist.surname}} </td>
+          <span style="margin-left: 50px;"></span>
+          <td><button class="btn" mat-raised-button (click)="deletePharmacist(pharmacist.id)"><i class="fa fa-trash" ></i></button></td>
+        </tr>
+        <div style="display:flex;float:right;">
+          <button style="float:right;position: relative; background-color: #385399; margin-left:500px;height: 40px;vertical-align: bottom;margin-top:300px;" color="accent" mat-raised-button routerLink="/pharmacy-profile">Back</button>
+        </div>
+      </table>
+
+
+    </mat-card>
+
+  </mat-drawer-content>
+</mat-drawer-container>

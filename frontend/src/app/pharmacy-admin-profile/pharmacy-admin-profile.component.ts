@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "@app/service/user";
+import {AuthenticationService, UserService} from "@app/service/user";
 import {AuthenticatedUser} from "@app/model/users/authenticatedUser";
 import {Address} from "@app/model/address/address";
 import {PharmacyAdmin} from "@app/model/users/pharmacyAdmin/pharmacyAdmin";
+import {FirstTimePasswordChange} from "@app/model/users/firstTimePasswordChange";
+import {EmployeeService} from "@app/service/employee/employee.service";
+import {PasswordChanger} from "@app/model/users/passwordChanger";
+import {EmployeePasswordChanger} from "@app/model/pharmderm/changepass";
 
 @Component({
   selector: 'app-pharmacy-admin-profile',
@@ -15,19 +19,11 @@ import {PharmacyAdmin} from "@app/model/users/pharmacyAdmin/pharmacyAdmin";
 export class PharmacyAdminProfileComponent implements OnInit {
   profileForm: FormGroup;
   changePasswordForm:FormGroup;
-  name:String;
-  surname:String;
-  gender : String;
   selectedGender : String;
-
-  address:String;
-  telephone:String;
-  mail:String;
   password1:String;
   password2:String;
-
-
   oldpassword:String;
+  gender:String;
 
   public profile:boolean = true;
   public edit:boolean = false;
@@ -39,57 +35,48 @@ export class PharmacyAdminProfileComponent implements OnInit {
   editProfileForm: FormGroup;
 
   constructor(private pharmacyAdminService:PharmacyAdminService,private router:Router
-              ,private authenticationService:AuthenticationService ) {
+              ,private authenticationService:AuthenticationService,private employeeService:EmployeeService ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x)
   }
 
   ngOnInit(): void {
+    console.log(localStorage.getItem('firstTimeChanged'));
+    if ((localStorage.getItem('firstTimeChanged') === 'false')) {
+      this.router.navigate(["/employee-welcome"]);
+
+    }
     this.editProfileForm = new FormGroup({});
     this.changePasswordForm = new FormGroup({});
     this.profileForm = new FormGroup({});
     this.password1 = "";
     this.password2 = "";
-
-
     this.oldpassword = "peraBijeKera";
 
     console.log(localStorage.getItem('userId'));
     this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
       result => {
-        this.name = result.name;
-        this.surname = result.surname;
-        if(result.gender.toString()=="FEMALE") { this.gender="Žensko"; }
-        else if(result.gender.toString()=="MALE") { this.gender="Muško"; }
-        else { this.gender="Drugo"; }
-        this.address = result.address.street+", "+result.address.city.name+", "+result.address.state.name;
-        this.telephone = result.phoneNumber;
-        this.mail = result.email;
+        this.pharmacyAdmin=result;
       }
     );
 
-  }
-
-  registerPharmacy(){
-
-  }
-  registerDermatologist(){
-
-  }
-  registerAdmin(){
-
-  }
-  registerSupplier(){
-
-  }
-  operationsWithDrugs(){
-
-  }
-  respondToComplaints(){
+    if(this.pharmacyAdmin.gender.toString()=="MALE")
+    {
+      this.selectedGender="MALE";
+      this.gender="Male";
+    }
+    else if(this.pharmacyAdmin.gender.toString()=="FEMALE")
+    {
+      this.selectedGender="FEMALE";
+      this.gender="Female";
+    }
+    else
+    {
+      this.selectedGender="OTHER";
+      this.gender="Other";
+    }
 
   }
-  defineLoyalty(){
 
-  }
   adminLogout(){
     this.authenticationService.logout();
     this.router.navigate(['/login']);
@@ -116,46 +103,67 @@ export class PharmacyAdminProfileComponent implements OnInit {
     if(this.password1 !== this.password2){
       console.log('NISU ISTI NE MOZE MATORI KONTAS BRT MOJ');
     }
+    else{
+        let changePass=new EmployeePasswordChanger(this.pharmacyAdmin.email,this.changePasswordForm.value.oldpassword,this.password2,null);
+        this.employeeService.changeEmployeePassword(changePass).subscribe(result=>{
+          console.log(result);
+          this.profile=true;
+          this.edit=false;
+          this.changePassword=false;
+        });
+    }
   }
-  addAdmin(){}
+
 
 
   editProfile(){
     this.edit = true;
-
     this.profile= false;
     this.changePassword = false;
-    if(this.gender=="Muško")
+
+    if(this.pharmacyAdmin.gender.toString()=="MALE")
     {
-      this.selectedGender="Male";
+      this.selectedGender="MALE";
+      this.gender="Male";
     }
-    else if(this.gender=="Žensko")
+    else if(this.pharmacyAdmin.gender.toString()=="FEMALE")
     {
-      this.selectedGender="Female";
+      this.selectedGender="FEMALE";
+      this.gender="Female";
     }
     else
     {
-      this.selectedGender="Other";
+      this.selectedGender="OTHER";
+      this.gender="Other";
     }
+
 
     this.editProfileForm = new FormGroup({
 
-      'name' : new FormControl(this.name, Validators.required),
-      'surname' : new FormControl(this.surname, Validators.required),
-      'email' : new FormControl(null, Validators.required),
-      'telephone' : new FormControl(this.telephone, Validators.required),
-      'address' : new FormControl(this.address, Validators.required),
-      'gender': new FormControl(this.selectedGender, Validators.required)
+      'name' : new FormControl(this.pharmacyAdmin.name, Validators.required),
+      'surname' : new FormControl(this.pharmacyAdmin.surname, Validators.required),
+      'email' : new FormControl(this.pharmacyAdmin.email, [Validators.required,Validators.email]),
+      'telephone' : new FormControl(this.pharmacyAdmin.phoneNumber, Validators.required),
+      'address' : new FormControl(this.pharmacyAdmin.address, Validators.required),
+      'gender': new FormControl(this.gender, Validators.required)
     });
   }
 
   editSubmited() {
-    this.name=this.editProfileForm.value.name;
-    this.surname=this.editProfileForm.value.surname;
-    this.gender=this.editProfileForm.value.selectedGender;
-    this.telephone=this.editProfileForm.value.telephone;
-    //this.pharmacyAdmin=new PharmacyAdmin(this.name,this.surname,this.phoneNumber,this.telephone)
-}
+    this.pharmacyAdmin.name = this.editProfileForm.value.name;
+    this.pharmacyAdmin.surname = this.editProfileForm.value.surname;
+    this.pharmacyAdmin.dateOfBirth = this.editProfileForm.value.dateOfBirth;
+    this.pharmacyAdmin.email = this.editProfileForm.value.email;
+    this.pharmacyAdmin.phoneNumber = this.editProfileForm.value.telephone;
+    this.pharmacyAdmin.gender = this.editProfileForm.value.gender;
+    console.log(this.pharmacyAdmin);
+    this.pharmacyAdminService.editPharmacyAdmin(this.pharmacyAdmin).subscribe(result=>{
+      this.edit=false;
+      this.profile=true;
+      this.changePassword=false;
+    });
+
+  }
   checkLoggedInUser(){
     return this.authenticationService.getUserValue();
   }

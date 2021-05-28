@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "drugreservation")
-@Proxy(lazy = false)
 public class DrugReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -5,18 +5,19 @@ import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugInquiryReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.SaveReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.service.IDrugInquiryService;
 import com.atlaspharmacy.atlaspharmacy.supplier.domain.Order;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
+@CrossOrigin(allowedHeaders = "*",origins = "*")
 @Controller
 @RequestMapping(value = "/drugInquiryReport", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DrugInquiryReportController {
@@ -39,5 +40,12 @@ public class DrugInquiryReportController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DrugInquiryReportDTO> getAll() throws ParseException {
+        return drugInquiryService.getAll();
+    }
+
 
 }

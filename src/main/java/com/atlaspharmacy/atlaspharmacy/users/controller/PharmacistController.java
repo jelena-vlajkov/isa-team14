@@ -1,10 +1,14 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
+import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +46,6 @@ public class PharmacistController {
         return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
     }
 
-
-    @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<PharmacistDTO> searchPharmacists(@RequestParam("searchInput") String searchInput){
-        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(searchInput));
-    }
     
     @GetMapping(value = "/searchPharmacistsByPharmacyAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
@@ -55,31 +53,41 @@ public class PharmacistController {
         return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacistsByPharmacyAdmin(searchInput,pharmacyId));
     }
 
-    @GetMapping(value="/filterPharmacistsByPharmacy",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/filterPharmacistsByGrade", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
-    List<PharmacistDTO> filterPharmacistsByPharmacy(@RequestParam("pharmacists") List<PharmacistDTO> pharmacists,
-                                                    @RequestParam("pharmacyId") String pharmacyId) {
-        return pharmacistService.filterPharmacistsByPharmacy(pharmacists,pharmacyId);
-    }
-
-    @GetMapping(value="/filterPharmacistsByGrade",produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<PharmacistDTO> filterPharmacistsByGrade(@RequestParam("pharmacists") List<PharmacistDTO> pharmacists,
-                                                    @RequestParam("grade") Double grade) {
+    List<PharmacistDTO> filterPharmacistsByGrade(@RequestBody List<PharmacistDTO> pharmacists, @RequestParam("grade") int grade) throws ParseException {
         return pharmacistService.filterPharmacistsByGrade(pharmacists,grade);
     }
 
-    @PostMapping(value = "/registerPharmacist",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO){
-        //fali jos za radno vreme
-        try {
-            pharmacistService.registerPharmacist(pharmacistDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @PostMapping(value = "/filterPharmacistsByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<PharmacistDTO> filterPharmacistByPharmacy(@RequestBody List<PharmacistDTO> pharmacists,@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
+        return pharmacistService.filterPharmacistsByPharmacy(pharmacists,pharmacyId);
+    }
 
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping(value = "/searchPharmacists", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<PharmacistDTO> searchPharmacists(@RequestParam("pharmacyId")Long pharmacyId,@RequestParam("searchInput") String searchInput){
+        return PharmacistMapper.mapToListDTOS(pharmacistService.searchPharmacists(pharmacyId,searchInput));
+    }
+
+    @PostMapping(value = "/registerPharmacist",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PharmacistDTO registerPharmacist(@RequestBody PharmacistDTO pharmacistDTO) throws Exception {
+        return PharmacistMapper.mapPharmacistToDTO(pharmacistService.registerPharmacist(pharmacistDTO));
+    }
+
+    @GetMapping(value = "/getById",consumes = MediaType.APPLICATION_JSON_VALUE)
+    public PharmacistDTO getById(@RequestParam("pharmacistId") Long pharmacistId) throws Exception {
+        return PharmacistMapper.mapPharmacistToDTO(pharmacistService.findById(pharmacistId));
+    }
+
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacistDTO> getAll(){
+        return PharmacistMapper.mapToListDTOS(pharmacistService.getAll());
     }
 
     @PostMapping(value = "/deletePharmacist")

@@ -11,6 +11,7 @@ public interface IWorkDayService {
     List<WorkDay> getBy(Long medicalStaffId);
     List<WorkDay> getAll();
     List<WorkDay> getByDate(Date date);
-    void addWorkday(WorkDayDTO workDayDTO);
-    boolean addWorkdayForDermatologist(WorkDayDTO workDayDTO);
+    void addWorkday(WorkDayDTO workDayDTO) throws Exception;
+    List<WorkDay> getAllWorkDaysInPeriod(Long medicalStaffId, Date startDate, Date endDate);
+    void updateWorkDay(Long id);
 }

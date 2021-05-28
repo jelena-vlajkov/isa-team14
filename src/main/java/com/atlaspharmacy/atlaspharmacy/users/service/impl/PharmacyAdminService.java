@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
@@ -70,7 +71,7 @@ public class PharmacyAdminService implements IPharmacyAdminService {
 
     @Override
     public PharmacyAdmin registerPharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) throws Exception {
-        if(userRepository.findByEmail(pharmacyAdminDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(pharmacyAdminDTO.getEmail())){
+        if(userRepository.findUserByEmail(pharmacyAdminDTO.getEmail())==null && !pharmacyService.isPharamcyRegistered(pharmacyAdminDTO.getEmail())){
             String role ="ROLE_PHARMACYADMIN";
             String password = passwordEncoder.encode(pharmacyAdminDTO.getPassword());
             pharmacyAdminDTO.setPassword(password);
@@ -89,18 +90,17 @@ public class PharmacyAdminService implements IPharmacyAdminService {
     }
 
     @Override
+    @PharmacyAdminAuthorization
     public PharmacyAdmin updatePharmacyAdmin(PharmacyAdminDTO pharmacyAdminDTO) {
-        PharmacyAdmin pharmacyAdminToUpdate= pharmacyAdminRepository.getOne(pharmacyAdminDTO.getId());
-        Pharmacy updatedPharmacy= pharmacyService.editPharmacy(pharmacyAdminDTO.getPharmacy());
-        pharmacyAdminToUpdate.setPharmacy(updatedPharmacy);
+        PharmacyAdmin pharmacyAdminToUpdate= pharmacyAdminRepository.findById(pharmacyAdminDTO.getId()).get();
         pharmacyAdminToUpdate.setDateOfBirth(pharmacyAdminDTO.getDateOfBirth());
         pharmacyAdminToUpdate.setEmail(pharmacyAdminDTO.getEmail());
         pharmacyAdminToUpdate.setGender(pharmacyAdminDTO.getGender());
         pharmacyAdminToUpdate.setName(pharmacyAdminDTO.getName());
         pharmacyAdminToUpdate.setSurname(pharmacyAdminDTO.getSurname());
         pharmacyAdminToUpdate.setPhoneNumber(pharmacyAdminDTO.getPhoneNumber());
-        Address address=addressService.updateAddress(pharmacyAdminDTO.getAddress());
-        pharmacyAdminToUpdate.setAddress(address);
+        //Address address=addressService.updateAddress(pharmacyAdminDTO.getAddress());
+       // pharmacyAdminToUpdate.setAddress(address);
         pharmacyAdminRepository.save(pharmacyAdminToUpdate);
         return pharmacyAdminToUpdate;
     }

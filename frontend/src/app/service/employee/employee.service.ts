@@ -74,7 +74,7 @@ export class EmployeeService {
   }
 
   addDrugReservation(drugReservation : CreaeteReservation) : Observable<Response> {
-    return this.http.post<Response>(`${environment.baseUrl}/${environment.reservations}/${environment.saveResevation}`, drugReservation);
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.prescription}/${environment.savePrescription}`, drugReservation);
   }
 
   scheduleAppointment(appointment : Appointment) : Observable<Response> {

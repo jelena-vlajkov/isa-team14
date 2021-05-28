@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DrugReservationController {
@@ -47,7 +48,7 @@ public class DrugReservationController {
     @DrugReservationAuthorization
     public @ResponseBody
     List<DrugReservationDTO> getReservationsByPharmacy(@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
-        return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationService.findAllReservation(1L));
+        return drugReservationService.findAllReservation(pharmacyId);
     }
 
     @GetMapping(value = "/issueReservation", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,11 +88,17 @@ public class DrugReservationController {
     @RequestMapping(value = "/cancelDrugReservation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization
     public @ResponseBody
-    ResponseEntity<String> cancelDrugReservation(@RequestBody Long reservationId) throws  ParseException{
-        if(drugReservationService.cancelDrugReservation(reservationId)) {
-            return  new ResponseEntity<>(HttpStatus.OK);
+    ResponseEntity<String> cancelDrugReservation(@RequestBody Long reservationId) throws  ParseException {
+        if (drugReservationService.cancelDrugReservation(reservationId)) {
+            return new ResponseEntity<>(HttpStatus.OK);
         }
-        return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+
+    @GetMapping(value = "/isDrugReserved")
+    boolean isDrugReserved(@RequestParam("medicationId") Long medicationId,@RequestParam("pharmacyId") Long pharmacyId) throws Exception {
+        return drugReservationService.isDrugReserved(medicationId,pharmacyId);
     }
 
 

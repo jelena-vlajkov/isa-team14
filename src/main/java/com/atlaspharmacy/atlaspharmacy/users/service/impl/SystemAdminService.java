@@ -47,7 +47,7 @@ public class SystemAdminService implements ISystemAdminService {
     }
     @Override
     public SystemAdmin registerSysAdmin(SystemAdminDTO systemAdminDTO) throws Exception {
-        if(userRepository.findByEmail(systemAdminDTO.getSysEmail())==null && !pharmacyService.isPharamcyRegistered(systemAdminDTO.getSysEmail())){
+        if(userRepository.findUserByEmail(systemAdminDTO.getSysEmail())==null && !pharmacyService.isPharamcyRegistered(systemAdminDTO.getSysEmail())){
             String role ="ROLE_SYSADMIN";
             String password = passwordEncoder.encode(systemAdminDTO.getSysPassword());
             systemAdminDTO.setSysPassword(password);
