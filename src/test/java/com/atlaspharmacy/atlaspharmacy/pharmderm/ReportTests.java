@@ -11,6 +11,6 @@ public class ReportTests {
 
     @Test
     void createPenalty() {
-        
+
     }
 }
