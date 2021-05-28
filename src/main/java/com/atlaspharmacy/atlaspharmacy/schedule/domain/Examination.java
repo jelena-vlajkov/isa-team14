@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class Examination extends Appointment{
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Dermatologist dermatologist;
 
     public Examination() {

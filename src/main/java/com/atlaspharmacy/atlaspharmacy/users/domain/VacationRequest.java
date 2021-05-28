@@ -11,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table(name = "vacation_requests")
 @DiscriminatorValue(value = Role.Values.Patient)
-@Proxy(lazy = false)
 public class VacationRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

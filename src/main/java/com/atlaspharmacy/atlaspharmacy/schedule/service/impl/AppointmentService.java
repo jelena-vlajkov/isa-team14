@@ -1,5 +1,4 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
-import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
@@ -19,10 +18,12 @@ import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,12 +41,13 @@ public class AppointmentService implements IAppointmentService {
     private final MedicalRecordRepository medicalRecordRepository;
     private final PharmacyRepository pharmacyRepository;
     private final IPharmacyPricelistService pharmacyPricelistService;
+    private final IEmailService emailService;
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService) {
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService, IEmailService emailService) {
         this.userRepository = userRepository;
         this.appointmentRepository = appointmentRepository;
         this.prescriptionRepository = prescriptionRepository;
@@ -53,6 +55,7 @@ public class AppointmentService implements IAppointmentService {
         this.medicalRecordRepository = medicalRecordRepository;
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacyPricelistService = pharmacyPricelistService;
+        this.emailService = emailService;
     }
 
 
@@ -65,6 +68,7 @@ public class AppointmentService implements IAppointmentService {
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
+            emailService.successfullyScheduledCounseling(counseling);
             appointmentRepository.save(counseling);
             return counseling;
         }
@@ -81,20 +85,33 @@ public class AppointmentService implements IAppointmentService {
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.examinationCost(appointmentDTO.getPharmacyId()));
             appointmentRepository.save(counseling);
+            emailService.successfullyScheduledAppointment(counseling);
             return counseling;
         }
         throw new AppointmentNotFreeException();
     }
 
+    @Transactional
     @Override
     public Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws Exception {
         if (!userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).isPresent()) {
             throw new AppointmentNotFreeException("Invalid request!");
         }
+
         User user = userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).get();
         if (user.getRole().equals(Role.Values.Dermatologist)) {
+            if((appointmentRepository.overlappingExaminations(scheduleAppointmentDTO.getStartTime(),
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                throw new Exception("Invalid request");
+            }
+
             return scheduleExamination(scheduleAppointmentDTO);
         } else {
+            if((appointmentRepository.ovelappingCunselings(scheduleAppointmentDTO.getStartTime(),
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                throw new Exception("Invalid request");
+            }
+
             return scheduleCounseling(scheduleAppointmentDTO);
         }
     }
@@ -245,7 +262,7 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception {
         Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(dto.getDate());
 
-        List<Appointment> availableForStaff = findAvailableByEmployeeAndPharmacy(dto.getPharmacyId(),dto.getMedicalStaffId(),  date);
+        List<Appointment> availableForStaff = findAvailableByEmployeeAndPharmacy(dto.getPharmacyId(), dto.getMedicalStaffId(), date);
         List<Appointment> appointments = getPatientsAppointments(dto.getPatientId());
         List<Appointment> retVal = new ArrayList<>();
 
@@ -254,7 +271,20 @@ public class AppointmentService implements IAppointmentService {
                 retVal.add(a);
             }
         }
-        return retVal;
+
+        return checkIfPatientHasScheduled(retVal, dto.getPatientId());
+    }
+
+    private List<Appointment> checkIfPatientHasScheduled(List<Appointment> retVal, Long patientId) {
+        List<Appointment> upcomingScheduled = appointmentRepository.findUpcomingForPatient(patientId);
+        List<Appointment> finalRetVal = new ArrayList<>();
+
+        for (Appointment appointment : retVal) {
+            if (!upcomingScheduled.stream().anyMatch(a -> a.isOccupied(appointment.getAppointmentPeriod()))) {
+                finalRetVal.add(appointment);
+            }
+        }
+        return finalRetVal;
     }
 
     @Override
@@ -455,8 +485,21 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> getOccupiedBy(Long medicalStaffId) {
         return appointmentRepository.findAll()
                 .stream()
-                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
+                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> getOccupiedBy2(Long medicalStaffId) {
+        try {
+            return AppointmentMapper.mapAppointmentsToListDTO(appointmentRepository.findAll()
+                    .stream()
+                    .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
+                    .collect(Collectors.toList()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

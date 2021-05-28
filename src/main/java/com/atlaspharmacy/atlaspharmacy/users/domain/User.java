@@ -17,7 +17,6 @@ import java.util.List;
 @Table(name = "users")
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType=DiscriminatorType.STRING)
-@Proxy(lazy = false)
 public abstract class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +28,7 @@ public abstract class User implements UserDetails {
     private String email;
     private String password;
     private Gender gender;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Address address;
     @Column(insertable = false, updatable = false)
     private String role;

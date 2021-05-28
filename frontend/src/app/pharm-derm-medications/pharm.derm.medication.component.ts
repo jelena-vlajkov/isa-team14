@@ -41,7 +41,11 @@ export class PharmDermMedicationsComponent {
         'uniqueIdentifier' : new FormControl("", [Validators.required, Validators.pattern("^[0-9]*$")])
       });
     }
-
+    isPharmacist() {
+      let user = this.authService.currentUserValue;
+      return user.role === 'Pharmacist'; 
+    }
+  
     searchReservation() {
       let id = this.searchForm.controls.uniqueIdentifier.value;
       this.pharmacistService.getReservationsByUniqueIdentifier(id).subscribe(

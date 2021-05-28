@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "patients")
 @DiscriminatorValue(value = Role.Values.Patient)
-@Proxy(lazy = false)
 public class Patient extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

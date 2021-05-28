@@ -31,7 +31,6 @@ export class PharmacistPatientsComponent implements OnInit {
   public profile:boolean = true;
   public edit:boolean = false;
   public changePassword:boolean = false;
-  public isPharmacist : boolean;
   public searchPatientsForm : FormGroup;
 
   public patients : PatientsOverview[];
@@ -73,8 +72,15 @@ export class PharmacistPatientsComponent implements OnInit {
           alert(error)
          })
   }
+  
+
   logout() {
     this.authService.logout();
+  }
+
+  isPharmacist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Pharmacist'; 
   }
   searchPatients() {
     let name = this.searchPatientsForm.controls.name.value;

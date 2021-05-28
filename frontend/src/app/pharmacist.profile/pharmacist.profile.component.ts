@@ -100,6 +100,11 @@ export class PharmacistProfileComponent implements OnInit {
 
 
     }
+    
+  isPharmacist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Pharmacist'; 
+  }
     sendRequest() {
       let startDate = this.vacationRequestForm.controls.startDate.value;
       let endDate = this.vacationRequestForm.controls.endDate.value;

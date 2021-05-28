@@ -22,4 +22,8 @@ public interface IPharmacyStorageService {
     List<PharmacyStorage> getAllPharmaciesByMedication(Long id);
 
     List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code);
+
+    void medicationReserved(Long medicationId, Long pharmacyId);
+
+    void reduceMedicationQuantity(Long medicationId, Long pharmacyId);
 }

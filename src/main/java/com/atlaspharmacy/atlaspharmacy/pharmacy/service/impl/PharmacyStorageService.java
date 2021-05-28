@@ -75,10 +75,11 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Override
     public boolean isMedicationInPharmacy(Long code, Long id) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndCode(id, code);
-        if (pharmacyStorage != null) {
-            return true;
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+            return false;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -147,5 +148,25 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Override
     public List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code) {
         return pharmacyStorageRepository.getAllPharmaciesByMedicationCode(code);
+    }
+
+    @Override
+    public void medicationReserved(Long medicationId, Long pharmacyId) {
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+        }
+        pharmacyStorageRepository.save(pharmacyStorage);
+    }
+
+    @Override
+    public void reduceMedicationQuantity(Long medicationId, Long pharmacyId) {
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() + 1);
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+        }
+        pharmacyStorageRepository.save(pharmacyStorage);
     }
 }
