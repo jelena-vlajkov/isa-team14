@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 
 import java.util.Date;
 
@@ -10,26 +11,26 @@ public class VacationRequestDTO {
     private Date startDate;
     private Date endDate;
     private String vacationReason;
-    private MedicalStaffDTO medicalStaffDTO;
+    private MedicalStaffDTO medicalStaff;
+    private PharmacyDTO pharmacy;
 
-    public VacationRequestDTO() {
-    }
-
-    public VacationRequestDTO(Long id, Long medicalStaffId, Date startDate, Date endDate, String vacationReason, MedicalStaffDTO medicalStaffDTO) {
+    public VacationRequestDTO(Long id, Long medicalStaffId, Date startDate
+            , Date endDate, String vacationReason, MedicalStaffDTO medicalStaffDTO,PharmacyDTO pharmacyDTO) {
         this.id = id;
         this.medicalStaffId = medicalStaffId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.vacationReason = vacationReason;
-        this.medicalStaffDTO = medicalStaffDTO;
+        this.medicalStaff = medicalStaffDTO;
+        this.pharmacy = pharmacyDTO;
     }
 
-    public MedicalStaffDTO getMedicalStaffDTO() {
-        return medicalStaffDTO;
+    public MedicalStaffDTO getMedicalStaff() {
+        return medicalStaff;
     }
 
-    public void setMedicalStaffDTO(MedicalStaffDTO medicalStaffDTO) {
-        this.medicalStaffDTO = medicalStaffDTO;
+    public void setMedicalStaff(MedicalStaffDTO medicalStaffDTO) {
+        this.medicalStaff = medicalStaffDTO;
     }
 
     public Long getId() {
@@ -72,4 +73,8 @@ public class VacationRequestDTO {
     public void setMedicalStaffId(Long medicalStaffId) {
         this.medicalStaffId = medicalStaffId;
     }
+
+    public PharmacyDTO getPharmacy() { return pharmacy; }
+
+    public void setPharmacy(PharmacyDTO pharmacy) { this.pharmacy = pharmacy; }
 }

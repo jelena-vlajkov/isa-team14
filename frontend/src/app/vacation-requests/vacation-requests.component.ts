@@ -4,6 +4,7 @@ import {VacationRequestsService} from "@app/service/vacation-requests/vacation-r
 import {PharmacyAdmin} from "@app/model/users/pharmacyAdmin/pharmacyAdmin";
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Pharmacy} from "@app/model/pharmacy/pharmacy";
+import {VacationRequestAnswer} from "@app/model/users/vacationRequestAnswer";
 
 @Component({
   selector: 'app-vacation-requests',
@@ -13,6 +14,9 @@ import {Pharmacy} from "@app/model/pharmacy/pharmacy";
 export class VacationRequestsComponent implements OnInit {
   vacationRequests:VacationRequest[]=new Array();
   pharmacy:Pharmacy;
+  requestRejected:boolean=false;
+  explanation:String;
+  rejectedRequestId:Number;
 
   constructor(private vacationRequestsService:VacationRequestsService,
               private pharmacyAdminService:PharmacyAdminService) { }
@@ -37,14 +41,31 @@ export class VacationRequestsComponent implements OnInit {
   }
 
   approveVacationRequest(id: Number) {
-    this.vacationRequestsService.approveVacationRequest(id).subscribe(result => {
+    let vacationRequest=this.vacationRequests.filter(vacationRequest => vacationRequest.id == id)[0];
+    let answer=new VacationRequestAnswer(vacationRequest,true,null);
+    console.log(answer);
+    this.vacationRequestsService.approveVacationRequest(answer).subscribe(result => {
       this.getVacationRequestsByPharmacy();
     });
   }
 
-  denyVacationRequest(id: Number) {
-    this.vacationRequestsService.denyVacationRequest(id).subscribe(result => {
+  denyVacationRequest() {
+    console.log(this.explanation);
+    let vacationRequest=this.vacationRequests.filter(vacationRequest => vacationRequest.id == this.rejectedRequestId)[0];
+    let answer=new VacationRequestAnswer(vacationRequest,false,this.explanation);
+    console.log(answer);
+    this.vacationRequestsService.denyVacationRequest(answer).subscribe(result => {
       this.getVacationRequestsByPharmacy();
+      this.requestRejected = false;
     });
+  }
+
+  reject(id: Number) {
+    this.requestRejected =true;
+    this.rejectedRequestId = id;
+  }
+
+  rejectingCanceled() {
+    this.requestRejected = false;
   }
 }

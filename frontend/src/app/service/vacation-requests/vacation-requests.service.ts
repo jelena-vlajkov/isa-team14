@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {VacationRequest} from "@app/model/pharmderm/vacationrequest";
 import {Observable} from "rxjs";
+import {VacationRequestAnswer} from "@app/model/users/vacationRequestAnswer";
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,11 @@ export class VacationRequestsService {
     return this.http.get<VacationRequest[]>(`${environment.baseUrl}/${environment.vacationRequest}/${environment.getByPharmacy}?pharmacyId=${pharmacyId}`);
   }
 
-  approveVacationRequest(vacationRequestId:Number){
-    return this.http.post(`${environment.baseUrl}/${environment.vacationRequest}/${environment.approveVacationRequest}?vacationRequestId=${vacationRequestId}`,null);
+  approveVacationRequest(vacationRequestAnswer:VacationRequestAnswer){
+    return this.http.post(`${environment.baseUrl}/${environment.vacationRequest}/${environment.approveVacationRequest}`,vacationRequestAnswer);
   }
 
-  denyVacationRequest(vacationRequestId:Number){
-    return this.http.post(`${environment.baseUrl}/${environment.vacationRequest}/${environment.denyVacationRequest}?vacationRequestId=${vacationRequestId}`,null);
+  denyVacationRequest(vacationRequestAnswer:VacationRequestAnswer){
+    return this.http.post(`${environment.baseUrl}/${environment.vacationRequest}/${environment.denyVacationRequest}`,vacationRequestAnswer);
   }
 }
