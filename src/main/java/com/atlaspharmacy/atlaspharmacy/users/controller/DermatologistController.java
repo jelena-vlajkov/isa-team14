@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
@@ -56,7 +57,14 @@ public class DermatologistController {
         return DermatologistMapper.mapToListDTOS(dermatologistService.getAllDermatologistsToComplain(id));
     }
 
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<DermatologistDTO> getAll(){
+        return DermatologistMapper.mapToListDTOS(dermatologistService.getAll());
+    }
+
     @PostMapping(value = "/addDermatologistToPharmacy")
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> addDermatologistToPharmacy(@RequestParam("pharmacyId") Long pharmacyId,
                                                      @RequestParam("dermatologistId") Long dermatologistId){
         try {
@@ -70,6 +78,7 @@ public class DermatologistController {
     }
 
     @PostMapping(value = "/deleteDermatologistFromPharmacy")
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> deleteDermatologistFromPharmacy(@RequestParam("pharmacyId") Long pharmacyId,
                                                      @RequestParam("dermatologistId") Long dermatologistId){
         boolean successful;
@@ -87,16 +96,36 @@ public class DermatologistController {
 
     }
 
+
     @GetMapping(value = "/searchDermatologists", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
-    List<DermatologistDTO> searchDermatologists(@RequestParam("searchInput") String searchInput){
-        return DermatologistMapper.mapToListDTOS(dermatologistService.searchDermatologists(searchInput));
+    List<DermatologistDTO> searchDermatologists(@RequestParam("pharmacyId")Long pharmacyId,@RequestParam("searchInput") String searchInput){
+        return DermatologistMapper.mapToListDTOS(dermatologistService.searchDermatologists(pharmacyId,searchInput));
     }
     @GetMapping(value = "/getDermatologistsNotInPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
     List<DermatologistDTO> getDermatologistsNotInPharmacy(@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
         return dermatologistService.getDermatologistsNotInPharmacy(pharmacyId);
     }
+
+    @PostMapping(value = "/filterDermatologistsByGrade", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<DermatologistDTO> filterDermatologistsByGrade(@RequestBody List<DermatologistDTO> dermatologists,@RequestParam("grade") int grade) throws ParseException {
+        return dermatologistService.filterDermatologistsByGrade(dermatologists,grade);
+    }
+
+    @PostMapping(value = "/filterDermatologistsByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<DermatologistDTO> filterDermatologistsByPharmacy(@RequestBody List<DermatologistDTO> dermatologists,@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
+        return dermatologistService.filterDermatologistsByPharmacy(dermatologists,pharmacyId);
+    }
+
+
+
 
     @ExceptionHandler(InvalidEmail.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
