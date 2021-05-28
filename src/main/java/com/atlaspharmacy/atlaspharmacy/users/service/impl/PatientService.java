@@ -125,7 +125,7 @@ public class PatientService implements IPatientService {
     @Transactional
     public void editPatient(PatientDTO patientDTO){
         //bolje getOne od find
-        Patient patientToUpdate = (Patient) userRepository.getOne(patientDTO.getId());
+        User patientToUpdate = userRepository.getOne(patientDTO.getId());
         Address address= addressService.updateAddress(patientDTO.getAddress());
         patientToUpdate.setSurname(patientDTO.getSurname());
         patientToUpdate.setName(patientDTO.getName());
