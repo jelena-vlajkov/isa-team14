@@ -185,6 +185,7 @@ export class PharmacistAddReportComponent {
       reservation.medicationId = medication.id;
       reservation.patientId = a.patientId;
       reservation.pharmacyId = a.pharmacyId;
+      reservation.medicalStaffId = Number(localStorage.getItem("userId"));
       console.log(medication)
       reservation.therapyDays = medication.days;
 

@@ -81,6 +81,11 @@ export class PharmacistCalendarComponent {
   activeDayIsOpen: boolean = true;
   public appointments : Appointment[];
 
+  isPharmacist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Pharmacist'; 
+  }
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -141,7 +146,7 @@ export class PharmacistCalendarComponent {
           let startTimeString = this.datePipe.transform(a.startTime, 'hh:mm');
 
           let endTimeString = this.datePipe.transform(a.endTime, 'hh:mm');
-          if (isSameDay(this.viewDate, new Date(a.startTime))) {
+          if (isSameDay(this.viewDate, new Date(a.startTime)) && !a.finished) {
           this.events.push({
             start: new Date(a.startTime),
             end: new Date(a.endTime),

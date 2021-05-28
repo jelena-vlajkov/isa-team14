@@ -93,10 +93,21 @@ public class AppointmentService implements IAppointmentService {
         if (!userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).isPresent()) {
             throw new AppointmentNotFreeException("Invalid request!");
         }
+
         User user = userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).get();
         if (user.getRole().equals(Role.Values.Dermatologist)) {
+            if((appointmentRepository.overlappingExaminations(scheduleAppointmentDTO.getStartTime(),
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                throw new Exception("Invalid request");
+            }
+
             return scheduleExamination(scheduleAppointmentDTO);
         } else {
+            if((appointmentRepository.ovelappingCunselings(scheduleAppointmentDTO.getStartTime(),
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                throw new Exception("Invalid request");
+            }
+
             return scheduleCounseling(scheduleAppointmentDTO);
         }
     }
@@ -247,7 +258,7 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception {
         Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(dto.getDate());
 
-        List<Appointment> availableForStaff = findAvailableByEmployeeAndPharmacy(dto.getPharmacyId(),dto.getMedicalStaffId(),  date);
+        List<Appointment> availableForStaff = findAvailableByEmployeeAndPharmacy(dto.getPharmacyId(), dto.getMedicalStaffId(), date);
         List<Appointment> appointments = getPatientsAppointments(dto.getPatientId());
         List<Appointment> retVal = new ArrayList<>();
 
@@ -256,7 +267,20 @@ public class AppointmentService implements IAppointmentService {
                 retVal.add(a);
             }
         }
-        return retVal;
+
+        return checkIfPatientHasScheduled(retVal, dto.getPatientId());
+    }
+
+    private List<Appointment> checkIfPatientHasScheduled(List<Appointment> retVal, Long patientId) {
+        List<Appointment> upcomingScheduled = appointmentRepository.findUpcomingForPatient(patientId);
+        List<Appointment> finalRetVal = new ArrayList<>();
+
+        for (Appointment appointment : retVal) {
+            if (!upcomingScheduled.stream().anyMatch(a -> a.isOccupied(appointment.getAppointmentPeriod()))) {
+                finalRetVal.add(appointment);
+            }
+        }
+        return finalRetVal;
     }
 
     @Override
@@ -457,7 +481,7 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> getOccupiedBy(Long medicalStaffId) {
         return appointmentRepository.findAll()
                 .stream()
-                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
+                .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
                 .collect(Collectors.toList());
     }
 

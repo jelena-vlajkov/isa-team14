@@ -13,7 +13,7 @@ import javax.persistence.*;
 @DiscriminatorValue(value = AppointmentType.Values.Examination)
 public class Examination extends Appointment{
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Dermatologist dermatologist;
 
     public Examination() {

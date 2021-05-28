@@ -24,7 +24,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT a FROM Appointment a WHERE a.pharmacy.id = ?1")
     List<Appointment> findAllAppointmentsByPharmacy(Long pharmacyId);
 
-    @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?2 AND a.isCanceled = false")
+    @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?1 AND a.isCanceled = false")
     List<Appointment> findAppointmentsByPatient(Long patientId);
 
     @Query(value = "SELECT a FROM Appointment a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
@@ -84,9 +84,16 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT a FROM Examination a WHERE a.dermatologist.id = ?1 AND CAST(a.appointmentPeriod.startTime as date) >= CAST(?2 as date) AND CAST(a.appointmentPeriod.startTime as date) <= CAST(?3 as date) AND a.isCanceled = false")
     List<Examination> findAllUpcomingExaminationsForMedicalStaff(Long medicalStaffId, Date startDate, Date endDate);
 
+    @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?1 AND CAST(a.appointmentPeriod.startTime as date) >= current_date")
+    List<Appointment> findUpcomingForPatient(Long patientId);
 
+    @Query(value = "SELECT e FROM Examination e WHERE (e.dermatologist.id = ?3 and e.appointmentPeriod.startTime = ?1 and e.appointmentPeriod.endTime = ?2)" +
+            "OR (e.dermatologist.id = ?3 and e.appointmentPeriod.startTime >= ?1 and e.appointmentPeriod.startTime <= ?2) or " +
+            "(e.dermatologist.id = ?3 and e.appointmentPeriod.endTime >= ?1 and e.appointmentPeriod.endTime <= ?2)")
+    List<Examination> overlappingExaminations(Date startTime, Date endTime, Long medicalStaffId);
 
-
-
-
+    @Query(value = "SELECT e FROM Counseling e WHERE (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime = ?1 and e.appointmentPeriod.endTime = ?2)" +
+            "OR (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime >= ?1 and e.appointmentPeriod.startTime <= ?2) or " +
+            "(e.pharmacist.id = ?3 and e.appointmentPeriod.endTime >= ?1 and e.appointmentPeriod.endTime <= ?2)")
+    List<Counseling> ovelappingCunselings(Date startTime, Date endTime, Long medicalStaffId);
 }
