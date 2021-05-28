@@ -143,8 +143,8 @@ export class RegisterPharmacistComponent implements OnInit {
 
   showRegisterPharmacistDialog() {
     this.pharmacistsInPharmacy = false;
-    this.registerPharmacistDialog = false;
-    this.setWorkTime = true;
+    this.registerPharmacistDialog = true;
+    this.setWorkTime = false;
   }
 
   cancelRegisterPharmacistDialog() {

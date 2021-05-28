@@ -201,7 +201,7 @@ export class PharmacyProfileComponent implements OnInit {
          // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
         //}else{
         this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
-          ,null,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
+          ,this.pharmacy.address,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
 
         this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
           this.edit=false;
