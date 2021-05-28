@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.domain;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 import javax.persistence.*;

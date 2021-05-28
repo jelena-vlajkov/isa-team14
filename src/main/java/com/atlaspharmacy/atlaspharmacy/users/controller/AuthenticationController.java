@@ -46,6 +46,7 @@ public class AuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                        HttpServletResponse response) {
         AuthenticatedUserDTO authenticatedUserDTO = new AuthenticatedUserDTO();
+        User u = userService.getByEmail(authenticationRequest.getUsername());
         Patient patient = patientService.getByMail(authenticationRequest.getUsername());
         if(patient!=null){
             if(patient.getEnabled()){

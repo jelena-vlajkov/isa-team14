@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "suppliers")
 @DiscriminatorValue(value = Role.Values.Supplier)
-@Proxy(lazy = false)
 public class Supplier extends User{
     @Id
     private Long id;

@@ -1,5 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.medication.domain;
 
+import com.atlaspharmacy.atlaspharmacy.users.domain.MedicalStaff;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,16 +17,27 @@ public class PrescribedDrug {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Medication prescribedMedication;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private MedicalStaff medicalStaff;
     private int therapyDays;
 
     public PrescribedDrug(){}
 
-    public PrescribedDrug(Long id, Long quantity, EPrescription eprescription, Medication prescribedMedication, int therapyDays) {
+    public PrescribedDrug(Long id, Long quantity, EPrescription eprescription, Medication prescribedMedication, MedicalStaff medicalStaff, int therapyDays) {
         this.id = id;
         this.quantity = quantity;
         this.eprescription = eprescription;
         this.prescribedMedication = prescribedMedication;
+        this.medicalStaff = medicalStaff;
         this.therapyDays = therapyDays;
+    }
+
+    public MedicalStaff getMedicalStaff() {
+        return medicalStaff;
+    }
+
+    public void setMedicalStaff(MedicalStaff medicalStaff) {
+        this.medicalStaff = medicalStaff;
     }
 
     public int getTherapyDays() {

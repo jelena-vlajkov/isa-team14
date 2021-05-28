@@ -3,6 +3,9 @@ package com.atlaspharmacy.atlaspharmacy.users.service;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
@@ -19,4 +22,9 @@ public interface IEmailService {
     void sendPromotionNotification(Patient patient, Promotion promotion) throws FileNotFoundException, MessagingException, IOException;
     void sendDrugReservation(Patient patient, DrugReservation drugReservation) throws IOException, MessagingException;
     void sendNotificationToSupplier(Supplier supplier,boolean accepted) throws IOException, MessagingException;
+    public void sendEmailForCanceledAppointmentDueVacation(Appointment c) throws IOException, MessagingException;
+
+    void successfullyScheduledAppointment(Examination counseling) throws MessagingException, IOException;
+
+    void successfullyScheduledCounseling(Counseling counseling) throws MessagingException, IOException;
 }

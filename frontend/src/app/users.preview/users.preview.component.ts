@@ -34,6 +34,10 @@ export class UsersPreview {
       }
     )
   }
+  isPharmacist() {
+    let user = this.authService.currentUserValue;
+    return user.role === 'Pharmacist'; 
+  }
 
   searchUsers() {
     let name = this.searchUsersForm.controls.name.value;

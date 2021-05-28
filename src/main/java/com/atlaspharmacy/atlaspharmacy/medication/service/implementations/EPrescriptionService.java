@@ -11,14 +11,19 @@ import com.atlaspharmacy.atlaspharmacy.medication.repository.EPrescriptionReposi
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
+import com.atlaspharmacy.atlaspharmacy.notifications.service.INotificationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.users.domain.MedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,14 +35,18 @@ public class EPrescriptionService implements IEPrescriptionService {
     private final PharmacyRepository pharmacyRepository;
     private final MedicationRepository medicationRepository;
     private final PrescriptionRepository prescriptionRepository;
+    private final PharmacyStorageRepository pharmacyStorageRepository;
+    private final INotificationService notificationService;
 
     @Autowired
-    public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository, UserRepository userRepository, PharmacyRepository pharmacyRepository, MedicationRepository medicationRepository, PrescriptionRepository prescriptionRepository) {
+    public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository, UserRepository userRepository, PharmacyRepository pharmacyRepository, MedicationRepository medicationRepository, PrescriptionRepository prescriptionRepository, PharmacyStorageRepository pharmacyStorageRepository, INotificationService notificationService) {
         this.ePrescriptionRepository = ePrescriptionRepository;
         this.userRepository = userRepository;
         this.pharmacyRepository = pharmacyRepository;
         this.medicationRepository = medicationRepository;
         this.prescriptionRepository = prescriptionRepository;
+        this.pharmacyStorageRepository = pharmacyStorageRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -46,9 +55,14 @@ public class EPrescriptionService implements IEPrescriptionService {
     }
 
     @Override
+    @Transactional
     public void saveNewPrescription(CreateDrugReservationDTO dto) throws Exception {
         EPrescription ePrescription = new EPrescription();
         if (!userRepository.findById(dto.getPatientId()).isPresent()) {
+            throw new Exception("Invalid request");
+        }
+
+        if (!userRepository.findById(dto.getMedicalStaffId()).isPresent()) {
             throw new Exception("Invalid request");
         }
 
@@ -59,6 +73,13 @@ public class EPrescriptionService implements IEPrescriptionService {
         if (!medicationRepository.findById(dto.getMedicationId()).isPresent()) {
             throw new Exception("Invalid request");
         }
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(dto.getPharmacyId(), dto.getMedicationId());
+
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+            throw new Exception("Medication is currently unavailable in this pharmacy");
+        }
+
         Pharmacy pharmacy = pharmacyRepository.findById(dto.getPharmacyId()).get();
         Patient patient = (Patient) userRepository.findById(dto.getPatientId()).get();
         ePrescription.setName(patient.getName());
@@ -76,8 +97,13 @@ public class EPrescriptionService implements IEPrescriptionService {
         prescribedDrug.setTherapyDays(dto.getTherapyDays());
         prescribedDrug.setMedication(m);
         prescribedDrug.setQuantity(new Long(dto.getTherapyDays()));
+        prescribedDrug.setMedicalStaff((MedicalStaff) userRepository.findById(dto.getMedicalStaffId()).get());
 
         prescriptionRepository.save(prescribedDrug);
+
+        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
+
+        pharmacyStorageRepository.save(pharmacyStorage);
     }
 
     public List<EPrescriptionDTO> getAllEPrescritpions(Long patientId) {

@@ -14,13 +14,12 @@ import java.util.List;
 @Entity
 @Table(name = "pharmacyAdmins")
 @DiscriminatorValue(value = Role.Values.PharmacyAdmin)
-@Proxy(lazy = false)
 public class PharmacyAdmin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
 
 

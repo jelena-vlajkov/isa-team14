@@ -48,7 +48,7 @@ public class DrugReservationController {
     @DrugReservationAuthorization
     public @ResponseBody
     List<DrugReservationDTO> getReservationsByPharmacy(@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
-        return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationService.findAllReservation(1L));
+        return drugReservationService.findAllReservation(pharmacyId);
     }
 
     @GetMapping(value = "/issueReservation", produces = MediaType.APPLICATION_JSON_VALUE)

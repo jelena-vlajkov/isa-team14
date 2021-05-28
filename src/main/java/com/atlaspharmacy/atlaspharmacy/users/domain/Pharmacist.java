@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "pharmacists")
 @DiscriminatorValue(value = Role.Values.Pharmacist)
-@Proxy(lazy = false)
 public class Pharmacist extends MedicalStaff {
 
     @Id
