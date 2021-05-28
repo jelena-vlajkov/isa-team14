@@ -132,7 +132,8 @@
               </mat-grid-tile>
               <mat-grid-tile>
                 <div style="display:flex;float:right;">
-                  <button style="width:50px;float:right;position: relative; background-color: #385399; margin-left:500px;height: 40px;vertical-align: bottom;" color="accent"  [disabled]="!addPharmacist.valid">Next</button>
+                  <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;width:100px;" color="accent" mat-raised-button [disabled]="!addPharmacist.valid">Next</button>
+                  <button style="float:right;position: relative; background-color: #385399;height: 40px;width:100px;margin-left:30px;" color="accent" mat-raised-button routerLink="/pharmacy-profile">Cancel</button>
                 </div>
               </mat-grid-tile>
             </mat-grid-list>

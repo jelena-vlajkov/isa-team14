@@ -34,7 +34,7 @@
                 <mat-form-field appearance="fill" id="amount-ff" >
                   <mat-label >Amount</mat-label>
                   <input matInput id="amount" placeholder="Amount" name="amount-ff"
-                         formControlName="amount" required type="number" style="height: 25px;">
+                         formControlName="amount" required type="number" min="1-" style="height: 25px;">
                   <mat-error
                     *ngIf="!addMedicationOrderForm.get('amount').valid
                      && addMedicationOrderForm.get('amount').touched
@@ -56,20 +56,7 @@
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
-        <mat-grid-tile>
-          <div class="inputField" style="width: auto;" >
-            <mat-form-field appearance="fill" id="editableDue-ff" >
-              <mat-label>Editable due</mat-label>
-              <input matInput id="editableDue" placeholder="Editable due" name="editableDue-ff"
-                     formControlName="editableDue" required type="date">
-              <mat-error
-                *ngIf="!orderForm.get('editableDue').valid
-                     && orderForm.get('editableDue').touched
-                     && orderForm.get('editableDue').errors['editableDue']">
-                Please enter editable due date</mat-error>
-            </mat-form-field>
-          </div>
-        </mat-grid-tile>
+        <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>
           <div class="inputField" style="width: auto;margin-left:20px;" >
             <mat-form-field appearance="fill" id="duedate-ff" >
@@ -96,12 +83,14 @@
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;background-color: #385399;" mat-raised-button id='submitOrder'  [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
-
         </div>
       </mat-grid-list>
       </form>
     </mat-card>
 </div>
+    <mat-card style="height:100px;">
+      <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/medication-order-offers" >Cancel</button>
+    </mat-card>
   </mat-drawer-content>
 </mat-drawer-container>
 

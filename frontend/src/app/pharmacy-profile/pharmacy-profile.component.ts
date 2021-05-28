@@ -95,9 +95,7 @@ export class PharmacyProfileComponent implements OnInit {
 
           });
 
-        this.getMedicationsNotInPharmacy();
 
-        this.getPromotionsByPharmacy();
 
         this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
           result => {
@@ -193,6 +191,7 @@ export class PharmacyProfileComponent implements OnInit {
     this.promotionsService.getPromotionsByPharmacy(this.pharmacyId).subscribe(result =>{
       result=this.ToArray(result);
       this.pharmacyPromotions=result;
+      console.log(this.pharmacyPromotions);
     });
   }
 
@@ -201,7 +200,7 @@ export class PharmacyProfileComponent implements OnInit {
          // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
         //}else{
         this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
-          ,null,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
+          ,this.pharmacy.address,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
 
         this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
           this.edit=false;
@@ -270,6 +269,7 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPromotions=true;
     this.scheduleAppointment=false;
     this.addPricelistEntityDialog = false;
+    this.getPromotionsByPharmacy();
   }
   cancelEdit(){
     this.showPricelist = false;
