@@ -108,6 +108,10 @@ public class PharmacyController {
         pharmacyService.editPharmacy(pharmacyDTO);
     }
 
+    @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<PharmacyDTO> findAllPharmacies()  {
+        return PharmacyMapper.maptToListDto(pharmacyService.findAll());}
     @GetMapping(value = "/getPharmaciesByMedicationId", produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization
     public @ResponseBody List<PharmacyDTO> getPharmaciesByMedicationId(@RequestParam("id") Long id) throws Exception {

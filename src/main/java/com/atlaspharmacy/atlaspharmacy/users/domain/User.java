@@ -28,7 +28,7 @@ public abstract class User implements UserDetails {
     private String email;
     private String password;
     private Gender gender;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Address address;
     @Column(insertable = false, updatable = false)
     private String role;

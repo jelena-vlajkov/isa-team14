@@ -143,8 +143,8 @@ export class RegisterPharmacistComponent implements OnInit {
 
   showRegisterPharmacistDialog() {
     this.pharmacistsInPharmacy = false;
-    this.registerPharmacistDialog = false;
-    this.setWorkTime = true;
+    this.registerPharmacistDialog = true;
+    this.setWorkTime = false;
   }
 
   cancelRegisterPharmacistDialog() {
@@ -217,7 +217,7 @@ export class RegisterPharmacistComponent implements OnInit {
     let pharmacist=new Pharmacist(null,this.addPharmacist.value.name,this.addPharmacist.value.surname
       ,this.addPharmacist.value.dob,this.addPharmacist.value.telephone,this.addPharmacist.value.mail
       ,this.addPharmacist.value.password,this.addPharmacist.value.gender,null,null
-      ,null,this.pharmacy,null,new AverageGrade(),false);
+      ,null,this.pharmacy,null,new AverageGrade(0,0,0,0,0),false);
     this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
       for(let i=0;i<this.workdays.length;i++){
         this.workdays[i].pharmacy=this.pharmacy;

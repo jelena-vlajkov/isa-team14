@@ -11,11 +11,12 @@ public interface IDermatologistService {
     List<Dermatologist> findAllByPharmacy(Long id);
     Dermatologist registerDermatologist(DermatologistDTO dto) throws Exception;
     List<Dermatologist> getAllDermatologistsToComplain(Long id);
-    List<Dermatologist> searchDermatologists(String searchInput);
-    List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologists,Long pharmacyId);
-    List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologists,Double grade);
+    List<Dermatologist> searchDermatologists(Long pharmacyId,String searchInput);
+    List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter,int grade);
+    List<DermatologistDTO> filterDermatologistsByPharmacy(List<DermatologistDTO> dermatologistsToFilter,Long pharmacyId);
     void addDermatologistToPharmacy(Long dermatologistId,Long pharmacyId);
     boolean deleteDermatologistFromPharmacy(Long dermatologistId,Long pharmacyId);
     List<DermatologistDTO> getDermatologistsNotInPharmacy(Long pharmacyId);
+    List<Dermatologist> getAll();
 
 }
