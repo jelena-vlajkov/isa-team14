@@ -11,14 +11,13 @@ import java.util.List;
 @Entity
 @Table(name = "pharmacists")
 @DiscriminatorValue(value = Role.Values.Pharmacist)
-@Proxy(lazy = false)
 public class Pharmacist extends MedicalStaff {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
 
     @Embedded

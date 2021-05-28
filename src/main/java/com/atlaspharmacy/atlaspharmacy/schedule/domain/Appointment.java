@@ -15,7 +15,6 @@ import java.util.Date;
 @Table(name = "appointment")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType=DiscriminatorType.STRING)
-@Proxy(lazy = false)
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,10 +30,9 @@ public class Appointment {
     private String type;
     private boolean isCanceled;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Patient patient;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
     private boolean finished;
 

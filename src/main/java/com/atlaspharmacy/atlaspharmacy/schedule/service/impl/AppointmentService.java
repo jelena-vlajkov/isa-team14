@@ -23,6 +23,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -86,6 +87,7 @@ public class AppointmentService implements IAppointmentService {
         throw new AppointmentNotFreeException();
     }
 
+    @Transactional
     @Override
     public Appointment saveAppointment(ScheduleAppointmentDTO scheduleAppointmentDTO) throws Exception {
         if (!userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).isPresent()) {
@@ -457,6 +459,19 @@ public class AppointmentService implements IAppointmentService {
                 .stream()
                 .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> getOccupiedBy2(Long medicalStaffId) {
+        try {
+            return AppointmentMapper.mapAppointmentsToListDTO(appointmentRepository.findAll()
+                    .stream()
+                    .filter(appointment -> appointment.isMedicalStaff(medicalStaffId) && !appointment.isFinished())
+                    .collect(Collectors.toList()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -12,8 +12,7 @@ import javax.persistence.*;
 @DiscriminatorValue(value = AppointmentType.Values.Counseling)
 public class Counseling extends Appointment {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Pharmacist pharmacist;
 
     public Counseling() {

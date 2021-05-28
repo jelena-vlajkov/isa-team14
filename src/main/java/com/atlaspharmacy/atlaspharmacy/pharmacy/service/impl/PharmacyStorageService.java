@@ -148,4 +148,24 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     public List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code) {
         return pharmacyStorageRepository.getAllPharmaciesByMedicationCode(code);
     }
+
+    @Override
+    public void medicationReserved(Long medicationId, Long pharmacyId) {
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+        }
+        pharmacyStorageRepository.save(pharmacyStorage);
+    }
+
+    @Override
+    public void reduceMedicationQuantity(Long medicationId, Long pharmacyId) {
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
+        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() + 1);
+        if (pharmacyStorage.getQuantity() == 0) {
+            notificationService.medicationQuantityLow(pharmacyStorage);
+        }
+        pharmacyStorageRepository.save(pharmacyStorage);
+    }
 }

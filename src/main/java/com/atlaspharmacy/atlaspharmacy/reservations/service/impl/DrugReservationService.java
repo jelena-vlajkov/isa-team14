@@ -6,10 +6,12 @@ import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepositor
 import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -27,6 +29,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +59,7 @@ public class DrugReservationService implements IDrugReservationService {
         this.prescriptionService = prescriptionService;
     }
 
+    @Transactional
     @Override
     public void reserveDrug(CreateDrugReservationDTO drugReservationDTO) throws Exception {
         if (!medicationRepository.findById(drugReservationDTO.getMedicationId()).isPresent()) {
@@ -86,11 +90,12 @@ public class DrugReservationService implements IDrugReservationService {
         drugReservation.setUniqueIdentifier(randomGenerator.nextInt(99999999));
 
         PrescribedDrug prescribedDrug = new PrescribedDrug();
-
+        pharmacyStorageService.medicationReserved(drugReservationDTO.getMedicationId(), drugReservationDTO.getPharmacyId());
         drugReservationRepository.save(drugReservation);
-        prescriptionService.saveNewPrescription(drugReservationDTO);
+        //prescriptionService.saveNewPrescription(drugReservationDTO);
     }
 
+    @Transactional
     @Override
     public boolean cancelDrugReservation(Long reservationId) {
         DrugReservation drugReservation = drugReservationRepository.findById(reservationId).get();
@@ -99,6 +104,7 @@ public class DrugReservationService implements IDrugReservationService {
         if(drugReservation.canCancelReservation(hoursAvailableToCancel) == false)
             return  false;
         drugReservation.setCanceled(true);
+        pharmacyStorageService.reduceMedicationQuantity(drugReservation.getMedication().getId(), drugReservation.getPharmacy().getId());
         drugReservationRepository.save(drugReservation);
         return  true;
 
@@ -131,11 +137,8 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public List<DrugReservation> findAllReservation(Long pharmacyId) {
-        return drugReservationRepository.findAll()
-                .stream()
-                .filter(drugReservation -> drugReservation.isPharmacy(pharmacyId))
-                .collect(Collectors.toList());
+    public List<DrugReservationDTO> findAllReservation(Long pharmacyId) {
+        return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationRepository.findByPharmacy(pharmacyId));
     }
     @Override
     public List<DrugReservation> getPatientsIssuedDrugReservations(Long id){

@@ -100,7 +100,7 @@ public class AppointmentController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<AppointmentDTO> getScheduledByMonth(@RequestParam("date") String stringDate, @RequestParam("medicalStaffId") Long id) throws ParseException {
         Date date = new SimpleDateFormat("dd.MM.yyyy.").parse(stringDate);
-        return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getOccupiedBy(id));
+        return appointmentService.getOccupiedBy2(id);
     }
 
     @GetMapping(value = "/getFinishedAppointments", produces = MediaType.APPLICATION_JSON_VALUE)
