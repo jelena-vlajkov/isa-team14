@@ -1,10 +1,19 @@
 # ISA2020 - T14
 Internet software architecture
 --------------------------------
-
 The main purpose of the application is to keep records
 of Pharmacy Employees, registered Pharmacies, drug reservations, scheduling appointments
 with Pharmacists and Dermatologists, managing Users and their records.
+
+# DevOps
+
+### CI pipeline: [Azure DevOps pipeline](https://dev.azure.com/isateam14/IsaProject)
+
+### SonarCloud Organization: [SonarCloud Org](https://sonarcloud.io/dashboard?id=isa-team14)
+
+### Docker Hub Image: [Docker Hub Repository](https://hub.docker.com/repository/docker/jelenavlajkov/atlaspharmacy)
+
+### Heroku deployment: [Heroku Link](https://psw-devteam.herokuapp.com/)
 
 
 | Students | Team 14 |

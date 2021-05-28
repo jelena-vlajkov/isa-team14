@@ -14,19 +14,29 @@ services:
         
       depends_on: 
         - postgres
+
+    frontend:
+        image: frontend
+        container_name: frontend
+        restart: on-failure
+        networks:
+            - demo
+        ports:
+            - 80:80
   
-        
     postgres:
-      image: postgres:13
-      restart: always
-      networks:
-       - demo
-      environment:
-        POSTGRES_PASSWORD: atlaspharmacy
-        POSTGRES_USER: atlaspharmacy
-        POSTGRES_DB: atlaspharmacy
-      volumes:
-       - postgres:/var/lib/postgresql/data
+        image: postgres:13
+        restart: always
+        networks:
+            - demo
+        ports:
+            - 5433:5432
+        environment:
+            POSTGRES_PASSWORD: atlaspharmacy
+            POSTGRES_USER: atlaspharmacy
+            POSTGRES_DB: atlaspharmacy
+        volumes:
+            - postgres:/var/lib/postgresql/data
       
   
 volumes:
