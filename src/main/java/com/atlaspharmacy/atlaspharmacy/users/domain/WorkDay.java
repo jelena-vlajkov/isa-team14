@@ -20,10 +20,11 @@ public class WorkDay {
             @AttributeOverride( name = "endTime", column = @Column(name = "workdayEndTime"))
     })
     private Period workDayPeriod;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private MedicalStaff medicalStaff;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Pharmacy pharmacy;
+    private boolean disabled;
 
     public WorkDay() {}
 
@@ -33,6 +34,14 @@ public class WorkDay {
         this.workDayPeriod = workDayPeriod;
         this.medicalStaff = medicalStaff;
         this.pharmacy = pharmacy;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 
     public Period getWorkDayPeriod() {

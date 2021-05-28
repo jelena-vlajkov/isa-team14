@@ -29,9 +29,9 @@ public class Appointment {
     @Column(insertable = false, updatable = false)
     private String type;
     private boolean isCanceled;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "pharmacy_id")
     private Pharmacy pharmacy;
     private boolean finished;

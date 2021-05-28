@@ -17,11 +17,11 @@ public class VacationRequest {
     private Long id;
     private Date startDate;
     private Date endDate;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private MedicalStaff medicalStaff;
     private String vacationReason;
     private VacationRequestStatus status;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
 
     public VacationRequest() {

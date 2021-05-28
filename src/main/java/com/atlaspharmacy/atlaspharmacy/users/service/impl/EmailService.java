@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Complaint;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.promotions.domain.Promotion;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
@@ -28,6 +29,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Service
 public class EmailService implements IEmailService {
@@ -229,5 +232,32 @@ public class EmailService implements IEmailService {
         javaMailSender.send(message);
     }
 
+    @Override
+    public void sendEmailForCanceledAppointmentDueVacation(Appointment c) throws IOException, MessagingException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/appointmentcanceled.html");
 
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+
+        Multipart multiPart = new MimeMultipart("alternative");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy. hh:mm");
+        String startDate = dateFormat.format(c.getAppointmentPeriod().getStartTime());
+        String endDate = dateFormat.format(c.getAppointmentPeriod().getEndTime());
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        body = body.replace("[name]", c.getPatient().getName());
+        body = body.replace("[startDate]" , startDate);
+        body=body.replace("[endDate]", endDate);
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO, "vlajkovj31@gmail.com");//patient.getEmail());
+
+        message.setSubject("Appointment cancelation");
+
+        javaMailSender.send(message);
+    }
 }
