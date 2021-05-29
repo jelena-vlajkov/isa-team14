@@ -1,13 +1,17 @@
-package com.atlaspharmacy.atlaspharmacy.pharmderm;
+package com.atlaspharmacy.atlaspharmacy.pharmderm.unittests;
 
+import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyPricelist;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyPricelistRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.pharmderm.domain.PharmDerm;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.PatientsOverviewDTO;
+import com.atlaspharmacy.atlaspharmacy.schedule.DTO.SearchParametersDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
+import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
@@ -32,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.atlaspharmacy.atlaspharmacy.pharmderm.domain.ConstantValues.DERMATOLOGIST_ID;
 import static com.atlaspharmacy.atlaspharmacy.pharmderm.domain.ConstantValues.PHARMACIST_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -66,6 +71,9 @@ public class ScheduleTests {
 
     @Mock
     private IEmailService emailService;
+
+    @Mock
+    private PrescriptionRepository prescriptionRepository;
 
     @InjectMocks
     @Spy
@@ -105,9 +113,60 @@ public class ScheduleTests {
     }
 
     @Test
-    public void testCounselingScheduling() {
-        List<Appointment> appointmentList = new ArrayList<>();
-        assertThat(appointmentList).hasSize(4);
+    public void testGettingPatientsForPharmacist() throws InvalidMedicalStaff, Exception {
+        Pharmacy p = PharmDerm.createPharmacy();
+        Patient pa = PharmDerm.createPatient();
+        Pharmacist ph = PharmDerm.createPharmacist(p);
+
+        when(prescriptionRepository.getPrescribedDrugBy(any(Long.class))).thenReturn(new ArrayList<>());
+        when(appointmentRepository.getAllCounselingsByPharmacist(any(Long.class))).thenReturn(PharmDerm.createAppointments(p, pa, ph));
+        when(userRepository.findById(any(Long.class))).thenReturn(java.util.Optional.of(ph));
+
+        List<PatientsOverviewDTO> overviewDTOS = appointmentService.getPatientsByMedicalStaff(PHARMACIST_ID);
+
+        assertThat(overviewDTOS).hasSize(2);
+
+        verify(prescriptionRepository, times(2)).getPrescribedDrugBy(any(Long.class));
+        verifyNoMoreInteractions(prescriptionRepository);
+
+        verify(appointmentRepository, times(1)).getAllCounselingsByPharmacist(any(Long.class));
+
+
+    }
+    @Test
+    void testSearchingPatients() throws InvalidMedicalStaff, Exception {
+        Pharmacy p = PharmDerm.createPharmacy();
+        Patient pa = PharmDerm.createPatient();
+        Pharmacist ph = PharmDerm.createPharmacist(p);
+
+        when(prescriptionRepository.getPrescribedDrugBy(any(Long.class))).thenReturn(new ArrayList<>());
+        when(appointmentRepository.getAllCounselingsByPharmacist(any(Long.class))).thenReturn(PharmDerm.createAppointments(p, pa, ph));
+        when(userRepository.findById(any(Long.class))).thenReturn(java.util.Optional.of(ph));
+        SearchParametersDTO dto = new SearchParametersDTO();
+        dto.setName("jelena");
+        dto.setDate(null);
+        dto.setMedicalStaffId(PHARMACIST_ID);
+        List<PatientsOverviewDTO> overviewDTOS = appointmentService.SearchPatientsByParameters(dto);
+
+        assertThat(overviewDTOS).hasSize(1);
+
+        verify(appointmentRepository, times(1)).getAllCounselingsByPharmacist(any(Long.class));
+    }
+
+    @Test
+    public void testFindingScheduledForDermatologistAndMonth() {
+
+        when(appointmentRepository.findAll()).thenReturn(PharmDerm.createRandomAppointments());
+
+        List<Appointment> appointments = appointmentService.getScheduledByMonth(new Date(), DERMATOLOGIST_ID);
+
+        assertThat(appointments).hasSize(3);
+
+        verify(appointmentRepository, times(1)).findAll();
+        verifyNoMoreInteractions(appointmentRepository);
+
+
+
     }
 }
 
