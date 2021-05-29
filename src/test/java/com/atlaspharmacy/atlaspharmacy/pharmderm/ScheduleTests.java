@@ -89,8 +89,6 @@ public class ScheduleTests {
 
         appointments.add(PharmDerm.createAppointment(p, pa, ph));
 
-        WorkDayFactory workDayFactoryMock = Mockito.mock(WorkDayFactory.class);
-
         when(appointmentRepository.getAppointmentsByDate(any(Date.class))).thenReturn(appointments);
         when(workDayService.getBy(any(Long.class), any(Date.class))).thenReturn(w);
         when(vacationRequestRepository.getVacationRequestBy(any(Long.class), any(Date.class))).thenReturn(new ArrayList<>());
