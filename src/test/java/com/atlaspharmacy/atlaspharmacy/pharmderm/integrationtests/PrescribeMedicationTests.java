@@ -1,16 +1,15 @@
-package com.atlaspharmacy.atlaspharmacy.pharmderm;
+package com.atlaspharmacy.atlaspharmacy.pharmderm.integrationtests;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmderm.domain.PharmDerm;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
-import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,12 +27,12 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
 
 import static com.atlaspharmacy.atlaspharmacy.pharmderm.domain.ConstantValues.*;
-import static com.atlaspharmacy.atlaspharmacy.pharmderm.domain.ConstantValues.PRESCRIPTION_URL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-public class ReportTests {
+public class PrescribeMedicationTests {
+
     @Autowired
     private DrugReservationRepository drugReservationRepository;
     @Autowired
@@ -45,7 +44,7 @@ public class ReportTests {
     @Autowired
     private MedicationRepository medicationRepository;
     @Autowired
-    private AppointmentRepository appointmentRepository;
+    private PharmacyStorageRepository pharmacyStorageRepository;
 
     private MockMvc mockMvc;
 
@@ -64,34 +63,43 @@ public class ReportTests {
     @Transactional
     @Rollback(value = true)
     @WithMockUser(username = DERMATOLOGIST_EMAIL, authorities = { DERMATOLOGIST_ROLE })
-    void testSaveReport() throws Exception {
+    void testPrescribingMedication() throws Exception {
+
         Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
         Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p));
+        Medication m = medicationRepository.save(PharmDerm.createMedication1());
+        PharmacyStorage ps = pharmacyStorageRepository.save(PharmDerm.createPharmacyStorage2(p, m));
         Patient pa = userRepository.save(PharmDerm.createPatient());
 
         String json = "{" +
                 "\"patientId\" : " + pa.getId() +
-                ",\"reportNotes\" : \"Sve okic\"" +
-                ",\"medicalStaffId\" : " + d.getId() +
-                ",\"pharmacyId\" : " + p.getId()
-                + "}";
+                ",\"pharmacyId\" : " + p.getId() +
+                ",\"medicationId\" : " + m.getId() +
+                ",\"therapyDays\" : " + 10 +
+                ",\"medicalStaffId\" : " + d.getId() + "}";
 
-        this.mockMvc.perform(post(BASE_URL + REPORTS_URL).contentType(contentType).content(json)).andExpect(status().isOk());
+        this.mockMvc.perform(post(BASE_URL + PRESCRIPTION_URL).contentType(contentType).content(json)).andExpect(status().isOk());
     }
 
     @Test
     @Transactional
     @Rollback(value = true)
-    @WithMockUser(username = PHARMACIST_EMAIL, authorities = { PHARMACIST_ROLE })
-    void testSavePenalty() throws Exception {
+    @WithMockUser(username = DERMATOLOGIST_EMAIL, authorities = { DERMATOLOGIST_ROLE })
+    void testPrescribingMedicationWhenNoQuantity() throws Exception {
         Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
+        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p));
+        Medication m = medicationRepository.save(PharmDerm.createMedication2());
+        PharmacyStorage ps = pharmacyStorageRepository.save(PharmDerm.createPharmacyStorage1(p, m));
         Patient pa = userRepository.save(PharmDerm.createPatient());
-        Pharmacist ph = userRepository.save(PharmDerm.createPharmacist(p));
-        Appointment a = appointmentRepository.save(PharmDerm.createAppointment(p, pa, ph));
 
-        String json = "{\"patientId\" : " + pa.getId() + ",\"appointmentId\" : " + a.getId() + "}";
+        String json = "{" +
+                "\"patientId\" : " + pa.getId() +
+                ",\"pharmacyId\" : " + p.getId() +
+                ",\"medicationId\" : " + m.getId() +
+                ",\"therapyDays\" : " + 10 +
+                ",\"medicalStaffId\" : " + d.getId() + "}";
 
-        this.mockMvc.perform(post(BASE_URL + PENALTY_URL).contentType(contentType).content(json)).andExpect(status().isOk());
-
+        this.mockMvc.perform(post(BASE_URL + PRESCRIPTION_URL).contentType(contentType).content(json)).andExpect(status().isInternalServerError());
     }
+
 }

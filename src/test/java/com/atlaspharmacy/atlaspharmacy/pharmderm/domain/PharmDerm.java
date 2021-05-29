@@ -8,6 +8,8 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.AppointmentType;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
@@ -50,7 +52,7 @@ public class PharmDerm {
         Pharmacist pharmacist = new Pharmacist();
         pharmacist.setEmail("vlajkovn@gmail.com");
         pharmacist.setPharmacy(p);
-        pharmacist.setId(7L);
+        pharmacist.setId(500L);
         pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         List<Authority> authorityList = new ArrayList<>();
         authorityList.add(new Authority(1L, PHARMACIST_ROLE));
@@ -92,7 +94,7 @@ public class PharmDerm {
 
 
     public static Pharmacy createPharmacy() {
-        Pharmacy pharmacy = new Pharmacy(1L);
+        Pharmacy pharmacy = new Pharmacy(100L);
         pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         return pharmacy;
     }
@@ -140,6 +142,12 @@ public class PharmDerm {
         Counseling c = new Counseling();
         c.setPatient(pa);
         c.setPharmacy(p);
+        Date todaysDate = new Date();
+        c.setType(AppointmentType.Values.Counseling);
+
+        c.setAppointmentPeriod(new Period(new Date(todaysDate.getYear(), todaysDate.getMonth(), todaysDate.getDate(), 12, 0, 0),
+                new Date(todaysDate.getYear(), todaysDate.getMonth(), todaysDate.getDate(), 12, 30, 0)));
+
         c.setPharmacist(ph);
         c.setFinished(false);
         return c;

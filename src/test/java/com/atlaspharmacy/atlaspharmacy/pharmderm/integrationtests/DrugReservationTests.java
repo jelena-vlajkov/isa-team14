@@ -1,4 +1,4 @@
-package com.atlaspharmacy.atlaspharmacy.pharmderm;
+package com.atlaspharmacy.atlaspharmacy.pharmderm.integrationtests;
 
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;

@@ -526,7 +526,12 @@ public class AppointmentService implements IAppointmentService {
             Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + (long) appointmentDuration * i),
                     new Date(appointmentStart.getTime() + (long) appointmentDuration * (i + 1))),
                     cost, "", false, null);
+
             appointment.setPharmacy(workDay.getPharmacy());
+            if (appointment.getAppointmentPeriod().getEndTime().after(workDay.getWorkDayPeriod().getEndTime())) {
+                break;
+            }
+
             appointments.add(appointment);
         }
         return appointments;
