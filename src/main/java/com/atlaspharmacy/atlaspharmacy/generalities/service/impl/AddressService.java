@@ -19,8 +19,8 @@ public class AddressService implements IAddressService {
 
     @Override
     public Address updateAddress(AddressDTO addressDTO) {
-        Address addressToUpdate = addressRepository.getOne(addressDTO.getId());
-        if(addressToUpdate!= null){
+        Address addressToUpdate = addressRepository.findById(addressDTO.getId()).get();
+        if(addressToUpdate != null){
             addressToUpdate.setState(addressDTO.getState());
             addressToUpdate.setCity(addressDTO.getCity());
             addressToUpdate.setStreet(addressDTO.getStreet());

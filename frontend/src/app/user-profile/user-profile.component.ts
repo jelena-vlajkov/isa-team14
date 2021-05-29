@@ -36,6 +36,7 @@ export class UserProfileComponent implements OnInit {
     dob: Date;
     updateDate;
     address : Address;
+    addressId : Number;
     phone:String;
     mail:String;
     password1:String;
@@ -156,6 +157,7 @@ export class UserProfileComponent implements OnInit {
     this.mail = this.patient.email;
     this.phone = this.patient.phoneNumber;
     this.address = this.patient.address;
+    this.addressId = this.patient.address.id;
     this.gender = this.patient.gender;
     if(this.gender.toString() == 'MALE'){     
       this.selectedGender = 'Male';
@@ -207,6 +209,7 @@ export class UserProfileComponent implements OnInit {
       console.log(this.patient.address.street)
     }else{
       this.patient.address = this.googleplaces.address;
+      this.patient.address.id  = this.addressId;
     }
     this.patient.dateOfBirth = this.updateDate;
 
