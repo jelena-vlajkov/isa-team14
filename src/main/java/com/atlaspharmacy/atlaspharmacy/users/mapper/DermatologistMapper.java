@@ -6,6 +6,7 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class DermatologistMapper {
         return new DermatologistDTO(dermatologist.getId(), dermatologist.getName(), dermatologist.getSurname(), dermatologist.getDateOfBirth(),
                 dermatologist.getPhoneNumber(), dermatologist.getEmail(), dermatologist.getPassword(), dermatologist.getGender(),
                 AddressMapper.mapAddressToDTO(dermatologist.getAddress()) , dermatologist.getRole(), AuthorityMapper.authoritiesToListDTOS(dermatologist.getAuthorities()),
-                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()), dermatologist.isFirstTimePassword(),dermatologist.getAverageGrade(),dermatologist.getLicenseNumber());
+                PharmacyMapper.maptToListDto(dermatologist.getPharmacies()), dermatologist.isFirstTimePassword(),AverageGradeMapper.mapToDTO(dermatologist.getAverageGrade()),dermatologist.getLicenseNumber());
     }
 
     public static Dermatologist mapDTOToDermatologist(DermatologistDTO dto){
@@ -35,7 +36,7 @@ public class DermatologistMapper {
 
         d.setPharmacies(PharmacyMapper.maptDTOSToList(dto.getPharmacies()));
         d.setFirstTimePassword(dto.isFirstTimeChanged());
-        d.setAverageGrade(dto.getAverageGrade());
+        d.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
         return d;
     }
 

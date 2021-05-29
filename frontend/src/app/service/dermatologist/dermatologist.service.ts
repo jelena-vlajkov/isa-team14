@@ -33,4 +33,22 @@ export class DermatologistService {
     return this.http.post(`${environment.baseUrl}/${environment.dermatologist}/${environment.addDermatologistToPharmacy}/?pharmacyId=${pharmacyId}&dermatologistId=${dermatologistId}`,null);
   }
 
+  getAll():Observable<Dermatologist[]>{
+    return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.getAll}`);
+  }
+
+  searchDermatologists(pharmacyId:Number,searchInput:String):Observable<Dermatologist[]>{
+    return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.searchDermatologists}/?pharmacyId=${pharmacyId}&searchInput=${searchInput}`)
+  }
+
+  filterDermatologistsByGrade(dermatologists:Dermatologist[],grade:Number):Observable<Dermatologist[]>{
+    return this.http.post<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.filterDermatologistsByGrade}/?grade=${grade}`,dermatologists);
+  }
+
+  filterDermatologistsByPharmacy(dermatologists:Dermatologist[],pharmacyId:Number):Observable<Dermatologist[]>{
+    return this.http.post<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.filterDermatologistsByPharmacy}/?pharmacyId=${pharmacyId}`,dermatologists);
+  }
+
+
+
 }

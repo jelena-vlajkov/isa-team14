@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MedicationRepository extends JpaRepository<Medication, Long> {
 
-    @Query(value = "SELECT m FROM Medication m WHERE m.name = ?1")
+    @Query(value = "SELECT m FROM Medication m WHERE lower(m.name) = ?1")
     List<Medication> findByName(String name);
 
     @Query(value = "SELECT m FROM Medication m WHERE m.drugType = ?1")

@@ -1,18 +1,13 @@
-package com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects;
+package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
-public class AverageGrade {
+public class AverageGradeDTO {
     private double excellent;
     private double veryGood;
     private double good;
     private double poor;
     private double veryPoor;
 
-    public AverageGrade(){}
-    
-    public AverageGrade(double excellent, double veryGood, double good, double poor, double veryPoor) {
+    public AverageGradeDTO(double excellent, double veryGood, double good, double poor, double veryPoor) {
         this.excellent = excellent;
         this.veryGood = veryGood;
         this.good = good;
