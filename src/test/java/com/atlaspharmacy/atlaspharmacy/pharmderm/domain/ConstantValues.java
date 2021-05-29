@@ -6,6 +6,10 @@ public class ConstantValues {
 
     public static final String PRESCRIPTION_URL = "prescription/savePrescription";
 
+    public static final String REPORTS_URL = "report/saveReport";
+
+    public static final String PENALTY_URL = "penalty/addPenalty";
+
     public static int DRUG_RESERVATION_UNIQUE_IDENTIFIER = 1235;
 
     public static final Long PHARMACIST_ID = 500L;

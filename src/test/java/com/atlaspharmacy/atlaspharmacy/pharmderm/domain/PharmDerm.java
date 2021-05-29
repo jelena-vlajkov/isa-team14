@@ -5,13 +5,18 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
+import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
 import org.checkerframework.checker.units.qual.A;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.security.core.parameters.P;
 
 import java.util.ArrayList;
@@ -58,6 +63,7 @@ public class PharmDerm {
         pharmacist.setGender(Gender.FEMALE);
         pharmacist.setPhoneNumber("");
         pharmacist.setLicenseNumber("");
+        pharmacist.setRole(Role.Values.Pharmacist);
         return pharmacist;
     }
 
@@ -80,6 +86,7 @@ public class PharmDerm {
         dermatologist.setGender(Gender.FEMALE);
         dermatologist.setPhoneNumber("");
         dermatologist.setLicenseNumber("");
+        dermatologist.setRole(Role.Values.Dermatologist);
         return dermatologist;
     }
 
@@ -127,5 +134,14 @@ public class PharmDerm {
         pharmacyStorage.setMedication(m);
         pharmacyStorage.setQuantity(500L);
         return pharmacyStorage;
+    }
+
+    public static Counseling createAppointment(Pharmacy p, Patient pa, Pharmacist ph) {
+        Counseling c = new Counseling();
+        c.setPatient(pa);
+        c.setPharmacy(p);
+        c.setPharmacist(ph);
+        c.setFinished(false);
+        return c;
     }
 }
