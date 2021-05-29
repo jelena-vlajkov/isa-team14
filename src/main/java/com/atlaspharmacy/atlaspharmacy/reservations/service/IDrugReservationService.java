@@ -16,8 +16,8 @@ import java.util.List;
 public interface IDrugReservationService {
     void reserveDrug(CreateDrugReservationDTO drugReservationDTO) throws Exception;
     boolean cancelDrugReservation(Long reservationId);
-    boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException;
-    DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception;
+    boolean issueDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception;
+    DrugReservation findDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception;
     List<DrugReservationDTO> findAllReservation(Long pharmacyId);
     List<DrugReservation> getPatientsIssuedDrugReservations(Long id);
     List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO periodDTO);

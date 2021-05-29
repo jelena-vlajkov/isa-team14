@@ -94,7 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/patient/getById").permitAll()
                 .antMatchers("/patient/add").permitAll()
                 .antMatchers("/patient/activation").permitAll()
-
+                .antMatchers("/assets/**").permitAll()
 
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
@@ -117,5 +117,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
+
     }
 }

@@ -78,6 +78,7 @@ public class DrugReservationService implements IDrugReservationService {
             throw new Exception("Invalid request");
         }
 
+
         Pharmacy p = pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).get();
         Patient patient = (Patient) userRepository.findById(drugReservationDTO.getPatientId()).get();
 
@@ -112,10 +113,17 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public boolean issueDrugReservation(int uniqueIdentifier) throws DueDateSoonException, IOException, MessagingException {
+    public boolean issueDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
+        if (!userRepository.findById(medicalStaffId).isPresent()) {
+            throw new Exception("Invalid request");
+        }
+        Pharmacist pharmacist = (Pharmacist) userRepository.findById(medicalStaffId).get();
+        if (!pharmacist.getPharmacy().getId().equals(reservation.getPharmacy().getId())) {
+            throw new Exception("Cannot read reservation from other pharmacies!");
+        }
         reservation.setIssued(true);
         drugReservationRepository.save(reservation);
         emailService.sendMailForIssuingReservation(reservation.getPatient(), reservation);
@@ -123,10 +131,12 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
-    public DrugReservation findDrugReservation(int uniqueIdentifier) throws Exception {
-        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String mail = ((User)user).getEmail();
-        Pharmacist pharmacist = (Pharmacist) userRepository.findUserByEmail(mail);
+    public DrugReservation findDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception {
+        if (!userRepository.findById(medicalStaffId).isPresent()) {
+            throw new Exception("Invalid request");
+        }
+        Pharmacist pharmacist = (Pharmacist) userRepository.findById(medicalStaffId).get();
+
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
         if (!pharmacist.getPharmacy().getId().equals(reservation.getPharmacy().getId())) {
             throw new Exception("Cannot read reservation from other pharmacies!");

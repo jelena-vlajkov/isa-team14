@@ -118,6 +118,7 @@ public class MedicalRecordService implements IMedicalRecordService {
                 medicationsToRecommend.add(dto);
                 addMedication = true;
             }
+            addMedication = true;
         }
 
         return medicationsToRecommend;
