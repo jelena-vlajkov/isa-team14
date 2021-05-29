@@ -4,6 +4,8 @@ public class ConstantValues {
     public static final String BASE_URL = "http://localhost:8088/";
     public static final String ISSUE_DRUG_RESERVATION_URL = "reservations/issueReservation";
 
+    public static final String PRESCRIPTION_URL = "prescription/savePrescription";
+
     public static int DRUG_RESERVATION_UNIQUE_IDENTIFIER = 1235;
 
     public static final Long PHARMACIST_ID = 500L;

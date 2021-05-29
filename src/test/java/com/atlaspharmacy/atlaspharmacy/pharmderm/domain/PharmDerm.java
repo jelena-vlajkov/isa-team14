@@ -3,8 +3,10 @@ package com.atlaspharmacy.atlaspharmacy.pharmderm.domain;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Authority;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Gender;
@@ -59,9 +61,71 @@ public class PharmDerm {
         return pharmacist;
     }
 
+    public static Dermatologist createDermatologist(Pharmacy p) {
+        Dermatologist dermatologist = new Dermatologist();
+        dermatologist.setEmail("vlajkovn@gmail.com");
+        List<Pharmacy> pharmacies = new ArrayList<>();
+        pharmacies.add(p);
+        dermatologist.setPharmacies(pharmacies);
+        dermatologist.setId(7L);
+        dermatologist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        List<Authority> authorityList = new ArrayList<>();
+        authorityList.add(new Authority(1L, PHARMACIST_ROLE));
+        dermatologist.setAuthorities(authorityList);
+        dermatologist.setName("Nadezda");
+        dermatologist.setSurname("Vlajkov");
+        dermatologist.setAddress(new Address());
+        dermatologist.setDateOfBirth(new Date());
+        dermatologist.setFirstTimePassword(true);
+        dermatologist.setGender(Gender.FEMALE);
+        dermatologist.setPhoneNumber("");
+        dermatologist.setLicenseNumber("");
+        return dermatologist;
+    }
+
+
     public static Pharmacy createPharmacy() {
         Pharmacy pharmacy = new Pharmacy(1L);
         pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         return pharmacy;
+    }
+
+    public static Medication createMedication1() {
+        Medication m = new Medication();
+        m.setName("Xanax");
+        m.setCode(123L);
+        return m;
+    }
+
+    public static Medication createMedication2() {
+        Medication m = new Medication();
+        m.setName("Bromazepam");
+        m.setCode(125L);
+        return m;
+    }
+
+    public static Patient createPatient() {
+        Patient p = new Patient();
+        p.setName("Ozren");
+        p.setSurname("Ozrenovic");
+        p.setEmail("vlajkovj31@gmail.com");
+        return p;
+    }
+
+    public static PharmacyStorage createPharmacyStorage1(Pharmacy p, Medication m) {
+        PharmacyStorage pharmacyStorage = new PharmacyStorage();
+        pharmacyStorage.setPharmacy(p);
+        pharmacyStorage.setMedication(m);
+        pharmacyStorage.setQuantity(0L);
+        return pharmacyStorage;
+    }
+
+
+    public static PharmacyStorage createPharmacyStorage2(Pharmacy p, Medication m) {
+        PharmacyStorage pharmacyStorage = new PharmacyStorage();
+        pharmacyStorage.setPharmacy(p);
+        pharmacyStorage.setMedication(m);
+        pharmacyStorage.setQuantity(500L);
+        return pharmacyStorage;
     }
 }
