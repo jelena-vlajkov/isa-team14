@@ -32,7 +32,7 @@ public class WorkDayService implements IWorkDayService {
     }
 
     @Override
-    public WorkDay getBy(Long medicalStaffId, Date date) {
+    public List<WorkDay> getBy(Long medicalStaffId, Date date) {
         return workDayRepository.getByMedicalStaffAndDate(medicalStaffId, date);
     }
 

@@ -13,7 +13,7 @@ public interface WorkDayRepository extends JpaRepository<WorkDay, Long> {
     List<WorkDay> getByMedicalStaff(Long medicalStaff);
 
     @Query(value = "SELECT w FROM WorkDay w WHERE w.medicalStaff.id = ?1 AND CAST(w.date as date) = CAST(?2 as date) AND w.disabled = false")
-    WorkDay getByMedicalStaffAndDate(Long medicalStaff, Date date);
+    List<WorkDay> getByMedicalStaffAndDate(Long medicalStaff, Date date);
 
     @Query(value = "SELECT w FROM WorkDay w WHERE CAST(w.date as date) = CAST(?1 as date) AND w.disabled = false")
     List<WorkDay> getByDate(Date date);

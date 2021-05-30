@@ -71,6 +71,14 @@
                         <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                         <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                     </mat-form-field>
+                    <mat-form-field appearance="fill" style="margin-left: 30px;">
+                        <mat-label>Sort results</mat-label>
+                        <mat-select formControlName="sort" [(ngModel)]="selectedValue" (ngModelChange)="selectedValue = $event">
+                            <mat-option *ngFor="let o of options" [value]="o.value">
+                                {{o.name}}
+                             </mat-option>
+                        </mat-select>
+                      </mat-form-field>
                     <div style="position: absolute; bottom: 5px; right: 10px;">
                         <button mat-flat-button color="primary" (click)="cancelSearch()">Cancel</button>
                         <button mat-flat-button color="primary" (click)="searchPatients()" style="margin: 10px;">Search</button>

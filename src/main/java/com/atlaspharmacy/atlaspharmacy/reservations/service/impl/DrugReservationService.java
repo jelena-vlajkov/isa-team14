@@ -107,9 +107,7 @@ public class DrugReservationService implements IDrugReservationService {
         drugReservation.setCanceled(true);
         pharmacyStorageService.reduceMedicationQuantity(drugReservation.getMedication().getId(), drugReservation.getPharmacy().getId());
         drugReservationRepository.save(drugReservation);
-        return  true;
-
-
+        return true;
     }
 
     @Override
