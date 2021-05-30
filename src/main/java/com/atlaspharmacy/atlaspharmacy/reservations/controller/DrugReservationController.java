@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
+import com.atlaspharmacy.atlaspharmacy.reservations.DTO.IssueReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
@@ -51,21 +52,21 @@ public class DrugReservationController {
         return drugReservationService.findAllReservation(pharmacyId);
     }
 
-    @GetMapping(value = "/issueReservation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/issueReservation", produces = MediaType.APPLICATION_JSON_VALUE)
     @DrugReservationAuthorization
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseStatus(value = HttpStatus.OK)
     public @ResponseBody
-    boolean issueResevation(HttpServletRequest request,
-                                          HttpServletResponse response) throws DueDateSoonException, IOException, MessagingException {
-        return drugReservationService.issueDrugReservation(Integer.parseInt(request.getParameter("uniqueIdentifier")));
+    boolean issueResevation(@RequestBody IssueReservationDTO dto) throws Exception {
+        return drugReservationService.issueDrugReservation(dto.getUniqueIdentifier(), dto.getMedicalStaffId());
     }
+
 
     @GetMapping(value = "/getReservationByIdentifier", produces = MediaType.APPLICATION_JSON_VALUE)
     @EmployeeAuthorization
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    DrugReservationDTO getReservationByIdentifier(@RequestParam("uniqueIdentifier") int uniqueIdentifier) throws Exception {
-        return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(uniqueIdentifier));
+    DrugReservationDTO getReservationByIdentifier(@RequestParam("uniqueIdentifier") int uniqueIdentifier, @RequestParam("medicalStaffId") Long medicallStaffId) throws Exception {
+        return DrugReservationMapper.mapDrugReservationToDTO(drugReservationService.findDrugReservation(uniqueIdentifier, medicallStaffId));
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")

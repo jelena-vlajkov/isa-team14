@@ -15,6 +15,8 @@ import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ReportService implements IReportService {
     private final ReportRepository reportRepository;
@@ -36,11 +38,11 @@ public class ReportService implements IReportService {
         User user = userRepository.findById(reportDTO.getMedicalStaffId()).get();
 
         if(user.getRole().equals(Role.Values.Dermatologist))
-            reportRepository.save(new ExaminationReport(reportDTO.getDate(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
+            reportRepository.save(new ExaminationReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
                      pharmacyRepository.findById(reportDTO.getPharmacyId()).get(),
                      reportDTO.getReportNotes(), reportDTO.getType(), (Dermatologist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
         else
-            reportRepository.save(new CounselingReport(reportDTO.getDate(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
+            reportRepository.save(new CounselingReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
                     pharmacyRepository.findById(reportDTO.getPharmacyId()).get(),
                     reportDTO.getReportNotes(), reportDTO.getType(), (Pharmacist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
 

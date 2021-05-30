@@ -16,7 +16,6 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
   
-
 steps:
 - task: SonarCloudPrepare@1
   inputs:
@@ -38,7 +37,7 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     sonarQubeRunAnalysis: true
     goals: 'package'
-
+    options: 'package -Dmaven.test.skip'
 - task: SonarCloudAnalyze@1
   displayName: Run Code Analysis
 - task: SonarCloudPublish@1
