@@ -33,47 +33,46 @@ import static com.atlaspharmacy.atlaspharmacy.pharmderm.domain.ConstantValues.PH
 
 public class PharmDerm {
 
-    public static DrugReservation createDrugReservation(Pharmacy p) {
+    public static DrugReservation createDrugReservation(Pharmacy p, Medication medication, Patient pa) {
         DrugReservation drugReservation = new DrugReservation();
         Patient patient = new Patient();
         patient.setName("Ozren");
         patient.setEmail("vlajkovj31@gmail.com");
-        Medication m = new Medication();
-        m.setName("DulcoLax");
+        drugReservation.setMedication(medication);
         drugReservation.setPharmacy(p);
         drugReservation.setExpirationDate(new Date((new Date()).getTime() + (1000 * 60 * 60 * 72)));
         drugReservation.setReservationDate(new Date());
         drugReservation.setUniqueIdentifier(1235);
         drugReservation.setId(1L);
-        drugReservation.setPatient(patient);
-        drugReservation.setMedication(m);
+        drugReservation.setPatient(pa);
         drugReservation.setTherapyDays(10);
         drugReservation.setIssued(false);
         return drugReservation;
     }
 
-    public static Pharmacist createPharmacist(Pharmacy p) {
+    public static Pharmacist createPharmacist(Pharmacy p, Address address) {
         Pharmacist pharmacist = new Pharmacist();
         pharmacist.setEmail("vlajkovn@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(500L);
         pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         List<Authority> authorityList = new ArrayList<>();
-        authorityList.add(new Authority(1L, PHARMACIST_ROLE));
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Nadezda");
         pharmacist.setSurname("Vlajkov");
-        pharmacist.setAddress(new Address());
+        pharmacist.setAddress(address);
         pharmacist.setDateOfBirth(new Date());
         pharmacist.setFirstTimePassword(true);
+        pharmacist.setAddress(address);
         pharmacist.setGender(Gender.FEMALE);
+        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         pharmacist.setPhoneNumber("");
         pharmacist.setLicenseNumber("");
         pharmacist.setRole(Role.Values.Pharmacist);
         return pharmacist;
     }
 
-    public static Dermatologist createDermatologist(Pharmacy p) {
+    public static Dermatologist createDermatologist(Pharmacy p, Address a) {
         Dermatologist dermatologist = new Dermatologist();
         dermatologist.setEmail("vlajkovn@gmail.com");
         List<Pharmacy> pharmacies = new ArrayList<>();
@@ -82,11 +81,10 @@ public class PharmDerm {
         dermatologist.setId(DERMATOLOGIST_ID);
         dermatologist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         List<Authority> authorityList = new ArrayList<>();
-        authorityList.add(new Authority(1L, PHARMACIST_ROLE));
         dermatologist.setAuthorities(authorityList);
         dermatologist.setName("Nadezda");
         dermatologist.setSurname("Vlajkov");
-        dermatologist.setAddress(new Address());
+        dermatologist.setAddress(a);
         dermatologist.setDateOfBirth(new Date());
         dermatologist.setFirstTimePassword(true);
         dermatologist.setGender(Gender.FEMALE);
@@ -99,6 +97,22 @@ public class PharmDerm {
 
     public static Pharmacy createPharmacy() {
         Pharmacy pharmacy = new Pharmacy(100L);
+        pharmacy.setName("a");
+        pharmacy.setEmail("as");
+        pharmacy.setTelephone(1221L);
+
+        pharmacy.setDescription("asdf");
+        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        return pharmacy;
+    }
+
+    public static Pharmacy createPharmacy2(Address a) {
+        Pharmacy pharmacy = new Pharmacy(100L);
+        pharmacy.setName("a");
+        pharmacy.setEmail("as");
+        pharmacy.setTelephone(1221L);
+        pharmacy.setAddress(a);
+        pharmacy.setDescription("asdf");
         pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
         return pharmacy;
     }
@@ -120,6 +134,15 @@ public class PharmDerm {
     public static Patient createPatient() {
         Patient p = new Patient();
         p.setId(1L);
+        p.setName("Ozren");
+        p.setSurname("Ozrenovic");
+        p.setEmail("vlajkovj31@gmail.com");
+        return p;
+    }
+    public static Patient createPatient2(Address address) {
+        Patient p = new Patient();
+        p.setId(1L);
+        p.setAddress(address);
         p.setName("Ozren");
         p.setSurname("Ozrenovic");
         p.setEmail("vlajkovj31@gmail.com");
@@ -414,7 +437,7 @@ public class PharmDerm {
         Examination a1 = new Examination();
         Pharmacy p = new Pharmacy();
         a1.setPharmacy(createPharmacy());
-        a1.setDermatologist(createDermatologist(p));
+        a1.setDermatologist(createDermatologist(p, new Address()));
         Date date = new Date();
         a1.setAppointmentPeriod(new Period(
                 new Date(date.getYear(), date.getMonth(), date.getDate(), 12, 0, 0),
@@ -428,7 +451,7 @@ public class PharmDerm {
 
         Examination a2 = new Examination();
         a2.setPharmacy(createPharmacy());
-        a2.setDermatologist(createDermatologist(p));
+        a2.setDermatologist(createDermatologist(p, new Address()));
 
         a2.setType(AppointmentType.Values.Examination);
         a2.setAppointmentPeriod(new Period(
@@ -442,7 +465,7 @@ public class PharmDerm {
 
         Examination a3 = new Examination();
         a3.setPharmacy(createPharmacy());
-        a3.setDermatologist(createDermatologist(p));
+        a3.setDermatologist(createDermatologist(p, new Address()));
 
         a3.setAppointmentPeriod(new Period(
                 new Date(date.getYear(), date.getMonth() + 1, date.getDate(), 12, 0, 0),
@@ -456,7 +479,7 @@ public class PharmDerm {
 
         Examination a4 = new Examination();
         a4.setPharmacy(createPharmacy());
-        a4.setDermatologist(createDermatologist(p));
+        a4.setDermatologist(createDermatologist(p, new Address()));
 
         a4.setAppointmentPeriod(new Period(
                 new Date(date.getYear(), date.getMonth(), date.getDate(), 12, 30, 0),
@@ -471,7 +494,7 @@ public class PharmDerm {
 
         Examination a5 = new Examination();
         a5.setPharmacy(createPharmacy());
-        a5.setDermatologist(createDermatologist(p));
+        a5.setDermatologist(createDermatologist(p, new Address()));
 
         a5.setType(AppointmentType.Values.Examination);
         a5.setAppointmentPeriod(new Period(

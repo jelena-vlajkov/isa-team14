@@ -1,5 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.pharmderm.integrationtests;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.City;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.Coordinates;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.State;
+import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -46,6 +51,8 @@ public class ReportTests {
     private MedicationRepository medicationRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     private MockMvc mockMvc;
 
@@ -65,8 +72,9 @@ public class ReportTests {
     @Rollback(value = true)
     @WithMockUser(username = DERMATOLOGIST_EMAIL, authorities = { DERMATOLOGIST_ROLE })
     void testSaveReport() throws Exception {
-        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
-        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p));
+        Address a = addressRepository.save(new Address("a", new City("a"), new State("a"), new Coordinates(1.0,1.0)));
+        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy2(a));
+        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p, a));
         Patient pa = userRepository.save(PharmDerm.createPatient());
 
         String json = "{" +
@@ -86,7 +94,8 @@ public class ReportTests {
     void testSavePenalty() throws Exception {
         Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
         Patient pa = userRepository.save(PharmDerm.createPatient());
-        Pharmacist ph = userRepository.save(PharmDerm.createPharmacist(p));
+        Address ad = addressRepository.save(new Address());
+        Pharmacist ph = userRepository.save(PharmDerm.createPharmacist(p, ad));
         Appointment a = appointmentRepository.save(PharmDerm.createAppointment(p, pa, ph));
 
         String json = "{\"patientId\" : " + pa.getId() + ",\"appointmentId\" : " + a.getId() + "}";

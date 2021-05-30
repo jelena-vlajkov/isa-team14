@@ -31,7 +31,6 @@ public class Pharmacy  {
         this.id = id;
     }
 
-
     public Long getId() {
         return id;
     }
