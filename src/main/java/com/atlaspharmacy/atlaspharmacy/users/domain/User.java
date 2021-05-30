@@ -18,6 +18,9 @@ import java.util.List;
 @Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(name = "role", discriminatorType=DiscriminatorType.STRING)
 public abstract class User implements UserDetails {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -55,6 +58,13 @@ public abstract class User implements UserDetails {
         this.firstTimePassword = false;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public boolean isFirstTimePassword() {
         return firstTimePassword;

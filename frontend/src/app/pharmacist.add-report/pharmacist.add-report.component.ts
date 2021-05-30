@@ -65,14 +65,17 @@ export class PharmacistAddReportComponent {
             'name' : new FormControl("", [Validators.required, Validators.pattern("^[a-zšđćčžA-ZŠĐŽČĆ ]*$")]),
         
           })
-          this.addReportForm = new FormGroup({
-            'details' : new FormControl("", [Validators.required]),
-        
-          })
+          
+          console.log(this.addReportForm)
 
         }, 
         error => {
           alert(error);
+        })
+
+        this.addReportForm = new FormGroup({
+          'details' : new FormControl(""),
+      
         })
     }
 
@@ -107,9 +110,7 @@ export class PharmacistAddReportComponent {
       report.medications = a.prescribedMedications;
       report.patientId = a.patientId;
       report.pharmacyId = a.pharmacyId;
-      let details = this.addReportForm.controls.details.value;
-      console.log(details)
-      report.reportNotes = details;
+      report.reportNotes = a.reportNotes;
       this.employeeService.addReport(report).subscribe(
         data => {
           this.employeeService.finishAppointment(a.id).subscribe(

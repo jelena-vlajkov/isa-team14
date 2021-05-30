@@ -51,6 +51,18 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND c.isCanceled = false")
     List<Counseling> getAllCounselingsByPharmacist(Long pharmacistId);
 
+    @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND c.isCanceled = false ORDER BY c.patient.name DESC")
+    List<Counseling> getAllCounselingsByPharmacistNameDesc(Long pharmacistId);
+
+    @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND c.isCanceled = false ORDER BY c.patient.surname DESC")
+    List<Counseling> getAllCounselingsByPharmacistSurnameDesc(Long pharmacistId);
+
+    @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND c.isCanceled = false ORDER BY c.appointmentPeriod.startTime ASC")
+    List<Counseling> getAllCounselingsByPharmacistDateAsc(Long pharmacistId);
+
+    @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND c.isCanceled = false ORDER BY c.appointmentPeriod.startTime DESC")
+    List<Counseling> getAllCounselingsByPharmacistDateDesc(Long pharmacistId);
+
     @Query(value = "SELECT c FROM Counseling c WHERE c.pharmacist.id = ?1 AND CAST(c.appointmentPeriod.startTime as date) = CAST(?2 as date) AND c.isCanceled = false")
     List<Counseling> getAllCounselingsByPharmacistAndDate(Long pharmacistId, Date date);
 
@@ -77,6 +89,24 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false")
     List<Examination> getAllExaminationsByDermatologist(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.appointmentPeriod.startTime ASC")
+    List<Examination> getAllExaminationsByDermatologistByDateAsc(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.appointmentPeriod.startTime DESC ")
+    List<Examination> getAllExaminationsByDermatologistByDateDesc(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.name DESC ")
+    List<Examination> getAllExaminationsByDermatologistByNameDesc(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.name ASC ")
+    List<Examination> getAllExaminationsByDermatologistByNameAsc(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.surname DESC ")
+    List<Examination> getAllExaminationsByDermatologistBySurnameDesc(Long dermatologistId);
+
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.surname ASC ")
+    List<Examination> getAllExaminationsByDermatologistBySurnameAsc(Long dermatologistId);
 
     @Query(value = "SELECT a FROM Counseling a WHERE a.pharmacist.id = ?1 AND CAST(a.appointmentPeriod.startTime as date) >= CAST(?2 as date) AND CAST(a.appointmentPeriod.startTime as date) <= CAST(?3 as date) AND a.isCanceled = false")
     List<Counseling> findAllUpcomingForMedicalStaff(Long medicalStaffId, Date startDate, Date endDate);

@@ -1,5 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.pharmderm.integrationtests;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.City;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.Coordinates;
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.valueobjects.State;
+import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
@@ -45,6 +50,8 @@ public class PrescribeMedicationTests {
     private MedicationRepository medicationRepository;
     @Autowired
     private PharmacyStorageRepository pharmacyStorageRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     private MockMvc mockMvc;
 
@@ -64,9 +71,9 @@ public class PrescribeMedicationTests {
     @Rollback(value = true)
     @WithMockUser(username = DERMATOLOGIST_EMAIL, authorities = { DERMATOLOGIST_ROLE })
     void testPrescribingMedication() throws Exception {
-
-        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
-        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p));
+        Address a = addressRepository.save(new Address("a", new City("a"), new State("a"), new Coordinates(1.0,1.0)));
+        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy2(a));
+        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p, a));
         Medication m = medicationRepository.save(PharmDerm.createMedication1());
         PharmacyStorage ps = pharmacyStorageRepository.save(PharmDerm.createPharmacyStorage2(p, m));
         Patient pa = userRepository.save(PharmDerm.createPatient());
@@ -86,8 +93,9 @@ public class PrescribeMedicationTests {
     @Rollback(value = true)
     @WithMockUser(username = DERMATOLOGIST_EMAIL, authorities = { DERMATOLOGIST_ROLE })
     void testPrescribingMedicationWhenNoQuantity() throws Exception {
-        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy());
-        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p));
+        Address a = addressRepository.save(new Address("a", new City("a"), new State("a"), new Coordinates(1.0,1.0)));
+        Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy2(a));
+        Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p, a));
         Medication m = medicationRepository.save(PharmDerm.createMedication2());
         PharmacyStorage ps = pharmacyStorageRepository.save(PharmDerm.createPharmacyStorage1(p, m));
         Patient pa = userRepository.save(PharmDerm.createPatient());

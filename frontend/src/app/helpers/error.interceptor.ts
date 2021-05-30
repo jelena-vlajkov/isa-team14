@@ -20,6 +20,16 @@ export class ErrorInterceptor implements HttpInterceptor {
                 
             }
 
+            if ([401].indexOf(err.status) !== -1) {
+                // auto logout if 401 response returned from api
+                this.authenticationService.logout();
+                this.router.navigate(["/"]);
+                
+                location.reload(true);
+                
+            }
+
+
 
             const error = err.error.message || err.statusText;
             return throwError(error);

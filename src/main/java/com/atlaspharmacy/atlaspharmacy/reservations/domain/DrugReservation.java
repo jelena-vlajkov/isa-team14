@@ -11,6 +11,9 @@ import java.util.Date;
 @Entity
 @Table(name = "drugreservation")
 public class DrugReservation {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -42,6 +45,14 @@ public class DrugReservation {
         this.issued = issued;
         this.therapyDays = therapyDays;
         this.canceled = canceled;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public boolean isCanceled() {

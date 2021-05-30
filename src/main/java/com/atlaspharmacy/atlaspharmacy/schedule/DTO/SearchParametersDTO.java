@@ -1,11 +1,14 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
+
 import java.util.Date;
 
 public class SearchParametersDTO {
     private String name;
     private Date date;
     private Long medicalStaffId;
+    private SortingType sortingType;
 
     public SearchParametersDTO() {
     }
@@ -14,6 +17,14 @@ public class SearchParametersDTO {
         this.name = name;
         this.date = date;
         this.medicalStaffId = medicalStaffId;
+    }
+
+    public SortingType getSortingType() {
+        return sortingType;
+    }
+
+    public void setSortingType(SortingType sortingType) {
+        this.sortingType = sortingType;
     }
 
     public Long getMedicalStaffId() {
