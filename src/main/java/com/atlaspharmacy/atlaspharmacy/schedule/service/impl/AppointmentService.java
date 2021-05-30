@@ -1,4 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
@@ -19,16 +21,14 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
+import com.atlaspharmacy.atlaspharmacy.users.service.impl.PharmacistService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -589,6 +589,53 @@ public class AppointmentService implements IAppointmentService {
         @Override
         public List<Integer> getNumberOfAppointmentsForMonth(int year) {
             return null;
+        }
+
+        public List<Counseling> findAvalibaleCounselingsByRange(Date startRange, Date endRange) {
+
+            List<WorkDay> allWorkingStaff = workDayService.getByDate(startRange);
+            List<Appointment> appointments = new ArrayList<>();
+            for (WorkDay workDay : allWorkingStaff) {
+                if (workDay.isPharmacist())
+                    appointments.addAll(findAvailableBy(startRange, workDay.getMedicalStaff().getId()));
+            }
+
+
+            for(Appointment a : appointments) {
+                a.setType(AppointmentType.Values.Counseling);
+            }
+
+            List<Appointment> counselings = new ArrayList<>();
+            for (Appointment c : appointments) {
+                if(c.getAppointmentPeriod().getStartTime().getTime() >= startRange.getTime() &&
+                        c.getAppointmentPeriod().getStartTime().getTime() < endRange.getTime())
+                    counselings.add(c);
+            }
+
+            return (List<Counseling>) (List<?>) counselings;
+
+        }
+        @Override
+        public List<PharmacyDTO> findAvailablePharmacyByCounselingRange(Date startRange, Date endRange) throws Exception {
+
+            List<Counseling> counselings = findAvalibaleCounselingsByRange(startRange, endRange);
+            List<PharmacyDTO> pharmacyDTOS = new ArrayList<>();
+            for (Appointment a : counselings) {
+                pharmacyDTOS.add(PharmacyMapper.mapPharmacyToDTO(a.getPharmacy()));
+            }
+            List<PharmacyDTO> pharmacies = pharmacyDTOS.stream()
+                    .collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(
+                            Comparator.comparingLong(PharmacyDTO::getId)
+            )), ArrayList::new));
+
+            for (PharmacyDTO p : pharmacies ) {
+                p.setCounselingCost(pharmacyPricelistService.counselingCost(p.getId()));
+            }
+
+
+          return  pharmacies;
+
+
         }
 
     }

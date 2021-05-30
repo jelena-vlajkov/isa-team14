@@ -79,5 +79,9 @@ export class PatientService {
       return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.cancelDrugReservation}`, reservationId, {responseType : 'text'});
     }
 
+    findAvailablePharmacyByCounselingRange(startDate : String, endDate : String) : Observable<Pharmacy[]> {
+      return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.appointment}/${environment.findAvailablePharmacyByCounselingRange}?start=${startDate}&end=${endDate}`);
+    }
+   
 
 }

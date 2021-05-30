@@ -471,3 +471,7 @@ insert into vacation_requests(id, end_date, start_date, vacation_reason, medical
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (600,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,1);
 
 */
+
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (10000, '2021-06-29', '2021-06-29 12:00:00', '2021-06-29 16:00:00', 500, 200, false);
+insert into appointment(type, id, appointment_end_time, appointment_start_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id, finished) values ('Counseling',100000, '2021-06-29 13:00:00', '2021-06-29 12:30:00', 1000.00, false, 200, 500, 200, false);
+insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, dermatologist_id, patient_id, finished) values ('Examination', 800001, '2021-06-29 13:00:00', '2021-06-29 13:30:00', 1000.00, false, 200,  100, 200, false);

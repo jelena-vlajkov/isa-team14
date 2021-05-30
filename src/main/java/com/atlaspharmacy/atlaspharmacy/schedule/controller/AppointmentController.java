@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
@@ -16,9 +17,11 @@ import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.schedule.mapper.AppointmentMapper;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -184,6 +187,15 @@ public class AppointmentController {
     @EmployeeAuthorization
     public @ResponseBody List<PatientsOverviewDTO> searchPatients(@RequestBody SearchParametersDTO searchParametersDTO) throws Exception, InvalidMedicalStaff {
         return appointmentService.SearchPatientsByParameters(searchParametersDTO);
+    }
+
+    @GetMapping(value = "/findAvailablePharmacyByCounselingRange")
+    @PatientAuthorization
+    public List<PharmacyDTO> findAvailablePharmacyByCounselingRange(@RequestParam("start") String date,
+                                                                     @RequestParam("end") String end) throws Exception {
+        Date start = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(date);
+        Date endRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(end);
+        return appointmentService.findAvailablePharmacyByCounselingRange(start, endRange);
     }
 
     @ExceptionHandler(DueDateSoonException.class)

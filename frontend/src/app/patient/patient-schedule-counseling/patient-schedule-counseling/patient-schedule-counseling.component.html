@@ -50,7 +50,7 @@
                                     <mat-datepicker #picker color="primary"></mat-datepicker>
                                 </mat-form-field>
                     
-                                <h4>Start time of counseling:</h4>
+                                <h4>Counseling range starts in:</h4>
                                 <mat-form-field color="accent" appearance="fill">
                                     <mat-label >Choose time</mat-label>
                                     <input matInput [ngxTimepicker]="timePickerStart" [value]="startTime" [format]="24" required readonly (ngModelChange)="onStartTimeChange($event)" #input  formControlName="timePickerStart">
@@ -59,7 +59,7 @@
                                 </mat-form-field>
                     
                                 
-                                <h4>End time of counseling:</h4>
+                                <h4>Counseling range ends in:</h4>
                                 <mat-form-field color="accent" appearance="fill" >
                                     <mat-label >Choose time</mat-label>
                                     <input matInput [ngxTimepicker]="timePickerEnd" [value]="endTime" [format]="24" [min]="minTimeFinishing" required readonly (ngModelChange)="onEndTimeChange($event)" #input formControlName="timePickerEnd" [disabled]="disabledEndTime">
@@ -81,16 +81,16 @@
                                     <th >Address</th>
                                     <th mat-sort-header="grade">Grade</th>
                                     <th mat-sort-header="price">Price of counseling</th>
-                                    <th>Choose pharamcy</th>
+                                    <th>Choose pharmacy</th>
                                 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td>NAZIV</td>
-                                    <td>MESTO</td>
-                                    <td>OCENA</td>
-                                    <td>CENA</td>
+                                <tr *ngFor="let p of pharmacies" >
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
+                                    <td>{{p.averageGradeCount}}</td>
+                                    <td>{{p.counselingCost}}</td>
                                     <td><button mat-button style="background-color: #385399; color: white;">Choose</button></td>
                                     
                                 </tr>

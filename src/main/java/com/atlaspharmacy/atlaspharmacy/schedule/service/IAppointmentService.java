@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
@@ -47,6 +48,7 @@ public interface IAppointmentService {
     void finishAppointment(Long appointmentId) throws Exception;
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
+    List<PharmacyDTO> findAvailablePharmacyByCounselingRange(Date startRange, Date endRange) throws Exception;
 
     List<Appointment> getScheduledByMonth(Date date, Long id);
 }

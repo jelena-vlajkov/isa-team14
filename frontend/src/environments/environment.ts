@@ -146,5 +146,6 @@ export const environment = {
   searchPharmacists:"searchPharmacists",
   filterPharmacistsByPharmacy:"filterPharmacistsByPharmacy",
   filterPharmacistsByGrade:"filterPharmacistsByGrade",
+  findAvailablePharmacyByCounselingRange : "findAvailablePharmacyByCounselingRange"
 };
 
