@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://atlaspharmacy.herokuapp.com',
+  baseUrl: 'https://psw-devteam.herokuapp.com',
   proba: "proba",
   medication: "medication",
   findAll: "findAll",

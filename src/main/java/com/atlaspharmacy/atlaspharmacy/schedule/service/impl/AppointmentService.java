@@ -315,6 +315,8 @@ public class AppointmentService implements IAppointmentService {
                 uniquePatients.add(a.getPatient().getId());
                 p = new PatientsOverviewDTO();
                 p.setPatientId(a.getPatient().getId());
+                p.setName(a.getPatient().getName());
+                p.setSurname(a.getPatient().getSurname());
                 appointmentDTOS = p.getPreviousAppointments();
                 appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
                 p.setPreviousAppointments(appointmentDTOS);
@@ -348,6 +350,14 @@ public class AppointmentService implements IAppointmentService {
 
     private void mapPrescribedDrugsToDTO(PatientsOverviewDTO po) {
         List<PrescribedDrug> prescribedDrugs = prescriptionRepository.getPrescribedDrugBy(po.getPatientId());
+
+        List<String> medications = new ArrayList<>();
+
+
+        if (prescribedDrugs.size() == 0) {
+            return;
+        }
+
         Patient patient;
 
         patient = (Patient) userRepository.findById(po.getPatientId()).get();
@@ -357,7 +367,6 @@ public class AppointmentService implements IAppointmentService {
         po.setDateOfBirth(patient.getDateOfBirth());
         po.setGender(patient.getGender());
 
-        List<String> medications = new ArrayList<>();
         for (PrescribedDrug prescribedDrug : prescribedDrugs) {
                 if (!userRepository.findById(po.getPatientId()).isPresent()) {
                     continue;
@@ -386,6 +395,8 @@ public class AppointmentService implements IAppointmentService {
                 uniquePatients.add(a.getPatient().getId());
                 p = new PatientsOverviewDTO();
                 p.setPatientId(a.getPatient().getId());
+                p.setName(a.getPatient().getName());
+                p.setSurname(a.getPatient().getSurname());
                 appointmentDTOS = p.getPreviousAppointments();
                 appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
                 p.setPreviousAppointments(appointmentDTOS);
@@ -527,7 +538,12 @@ public class AppointmentService implements IAppointmentService {
             Appointment appointment = new Appointment(new Period(new Date(appointmentStart.getTime() + (long) appointmentDuration * i),
                     new Date(appointmentStart.getTime() + (long) appointmentDuration * (i + 1))),
                     cost, "", false, null);
+
             appointment.setPharmacy(workDay.getPharmacy());
+            if (appointment.getAppointmentPeriod().getEndTime().after(workDay.getWorkDayPeriod().getEndTime())) {
+                break;
+            }
+
             appointments.add(appointment);
         }
         return appointments;
