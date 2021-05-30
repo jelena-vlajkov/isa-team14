@@ -48,7 +48,13 @@
         <div><label>Name:</label></div>
         <div><p>{{pharmacy.name}}</p></div>
         <div><label>Address:</label></div>
-        <div style="height: fit-content;"><p>{{pharmacy.address.street}}, {{pharmacy.address.city.name}}</p></div>
+        <div style="height: fit-content;display:flex;"><p>{{pharmacy.address.street}}, {{pharmacy.address.city.name}}</p>
+
+        </div>
+        <div><agm-map style="heigth:200px;" [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lng" [longitude]="lng"></agm-marker>
+        </agm-map></div>
+
         <div><label>About:</label></div>
         <div style="width: 500px;height: fit-content;"><p>{{pharmacy.description}}</p></div>
         <div><label>Grade:</label></div>
@@ -234,9 +240,9 @@
 
     </mat-card>
 
-    <mat-card *ngIf="edit">
+    <mat-card *ngIf="edit" style="height:fit-content;">
       <form [formGroup]="editProfileForm" (ngSubmit)="editProfile()">
-        <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+        <mat-grid-list cols="2" rowHeight="6:2" style="margin-left: 10px;">
 
           <mat-grid-tile>
             <label>Name:</label>
@@ -252,12 +258,23 @@
           </mat-grid-tile>
 
           <mat-grid-tile>
+            <label>Address:</label>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" id="address-ff">
+              <mat-label>Address*</mat-label>
+              <app-google-places style="background:transparent;border:none;">
+                <input matInput id="address" placeholder="Address" value="{{pharmacy.address}}" name="address-ff"></app-google-places>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
             <label>Telephone:</label>
           </mat-grid-tile>
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="telephone-ff">
               <mat-label>Telephone*</mat-label>
-              <input matInput id="telephone" placeholder="Telephone" value="{{telephone}}" name="telephone-ff"
+              <input matInput id="telephone" placeholder="Telephone" value="{{pharmacy.telephone}}" name="telephone-ff"
                      formControlName="telephone">
               <mat-error
                 *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
@@ -285,7 +302,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="email-ff">
               <mat-label>Email*</mat-label>
-              <input matInput id="email" placeholder="Email" value="{{email}}" name="email-ff"
+              <input matInput id="email" placeholder="Email" value="{{pharmacy.email}}" name="email-ff"
                      formControlName="email">
               <mat-error
                 *ngIf="!editProfileForm.get('email').valid && editProfileForm.get('email').touched && editProfileForm.get('email').errors['required']">

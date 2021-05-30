@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 @Service
 public class AppointmentService implements IAppointmentService {
@@ -543,37 +544,56 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public int getNumberOfScheduledByDate(Date date) {
-        List<Appointment> allAppointments=appointmentRepository.getAllAppointmentsByDateForSpecificType(date, AppointmentType.Values.Examination);
-        return allAppointments.size();
+    public int getNumberOfScheduledByDate(Date date,Long pharmacyId) {
+       List<Appointment> allAppointments=appointmentRepository.findAll();
+       int counter=0;
+       for(Appointment a:allAppointments){
+           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId)){
+               counter++;
+           }
+       }
+         return counter;
+         //List<Appointment> allAppointments=appointmentRepository.getAllAppointmentsByDateForSpecificType(date, AppointmentType.Values.Examination);
+         //return allAppointments.size();
     }
 
     @Override
-    public List<Integer> getNumberOfAppointmentsForMonth(int month, int year) {
+    public Long getNumberOfAppointmentsForMonth(int month, int year,Long pharmacyId) {
         //datum se ne pomera dobro iz nepoznatog razloga,mozda nece ni biti potrebna
         //ova metoda,al nek stoji za sad
-        List<Integer> scheduledForMonth = new ArrayList<>();
-        Date startDate = new Date(year, month - 1, 1);
+        Long scheduledForMonth = 0L;
+        Date startDate = new Date(year-1900, month - 1, 1);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-        Date endDate = new Date(year, month - 1, day);
+        Date endDate = new Date(year-1900, month - 1, day);
         while (startDate.before(endDate)) {
-            scheduledForMonth.add(getNumberOfScheduledByDate(startDate));
-            Long newTime = startDate.getTime() + 24 * 60 * 60 * 1000;
+            scheduledForMonth+=getNumberOfScheduledByDate(startDate,pharmacyId);
+            Long newTime = startDate.getTime() + 86400000;
             startDate = new Date(newTime);
         }
         return scheduledForMonth;
     }
-        @Override
-        public List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year) {
-            return null;
-        }
 
-        @Override
-        public List<Integer> getNumberOfAppointmentsForMonth(int year) {
-            return null;
+    @Override
+    public Long getNumberOfAppointmentsForHalfYear(int part, int year,Long pharmacyId)
+    {
+      Long scheduledForHalfYear = 0L;
+      for(int i=4*(part-1)+1;i<4*(part-1)+5;i++){
+          scheduledForHalfYear += getNumberOfAppointmentsForMonth(i,year,pharmacyId);
+      }
+      return scheduledForHalfYear;
+    }
+
+    @Override
+    public Long getNumberOfAppointmentsForYear( int year,Long pharmacyId) {
+        Long scheduledForYear = 0L;
+        for(int i=1;i<4;i++){
+            scheduledForYear += getNumberOfAppointmentsForHalfYear(i,year,pharmacyId);
         }
+        return scheduledForYear;
+    }
+
 
     }
 

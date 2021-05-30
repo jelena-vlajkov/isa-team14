@@ -26,6 +26,7 @@ public class DrugReservation {
     private boolean issued;
     private int therapyDays;
     private boolean canceled;
+    private Date dateOfIssue;
 
     public DrugReservation() {
 
@@ -139,5 +140,13 @@ public class DrugReservation {
         Date validDate = new Date(today.getTime() + hoursAvailableToCancel);
         return getExpirationDate().after(validDate);
 
+    }
+
+    public Date getDateOfIssue() {
+        return dateOfIssue;
+    }
+
+    public void setDateOfIssue(Date dateOfIssue) {
+        this.dateOfIssue = dateOfIssue;
     }
 }

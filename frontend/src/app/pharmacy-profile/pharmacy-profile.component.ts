@@ -25,12 +25,12 @@ import {Medication} from "@app/model/medications/medication";
 import {Period} from "@app/model/appointment/period";
 import {AuthenticationService} from "@app/service/user";
 import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
-
+import { AgmCoreModule } from '@agm/core';
 
 @Component({
   selector: 'app-pharmacy-profile',
   templateUrl: './pharmacy-profile.component.html',
-  styleUrls: ['./pharmacy-profile.component.css']
+  styleUrls: ['./pharmacy-profile.component.css'],
 })
 export class PharmacyProfileComponent implements OnInit {
   grade:Number;
@@ -58,6 +58,8 @@ export class PharmacyProfileComponent implements OnInit {
   public addPricelistEntityDialog:boolean = false;
   addPricelistEntityFormGroup:FormGroup;
   public isPharmacyAdmin:boolean = false;
+  lat:any;
+  lng:any;
 
 
   constructor(private pharmacyAdminService:PharmacyAdminService
@@ -70,7 +72,14 @@ export class PharmacyProfileComponent implements OnInit {
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
               ,private authenticationService:AuthenticationService
-              ,private drugReservationsService:DrugReservationsService) { }
+              ,private drugReservationsService:DrugReservationsService) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
@@ -173,7 +182,7 @@ export class PharmacyProfileComponent implements OnInit {
       'name' : new FormControl(this.pharmacy.name, Validators.required),
       'description' : new FormControl(this.pharmacy.description, Validators.required),
       'telephone' : new FormControl(this.pharmacy.telephone,[ Validators.required,Validators.pattern("^[0-9]*$")]),
-      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required])
+      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required]),
     });
 
     this.showPromotions = false;
@@ -196,20 +205,21 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   editProfile(){
-       // if(this.googleplaces.address==undefined){
-         // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
-        //}else{
-        this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
-          ,this.pharmacy.address,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
+    console.log(this.googleplaces.address);
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
+    }else {
+      this.pharmacy = new Pharmacy(this.pharmacy.id, this.editProfileForm.value.name, this.editProfileForm.value.description
+        , this.googleplaces.address, this.pharmacy.averageGrade, this.editProfileForm.value.email, this.editProfileForm.value.telephone);
 
-        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
-          this.edit=false;
-          this.profile=true;
+      this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result => {
+        this.edit = false;
+        this.profile = true;
         console.log(this.pharmacy);
 
 
       });
-
+    }
    }
 
   showPharmacyPricelist(){

@@ -125,23 +125,16 @@
             </div>
           </mat-grid-tile>
 
-        <!-- <mat-grid-tile>
-          //  <label>Address:</label>
-         // </mat-grid-tile>
-         // <mat-grid-tile>
-          //  <mat-form-field appearance="fill" id="address-ff">
-           //   <mat-label>Address*</mat-label>
-             // <app-google-places style="background:transparent;border:none;">
-                <input matInput id="address" placeholder="Address" value="{{address}}" name="address-ff"
-                       formControlName="surname"></app-google-places>
-              <mat-error
-                *ngIf="!editProfileForm.get('address').valid && editProfileForm.get('address').touched && editProfileForm.get('address').errors['required']">
-                Please enter address</mat-error>
+        <mat-grid-tile>
+          <label>Address:</label>
+         </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-form-field appearance="fill" id="address-ff">
+              <mat-label>Address*</mat-label>
+              <app-google-places style="background:transparent;border:none;">
+                <input matInput id="address" placeholder="Address" value="{{pharmacyAdmin.address}}" name="address-ff"></app-google-places>
             </mat-form-field>
           </mat-grid-tile>
-             <mat-grid-tile>
-               <app-google-places></app-google-places>
-             </mat-grid-tile>-->
 
           <mat-grid-tile>
             <label>Telephone:</label>
@@ -171,13 +164,13 @@
 
         <button style="float:right; position:relative;background-color: #385399;" mat-raised-button  (click)='editProfile()'color="accent" *ngIf="!edit">Edit</button>
         <button style="float:right; position:relative;background-color: #385399;" mat-raised-button  (click)='editSubmited()'color="accent" *ngIf="edit">Submit changes</button>
-        <button style="float:right; position:relative; margin-right: 10px;background-color: #385399;" mat-raised-button (click)='changePasswordFunction()' color="accent">ChangePassword</button>
+        <button style="float:right; position:relative; margin-right: 10px;background-color: #385399;" mat-raised-button (click)='changePasswordFunction()' color="accent" *ngIf="!edit">ChangePassword</button>
 
       </form>
     </mat-card>
     <mat-card *ngIf="changePassword">
       <form [formGroup]="changePasswordForm" (ngSubmit)="submitChangePassword()">
-        <mat-grid-list cols="2" rowHeight="5:1" style="margin-left: 10px;">
+        <mat-grid-list cols="2" rowHeight="6:1" style="margin-left: 10px;">
 
           <mat-grid-tile>
             <label>Old password:</label>

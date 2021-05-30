@@ -146,5 +146,16 @@ export const environment = {
   searchPharmacists:"searchPharmacists",
   filterPharmacistsByPharmacy:"filterPharmacistsByPharmacy",
   filterPharmacistsByGrade:"filterPharmacistsByGrade",
+  getNumberOfScheduledForMonth:"getNumberOfScheduledForMonth",
+  getNumberOfScheduledForHalfYear:"getNumberOfScheduledForHalfYear",
+  getNumberOfScheduledForYear:"getNumberOfScheduledForYear",
+  getDrugConsumptionsForMonth:"getDrugConsumptionsForMonth",
+  getDrugConsumptionsForHalfYear:"getDrugConsumptionsForHalfYear",
+  getDrugConsumptionsForYear:"getDrugConsumptionsForYear",
+  pharmacyBussinesReport:"pharmacyBussinesReport",
+  getPharmacyIncomeForMonth:"getPharmacyIncomeForMonth",
+  getPharmacyIncomeForHalfYear:"getPharmacyIncomeForHalfYear",
+  getPharmacyIncomeForYear:"getPharmacyIncomeForYear"
+
 };
 

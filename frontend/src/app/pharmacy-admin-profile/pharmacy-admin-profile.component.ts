@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
 import {PharmacyAdminService} from "@app/service/pharmacyAdmin/pharmacy-admin.service";
 import {Router} from "@angular/router";
@@ -10,6 +10,7 @@ import {FirstTimePasswordChange} from "@app/model/users/firstTimePasswordChange"
 import {EmployeeService} from "@app/service/employee/employee.service";
 import {PasswordChanger} from "@app/model/users/passwordChanger";
 import {EmployeePasswordChanger} from "@app/model/pharmderm/changepass";
+import {GooglePlacesComponent} from "@app/google-places/google-places.component";
 
 @Component({
   selector: 'app-pharmacy-admin-profile',
@@ -24,6 +25,7 @@ export class PharmacyAdminProfileComponent implements OnInit {
   password2:String;
   oldpassword:String;
   gender:String;
+  @ViewChild(GooglePlacesComponent) googleplaces;
 
   public profile:boolean = true;
   public edit:boolean = false;
@@ -144,25 +146,28 @@ export class PharmacyAdminProfileComponent implements OnInit {
       'surname' : new FormControl(this.pharmacyAdmin.surname, Validators.required),
       'email' : new FormControl(this.pharmacyAdmin.email, [Validators.required,Validators.email]),
       'telephone' : new FormControl(this.pharmacyAdmin.phoneNumber, Validators.required),
-      'address' : new FormControl(this.pharmacyAdmin.address, Validators.required),
       'gender': new FormControl(this.gender, Validators.required)
     });
   }
 
   editSubmited() {
-    this.pharmacyAdmin.name = this.editProfileForm.value.name;
-    this.pharmacyAdmin.surname = this.editProfileForm.value.surname;
-    this.pharmacyAdmin.dateOfBirth = this.editProfileForm.value.dateOfBirth;
-    this.pharmacyAdmin.email = this.editProfileForm.value.email;
-    this.pharmacyAdmin.phoneNumber = this.editProfileForm.value.telephone;
-    this.pharmacyAdmin.gender = this.editProfileForm.value.gender;
-    console.log(this.pharmacyAdmin);
-    this.pharmacyAdminService.editPharmacyAdmin(this.pharmacyAdmin).subscribe(result=>{
-      this.edit=false;
-      this.profile=true;
-      this.changePassword=false;
-    });
-
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
+    }else {
+      this.pharmacyAdmin.address = this.googleplaces.address;
+      this.pharmacyAdmin.name = this.editProfileForm.value.name;
+      this.pharmacyAdmin.surname = this.editProfileForm.value.surname;
+      this.pharmacyAdmin.dateOfBirth = this.editProfileForm.value.dateOfBirth;
+      this.pharmacyAdmin.email = this.editProfileForm.value.email;
+      this.pharmacyAdmin.phoneNumber = this.editProfileForm.value.telephone;
+      this.pharmacyAdmin.gender = this.editProfileForm.value.gender;
+      console.log(this.pharmacyAdmin);
+      this.pharmacyAdminService.editPharmacyAdmin(this.pharmacyAdmin).subscribe(result => {
+        this.edit = false;
+        this.profile = true;
+        this.changePassword = false;
+      });
+    }
   }
   checkLoggedInUser(){
     return this.authenticationService.getUserValue();

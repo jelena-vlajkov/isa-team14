@@ -79,7 +79,12 @@ public class PharmacistService implements IPharmacistService {
         pharmacistToUpdate.setName(pharmacistDTO.getName());
         pharmacistToUpdate.setSurname(pharmacistDTO.getSurname());
         pharmacistToUpdate.setPhoneNumber(pharmacistDTO.getPhoneNumber());
-        Address address = addressService.updateAddress(pharmacistDTO.getAddress());
+        Address address =pharmacistToUpdate.getAddress();
+        address.setCity(pharmacistDTO.getAddress().getCity());
+        address.setCoordinates(pharmacistDTO.getAddress().getCoordinates());
+        address.setState(pharmacistDTO.getAddress().getState());
+        address.setStreet(pharmacistDTO.getAddress().getStreet());
+        addressRepository.save(address);
         pharmacistToUpdate.setAddress(address);
 
         Pharmacy pharmacy = pharmacyService.editPharmacy(pharmacistDTO.getPharmacy());
@@ -169,8 +174,12 @@ public class PharmacistService implements IPharmacistService {
             String role ="ROLE_PHARMACIST";
             String password = passwordEncoder.encode(dto.getPassword());
             dto.setPassword(password);
-           // Address a = AddressMapper.mapAddressDTOToAddress(dto.getAddress());
-            //addressRepository.save(a);
+            Address a = new Address();
+            a.setStreet(dto.getAddress().getStreet());
+            a.setCity(dto.getAddress().getCity());
+            a.setState(dto.getAddress().getState());
+            a.setCoordinates(dto.getAddress().getCoordinates());
+            addressRepository.save(a);
 
             Pharmacist pharmacist = new Pharmacist();
             pharmacist.setName(dto.getName());
@@ -185,7 +194,7 @@ public class PharmacistService implements IPharmacistService {
             pharmacist.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
             pharmacist.setRole(role);
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
-            //pharmacist.setAddress(a);
+            pharmacist.setAddress(a);
             userRepository.save(pharmacist);
             return pharmacist;
         }

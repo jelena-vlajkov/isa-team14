@@ -135,5 +135,15 @@ export const environment = {
   occupiedExaminationsExists:"occupiedExaminationsExists",
   editPharmacyAdmin:"editPharmacyAdmin",
   approveVacationRequest:"approveVacationRequest",
-  denyVacationRequest:"denyVacationRequest"
+  denyVacationRequest:"denyVacationRequest",
+  getNumberOfScheduledForMonth:"getNumberOfScheduledForMonth",
+  getNumberOfScheduledForHalfYear:"getNumberOfScheduledForHalfYear",
+  getNumberOfScheduledForYear:"getNumberOfScheduledForYear",
+  getDrugConsumptionsForMonth:"getDrugConsumptionsForMonth",
+  getDrugConsumptionsForHalfYear:"getDrugConsumptionsForHalfYear",
+  getDrugConsumptionsForYear:"getDrugConsumptionsForYear",
+  pharmacyBussinesReport:"pharmacyBussinesReport",
+  getPharmacyIncomeForMonth:"getPharmacyIncomeForMonth",
+  getPharmacyIncomeForHalfYear:"getPharmacyIncomeForHalfYear",
+  getPharmacyIncomeForYear:"getPharmacyIncomeForYear"
 };

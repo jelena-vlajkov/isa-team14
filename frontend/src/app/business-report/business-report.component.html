@@ -1,32 +1,152 @@
 <mat-drawer-container class="example-container" hasBackdrop="true">
-  <mat-drawer style="width: 20%;" #drawer mode ="over">
-    <mat-action-list>
-     <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info</button>
-     <button mat-list-item> Dermatology appointments </button>
-     <button mat-list-item routerLink="/business-report"> Business reports </button>
-     <button mat-list-item> Drugs</button>
-     <button mat-list-item> Employees</button>
-     <button mat-list-item> Drug purchases</button>
-     <button mat-list-item> Actions and special offers</button>
+  <mat-drawer-content >
+    <mat-toolbar style="background-color: #385399;">
+    </mat-toolbar>
+    <div style="height: fit-content;margin-left:200px;margin-top:20px;">
+      <label style="align-content: center;font-size: 25px;margin-left: 100px;font-color:blue;">Business reports</label>
 
-   </mat-action-list>
-   <mat-action-list style="position: absolute; bottom: 1px;">
-           <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
-           <button  mat-list-item > Logout</button>
 
-   </mat-action-list>
- 
-</mat-drawer>
-    <mat-drawer-content>
-      <mat-toolbar color="accent">
-        <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
-          <mat-icon>menu</mat-icon>
-        </button>
-        <span>Business report</span>
-        <span class="example-spacer"></span>
-      </mat-toolbar>
+      <div style="display: flex;margin-top:50px;">
+        <label  style="align-content: center;font-size: 20px;margin-left: 100px;font-color:blue;">Pharmacy average grade:</label>
+        <label  style="font-size: 15px;margin-left: 30px;margin-top:2px;">{{count(pharmacy.averageGrade)}}</label>
+      </div>
 
-      <mat-card style="height: auto;"></mat-card>
+      <div style="display: flex;margin-top:50px;">
+        <label  style="align-content: center;font-size: 20px;margin-left: 100px;font-color:blue;">Employees average grades:</label>
+         <div>
+          <table style="margin-top: 20px;margin-left: 100px;font-size: 18px;">
+            <tr *ngFor="let pharmacist of pharmacists">
+              <td style="width: fit-content;">{{pharmacist.name}} {{pharmacist.surname}}</td>
+              <span style="margin-left: 100px;"></span>
+              <td style="width: fit-content;">{{count(pharmacist.averageGrade)}}</td>
+            </tr>
+          </table>
+            <table style="margin-left: 100px;font-size: 18px;">
+              <tr *ngFor="let dermatologist of dermatologists">
+                <td style="width: fit-content;">{{dermatologist.name}} {{dermatologist.surname}}</td>
+                <span style="margin-left: 110px;"></span>
+                <td style="width: fit-content;">{{count(dermatologist.averageGrade)}}</td>
+              </tr>
+            </table>
+         </div>
+      </div>
+
+
+
+      <div style="display: flex;margin-top:50px;">
+        <label  style="align-content: center;font-size: 20px;margin-left: 100px;font-color:blue;">Number of scheduled appointments</label>
+        <mat-radio-group style="margin-top:5px;margin-left:30px;">
+          <mat-radio-button value="month" style="font-size:18px; margin-left: 20px;" (click)="showScheduledByMonth()">For month</mat-radio-button>
+          <mat-radio-button value="halfYear" style="font-size:18px;margin-left: 20px;" (click)="showScheduledByHalfYear()">For half year</mat-radio-button>
+          <mat-radio-button value="year" style="font-size:18px;margin-left: 20px;" (click)="showScheduledByYear()">For Year</mat-radio-button>
+        </mat-radio-group>
+      </div>
+        <div class="chartjs-container" *ngIf="scheduledAppointmentForMonth" style="margin-left:100px">
+          <canvas style="height: 300px;width: 500px;" baseChart
+                  [datasets]="lineChartDataForScheduledByMonth"
+                  [labels]="lineChartLabelsForMonth"
+                  [colors]="lineChartColors"
+                  [chartType]="lineChartType">
+          </canvas>
+        </div>
+
+      <div class="chartjs-container" *ngIf="scheduledAppointmentForHalfYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForScheduledForHalfYear"
+                [labels]="lineChartLabelsForHalfYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+      <div class="chartjs-container" *ngIf="scheduledAppointmentForYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForScheduledForYear"
+                [labels]="lineChartLabelsForYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+
+
+      <div style="display: flex;margin-top:50px;">
+        <label  style="align-content: center;font-size: 20px;margin-left: 100px;font-color:blue;">Number of issued drugs</label>
+        <mat-radio-group style="margin-top:5px;margin-left:140px;">
+          <mat-radio-button value="month" style="font-size:18px; margin-left: 20px;" (click)="showIssuedDrugsByMonth()">For month</mat-radio-button>
+          <mat-radio-button value="halfYear" style="font-size:18px;margin-left: 20px;" (click)="showIssuedDrugsForHalfYear()">For half year</mat-radio-button>
+          <mat-radio-button value="year" style="font-size:18px;margin-left: 20px;" (click)="showIssuedDrugsForYear()">For Year</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="chartjs-container" *ngIf="issuedForMonth" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForDrugIssuedByMonth"
+                [labels]="lineChartLabelsForMonth"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+      <div class="chartjs-container" *ngIf="issuedForHalfYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForDrugIssuedForHalfYear"
+                [labels]="lineChartLabelsForHalfYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+      <div class="chartjs-container" *ngIf="issuedForYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForScheduledForYear"
+                [labels]="lineChartLabelsForYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+
+
+      <div style="display: flex;margin-top:50px;">
+        <label  style="align-content: center;font-size: 20px;margin-left: 100px;font-color:blue;">Total pharmacy income</label>
+        <mat-radio-group style="margin-top:5px;margin-left:140px;">
+          <mat-radio-button value="month" style="font-size:18px; margin-left: 20px;" (click)="showPharmacyIncomeForMonth()">For month</mat-radio-button>
+          <mat-radio-button value="halfYear" style="font-size:18px;margin-left: 20px;" (click)="showPharmacyIncomeForHalfYear()">For half year</mat-radio-button>
+          <mat-radio-button value="year" style="font-size:18px;margin-left: 20px;" (click)="showPharmacyIncomeForYear()">For Year</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div class="chartjs-container" *ngIf="pharmacyIncomeForMonth" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForPharmacyIncomeByMonth"
+                [labels]="lineChartLabelsForMonth"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+      <div class="chartjs-container" *ngIf="pharmacyIncomeForHalfYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForPharmacyIncomeForHalfYear"
+                [labels]="lineChartLabelsForHalfYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+
+      <div class="chartjs-container" *ngIf="pharmacyIncomeForYear" style="margin-left:100px">
+        <canvas style="height: 300px;width: 500px;" baseChart
+                [datasets]="lineChartDataForPharmacyIncomeForYear"
+                [labels]="lineChartLabelsForYear"
+                [colors]="lineChartColors"
+                [chartType]="lineChartType">
+        </canvas>
+      </div>
+      <div style="height:100px;">
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-top: 50px;margin-left:900px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
+      </div>
+    </div>
 
   </mat-drawer-content>
 </mat-drawer-container>

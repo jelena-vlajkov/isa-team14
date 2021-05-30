@@ -11,9 +11,7 @@ public class AddressDTO {
     private City city;
     private String street;
 
-    public AddressDTO() {
-    }
-
+    
     public AddressDTO(Long id, Coordinates coordinates, City city, String street, State state) {
         this.id = id;
         this.coordinates = coordinates;

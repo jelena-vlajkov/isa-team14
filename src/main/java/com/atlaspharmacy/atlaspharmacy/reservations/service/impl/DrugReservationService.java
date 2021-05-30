@@ -117,6 +117,7 @@ public class DrugReservationService implements IDrugReservationService {
         if(reservation == null || reservation.isExpired() || reservation.isIssued())
             throw new DueDateSoonException();
         reservation.setIssued(true);
+        reservation.setDateOfIssue(new Date());
         drugReservationRepository.save(reservation);
         emailService.sendMailForIssuingReservation(reservation.getPatient(), reservation);
         return true;
@@ -158,9 +159,9 @@ public class DrugReservationService implements IDrugReservationService {
         List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
         for(DrugReservation drugReservation:allDrugReservations){
             if(drugReservation.getPharmacy().getId().equals(pharmacyId))
-                    if( drugReservation.isIssued())
-                    if(drugReservation.getReservationDate().after(period.getStartPeriod()))
-                    if(drugReservation.getExpirationDate().before(period.getEndPeriod())){
+                    if(drugReservation.isIssued())
+                    if(drugReservation.getDateOfIssue().after(period.getStartPeriod()))
+                        if(drugReservation.getDateOfIssue().before(period.getEndPeriod())){
                 drugReservationsForPharmacyAndPeriod.add(drugReservation);
             }
         }

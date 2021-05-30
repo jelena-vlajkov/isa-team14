@@ -45,6 +45,11 @@
                 </div>
               </mat-grid-tile>
               <mat-grid-tile>
+                <app-google-places>
+                </app-google-places>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
                 <div class="inputField" style="width: 400px;">
                   <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
                     <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
@@ -60,17 +65,16 @@
                 <div class="inputField">
 
                   <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
-                    <input matInput formControlName='dob' [max]="maxDateOfBirth" [min]="minDateOfBirth" [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
+                    <input matInput formControlName='dob' [(ngModel)]="selectedDate" style="font-size:18px;" placeholder="Birth date" [matDatepicker]="dp3" disabled>
                     <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                   </mat-form-field>
-
-
                   <mat-error
                     *ngIf="!addPharmacist.get('dob').valid && addPharmacist.get('dob').touched && addPharmacist.get('dob').errors['required']">
                     Please choose date of birth</mat-error>
                 </div>
               </mat-grid-tile>
+
               <mat-grid-tile>
                 <div class="inputField" >
                   <mat-form-field appearance="fill" style="width: 400px;">

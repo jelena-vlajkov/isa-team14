@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -125,9 +126,8 @@ public class Appointment {
     }
 
     public boolean isSameDay(Date date) {
-        return getAppointmentPeriod().getStartTime().getDate() == date.getDate() &&
-                getAppointmentPeriod().getStartTime().getMonth() == date.getMonth() &&
-                getAppointmentPeriod().getStartTime().getYear() == date.getYear();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        return fmt.format(date).equals(fmt.format(getAppointmentPeriod().getEndTime()));
     }
 
     public boolean isMedicalStaff(Long medicalStaffId) {
