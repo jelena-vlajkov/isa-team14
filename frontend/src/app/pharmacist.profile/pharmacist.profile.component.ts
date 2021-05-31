@@ -233,6 +233,12 @@ export class PharmacistProfileComponent implements OnInit {
         employee.email = this.user.email;
         employee.gender = this.editProfileForm.controls.gender.value;;
         employee.phoneNumber = this.editProfileForm.controls.phoneNumber.value;
+        if (this.googleplaces.address === undefined) {
+          employee.address = this.user.address;
+        } else {
+          employee.address = this.googleplaces.address;
+        }
+        console.log(this.googleplaces.address)
 
         this.employeeService.updateEmployee(employee).subscribe(
           res=>{

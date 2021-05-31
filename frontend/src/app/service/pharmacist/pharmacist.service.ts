@@ -7,6 +7,7 @@ import {User} from "@app/model/users";
 import {UpdateEmployee} from "@app/model/pharmderm/UpdateEmployee"
 import { Reservation } from '@app/model/pharmderm/reservations';
 import {Dermatologist} from "@app/model/users/dermatologist/dermatologist";
+import { IssueReservation } from '@app/model/pharmderm/isuueReservation';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +26,12 @@ export class PharmacistService {
     return this.http.post<UpdateEmployee[]>(`${environment.baseUrl}/${environment.updateEmployees}`, employee);
   }
 
-  getReservationsByUniqueIdentifier(uniqueIdentifier : Number) : Observable<Reservation> {
-    return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.findReservations}?uniqueIdentifier=${uniqueIdentifier}`);
+  getReservationsByUniqueIdentifier(uniqueIdentifier : Number, medicalStaffId : Number) : Observable<Reservation> {
+    return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.findReservations}?uniqueIdentifier=${uniqueIdentifier}&medicalStaffId=${medicalStaffId}`);
   }
 
-  issueReservation(uniqueIdentifier : Number) : Observable<Reservation> {
-    return this.http.get<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.issueReservation}?uniqueIdentifier=${uniqueIdentifier}`);
+  issueReservation(issueReservation : IssueReservation) : Observable<Reservation> {
+    return this.http.post<Reservation>(`${environment.baseUrl}/${environment.reservations}/${environment.issueReservation}`, issueReservation);
   }
 
   registerPharmacist(pharmacist:Pharmacist):Observable<Pharmacist> {
