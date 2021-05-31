@@ -238,7 +238,7 @@ public class EmailService implements IEmailService {
     public void sendPrescribedDrug(Patient patient, PrescribedDrug prescribedDrug) throws IOException, MessagingException {
         String FilePath = "./drugreservationmail.html";
         File starting = new File(System.getProperty("user.dir"));
-        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/prescribeddrug.html");
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/prescribeddrug.html");
 
 
 
