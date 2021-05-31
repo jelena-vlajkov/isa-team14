@@ -74,6 +74,11 @@
                     </mat-step> 
                     <mat-step [stepControl]="secondFormGroup"  *ngIf="secondFormGroup">
                         <form [formGroup]="secondFormGroup">
+                            <ng-template matStepLabel>Pharmacy choosing</ng-template>
+                            <div>
+                            <span *ngIf="isPharmChosen">
+                                <label >Your pharm: {{chosenPharmacy.name}}</label>
+                            </span>
                             <table matSort  class="fl-table">
                                 <thead>
                                 <tr>
@@ -91,19 +96,23 @@
                                     <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
                                     <td>{{p.averageGradeCount}}</td>
                                     <td>{{p.counselingCost}}</td>
-                                    <td><button mat-button style="background-color: #385399; color: white;">Choose</button></td>
+                                    <td><button mat-button style="background-color: #385399; color: white;" (click)="choosePharmacy(p)" >Choose</button></td>
                                     
                                 </tr>
                                 
                                 <tbody>
                             </table>
-                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
+                           </div>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="pharmacyNextButton()">Next</button>
                         </form>
 
                     </mat-step>
                     <mat-step [stepControl]="thirdFormGroup"  *ngIf="thirdFormGroup">
                         <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Pharmacist choosing</ng-template>
+                            <div>
                             <table matSort  class="fl-table">
+                                
                                 <thead>
                                 <tr>
                                     <th >Name</th>
@@ -114,16 +123,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr >
-                                    <td>IME</td>
-                                    <td>PREZIME</td>
-                                    <td>OCENA</td>
+                                <tr *ngFor="let p of pharmacists">
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.surname}}</td>
+                                    <td>MOCK</td>
                                     <td><button mat-button style="background-color: #385399; color: white;">Choose</button></td>
                                     
                                 </tr>
                                 
                                 <tbody>
                             </table>
+                            </div>
                             <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" >Next</button>
                         </form>
                     </mat-step>

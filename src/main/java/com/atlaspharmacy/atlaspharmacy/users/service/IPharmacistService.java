@@ -8,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public interface IPharmacistService {
@@ -22,6 +23,7 @@ public interface IPharmacistService {
      boolean deletePharmacist(Long pharmacistId);
      Pharmacist findById(Long pharmacistId);
      List<Pharmacist> getAll();
+     List<PharmacistDTO> findByRangeAndPharmacy(Date startRange, Date endRange, Long pharmacyId);
 
 
 }

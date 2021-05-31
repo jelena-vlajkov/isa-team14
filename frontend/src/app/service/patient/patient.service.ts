@@ -10,6 +10,7 @@ import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
+import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,11 @@ export class PatientService {
 
     findAvailablePharmacyByCounselingRange(startDate : String, endDate : String) : Observable<Pharmacy[]> {
       return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.appointment}/${environment.findAvailablePharmacyByCounselingRange}?start=${startDate}&end=${endDate}`);
+    }
+
+    findPharmacistsByRangeAndPharmacy(pharmacyId : Number, startDate : String, endDate : String) : Observable<Pharmacist[]> {
+      return this.http.get<Pharmacist[]>
+      (`${environment.baseUrl}/${environment.pharmacist}/${environment.findByRangeAndPharmacy}?pharmacyId=${pharmacyId}&start=${startDate}&end=${endDate}`);
     }
    
 

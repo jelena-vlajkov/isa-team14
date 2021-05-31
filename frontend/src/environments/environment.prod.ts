@@ -136,5 +136,6 @@ export const environment = {
   editPharmacyAdmin:"editPharmacyAdmin",
   approveVacationRequest:"approveVacationRequest",
   denyVacationRequest:"denyVacationRequest",
-  findAvailablePharmacyByCounselingRange : "findAvailablePharmacyByCounselingRange"
+  findAvailablePharmacyByCounselingRange : "findAvailablePharmacyByCounselingRange",
+  findByRangeAndPharmacy : "findByRangeAndPharmacy"
 };

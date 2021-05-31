@@ -634,8 +634,7 @@ public class AppointmentService implements IAppointmentService {
 
 
           return  pharmacies;
-
-
+            
         }
 
     }

@@ -19,6 +19,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -105,5 +107,16 @@ public class PharmacistController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
 
+    }
+
+    @GetMapping(value = "/findByRangeAndPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<PharmacistDTO> findByRangeAndPharmacy(@RequestParam("pharmacyId") Long pharmacyId, @RequestParam("start") String date,
+                                               @RequestParam("end") String end) throws Exception {
+        Date start = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(date);
+        Date endRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(end);
+
+        return pharmacistService.findByRangeAndPharmacy(start, endRange, pharmacyId);
     }
 }

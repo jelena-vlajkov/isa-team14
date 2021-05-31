@@ -13,6 +13,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +72,26 @@ public class WorkDayService implements IWorkDayService {
     @Override
     public List<WorkDay> getAllWorkDaysInPeriod(Long medicalStaffId, Date startDate, Date endDate) {
         return workDayRepository.getWorkDaysInIntervalForStaff(medicalStaffId, startDate, endDate);
+    }
+
+    @Override
+    public List<WorkDay> getWorkDaysInSchedulingRangeAndStaff(Long medicalStaffId, Date startDate, Date endDate) {
+        List<WorkDay> workDaysForStuff = getBy(medicalStaffId);
+        List<WorkDay> workingInRange = new ArrayList<>();
+        for (WorkDay workDay : workDaysForStuff) {
+            if (workDay.getWorkDayPeriod().getStartTime().getTime() >= startDate.getTime()  &&
+                    workDay.getWorkDayPeriod().getStartTime().getTime() < endDate.getTime()) {
+                workingInRange.add(workDay);
+            }else if (workDay.getWorkDayPeriod().getStartTime().getTime() == startDate.getTime()  &&
+                    workDay.getWorkDayPeriod().getStartTime().getTime() == endDate.getTime()) {
+                workingInRange.add(workDay);
+            }else if (workDay.getWorkDayPeriod().getStartTime().getTime() < startDate.getTime() &&
+                     workDay.getWorkDayPeriod().getEndTime().getTime() >= startDate.getTime()) {
+                workingInRange.add(workDay);
+            }
+        }
+
+        return  workingInRange;
     }
 
     @Override

@@ -8,6 +8,7 @@ import { PatientService } from '@app/service/patient/patient.service';
 import * as moment from 'moment';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import {Sort} from '@angular/material/sort';
+import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
 
 @Component({
   selector: 'app-patient-schedule-counseling',
@@ -34,6 +35,10 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
   public counselingDateEnd : String;
 
   public pharmacies : Pharmacy[] = new Array();
+  public pharmacists : Pharmacist[] = new Array();
+  public chosenPharmacy : Pharmacy;
+  public isPharmChosen : Boolean = false;
+  public isOnPharmacistChoosing : Boolean = false;
 
   constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private patientService : PatientService) { }
 
@@ -104,9 +109,55 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
       );
       
     }
+
+    this.isOnPharmacistChoosing = false;
   }
 
+  choosePharmacy(pharmacy : Pharmacy) {
+    this.chosenPharmacy = pharmacy;
+    console.log(pharmacy);
+    this.isPharmChosen = true;
+  }
+
+  pharmacyNextButton() {
+    if (this.isPharmChosen == false) {
+      alert("Choose pharmacy");
+    }else {
+      this.patientService.findPharmacistsByRangeAndPharmacy(this.chosenPharmacy.id, this.counselingDateStart, this.counselingDateEnd).subscribe(
+        data => {
+          this.pharmacists = data;
+        },
+        err => {
+          alert("There is no available pharmacists")
+        }
+      );
+    }
+
+    this.isOnPharmacistChoosing = true;
+  }
+
+
   sortData(sort: Sort){
+    if(this.isOnPharmacistChoosing === true) {
+      const data = this.pharmacists.slice();
+      if (!sort.active || sort.direction === '') {
+        this.pharmacists = data;
+        return;
+      }
+
+      if (this.stepper._getFocusIndex() === 1) {
+        this.isOnPharmacistChoosing = false;
+      }
+  
+      this.pharmacists = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'grade': return compare(a.averageGrade.count(), b.averageGrade.count(), isAsc); 
+          default: return 0;
+        }
+       });
+    }
+
     const data = this.pharmacies.slice();
     if (!sort.active || sort.direction === '') {
       this.pharmacies = data;
