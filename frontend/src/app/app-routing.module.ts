@@ -283,6 +283,8 @@ const routes: Routes = [
 {
   path: 'patient/scheduleCounseling',
   component: PatientScheduleCounselingComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
 },
 {
   path: 'patient/drugReservation',

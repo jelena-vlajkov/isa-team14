@@ -137,5 +137,6 @@ export const environment = {
   approveVacationRequest:"approveVacationRequest",
   denyVacationRequest:"denyVacationRequest",
   findAvailablePharmacyByCounselingRange : "findAvailablePharmacyByCounselingRange",
-  findByRangeAndPharmacy : "findByRangeAndPharmacy"
+  findByRangeAndPharmacy : "findByRangeAndPharmacy",
+  findAndSchedulePatientCounseling : "findAndSchedulePatientCounseling"
 };

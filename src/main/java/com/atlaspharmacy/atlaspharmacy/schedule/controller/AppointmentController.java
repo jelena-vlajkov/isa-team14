@@ -198,6 +198,18 @@ public class AppointmentController {
         return appointmentService.findAvailablePharmacyByCounselingRange(start, endRange);
     }
 
+    @PostMapping(value = "/findAndSchedulePatientCounseling", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(@RequestBody PatientScheduleCounselingDTO dto) throws Exception {
+        appointmentService.findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
+
+
     @ExceptionHandler(DueDateSoonException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public @ResponseBody

@@ -8,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +50,6 @@ public interface IAppointmentService {
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
     List<PharmacyDTO> findAvailablePharmacyByCounselingRange(Date startRange, Date endRange) throws Exception;
-
     List<Appointment> getScheduledByMonth(Date date, Long id);
+    AppointmentDTO findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(PatientScheduleCounselingDTO dto) throws Exception;
 }

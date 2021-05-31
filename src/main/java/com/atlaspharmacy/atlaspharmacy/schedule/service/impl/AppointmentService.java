@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -634,7 +635,43 @@ public class AppointmentService implements IAppointmentService {
 
 
           return  pharmacies;
-            
+
+        }
+
+        @Override
+        public AppointmentDTO findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(PatientScheduleCounselingDTO scheduleCounselingDTO) throws Exception {
+            Date startRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(scheduleCounselingDTO.getStartTimeRange());
+            Date endRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(scheduleCounselingDTO.getEndTimeRange());
+
+            List<Appointment> availableByDay = findAvailableByEmployeeAndPharmacy
+                    (scheduleCounselingDTO.getPharmacyId(), scheduleCounselingDTO.getPharmacistId(), startRange);
+
+            ScheduleAppointmentDTO scheduleAppointmentDTO = new ScheduleAppointmentDTO();
+
+            for (Appointment a : availableByDay) {
+                if(a.getAppointmentPeriod().getStartTime().getTime() >= startRange.getTime() &&
+                        a.getAppointmentPeriod().getStartTime().getTime() <= endRange.getTime()) {
+                    if((appointmentRepository.ovelappingCunselings(a.getAppointmentPeriod().getStartTime(),
+                            a.getAppointmentPeriod().getEndTime(), scheduleCounselingDTO.getPharmacistId())).size() == 0) {
+
+                        scheduleAppointmentDTO.setPharmacyId(scheduleCounselingDTO.getPharmacyId());
+                        scheduleAppointmentDTO.setMedicalStaffId(scheduleCounselingDTO.getPharmacistId());
+                        scheduleAppointmentDTO.setStartTime(a.getAppointmentPeriod().getStartTime());
+                        scheduleAppointmentDTO.setEndTime(a.getAppointmentPeriod().getEndTime());
+                        scheduleAppointmentDTO.setType(scheduleCounselingDTO.getType());
+                        scheduleAppointmentDTO.setPatientId(scheduleCounselingDTO.getPatientId());
+                        break;
+                    }
+
+
+
+                }
+            }
+
+            Appointment savedCounseling = saveAppointment(scheduleAppointmentDTO);
+            return  AppointmentMapper.mapAppointmentToDTO(savedCounseling);
+
+
         }
 
     }

@@ -9,6 +9,8 @@ import * as moment from 'moment';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import {Sort} from '@angular/material/sort';
 import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
+import {PatientScheduleCounseling} from '@app/model/users/patient/PatientScheduleCounseling'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patient-schedule-counseling',
@@ -21,6 +23,7 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public thirdFormGroup: FormGroup;
+  public fourthFormGroup : FormGroup;
 
   public maxDate: Date;
   
@@ -40,7 +43,10 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
   public isPharmChosen : Boolean = false;
   public isOnPharmacistChoosing : Boolean = false;
 
-  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private patientService : PatientService) { }
+  public choosenPharmacist : Pharmacist;
+  public isPharmacistChosen : Boolean = false;
+
+  constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private patientService : PatientService, private router: Router) { }
 
   @ViewChild('stepper') stepper: MatStepper
 
@@ -58,6 +64,9 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
     });
 
     this.thirdFormGroup = this.formBuilder.group({
+    });
+
+    this.fourthFormGroup = this.formBuilder.group({
     });
   }
 
@@ -119,6 +128,19 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
     this.isPharmChosen = true;
   }
 
+  pharmacistChoose(pharmacist : Pharmacist) {
+    this.choosenPharmacist = pharmacist;
+    console.log(pharmacist);
+    this.isPharmacistChosen = true;
+  }
+
+  pharmacistNextButton() {
+    if (this.isPharmacistChosen === false) {
+      alert("Choose pharmacist") 
+    }
+
+  }
+
   pharmacyNextButton() {
     if (this.isPharmChosen == false) {
       alert("Choose pharmacy");
@@ -134,6 +156,29 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
     }
 
     this.isOnPharmacistChoosing = true;
+  }
+
+  scheduleCounseling() {
+    var schedule = new PatientScheduleCounseling;
+    schedule.type = 'Counseling';
+    schedule.startTimeRange = this.counselingDateStart;
+    schedule.endTimeRange = this.counselingDateEnd;
+    schedule.pharmacyId = this.chosenPharmacy.id;
+    schedule.pharmacistId = this.choosenPharmacist.id;
+    schedule.patientId = this.authenticationService.currentUserValue.id;
+
+    this.patientService.findAndSchedulePatientCounseling(schedule).subscribe(
+      res => {
+        alert("Success");
+        this.router.navigate(['patient/scheduledAppointments']);
+      },
+      err => {
+        alert('Failed to schedule counseling')
+      }
+    );
+
+
+
   }
 
 
