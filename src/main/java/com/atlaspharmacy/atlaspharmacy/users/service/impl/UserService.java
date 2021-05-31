@@ -1,6 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
+import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeeFirstTimeLoginDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmployeePassChange;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmDermDTO;
@@ -24,6 +27,7 @@ public class UserService implements IUserService {
     private final VerificationTokenService verificationTokenService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+
     @Autowired
     public UserService(UserRepository userRepository, AuthorityService authorityService, AddressRepository addressRepository, VerificationTokenService verificationTokenService, BCryptPasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
@@ -61,10 +65,17 @@ public class UserService implements IUserService {
         } else {
             loggedInEmployee.setGender(Gender.MALE);
         }
+        if (!(pharmDermDTO.getAddress().getStreet().equals(loggedInEmployee.getAddress().getStreet()) &&
+            pharmDermDTO.getAddress().getCity().getName().equals(loggedInEmployee.getAddress().getCity().getName()))) {
+            Address a = AddressMapper.mapAddressDTOToAddress(pharmDermDTO.getAddress());
+            addressRepository.save(a);
+            loggedInEmployee.setAddress(a);
+        }
         loggedInEmployee.setName(pharmDermDTO.getName());
         loggedInEmployee.setSurname(pharmDermDTO.getSurname());
         loggedInEmployee.setPhoneNumber(pharmDermDTO.getPhoneNumber());
         loggedInEmployee.setDateOfBirth(pharmDermDTO.getDateOfBirth());
+
         userRepository.save(loggedInEmployee);
 
     }
