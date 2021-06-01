@@ -1,31 +1,26 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <mat-drawer-container class="example-container" hasBackdrop="true">
-  <mat-drawer style="width: 20%;" #drawer mode ="over">
+  <mat-drawer style="width: 20%;" #drawer mode ="over" *ngIf="isPharmacyAdmin">
     <mat-action-list>
-      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy info </button>
+      <button  mat-list-item routerLink="/pharmacyAdmin-profile">My profile</button>
+      <button mat-list-item routerLink="/pharmacy-profile"> Pharmacy profile </button>
       <button mat-list-item routerLink="/business-report"> Business reports </button>
       <button mat-list-item routerLink="/medication-order-offers">Medication orders and offers</button>
       <button mat-list-item routerLink="/drug-inquiries">Drug inquiry reports</button>
       <button mat-list-item routerLink="/vacation-requests"> Vacation requests </button>
       <button mat-list-item routerLink="/pharmacist-search-and-filter">Pharmacists</button>
       <button mat-list-item routerLink="/dermatologist-search-and-filter"> Dermatologists </button>
-
-    </mat-action-list>
-    <mat-action-list style="position: absolute; bottom: 1px;">
-      <button  mat-list-item routerLink="/pharmacyAdmin-profile"> Profile</button>
-      <button  mat-list-item > Logout</button>
-
     </mat-action-list>
 
   </mat-drawer>
 
   <mat-drawer-content >
     <mat-toolbar style="background-color: #385399;">
-      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon" *ngIf="isPharmacyAdmin">
         <mat-icon style="color:white;">menu</mat-icon>
       </button>
-      <span style="color:white;">Pharmacy profile</span>
+      <span style="color:white;margin-left:10px;">Pharmacy profile</span>
       <span class="example-spacer">
         <button *ngIf="checkLoggedInUser()" style="margin-left:1000px;margin-top:10px;" mat-icon-button (click)="logout()" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
                     <mat-icon style="color:white;">logout <span class="tooltiptext"></span>
@@ -51,8 +46,10 @@
         <div style="height: fit-content;display:flex;"><p>{{pharmacy.address.street}}, {{pharmacy.address.city.name}}</p>
 
         </div>
-        <div><agm-map style="heigth:200px;" [latitude]="lat" [longitude]="lng">
-          <agm-marker [latitude]="lng" [longitude]="lng"></agm-marker>
+        <div><agm-map [latitude]="pharmacy.address.coordinates.latitude"
+                      [longitude]="pharmacy.address.coordinates.longitude" style="height: 300px;">
+          <agm-marker [latitude]="pharmacy.address.coordinates.latitude"
+                      [longitude]="pharmacy.address.coordinates.longitude"></agm-marker>
         </agm-map></div>
 
         <div><label>About:</label></div>
@@ -148,7 +145,7 @@
                 <mat-label>Choose medication*</mat-label>
                 <mat-select formControlName = 'medication' >
                   <mat-option>--</mat-option>
-                  <mat-option *ngFor="let medication of medicationsNotInPharmacy" [value]="medication">
+                  <mat-option *ngFor="let medication of medicationsByPharmacy" [value]="medication">
                     {{medication.name}}
                   </mat-option>
                 </mat-select>
@@ -180,7 +177,7 @@
             <div class="inputField" style="width: auto;margin-left: 20px;">
               <mat-form-field appearance="fill" id="startDate-ff" >
                 <mat-label >Start date</mat-label>
-                <input matInput id="startDate" placeholder="startDate" name="startDate-ff"
+                <input matInput id="startDate" placeholder="startDate" name="startDate-ff" [min]="currentDate"
                        formControlName="startDate" style="height: 25px;" required type="date" >
                 <mat-error
                   *ngIf="!addPricelistEntityFormGroup.get('startDate').valid
@@ -194,9 +191,9 @@
           <mat-grid-tile><label>End date:</label></mat-grid-tile>
           <mat-grid-tile style="margin:10px;">
             <div class="inputField" style="width: auto;margin-left: 20px;">
-              <mat-form-field appearance="fill" id="endDate-ff" >
+              <mat-form-field appearance="fill" >
                 <mat-label >End date:</mat-label>
-                <input matInput id="endDate" placeholder="endDate" name="endDate-ff"
+                <input matInput placeholder="endDate" name="endDate-ff"
                        formControlName="endDate" style="height: 25px;" required type="date">
                 <mat-error
                   *ngIf="!addPricelistEntityFormGroup.get('endDate').valid
@@ -216,27 +213,54 @@
       </form>
     </mat-card>
 
-    <mat-card *ngIf="showPricelist">
+    <mat-card *ngIf="showPricelist" style="width:fit-content;height:fit-content;">
       <div style="display:flex;">
         <label style="font-size:25px;margin-left:200px">Pharmacy pricelist</label>
-        <button style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button (click)='addPricelistClicked()' *ngIf="isPharmacyAdmin">Add pricelist entity</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-left:180px;height: 40px;" color="accent" mat-raised-button (click)='addPricelistClicked()' *ngIf="isPharmacyAdmin">Add pricelist entity</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-left:20px;height: 40px;" color="accent" mat-raised-button (click)='showCurrentPricelist()' *ngIf="isPharmacyAdmin">Show current pricelist</button>
+
       </div>
-      <table style="margin-top: 20px;margin-left: 200px;">
+      <table style="margin-top: 40px;margin-left: 100px;width:fit-content;">
+        <th>Medication</th>
+        <span style="margin-left: 50px;"></span>
+        <th>Price</th>
+        <span style="margin-left: 50px;"></span>
+        <th>Valid period</th>
         <tr *ngFor="let pricelist of pharmacyPricelist" style="margin-bottom: 10px;">
 
-          <td style="font-size: 25px;"> {{pricelist.medication.name}} </td>
-          <span style="margin-left: 100px;"></span>
-          <td style="font-size: 25px;margin-left: 30px;" contenteditable="true" (focusout)="changeValue(pricelist.id)" id="{{pricelist.id}}" *ngIf="isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;">din</label>
-          <td style="font-size: 25px;margin-left: 30px;" *ngIf="!isPharmacyAdmin"> {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;" *ngIf="!isPharmacyAdmin">din</label>
-
-          <span style="margin-left: 100px;"></span>
-          <td *ngIf="isPharmacyAdmin"><button class="btn" mat-raised-button (click)="deletePricelistEntity(pricelist.id,pricelist.medication.id)"><i class="fa fa-trash" ></i></button></td>
+          <td style="font-size: 20px;"> {{pricelist.medication.name}} </td>
+          <span style="margin-left: 50px;"></span>
+          <td style="font-size: 20px;margin-left: 30px;"> {{pricelist.price}} din</td>
+          <span style="margin-left: 50px;"></span>
+          <td style="font-size: 20px;margin-left: 30px;width:fit-content;" *ngIf="isPharmacyAdmin"> {{pricelist.startPeriod | date : "dd.MM.yyyy."}} - {{pricelist.endPeriod | date : "dd.MM.yyyy."}}</td>
+          <span style="margin-left: 50px;"></span>
+          <td *ngIf="isPharmacyAdmin"><button class="btn"><i (click)="editPricelistEntity(pricelist)" style="color:blue;">Edit</i></button></td>
+          <td *ngIf="isPharmacyAdmin"><button class="btn"><i  (click)="deletePricelistEntity(pricelist.id,pricelist.medication.id)" style="color:blue;">Delete</i></button></td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">
         <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button (click)='cancelScheduling()'>Back</button>
-        <button style="float:right;position: relative; background-color: #385399;margin-right:20px;margin-top: 100px;" *ngIf="isPharmacyAdmin" color="accent" mat-raised-button (click)='editPricelist()'>Edit pricelist</button>
       </div>
+
+    </mat-card>
+
+
+    <mat-card *ngIf="showCurrentPricelistForPharmacy">
+      <div style="display:flex;">
+        <label style="font-size:25px;margin-left:200px">Current pharmacy pricelist</label>
+
+      </div>
+      <table style="margin-top: 20px;margin-left: 200px;">
+        <tr *ngFor="let pricelist of currentPharmacyPricelist" style="margin-bottom: 10px;">
+
+          <td style="font-size: 25px;"> {{pricelist.medication.name}} </td>
+          <span style="margin-left: 100px;"></span>
+          <td style="font-size: 25px;margin-left: 30px;" > {{pricelist.price}}</td><label style="margin-left: 5px;margin-top: 10px;">din</label>
+           </tr>
+      </table>
+      <div style="vertical-align: bottom;">
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button (click)='showPharmacyPricelist()'>Back</button>
+         </div>
 
     </mat-card>
 
@@ -318,6 +342,71 @@
         <button style="float:right; position:relative; background-color: #385399;margin-right: 20px;" mat-raised-button id='editProfile' (click)='editProfile()'color="accent">Edit</button>
     </form>
   </mat-card>
+
+    <mat-card style="flex: 1 1 auto;width: 50%;" *ngIf="showEditPricelistEntity">
+      <form [formGroup]="editPricelistEntityFormGroup" (ngSubmit)="editPricelistSubmitted()">
+        <mat-grid-list cols="2" rowHeight="5:2"  >
+          <mat-grid-tile><label>Medication:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <p>{{pricelistEntityToUpdate.medication.name}}</p>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile><label>Price:</label></mat-grid-tile>
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <mat-form-field appearance="fill"  >
+                <mat-label >Price</mat-label>
+                <input matInput  placeholder="price" name="price-ff"
+                       formControlName="price" style="height: 25px;" required type="number" min="1">
+                <mat-error
+                  *ngIf="!addPricelistEntityFormGroup.get('price').valid
+                     && addPricelistEntityFormGroup.get('price').touched
+                     && addPricelistEntityFormGroup.get('price').errors['required']">
+                  Please enter price</mat-error>
+              </mat-form-field>
+            </div>
+          </mat-grid-tile>
+
+          <mat-grid-tile><label>Start date:</label></mat-grid-tile>
+          <mat-grid-tile>
+            <div class="inputField">
+
+              <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
+                <input matInput formControlName='startDate'  [min]="currentDate" style="font-size:18px;" placeholder="Start date" [matDatepicker]="dp4">
+                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
+                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+
+          <mat-grid-tile><label>End date:</label></mat-grid-tile>
+          <mat-grid-tile>
+            <div class="inputField">
+
+              <mat-form-field color="accent" appearance="fill">
+                <input matInput formControlName='endDate' style="font-size:18px;" placeholder="End date" [matDatepicker]="dp3">
+                <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+                <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+                <mat-error
+                  *ngIf="!editPricelistEntityFormGroup.get('endDate').valid
+                     && editPricelistEntityFormGroup.get('endDate').touched">
+                  Please enter end date</mat-error>
+              </mat-form-field>
+
+            </div>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+        <div style="display:flex;float:right;">
+          <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button [disabled]="!editPricelistEntityFormGroup.valid">Edit</button>
+          <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 20px;" color="accent" mat-raised-button  (click)="addPricelistCanceled()">Cancel</button>
+        </div>
+
+      </form>
+    </mat-card>
 
 
 

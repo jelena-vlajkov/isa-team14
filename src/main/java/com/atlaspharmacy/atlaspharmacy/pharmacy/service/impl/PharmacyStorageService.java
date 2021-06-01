@@ -23,6 +23,7 @@ import com.atlaspharmacy.atlaspharmacy.supplier.service.IMedicationInOrderServic
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,15 +101,15 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
-    public List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId) {
+    public List<MedicationDTO> getMedicationsInPharmacy(long pharmacyId) {
         List<MedicationDTO> allMedications=medicationService.findAll();
-        List<MedicationDTO> medicationsNotInPharmacy=new ArrayList();
+        List<MedicationDTO> medicationsInPharmacy=new ArrayList();
         for(MedicationDTO m:allMedications){
-            if(!isMedicationInPharmacy(m.getCode(),pharmacyId)){
-                medicationsNotInPharmacy.add(m);
+            if(isMedicationInPharmacy(m.getCode(),pharmacyId)){
+                medicationsInPharmacy.add(m);
             }
         }
-        return medicationsNotInPharmacy;
+        return medicationsInPharmacy;
     }
 
     public void addNewMedicationsToStorage(Order order) {
@@ -149,7 +150,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     public List<PharmacyStorage> getAllPharmaciesByMedicationCode(Long code) {
         return pharmacyStorageRepository.getAllPharmaciesByMedicationCode(code);
     }
-
+    @Transactional
     @Override
     public void medicationReserved(Long medicationId, Long pharmacyId) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
@@ -160,6 +161,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
         pharmacyStorageRepository.save(pharmacyStorage);
     }
 
+    @Transactional
     @Override
     public void reduceMedicationQuantity(Long medicationId, Long pharmacyId) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);

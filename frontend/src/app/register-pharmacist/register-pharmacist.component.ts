@@ -50,6 +50,7 @@ export class RegisterPharmacistComponent implements OnInit {
   private StringIsNumber = value => isNaN(Number(value)) === false;
   workTime : FormGroup;
   currentDate: Date;
+  pharamcistAddress:Address;
   constructor(private authenticationService:AuthenticationService
               ,private router:Router
               ,private pharmacistService:PharmacistService
@@ -77,7 +78,10 @@ export class RegisterPharmacistComponent implements OnInit {
       });
     this.maxDateOfBirth = new Date();
     this.minDateOfBirth = new Date();
+
     this.currentDate = new Date();
+    this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
+    console.log(this.maxDateOfBirth);
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.pharmacyAdminService.getPharmacyByAdmin(Number(localStorage.getItem('userId'))).subscribe(
       result => {
@@ -175,12 +179,12 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   registerPharmacistSubmitted() {
-    if (this.googleplaces.address === undefined) {
-      alert('Wrong address input.');
-    } else {
+ //   if (this.googleplaces.address === undefined) {
+  //    alert('Wrong address input.');
+   // } else {
       let pharmacist = new Pharmacist(null, this.addPharmacist.value.name, this.addPharmacist.value.surname
         , this.addPharmacist.value.dob, this.addPharmacist.value.telephone, this.addPharmacist.value.mail
-        , this.addPharmacist.value.password, this.addPharmacist.value.gender, this.googleplaces.address, null
+        , this.addPharmacist.value.password, this.addPharmacist.value.gender, null, null
         , null, this.pharmacy, null, new AverageGrade(0, 0, 0, 0, 0), false);
       this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
         for (let i = 0; i < this.workdays.length; i++) {
@@ -196,7 +200,11 @@ export class RegisterPharmacistComponent implements OnInit {
         this.registerPharmacistDialog = false;
 
       });
-    }
+   // }
   }
 
+  saveAddress() {
+    console.log(this.googleplaces.address);
+    this.pharamcistAddress = this.googleplaces.address;
+  }
 }

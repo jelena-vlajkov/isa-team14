@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IWorkDayService {
-    WorkDay getBy(Long medicalStaffId, Date date);
+    List<WorkDay> getBy(Long medicalStaffId, Date date);
     List<WorkDay> getBy(Long medicalStaffId);
     List<WorkDay> getAll();
     List<WorkDay> getByDate(Date date);

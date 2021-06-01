@@ -80,10 +80,10 @@ public class PharmacyStorageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getMedicationsNotInPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getMedicationsByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<MedicationDTO> getMedicationsNotInPharmacy(@RequestParam("ph") Long pharmacyId) {
-        return pharmacyStorageService.getMedicationsNotInPharmacy(pharmacyId);
+    List<MedicationDTO> getMedicationsByPharmacy(@RequestParam("ph") Long pharmacyId) {
+        return pharmacyStorageService.getMedicationsInPharmacy(pharmacyId);
     }
 
     @ExceptionHandler(Exception.class)

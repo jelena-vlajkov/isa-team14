@@ -1,8 +1,6 @@
 <mat-drawer-container class="example-container" hasBackdrop="true">
   <mat-drawer-content >
-    <mat-toolbar style="background-color: #385399;">
-    </mat-toolbar>
-    <div style="height: fit-content;margin-left:200px;margin-top:20px;">
+    <div style="height: fit-content;margin-left:100px;margin-top:20px;">
       <label style="align-content: center;font-size: 25px;margin-left: 100px;font-color:blue;">Business reports</label>
 
 
@@ -99,7 +97,7 @@
 
       <div class="chartjs-container" *ngIf="issuedForYear" style="margin-left:100px">
         <canvas style="height: 300px;width: 500px;" baseChart
-                [datasets]="lineChartDataForScheduledForYear"
+                [datasets]="lineChartDataForDrugIssuedForYear"
                 [labels]="lineChartLabelsForYear"
                 [colors]="lineChartColors"
                 [chartType]="lineChartType">
@@ -147,6 +145,5 @@
         <button style="float:right; background-color: #385399; margin-right:50px;margin-top: 50px;margin-left:900px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
       </div>
     </div>
-
   </mat-drawer-content>
 </mat-drawer-container>

@@ -82,6 +82,43 @@ export class BusinessReportComponent implements OnInit {
       this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(result => {
         this.dermatologists = result;
       });
+
+      this.businessReportService.getNumberOfScheduledForHalfYear(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForScheduledAppointmentsForHalfYear = result;
+      });
+
+      this.businessReportService.getNumberOfScheduledForYear(2018,2021,this.pharmacyId).subscribe(result =>{
+        this.dataForScheduledAppointmentsForYear = result;
+      });
+
+      this.businessReportService.getNumberOfScheduledByMonth(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForScheduledAppointmentsForMonth = result;
+      });
+
+      this.businessReportService.getNumberOfIssuedDrugsByMonth(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForIssuedDrugsForMonth = result;
+      });
+
+      this.businessReportService.getNumberOfIssuedDrugsForHalfYear(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForIssuedDrugsForHalfYear = result;
+      });
+
+      this.businessReportService.getNumberOfIssuedDrugsForYear(2018,2021,this.pharmacyId).subscribe(result =>{
+        this.dataForIssuedDrugsForYear = result;
+      });
+
+      this.businessReportService.getPharmacyIncomeForMonth(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForPharmacyIncomeForMonth = result;
+      });
+
+      this.businessReportService.getPharmacyIncomeForHalfYear(2021,this.pharmacyId).subscribe(result =>{
+        this.dataForPharmacyIncomeForHalfYear = result;
+      });
+
+      this.businessReportService.getPharmacyIncomeForYear(2018,2021,this.pharmacyId).subscribe(result=>{
+        this.dataForPharmacyIncomeForYear = result;
+      });
+
     });
 
 
@@ -94,12 +131,6 @@ export class BusinessReportComponent implements OnInit {
   }
 
   showScheduledByMonth(){
-    for(let i = 1; i<13;i++){
-      this.businessReportService.getNumberOfScheduledByMonth(i,2021,this.pharmacyId).subscribe(result =>{
-          this.dataForScheduledAppointmentsForMonth.push(result);
-      });
-    }
-
     this.lineChartDataForScheduledByMonth = [
       { data : this.dataForScheduledAppointmentsForMonth,label:"Number of scheduled appointments for particular month" }];
 
@@ -108,12 +139,7 @@ export class BusinessReportComponent implements OnInit {
     this.scheduledAppointmentForYear = false;
   }
 
-  showScheduledByHalfYear() {
-    for(let i=1;i<4;i++){
-      this.businessReportService.getNumberOfScheduledForHalfYear(i,2021,this.pharmacyId).subscribe(result =>{
-        this.dataForScheduledAppointmentsForHalfYear.push(result);
-      });
-    }
+   showScheduledByHalfYear() {
     this.lineChartDataForScheduledForHalfYear = [{ data : this.dataForScheduledAppointmentsForHalfYear,label:"Number of scheduled appointments for particular part of year"}];
     this.scheduledAppointmentForHalfYear = true;
     this.scheduledAppointmentForMonth = false;
@@ -121,14 +147,7 @@ export class BusinessReportComponent implements OnInit {
 
   }
 
-  showScheduledByYear() {
-
-    for(let i=2018;i<2022;i++){
-      this.businessReportService.getNumberOfScheduledForYear(i,this.pharmacyId).subscribe(result =>{
-        this.dataForScheduledAppointmentsForYear.push(result);
-      });
-    }
-    console.log(this.dataForScheduledAppointmentsForYear);
+   showScheduledByYear() {
     this.lineChartDataForScheduledForYear = [{ data : this.dataForScheduledAppointmentsForYear,label:"Number of scheduled appointments for particular year"}];
     this.scheduledAppointmentForHalfYear = false;
     this.scheduledAppointmentForMonth = false;
@@ -137,40 +156,23 @@ export class BusinessReportComponent implements OnInit {
   }
 
   showIssuedDrugsByMonth(){
-    for(let i = 1; i<13;i++){
-      this.businessReportService.getNumberOfIssuedDrugsByMonth(i,2021,this.pharmacyId).subscribe(result =>{
-        this.dataForIssuedDrugsForMonth.push(result);
-      });
-    }
-
     this.lineChartDataForDrugIssuedByMonth = [
       { data : this.dataForIssuedDrugsForMonth,label:"Number of issued drugs for particular month" }];
-
     this.issuedForMonth = true;
     this.issuedForHalfYear = false;
     this.issuedForYear = false;
   }
 
   showIssuedDrugsForHalfYear() {
-    for(let i=1;i<4;i++){
-      this.businessReportService.getNumberOfIssuedDrugsForHalfYear(i,2021,this.pharmacyId).subscribe(result =>{
-        this.dataForIssuedDrugsForHalfYear.push(result);
-      });
-    }
     this.lineChartDataForDrugIssuedForHalfYear = [{ data : this.dataForIssuedDrugsForHalfYear,label:"Number of issued drugs for particular part of year"}];
     this.issuedForMonth = false;
     this.issuedForHalfYear = true;
     this.issuedForYear = false;
 
   }
-  showIssuedDrugsForYear() {
 
-    for(let i=2018;i<2022;i++){
-      this.businessReportService.getNumberOfIssuedDrugsForYear(i,this.pharmacyId).subscribe(result =>{
-        this.dataForIssuedDrugsForYear.push(result);
-      });
-    }
-    this.lineChartDataForScheduledForYear = [{ data : this.dataForIssuedDrugsForYear,label:"Number of issued drugs for particular year"}];
+  showIssuedDrugsForYear() {
+    this.lineChartDataForDrugIssuedForYear = [{ data : this.dataForIssuedDrugsForYear,label:"Number of issued drugs for particular year"}];
     this.issuedForMonth = false;
     this.issuedForHalfYear = false;
     this.issuedForYear = true;
@@ -179,26 +181,14 @@ export class BusinessReportComponent implements OnInit {
 
 
   showPharmacyIncomeForMonth(){
-    for(let i = 1; i<13;i++){
-      this.businessReportService.getPharmacyIncomeForMonth(i,2021,this.pharmacyId).subscribe(result =>{
-        this.dataForPharmacyIncomeForMonth.push(result);
-      });
-    }
-
     this.lineChartDataForPharmacyIncomeByMonth = [
       { data : this.dataForPharmacyIncomeForMonth,label:"Total pharmacy income for particular month" }];
-
     this.pharmacyIncomeForMonth = true;
     this.pharmacyIncomeForHalfYear = false;
     this.pharmacyIncomeForYear = false;
   }
 
   showPharmacyIncomeForHalfYear() {
-    for(let i=1;i<4;i++){
-      this.businessReportService.getPharmacyIncomeForHalfYear(i,2021,this.pharmacyId).subscribe(result =>{
-        this.dataForPharmacyIncomeForHalfYear.push(result);
-      });
-    }
     this.lineChartDataForPharmacyIncomeForHalfYear = [{ data : this.dataForPharmacyIncomeForHalfYear,label:"Total pharmacy income for particular part of year"}];
     this.pharmacyIncomeForMonth = false;
     this.pharmacyIncomeForHalfYear = true;
@@ -206,12 +196,6 @@ export class BusinessReportComponent implements OnInit {
 
   }
   showPharmacyIncomeForYear() {
-
-    for(let i=2018;i<2022;i++){
-      this.businessReportService.getPharmacyIncomeForYear(i,this.pharmacyId).subscribe(result =>{
-        this.dataForPharmacyIncomeForYear.push(result);
-      });
-    }
     this.lineChartDataForPharmacyIncomeForYear = [{ data : this.dataForPharmacyIncomeForYear,label:"Total pharmacy income for particular year"}];
     this.pharmacyIncomeForMonth = false;
     this.pharmacyIncomeForHalfYear = false;

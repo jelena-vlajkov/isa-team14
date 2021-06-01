@@ -1,10 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
-import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 
 import java.util.Date;
@@ -38,7 +38,7 @@ public interface IAppointmentService {
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
     boolean occupiedCounselingsExists(Long pharmacistId);
     List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId);
-    List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception;
+    List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId, SortingType sortingType) throws InvalidMedicalStaff, Exception;
     List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date);
     List<AppointmentDTO> finishedAppointmentExamination(Long patientId);
     List<AppointmentDTO> finishedAppointmentCounseling(Long patientId);
@@ -47,6 +47,9 @@ public interface IAppointmentService {
     void finishAppointment(Long appointmentId) throws Exception;
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
-
     List<Appointment> getScheduledByMonth(Date date, Long id);
+    List<Long> getNumberOfAppointmentsByMonths(int year,Long pharmacyId);
+    List<Long> getNumberOfAppointmentsByHalfYears( int year,Long pharmacyId);
+    List<Long>  getNumberOfAppointmentsByYears(int startYear,int endYear,Long pharmacyId);
+
 }

@@ -4,6 +4,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.SaveReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.CounselingReport;
 import com.atlaspharmacy.atlaspharmacy.reports.domain.ExaminationReport;
+import com.atlaspharmacy.atlaspharmacy.reports.domain.enums.ReportType;
 import com.atlaspharmacy.atlaspharmacy.reports.repository.ReportRepository;
 import com.atlaspharmacy.atlaspharmacy.reports.service.IReportService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
@@ -39,12 +40,12 @@ public class ReportService implements IReportService {
 
         if(user.getRole().equals(Role.Values.Dermatologist))
             reportRepository.save(new ExaminationReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
-                     pharmacyRepository.findById(reportDTO.getPharmacyId()).get(),
-                     reportDTO.getReportNotes(), reportDTO.getType(), (Dermatologist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
+                     pharmacyRepository.findById(reportDTO.getPharmacyId()).get()
+                     ,ReportType.Values.Examination, reportDTO.getReportNotes(), (Dermatologist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
         else
             reportRepository.save(new CounselingReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
                     pharmacyRepository.findById(reportDTO.getPharmacyId()).get(),
-                    reportDTO.getReportNotes(), reportDTO.getType(), (Pharmacist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
+                    ReportType.Values.Counseling, reportDTO.getReportNotes(), (Pharmacist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
 
     }
 }

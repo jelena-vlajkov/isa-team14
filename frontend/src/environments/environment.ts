@@ -73,7 +73,7 @@ export const environment = {
   editPricelistEntity:"editPricelistEntity",
   promotion:"promotion",
   getPromotionsByPharmacy:"getPromotionsByPharmacy",
-  getMedicationsNotInPharmacy:"getMedicationsNotInPharmacy",
+  getMedicationsByPharmacy:"getMedicationsByPharmacy",
   addPricelistEntity:"addPricelistEntity",
   deletePricelistEntity:"deletePricelistEntity",
   medicalRecord : "medicalRecord",
@@ -155,7 +155,8 @@ export const environment = {
   pharmacyBussinesReport:"pharmacyBussinesReport",
   getPharmacyIncomeForMonth:"getPharmacyIncomeForMonth",
   getPharmacyIncomeForHalfYear:"getPharmacyIncomeForHalfYear",
-  getPharmacyIncomeForYear:"getPharmacyIncomeForYear"
+  getPharmacyIncomeForYear:"getPharmacyIncomeForYear",
+  getAllByPharmacy:"getAllByPharmacy"
 
 };
 

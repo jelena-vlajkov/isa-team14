@@ -17,6 +17,9 @@ import java.util.Date;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType=DiscriminatorType.STRING)
 public class Appointment {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -49,6 +52,14 @@ public class Appointment {
         this.cost = cost;
         this.type = type;
         this.isCanceled = isCanceled;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public boolean isFinished() {

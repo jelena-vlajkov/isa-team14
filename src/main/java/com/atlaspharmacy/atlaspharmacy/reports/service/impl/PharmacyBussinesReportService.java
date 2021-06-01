@@ -121,4 +121,58 @@ public class PharmacyBussinesReportService implements IPharmacyBussinesReportSer
         }
         return incomeForYear;
     }
+
+    @Override
+    public List<Long> getPharmacyIncomeReportByMonths(int year, Long pharmacyId) {
+        List<Long> pharmacyIncomes=new ArrayList<>();
+        for(int i=1;i<=12;i++){
+            pharmacyIncomes.add(getPharmacyIncomeForMonth(i,year,pharmacyId));
+        }
+        return pharmacyIncomes;
+    }
+
+    @Override
+    public List<Long> getPharmacyIncomeReportByHalfYears(int year, Long pharmacyId) {
+        List<Long> pharmacyIncomes=new ArrayList<>();
+        for(int i=1;i<=3;i++){
+            pharmacyIncomes.add(getPharmacyIncomeForHalfYear(i,year,pharmacyId));
+        }
+        return pharmacyIncomes;
+    }
+
+    @Override
+    public List<Long> getPharmacyIncomeReportByYears(int startYear, int endYear, Long pharmacyId) {
+        List<Long> pharmacyIncomes=new ArrayList<>();
+        for(int i=startYear;i<=endYear;i++){
+            pharmacyIncomes.add(getPharmacyIncomeForYear(i,pharmacyId));
+        }
+        return pharmacyIncomes;
+    }
+
+    @Override
+    public List<Long> getDrugConsumptionsReportsByMonths(int year, Long pharmacyId) {
+        List<Long> drugsConsumption=new ArrayList<>();
+        for(int i=1;i<=12;i++){
+            drugsConsumption.add(getDrugConsumptionsForMonth(i,year,pharmacyId));
+        }
+        return drugsConsumption;
+    }
+
+    @Override
+    public List<Long> getDrugConsumptionsReportsByHalfYears(int year, Long pharmacyId) {
+        List<Long> drugsConsumption=new ArrayList<>();
+        for(int i=1;i<=3;i++){
+            drugsConsumption.add(getDrugConsumptionsForHalfYear(i,year,pharmacyId));
+        }
+        return drugsConsumption;
+    }
+
+    @Override
+    public List<Long> getDrugConsumptionsReportsByYears(int startYear, int endYear, Long pharmacyId) {
+        List<Long> drugsConsumption=new ArrayList<>();
+        for(int i=startYear;i<=endYear;i++){
+            drugsConsumption.add(getDrugConsumptionsForYear(i,pharmacyId));
+        }
+        return drugsConsumption;
+    }
 }

@@ -3,14 +3,11 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
-import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.AppointmentDTO;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.AppointmentNotFreeException;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
@@ -116,21 +113,21 @@ public class AppointmentController {
     }
 
     @PharmacyAdminAuthorization
-    @GetMapping(value = "/getNumberOfScheduledForMonth", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Long getNumberOfScheduledForMonth(@RequestParam("month") int month, @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
-        return appointmentService.getNumberOfAppointmentsForMonth(month,year,pharmacyId);
+    @GetMapping(value = "/getNumberOfScheduledForMonth")
+    public @ResponseBody List<Long> getNumberOfScheduledForMonth( @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByMonths(year,pharmacyId);
     }
 
     @PharmacyAdminAuthorization
     @GetMapping(value = "/getNumberOfScheduledForHalfYear", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Long getNumberOfScheduledForHalfYear(@RequestParam("part") int part, @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
-        return appointmentService.getNumberOfAppointmentsForHalfYear(part,year,pharmacyId);
+    public @ResponseBody List<Long> getNumberOfScheduledForHalfYear( @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByHalfYears(year,pharmacyId);
     }
 
     @PharmacyAdminAuthorization
     @GetMapping(value = "/getNumberOfScheduledForYear", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Long getNumberOfScheduledForYear(@RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
-        return appointmentService.getNumberOfAppointmentsForYear(year,pharmacyId);
+    public @ResponseBody List<Long> getNumberOfScheduledForYear(@RequestParam("startYear") int startYear,@RequestParam("endYear") int endYear, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByYears(startYear,endYear,pharmacyId);
     }
 
 
@@ -171,8 +168,8 @@ public class AppointmentController {
     @GetMapping(value = "/getPatientsByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @EmployeeAuthorization
-    public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId) throws Exception, InvalidMedicalStaff {
-        return appointmentService.getPatientsByMedicalStaff(medicalStaffId);
+    public @ResponseBody List<PatientsOverviewDTO> getPatientsByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("sortingType") SortingType sortingType) throws Exception, InvalidMedicalStaff {
+        return appointmentService.getPatientsByMedicalStaff(medicalStaffId, sortingType);
     }
 
     @GetMapping(value = "/getAppointmentsForEmployee", produces = MediaType.APPLICATION_JSON_VALUE)

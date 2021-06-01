@@ -11,39 +11,39 @@ export class BusinessReportsService {
 
   constructor(private http:HttpClient) { }
 
-  getNumberOfScheduledByMonth(month:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForMonth}/?month=${month}&year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfScheduledByMonth(year:Number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForMonth}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getNumberOfScheduledForHalfYear(part:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForHalfYear}/?part=${part}&year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfScheduledForHalfYear(year:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForHalfYear}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getNumberOfScheduledForYear(year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForYear}/?year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfScheduledForYear(startYear:number,endYear:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getNumberOfScheduledForYear}/?startYear=${startYear}&endYear=${endYear}&pharmacyId=${pharmacyId}`);
   }
 
-  getNumberOfIssuedDrugsByMonth(month:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForMonth}/?month=${month}&year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfIssuedDrugsByMonth(year:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForMonth}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getNumberOfIssuedDrugsForHalfYear(part:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForHalfYear}/?part=${part}&year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfIssuedDrugsForHalfYear(year:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForHalfYear}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getNumberOfIssuedDrugsForYear(year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForYear}/?year=${year}&pharmacyId=${pharmacyId}`);
+  getNumberOfIssuedDrugsForYear(startYear:number,endYear:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getDrugConsumptionsForYear}/?startYear=${startYear}&endYear=${endYear}&pharmacyId=${pharmacyId}`);
   }
 
-  getPharmacyIncomeForMonth(month:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForMonth}/?month=${month}&year=${year}&pharmacyId=${pharmacyId}`);
+  getPharmacyIncomeForMonth(year:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForMonth}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getPharmacyIncomeForHalfYear(part:number,year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForHalfYear}/?part=${part}&year=${year}&pharmacyId=${pharmacyId}`);
+  getPharmacyIncomeForHalfYear(year:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForHalfYear}/?year=${year}&pharmacyId=${pharmacyId}`);
   }
 
-  getPharmacyIncomeForYear(year:number,pharmacyId:Number):Observable<number> {
-    return this.http.get<number>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForYear}/?year=${year}&pharmacyId=${pharmacyId}`);
+  getPharmacyIncomeForYear(startYear:number,endYear:number,pharmacyId:Number):Observable<number[]> {
+    return this.http.get<number[]>(`${environment.baseUrl}/${environment.pharmacyBussinesReport}/${environment.getPharmacyIncomeForYear}/?startYear=${startYear}&endYear=${endYear}&pharmacyId=${pharmacyId}`);
   }
 }

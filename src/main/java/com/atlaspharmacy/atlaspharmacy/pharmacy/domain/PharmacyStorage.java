@@ -9,6 +9,10 @@ import javax.persistence.*;
 @Entity
 @Proxy(lazy = false)
 public class PharmacyStorage {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -26,6 +30,14 @@ public class PharmacyStorage {
         this.pharmacy = pharmacy;
         this.medication = medication;
         this.quantity = quantity;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Pharmacy getPharmacy() {

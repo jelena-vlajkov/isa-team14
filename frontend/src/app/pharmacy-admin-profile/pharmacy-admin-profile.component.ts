@@ -103,7 +103,7 @@ export class PharmacyAdminProfileComponent implements OnInit {
     this.password1 = this.changePasswordForm.value.newpassword;
     this.password2 = this.changePasswordForm.value.confirmpassword;
     if(this.password1 !== this.password2){
-      console.log('NISU ISTI NE MOZE MATORI KONTAS BRT MOJ');
+      console.log('Passwords do not match.');
     }
     else{
         let changePass=new EmployeePasswordChanger(this.pharmacyAdmin.email,this.changePasswordForm.value.oldpassword,this.password2,null);
@@ -176,5 +176,9 @@ export class PharmacyAdminProfileComponent implements OnInit {
   logout(){
     this.authenticationService.logout();
     this.router.navigate(['/login']);
+  }
+
+  saveAddress() {
+    console.log(this.googleplaces.address);
   }
 }

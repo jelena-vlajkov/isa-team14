@@ -29,42 +29,39 @@ public class PharmacyBussinesReportController {
     @GetMapping(value = "/getDrugConsumptionsForMonth")
     @PharmacyAdminAuthorization
     public @ResponseBody
-    Long getDrugsConsumptionsForMonth(
-            @RequestParam("month") int month,@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getDrugConsumptionsForMonth(month,year,pharmacyId);
+    List<Long> getDrugsConsumptionsForMonth(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByMonths(year,pharmacyId);
     }
 
 
     @GetMapping(value = "/getDrugConsumptionsForHalfYear")
     @PharmacyAdminAuthorization
     public @ResponseBody
-    Long getDrugsConsumptionsForHalfYear(
-            @RequestParam("part") int part,@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getDrugConsumptionsForHalfYear(part,year,pharmacyId);
+    List<Long> getDrugsConsumptionsForHalfYear(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByHalfYears(year,pharmacyId);
     }
 
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(value = "/getDrugConsumptionsForYear")
     public @ResponseBody
-    Long getDrugsConsumptionsForYear(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getDrugConsumptionsForYear(year,pharmacyId);
+    List<Long> getDrugsConsumptionsForYear(@RequestParam("startYear")int startYear,@RequestParam("endYear")int endYear,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByYears(startYear,endYear,pharmacyId);
     }
 
     @GetMapping(value = "/getPharmacyIncomeForMonth")
     @PharmacyAdminAuthorization
     public @ResponseBody
-    Long getPharmacyIncomeForMonth(
-            @RequestParam("month") int month,@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getPharmacyIncomeForMonth(month,year,pharmacyId);
+    List<Long> getPharmacyIncomeForMonth(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByMonths(year,pharmacyId);
     }
 
 
     @GetMapping(value = "/getPharmacyIncomeForHalfYear")
     @PharmacyAdminAuthorization
     public @ResponseBody
-    Long getPharmacyIncomeForHalfYear(@RequestParam("part") int part,@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getPharmacyIncomeForHalfYear(part,year,pharmacyId);
+    List<Long> getPharmacyIncomeForHalfYear(@RequestParam("year") int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByHalfYears(year,pharmacyId);
     }
 
 
@@ -72,8 +69,8 @@ public class PharmacyBussinesReportController {
     @GetMapping(value = "/getPharmacyIncomeForYear")
     @PharmacyAdminAuthorization
     public @ResponseBody
-    Long getPharmacyIncomeForYear(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
-        return pharmacyBussinesReportService.getPharmacyIncomeForYear(year,pharmacyId);
+    List<Long> getPharmacyIncomeForYear(@RequestParam("startYear")int startYear,@RequestParam("endYear")int endYear,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByYears(startYear,endYear,pharmacyId);
     }
 
 

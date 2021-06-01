@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "dermatologists")
 @DiscriminatorValue(value = Role.Values.Dermatologist)
 public class Dermatologist extends MedicalStaff {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -84,4 +83,6 @@ public class Dermatologist extends MedicalStaff {
     public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
 
     public double countAverageGrade() { return averageGrade.count(); }
+
+
 }

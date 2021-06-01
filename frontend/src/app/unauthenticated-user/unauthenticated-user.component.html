@@ -8,7 +8,7 @@
           <button mat-list-item routerLink='/supplier/storage' style="color: white;"> Storage</button>
           <button mat-list-item routerLink='/searchPharmacies' style="color: white;"> Search pharmacies</button>
         </mat-action-list>
-    
+
         <mat-action-list *ngIf="isPatient()">
           <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
           <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
@@ -33,13 +33,13 @@
           <button mat-list-item routerLink="/admin/defineLoyalty" style="color: white;"> Define loyalty program</button>
           <button mat-list-item  routerLink="/searchPharmacies" style="color: white;"><mat-icon> local_pharmacy</mat-icon> Search for pharmacies </button>
           <button mat-list-item  routerLink="/searchMedications" style="color: white;"> <mat-icon> science</mat-icon>Search for medications </button>
-    
+
         </mat-action-list>
-  
+
       </mat-drawer>
       <mat-drawer-content>
         <mat-toolbar style="background-color: #385399;" >
-           
+
             <mat-toolbar-row>
                  <button mat-icon-button class="example-icon" (click)="drawer.toggle()" >
                     <mat-icon>menu</mat-icon>
@@ -47,7 +47,7 @@
                 <h1>AtlasPharmacy</h1>
                 <span class="menu-spacer"></span>
                 <div class="divTool">
-            
+
                 </div>
                 <span class="example-spacer"></span>
                 <button *ngIf="!checkLoggedInUser()" mat-icon-button [routerLink]="'/login'" class="example-icon" aria-label="Example icon-button with share icon"  class="tooltipR">
@@ -64,9 +64,9 @@
                     </button>
             </mat-toolbar-row>
         </mat-toolbar>
-        
-        <div *ngIf="medcs"> 
-      
+
+        <div *ngIf="medcs">
+
             <div class="table-wrapper">
                 <table class="fl-table">
                     <thead>
@@ -75,7 +75,7 @@
                         <th>Type</th>
                         <th>Producer</th>
                         <th>Grade</th>
-                    
+
                     </tr>
                     </thead>
                     <tbody>
@@ -83,13 +83,13 @@
                         <td>{{m.name}}</td>
                         <td>{{m.drugType}}</td>
                         <td>{{m.producer}}</td>
-                        <td>grade 1</td>                   
+                        <td>grade 1</td>
                     </tr>
-                    
-                    
+
+
                     <tbody>
                 </table>
-            </div>   
+            </div>
         </div>
 
 
@@ -99,6 +99,6 @@
 
 
 
-  
+
 
 

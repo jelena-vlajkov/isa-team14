@@ -100,9 +100,6 @@ public class EPrescriptionService implements IEPrescriptionService {
         prescribedDrug.setMedicalStaff((MedicalStaff) userRepository.findById(dto.getMedicalStaffId()).get());
 
         prescriptionRepository.save(prescribedDrug);
-
-        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
-
         pharmacyStorageRepository.save(pharmacyStorage);
     }
 
