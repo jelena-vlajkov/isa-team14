@@ -1,7 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
+
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
@@ -23,6 +26,7 @@ import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PharmacistService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,14 +67,27 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
+
+            Pharmacist pharmacist = (Pharmacist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get();
             Counseling counseling = new Counseling(new Period(appointmentDTO.getStartTime(), appointmentDTO.getEndTime()), cost, AppointmentType.Values.Counseling,
-                    false, (Pharmacist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
+                    false, pharmacist, (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             Patient patient = (Patient) userRepository.findById(appointmentDTO.getPatientId()).get();
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
-            emailService.successfullyScheduledCounseling(counseling);
-            appointmentRepository.save(counseling);
+
+            try {
+                userRepository.save(pharmacist);
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledCounseling(counseling);
+            } catch(Exception e) {
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledCounseling(counseling);
+            }
+
             return counseling;
         }
         throw new AppointmentNotFreeException();
@@ -79,14 +96,27 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
+            Dermatologist dermatologist = (Dermatologist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get();
             Examination counseling = new Examination(new Period(appointmentDTO.getStartTime(), appointmentDTO.getEndTime()), cost, AppointmentType.Values.Counseling,
-                    false, (Dermatologist) userRepository.findById(appointmentDTO.getMedicalStaffId()).get(), (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
+                    false, dermatologist, (Patient) userRepository.findById(appointmentDTO.getPatientId()).get());
             Patient patient = (Patient) userRepository.findById(appointmentDTO.getPatientId()).get();
             counseling.setPatient(patient);
             counseling.setPharmacy(pharmacyRepository.findById(appointmentDTO.getPharmacyId()).get());
             counseling.setCost(pharmacyPricelistService.examinationCost(appointmentDTO.getPharmacyId()));
-            appointmentRepository.save(counseling);
-            emailService.successfullyScheduledAppointment(counseling);
+
+
+            try {
+                userRepository.save(dermatologist);
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledAppointment(counseling);
+            } catch (Exception e) {
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledAppointment(counseling);
+
+            }
             return counseling;
         }
         throw new AppointmentNotFreeException();
@@ -178,16 +208,16 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId) throws InvalidMedicalStaff, Exception {
+    public List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId, SortingType sortingType) throws InvalidMedicalStaff, Exception {
         if (!userRepository.findById(medicalStaffId).isPresent()) {
             throw new InvalidMedicalStaff();
         }
         User user = userRepository.findById(medicalStaffId).get();
 
         if (user.getRole().equals(Role.Values.Dermatologist)) {
-            return findPatientsForDermatologist(medicalStaffId);
+            return findPatientsForDermatologist(medicalStaffId, sortingType);
         }
-        return findPatientsByPharmacist(medicalStaffId);
+        return findPatientsByPharmacist(medicalStaffId, sortingType);
     }
 
     @Override
@@ -204,7 +234,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<PatientsOverviewDTO> SearchPatientsByParameters(SearchParametersDTO searchParametersDTO) throws InvalidMedicalStaff, Exception {
-        List<PatientsOverviewDTO> allPatients = getPatientsByMedicalStaff(searchParametersDTO.getMedicalStaffId());
+        List<PatientsOverviewDTO> allPatients = getPatientsByMedicalStaff(searchParametersDTO.getMedicalStaffId(), searchParametersDTO.getSortingType());
         if (searchParametersDTO.getName().trim().isEmpty() && searchParametersDTO.getDate() == null) {
             return allPatients;
         }
@@ -302,8 +332,8 @@ public class AppointmentService implements IAppointmentService {
         return appointmentsByMonth;
     }
 
-    private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId) throws Exception {
-        List<Counseling> allAppointments = appointmentRepository.getAllCounselingsByPharmacist(medicalStaffId);
+    private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId, SortingType sortingType) throws Exception {
+        List<Counseling> allAppointments = findCounselingsBySortingType(medicalStaffId, sortingType);
         List<PatientsOverviewDTO> retVal = new ArrayList<>();
         List<Long> uniquePatients = new ArrayList<>();
         Counseling c;
@@ -336,6 +366,26 @@ public class AppointmentService implements IAppointmentService {
         }
 
         return retVal;
+    }
+
+    private List<Counseling> findCounselingsBySortingType(Long medicalStaffId, SortingType sortingType) {
+        if (sortingType == SortingType.DATE_ASC) {
+            return appointmentRepository.getAllCounselingsByPharmacistDateAsc(medicalStaffId);
+        }
+
+        if (sortingType == SortingType.DATE_DESC) {
+            return appointmentRepository.getAllCounselingsByPharmacistDateDesc(medicalStaffId);
+        }
+
+        if (sortingType == SortingType.NAME) {
+            return appointmentRepository.getAllCounselingsByPharmacistNameDesc(medicalStaffId);
+        }
+
+        if (sortingType == SortingType.SURNAME) {
+            return appointmentRepository.getAllCounselingsByPharmacistSurnameDesc(medicalStaffId);
+        }
+
+        return appointmentRepository.getAllCounselingsByPharmacist(medicalStaffId);
     }
 
     private boolean findUpcomingAppointments(Long patientId, Long medicalStaffId) {
@@ -382,8 +432,9 @@ public class AppointmentService implements IAppointmentService {
 
 
 
-    private List<PatientsOverviewDTO> findPatientsForDermatologist(Long medicalStaffId) {
-        List<Examination> allAppointments = appointmentRepository.getAllExaminationsByDermatologist(medicalStaffId);
+    private List<PatientsOverviewDTO> findPatientsForDermatologist(Long medicalStaffId, SortingType sortingType) {
+        List<Examination> allAppointments = findExaminationsBySortingType(medicalStaffId, sortingType);
+
         List<PatientsOverviewDTO> retVal = new ArrayList<>();
         Examination c;;
         PatientsOverviewDTO p;
@@ -415,6 +466,23 @@ public class AppointmentService implements IAppointmentService {
         }
 
         return retVal;
+    }
+
+    private List<Examination> findExaminationsBySortingType(Long medicalStaffId, SortingType sortingType) {
+        if (sortingType == SortingType.NAME) {
+            return appointmentRepository.getAllExaminationsByDermatologistByNameDesc(medicalStaffId);
+        }
+        if (sortingType == SortingType.SURNAME) {
+            return appointmentRepository.getAllExaminationsByDermatologistBySurnameDesc(medicalStaffId);
+        }
+        if (sortingType == SortingType.DATE_ASC) {
+            return appointmentRepository.getAllExaminationsByDermatologistByDateAsc(medicalStaffId);
+        }
+        if (sortingType == SortingType.DATE_DESC) {
+            return appointmentRepository.getAllExaminationsByDermatologistByDateDesc(medicalStaffId);
+        }
+
+        return appointmentRepository.getAllExaminationsByDermatologist(medicalStaffId);
     }
 
 
@@ -525,10 +593,34 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public List<Appointment> initializeAppointmentTime(Date date, Long medicalStaffId) {
         List<Appointment> appointments = new ArrayList<>();
-        WorkDay workDay = workDayService.getBy(medicalStaffId, date);
+        List<WorkDay> workDays = workDayService.getBy(medicalStaffId, date);
 
-        if (workDay == null)
+
+        if (workDays.size() == 0)
             return appointments;
+
+        WorkDay workDay = null;
+        User user = userRepository.findById(medicalStaffId).get();
+
+        for(WorkDay w : workDays) {
+            if (user.getRole().equals(Role.Values.Pharmacist)) {
+                if (w.getPharmacy().getId().equals(((Pharmacist)user).getPharmacy().getId())) {
+                    workDay = w;
+                }
+            } else {
+                Dermatologist d = (Dermatologist) user;
+                for (Pharmacy p : d.getPharmacies()) {
+                    if (p.getId().equals(w.getId())) {
+                        workDay = w;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (workDay == null) {
+            return appointments;
+        }
 
         int endTime = workDay.getWorkDayPeriod().getEndTime().getHours();
         Date appointmentStart = new Date(date.getYear(), date.getMonth(), date.getDate(), workDay.getWorkDayPeriod().getStartTime().getHours(), 0, 0);

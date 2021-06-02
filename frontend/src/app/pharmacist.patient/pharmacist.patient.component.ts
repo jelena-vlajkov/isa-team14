@@ -32,6 +32,13 @@ export class PharmacistPatientsComponent implements OnInit {
   public edit:boolean = false;
   public changePassword:boolean = false;
   public searchPatientsForm : FormGroup;
+  public selectedValue : number;
+  options = [
+    { name: "Newest", value: 1 },
+    { name: "Oldest", value: 2 },
+    { name: "Name [A-Z]", value: 3 },
+    { name: "Surname [A-Z]", value: 4 }
+  ]
 
   public patients : PatientsOverview[];
   
@@ -42,18 +49,21 @@ export class PharmacistPatientsComponent implements OnInit {
   ngOnInit(): void {
     if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
       this.router.navigate(["/employee-welcome"]);
-
     }
+
+    console.log(this.selectedValue);
+
 
     
   
     this.searchPatientsForm = new FormGroup({
       'name' : new FormControl("", []),
-      'date' : new FormControl(null, [])
+      'date' : new FormControl(null, []),
+      "sort" : new FormControl()
     });
 
 
-    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
+    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId')), 'NONE').subscribe(
       result => {
         this.patients = result;
         for (let p of this.patients) {
@@ -83,6 +93,7 @@ export class PharmacistPatientsComponent implements OnInit {
     return user.role === 'Pharmacist'; 
   }
   searchPatients() {
+    console.log("ASDFSADDS")
     let name = this.searchPatientsForm.controls.name.value;
     let date = this.searchPatientsForm.controls.date.value;
     console.log(date);
@@ -94,6 +105,25 @@ export class PharmacistPatientsComponent implements OnInit {
     console.log(name);
 
     let searchParams = new SearchParam(name, date, Number(localStorage.getItem('userId')));
+
+    if (this.selectedValue === 1) {
+        searchParams.sortingType = 'DATE_DESC';
+    }
+
+    
+    if (this.selectedValue === 2) {
+      searchParams.sortingType = 'DATE_ASC';
+    }
+
+    
+    if (this.selectedValue === 3) {
+      searchParams.sortingType = 'NAME';
+    }
+
+    
+    if (this.selectedValue === 4) {
+      searchParams.sortingType = 'SURNAME';
+    }
     console.log(searchParams.name)
     console.log(searchParams)
     this.employeeService.searchPatientsByParams(searchParams).subscribe(
@@ -114,7 +144,7 @@ export class PharmacistPatientsComponent implements OnInit {
          }, 
          error => {
           alert(error)
-          this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
+          this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId')), 'NONE').subscribe(
             result => {
               this.patients = result;
               for (let p of this.patients) {
@@ -143,8 +173,9 @@ export class PharmacistPatientsComponent implements OnInit {
   }
 
   cancelSearch() {
+    console.log(this.selectedValue);
     this.searchPatientsForm.controls.name.setValue("");
-    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId'))).subscribe(
+    this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId')), 'NONE').subscribe(
       result => {
         this.patients = result;
         for (let p of this.patients) {

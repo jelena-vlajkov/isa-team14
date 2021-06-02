@@ -146,7 +146,8 @@
                             <ng-template matStepLabel>Schedule counseling</ng-template>
                             <div>
                                 <span *ngIf="isPharmChosen">
-                                <label>Schedule counseling in {{chosenPharmacy.name}} with price {{chosenPharmacy.counselingCost}} here:</label>
+                                <label>Schedule counseling in {{chosenPharmacy.name}} with price {{chosenPharmacy.counselingCost}} here <br> and
+                                please wait until alert</label> 
                                 </span>
                             </div>
                             <button mat-raised-button  color="primary" class="button-position-first-form" (click)="scheduleCounseling()">Schedule</button>

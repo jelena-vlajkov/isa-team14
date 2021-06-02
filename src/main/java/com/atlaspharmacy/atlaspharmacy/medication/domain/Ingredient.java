@@ -14,7 +14,7 @@ public class Ingredient{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "alergies_to_ingredient",
             joinColumns = @JoinColumn(name = "ingredient_id"),

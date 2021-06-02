@@ -17,7 +17,7 @@ declare let google: any;
       [(ngModel)]="autocompleteInput"
       placeholder="Enter location*"
       #addresstext style="font-size:20px;margin-bottom: 15px; margin-top:15px;
-    width: 400px !important;"
+    width: 200px !important;"
       >
   `,
 })

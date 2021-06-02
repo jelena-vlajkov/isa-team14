@@ -20,6 +20,8 @@ import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO
 import com.atlaspharmacy.atlaspharmacy.users.domain.MedicalStaff;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +39,10 @@ public class EPrescriptionService implements IEPrescriptionService {
     private final PrescriptionRepository prescriptionRepository;
     private final PharmacyStorageRepository pharmacyStorageRepository;
     private final INotificationService notificationService;
+    private final IEmailService emailService;
 
     @Autowired
-    public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository, UserRepository userRepository, PharmacyRepository pharmacyRepository, MedicationRepository medicationRepository, PrescriptionRepository prescriptionRepository, PharmacyStorageRepository pharmacyStorageRepository, INotificationService notificationService) {
+    public EPrescriptionService(EPrescriptionRepository ePrescriptionRepository, UserRepository userRepository, PharmacyRepository pharmacyRepository, MedicationRepository medicationRepository, PrescriptionRepository prescriptionRepository, PharmacyStorageRepository pharmacyStorageRepository, INotificationService notificationService, IEmailService emailService) {
         this.ePrescriptionRepository = ePrescriptionRepository;
         this.userRepository = userRepository;
         this.pharmacyRepository = pharmacyRepository;
@@ -47,6 +50,7 @@ public class EPrescriptionService implements IEPrescriptionService {
         this.prescriptionRepository = prescriptionRepository;
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.notificationService = notificationService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -87,10 +91,18 @@ public class EPrescriptionService implements IEPrescriptionService {
         ePrescription.setDate(new Date());
         ePrescription.setPharmacy(pharmacy);
         ePrescription.setPatient(patient);
-
-        ePrescriptionRepository.save(ePrescription);
-
         Medication m = medicationRepository.findById(dto.getMedicationId()).get();
+        try {
+            pharmacyStorageRepository.save(pharmacyStorage);
+        } catch (OptimisticEntityLockException e) {
+            PharmacyStorage ps = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacy.getId(), m.getId());
+            if (ps.getQuantity() == 0) {
+                throw new Exception("Invalid request");
+            }
+            ps.setQuantity(ps.getQuantity() - 1);
+            pharmacyStorageRepository.save(ps);
+        }
+        ePrescriptionRepository.save(ePrescription);
 
         PrescribedDrug prescribedDrug = new PrescribedDrug();
         prescribedDrug.setEprescription(ePrescription);
@@ -98,12 +110,8 @@ public class EPrescriptionService implements IEPrescriptionService {
         prescribedDrug.setMedication(m);
         prescribedDrug.setQuantity(new Long(dto.getTherapyDays()));
         prescribedDrug.setMedicalStaff((MedicalStaff) userRepository.findById(dto.getMedicalStaffId()).get());
-
         prescriptionRepository.save(prescribedDrug);
-
-        pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
-
-        pharmacyStorageRepository.save(pharmacyStorage);
+        emailService.sendPrescribedDrug(patient, prescribedDrug);
     }
 
     public List<EPrescriptionDTO> getAllEPrescritpions(Long patientId) {

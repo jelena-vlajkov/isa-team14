@@ -80,11 +80,11 @@
                     </div>
                          
                                 
-
+                    <form (ngSubmit)="addReport()">
                     <mat-form-field class="example-full-width" style="width: 100%; margin-top: 50px;">
-                        <mat-label>Counseling info</mat-label>
-                        <form [formGroup]="addReportForm">
-                            <textarea matInput formGroupName="details" placeholder="Patient has..."></textarea>
+                        <mat-label>Info</mat-label>
+                        
+                            <input [(ngModel)]="a.reportNotes" [name]="a.id" matInput placeholder="Patient has...">
                             <mat-error
                                     *ngIf="!addReportForm.get('details').valid && addReportForm.get('details').touched">
                                     Please enter report details
@@ -93,8 +93,9 @@
                                     *ngIf="!addReportForm.get('details').valid && addReportForm.get('details').touched">
                                     Please enter report details
                             </mat-error>
-                        </form>
+                        
                     </mat-form-field>
+                    </form>
 
                     <mat-accordion class="example-headers-align" multi>
                         <mat-expansion-panel  style="margin-top:20px;" >

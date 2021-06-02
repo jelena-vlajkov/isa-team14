@@ -25,6 +25,7 @@ export class Appointment{
     public medicalStaffId : Number;
     public finished : boolean;
     public canAddPenalty : boolean;
+    public reportNotes : String;
     constructor() {
         this.prescribedMedications = [];
         this.finished = false;

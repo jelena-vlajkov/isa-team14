@@ -37,8 +37,8 @@ export class EmployeeService {
     return this.http.post<FirstTimePasswordChange[]>(`${environment.baseUrl}/${environment.firstTimePasswordChange}`, passChange);
   }
 
-  getAllPatientsByMedicalStaff(medicalStaffId : Number) : Observable<PatientsOverview[]> {
-    return this.http.get<PatientsOverview[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getPatientsByMedicalStaff}?medicalStaffId=${medicalStaffId}`);
+  getAllPatientsByMedicalStaff(medicalStaffId : Number, type : String) : Observable<PatientsOverview[]> {
+    return this.http.get<PatientsOverview[]>(`${environment.baseUrl}/${environment.appointment}/${environment.getPatientsByMedicalStaff}?medicalStaffId=${medicalStaffId}&sortingType=${type}`);
   }
 
   searchPatientsByParams(searchParams : SearchParam) : Observable<PatientsOverview[]> {
@@ -74,7 +74,7 @@ export class EmployeeService {
   }
 
   addDrugReservation(drugReservation : CreaeteReservation) : Observable<Response> {
-    return this.http.post<Response>(`${environment.baseUrl}/${environment.prescription}/${environment.savePrescription}`, drugReservation);
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.reservations}/${environment.saveReservation}`, drugReservation);
   }
 
   scheduleAppointment(appointment : Appointment) : Observable<Response> {
