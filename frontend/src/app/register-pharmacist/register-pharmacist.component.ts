@@ -50,6 +50,7 @@ export class RegisterPharmacistComponent implements OnInit {
   private StringIsNumber = value => isNaN(Number(value)) === false;
   workTime : FormGroup;
   currentDate: Date;
+  pharamcistAddress:Address;
   constructor(private authenticationService:AuthenticationService
               ,private router:Router
               ,private pharmacistService:PharmacistService
@@ -67,7 +68,8 @@ export class RegisterPharmacistComponent implements OnInit {
       'telephone' : new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
       'mail' : new FormControl(null, [Validators.required, Validators.email]),
       'password' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
-      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)])
+      'confirmpassword' : new FormControl(null, [Validators.required,Validators.minLength(8)]),
+
     });
     this.workTime = new FormGroup({
       'startTime' : new FormControl(null,  [Validators.required]),
@@ -76,7 +78,10 @@ export class RegisterPharmacistComponent implements OnInit {
       });
     this.maxDateOfBirth = new Date();
     this.minDateOfBirth = new Date();
+
     this.currentDate = new Date();
+    this.maxDateOfBirth.setFullYear(this.maxDateOfBirth.getFullYear() - 18);
+    console.log(this.maxDateOfBirth);
     this.minDateOfBirth.setFullYear(this.minDateOfBirth.getFullYear() - 180);
     this.pharmacyAdminService.getPharmacyByAdmin(Number(localStorage.getItem('userId'))).subscribe(
       result => {
@@ -98,46 +103,6 @@ export class RegisterPharmacistComponent implements OnInit {
   logout(){
     this.authenticationService.logout();
     this.router.navigate(['/login']);
-  }
-
-
-  registerPharmacist(){
-    this.name = this.addPharmacist.value.name;
-    this.surname = this.addPharmacist.value.surname;
-    this.phone = this.addPharmacist.value.telephone;
-    this.email = this.addPharmacist.value.mail;
-    this.password = this.addPharmacist.value.password;
-    this.confirmPassword = this.addPharmacist.value.confirmpassword;
-    if(this.googleplaces.address===undefined){
-      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
-    }else{
-      this.address = this.googleplaces.address;
-      this.gender = this.selectedGender;
-      this.dateOfBirth = this.selectedDate;
-      var role : Role;
-      role = Role.Pharmacist;
-      var auths : Number[] = new Array();
-
-      if(this.password === this.confirmPassword){
-        var pharmacist = new Pharmacist(null, this.name, this.surname, this.addPharmacist.value.dob, this.addPharmacist.value.telephone
-                                        ,this.addPharmacist.value.mail,this.password, this.gender
-                                        , this.address, role, auths,this.pharmacy,null,null,null);
-
-        this.pharmacistService.registerPharmacist(pharmacist).subscribe(
-          res=>{
-            this.googleplaces = null;
-            alert('Success');
-            this.router.navigate(['/pharmacy-profile']);
-          },
-          error=>{
-            alert("Failed - email address already in use! Please enter new one!");
-          });
-      }else{
-        alert('Passwords do not match!');
-      }
-
-    }
-
   }
 
 
@@ -214,22 +179,32 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   registerPharmacistSubmitted() {
-    let pharmacist=new Pharmacist(null,this.addPharmacist.value.name,this.addPharmacist.value.surname
-      ,this.addPharmacist.value.dob,this.addPharmacist.value.telephone,this.addPharmacist.value.mail
-      ,this.addPharmacist.value.password,this.addPharmacist.value.gender,null,null
-      ,null,this.pharmacy,null,new AverageGrade(0,0,0,0,0),false);
-    this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
-      for(let i=0;i<this.workdays.length;i++){
-        this.workdays[i].pharmacy=this.pharmacy;
-        this.workdays[i].medicalStaff=result;
-        console.log(this.workdays[i]);
-        this.workdayService.addWorkday(this.workdays[i]).subscribe(result=>{});
-      }
-      this.getPharmacistByPharmacy();
-      this.pharmacistsInPharmacy=true;
-      this.setWorkTime=false;
-      this.registerPharmacistDialog = false;
+ //   if (this.googleplaces.address === undefined) {
+  //    alert('Wrong address input.');
+   // } else {
+      let pharmacist = new Pharmacist(null, this.addPharmacist.value.name, this.addPharmacist.value.surname
+        , this.addPharmacist.value.dob, this.addPharmacist.value.telephone, this.addPharmacist.value.mail
+        , this.addPharmacist.value.password, this.addPharmacist.value.gender, null, null
+        , null, this.pharmacy, null, new AverageGrade(0, 0, 0, 0, 0), false);
+      this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
+        for (let i = 0; i < this.workdays.length; i++) {
+          this.workdays[i].pharmacy = this.pharmacy;
+          this.workdays[i].medicalStaff = result;
+          console.log(this.workdays[i]);
+          this.workdayService.addWorkday(this.workdays[i]).subscribe(result => {
+          });
+        }
+        this.getPharmacistByPharmacy();
+        this.pharmacistsInPharmacy = true;
+        this.setWorkTime = false;
+        this.registerPharmacistDialog = false;
 
-    });
+      });
+   // }
+  }
+
+  saveAddress() {
+    console.log(this.googleplaces.address);
+    this.pharamcistAddress = this.googleplaces.address;
   }
 }

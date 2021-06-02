@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.controller;
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestAnswerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VacationRequest;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.VacationRequestMapper;
@@ -42,9 +43,9 @@ public class VacationRequestController {
     }
     @PostMapping(value = "/approveVacationRequest", produces = MediaType.APPLICATION_JSON_VALUE)
     @PharmacyAdminAuthorization
-    public ResponseEntity<?> approveVacationRequest(@RequestParam("vacationRequestId") Long vacationRequestId) throws Exception {
+    public ResponseEntity<?> approveVacationRequest(@RequestBody VacationRequestAnswerDTO answer) throws Exception {
         try{
-            vacationRequestService.approveVacationRequest(vacationRequestId);
+            vacationRequestService.approveVacationRequest(answer);
         }catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -54,9 +55,9 @@ public class VacationRequestController {
 
     @PostMapping(value = "/denyVacationRequest", produces = MediaType.APPLICATION_JSON_VALUE)
     @PharmacyAdminAuthorization
-    public ResponseEntity<?> denyVacationRequest(@RequestParam("vacationRequestId") Long vacationRequestId) throws Exception {
+    public ResponseEntity<?> denyVacationRequest(@RequestBody VacationRequestAnswerDTO answer) throws Exception {
         try{
-            vacationRequestService.denyVacationRequest(vacationRequestId);
+            vacationRequestService.denyVacationRequest(answer);
         }catch(Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

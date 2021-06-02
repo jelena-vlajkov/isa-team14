@@ -25,12 +25,13 @@ import {Medication} from "@app/model/medications/medication";
 import {Period} from "@app/model/appointment/period";
 import {AuthenticationService} from "@app/service/user";
 import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
-
+import { AgmCoreModule } from '@agm/core';
+import {Examination} from "@app/model/appointment/examination";
 
 @Component({
   selector: 'app-pharmacy-profile',
   templateUrl: './pharmacy-profile.component.html',
-  styleUrls: ['./pharmacy-profile.component.css']
+  styleUrls: ['./pharmacy-profile.component.css'],
 })
 export class PharmacyProfileComponent implements OnInit {
   grade:Number;
@@ -41,13 +42,13 @@ export class PharmacyProfileComponent implements OnInit {
   medications:String[]=new Array();
   viewPricelist:boolean=false;
   private StringIsNumber = value => isNaN(Number(value)) === false;
-  availableAppointments:String[] = new Array();
+  availableAppointments:Examination[] = new Array();
   @ViewChild(GooglePlacesComponent) googleplaces;
   pharmacy:Pharmacy;
   editProfileForm: FormGroup;
   pharmacyPricelist:Pricelist[]=new Array();
   pharmacyPromotions:Promotion[]=new Array();
-  medicationsNotInPharmacy:Medication[]=new Array();
+  medicationsByPharmacy:Medication[]=new Array();
   public showPromotions=false;
   public addPromotion=false;
   public profile:boolean = true;
@@ -58,6 +59,12 @@ export class PharmacyProfileComponent implements OnInit {
   public addPricelistEntityDialog:boolean = false;
   addPricelistEntityFormGroup:FormGroup;
   public isPharmacyAdmin:boolean = false;
+  showCurrentPricelistForPharmacy:boolean=false;
+  currentPharmacyPricelist:Pricelist[] = new Array();
+  showEditPricelistEntity:boolean = false;
+  editPricelistEntityFormGroup:FormGroup;
+  private pricelistEntityToUpdate: Pricelist;
+  currentDate:Date = new Date();
 
 
   constructor(private pharmacyAdminService:PharmacyAdminService
@@ -70,86 +77,43 @@ export class PharmacyProfileComponent implements OnInit {
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
               ,private authenticationService:AuthenticationService
-              ,private drugReservationsService:DrugReservationsService) { }
+              ,private drugReservationsService:DrugReservationsService) {
+
+  }
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
-    if(localStorage.getItem('userRole') == "PharmacyAdmin"){
+    if (localStorage.getItem('userRole') == "PharmacyAdmin") {
       this.isPharmacyAdmin = true;
+      this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
+        result => {
+          this.pharmacy = result;
+          this.pharmacyId = result.id;
+          this.grade = this.countAverageGrade(result.averageGrade);
+          this.getPharmacyStorage();
+          this.getDermatologistsByPharmacy();
+          this.getAvailableAppointmentsForDermatologist();
+          this.getPharmacistsByPharmacy();
+          this.getMedicationByPharmacy();
+        });
+    }
+
+    else{
+      localStorage.setItem('pharmacyId','100');
+      this.pharmacyService.getPharmacyById(Number(localStorage.getItem('pharmacyId'))).subscribe(result =>{
+        this.pharmacy = result;
+        this.pharmacyId = result.id;
+        this.grade = this.countAverageGrade(result.averageGrade);
+        this.getPharmacyStorage();
+        this.getDermatologistsByPharmacy();
+        this.getAvailableAppointmentsForDermatologist();
+        this.getPharmacistsByPharmacy();
+      });
     }
 
 
-    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
-      result => {
-        this.pharmacy=result;
-        this.pharmacyId = result.id;
-        this.grade=this.countAverageGrade(result.averageGrade);
-
-        this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
-          result=>{
-            result=this.ToArray(result);
-            for(let i=0;i<result.length;i++)
-            {
-              this.medications.push(result[i].medicationName);
-            }
-
-          });
-
-
-
-        this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
-          result => {
-            result=this.ToArray(result);
-            for(let i=0;i<result.length;i++)
-            {
-              this.dermatologists.push(result[i]);
-            }
-            for(let i=0;i<this.dermatologists.length;i++){
-              this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id,this.pharmacyId).subscribe(result=>
-              {
-                result=this.ToArray(result);
-                for(let j=0;j<result.length;i++) {
-                  let startTime = new Date(result[j].appointmentPeriod.startTime.valueOf());
-                  let endTime = new Date(result[j].appointmentPeriod.endTime.valueOf());
-                  this.availableAppointments.push(
-                    this.dermatologists[i].name + " " + this.dermatologists[i].surname
-                    + ", " + startTime.getHours()
-                    + ":" + startTime.getMinutes()
-                    + "-" + endTime.getHours()
-                    + ":" + endTime.getMinutes()
-                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+"."
-                    +" "+result[i].cost+"din");
-                }
-              });
-            }
-          });
-        this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(
-          result => {
-            result=this.ToArray(result);
-            for(let i=0;i<result.length;i++)
-            {
-              this.pharmacists.push(result[i].name+" "+result[i].surname);
-            }
-          });
-       });
-
-
-        this.addPricelistEntityFormGroup=new FormGroup({
-          'medication': new FormControl(null,Validators.required),
-          'startDate':new FormControl(null,Validators.required),
-          'endDate':new FormControl(null,Validators.required),
-          'price':new FormControl(null,Validators.required)});
-
-      }
-
-  getMedicationsNotInPharmacy(){
-    this.pharmacyStorageService.getMedicationsNotInPharmacy(this.pharmacyId).subscribe(
-      result=>{
-        result=this.ToArray(result);
-        this.medicationsNotInPharmacy = result;
-
-      });
   }
+
 
 
   ToArray(enumme) {
@@ -157,8 +121,6 @@ export class PharmacyProfileComponent implements OnInit {
       .filter(this.StringIsNumber)
       .map(key => enumme[key]);
   }
-
-  addAdmin(){}
   countAverageGrade(pharmacyAverageGrade:AverageGrade):number{
     let grade=((5 * pharmacyAverageGrade.excellent.valueOf()) + (4 * pharmacyAverageGrade.veryGood.valueOf())
       + (3 * pharmacyAverageGrade.good.valueOf()) + (2 * pharmacyAverageGrade.poor.valueOf())
@@ -173,10 +135,10 @@ export class PharmacyProfileComponent implements OnInit {
       'name' : new FormControl(this.pharmacy.name, Validators.required),
       'description' : new FormControl(this.pharmacy.description, Validators.required),
       'telephone' : new FormControl(this.pharmacy.telephone,[ Validators.required,Validators.pattern("^[0-9]*$")]),
-      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required])
+      'email' : new FormControl(this.pharmacy.email, [Validators.email,Validators.required]),
     });
 
-    this.showPromotions = false;
+      this.showPromotions = false;
       this.addPromotion = false;
       this.profile = false;
       this.edit = true;
@@ -196,71 +158,49 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   editProfile(){
-       // if(this.googleplaces.address==undefined){
-         // alert('Please enter address using location picker. Just start typing and pick your address from combobox');
-        //}else{
-        this.pharmacy=new Pharmacy(this.pharmacy.id,this.editProfileForm.value.name,this.editProfileForm.value.description
-          ,this.pharmacy.address,this.pharmacy.averageGrade,this.editProfileForm.value.email,this.editProfileForm.value.telephone);
+    console.log(this.googleplaces.address);
+    if(this.googleplaces.address===undefined){
+      alert('Please enter address using location picker. Just start typing and pick your address from combobox');
+    }else {
+      this.pharmacy = new Pharmacy(this.pharmacy.id, this.editProfileForm.value.name, this.editProfileForm.value.description
+        , this.googleplaces.address, this.pharmacy.averageGrade, this.editProfileForm.value.email, this.editProfileForm.value.telephone);
 
-        this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result=>{
-          this.edit=false;
-          this.profile=true;
+      this.pharmacyService.editPharmacy(this.pharmacy).subscribe(result => {
+        this.edit = false;
+        this.profile = true;
         console.log(this.pharmacy);
 
 
       });
-
+    }
    }
 
   showPharmacyPricelist(){
-    this.addPricelistEntityDialog = false;
-    this.showPricelist = true;
-    this.profile = false;
-    this.edit = false;
-    this.changePassword = false;
-    this.addPromotion = false;
-    this.showPromotions=false;
-    this.scheduleAppointment=false;
-    this.pharmacyPricelist=new Array();
-    this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(result=>
-    {
-      result=this.ToArray(result);
-      console.log(result);
-      for(let i=0;i<result.length;i++){
-          this.pricelistService.getPricelistByMedicationAndPharmacy(result[i].medicationCode,result[i].pharmacy.id).subscribe(result => {
-            this.pharmacyPricelist.push(result);
-          });
-      }
-      console.log(this.pharmacyPricelist);
-    });
-  }
-  changeValue(pricelistEntityId:any){
-    this.pharmacyPricelist[this.pharmacyPricelist.findIndex(x => x.id===pricelistEntityId)].price = Number(document.getElementById(pricelistEntityId).innerText);
-  }
-  editPricelist(){
-    let enabled=true;
-    for(let i=0;i<this.pharmacyPricelist.length;i++){
-      if(isNaN(Number(this.pharmacyPricelist[i].price))){
-        enabled=false;
-        alert("Input prices must be number.Check if your inputs are valid.");
-      }
-    }
-    if(enabled){
-      this.pricelistService.editPricelistEntity(this.pharmacyPricelist).subscribe(result=>{});
-      this.showPricelist = false;
-      this.profile = true;
+    if(this.isPharmacyAdmin){
+      this.addPricelistEntityDialog = false;
+      this.showPricelist = true;
+      this.profile = false;
       this.edit = false;
       this.changePassword = false;
       this.addPromotion = false;
-      this.showPromotions=false;
-      this.scheduleAppointment=false;
-      this.pharmacyPricelist=new Array();
-      this.addPricelistEntityDialog = false;
+      this.showPromotions = false;
+      this.scheduleAppointment = false;
+      this.showCurrentPricelistForPharmacy = false;
+      this.showEditPricelistEntity = false;
+      this.pricelistService.getAllByPharmacy(this.pharmacyId).subscribe(result => {
+        this.pharmacyPricelist = result;
+      });
+    }
+    else{
+      this.showCurrentPricelist();
     }
 
   }
 
+
+
   showPromotionsDialog(){
+    this.showCurrentPricelistForPharmacy = false;
     this.showPricelist = false;
     this.profile = false;
     this.edit = false;
@@ -294,6 +234,7 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   showScheduleAppointment(){
+    this.getAvailableAppointmentsForDermatologist();
     this.showPricelist = false;
     this.profile = false;
     this.edit = false;
@@ -347,7 +288,12 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   addPricelistClicked() {
-    this.getMedicationsNotInPharmacy();
+    this.addPricelistEntityFormGroup=new FormGroup({
+      'medication': new FormControl(null,Validators.required),
+      'startDate':new FormControl(null,Validators.required),
+      'endDate':new FormControl(null,Validators.required),
+      'price':new FormControl(null,Validators.required)});
+
     this.addPricelistEntityDialog = true;
     this.showPricelist = false;
     this.profile = false;
@@ -359,14 +305,6 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   addPricelistSubmitted() {
-    this.addPricelistEntityDialog = false;
-    this.showPricelist = true;
-    this.profile = false;
-    this.edit = false;
-    this.changePassword = false;
-    this.addPromotion = false;
-    this.showPromotions=false;
-    this.scheduleAppointment=false;
     let pricelist=new Pricelist(null
                                 ,this.addPricelistEntityFormGroup.value.medication
                                 ,this.addPricelistEntityFormGroup.value.price
@@ -374,7 +312,23 @@ export class PharmacyProfileComponent implements OnInit {
                                 ,this.addPricelistEntityFormGroup.value.endDate
                                 ,this.pharmacy);
     this.pricelistService.addPricelistEntity(pricelist).subscribe(result => {
-      this.showPharmacyPricelist();
+      if(result){
+        this.showPharmacyPricelist();
+        this.addPricelistEntityDialog = false;
+        this.showPricelist = true;
+        this.profile = false;
+        this.edit = false;
+        this.changePassword = false;
+        this.addPromotion = false;
+        this.showPromotions=false;
+        this.scheduleAppointment=false;
+      }
+      else{
+        console.log("neuspesno");
+        alert("Can't add pricelist for selected period.You can edit pricelist" +
+          " entity or delete first pricelist entity for particular period.");
+      }
+
     });
 
   }
@@ -407,4 +361,123 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
 
+  showCurrentPricelist() {
+    this.showCurrentPricelistForPharmacy = true;
+    this.showPricelist = false;
+    this.addPricelistEntityDialog = false;
+    this.showEditPricelistEntity = false;
+    this.addPricelistEntityDialog = false;
+    this.showPricelist = false;
+    this.profile = false;
+    this.edit = false;
+    this.changePassword = false;
+    this.addPromotion = false;
+    this.showPromotions=false;
+    this.scheduleAppointment=false;
+
+    this.currentPharmacyPricelist=new Array();
+    this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(result=>
+    {
+      result=this.ToArray(result);
+      console.log(result);
+      for(let i=0;i<result.length;i++){
+        this.pricelistService.getPricelistByMedicationAndPharmacy(result[i].medicationCode,result[i].pharmacy.id).subscribe(result => {
+          this.currentPharmacyPricelist.push(result);
+        });
+      }
+    });
+  }
+
+  editPricelistEntity(pricelist: Pricelist) {
+    this.showCurrentPricelistForPharmacy = false;
+    this.showPricelist = false;
+    this.addPricelistEntityDialog = false;
+    this.showEditPricelistEntity=true;
+    this.pricelistEntityToUpdate=pricelist;
+    this.editPricelistEntityFormGroup=new FormGroup({
+      'medication': new FormControl(pricelist.medication.name,null),
+      'startDate':new FormControl(pricelist.startPeriod,null),
+      'endDate':new FormControl(pricelist.endPeriod,null),
+      'price':new FormControl(pricelist.price,Validators.required)});
+
+  }
+
+
+  editPricelistSubmitted() {
+    let pricelistEntity=new Pricelist(this.pricelistEntityToUpdate.id
+      ,this.pricelistEntityToUpdate.medication,this.editPricelistEntityFormGroup.value.price,
+      this.editPricelistEntityFormGroup.value.startDate,this.editPricelistEntityFormGroup.value.endDate,this.pricelistEntityToUpdate.pharmacy);
+    this.pricelistService.editPricelistEntity(pricelistEntity).subscribe(result=>{
+      this.showPharmacyPricelist();
+    });
+
+  }
+
+  private getPharmacyStorage() {
+    this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
+      result=>{
+        result=this.ToArray(result);
+        for(let i=0;i<result.length;i++)
+        {
+          this.medications.push(result[i].medicationName);
+        }
+
+      });
+  }
+
+  private getAvailableAppointmentsForDermatologist() {
+    for(let i=0;i<this.dermatologists.length;i++) {
+      this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id, this.pharmacyId).subscribe(result => {
+        result = this.ToArray(result);
+        for (let j = 0; j < result.length; j++) {
+            result[j].dermatologist = this.dermatologists[i];
+            this.availableAppointments.push(result[j]);
+        }
+      });
+    }
+    console.log(this.availableAppointments);
+
+  }
+
+  private getPharmacistsByPharmacy() {
+    this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(
+      result => {
+        result=this.ToArray(result);
+        for(let i=0;i<result.length;i++)
+        {
+          this.pharmacists.push(result[i].name+" "+result[i].surname);
+        }
+      });
+  }
+
+  private getMedicationByPharmacy() {
+    this.pharmacyStorageService.getMedicationsInPharmacy(this.pharmacyId).subscribe(result =>{
+      this.medicationsByPharmacy = result;
+    });
+  }
+
+  private getDermatologistsByPharmacy() {
+    this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
+      result => {
+        result = this.ToArray(result);
+        for (let i = 0; i < result.length; i++) {
+          this.dermatologists.push(result[i]);
+        }
+      });
+  }
+
+  backToPharmacyProfile() {
+    this.showCurrentPricelistForPharmacy = false;
+    this.showPricelist = false;
+    this.addPricelistEntityDialog = false;
+    this.showEditPricelistEntity = false;
+    this.addPricelistEntityDialog = false;
+    this.showPricelist = false;
+    this.profile = true;
+    this.edit = false;
+    this.changePassword = false;
+    this.addPromotion = false;
+    this.showPromotions=false;
+    this.scheduleAppointment=false;
+  }
 }

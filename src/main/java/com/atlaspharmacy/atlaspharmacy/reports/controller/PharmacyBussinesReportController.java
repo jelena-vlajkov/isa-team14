@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reports.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugConsumptionDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PharmacyIncomeReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PharmacyPeriodReportDTO;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/pharmacyBussinesReport", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PharmacyBussinesReportController {
     private final IPharmacyBussinesReportService pharmacyBussinesReportService;
@@ -21,17 +24,56 @@ public class PharmacyBussinesReportController {
         this.pharmacyBussinesReportService = drugsConsumptionReportService;
     }
 
-    @GetMapping(value = "/getDrugConsumptionReport",consumes = MediaType.APPLICATION_JSON_VALUE)
+
+
+    @GetMapping(value = "/getDrugConsumptionsForMonth")
+    @PharmacyAdminAuthorization
     public @ResponseBody
-    List<DrugConsumptionDTO> getDrugsConsumptionsForPharmacyAndPeriod(
-            @RequestBody PharmacyPeriodReportDTO pharmacyPeriodReportDTO) {
-        return pharmacyBussinesReportService.getDrugsConsumptionReportForPharmacyAndPeriod(pharmacyPeriodReportDTO);
+    List<Long> getDrugsConsumptionsForMonth(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByMonths(year,pharmacyId);
     }
 
-    @GetMapping(value = "/getPharmacyIncomeReport",consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/getDrugConsumptionsForHalfYear")
+    @PharmacyAdminAuthorization
     public @ResponseBody
-    PharmacyIncomeReportDTO getPharmacyIncomeReport(
-            @RequestBody PharmacyPeriodReportDTO pharmacyPeriodReportDTO) {
-        return pharmacyBussinesReportService.getPharmacyIncomeReportForPeriod(pharmacyPeriodReportDTO);
+    List<Long> getDrugsConsumptionsForHalfYear(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByHalfYears(year,pharmacyId);
     }
+
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/getDrugConsumptionsForYear")
+    public @ResponseBody
+    List<Long> getDrugsConsumptionsForYear(@RequestParam("startYear")int startYear,@RequestParam("endYear")int endYear,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getDrugConsumptionsReportsByYears(startYear,endYear,pharmacyId);
+    }
+
+    @GetMapping(value = "/getPharmacyIncomeForMonth")
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<Long> getPharmacyIncomeForMonth(@RequestParam("year")int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByMonths(year,pharmacyId);
+    }
+
+
+    @GetMapping(value = "/getPharmacyIncomeForHalfYear")
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<Long> getPharmacyIncomeForHalfYear(@RequestParam("year") int year,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByHalfYears(year,pharmacyId);
+    }
+
+
+
+    @GetMapping(value = "/getPharmacyIncomeForYear")
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<Long> getPharmacyIncomeForYear(@RequestParam("startYear")int startYear,@RequestParam("endYear")int endYear,@RequestParam("pharmacyId") Long pharmacyId) {
+        return pharmacyBussinesReportService.getPharmacyIncomeReportByYears(startYear,endYear,pharmacyId);
+    }
+
+
+
+
 }

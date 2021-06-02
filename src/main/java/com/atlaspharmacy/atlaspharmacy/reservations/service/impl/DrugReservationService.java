@@ -133,6 +133,7 @@ public class DrugReservationService implements IDrugReservationService {
             throw new Exception("Cannot read reservation from other pharmacies!");
         }
         reservation.setIssued(true);
+        reservation.setDateOfIssue(new Date());
         drugReservationRepository.save(reservation);
         userRepository.save(pharmacist);
         emailService.sendMailForIssuingReservation(reservation.getPatient(), reservation);
@@ -181,9 +182,9 @@ public class DrugReservationService implements IDrugReservationService {
         List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
         for(DrugReservation drugReservation:allDrugReservations){
             if(drugReservation.getPharmacy().getId().equals(pharmacyId))
-                    if( drugReservation.isIssued())
-                    if(drugReservation.getReservationDate().after(period.getStartPeriod()))
-                    if(drugReservation.getExpirationDate().before(period.getEndPeriod())){
+                    if(drugReservation.isIssued())
+                    if(drugReservation.getDateOfIssue().after(period.getStartPeriod()))
+                        if(drugReservation.getDateOfIssue().before(period.getEndPeriod())){
                 drugReservationsForPharmacyAndPeriod.add(drugReservation);
             }
         }

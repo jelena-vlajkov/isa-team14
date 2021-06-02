@@ -106,7 +106,7 @@ insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description,
 insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
 
 
-insert into pharmacy_admins(id, pharmacy_id) values(400,200);
+insert into pharmacy_admins(id, pharmacy_id) values(1400,200);
 
 insert into medicalstaff(license_number, id) values ('16657568', 100);
 insert into medicalstaff(license_number, id) values ('243532', 200);
@@ -210,6 +210,8 @@ insert into workdays(id, date, workday_start_time, workday_end_time, medical_sta
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (800, '2021-06-01', '2021-06-01 12:00:00', '2021-06-01 15:30:00', 100, 300, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (600, '2021-06-02', '2021-06-02 12:00:00', '2021-06-02 15:30:00', 900, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (700, '2021-06-05', '2021-06-05 12:00:00', '2021-06-05 15:30:00', 100, 100, false);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (900, '2021-07-05', '2021-07-05 12:00:00', '2021-07-05 17:30:00', 200, 200, false);
+
 
 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id, finished) values ('Counseling', 100, '2021-05-31 12:00:00', '2021-05-31 12:30:00', 1000.00, false, 200, 900, 1500, false);
@@ -455,20 +457,23 @@ insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1
 
 
 
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (100, 800, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 100, 100);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (200, 560, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 200, 100);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (300, 330, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 300, 100);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (400, 580, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 400, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (100, 800, '2022-05-26 12:00:00', '2021-01-26 12:00:00', 100, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (200, 560, '2022-05-26 12:00:00', '2021-01-26 12:00:00', 200, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (300, 330, '2022-05-26 12:00:00', '2021-01-26 12:00:00', 300, 100);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (400, 580, '2022-05-26 12:00:00', '2021-01-26 12:00:00', 400, 100);
 
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (500, 920, '2021-07-12 12:00:00', '2021-01-26 12:00:00', 200, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 600, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (800, 978, '2021-07-26 12:00:00', '2021-01-26 12:00:00', 100, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (500, 920, '2021-10-12 12:00:00', '2021-01-26 12:00:00', 200, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2021-10-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2021-10-30 12:00:00', '2021-01-26 12:00:00', 600, 200);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (800, 978, '2021-10-19 12:00:00', '2021-01-26 12:00:00', 100, 200);
 
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (900, 123, '2021-05-26 12:00:00', '2021-01-23 12:00:00', 300, 300);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1100, 639, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 500, 300);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1200, 826, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 200, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (900, 123, '2021-06-26 12:00:00', '2021-01-23 12:00:00', 300, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-06-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1100, 639, '2021-06-26 12:00:00', '2021-01-09 12:00:00', 500, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1200, 826, '2021-06-26 12:00:00', '2021-01-09 12:00:00', 200, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1300, 90, '2021-10-26 12:00:00', '2021-02-12 12:00:00', 100, 400);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1400, 75, '2021-11-26 12:00:00', '2021-03-09 12:00:00', 600, 400);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1500, 2134, '2021-12-26 12:00:00', '2021-05-09 12:00:00', 200, 400);
 
 insert into subscriptions(id,patient_id,pharmacy_id) values (100,1500,200);
 insert into subscriptions(id,patient_id,pharmacy_id) values (200,1600,200);
@@ -501,10 +506,8 @@ insert into vacation_requests(id, end_date, start_date, vacation_reason, medical
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (300,'2021-06-29 12:00:00','2021-05-25 12:00:00','Jako sam umorna i treba mi odmor.',900,2, 100);
 /*
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (200,'2021-06-26 12:00:00','2021-05-10 12:00:00','Zeni mi se sin.',100,2);
-
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (300,'2021-06-01 12:00:00','2021-05-27 12:00:00','Macak mi se razboleo.',600,2);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (400,'2021-05-26 12:00:00','2021-05-26 12:00:00','Macak mi se razboleo.',600,1);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (500,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,0);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (600,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,1);
-
 */

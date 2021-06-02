@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.mapper;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VacationRequest;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.VacationRequestStatus;
@@ -21,17 +22,15 @@ public class VacationRequestMapper {
         vacationRequest.setStartDate(startDate);
         vacationRequest.setEndDate(endDate);
         vacationRequest.setStatus(VacationRequestStatus.PENDING);
+        vacationRequest.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
         return vacationRequest;
     }
 
     public static VacationRequestDTO mapToDTO(VacationRequest vacationRequest){
-        VacationRequestDTO dto=new VacationRequestDTO();
-        dto.setId(vacationRequest.getId());
-        dto.setVacationReason(vacationRequest.getVacationReason());
-        dto.setEndDate(vacationRequest.getEndDate());
-        dto.setStartDate(vacationRequest.getStartDate());
-        dto.setMedicalStaffDTO(MedicalStaffMapper.MapMedicalStaffToDTO(vacationRequest.getMedicalStaff()));
-        return dto;
+       return new VacationRequestDTO(vacationRequest.getId(),vacationRequest.getMedicalStaff().getId(),vacationRequest.getStartDate()
+               ,vacationRequest.getEndDate(),vacationRequest.getVacationReason(),MedicalStaffMapper.MapMedicalStaffToDTO(vacationRequest.getMedicalStaff())
+               ,PharmacyMapper.mapPharmacyToDTO(vacationRequest.getPharmacy()));
+
     }
 
     public static List<VacationRequestDTO> mapToListDTOS(List<VacationRequest> vacationRequests){

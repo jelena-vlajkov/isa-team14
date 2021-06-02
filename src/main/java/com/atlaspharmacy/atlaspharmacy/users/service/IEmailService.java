@@ -8,6 +8,9 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.MedicalStaffDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestAnswerDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 
@@ -29,4 +32,5 @@ public interface IEmailService {
     void successfullyScheduledAppointment(Examination counseling) throws MessagingException, IOException;
 
     void successfullyScheduledCounseling(Counseling counseling) throws MessagingException, IOException;
+    void sendVacationRequestAnswer(VacationRequestAnswerDTO answer) throws IOException, MessagingException;
 }

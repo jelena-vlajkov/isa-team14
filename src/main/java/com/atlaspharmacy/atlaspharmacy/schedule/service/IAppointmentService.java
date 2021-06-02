@@ -31,10 +31,10 @@ public interface IAppointmentService {
     List<Counseling> getFinishedPatientsCounselings(Long id);
     List<Examination> getFinishedPatientsExaminations(Long id);
     List<Appointment> getAllFinishedAppointmentsForPatient(Long patientId);
-    int getNumberOfScheduledByDate(Date date);
-    List<Integer> getNumberOfAppointmentsForMonth(int month, int year);
-    List<Integer> getNumberOfAppointmentsForHalfYear(int part, int year);
-    List<Integer> getNumberOfAppointmentsForMonth(int year);
+    int getNumberOfScheduledByDate(Date date,Long pharmacyId);
+    Long getNumberOfAppointmentsForMonth(int month, int year,Long pharmacyId);
+    Long getNumberOfAppointmentsForHalfYear(int part, int year,Long pharmacyId);
+    Long  getNumberOfAppointmentsForYear(int year,Long pharmacyId);
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
     boolean occupiedCounselingsExists(Long pharmacistId);
     List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId);
@@ -47,6 +47,9 @@ public interface IAppointmentService {
     void finishAppointment(Long appointmentId) throws Exception;
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
-
     List<Appointment> getScheduledByMonth(Date date, Long id);
+    List<Long> getNumberOfAppointmentsByMonths(int year,Long pharmacyId);
+    List<Long> getNumberOfAppointmentsByHalfYears( int year,Long pharmacyId);
+    List<Long>  getNumberOfAppointmentsByYears(int startYear,int endYear,Long pharmacyId);
+
 }

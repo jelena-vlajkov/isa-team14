@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.schedule.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
@@ -105,14 +106,28 @@ public class AppointmentController {
         return AppointmentMapper.mapAppointmentsToListDTO(appointmentService.getAllFinishedAppointmentsForPatient(id));
     }
 
+    @PharmacyAdminAuthorization
     @GetMapping(value = "/getNumberOfScheduledByDate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody int getNumberOfScheduledByDate(@RequestParam("date") Date date){
-        return appointmentService.getNumberOfScheduledByDate(date);
+    public @ResponseBody int getNumberOfScheduledByDate(@RequestParam("date") Date date, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfScheduledByDate(date,pharmacyId);
     }
 
-    @GetMapping(value = "/getNumberOfScheduledForMonth", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Integer> getNumberOfScheduledForMonth(@RequestParam("month") int month, @RequestParam("year") int year){
-        return appointmentService.getNumberOfAppointmentsForMonth(month,year);
+    @PharmacyAdminAuthorization
+    @GetMapping(value = "/getNumberOfScheduledForMonth")
+    public @ResponseBody List<Long> getNumberOfScheduledForMonth( @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByMonths(year,pharmacyId);
+    }
+
+    @PharmacyAdminAuthorization
+    @GetMapping(value = "/getNumberOfScheduledForHalfYear", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Long> getNumberOfScheduledForHalfYear( @RequestParam("year") int year, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByHalfYears(year,pharmacyId);
+    }
+
+    @PharmacyAdminAuthorization
+    @GetMapping(value = "/getNumberOfScheduledForYear", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody List<Long> getNumberOfScheduledForYear(@RequestParam("startYear") int startYear,@RequestParam("endYear") int endYear, @RequestParam("pharmacyId") Long pharmacyId){
+        return appointmentService.getNumberOfAppointmentsByYears(startYear,endYear,pharmacyId);
     }
 
 
@@ -174,6 +189,8 @@ public class AppointmentController {
     public boolean occupiedCounselingExists(@RequestParam("pharmacistId") Long pharmacistId){
         return appointmentService.occupiedCounselingsExists(pharmacistId);
     }
+
+
 
 
     @PostMapping(value = "/searchPatients", produces = MediaType.APPLICATION_JSON_VALUE)

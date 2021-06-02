@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.service;
 
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestAnswerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VacationRequest;
 
@@ -11,6 +12,6 @@ import java.util.List;
 public interface IVacationRequestService {
     void saveVacationRequest(VacationRequestDTO dto) throws Exception;
     List<VacationRequest> getAllByPharmacy(Long pharmacyId);
-    void approveVacationRequest(Long vacationRequestId) throws IOException, MessagingException;
-    void denyVacationRequest(Long vacationRequestId);
+    void approveVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException;
+    void denyVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException;
 }

@@ -100,10 +100,10 @@ export class PharmacistProfileComponent implements OnInit {
 
 
     }
-    
+
   isPharmacist() {
     let user = this.authService.currentUserValue;
-    return user.role === 'Pharmacist'; 
+    return user.role === 'Pharmacist';
   }
     sendRequest() {
       let startDate = this.vacationRequestForm.controls.startDate.value;
@@ -121,7 +121,7 @@ export class PharmacistProfileComponent implements OnInit {
         console.log(startDateSTring)
         console.log(endDateString)
 
-        let vacationRequest = new VacationRequest(Number(localStorage.getItem("userId")), startDate , endDate, vacationReason);
+        let vacationRequest = new VacationRequest(null,Number(localStorage.getItem("userId")), startDate , endDate, vacationReason);
 
 
         this.employeeService.addVacationRequest(vacationRequest).subscribe(

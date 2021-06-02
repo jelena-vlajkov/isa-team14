@@ -19,7 +19,7 @@ public class PharmacistMapper {
         //vratiti za adresu!!!!
          return new PharmacistDTO(pharmacist.getId(), pharmacist.getName(), pharmacist.getSurname(), pharmacist.getDateOfBirth(),
                 pharmacist.getPhoneNumber(), pharmacist.getEmail(), pharmacist.getPassword(), pharmacist.getGender(),
-                AddressMapper.mapAddressToDTO(new Address()) , pharmacist.getRole(), AuthorityMapper.authoritiesToListDTOS(pharmacist.getAuthorities()),
+                AddressMapper.mapAddressToDTO(pharmacist.getAddress()) , pharmacist.getRole(), AuthorityMapper.authoritiesToListDTOS(pharmacist.getAuthorities()),
                 PharmacyMapper.mapPharmacyToDTO(pharmacist.getPharmacy()), pharmacist.isFirstTimePassword(),AverageGradeMapper.mapToDTO(pharmacist.getAverageGrade()),pharmacist.getLicenseNumber());
     }
 

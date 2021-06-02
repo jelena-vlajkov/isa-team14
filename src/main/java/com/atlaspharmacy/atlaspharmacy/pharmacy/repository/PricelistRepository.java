@@ -21,9 +21,15 @@ public interface PricelistRepository extends JpaRepository<Pricelist, Long> {
     @Query(value = "SELECT p FROM Pricelist p WHERE p.medication.code = ?1 AND p.validPeriod.startTime < current_date AND p.validPeriod.endTime > current_date AND p.pharmacy.id = ?2")
     Pricelist getPricelistsByMedicationCodeAndPharmacy(Long code, Long pharmacyId);
 
+    @Query(value = "SELECT p FROM Pricelist p WHERE p.medication.code = ?1 AND p.validPeriod.startTime < CAST(?3 as date) AND p.validPeriod.endTime > CAST(?4 as date) AND p.pharmacy.id = ?2")
+    Pricelist getPricelistsByMedicationCodeAndPharmacyAndPeriod(Long code, Long pharmacyId,Date start,Date end);
+
     @Query(value = "SELECT p FROM Pricelist p WHERE p.medication.code = ?1 AND CAST(p.validPeriod.startTime as date) < CAST(?2 as date) AND CAST(p.validPeriod.endTime as date) > CAST(?3 as date)")
     Pricelist getPricelistsByMedicationCodeAndPeriod(Long code, Date start, Date end);
 
     @Query(value = "SELECT p FROM Pricelist p WHERE p.medication.id = ?1 AND CAST(p.validPeriod.startTime as date) < CAST(?2 as date) AND CAST(p.validPeriod.endTime as date) > CAST(?3 as date)")
     Pricelist getPricelistsByMedicationIdAndPeriod(Long code, Date start, Date end);
+
+    @Query(value = "SELECT p FROM Pricelist p WHERE  p.pharmacy.id = ?1")
+    List<Pricelist> getPricelistsByPharmacy(Long pharmacyId);
 }

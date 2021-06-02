@@ -19,7 +19,7 @@ export class PharmacyStorageService {
     return this.http.get<PharmacyStorage[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsInPharmacy}?ph=${id}`);
   }
 
-  getMedicationsNotInPharmacy(pharmacyId: Number) :Observable<Medication[]>{
-    return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsNotInPharmacy}?ph=${pharmacyId}`);
+  getMedicationsInPharmacy(pharmacyId: Number) :Observable<Medication[]>{
+    return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.pharmacyStorage}/${environment.getMedicationsByPharmacy}?ph=${pharmacyId}`);
   }
 }
