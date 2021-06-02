@@ -11,4 +11,5 @@ public interface IGradeService {
     List<Grade> findByPatient(Long id);
     Grade newMedicationGrade(GradeDTO dto);
     Grade updateGivenGrade(Long gradeId, int newGrade);
+    Grade newPharmacyGrade(GradeDTO dto);
 }

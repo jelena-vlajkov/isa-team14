@@ -102,7 +102,7 @@ public class PharmDerm {
         pharmacy.setTelephone(1221L);
 
         pharmacy.setDescription("asdf");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(1.0);
         return pharmacy;
     }
 
@@ -113,7 +113,7 @@ public class PharmDerm {
         pharmacy.setTelephone(1221L);
         pharmacy.setAddress(a);
         pharmacy.setDescription("asdf");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(2.1);
         return pharmacy;
     }
 

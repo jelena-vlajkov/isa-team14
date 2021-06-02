@@ -7,6 +7,7 @@ public class GradeDTO {
     private String gradeType;
     private Long patientId;
     private Long medicationId;
+    private Long pharmacyId;
 
     public GradeDTO() {
     }
@@ -14,6 +15,14 @@ public class GradeDTO {
     public GradeDTO(Long id, int grade) {
         this.id = id;
         this.grade = grade;
+    }
+
+    public Long getPharmacyId() {
+        return pharmacyId;
+    }
+
+    public void setPharmacyId(Long pharmacyId) {
+        this.pharmacyId = pharmacyId;
     }
 
     public Long getMedicationId() {
