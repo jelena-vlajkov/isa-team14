@@ -24,12 +24,12 @@ public class PharmacistDTO{
     private boolean firstTimeChanged;
     private String licenceNumber;
     private PharmacyDTO pharmacy;
-    private AverageGradeDTO averageGrade;
+    private double averageGrade;
 
     public PharmacistDTO(Long id, String name, String surname, Date dateOfBirth,
                          String phoneNumber, String email, String password, Gender gender,
                          AddressDTO address, String role, List<AuthorityDTO> authorities,
-                         PharmacyDTO pharmacy, boolean firstTimePassword,AverageGradeDTO averageGrade,String licenceNumber) {
+                         PharmacyDTO pharmacy, boolean firstTimePassword, double averageGrade,String licenceNumber) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -159,11 +159,11 @@ public class PharmacistDTO{
         this.pharmacy = pharmacy;
     }
 
-    public AverageGradeDTO getAverageGrade() {
+    public double getAverageGrade() {
         return averageGrade;
     }
 
-    public void setAverageGrade(AverageGradeDTO averageGrade) {
+    public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
     }
 }

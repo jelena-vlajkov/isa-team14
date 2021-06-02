@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.grade.mapper;
 import com.atlaspharmacy.atlaspharmacy.grade.DTO.GradeDTO;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.MedicationGrade;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacistGrade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacyGrade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.enums.GradeType;
 
@@ -21,7 +22,13 @@ public class GradeMapper {
             PharmacyGrade pharmacyGrade = (PharmacyGrade) grade;
             dto.setPharmacyId(pharmacyGrade.getPharmacy().getId());
             dto.setGradeType(GradeType.Values.PharmacyGrade);
-         }
+        }
+
+        if (grade.getType().equals(GradeType.Values.PharmacistGrade)) {
+            PharmacistGrade pharmacistGrade = (PharmacistGrade) grade;
+            dto.setPharmacistId(pharmacistGrade.getPharmacist().getId());
+            dto.setGradeType(GradeType.Values.PharmacistGrade);
+        }
 
 
         dto.setId(grade.getId());
@@ -40,6 +47,10 @@ public class GradeMapper {
 
         if(dto.getGradeType().equals(GradeType.Values.PharmacyGrade)) {
             grade = new PharmacyGrade();
+        }
+
+        if(dto.getGradeType().equals(GradeType.Values.PharmacistGrade)) {
+            grade = new PharmacistGrade();
         }
 
         if (grade != null) {

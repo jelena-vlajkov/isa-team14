@@ -12,4 +12,5 @@ public interface IGradeService {
     Grade newMedicationGrade(GradeDTO dto);
     Grade updateGivenGrade(Long gradeId, int newGrade);
     Grade newPharmacyGrade(GradeDTO dto);
+    Grade newPharmacistGrade(GradeDTO dto);
 }

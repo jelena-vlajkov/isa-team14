@@ -160,7 +160,7 @@ public class PharmacistService implements IPharmacistService {
     public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, int grade) {
         List<PharmacistDTO> filteredPharmacists = new ArrayList<>();
         for(PharmacistDTO p:pharmacistsToFilter){
-            if(p.getAverageGrade().count()>=grade){
+            if(p.getAverageGrade() >= grade) {
                 filteredPharmacists.add(p);
             }
         }
@@ -190,7 +190,7 @@ public class PharmacistService implements IPharmacistService {
             pharmacist.setGender(dto.getGender());
             pharmacist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
             pharmacist.setFirstTimePassword(dto.isFirstTimeChanged());
-            pharmacist.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
+            pharmacist.setAverageGrade(dto.getAverageGrade());
             pharmacist.setRole(role);
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
             pharmacist.setAddress(a);

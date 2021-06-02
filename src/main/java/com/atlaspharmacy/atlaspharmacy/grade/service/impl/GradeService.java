@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.grade.service.impl;
 import com.atlaspharmacy.atlaspharmacy.grade.DTO.GradeDTO;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.MedicationGrade;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacistGrade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacyGrade;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.enums.GradeType;
 import com.atlaspharmacy.atlaspharmacy.grade.mapper.GradeMapper;
@@ -14,6 +15,8 @@ import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.Medica
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +32,16 @@ public class GradeService implements IGradeService {
     private final MedicationRepository medicationRepository;
     private final PharmacyService pharmacyService;
     private final PharmacyRepository pharmacyRepository;
+    private final PharmacistRepository pharmacistRepository;
 
-    public GradeService(GradeRepository gradeRepository, MedicationServiceImpl medicationService, PatientService patientService, MedicationRepository medicationRepository, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository) {
+    public GradeService(GradeRepository gradeRepository, MedicationServiceImpl medicationService, PatientService patientService, MedicationRepository medicationRepository, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, PharmacistRepository pharmacistRepository) {
         this.gradeRepository = gradeRepository;
         this.medicationService = medicationService;
         this.patientService = patientService;
         this.medicationRepository = medicationRepository;
         this.pharmacyService = pharmacyService;
         this.pharmacyRepository = pharmacyRepository;
+        this.pharmacistRepository = pharmacistRepository;
     }
 
 
@@ -75,7 +80,6 @@ public class GradeService implements IGradeService {
         return null;
     }
 
-
     @Override
     public Grade newPharmacyGrade(GradeDTO dto) {
         PharmacyGrade pharmacyGrade = (PharmacyGrade) GradeMapper.dtoToGrade(dto);
@@ -91,6 +95,22 @@ public class GradeService implements IGradeService {
         }
 
         return null;
+    }
+
+    @Override
+    public Grade newPharmacistGrade(GradeDTO dto) {
+        PharmacistGrade pharmacistGrade = (PharmacistGrade) GradeMapper.dtoToGrade(dto);
+        if(!isPratienGradePharmacist(dto)) {
+            Pharmacist pharmacist = pharmacistRepository.findById(dto.getPharmacistId()).get();
+            pharmacistGrade.setPatient(patientService.findById(dto.getPatientId()));
+            pharmacistGrade.setPharmacist(pharmacist);
+            pharmacistGrade.setType(GradeType.Values.PharmacistGrade);
+
+            setNewPharmacistAverageGrade(false, dto.getGrade(), pharmacistGrade.getPharmacist().getId(), dto.getId());
+            return gradeRepository.save(pharmacistGrade);
+        }
+        return null;
+
     }
 
     @Override
@@ -113,10 +133,14 @@ public class GradeService implements IGradeService {
             Pharmacy p  = setNewPharmacyAverageGrade(true, newGrade, mg.getPharmacy().getId(), gradeId);
         }
 
+        if (grade.getType().equals(GradeType.Values.PharmacistGrade)) {
+            PharmacistGrade pg = (PharmacistGrade) grade;
+            setNewPharmacistAverageGrade(true, newGrade, pg.getPharmacist().getId(), gradeId);
+        }
+
         return grade;
 
     }
-
 
     public boolean isPatientGradeMedication(GradeDTO dto) {
 
@@ -147,6 +171,20 @@ public class GradeService implements IGradeService {
             }
         }
 
+        return false;
+    }
+
+    public boolean isPratienGradePharmacist(GradeDTO dto) {
+        List<Grade> allGradesPharmacist = findAll();
+        for (Grade g : allGradesPharmacist) {
+            if(g.getType().equals(dto.getGradeType()) && g.getType().equals(GradeType.Values.PharmacistGrade)) {
+                PharmacistGrade pharmacistGrade = (PharmacistGrade) g;
+                if(pharmacistGrade.getPharmacist().getId().equals(dto.getPharmacistId()) &&
+                pharmacistGrade.getPatient().getId().equals(dto.getPatientId())) {
+                    return  true;
+                }
+            }
+        }
         return false;
     }
 
@@ -224,6 +262,43 @@ public class GradeService implements IGradeService {
         pharmacyRepository.save(pharmacy);
         return pharmacy;
     }
+
+    private void setNewPharmacistAverageGrade(boolean update, int grade, Long pharmacistId, Long oldGradeId) {
+        int gradeSum = 0;
+        int grades = 0;
+        List<Grade> allPharmGrades = findAll().stream().filter(m -> m.getType().equals(GradeType.Values.PharmacistGrade)).collect(Collectors.toList());
+
+        for (Grade g : allPharmGrades) {
+            PharmacistGrade mg = (PharmacistGrade) g;
+            if(mg.getPharmacist().getId().equals(pharmacistId)) {
+                gradeSum += mg.getGrade();
+                grades ++;
+            }
+        }
+
+        Pharmacist pharmacist = pharmacistRepository.findById(pharmacistId).get();
+
+        if (pharmacist.getAverageGrade() == 0) {
+            pharmacist.setAverageGrade(1.0);
+        }
+
+        double averageGrade;
+        if (!update) {
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }else{
+            Grade odlPharmacyGrade = gradeRepository.findById(oldGradeId).get();
+            gradeSum -= odlPharmacyGrade.getGrade();
+            grades = grades - 1;
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }
+
+        pharmacist.setAverageGrade(averageGrade);
+
+        pharmacistRepository.save(pharmacist);
+
+    }
+
+
 
 
 

@@ -55,7 +55,7 @@ public class PharmDerm {
         pharmacist.setEmail("vlajkovn@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(500L);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(1.0);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Nadezda");
@@ -65,7 +65,7 @@ public class PharmDerm {
         pharmacist.setFirstTimePassword(true);
         pharmacist.setAddress(address);
         pharmacist.setGender(Gender.FEMALE);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(1.0);
         pharmacist.setPhoneNumber("");
         pharmacist.setLicenseNumber("");
         pharmacist.setRole(Role.Values.Pharmacist);

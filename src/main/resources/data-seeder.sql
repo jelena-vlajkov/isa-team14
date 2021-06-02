@@ -123,11 +123,11 @@ insert into medicalstaff(license_number, id) values('415541', 1200);
 insert into medicalstaff(license_number, id) values('415541', 1300);
 
 
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (900, 100,1,2,3,4,5);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1000, 200,1,1,1,1,1);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1100, 200,30,2,3,4,5);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1200, 200,50,1,5,1,1);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1300, 200,50,1,5,1,1);
+insert into pharmacists(id, pharmacy_id, average_grade) values (900, 100, 1.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1000, 200, 2.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1100, 200, 3.4);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1200, 200, 5.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1300, 200, 4.14);
 
 -- random character generator will generate verification code that will be added to database
 -- when patient activates account, code is removed
