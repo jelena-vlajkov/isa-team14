@@ -54,6 +54,10 @@ public class MedicalRecordService implements IMedicalRecordService {
         List<Ingredient> oldIngredienst = medicalRecord.getIngredients();
         List<Ingredient> newIngredients = medicalRecordDTO.getIngredients();
 
+        if(newIngredients == null) {
+            return true;
+        }
+
         List<Ingredient> setIngredients = new ArrayList<>(Stream.of(oldIngredienst, newIngredients).flatMap(List::stream)
                 .collect(Collectors.toMap(Ingredient::getName, d -> d, (Ingredient x, Ingredient y) -> x == null ? y : x)).values());
 
@@ -68,7 +72,8 @@ public class MedicalRecordService implements IMedicalRecordService {
         medicalRecordDTO.getIngredients().addAll(ingredientSet);
         */
 
-
+        medicalRecord.setIngredients(new ArrayList<Ingredient>());
+        medicalRecordRepository.save(medicalRecord);
         medicalRecord.setIngredients(setIngredients);
         medicalRecordRepository.save(medicalRecord);
         return  true;
