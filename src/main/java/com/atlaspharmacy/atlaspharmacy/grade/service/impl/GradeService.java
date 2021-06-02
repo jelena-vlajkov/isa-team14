@@ -66,7 +66,7 @@ public class GradeService implements IGradeService {
             medicationGrade.setMedication(medication);
             medicationGrade.setType(GradeType.Values.MedicationGrade);
 
-            setNewMedicationAverageGrade(dto.getGrade(), medicationGrade.getMedication().getId());
+            setNewMedicationAverageGrade(false, dto.getGrade(), medicationGrade.getMedication().getId(), dto.getId());
             return gradeRepository.save(medicationGrade);
 
 
@@ -86,7 +86,7 @@ public class GradeService implements IGradeService {
             pharmacyGrade.setPharmacy(pharmacy);
             pharmacyGrade.setType(GradeType.Values.PharmacyGrade);
 
-            setNewPharmacyAverageGrade(dto.getGrade(), pharmacyGrade.getPharmacy().getId());
+            Pharmacy p  = setNewPharmacyAverageGrade(false, dto.getGrade(), pharmacyGrade.getPharmacy().getId(), dto.getId());
             return gradeRepository.save(pharmacyGrade);
         }
 
@@ -96,6 +96,8 @@ public class GradeService implements IGradeService {
     @Override
     public Grade updateGivenGrade(Long gradeId, int newGrade) {
         Grade grade = gradeRepository.findById(gradeId).get();
+        grade.setGrade(newGrade);
+        gradeRepository.save(grade);
 
         if (grade == null) {
             return  null;
@@ -103,16 +105,15 @@ public class GradeService implements IGradeService {
 
         if (grade.getType().equals(GradeType.Values.MedicationGrade)) {
             MedicationGrade mg = (MedicationGrade) grade;
-            updateMedicationGrade(newGrade, mg.getMedication().getId(), gradeId);
+            setNewMedicationAverageGrade(true, newGrade, mg.getMedication().getId(), gradeId);
         }
 
         if (grade.getType().equals(GradeType.Values.PharmacyGrade)) {
             PharmacyGrade mg = (PharmacyGrade) grade;
-            updatePharmacyGrade(newGrade, mg.getPharmacy().getId(), gradeId);
+            Pharmacy p  = setNewPharmacyAverageGrade(true, newGrade, mg.getPharmacy().getId(), gradeId);
         }
 
-        grade.setGrade(newGrade);
-        return gradeRepository.save(grade);
+        return grade;
 
     }
 
@@ -149,7 +150,7 @@ public class GradeService implements IGradeService {
         return false;
     }
 
-    private void setNewMedicationAverageGrade(int grade, Long medicationId) {
+    private void setNewMedicationAverageGrade(boolean update, int grade, Long medicationId, Long oldGradeId) {
         int gradeSum = 0;
         int grades = 0;
 
@@ -169,14 +170,25 @@ public class GradeService implements IGradeService {
             medication.setGrade(1.0);
         }
 
-        double averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        double averageGrade;
+
+        if (!update) {
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }else{
+            Grade oldGrade = gradeRepository.findById(oldGradeId).get();
+            gradeSum -= oldGrade.getGrade();
+            grades = grades - 1;
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }
+
+
         medication.setGrade(averageGrade);
 
         medicationRepository.save(medication);
 
     }
 
-    private void  setNewPharmacyAverageGrade(int grade, Long pharmacyId) {
+    private Pharmacy  setNewPharmacyAverageGrade(boolean update, int grade, Long pharmacyId, Long oldGradeId) {
         int gradeSum = 0;
         int grades = 0;
         List<Grade> allPharmGrades = findAll().stream().filter(m -> m.getType().equals(GradeType.Values.PharmacyGrade)).collect(Collectors.toList());
@@ -191,73 +203,29 @@ public class GradeService implements IGradeService {
 
         Pharmacy pharmacy = pharmacyService.getById(pharmacyId);
 
-        if(pharmacy.getAverageGrade() == 0) {
-            pharmacy.setAverageGrade(1.0);
-        }
-
-        double averageGrade = (double) (grade + gradeSum) / (grades + 1);
-        pharmacy.setAverageGrade(averageGrade);
-
-        pharmacyRepository.save(pharmacy);
-    }
-
-    private void updatePharmacyGrade(int grade, Long pharmacyId, Long oldGradeId) {
-        int gradeSum = 0;
-        int grades = 0;
-        List<Grade> allPharmGrades = findAll().stream().filter(m -> m.getType().equals(GradeType.Values.PharmacyGrade)).collect(Collectors.toList());
-
-        for (Grade g : allPharmGrades) {
-            PharmacyGrade mg = (PharmacyGrade) g;
-            if(mg.getPharmacy().getId().equals(pharmacyId)) {
-                gradeSum += mg.getGrade();
-                grades ++;
-            }
-        }
-
-        Pharmacy pharmacy = pharmacyService.getById(pharmacyId);
-        Grade odlPharmacyGrade = gradeRepository.findById(oldGradeId).get();
-
 
         if(pharmacy.getAverageGrade() == 0) {
             pharmacy.setAverageGrade(1.0);
         }
 
-        gradeSum -= odlPharmacyGrade.getGrade();
-        grades = grades - 1;
-        double averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        double averageGrade;
+        if (!update) {
+
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }else{
+            Grade odlPharmacyGrade = gradeRepository.findById(oldGradeId).get();
+            gradeSum -= odlPharmacyGrade.getGrade();
+            grades = grades - 1;
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }
+
         pharmacy.setAverageGrade(averageGrade);
 
         pharmacyRepository.save(pharmacy);
+        return pharmacy;
     }
 
-    private void updateMedicationGrade(int grade, Long medicationId, Long oldGradeId) {
-        int gradeSum = 0;
-        int grades = 0;
 
-        List<Grade> allMedGrades = findAll().stream().filter(m -> m.getType().equals(GradeType.Values.MedicationGrade)).collect(Collectors.toList());
-
-        for (Grade g : allMedGrades) {
-            MedicationGrade mg = (MedicationGrade) g;
-            if(mg.getMedication().getId().equals(medicationId)) {
-                gradeSum += mg.getGrade();
-                grades ++;
-            }
-        }
-
-        Medication medication = medicationService.getById(medicationId);
-        Grade odlMedicationGrade = gradeRepository.findById(oldGradeId).get();
-
-        if(medication.getGrade() == 0) {
-            medication.setGrade(1.0);
-        }
-
-        gradeSum -= odlMedicationGrade.getGrade();
-        grades = grades - 1;
-        double averageGrade = (double) (grade + gradeSum) / (grades + 1);
-        medication.setGrade(averageGrade);
-
-        medicationRepository.save(medication);
-    }
 
 
 }

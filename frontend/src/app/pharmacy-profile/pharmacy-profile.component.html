@@ -55,7 +55,7 @@
         <div><label>About:</label></div>
         <div style="width: 500px;height: fit-content;"><p>{{pharmacy.description}}</p></div>
         <div><label>Grade:</label></div>
-        <div><p>{{grade|number:'1.0-2'}}</p></div>
+        <div><p>{{pharmacy.averageGradeCount|number:'1.0-2'}}</p></div>
         <div><label>Dermatologists:</label></div>
         <div *ngIf="dermatologists.length==0"><p style="font-size: 15px;">No dermatologists in pharmacy at the moment.</p></div>
         <div aria-colspan="1" *ngIf="dermatologists.length!=0">
