@@ -32,7 +32,7 @@
     <div *ngIf="profile" style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
       <div style="display: flex;margin-left:30px;">
         <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='editPharmacy' (click)='showEditProfileDialog()' *ngIf="isPharmacyAdmin">Edit pharmacy</button>
-        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='reserveDrug' (click)='showEditProfileDialog()' *ngIf="!isPharmacyAdmin">Reserve drug</button>
+        <button style="float:right; background-color: #385399; margin:10px;" color="accent" mat-raised-button id='reserveDrug' *ngIf="!isPharmacyAdmin">Reserve drug</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button (click)='showScheduleAppointment()'>Free appointments</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='SpecialOffers' (click)='showPromotionsDialog()'>Pharmacy promotions</button>
         <button style="float:right; background-color: #385399;margin:10px;"  color="accent" mat-raised-button id='Pricelist' (click)='showPharmacyPricelist()'>Pharmacy pricelist</button>
@@ -57,17 +57,20 @@
         <div><label>Grade:</label></div>
         <div><p>{{grade|number:'1.0-2'}}</p></div>
         <div><label>Dermatologists:</label></div>
-        <div aria-colspan="1">
+        <div *ngIf="dermatologists.length==0"><p style="font-size: 15px;">No dermatologists in pharmacy at the moment.</p></div>
+        <div aria-colspan="1" *ngIf="dermatologists.length!=0">
           <p *ngFor="let dermatologist of dermatologists">{{dermatologist.name}} {{dermatologist.surname}}  </p>
         </div>
         <div><label>Pharmacists:</label></div>
-        <div>
-          <p class="text-grid" *ngFor="let pharmacist of pharmacists">
+        <div *ngIf="pharmacists.length==0"><p style="font-size: 15px;">No pharmacists in pharmacy at the moment.</p></div>
+        <div *ngIf="pharmacists.length!=0">
+          <p  class="text-grid" *ngFor="let pharmacist of pharmacists">
             {{pharmacist}}
           </p>
         </div>
         <div><label>Drugs:</label></div>
-        <div>
+        <div *ngIf="medications.length==0"><p style="font-size: 15px;">No medications in pharmacy at the moment.</p></div>
+        <div *ngIf="medications.length!=0">
           <p class="text-grid"  *ngFor="let drug of medications">
             {{drug}}
           </p>
@@ -75,20 +78,23 @@
       </div>
     </div>
 
-    <mat-card *ngIf="scheduleAppointment">
-      <mat-grid-list cols="1" rowHeight="5:1" style="margin-left: 10px;height:200px;">
-      <mat-grid-tile>
-        <label>Free appointments:</label>
-      </mat-grid-tile>
-      <mat-grid-tile colspan="1">
-        <div style="margin-top: 20px;margin-bottom: 5px;" >
-          <p *ngFor="let availableAppointment of availableAppointments">{{availableAppointment}}  </p>
-        </div>
-      </mat-grid-tile>
-      </mat-grid-list>
+    <mat-card *ngIf="scheduleAppointment" style="height:fit-content;">
+      <div style="margin-left:200px;">
+        <label style="align-content:center;">Free appointments:</label>
+      </div>
+      <div *ngIf="availableAppointments.length==0">
+        <p style="margin-left: 200px;margin-top:30px;">No available appointments at the moment.</p>
+      </div>
+      <table style="margin-left: 200px;height:200px;margin-top:30px;" *ngIf="availableAppointments.length!=0">
+        <tr *ngFor="let availableAppointment of availableAppointments" >
+        <td style="margin-top: 20px;margin-bottom: 5px;" >{{availableAppointment.dermatologist.name}}
+         {{availableAppointment.dermatologist.surname}} {{availableAppointment.appointmentPeriod.startTime | date:"HH:mm"}}
+         - {{availableAppointment.appointmentPeriod.endTime | date:"HH:mm"}} {{availableAppointment.cost}} din</td>
+          <td *ngIf="!isPharmacyAdmin"><button class="btn"><i style="color:blue;">Schedule</i></button></td>
+        </tr>
+      </table>
       <div style="vertical-align: bottom;">
-        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button id='cancelScheduling' (click)='cancelScheduling()'>Cancel</button>
-        <button style="float:right;position: relative; background-color: #385399;margin-right:20px;margin-top: 100px;"  color="accent" mat-raised-button (click)='showScheduleAppointment()' *ngIf="!isPharmacyAdmin">Schedule appointment</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 60px;" color="accent" mat-raised-button id='cancelScheduling' (click)='cancelScheduling()'>Back</button>
       </div>
     </mat-card>
 
@@ -97,8 +103,8 @@
         <label style="font-size:25px;margin-left:200px">Pharmacy promotions</label>
         <button *ngIf="isPharmacyAdmin" style="float:right;position: relative; background-color: #385399; margin-left:100px;height: 40px;" color="accent" mat-raised-button (click)='addPromotionClicked()'>Add promotion</button>
       </div>
-
-      <table style="margin-top: 40px;margin-left: 50px;border-bottom: 40px;height: fit-content;" >
+      <div *ngIf="pharmacyPromotions.length==0"><p style="font-size: 15px;margin-left:170px;">No pharmacy promotions at the moment.</p></div>
+      <table style="margin-top: 40px;margin-left: 50px;border-bottom: 40px;height: fit-content;"  *ngIf="pharmacyPromotions.length != 0">
         <tr *ngFor="let promotion of pharmacyPromotions" style="margin-bottom: 30px;border-bottom:1px solid black;">
           <td style="font-size: 20px;height: fit-content;width: 400px;">{{promotion.description}}</td>
           <span style="margin-left: 40px;"></span>
@@ -250,7 +256,8 @@
         <label style="font-size:25px;margin-left:200px">Current pharmacy pricelist</label>
 
       </div>
-      <table style="margin-top: 20px;margin-left: 200px;">
+      <div ngIf *ngIf="currentPharmacyPricelist.length==0"><p>No pharmacy pricelist for this pharmacy.</p></div>
+      <table style="margin-top: 20px;margin-left: 200px;" else *ngIf="currentPharmacyPricelist.length!=0">
         <tr *ngFor="let pricelist of currentPharmacyPricelist" style="margin-bottom: 10px;">
 
           <td style="font-size: 25px;"> {{pricelist.medication.name}} </td>
@@ -259,7 +266,7 @@
            </tr>
       </table>
       <div style="vertical-align: bottom;">
-        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button (click)='showPharmacyPricelist()'>Back</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 100px;" color="accent" mat-raised-button (click)='backToPharmacyProfile()'>Back</button>
          </div>
 
     </mat-card>

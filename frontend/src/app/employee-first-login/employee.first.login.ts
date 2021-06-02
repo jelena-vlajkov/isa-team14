@@ -74,7 +74,7 @@ export class WelcomeComponent implements OnInit {
               alert("Welcome!")
               localStorage.setItem('firstTimeChanged', "true");
               console.log(this.user.role);
-              if(this.user.role=="PharmacyAdmin"){
+              if(this.user.role === "PharmacyAdmin"){
                 this.router.navigate(["/pharmacyAdmin-profile"]);
               }
               else{

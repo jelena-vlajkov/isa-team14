@@ -76,11 +76,15 @@ public class AppointmentService implements IAppointmentService {
             counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
 
             try {
-                appointmentRepository.save(counseling);
                 userRepository.save(pharmacist);
+                appointmentRepository.save(counseling);
                 emailService.successfullyScheduledCounseling(counseling);
-            } catch(OptimisticEntityLockException o) {
-                throw new AppointmentNotFreeException();
+            } catch(Exception e) {
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledCounseling(counseling);
             }
 
             return counseling;
@@ -101,11 +105,16 @@ public class AppointmentService implements IAppointmentService {
 
 
             try {
-                appointmentRepository.save(counseling);
                 userRepository.save(dermatologist);
+                appointmentRepository.save(counseling);
                 emailService.successfullyScheduledAppointment(counseling);
-            } catch (OptimisticEntityLockException o) {
-                throw new AppointmentNotFreeException();
+            } catch (Exception e) {
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
+                appointmentRepository.save(counseling);
+                emailService.successfullyScheduledAppointment(counseling);
+
             }
             return counseling;
         }
@@ -626,8 +635,9 @@ public class AppointmentService implements IAppointmentService {
                 }
             } else {
                 Dermatologist d = (Dermatologist) user;
-                for (Pharmacy p : d.getPharmacies()) {
-                    if (p.getId().equals(w.getId())) {
+                List<Pharmacy> pharmacies=d.getPharmacies();
+                for (Pharmacy p : pharmacies) {
+                    if (p.getId().equals(w.getPharmacy().getId())) {
                         workDay = w;
                         break;
                     }

@@ -3,11 +3,11 @@ package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
-import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
@@ -18,19 +18,15 @@ import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonExcepti
 import com.atlaspharmacy.atlaspharmacy.reservations.mapper.DrugReservationMapper;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.valueobjects.Period;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.User;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,9 +43,10 @@ public class DrugReservationService implements IDrugReservationService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final IEPrescriptionService prescriptionService;
+    private final PharmacyStorageRepository pharmacyStorageRepository;
     @Autowired
     public DrugReservationService(DrugReservationRepository drugReservationRepository, IPharmacyStorageService pharmacyStorageService, MedicationRepository medicationRepository, PharmacyRepository pharmacyRepository, UserRepository userRepository, EmailService emailService,
-                                  IEPrescriptionService prescriptionService) {
+                                  IEPrescriptionService prescriptionService, PharmacyStorageRepository pharmacyStorageRepository) {
         this.drugReservationRepository = drugReservationRepository;
         this.pharmacyStorageService = pharmacyStorageService;
         this.medicationRepository = medicationRepository;
@@ -57,6 +54,7 @@ public class DrugReservationService implements IDrugReservationService {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.prescriptionService = prescriptionService;
+        this.pharmacyStorageRepository = pharmacyStorageRepository;
     }
 
     @Transactional
@@ -78,9 +76,13 @@ public class DrugReservationService implements IDrugReservationService {
             throw new Exception("Invalid request");
         }
 
-
         Pharmacy p = pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).get();
         Patient patient = (Patient) userRepository.findById(drugReservationDTO.getPatientId()).get();
+        PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(p.getId(), m.getId());
+
+        if (pharmacyStorage.getQuantity() == 0) {
+            throw new Exception("Invalid request");
+        }
 
         DrugReservation drugReservation = DrugReservationMapper.mapNewReservation(drugReservationDTO);
         drugReservation.setMedication(m);
@@ -90,10 +92,17 @@ public class DrugReservationService implements IDrugReservationService {
         Random randomGenerator = new Random();
         drugReservation.setUniqueIdentifier(randomGenerator.nextInt(99999999));
 
-        PrescribedDrug prescribedDrug = new PrescribedDrug();
-        pharmacyStorageService.medicationReserved(drugReservationDTO.getMedicationId(), drugReservationDTO.getPharmacyId());
+        try {
+            pharmacyStorage.setQuantity(pharmacyStorage.getQuantity() - 1);
+            pharmacyStorageRepository.save(pharmacyStorage);
+        } catch (Exception e) {
+            if (!pharmacyStorageService.isMedicationInPharmacy(m.getCode(), drugReservationDTO.getPharmacyId())) {
+                throw new Exception("Invalid request");
+            }
+            pharmacyStorageService.medicationReserved(m.getId(), p.getId());
+        }
         drugReservationRepository.save(drugReservation);
-        //prescriptionService.saveNewPrescription(drugReservationDTO);
+        emailService.sendDrugReservation(patient, drugReservation);
     }
 
     @Transactional
@@ -110,6 +119,7 @@ public class DrugReservationService implements IDrugReservationService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean issueDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception {
         DrugReservation reservation = drugReservationRepository.findByUniqueIdentifier(uniqueIdentifier);
@@ -125,11 +135,13 @@ public class DrugReservationService implements IDrugReservationService {
         reservation.setIssued(true);
         reservation.setDateOfIssue(new Date());
         drugReservationRepository.save(reservation);
+        userRepository.save(pharmacist);
         emailService.sendMailForIssuingReservation(reservation.getPatient(), reservation);
         return true;
     }
 
     @Override
+    @Transactional
     public DrugReservation findDrugReservation(int uniqueIdentifier, Long medicalStaffId) throws Exception {
         if (!userRepository.findById(medicalStaffId).isPresent()) {
             throw new Exception("Invalid request");
@@ -146,10 +158,12 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
+    @Transactional
     public List<DrugReservationDTO> findAllReservation(Long pharmacyId) {
         return DrugReservationMapper.mapDrugReservationToListDTO(drugReservationRepository.findByPharmacy(pharmacyId));
     }
     @Override
+    @Transactional
     public List<DrugReservation> getPatientsIssuedDrugReservations(Long id){
         List<DrugReservation> drugReservations = new ArrayList<>();
         for(DrugReservation d : drugReservationRepository.findAll()){
@@ -162,6 +176,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
+    @Transactional
     public List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO period) {
         List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
         List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
@@ -177,6 +192,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
+    @Transactional
     public void patientDrugReservation(CreateDrugReservationDTO drugReservationDTO) throws Exception {
         if (!medicationRepository.findById(drugReservationDTO.getMedicationId()).isPresent()) {
             throw new Exception("Invalid medication");
@@ -210,6 +226,7 @@ public class DrugReservationService implements IDrugReservationService {
     }
 
     @Override
+    @Transactional
     public List<PatientDrugReservationDTO> getDrugReservationForPatient(Long patientId) {
         List<PatientDrugReservationDTO> patientDrugReservationDTOS = new ArrayList<>();
 
@@ -228,7 +245,9 @@ public class DrugReservationService implements IDrugReservationService {
 
         return patientDrugReservationDTOS;
     }
+
     @Override
+    @Transactional
     public boolean isDrugReserved(Long medicationId, Long pharmacyId) {
        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
        for(DrugReservation d:allDrugReservations){

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Form, Validators} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { Router } from '@angular/router';
+import { IssueReservation } from '@app/model/pharmderm/isuueReservation';
 import { Reservation } from '@app/model/pharmderm/reservations';
 import { PharmacistService } from '@app/service/pharmacist/pharmacist.service';
 
@@ -48,7 +49,11 @@ export class PharmDermMedicationsComponent {
   
     searchReservation() {
       let id = this.searchForm.controls.uniqueIdentifier.value;
-      this.pharmacistService.getReservationsByUniqueIdentifier(id).subscribe(
+      let medicalStaffId = Number(localStorage.getItem("userId"));
+      let issueReservation = new IssueReservation();
+      issueReservation.medicalStaffId = medicalStaffId;
+      issueReservation.uniqueIdentifier = id;
+      this.pharmacistService.getReservationsByUniqueIdentifier(id, Number(localStorage.getItem("userId"))).subscribe(
         data => {
           this.reservation = data;
           console.log("ASDASDsa")
@@ -70,7 +75,12 @@ export class PharmDermMedicationsComponent {
 
     issueReservation() {
       if (this.uniqueId != null) {
-        this.pharmacistService.issueReservation(Number(this.uniqueId)).subscribe(
+        let id = this.uniqueId;
+        let medicalStaffId = Number(localStorage.getItem("userId"));
+        let issueReservation = new IssueReservation();
+        issueReservation.medicalStaffId = medicalStaffId;
+        issueReservation.uniqueIdentifier = Number(id);
+        this.pharmacistService.issueReservation(issueReservation).subscribe(
           data => {
             alert("Successfully issued reservation!")
             this.showResults  = true;

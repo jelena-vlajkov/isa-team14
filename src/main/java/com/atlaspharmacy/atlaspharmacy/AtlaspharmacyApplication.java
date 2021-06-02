@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import java.util.Properties;
 public class AtlaspharmacyApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(AtlaspharmacyApplication.class, args);
 	}
 

@@ -120,6 +120,13 @@ insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (3
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1100,100);
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1700,200);
 
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1700,300);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (1100,300);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (300,300);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (600,300);
+insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100,300);
+
+
 insert into sysadmins(id) values(900);
 insert into sysadmins(id) values(905);
 
@@ -159,7 +166,7 @@ insert into workdays(id, date, workday_start_time, workday_end_time, medical_sta
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (100, '2021-05-31', '2021-05-31 12:00:00', '2021-05-31 15:30:00', 500, 200, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (200, '2021-05-31', '2021-05-31 12:00:00', '2021-05-31 15:30:00', 100, 200, false);
 
-insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (300, '2021-06-05', '2021-06-05 12:00:00', '2021-05-31 15:30:00', 100, 100, false);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (300, '2021-05-31', '2021-05-31 15:00:00', '2021-05-31 19:30:00', 100, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (400, '2021-05-31', '2021-05-31 12:00:00', '2021-05-31 15:30:00', 500, 200, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (500, '2021-06-01', '2021-06-01 12:00:00', '2021-06-01 15:30:00', 500, 300, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (600, '2021-06-02', '2021-06-02 12:00:00', '2021-06-02 15:30:00', 500, 100, false);
@@ -432,10 +439,13 @@ insert into pricelists(id, price, end_period, start_period, medication_id, pharm
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (600, 600, '2022-07-26 12:00:00', '2021-01-26 12:00:00', 400, 200);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (700, 130, '2023-07-26 12:00:00', '2021-01-26 12:00:00', 600, 200);
 
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (900, 123, '2021-05-26 12:00:00', '2021-01-23 12:00:00', 300, 300);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1000, 748, '2021-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1700, 639, '2022-05-26 12:00:00', '2021-01-01 12:00:00', 500, 200);
-insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (2200, 826, '2021-05-26 12:00:00', '2021-01-09 12:00:00', 200, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (2200, 826, '2022-05-26 12:00:00', '2021-01-09 12:00:00', 200, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1800, 748, '2022-05-26 12:00:00', '2021-01-12 12:00:00', 400, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (1900, 639, '2022-05-26 12:00:00', '2021-01-01 12:00:00', 500, 300);
+insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (2000, 826, '2022-05-26 12:00:00', '2021-01-09 12:00:00', 300, 300);
+
 
 insert into subscriptions(id,patient_id,pharmacy_id) values (100,200,200);
 insert into subscriptions(id,patient_id,pharmacy_id) values (200,1300,200);

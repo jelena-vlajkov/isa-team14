@@ -26,6 +26,7 @@ import {Period} from "@app/model/appointment/period";
 import {AuthenticationService} from "@app/service/user";
 import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
 import { AgmCoreModule } from '@agm/core';
+import {Examination} from "@app/model/appointment/examination";
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -41,7 +42,7 @@ export class PharmacyProfileComponent implements OnInit {
   medications:String[]=new Array();
   viewPricelist:boolean=false;
   private StringIsNumber = value => isNaN(Number(value)) === false;
-  availableAppointments:String[] = new Array();
+  availableAppointments:Examination[] = new Array();
   @ViewChild(GooglePlacesComponent) googleplaces;
   pharmacy:Pharmacy;
   editProfileForm: FormGroup;
@@ -82,69 +83,36 @@ export class PharmacyProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserId = localStorage.getItem('userId');
-    if(localStorage.getItem('userRole') == "PharmacyAdmin"){
+    if (localStorage.getItem('userRole') == "PharmacyAdmin") {
       this.isPharmacyAdmin = true;
+      this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
+        result => {
+          this.pharmacy = result;
+          this.pharmacyId = result.id;
+          this.grade = this.countAverageGrade(result.averageGrade);
+          this.getPharmacyStorage();
+          this.getDermatologistsByPharmacy();
+          this.getAvailableAppointmentsForDermatologist();
+          this.getPharmacistsByPharmacy();
+          this.getMedicationByPharmacy();
+        });
+    }
+
+    else{
+      localStorage.setItem('pharmacyId','100');
+      this.pharmacyService.getPharmacyById(Number(localStorage.getItem('pharmacyId'))).subscribe(result =>{
+        this.pharmacy = result;
+        this.pharmacyId = result.id;
+        this.grade = this.countAverageGrade(result.averageGrade);
+        this.getPharmacyStorage();
+        this.getDermatologistsByPharmacy();
+        this.getAvailableAppointmentsForDermatologist();
+        this.getPharmacistsByPharmacy();
+      });
     }
 
 
-    this.pharmacyAdminService.getPharmacyByAdmin(Number(this.currentUserId)).subscribe(
-      result => {
-        this.pharmacy=result;
-        this.pharmacyId = result.id;
-        this.grade=this.countAverageGrade(result.averageGrade);
-
-       this.getPharmacyStorage();
-
-
-
-        this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
-          result => {
-            result=this.ToArray(result);
-            for(let i=0;i<result.length;i++)
-            {
-              this.dermatologists.push(result[i]);
-            }
-            for(let i=0;i<this.dermatologists.length;i++){
-              this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id,this.pharmacyId).subscribe(result=>
-              {
-                result=this.ToArray(result);
-                for(let j=0;j<result.length;i++) {
-                  let startTime = new Date(result[j].appointmentPeriod.startTime.valueOf());
-                  let endTime = new Date(result[j].appointmentPeriod.endTime.valueOf());
-                  this.availableAppointments.push(
-                    this.dermatologists[i].name + " " + this.dermatologists[i].surname
-                    + ", " + startTime.getHours()
-                    + ":" + startTime.getMinutes()
-                    + "-" + endTime.getHours()
-                    + ":" + endTime.getMinutes()
-                    + " " + endTime.getDate() + "."+endTime.getMonth()+"."+endTime.getFullYear()+"."
-                    +" "+result[i].cost+"din");
-                }
-              });
-            }
-          });
-        this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(
-          result => {
-            result=this.ToArray(result);
-            for(let i=0;i<result.length;i++)
-            {
-              this.pharmacists.push(result[i].name+" "+result[i].surname);
-            }
-          });
-
-        this.pharmacyStorageService.getMedicationsInPharmacy(this.pharmacyId).subscribe(result =>{
-          this.medicationsByPharmacy = result;
-        });
-       });
-
-
-        this.addPricelistEntityFormGroup=new FormGroup({
-          'medication': new FormControl(null,Validators.required),
-          'startDate':new FormControl(null,Validators.required),
-          'endDate':new FormControl(null,Validators.required),
-          'price':new FormControl(null,Validators.required)});
-
-      }
+  }
 
 
 
@@ -266,6 +234,7 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   showScheduleAppointment(){
+    this.getAvailableAppointmentsForDermatologist();
     this.showPricelist = false;
     this.profile = false;
     this.edit = false;
@@ -319,6 +288,12 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   addPricelistClicked() {
+    this.addPricelistEntityFormGroup=new FormGroup({
+      'medication': new FormControl(null,Validators.required),
+      'startDate':new FormControl(null,Validators.required),
+      'endDate':new FormControl(null,Validators.required),
+      'price':new FormControl(null,Validators.required)});
+
     this.addPricelistEntityDialog = true;
     this.showPricelist = false;
     this.profile = false;
@@ -448,5 +423,61 @@ export class PharmacyProfileComponent implements OnInit {
         }
 
       });
+  }
+
+  private getAvailableAppointmentsForDermatologist() {
+    for(let i=0;i<this.dermatologists.length;i++) {
+      this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id, this.pharmacyId).subscribe(result => {
+        result = this.ToArray(result);
+        for (let j = 0; j < result.length; j++) {
+            result[j].dermatologist = this.dermatologists[i];
+            this.availableAppointments.push(result[j]);
+        }
+      });
+    }
+    console.log(this.availableAppointments);
+
+  }
+
+  private getPharmacistsByPharmacy() {
+    this.pharmacistService.getPharmacistsByPharmacy(this.pharmacyId).subscribe(
+      result => {
+        result=this.ToArray(result);
+        for(let i=0;i<result.length;i++)
+        {
+          this.pharmacists.push(result[i].name+" "+result[i].surname);
+        }
+      });
+  }
+
+  private getMedicationByPharmacy() {
+    this.pharmacyStorageService.getMedicationsInPharmacy(this.pharmacyId).subscribe(result =>{
+      this.medicationsByPharmacy = result;
+    });
+  }
+
+  private getDermatologistsByPharmacy() {
+    this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
+      result => {
+        result = this.ToArray(result);
+        for (let i = 0; i < result.length; i++) {
+          this.dermatologists.push(result[i]);
+        }
+      });
+  }
+
+  backToPharmacyProfile() {
+    this.showCurrentPricelistForPharmacy = false;
+    this.showPricelist = false;
+    this.addPricelistEntityDialog = false;
+    this.showEditPricelistEntity = false;
+    this.addPricelistEntityDialog = false;
+    this.showPricelist = false;
+    this.profile = true;
+    this.edit = false;
+    this.changePassword = false;
+    this.addPromotion = false;
+    this.showPromotions=false;
+    this.scheduleAppointment=false;
   }
 }

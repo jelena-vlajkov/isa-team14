@@ -1,18 +1,20 @@
 package com.atlaspharmacy.atlaspharmacy.users.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.generalities.DTO.AddressDTO;
+
 import java.util.Date;
 
 public class PharmDermDTO {
     public String name;
     public String surname;
-    public String address;
+    public AddressDTO address;
     public String city;
     public String phoneNumber;
     public String email;
     public Date dateOfBirth;
     public String gender;
 
-    public PharmDermDTO(String name, String surname, String address, String city, String phoneNumber, String email, Date dateOfBirth, String gender) {
+    public PharmDermDTO(String name, String surname, AddressDTO address, String city, String phoneNumber, String email, Date dateOfBirth, String gender) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -39,11 +41,11 @@ public class PharmDermDTO {
         this.surname = surname;
     }
 
-    public String getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
     }
 

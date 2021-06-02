@@ -113,6 +113,7 @@ export const environment = {
   penalty : "penalty",
   reports : "report",
   saveReport : "saveReport",
+  saveReservation : "saveReservation",
   scheduleAppointment : "scheduleAppointment",
   finishAppointment : "finishAppointment",
   getSpecificAppointment : "findSpecificAppointment",
