@@ -436,7 +436,7 @@ insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (200, 20, 200, 100);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (300, 0, 300, 100);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (400, 10, 400, 100);
-
+insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES  (1300, 50, 500, 100);
 
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (500, 111, 200, 200);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (600, 66, 400, 200);
@@ -447,6 +447,13 @@ insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (9
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1000, 90, 400, 300);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1100, 96, 500, 300);
 insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1200, 29, 200, 300);
+
+insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1400, 11, 200, 400);
+insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1500, 11, 100, 400);
+insert into pharmacy_storage(id, quantity, medication_id, pharmacy_id) VALUES (1600, 11, 600, 400);
+
+
+
 
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (100, 800, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 100, 100);
 insert into pricelists(id, price, end_period, start_period, medication_id, pharmacy_id) VALUES (200, 560, '2021-05-26 12:00:00', '2021-01-26 12:00:00', 200, 100);
