@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.EmployeeAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PricelistDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PricelistMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
@@ -57,7 +58,7 @@ public class PricelistController {
     }
 
     @PostMapping(value = "/editPricelistEntity", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> editPricelist(@RequestBody List<PricelistDTO> pricelistDTO) {
+    public ResponseEntity<?> editPricelist(@RequestBody PricelistDTO pricelistDTO) {
         try {
             pricelistService.editPricelist(pricelistDTO);
         } catch (Exception e) {
@@ -69,18 +70,12 @@ public class PricelistController {
     }
 
     @PostMapping(value = "/addPricelistEntity", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addPricelistEntity(@RequestBody PricelistDTO pricelistDTO) {
-        try {
-            pricelistService.addMedicationToPricelist(pricelistDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public boolean addPricelistEntity(@RequestBody PricelistDTO pricelistDTO) {
+        return pricelistService.addMedicationToPricelist(pricelistDTO);
     }
 
     @PostMapping(value = "/deletePricelistEntity", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> deletePricelistEntity(@RequestBody Long pricelistId) {
         try {
             pricelistService.deletePricelistEntity(pricelistId);
@@ -90,6 +85,13 @@ public class PricelistController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getAllByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    public @ResponseBody
+    List<PricelistDTO> getAllByPharmacy(@RequestParam("pharmacyId") Long pharmacyId)  {
+        return PricelistMapper.mapToDTOS(pricelistService.getPricelistsByPharmacy(pharmacyId));
     }
 
 }

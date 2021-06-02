@@ -101,15 +101,15 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
-    public List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId) {
+    public List<MedicationDTO> getMedicationsInPharmacy(long pharmacyId) {
         List<MedicationDTO> allMedications=medicationService.findAll();
-        List<MedicationDTO> medicationsNotInPharmacy=new ArrayList();
+        List<MedicationDTO> medicationsInPharmacy=new ArrayList();
         for(MedicationDTO m:allMedications){
-            if(!isMedicationInPharmacy(m.getCode(),pharmacyId)){
-                medicationsNotInPharmacy.add(m);
+            if(isMedicationInPharmacy(m.getCode(),pharmacyId)){
+                medicationsInPharmacy.add(m);
             }
         }
-        return medicationsNotInPharmacy;
+        return medicationsInPharmacy;
     }
 
     public void addNewMedicationsToStorage(Order order) {

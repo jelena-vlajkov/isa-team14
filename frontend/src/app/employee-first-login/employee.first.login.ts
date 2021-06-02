@@ -38,7 +38,13 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem('firstTimeChanged') === 'true') {
-      this.router.navigate(["/dashboard"]);
+      if(this.user.role === "PharmacyAdmin"){
+        this.router.navigate(["/pharmacyAdmin-profile"]);
+      }
+      else{
+        this.router.navigate(["/dashboard"]);
+      }
+
 
     }
 
@@ -74,7 +80,7 @@ export class WelcomeComponent implements OnInit {
               alert("Welcome!")
               localStorage.setItem('firstTimeChanged', "true");
               console.log(this.user.role);
-              if(this.user.role=="PharmacyAdmin"){
+              if(this.user.role === "PharmacyAdmin"){
                 this.router.navigate(["/pharmacyAdmin-profile"]);
               }
               else{

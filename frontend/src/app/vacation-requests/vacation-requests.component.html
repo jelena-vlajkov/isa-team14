@@ -3,12 +3,12 @@
     <mat-toolbar style="background-color: #385399;">
     </mat-toolbar>
 
-    <div style="margin-left: 100px;margin-top:20px;margin-bottom: 30px;">
+    <div style="margin-left: 30px;margin-top:20px;margin-bottom: 30px;" *ngIf="!requestRejected">
       <div style="display:flex;">
         <label style="font-size:25px;margin-left:300px">Vacation requests</label>
       </div>
       <label *ngIf="!vacationExists()" style="margin-left:300px;margin-top:50px;">No vacation requests.</label>
-      <table style="margin-top: 50px;margin-left: 200px;margin-bottom:50px;" *ngIf="vacationExists()">
+      <table style="margin-top: 50px;margin-left: 50px;margin-bottom:50px;" *ngIf="vacationExists()">
         <th>Medical staff</th>
         <span style="margin-left: 100px;"></span>
         <th>Period</th>
@@ -16,20 +16,28 @@
         <th>Reason</th>
         <span style="margin-left: 100px;"></span>
         <tr *ngFor="let vacationRequest of vacationRequests" style="margin-bottom: 10px;">
-          <td style="font-size: 15px;">{{vacationRequest.medicalStaff.name}} {{vacationRequest.medicalStaff.surname}}</td>
+          <td style="font-size: 15px;width: fit-content;">{{vacationRequest.medicalStaff.name}} {{vacationRequest.medicalStaff.surname}}</td>
           <span style="margin-left:30px;"></span>
-          <td style="font-size: 15px;"> {{vacationRequest.startDate | date : "dd.MM.y."}} - {{vacationRequest.endDate | date : "dd.MM.y."}} </td>
+          <td style="font-size: 15px;width: fit-content;"> {{vacationRequest.startDate | date : "dd.MM.y."}} - {{vacationRequest.endDate | date : "dd.MM.y."}} </td>
           <span style="margin-left: 30px;"></span>
-          <td style="font-size: 15px;"> {{vacationRequest.vacationReason}} </td>
+          <td style="font-size: 15px;width: fit-content;"> {{vacationRequest.vacationReason}} </td>
           <span style="margin-left: 30px;"></span>
           <td><button class="btn"><i style="color: blue;" (click)="approveVacationRequest(vacationRequest.id)">Accept</i></button></td>
           <span style="margin-left: 30px;"></span>
-          <td><button class="btn"><i style="color: blue;" (click)="denyVacationRequest(vacationRequest.id)">Deny</i></button></td>
+          <td><button class="btn"><i style="color: blue;" (click)="reject(vacationRequest.id)" >Deny</i></button></td>
 
         </tr>
       </table>
       <div style="margin-top: 100px;">
         <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
+      </div>
+    </div>
+
+    <div *ngIf="requestRejected">
+      <input matInput type="text" placeholder="Write explanation..." [(ngModel)]="explanation" style="width: 700px;height: 150px;font-size: 15px;place-content: start;margin-left:300px;margin-top:50px;border-color:whitesmoke;">
+      <div style="margin-top: 100px;">
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button (click)="rejectingCanceled()" >Cancel</button>
+        <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button (click)="denyVacationRequest()">Submit</button>
       </div>
     </div>
 

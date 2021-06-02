@@ -94,7 +94,8 @@ import { DermatologistsInPharmacyComponent } from './dermatologists-in-pharmacy/
 import { VacationRequestsComponent } from './vacation-requests/vacation-requests.component';
 import { PharmacistListAndFilterComponent } from './pharmacist-list-and-filter/pharmacist-list-and-filter.component';
 import { DermatologistListAndFilterComponent } from './dermatologist-list-and-filter/dermatologist-list-and-filter.component';
-
+import { AgmCoreModule } from '@agm/core';
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -213,8 +214,13 @@ import { DermatologistListAndFilterComponent } from './dermatologist-list-and-fi
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDiQpAg_LicQTra_2ubEwRb1VxZBzrKdDc',
+      libraries: ['places']
+    }),
     CommonModule,
-    FormsModule
+    FormsModule,
+    ChartsModule
   ],
   exports: [
     PharmacistCalendarComponent

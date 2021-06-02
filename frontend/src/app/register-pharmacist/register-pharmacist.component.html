@@ -45,6 +45,14 @@
                 </div>
               </mat-grid-tile>
               <mat-grid-tile>
+                <mat-form-field appearance="fill" id="address-ff">
+                  <mat-label>Address*</mat-label>
+                  <app-google-places style="background:transparent;border:none;" value="address">
+                    <input matInput id="address" placeholder="Address"  name="address-ff" (change)="saveAddress()"></app-google-places>
+                </mat-form-field>
+              </mat-grid-tile>
+
+              <mat-grid-tile>
                 <div class="inputField" style="width: 400px;">
                   <mat-radio-group name="gender" formControlName='gender' [(ngModel)]="selectedGender" required>
                     <mat-radio-button value="FEMALE" style="font-size:18px; margin-left: 20px;">Female</mat-radio-button>
@@ -64,13 +72,12 @@
                     <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
                     <mat-datepicker #dp3 disabled="false"></mat-datepicker>
                   </mat-form-field>
-
-
                   <mat-error
                     *ngIf="!addPharmacist.get('dob').valid && addPharmacist.get('dob').touched && addPharmacist.get('dob').errors['required']">
                     Please choose date of birth</mat-error>
                 </div>
               </mat-grid-tile>
+
               <mat-grid-tile>
                 <div class="inputField" >
                   <mat-form-field appearance="fill" style="width: 400px;">

@@ -5,6 +5,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestAnswerDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
@@ -91,8 +92,8 @@ public class VacationRequestService implements IVacationRequestService {
     }
 
     @Override
-    public void approveVacationRequest(Long vacationRequestId) throws IOException, MessagingException {
-        VacationRequest vacationRequest=vacationRequestRepository.findById(vacationRequestId).get();
+    public void approveVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException {
+        VacationRequest vacationRequest=vacationRequestRepository.findById(answer.getVacationRequest().getId()).get();
         vacationRequest.setStatus(VacationRequestStatus.APPROVED);
         vacationRequestRepository.save(vacationRequest);
 
@@ -111,12 +112,14 @@ public class VacationRequestService implements IVacationRequestService {
                 emailService.sendEmailForCanceledAppointmentDueVacation((Appointment) c);
             }
         }
+        emailService.sendVacationRequestAnswer(answer);
     }
 
     @Override
-    public void denyVacationRequest(Long vacationRequestId) {
-        VacationRequest vacationRequest=vacationRequestRepository.findById(vacationRequestId).get();
+    public void denyVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException {
+        VacationRequest vacationRequest=vacationRequestRepository.findById(answer.getVacationRequest().getId()).get();
         vacationRequest.setStatus(VacationRequestStatus.REJECTED);
         vacationRequestRepository.save(vacationRequest);
+        emailService.sendVacationRequestAnswer(answer);
     }
 }

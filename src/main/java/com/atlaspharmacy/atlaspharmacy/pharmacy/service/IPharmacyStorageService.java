@@ -15,7 +15,7 @@ public interface IPharmacyStorageService {
     boolean isMedicationInPharmacy(Long code, Long id);
     void deleteMedicationFromPharmacyStorage(Long medicationId,Long pharmacyId);
     void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount);
-    List<MedicationDTO> getMedicationsNotInPharmacy(long pharmacyId);
+    List<MedicationDTO> getMedicationsInPharmacy(long pharmacyId);
     void addNewMedicationsToStorage(Order order);
     void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount);
 

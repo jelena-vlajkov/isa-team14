@@ -8,6 +8,9 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.EmailDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.MedicalStaffDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestAnswerDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.VacationRequestDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Supplier;
 import com.atlaspharmacy.atlaspharmacy.users.domain.VerificationToken;
@@ -354,6 +357,48 @@ public class EmailService implements IEmailService {
         message.setRecipients(Message.RecipientType.TO, c.getPatient().getEmail());
 
         message.setSubject("Appointment scheduled");
+
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void sendVacationRequestAnswer(VacationRequestAnswerDTO answer) throws IOException, MessagingException {
+        File starting = new File(System.getProperty("user.dir"));
+        File file = new File(starting,"src/main/java/com/atlaspharmacy/atlaspharmacy/users/service/impl/vacationRequestAnswer.html");
+
+        Document doc = Jsoup.parse(file, "utf-8");
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        Multipart multiPart = new MimeMultipart("alternative");
+
+        MimeBodyPart htmlPart = new MimeBodyPart();
+        String body = doc.body().getElementsByTag("body").toString();
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
+
+        String startDate = format.format(answer.getVacationRequest().getStartDate());
+        String endDate = format.format(answer.getVacationRequest().getEndDate());
+        body = body.replace("[name]", answer.getVacationRequest().getMedicalStaff().getName());
+        body = body.replace("[message]","There is a reply to you vacation request for pharmacy "+ answer.getVacationRequest().getPharmacy().getName()
+                +"in period "+startDate+" - " +endDate);
+        if(answer.isAccepted()) {
+            body=body.replace("[answer]"
+                    ,"Your request has been accepted. Enjoy your vacation.");
+        }
+        else{
+            body=body.replace("[answer]"
+                    ,"We are sorry to inform you that your request has been rejected.");
+            body=body.replace("[explanation]"
+                    ,answer.getExplanation());
+
+        }
+
+        htmlPart.setContent(body, "text/html; charset=utf-8");
+        multiPart.addBodyPart(htmlPart);
+
+        message.setContent(multiPart);
+        message.setRecipients(Message.RecipientType.TO,answer.getVacationRequest().getMedicalStaff().getEmail());
+
+        message.setSubject("Vacation request reply");
 
         javaMailSender.send(message);
     }

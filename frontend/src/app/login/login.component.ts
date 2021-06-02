@@ -44,10 +44,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     let user = this.authService.currentUserValue;
-    if (user !== null) { 
+    if (user !== null) {
       if (user !== undefined) {
         if (user.role === 'Pharmacist' || user.role === 'Dermatologist') {
           this.router.navigate(["/dashboard"])
+        }
+        if (user.role === 'PharmacyAdmin') {
+          this.router.navigate(["/pharmacyAdmin-profile"])
         }
       }
     }

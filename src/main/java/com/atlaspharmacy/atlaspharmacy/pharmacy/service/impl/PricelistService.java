@@ -53,25 +53,29 @@ public class PricelistService implements IPricelistService {
         return PricelistMapper.mapPricelistToDTO(pricelistRepository.getPricelistsByMedicationCodeAndPeriod(code, period.getStartPeriod(), period.getEndPeriod()));
     }
 
-    public Pricelist addMedicationToPricelist(PricelistDTO pricelistDTO) {
-        Pricelist newPricelist=new Pricelist();
-        newPricelist.setPrice(pricelistDTO.getPrice());
-        newPricelist.setPeriod(new Period(pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()));
-        newPricelist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(pricelistDTO.getPharmacy()));
-        Medication medication = MedicationMapper.convertToMedication(medicationService.findById(pricelistDTO.getMedication().getId()));
-        newPricelist.setMedication(medication);
-        pricelistRepository.save(newPricelist);
-        pharmacyStorageService.addMedicationToPharmacy(medication.getId(),pricelistDTO.getPharmacy().getId(),0L);
-        return newPricelist;
+    public boolean addMedicationToPricelist(PricelistDTO pricelistDTO) {
+        if(getPricelistForMedicationAndPharmacyAndPeriod(pricelistDTO.getMedication().getCode(),pricelistDTO.getPharmacy().getId(),pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()) == null )
+        {
+            Pricelist newPricelist=new Pricelist();
+            newPricelist.setPrice(pricelistDTO.getPrice());
+            newPricelist.setPeriod(new Period(pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()));
+            newPricelist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(pricelistDTO.getPharmacy()));
+            Medication medication = MedicationMapper.convertToMedication(medicationService.findById(pricelistDTO.getMedication().getId()));
+            newPricelist.setMedication(medication);
+            pricelistRepository.save(newPricelist);
+            pharmacyStorageService.addMedicationToPharmacy(medication.getId(),pricelistDTO.getPharmacy().getId(),0L);
+            return true;
+        }
+
+        return false;
     }
 
     @Transactional
-    public void editPricelist(List<PricelistDTO> pricelistDTO) throws Exception {
-        for(PricelistDTO p:pricelistDTO) {
-            Pricelist updatedPricelist = pricelistRepository.getOne(p.getId());
-            updatedPricelist.setPrice(p.getPrice());
-            pricelistRepository.save(updatedPricelist);
-        }
+    public void editPricelist(PricelistDTO pricelistDTO) throws Exception {
+        Pricelist pricelistToUpdate = pricelistRepository.getOne(pricelistDTO.getId());
+        pricelistToUpdate.setPrice(pricelistDTO.getPrice());
+        pricelistToUpdate.setPeriod(new Period(pricelistDTO.getStartPeriod(),pricelistDTO.getEndPeriod()));
+        pricelistRepository.save(pricelistToUpdate);
     }
 
     @Override
@@ -82,13 +86,20 @@ public class PricelistService implements IPricelistService {
     @Transactional
     public void deletePricelistEntity(Long pricelistId) {
         Pricelist pricelistToDelete=pricelistRepository.findById(pricelistId).get();
-        pharmacyStorageService.deleteMedicationFromPharmacyStorage(pricelistToDelete.getMedication().getId()
-                                                                    ,pricelistToDelete.getPharmacy().getId());
+       // pharmacyStorageService.deleteMedicationFromPharmacyStorage(pricelistToDelete.getMedication().getId()
+         //                                                           ,pricelistToDelete.getPharmacy().getId());
         pricelistRepository.delete(pricelistToDelete);
     }
 
+    @Override
+    public Pricelist getPricelistForMedicationAndPharmacyAndPeriod(Long code, Long pharmacyId,Date startDate,Date endDate) {
+        return pricelistRepository.getPricelistsByMedicationCodeAndPharmacyAndPeriod(code,pharmacyId,startDate,endDate);
+    }
 
-
+    @Override
+    public List<Pricelist> getPricelistsByPharmacy(Long pharmacyId) {
+        return pricelistRepository.getPricelistsByPharmacy(pharmacyId);
+    }
 
 
 }
