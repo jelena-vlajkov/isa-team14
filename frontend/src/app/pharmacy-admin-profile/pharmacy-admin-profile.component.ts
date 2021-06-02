@@ -45,37 +45,39 @@ export class PharmacyAdminProfileComponent implements OnInit {
     console.log(localStorage.getItem('firstTimeChanged'));
     if ((localStorage.getItem('firstTimeChanged') === 'false')) {
       this.router.navigate(["/employee-welcome"]);
-
     }
-    this.editProfileForm = new FormGroup({});
-    this.changePasswordForm = new FormGroup({});
-    this.profileForm = new FormGroup({});
-    this.password1 = "";
-    this.password2 = "";
-    this.oldpassword = "peraBijeKera";
+    else{
+      this.editProfileForm = new FormGroup({});
+      this.changePasswordForm = new FormGroup({});
+      this.profileForm = new FormGroup({});
+      this.password1 = "";
+      this.password2 = "";
+      this.oldpassword = "peraBijeKera";
 
-    console.log(localStorage.getItem('userId'));
-    this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
-      result => {
-        this.pharmacyAdmin=result;
+      console.log(localStorage.getItem('userId'));
+      this.pharmacyAdminService.getById(Number(localStorage.getItem('userId'))).subscribe(
+        result => {
+          this.pharmacyAdmin=result;
+        }
+      );
+
+      if(this.pharmacyAdmin.gender.toString()=="MALE")
+      {
+        this.selectedGender="MALE";
+        this.gender="Male";
       }
-    );
+      else if(this.pharmacyAdmin.gender.toString()=="FEMALE")
+      {
+        this.selectedGender="FEMALE";
+        this.gender="Female";
+      }
+      else
+      {
+        this.selectedGender="OTHER";
+        this.gender="Other";
+      }
+    }
 
-    if(this.pharmacyAdmin.gender.toString()=="MALE")
-    {
-      this.selectedGender="MALE";
-      this.gender="Male";
-    }
-    else if(this.pharmacyAdmin.gender.toString()=="FEMALE")
-    {
-      this.selectedGender="FEMALE";
-      this.gender="Female";
-    }
-    else
-    {
-      this.selectedGender="OTHER";
-      this.gender="Other";
-    }
 
   }
 
