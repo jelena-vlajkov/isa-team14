@@ -1,0 +1,165 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/patient/reservedDrugs" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/patient/issuedEdrugs" style="color: white;"> List of issued medications by eRecepts</button>
+          <button mat-list-item routerLink="/" style="color: white;"> List of subscibed pharmacies</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Write complaint</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Get reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/patient/scheduleCounseling" style="color: white;"> Schedule appointment by pharmacist</button>
+          <button mat-list-item routerLink="/patient/drugReservation" style="color: white;"> Reserve medication</button>
+          
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: absolute; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>All pharmacies</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+            
+            <div class="table-wrapper">
+                <mat-horizontal-stepper labelPosition="bottom" #stepper [linear]="isLinear">
+                    <mat-step [stepControl]="firstFormGroup"  *ngIf="firstFormGroup">
+                        <form [formGroup]="firstFormGroup">
+                            <ng-template matStepLabel>DateTime of counseling</ng-template>
+                            
+                            <div class="parent">
+                                <h4>Date of counseling:</h4>
+                                <mat-form-field color="accent" appearance="fill">
+                                    <mat-label>Choose date</mat-label>
+                                    <input matInput [matDatepicker]="picker"  [min]="maxDate" readonly required (dateInput)="onDateChange($event.value)" formControlName="datePicker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker color="primary"></mat-datepicker>
+                                </mat-form-field>
+                    
+                                <h4>Counseling range starts in:</h4>
+                                <mat-form-field color="accent" appearance="fill">
+                                    <mat-label >Choose time</mat-label>
+                                    <input matInput [ngxTimepicker]="timePickerStart" [value]="startTime" [format]="24" required readonly (ngModelChange)="onStartTimeChange($event)" #input  formControlName="timePickerStart">
+                                    <ngx-material-timepicker-toggle matSuffix [for]="timePickerStart" ></ngx-material-timepicker-toggle>
+                                    <ngx-material-timepicker #timePickerStart  ></ngx-material-timepicker>
+                                </mat-form-field>
+                    
+                                
+                                <h4>Counseling range ends in:</h4>
+                                <mat-form-field color="accent" appearance="fill" >
+                                    <mat-label >Choose time</mat-label>
+                                    <input matInput [ngxTimepicker]="timePickerEnd" [value]="endTime" [format]="24" [min]="minTimeFinishing" required readonly (ngModelChange)="onEndTimeChange($event)" #input formControlName="timePickerEnd" [disabled]="disabledEndTime">
+                                    <ngx-material-timepicker-toggle matSuffix [for]="timePickerEnd"></ngx-material-timepicker-toggle>
+                                    <ngx-material-timepicker #timePickerEnd  ></ngx-material-timepicker>
+                                </mat-form-field>
+                    
+                            </div>
+                        
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="dateNextButton()">Next</button>
+                        </form>
+                    </mat-step> 
+                    <mat-step [stepControl]="secondFormGroup"  *ngIf="secondFormGroup">
+                        <form [formGroup]="secondFormGroup">
+                            <ng-template matStepLabel>Pharmacy choosing</ng-template>
+                            <div>
+                            <span *ngIf="isPharmChosen">
+                                <label >Your pharm: {{chosenPharmacy.name}}</label>
+                            </span>
+                            <table matSort  class="fl-table">
+                                <thead>
+                                <tr>
+                                    <th >Name</th>
+                                    <th >Address</th>
+                                    <th mat-sort-header="grade">Grade</th>
+                                    <th mat-sort-header="price">Price of counseling</th>
+                                    <th>Choose pharmacy</th>
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let p of pharmacies" >
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.address.street}}, {{p.address.city.name}}, {{p.address.state.name}}</td>
+                                    <td>{{p.averageGradeCount}}</td>
+                                    <td>{{p.counselingCost}}</td>
+                                    <td><button mat-button style="background-color: #385399; color: white;" (click)="choosePharmacy(p)" >Choose</button></td>
+                                    
+                                </tr>
+                                
+                                <tbody>
+                            </table>
+                           </div>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="pharmacyNextButton()">Next</button>
+                        </form>
+
+                    </mat-step>
+                    <mat-step [stepControl]="thirdFormGroup"  *ngIf="thirdFormGroup">
+                        <form [formGroup]="thirdFormGroup">
+                            <ng-template matStepLabel>Pharmacist choosing</ng-template>
+                            <div>
+                            <span *ngIf="isPharmacistChosen">
+                                <label >Your pharmacist: {{choosenPharmacist.name}} {{choosenPharmacist.surname}}</label>
+                            </span>
+                            <table matSort  class="fl-table">
+                                
+                                <thead>
+                                <tr>
+                                    <th >Name</th>
+                                    <th >Surname</th>
+                                    <th mat-sort-header="grade">Grade</th>
+                                    <th>Choose pharmacist</th>
+                                
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let p of pharmacists">
+                                    <td>{{p.name}}</td>
+                                    <td>{{p.surname}}</td>
+                                    <td>MOCK</td>
+                                    <td><button mat-button style="background-color: #385399; color: white;" (click)="pharmacistChoose(p)">Choose</button></td>
+                                    
+                                </tr>
+                                
+                                <tbody>
+                            </table>
+                            </div>
+                            <button mat-raised-button matStepperNext color="primary" class="button-position-first-form" (click)="pharmacistNextButton()">Next</button>
+                        </form>
+                    </mat-step>
+                    <mat-step [stepControl]="fourthFormGroup"  *ngIf="fourthFormGroup">
+                        <form [formGroup]="fourthFormGroup">
+                            <ng-template matStepLabel>Schedule counseling</ng-template>
+                            <div>
+                                <span *ngIf="isPharmChosen">
+                                <label>Schedule counseling in {{chosenPharmacy.name}} with price {{chosenPharmacy.counselingCost}} here <br> and
+                                please wait until alert</label> 
+                                </span>
+                            </div>
+                            <button mat-raised-button  color="primary" class="button-position-first-form" (click)="scheduleCounseling()">Schedule</button>
+                        </form>
+                    </mat-step>
+
+                </mat-horizontal-stepper>
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>
+
+

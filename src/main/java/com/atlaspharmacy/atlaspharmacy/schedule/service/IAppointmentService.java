@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service;
 
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
 import com.atlaspharmacy.atlaspharmacy.schedule.DTO.*;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
@@ -7,6 +8,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +49,8 @@ public interface IAppointmentService {
     void finishAppointment(Long appointmentId) throws Exception;
     Appointment findSpecificAppointment(Date dateObj, Long medicalStaffId, Long patientId) throws Exception;
     List<Appointment> findAvailableForPatient(PatientAppointmentDTO dto) throws Exception;
+    List<PharmacyDTO> findAvailablePharmacyByCounselingRange(Date startRange, Date endRange) throws Exception;
+    AppointmentDTO findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(PatientScheduleCounselingDTO dto) throws Exception;
     List<Appointment> getScheduledByMonth(Date date, Long id);
     List<Long> getNumberOfAppointmentsByMonths(int year,Long pharmacyId);
     List<Long> getNumberOfAppointmentsByHalfYears( int year,Long pharmacyId);

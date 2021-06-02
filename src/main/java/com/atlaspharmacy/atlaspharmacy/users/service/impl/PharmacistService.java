@@ -1,28 +1,25 @@
 package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
-import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyService;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
-import com.atlaspharmacy.atlaspharmacy.users.domain.valueobjects.AverageGrade;
+import com.atlaspharmacy.atlaspharmacy.users.domain.WorkDay;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.AuthorityMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.AverageGradeMapper;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IPharmacistService;
+import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,10 +37,11 @@ public class PharmacistService implements IPharmacistService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
+    private final IWorkDayService workDayService;
 
 
     @Autowired
-    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService) {
+    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, IWorkDayService workDayService) {
         this.pharmacistRepository = pharmacistRepository;
         this.pharmacyService = pharmacyService;
         this.appointmentService = appointmentService;
@@ -53,6 +51,7 @@ public class PharmacistService implements IPharmacistService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
+        this.workDayService = workDayService;
     }
 
     @Override
@@ -219,6 +218,32 @@ public class PharmacistService implements IPharmacistService {
     @Override
     public List<Pharmacist> getAll() {
         return pharmacistRepository.findAll();
+    }
+
+    @Override
+    public List<PharmacistDTO> findByRangeAndPharmacy(Date startRange, Date endRange, Long pharmacyId) {
+        List<PharmacistDTO> availablePharmacists = new ArrayList<>();
+
+        List<Pharmacist> pharmacistsInPharmacy = findByPharmacy(pharmacyId); //pharmacist in that pharmacy
+        List<WorkDay> workDayList = new ArrayList<>(); //only pharmacists in that pharmacy
+        for (Pharmacist p : pharmacistsInPharmacy) {
+            workDayList.addAll(workDayService.getWorkDaysInSchedulingRangeAndStaff(p.getId(), startRange, endRange));
+        }
+
+        List<Appointment> availableAppointmets = new ArrayList<>();
+        for (WorkDay w : workDayList) { //prodjem kroz sve radne dane svih farmaceuta kojima odg taj range
+                                        //moram da proverim osim sto je tada slobodan farmaceut i da li ima neki zakazan app tada
+            availableAppointmets = appointmentService.findAvailableBy(startRange, w.getMedicalStaff().getId());
+            if (!availableAppointmets.isEmpty()) {
+                availablePharmacists.add
+                        (PharmacistMapper.mapPharmacistToDTO
+                                (pharmacistRepository.findById(w.getMedicalStaff().getId()).get()));
+            }
+        }
+
+       return  availablePharmacists;
+
+
     }
 
 }

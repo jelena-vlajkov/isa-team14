@@ -82,6 +82,8 @@ import { PatientEPrescriptionsComponent } from './patient/patient-ePrescriptions
 import { RegisterPharmacistComponent } from './register-pharmacist/register-pharmacist.component';
 import { MedicationOrderOffersComponent } from './medication-order-offers/medication-order-offers.component';
 import { PatientIssuedEDrugsComponent } from './patient/patient-issued-eDrugs/patient-issued-e-drugs/patient-issued-e-drugs.component';
+import { PatientScheduleCounselingComponent } from './patient/patient-schedule-counseling/patient-schedule-counseling/patient-schedule-counseling.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { PatientDrugReservationComponent } from './patient/patient-drug-reservation/patient-drug-reservation/patient-drug-reservation.component';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -149,6 +151,7 @@ import { ChartsModule } from 'ng2-charts';
     PatientScheduledAppointmentsComponent,
     PatientEPrescriptionsComponent,
     PatientIssuedEDrugsComponent,
+    PatientScheduleCounselingComponent,
     PatientDrugReservationComponent,
     PatientReservedDrugsComponent,
     RegisterPharmacistComponent,
@@ -204,6 +207,7 @@ import { ChartsModule } from 'ng2-charts';
     MatExpansionModule,
     MatStepperModule,
     MatCardModule,
+    NgxMaterialTimepickerModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({

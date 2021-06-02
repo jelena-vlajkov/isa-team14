@@ -10,6 +10,8 @@ import { Pharmacy } from '@app/model/pharmacy/pharmacy';
 import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
+import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
+import {PatientScheduleCounseling} from '@app/model/users/patient/PatientScheduleCounseling'
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +81,18 @@ export class PatientService {
       return this.http.post(`${environment.baseUrl}/${environment.reservations}/${environment.cancelDrugReservation}`, reservationId, {responseType : 'text'});
     }
 
+    findAvailablePharmacyByCounselingRange(startDate : String, endDate : String) : Observable<Pharmacy[]> {
+      return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.appointment}/${environment.findAvailablePharmacyByCounselingRange}?start=${startDate}&end=${endDate}`);
+    }
+
+    findPharmacistsByRangeAndPharmacy(pharmacyId : Number, startDate : String, endDate : String) : Observable<Pharmacist[]> {
+      return this.http.get<Pharmacist[]>
+      (`${environment.baseUrl}/${environment.pharmacist}/${environment.findByRangeAndPharmacy}?pharmacyId=${pharmacyId}&start=${startDate}&end=${endDate}`);
+    }
+
+    findAndSchedulePatientCounseling(scheduleCounseling : PatientScheduleCounseling) {
+      return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.findAndSchedulePatientCounseling}`, scheduleCounseling, {responseType : 'text'});
+    }
+   
 
 }

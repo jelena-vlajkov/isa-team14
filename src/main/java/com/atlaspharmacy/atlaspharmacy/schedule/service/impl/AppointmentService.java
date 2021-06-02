@@ -1,4 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
+
+import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyPricelistService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.enums.SortingType;
@@ -21,17 +24,16 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
+import com.atlaspharmacy.atlaspharmacy.users.service.impl.PharmacistService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
 import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
 
@@ -729,6 +731,88 @@ public class AppointmentService implements IAppointmentService {
         return scheduledForYear;
     }
 
+
+        public List<Counseling> findAvalibaleCounselingsByRange(Date startRange, Date endRange) {
+
+            List<WorkDay> allWorkingStaff = workDayService.getByDate(startRange);
+            List<Appointment> appointments = new ArrayList<>();
+            for (WorkDay workDay : allWorkingStaff) {
+                if (workDay.isPharmacist())
+                    appointments.addAll(findAvailableBy(startRange, workDay.getMedicalStaff().getId()));
+            }
+
+
+            for(Appointment a : appointments) {
+                a.setType(AppointmentType.Values.Counseling);
+            }
+
+            List<Appointment> counselings = new ArrayList<>();
+            for (Appointment c : appointments) {
+                if(c.getAppointmentPeriod().getStartTime().getTime() >= startRange.getTime() &&
+                        c.getAppointmentPeriod().getStartTime().getTime() < endRange.getTime())
+                    counselings.add(c);
+            }
+
+            return (List<Counseling>) (List<?>) counselings;
+
+        }
+        @Override
+        public List<PharmacyDTO> findAvailablePharmacyByCounselingRange(Date startRange, Date endRange) throws Exception {
+
+            List<Counseling> counselings = findAvalibaleCounselingsByRange(startRange, endRange);
+            List<PharmacyDTO> pharmacyDTOS = new ArrayList<>();
+            for (Appointment a : counselings) {
+                pharmacyDTOS.add(PharmacyMapper.mapPharmacyToDTO(a.getPharmacy()));
+            }
+            List<PharmacyDTO> pharmacies = pharmacyDTOS.stream()
+                    .collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(
+                            Comparator.comparingLong(PharmacyDTO::getId)
+            )), ArrayList::new));
+
+            for (PharmacyDTO p : pharmacies ) {
+                p.setCounselingCost(pharmacyPricelistService.counselingCost(p.getId()));
+            }
+
+
+          return  pharmacies;
+
+        }
+
+        @Override
+        public AppointmentDTO findAndScheduleAvailableCounselingForPatientByPharmacyAndPharmacist(PatientScheduleCounselingDTO scheduleCounselingDTO) throws Exception {
+            Date startRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(scheduleCounselingDTO.getStartTimeRange());
+            Date endRange = new SimpleDateFormat("dd.MM.yyyy. HH:mm").parse(scheduleCounselingDTO.getEndTimeRange());
+
+            List<Appointment> availableByDay = findAvailableByEmployeeAndPharmacy
+                    (scheduleCounselingDTO.getPharmacyId(), scheduleCounselingDTO.getPharmacistId(), startRange);
+
+            ScheduleAppointmentDTO scheduleAppointmentDTO = new ScheduleAppointmentDTO();
+
+            for (Appointment a : availableByDay) {
+                if(a.getAppointmentPeriod().getStartTime().getTime() >= startRange.getTime() &&
+                        a.getAppointmentPeriod().getStartTime().getTime() <= endRange.getTime()) {
+                    if((appointmentRepository.ovelappingCunselings(a.getAppointmentPeriod().getStartTime(),
+                            a.getAppointmentPeriod().getEndTime(), scheduleCounselingDTO.getPharmacistId())).size() == 0) {
+
+                        scheduleAppointmentDTO.setPharmacyId(scheduleCounselingDTO.getPharmacyId());
+                        scheduleAppointmentDTO.setMedicalStaffId(scheduleCounselingDTO.getPharmacistId());
+                        scheduleAppointmentDTO.setStartTime(a.getAppointmentPeriod().getStartTime());
+                        scheduleAppointmentDTO.setEndTime(a.getAppointmentPeriod().getEndTime());
+                        scheduleAppointmentDTO.setType(scheduleCounselingDTO.getType());
+                        scheduleAppointmentDTO.setPatientId(scheduleCounselingDTO.getPatientId());
+                        break;
+                    }
+
+
+
+                }
+            }
+
+            Appointment savedCounseling = saveAppointment(scheduleAppointmentDTO);
+            return  AppointmentMapper.mapAppointmentToDTO(savedCounseling);
+
+
+        }
 
     }
 

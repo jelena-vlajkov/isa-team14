@@ -14,4 +14,5 @@ public interface IWorkDayService {
     void addWorkday(WorkDayDTO workDayDTO) throws Exception;
     List<WorkDay> getAllWorkDaysInPeriod(Long medicalStaffId, Date startDate, Date endDate);
     void updateWorkDay(Long id);
+    List<WorkDay> getWorkDaysInSchedulingRangeAndStaff(Long medicalStaffId, Date startDate, Date endDate);
 }
