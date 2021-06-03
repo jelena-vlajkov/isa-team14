@@ -211,6 +211,7 @@ insert into workdays(id, date, workday_start_time, workday_end_time, medical_sta
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (600, '2021-06-02', '2021-06-02 12:00:00', '2021-06-02 15:30:00', 900, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (700, '2021-06-05', '2021-06-05 12:00:00', '2021-06-05 15:30:00', 100, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (900, '2021-07-05', '2021-07-05 12:00:00', '2021-07-05 17:30:00', 200, 200, false);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (1100, '2021-07-05', '2021-07-05 12:00:00', '2021-07-05 17:30:00', 900, 100, false);
 
 
 
