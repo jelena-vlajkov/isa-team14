@@ -84,6 +84,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
+    @Transactional
     public void deleteMedicationFromPharmacyStorage(Long medicationId,Long pharmacyId) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
         if (pharmacyStorage != null) {
@@ -92,6 +93,7 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
+    @Transactional
     public void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
         if (pharmacyStorage != null) {

@@ -84,6 +84,7 @@ public class OfferController {
 
    
     @PostMapping(value = "/chooseOffer",consumes =MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> chooseOffer(@RequestBody OfferDTO offerDTO)
     {
         try{

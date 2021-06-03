@@ -29,6 +29,7 @@ public class DermatologistController {
     }
 
     @GetMapping(value = "/getByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
     List<Dermatologist> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
         return dermatologistService.findAllByPharmacy(id);

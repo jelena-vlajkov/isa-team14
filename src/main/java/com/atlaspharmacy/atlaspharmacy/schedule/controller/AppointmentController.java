@@ -135,6 +135,7 @@ public class AppointmentController {
 
 
     @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }

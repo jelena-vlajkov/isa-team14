@@ -58,6 +58,7 @@ public class PricelistController {
     }
 
     @PostMapping(value = "/editPricelistEntity", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> editPricelist(@RequestBody PricelistDTO pricelistDTO) {
         try {
             pricelistService.editPricelist(pricelistDTO);
@@ -70,6 +71,7 @@ public class PricelistController {
     }
 
     @PostMapping(value = "/addPricelistEntity", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public boolean addPricelistEntity(@RequestBody PricelistDTO pricelistDTO) {
         return pricelistService.addMedicationToPricelist(pricelistDTO);
     }

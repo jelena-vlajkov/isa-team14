@@ -504,10 +504,8 @@ insert into druginquiries(id,medication_id,date) values (500,100,'2021-01-26 12:
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (100,'2021-06-30 12:00:00','2021-05-30 12:00:00','Jako sam umorna i treba mi odmor.',500,2, 100);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (200,'2021-06-29 12:00:00','2021-05-30 12:00:00','Jako sam umorna i treba mi odmor.',100,2, 100);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (300,'2021-06-29 12:00:00','2021-05-25 12:00:00','Jako sam umorna i treba mi odmor.',900,2, 100);
-/*
-insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (200,'2021-06-26 12:00:00','2021-05-10 12:00:00','Zeni mi se sin.',100,2);
-insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (300,'2021-06-01 12:00:00','2021-05-27 12:00:00','Macak mi se razboleo.',600,2);
-insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (400,'2021-05-26 12:00:00','2021-05-26 12:00:00','Macak mi se razboleo.',600,1);
-insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (500,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,0);
-insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (600,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,1);
-*/
+
+insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (400,'2021-06-30 12:00:00','2021-05-30 12:00:00','Sin mi se zeni.',500,2, 200);
+insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (500,'2021-06-29 12:00:00','2021-05-30 12:00:00','Diplomirala sam.',100,2, 200);
+insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status, pharmacy_id) VALUES (600,'2021-06-29 12:00:00','2021-05-25 12:00:00','Moram kod lekara.',900,2, 200);
+
