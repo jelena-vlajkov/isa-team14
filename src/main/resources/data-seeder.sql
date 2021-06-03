@@ -140,11 +140,11 @@ insert into patients(enabled, verification_code, id) values (true, null, 1900);
 insert into patients(enabled, verification_code, id) values (true, null, 2000);
 
 
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,6);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (200,27,1,1,1,7);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,8);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (400,1,1,2,3,5);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (500,10,1,2,3,5);
+insert into dermatologists(id, average_grade) values (100, 2.5);
+insert into dermatologists(id, average_grade) values (200, 3.5);
+insert into dermatologists(id, average_grade) values (300, 4.0);
+insert into dermatologists(id, average_grade) values (400, 5.0);
+insert into dermatologists(id, average_grade) values (500, 1.2);
 
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100, 100);

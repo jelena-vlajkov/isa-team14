@@ -129,7 +129,7 @@ public class DermatologistService implements IDermatologistService {
     public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, int grade) {
         List<DermatologistDTO> filteredDermatologists = new ArrayList<>();
         for(DermatologistDTO d:dermatologistsToFilter){
-            if(d.getAverageGrade().count()>=grade){
+            if(d.getAverageGrade() >= grade){
                 filteredDermatologists.add(d);
             }
         }

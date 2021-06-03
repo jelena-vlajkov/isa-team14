@@ -1,10 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.grade.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.grade.DTO.GradeDTO;
-import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
-import com.atlaspharmacy.atlaspharmacy.grade.domain.MedicationGrade;
-import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacistGrade;
-import com.atlaspharmacy.atlaspharmacy.grade.domain.PharmacyGrade;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.*;
 import com.atlaspharmacy.atlaspharmacy.grade.domain.enums.GradeType;
 import com.atlaspharmacy.atlaspharmacy.grade.mapper.GradeMapper;
 import com.atlaspharmacy.atlaspharmacy.grade.repository.GradeRepository;
@@ -15,7 +12,9 @@ import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.Medica
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
+import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.PatientService;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,9 @@ public class GradeService implements IGradeService {
     private final PharmacyService pharmacyService;
     private final PharmacyRepository pharmacyRepository;
     private final PharmacistRepository pharmacistRepository;
+    private final DermatologistRepository dermatologistRepository;
 
-    public GradeService(GradeRepository gradeRepository, MedicationServiceImpl medicationService, PatientService patientService, MedicationRepository medicationRepository, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, PharmacistRepository pharmacistRepository) {
+    public GradeService(GradeRepository gradeRepository, MedicationServiceImpl medicationService, PatientService patientService, MedicationRepository medicationRepository, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, PharmacistRepository pharmacistRepository, DermatologistRepository dermatologistRepository) {
         this.gradeRepository = gradeRepository;
         this.medicationService = medicationService;
         this.patientService = patientService;
@@ -42,6 +42,7 @@ public class GradeService implements IGradeService {
         this.pharmacyService = pharmacyService;
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacistRepository = pharmacistRepository;
+        this.dermatologistRepository = dermatologistRepository;
     }
 
 
@@ -114,6 +115,23 @@ public class GradeService implements IGradeService {
     }
 
     @Override
+    public Grade newDermatologistGrade(GradeDTO dto) {
+        DermatologistGrade dermatologistGrade = (DermatologistGrade) GradeMapper.dtoToGrade(dto);
+        if(!isPatientGradeDermatologist(dto)) {
+            Dermatologist dermatologist = dermatologistRepository.findById(dto.getDermatologistId()).get();
+            dermatologistGrade.setPatient(patientService.findById(dto.getPatientId()));
+            dermatologistGrade.setDermatologist(dermatologist);
+            dermatologistGrade.setType(GradeType.Values.DermatologistGrade);
+
+            setNewDermatologistGrad(false, dto.getGrade(), dermatologistGrade.getDermatologist().getId(), dto.getId());
+            return gradeRepository.save(dermatologistGrade);
+
+        }
+
+        return null;
+    }
+
+    @Override
     public Grade updateGivenGrade(Long gradeId, int newGrade) {
         Grade grade = gradeRepository.findById(gradeId).get();
         grade.setGrade(newGrade);
@@ -136,6 +154,11 @@ public class GradeService implements IGradeService {
         if (grade.getType().equals(GradeType.Values.PharmacistGrade)) {
             PharmacistGrade pg = (PharmacistGrade) grade;
             setNewPharmacistAverageGrade(true, newGrade, pg.getPharmacist().getId(), gradeId);
+        }
+
+        if (grade.getType().equals(GradeType.Values.DermatologistGrade)) {
+            DermatologistGrade dg = (DermatologistGrade) grade;
+            setNewDermatologistGrad(true, newGrade, dg.getDermatologist().getId(), gradeId);
         }
 
         return grade;
@@ -181,6 +204,20 @@ public class GradeService implements IGradeService {
                 PharmacistGrade pharmacistGrade = (PharmacistGrade) g;
                 if(pharmacistGrade.getPharmacist().getId().equals(dto.getPharmacistId()) &&
                 pharmacistGrade.getPatient().getId().equals(dto.getPatientId())) {
+                    return  true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isPatientGradeDermatologist(GradeDTO dto) {
+        List<Grade> allGradesPharmacist = findAll();
+        for (Grade g : allGradesPharmacist) {
+            if(g.getType().equals(dto.getGradeType()) && g.getType().equals(GradeType.Values.DermatologistGrade)) {
+                DermatologistGrade dermatologistGrade = (DermatologistGrade) g;
+                if(dermatologistGrade.getDermatologist().getId().equals(dto.getDermatologistId()) &&
+                        dermatologistGrade.getPatient().getId().equals(dto.getPatientId())) {
                     return  true;
                 }
             }
@@ -296,6 +333,40 @@ public class GradeService implements IGradeService {
 
         pharmacistRepository.save(pharmacist);
 
+    }
+
+    public void setNewDermatologistGrad(boolean update, int grade, Long dermatologisId, Long oldGradeId) {
+        int gradeSum = 0;
+        int grades = 0;
+        List<Grade> allPharmGrades = findAll().stream().filter(m -> m.getType().equals(GradeType.Values.DermatologistGrade)).collect(Collectors.toList());
+
+        for (Grade g : allPharmGrades) {
+            DermatologistGrade mg = (DermatologistGrade) g;
+            if(mg.getDermatologist().getId().equals(dermatologisId)) {
+                gradeSum += mg.getGrade();
+                grades ++;
+            }
+        }
+
+        Dermatologist dermatologist = dermatologistRepository.findById(dermatologisId).get();
+
+        if (dermatologist.getAverageGrade() == 0) {
+            dermatologist.setAverageGrade(1.0);
+        }
+
+        double averageGrade;
+        if (!update) {
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }else{
+            Grade odlPharmacyGrade = gradeRepository.findById(oldGradeId).get();
+            gradeSum -= odlPharmacyGrade.getGrade();
+            grades = grades - 1;
+            averageGrade = (double) (grade + gradeSum) / (grades + 1);
+        }
+
+        dermatologist.setAverageGrade(averageGrade);
+
+        dermatologistRepository.save(dermatologist);
     }
 
 

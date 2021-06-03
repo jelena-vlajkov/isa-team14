@@ -75,6 +75,17 @@ public class GradeController {
         return new ResponseEntity<>(GradeMapper.gradeToDto(grade), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/newDermatologistGrade", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public ResponseEntity<GradeDTO> newDermatologistGrade(@RequestBody GradeDTO gradeDto) {
+
+        Grade grade  = gradeService.newDermatologistGrade(gradeDto);
+        if (grade == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(GradeMapper.gradeToDto(grade), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/updateGivenGrade", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization
     public ResponseEntity<GradeDTO> updateGivenGrade(@RequestBody GradeDTO gradeDTO) {

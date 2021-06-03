@@ -79,7 +79,7 @@ public class PharmDerm {
         pharmacies.add(p);
         dermatologist.setPharmacies(pharmacies);
         dermatologist.setId(DERMATOLOGIST_ID);
-        dermatologist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        dermatologist.setAverageGrade(1.0);
         List<Authority> authorityList = new ArrayList<>();
         dermatologist.setAuthorities(authorityList);
         dermatologist.setName("Nadezda");

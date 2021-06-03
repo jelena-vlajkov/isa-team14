@@ -9,6 +9,7 @@ public class GradeDTO {
     private Long medicationId;
     private Long pharmacyId;
     private Long pharmacistId;
+    private Long dermatologistId;
 
     public GradeDTO() {
     }
@@ -16,6 +17,14 @@ public class GradeDTO {
     public GradeDTO(Long id, int grade) {
         this.id = id;
         this.grade = grade;
+    }
+
+    public Long getDermatologistId() {
+        return dermatologistId;
+    }
+
+    public void setDermatologistId(Long dermatologistId) {
+        this.dermatologistId = dermatologistId;
     }
 
     public Long getPharmacistId() {
