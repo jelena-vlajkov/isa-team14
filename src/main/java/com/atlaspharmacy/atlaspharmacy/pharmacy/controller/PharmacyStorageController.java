@@ -85,7 +85,6 @@ public class PharmacyStorageController {
     }
 
     @GetMapping(value = "/getMedicationsByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PharmacyAdminAuthorization
     public @ResponseBody
     List<MedicationDTO> getMedicationsByPharmacy(@RequestParam("ph") Long pharmacyId) {
         return pharmacyStorageService.getMedicationsInPharmacy(pharmacyId);

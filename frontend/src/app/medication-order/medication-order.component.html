@@ -34,7 +34,7 @@
                 <mat-form-field appearance="fill" id="amount-ff" >
                   <mat-label >Amount</mat-label>
                   <input matInput id="amount" placeholder="Amount" name="amount-ff"
-                         formControlName="amount" required type="number" min="1-" style="height: 25px;">
+                         formControlName="amount" required type="number" min="1" style="height: 25px;">
                   <mat-error
                     *ngIf="!addMedicationOrderForm.get('amount').valid
                      && addMedicationOrderForm.get('amount').touched
@@ -49,26 +49,27 @@
           </mat-grid-list>
       </form>
       </mat-card>
-    <mat-card  style="flex: 1 1 auto;width: 50%;"  >
+    <mat-card  style="width: 50%;"  >
       <form [formGroup]="orderForm"  (ngSubmit)="submitOrder()">
-      <mat-grid-list  cols="3" rowHeight="50" width="400" align="left" *ngIf="orderList.length!=0">
+      <mat-grid-list  cols="3" rowHeight="4:1" align="left" *ngIf="orderList.length!=0">
         <mat-grid-tile> <p style="font-weight: bold;size:50px;color: #385399;" >Order list</p></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile></mat-grid-tile>
         <mat-grid-tile>
-          <div class="inputField" style="width: auto;margin-left:20px;" >
-            <mat-form-field appearance="fill" id="duedate-ff" >
-              <mat-label>Due date</mat-label>
-              <input matInput id="dueDateInput" placeholder="Due date" name="duedate-ff"
-                     formControlName="dueDate" required type="date">
+          <div class="inputField">
+            <mat-form-field color="accent" appearance="fill">
+              <mat-label style="margin-left: 10px;" >Due date</mat-label>
+              <input matInput formControlName='dueDate' [min]="today" [matDatepicker]="dp7">
+              <mat-datepicker-toggle matSuffix [for]="dp7" style="margin-top: 2px;"></mat-datepicker-toggle>
+              <mat-datepicker #dp7 disabled="false"></mat-datepicker>
               <mat-error
                 *ngIf="!orderForm.get('dueDate').valid
-                     && orderForm.get('dueDate').touched
-                     && orderForm.get('dueDate').errors['dueDate']">
+                     && orderForm.get('dueDate').touched">
                 Please enter due date</mat-error>
             </mat-form-field>
+
           </div>
         </mat-grid-tile>
         <mat-grid-tile style="size: 30px;font-weight: bold;color: #385399;" >Medication name</mat-grid-tile>

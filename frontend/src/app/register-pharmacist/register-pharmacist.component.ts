@@ -179,12 +179,12 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   registerPharmacistSubmitted() {
- //   if (this.googleplaces.address === undefined) {
-  //    alert('Wrong address input.');
-   // } else {
+    if (this.googleplaces.address === undefined) {
+      alert('Wrong address input.');
+    } else {
       let pharmacist = new Pharmacist(null, this.addPharmacist.value.name, this.addPharmacist.value.surname
         , this.addPharmacist.value.dob, this.addPharmacist.value.telephone, this.addPharmacist.value.mail
-        , this.addPharmacist.value.password, this.addPharmacist.value.gender, null, null
+        , this.addPharmacist.value.password, this.addPharmacist.value.gender, this.googleplaces.address, null
         , null, this.pharmacy, null, new AverageGrade(0, 0, 0, 0, 0), false);
       this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
         for (let i = 0; i < this.workdays.length; i++) {
@@ -200,7 +200,7 @@ export class RegisterPharmacistComponent implements OnInit {
         this.registerPharmacistDialog = false;
 
       });
-   // }
+    }
   }
 
   saveAddress() {

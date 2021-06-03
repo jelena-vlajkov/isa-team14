@@ -86,8 +86,6 @@ public class PricelistService implements IPricelistService {
     @Transactional
     public void deletePricelistEntity(Long pricelistId) {
         Pricelist pricelistToDelete=pricelistRepository.findById(pricelistId).get();
-       // pharmacyStorageService.deleteMedicationFromPharmacyStorage(pricelistToDelete.getMedication().getId()
-         //                                                           ,pricelistToDelete.getPharmacy().getId());
         pricelistRepository.delete(pricelistToDelete);
     }
 

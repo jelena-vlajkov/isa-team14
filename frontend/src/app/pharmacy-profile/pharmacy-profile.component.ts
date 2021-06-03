@@ -94,7 +94,6 @@ export class PharmacyProfileComponent implements OnInit {
           this.getDermatologistsByPharmacy();
           this.getAvailableAppointmentsForDermatologist();
           this.getPharmacistsByPharmacy();
-          this.getMedicationByPharmacy();
         });
     }
 
@@ -288,6 +287,7 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   addPricelistClicked() {
+    this.getMedicationByPharmacy();
     this.addPricelistEntityFormGroup=new FormGroup({
       'medication': new FormControl(null,Validators.required),
       'startDate':new FormControl(null,Validators.required),
@@ -382,8 +382,11 @@ export class PharmacyProfileComponent implements OnInit {
       console.log(result);
       for(let i=0;i<result.length;i++){
         this.pricelistService.getPricelistByMedicationAndPharmacy(result[i].medicationCode,result[i].pharmacy.id).subscribe(result => {
-          this.currentPharmacyPricelist.push(result);
+          if(result!=null){
+            this.currentPharmacyPricelist.push(result);
+          }
         });
+        console.log(this.currentPharmacyPricelist);
       }
     });
   }
@@ -452,8 +455,10 @@ export class PharmacyProfileComponent implements OnInit {
 
   private getMedicationByPharmacy() {
     this.pharmacyStorageService.getMedicationsInPharmacy(this.pharmacyId).subscribe(result =>{
+      console.log("rez: "+result);
       this.medicationsByPharmacy = result;
     });
+    console.log(this.medicationsByPharmacy);
   }
 
   private getDermatologistsByPharmacy() {

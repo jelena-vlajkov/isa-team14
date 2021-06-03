@@ -10,9 +10,6 @@ import java.util.Date;
 @Entity
 @Table(name = "workdays")
 public class WorkDay {
-    @Version
-    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
-    private Long version;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,13 +35,6 @@ public class WorkDay {
         this.workDayPeriod = workDayPeriod;
         this.medicalStaff = medicalStaff;
         this.pharmacy = pharmacy;
-    }
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public boolean isDisabled() {

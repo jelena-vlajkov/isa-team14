@@ -76,11 +76,15 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Override
     public boolean isMedicationInPharmacy(Long code, Long id) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndCode(id, code);
-        if (pharmacyStorage.getQuantity() == 0) {
-            notificationService.medicationQuantityLow(pharmacyStorage);
-            return false;
+        if(pharmacyStorage!=null){
+            if (pharmacyStorage.getQuantity() == 0) {
+                notificationService.medicationQuantityLow(pharmacyStorage);
+                return false;
+            }
+            else return true;
         }
-        return true;
+        
+        return false;
     }
 
     @Override
@@ -93,7 +97,6 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     }
 
     @Override
-    @Transactional
     public void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
         if (pharmacyStorage != null) {
