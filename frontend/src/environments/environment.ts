@@ -170,7 +170,8 @@ export const environment = {
   findMedicationsForPatientGrading : "findMedicationsForPatientGrading",
   findPharmacistsForPatientGrading : "findPharmacistsForPatientGrading",
   findDermatologistsForPatientGrading : "findDermatologistsForPatientGrading",
-  grade : "grade"
+  grade : "grade",
+  getAllGradesByPatient : "getAllGradesByPatient"
 
 };
 

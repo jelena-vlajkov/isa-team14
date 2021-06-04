@@ -15,6 +15,7 @@ import {PatientScheduleCounseling} from '@app/model/users/patient/PatientSchedul
 import {Grade} from '@app/model/users/patient/Grade';
 import { Medication } from '@app/model/medications/medication';
 import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
+import { UpdateGrade } from '@app/model/users/patient/updateGrade';
 
 @Injectable({
   providedIn: 'root'
@@ -131,6 +132,10 @@ export class PatientService {
 
     findDermatologistsForPatientGrading(id : Number) : Observable<Dermatologist[]> {
       return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.findDermatologistsForPatientGrading}?patientId=${id}`);
+    }
+
+    getAllGrades(id : Number) : Observable<UpdateGrade[]> {
+      return this.http.get<UpdateGrade[]>(`${environment.baseUrl}/${environment.grade}/${environment.getAllGradesByPatient}?patientId=${id}`);
     }
 
 

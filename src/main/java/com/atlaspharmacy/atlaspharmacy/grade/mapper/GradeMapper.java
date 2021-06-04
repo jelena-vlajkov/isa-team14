@@ -13,24 +13,28 @@ public class GradeMapper {
             MedicationGrade medicationGrade = (MedicationGrade) grade;
             dto.setMedicationId(medicationGrade.getMedication().getId());
             dto.setGradeType(GradeType.Values.MedicationGrade);
+            dto.setMedicationName(medicationGrade.getMedication().getName());
         }
 
         if (grade.getType().equals(GradeType.Values.PharmacyGrade)) {
             PharmacyGrade pharmacyGrade = (PharmacyGrade) grade;
             dto.setPharmacyId(pharmacyGrade.getPharmacy().getId());
             dto.setGradeType(GradeType.Values.PharmacyGrade);
+            dto.setPharmacyName(pharmacyGrade.getPharmacy().getName());
         }
 
         if (grade.getType().equals(GradeType.Values.PharmacistGrade)) {
             PharmacistGrade pharmacistGrade = (PharmacistGrade) grade;
             dto.setPharmacistId(pharmacistGrade.getPharmacist().getId());
             dto.setGradeType(GradeType.Values.PharmacistGrade);
+            dto.setPharmacistName(pharmacistGrade.getPharmacist().getName() + " " + pharmacistGrade.getPharmacist().getSurname());
         }
 
         if (grade.getType().equals(GradeType.Values.DermatologistGrade)) {
             DermatologistGrade dermatologistGrade = (DermatologistGrade) grade;
             dto.setDermatologistId(dermatologistGrade.getDermatologist().getId());
             dto.setGradeType(GradeType.Values.DermatologistGrade);
+            dto.setDermatologistName(dermatologistGrade.getDermatologist().getName() + " " + dermatologistGrade.getDermatologist().getSurname());
         }
 
         dto.setId(grade.getId());

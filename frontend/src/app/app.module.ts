@@ -97,6 +97,7 @@ import { DermatologistListAndFilterComponent } from './dermatologist-list-and-fi
 import { AgmCoreModule } from '@agm/core';
 import { ChartsModule } from 'ng2-charts';
 import { PatientNewGradeComponent } from './patient/patient-new-grade/patient-new-grade/patient-new-grade.component';
+import { PatientUpdataGradeComponent } from './patient/patient-update-grade/patient-updata-grade/patient-updata-grade.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -163,7 +164,8 @@ import { PatientNewGradeComponent } from './patient/patient-new-grade/patient-ne
     VacationRequestsComponent,
     PharmacistListAndFilterComponent,
     DermatologistListAndFilterComponent,
-    PatientNewGradeComponent
+    PatientNewGradeComponent,
+    PatientUpdataGradeComponent
 
   ],
   imports: [

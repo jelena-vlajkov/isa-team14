@@ -1,5 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.grade.DTO;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
+
 public class GradeDTO {
 
     private Long id;
@@ -10,6 +14,10 @@ public class GradeDTO {
     private Long pharmacyId;
     private Long pharmacistId;
     private Long dermatologistId;
+    private String medicationName;
+    private String pharmacyName;
+    private String pharmacistName;
+    private String dermatologistName;
 
     public GradeDTO() {
     }
@@ -17,6 +25,38 @@ public class GradeDTO {
     public GradeDTO(Long id, int grade) {
         this.id = id;
         this.grade = grade;
+    }
+
+    public String getMedicationName() {
+        return medicationName;
+    }
+
+    public void setMedicationName(String medicationName) {
+        this.medicationName = medicationName;
+    }
+
+    public String getPharmacyName() {
+        return pharmacyName;
+    }
+
+    public void setPharmacyName(String pharmacyName) {
+        this.pharmacyName = pharmacyName;
+    }
+
+    public String getPharmacistName() {
+        return pharmacistName;
+    }
+
+    public void setPharmacistName(String pharmacistName) {
+        this.pharmacistName = pharmacistName;
+    }
+
+    public String getDermatologistName() {
+        return dermatologistName;
+    }
+
+    public void setDermatologistName(String dermatologistName) {
+        this.dermatologistName = dermatologistName;
     }
 
     public Long getDermatologistId() {

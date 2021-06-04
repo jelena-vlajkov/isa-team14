@@ -1,5 +1,5 @@
 export class Grade {
-    public Id : Number;
+    public id : Number;
     public grade : Number;
     public gradeType : String;
     public patientId : Number;

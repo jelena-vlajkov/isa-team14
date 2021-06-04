@@ -27,7 +27,7 @@ public class GradeController {
         this.gradeService = gradeService;
     }
 
-    @GetMapping(value = "/getAllGradesByPatient", produces = MediaType.APPLICATION_JSON_VALUE)
+        @GetMapping(value = "/getAllGradesByPatient", produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization
     public List<GradeDTO> getGradesByPatient(@RequestParam("patientId") Long patientId){
         List<Grade> grades = gradeService.findByPatient(patientId);
