@@ -1,1 +1,136 @@
-<p>patient-new-grade works!</p>
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/patient/reservedDrugs" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/patient/issuedEdrugs" style="color: white;"> List of issued medications by eRecepts</button>
+          <button mat-list-item routerLink="/patient/newGrade" style="color: white;"> Add new grade</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Write complaint</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Get reserved medications</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/patient/scheduleCounseling" style="color: white;"> Schedule appointment by pharmacist</button>
+          <button mat-list-item routerLink="/patient/drugReservation" style="color: white;"> Reserve medication</button>
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: relative; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Add new grade</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+          
+            <div class="table-wrapper">
+              
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>Choose grade type</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose what you want to grade</mat-label>
+                  <mat-select [(ngModel)]="selectedType" (ngModelChange)="typeChange($event)" required>
+                    <mat-option [value]="type" *ngFor="let type of gradeTypes">{{type}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isTypeChosen"> <h4>Chosen type : {{selectedType}}</h4> </span>
+              </div>
+
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && selectedType==='Grade medication'">
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>{{selectedType}} :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose medication to grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedMedication" (ngModelChange)="medicationChoose($event)" required>
+                    <mat-option [value]="med" *ngFor="let med of medications">{{med.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isMedicationChosen"> <h4>Chosen medication : {{selectedMedication.name}}, grade: {{selectedMedication.grade}} </h4> </span>
+              </div>
+              </span>
+
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && selectedType==='Grade pharmacy'">
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>{{selectedType}} :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose pharmacy to grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedPharmacy" (ngModelChange)="pharmacyChoose($event)" required>
+                    <mat-option [value]="p" *ngFor="let p of pharmacies">{{p.name}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isPharmacyChosen"> <h4>Chosen pharmacy : {{selectedPharmacy.name}}, grade: {{selectedPharmacy.averageGradeCount}} </h4> </span>
+              </div>
+              </span>
+
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && selectedType==='Grade pharmacist'">
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>{{selectedType}} :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose pharmacist to grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedPharmacist" (ngModelChange)="pharmacistChoose($event)" required>
+                    <mat-option [value]="p" *ngFor="let p of pharmacists">{{p.name}} {{p.surname}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isPharmacistChosen"> <h4>Chosen pharmacist : {{selectedPharmacist.name}} {{selectedPharmacist.surname}}, grade: {{selectedPharmacist.averageGrade}} </h4> </span>
+              </div>
+              </span>
+
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && selectedType==='Grade dermatologist'">
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>{{selectedType}} :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose dermatologist to grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedDermatologist" (ngModelChange)="dermatologistChoose($event)" required>
+                    <mat-option [value]="p" *ngFor="let p of dermatologists">{{p.name}} {{p.surname}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isDermatologistChosen"> <h4>Chosen dermatologist : {{selectedDermatologist.name}} {{selectedDermatologist.surname}}, grade: {{selectedDermatologist.averageGrade}} </h4> </span>
+              </div>
+              </span>
+
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && isObjectChosen">
+              <div style="margin-left: 10em;">
+                <h2 style="margin-left: 10em; "><b>Choose grade :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedGrade" (ngModelChange)="gradeChoose($event)" required>
+                    <mat-option [value]="grade" *ngFor="let grade of grades">{{grade}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isGradeSelected"> <h4>Chosen grade : {{selectedGrade}} </h4> </span>
+              </div>
+              </span>
+              <mat-divider></mat-divider>
+              <span *ngIf="isTypeChosen && isObjectChosen && isGradeSelected">
+              <button style="background-color: #385399; color: white; margin-left: 20em;" (click)="newGradeClick()" mat-button >New grade</button>
+              </span>   
+              
+              
+              
+
+
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>
+
+
