@@ -1,15 +1,17 @@
 package com.atlaspharmacy.atlaspharmacy.medication.service.implementations;
 
-import com.atlaspharmacy.atlaspharmacy.medicalrecord.repository.MedicalRecordRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.IngredientDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Ingredient;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.IIngredientRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
+import com.atlaspharmacy.atlaspharmacy.medication.repository.PrescriptionRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
-import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
-import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
+import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
+import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +21,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class MedicationServiceImpl implements IMedicationService {
 
     private final MedicationRepository _medicationRepository;
     private final IIngredientRepository _ingredientRepository;
+    private final DrugReservationRepository _drugReservationRepository;
+    private final PrescriptionRepository _prescriptionRepository;
 
 
     final private static String EXCEPTION = "Exception in Medication Service Implementation method:";
@@ -32,9 +37,11 @@ public class MedicationServiceImpl implements IMedicationService {
     final private static String FAIL = "execution failed";
 
     @Autowired
-    public MedicationServiceImpl(MedicationRepository medicationRepository, IIngredientRepository ingredientRepository){
+    public MedicationServiceImpl(MedicationRepository medicationRepository, IIngredientRepository ingredientRepository, DrugReservationRepository drugReservationRepository, PrescriptionRepository prescriptionRepository){
         this._medicationRepository = medicationRepository;
         this._ingredientRepository = ingredientRepository;
+        _drugReservationRepository = drugReservationRepository;
+        _prescriptionRepository = prescriptionRepository;
     }
 
     @Override
@@ -240,6 +247,36 @@ public class MedicationServiceImpl implements IMedicationService {
             e.printStackTrace();
             throw new Exception(EXCEPTION + "saveMedication " + FAIL);
         }
+    }
+
+    @Override
+    public  List<MedicationDTO> findForPatientGrading(Long patientId) {
+        List<DrugReservation> drugReservationsForPatient = _drugReservationRepository.findAll()
+                .stream().filter(d -> d.getPatient().getId().equals(patientId) && d.isIssued()).collect(Collectors.toList());
+        List<PrescribedDrug> prescribedDrugsForPatient = _prescriptionRepository.getPrescribedDrugBy(patientId);
+
+
+        List<Medication> medicationsFromReservations = new ArrayList<>();
+        List<Medication> medicationsFromPrescribed = new ArrayList<>();
+
+        for (DrugReservation d : drugReservationsForPatient) {
+            medicationsFromReservations.add(d.getMedication());
+        }
+
+        for (PrescribedDrug p : prescribedDrugsForPatient) {
+            medicationsFromPrescribed.add(p.getMedication());
+        }
+
+        List<Medication> uniqueMedications = new ArrayList<>(Stream.of(medicationsFromReservations, medicationsFromPrescribed).flatMap(List::stream)
+                .collect(Collectors.toMap(Medication::getId, d -> d, (Medication x, Medication y) -> x == null ? y : x)).values());
+
+        List<MedicationDTO> medicationDTOS = new ArrayList<>();
+        for (Medication m : uniqueMedications) {
+            medicationDTOS.add(MedicationMapper.convertToMedicationDTO(m));
+        }
+
+        return medicationDTOS;
+
     }
 
 }

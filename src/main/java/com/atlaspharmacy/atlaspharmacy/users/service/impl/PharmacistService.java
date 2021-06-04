@@ -26,6 +26,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
 @Service
 public class PharmacistService implements IPharmacistService {
     private final PharmacistRepository pharmacistRepository;
@@ -243,6 +248,27 @@ public class PharmacistService implements IPharmacistService {
 
        return  availablePharmacists;
 
+
+    }
+
+    @Override
+    public List<PharmacistDTO> findForPatientGrading(Long patientId) {
+        List<Counseling> patientCounseling = appointmentService.getFinishedPatientsCounselings(patientId);
+        List<PharmacistDTO> pharmacistDTOS = new ArrayList<>();
+
+        if (patientCounseling.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        for (Counseling c : patientCounseling) {
+            pharmacistDTOS.add(PharmacistMapper.mapPharmacistToDTO(c.getPharmacist()));
+        }
+
+        List<PharmacistDTO> uniquePharmacists = pharmacistDTOS.stream()
+                .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(PharmacistDTO::getId))),
+                        ArrayList::new));
+
+        return uniquePharmacists;
 
     }
 

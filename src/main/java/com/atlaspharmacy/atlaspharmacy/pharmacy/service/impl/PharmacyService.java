@@ -4,8 +4,11 @@ import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
+import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.EPrescription;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
+import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Subscription;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.ISubscriptionService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
@@ -20,14 +23,21 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.service.IDrugReservationService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
+import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 public class PharmacyService implements IPharmacyService {
@@ -41,12 +51,13 @@ public class PharmacyService implements IPharmacyService {
     private final UserRepository userRepository;
     private final IAddressService addressService;
     private final IPharmacyPricelistService pricelistService;
+    private final IMedicationService medicationService;
 
     @Autowired
     public PharmacyService(IPharmacyRepository pharmacyRepository, AddressRepository addressRepository,
                            IAppointmentService appointmentService, IEPrescriptionService ePrescriptionService,
                            IDrugReservationService drugReservationService, IPharmacyStorageService pharmacyStorageService,
-                           ISubscriptionService subscriptionService, UserRepository userRepository, IAddressService addressService, IPharmacyPricelistService pricelistService) {
+                           ISubscriptionService subscriptionService, UserRepository userRepository, IAddressService addressService, IPharmacyPricelistService pricelistService, IMedicationService medicationService) {
         this.pharmacyRepository = pharmacyRepository;
         this.addressRepository = addressRepository;
         this.appointmentService = appointmentService;
@@ -57,6 +68,7 @@ public class PharmacyService implements IPharmacyService {
         this.userRepository = userRepository;
         this.addressService = addressService;
         this.pricelistService = pricelistService;
+        this.medicationService = medicationService;
     }
 
 
@@ -252,9 +264,66 @@ public class PharmacyService implements IPharmacyService {
         return dtos;
     }
 
+    @Override
+    public List<PharmacyDTO> findForPatientGrading(Long patientId) throws Exception {
 
 
+        //medics
+        List<MedicationDTO> medicationForGrading = medicationService.findForPatientGrading(patientId);
+        List<PharmacyDTO> pharmaciesByMedication = new ArrayList<>();
+        List<PharmacyDTO> uniquePharmaciesBymedications = new ArrayList<>();
+        if (!medicationForGrading.isEmpty()) {
+            for (MedicationDTO m : medicationForGrading) {
+                pharmaciesByMedication.addAll(getPharmaciesByMedicationId(m.getId()));
+            }
+            uniquePharmaciesBymedications = pharmaciesByMedication.stream()
+                    .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(PharmacyDTO::getId))),
+                            ArrayList::new));
+        }
 
+        //pharmacist
+        List<Counseling> patientCounseling = appointmentService.getFinishedPatientsCounselings(patientId);
+        List<PharmacyDTO> pharmaciesByCounseling = new ArrayList<>();
+        List<PharmacyDTO> uniquePharmaciesByCounseling = new ArrayList<>();
+        if (!patientCounseling.isEmpty()) {
+            for (Counseling c : patientCounseling) {
+                pharmaciesByCounseling.add(PharmacyMapper.mapPharmacyToDTO(c.getPharmacy()));
+            }
+
+            uniquePharmaciesByCounseling = pharmaciesByCounseling.stream()
+                    .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(PharmacyDTO::getId))),
+                            ArrayList::new));
+        }
+
+        //dermatologist
+        List<Examination> patientExamination = appointmentService.getFinishedPatientsExaminations(patientId);
+        List<PharmacyDTO> pharmaciesByExamination = new ArrayList<>();
+        List<PharmacyDTO> uniquePharmaciesByExamination = new ArrayList<>();
+        if (!patientExamination.isEmpty()) {
+            for (Examination e : patientExamination) {
+                pharmaciesByExamination.add(PharmacyMapper.mapPharmacyToDTO(e.getPharmacy()));
+            }
+
+            uniquePharmaciesByExamination = pharmaciesByExamination.stream()
+                    .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(PharmacyDTO::getId))),
+                            ArrayList::new));
+        }
+
+        //derm+pharm
+        List<PharmacyDTO> dermPharmPharmacies = new ArrayList<>(Stream.of(uniquePharmaciesByCounseling, uniquePharmaciesByExamination).flatMap(List::stream)
+                .collect(Collectors.toMap(PharmacyDTO::getId, d -> d, (PharmacyDTO x, PharmacyDTO y) -> x == null ? y : x)).values());
+
+        //derm+pharm+med
+        List<PharmacyDTO> dermPharmMedPharmacies = new ArrayList<>(Stream.of(dermPharmPharmacies, uniquePharmaciesBymedications).flatMap(List::stream)
+                .collect(Collectors.toMap(PharmacyDTO::getId, d -> d, (PharmacyDTO x, PharmacyDTO y) -> x == null ? y : x)).values());
+
+        if (dermPharmMedPharmacies.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return dermPharmMedPharmacies;
+
+    }
 
 
 }

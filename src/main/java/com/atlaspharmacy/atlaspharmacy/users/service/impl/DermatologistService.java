@@ -13,6 +13,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
@@ -25,6 +26,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 public class DermatologistService implements IDermatologistService {
@@ -194,6 +199,25 @@ public class DermatologistService implements IDermatologistService {
     @Override
     public List<Dermatologist> getAll() {
         return dermatologistRepository.findAll();
+    }
+
+    @Override
+    public List<DermatologistDTO> findForPatientGrading(Long patientId) {
+        List<Examination> patientExaminations = appointmentService.getFinishedPatientsExaminations(patientId);
+        List<DermatologistDTO> dermatologistDTOS = new ArrayList<>();
+
+        if(patientExaminations.isEmpty()) return new ArrayList<>();
+
+        for (Examination e : patientExaminations) {
+            dermatologistDTOS.add(DermatologistMapper.mapDermatologistToDTO(e.getDermatologist()));
+        }
+
+        List<DermatologistDTO> uniqueDermatologists = dermatologistDTOS.stream()
+                .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(DermatologistDTO::getId))),
+                        ArrayList::new));
+
+        return uniqueDermatologists;
+
     }
 
 
