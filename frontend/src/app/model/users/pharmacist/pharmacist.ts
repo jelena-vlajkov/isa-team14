@@ -20,7 +20,7 @@ export class Pharmacist {
     public firstTimeChanged : boolean;
     public licenceNumber : String
     public pharmacy : Pharmacy;
-    public averageGrade : AverageGrade;
+    public averageGrade : Number;
 
     constructor(id:Number,name:String, surname : String, dateOfBirth: Date
                 , phoneNumber : String, email : String, password : String
@@ -41,6 +41,6 @@ export class Pharmacist {
         this.firstTimeChanged = firstTimeChanged;
         this.licenceNumber = licenceNumber;
         this.pharmacy = pharmacy;
-        this.averageGrade = averageGrade;
+       // this.averageGrade = averageGrade;
     }
 }

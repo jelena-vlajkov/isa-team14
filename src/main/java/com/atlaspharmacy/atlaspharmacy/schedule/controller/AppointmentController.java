@@ -135,7 +135,7 @@ public class AppointmentController {
 
 
     @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
+    public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws Exception {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }
 
@@ -220,7 +220,13 @@ public class AppointmentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @PostMapping(value = "/patientScheduleExamination", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<?> patientScheduleExamination(@RequestBody ScheduleAppointmentDTO dto) throws Exception {
+        appointmentService.saveAppointment(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
 

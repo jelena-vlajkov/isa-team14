@@ -27,6 +27,10 @@ import {AuthenticationService} from "@app/service/user";
 import {DrugReservationsService} from "@app/service/drug-reservations/drug-reservations.service";
 import { AgmCoreModule } from '@agm/core';
 import {Examination} from "@app/model/appointment/examination";
+import {Sort} from '@angular/material/sort';
+import {MatSort} from '@angular/material/sort';
+import {PatientScheduleExamination} from '@app/model/users/patient/patientScheduleExamination'
+import {PatientService} from '@app/service/patient/patient.service'
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -34,6 +38,12 @@ import {Examination} from "@app/model/appointment/examination";
   styleUrls: ['./pharmacy-profile.component.css'],
 })
 export class PharmacyProfileComponent implements OnInit {
+
+  
+  @ViewChild(MatSort) sort: MatSort;
+  ngAfterViewInit() {
+  }
+
   grade:Number;
   currentUserId:String;
   dermatologists: Dermatologist[]=new Array();
@@ -77,7 +87,8 @@ export class PharmacyProfileComponent implements OnInit {
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
               ,private authenticationService:AuthenticationService
-              ,private drugReservationsService:DrugReservationsService) {
+              ,private drugReservationsService:DrugReservationsService
+              ,private patientService : PatientService) {
 
   }
 
@@ -99,16 +110,18 @@ export class PharmacyProfileComponent implements OnInit {
     }
 
     else{
-      localStorage.setItem('pharmacyId','100');
+     // localStorage.setItem('pharmacyId','100');
+     var ocena : Number;
       this.pharmacyService.getPharmacyById(Number(localStorage.getItem('pharmacyId'))).subscribe(result =>{
         this.pharmacy = result;
         this.pharmacyId = result.id;
-        this.grade = this.countAverageGrade(result.averageGrade);
         this.getPharmacyStorage();
         this.getDermatologistsByPharmacy();
         this.getAvailableAppointmentsForDermatologist();
         this.getPharmacistsByPharmacy();
+       
       });
+    
     }
 
 
@@ -426,16 +439,20 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   private getAvailableAppointmentsForDermatologist() {
-    for(let i=0;i<this.dermatologists.length;i++) {
-      this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id, this.pharmacyId).subscribe(result => {
-        result = this.ToArray(result);
-        for (let j = 0; j < result.length; j++) {
-            result[j].dermatologist = this.dermatologists[i];
-            this.availableAppointments.push(result[j]);
-        }
-      });
+    if (this.availableAppointments.length == 0) {
+      for(let i=0;i<this.dermatologists.length;i++) {
+        this.appointmentService.getAvailableAppointmentsForDermatologists(this.dermatologists[i].id, this.pharmacyId).subscribe(result => {
+          result = this.ToArray(result);
+          for (let j = 0; j < result.length; j++) {
+              result[j].dermatologist = this.dermatologists[i];
+              this.availableAppointments.push(result[j]);
+          }
+        });
+      }
+      console.log(this.availableAppointments);
+    }else {
+      this.availableAppointments = this.availableAppointments;
     }
-    console.log(this.availableAppointments);
 
   }
 
@@ -457,6 +474,7 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   private getDermatologistsByPharmacy() {
+    console.log("usao1")
     this.dermatologistService.getDermatologistsByPharmacy(this.pharmacyId).subscribe(
       result => {
         result = this.ToArray(result);
@@ -480,4 +498,59 @@ export class PharmacyProfileComponent implements OnInit {
     this.showPromotions=false;
     this.scheduleAppointment=false;
   }
+
+
+
+
+  //stef
+  sortData(sort: Sort){
+    const data = this.availableAppointments.slice();
+    if (!sort.active || sort.direction === '') {
+      this.availableAppointments = data;
+      return;
+    }
+
+    this.availableAppointments = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'cost': return compare(a.cost, b.cost, isAsc);   
+        case 'grade': return compare(a.dermatologist.averageGrade, a.dermatologist.averageGrade, isAsc)
+        default: return 0;
+      }
+    });
+  }
+
+  chooseAppointmentToSchedule(availableAppointment) {
+    var newExamination : Examination;
+    var patientScheduleExamination = new PatientScheduleExamination();
+    newExamination = availableAppointment;
+    if (localStorage.getItem('userRole') != "PharmacyAdmin") {
+      patientScheduleExamination.type = "Examination";
+      patientScheduleExamination.startTime = newExamination.appointmentPeriod.startTime;
+      patientScheduleExamination.endTime = newExamination.appointmentPeriod.endTime;
+      patientScheduleExamination.medicalStaffId = newExamination.dermatologist.id;
+      patientScheduleExamination.patientId = this.authenticationService.currentUserValue.id;
+      patientScheduleExamination.pharmacyId = this.pharmacyId;
+      this.patientService.schedulePatientExamination(patientScheduleExamination).subscribe(
+        res => {
+          alert('Success')
+          this.router.navigate(['patient/scheduledAppointments']);
+        },
+        err => {
+          alert('Fail this appointmemt is now reserved')
+
+        }
+      );
+
+      
+    }
+    
+  }
+
+
 }
+
+function compare(a: Number | String, b: Number | String, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  

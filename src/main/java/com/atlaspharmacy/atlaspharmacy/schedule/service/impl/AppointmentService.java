@@ -198,13 +198,22 @@ public class AppointmentService implements IAppointmentService {
 
     //slobodni termini kod dermatologa
     @Override
-    public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) {
+    public List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId,Long pharmacyId) throws Exception {
+        Date today = new Date();
         List<Examination> availableExaminations = new ArrayList<>();
         List<WorkDay> workDaysForDermatologist=workDayService.getBy(medicalStaffId);
         for (WorkDay workDay : workDaysForDermatologist) {
-            if (workDay.getPharmacy().getId().equals(pharmacyId))
+            if (workDay.getPharmacy().getId().equals(pharmacyId) &&
+                    workDay.getWorkDayPeriod().getStartTime().getTime() >= today.getTime())
                 availableExaminations.addAll((List<Examination>)(List<?>) findAvailableBy(workDay.getDate(), workDay.getMedicalStaff().getId()));
         }
+
+
+
+        for (Appointment a : availableExaminations) {
+            a.setCost(pharmacyPricelistService.examinationCost(a.getPharmacy().getId()));
+        }
+
         return availableExaminations;
     }
 
