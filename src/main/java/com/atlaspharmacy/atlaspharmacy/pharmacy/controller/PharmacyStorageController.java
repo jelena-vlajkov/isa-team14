@@ -71,11 +71,12 @@ public class PharmacyStorageController {
 
     @PostMapping(value = "/addMedicationToStorage",consumes = MediaType.APPLICATION_JSON_VALUE)
     @PharmacyAdminAuthorization
-    public ResponseEntity<?> addMedicationToPharmacy(@RequestParam("medicationId") Long medicationId,
+    public ResponseEntity<?> addMedicationToPharmacy(@RequestParam("medicationCode") Long medicationCode,
+                                                     @RequestParam("medicationId") Long medicationId,
                                                      @RequestParam("pharmacyId") Long pharmacyId,
                                                      @RequestParam("amount") Long amount){
         try {
-            pharmacyStorageService.addMedicationToPharmacy(medicationId,pharmacyId,amount);
+            pharmacyStorageService.addMedicationToPharmacy(medicationCode,medicationId,pharmacyId,amount);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -85,13 +85,38 @@
       <div *ngIf="availableAppointments.length==0">
         <p style="margin-left: 200px;margin-top:30px;">No available appointments at the moment.</p>
       </div>
-      <table style="margin-left: 200px;height:200px;margin-top:30px;" *ngIf="availableAppointments.length!=0">
+      <!--table style="margin-left: 200px;height:200px;margin-top:30px;" *ngIf="availableAppointments.length!=0">
         <tr *ngFor="let availableAppointment of availableAppointments" >
         <td style="margin-top: 20px;margin-bottom: 5px;" >{{availableAppointment.dermatologist.name}}
          {{availableAppointment.dermatologist.surname}} {{availableAppointment.appointmentPeriod.startTime | date:"HH:mm"}}
          - {{availableAppointment.appointmentPeriod.endTime | date:"HH:mm"}} {{availableAppointment.cost}} din</td>
           <td *ngIf="!isPharmacyAdmin"><button class="btn"><i style="color:blue;">Schedule</i></button></td>
         </tr>
+      </table-->
+      <table matSort (matSortChange)="sortData($event)" class="fl-table" *ngIf="availableAppointments.length!=0">
+        <thead>
+          <tr>
+              <th>Dermatologist name</th>
+              <th>Start time</th>
+              <th>End time</th>
+              <th mat-sort-header="cost">Cost</th>
+              <th mat-sort-header="grade">Grade</th>
+              <th *ngIf="!isPharmacyAdmin">Schedule</th>
+
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let availableAppointment of availableAppointments">
+              <td>{{availableAppointment.dermatologist.name}} {{availableAppointment.dermatologist.surname}}</td>
+              <td>{{availableAppointment.appointmentPeriod.startTime | date:"dd.MM.yyyy. HH:mm"}}</td>
+              <td>{{availableAppointment.appointmentPeriod.endTime | date:"dd.MM.yyyy. HH:mm"}}</td>
+              <td>{{availableAppointment.cost}}</td>
+              <td>{{availableAppointment.dermatologist.averageGrade}}</td>
+              <td *ngIf="!isPharmacyAdmin"><button mat-button style="background-color: #385399; color: white;"
+                (click)="chooseAppointmentToSchedule(availableAppointment)">Choose</button></td>
+          </tr>
+
+          <tbody>
       </table>
       <div style="vertical-align: bottom;">
         <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 60px;" color="accent" mat-raised-button id='cancelScheduling' (click)='cancelScheduling()'>Back</button>
@@ -117,37 +142,40 @@
     </mat-card>
 
     <mat-card *ngIf="addPromotion">
-      <label style="font-size:25px;margin-left:200px">Add promotion</label>
-      <table style="margin-top: 20px;margin-left: 50px;" >
-        <tr style="height: 30px;"></tr>
-        <tr>
-          <td style="font-size: 20px;">Start time:</td>
-          <td style="font-size: 20px;">
-            <mat-form-field>
-            <input matInput id="promotionStartTime" [matDatepicker]="datep" [min]="currentDate">
-            <mat-datepicker-toggle matSuffix [for]="datep" style="margin-top: 2px;"></mat-datepicker-toggle>
-            <mat-datepicker #datep disabled="false"></mat-datepicker></mat-form-field></td>
-            </tr>
-        <tr style="height: 30px;"></tr>
-        <tr>
-          <td style="font-size: 20px;">End time:</td>
-          <td style="font-size: 20px;">
-            <mat-form-field>
-              <input matInput id="promotionEndTime" [matDatepicker]="datepp">
-              <mat-datepicker-toggle matSuffix [for]="datepp" style="margin-top: 2px;"></mat-datepicker-toggle>
-              <mat-datepicker #datepp disabled="false"></mat-datepicker></mat-form-field></td>
+      <form [formGroup]="addPromotionFormGroup" (ngSubmit)="addPromotionSubmitted()">
 
+      <label style="font-size:25px;margin-left:200px">Add promotion</label>
+      <table cols="2" style="margin-top: 20px;margin-left: 50px;" >
+       <tr>
+          <td style="font-size: 20px;">Start date:</td>
+          <td style="font-size: 20px;">
+            <mat-form-field>
+            <input matInput formControlName="startDate" [matDatepicker]="datep" [min]="currentDate">
+            <mat-datepicker-toggle matSuffix [for]="datep" style="margin-top: 2px;"></mat-datepicker-toggle>
+            <mat-datepicker #datep disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </td>
+       </tr>
+        <tr>
+          <td style="font-size: 20px;">End date:</td>
+          <td style="font-size: 20px;">
+            <mat-form-field>
+              <input matInput formControlName="endDate" [matDatepicker]="datepp">
+              <mat-datepicker-toggle matSuffix [for]="datepp" style="margin-top: 2px;"></mat-datepicker-toggle>
+              <mat-datepicker #datepp disabled="false"></mat-datepicker>
+            </mat-form-field>
+          </td>
         </tr>
         <tr>
           <td style="font-size: 20px;">Description:</td>
-          <span style="margin-left: 20px;"></span>
-          <td style="font-size: 20px;margin-left: 20px;"><input placeholder="Write description..." style="height: 150px;width: 500px;font-size: 15px;" id="promotionDescription"></td>
+          <td style="font-size: 20px;"><input placeholder="Write description..." style="height: 150px;width: 400px;font-size: 15px;" formControlName="description"></td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">
         <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 50px;" color="accent" mat-raised-button (click)='addPromotionCanceled()'>Cancel</button>
-        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 50px;" color="accent" mat-raised-button (click)='addPromotionSubmitted()'>Add promotion</button>
+        <button style="float:right;position: relative; background-color: #385399; margin-right:20px;margin-top: 50px;" color="accent" mat-raised-button [disabled]="!addPromotionFormGroup.valid">Add promotion</button>
       </div>
+      </form>
     </mat-card>
 
     <mat-card style="flex: 1 1 auto;width: 50%;" *ngIf="addPricelistEntityDialog">
@@ -388,7 +416,7 @@
             <div class="inputField">
 
               <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
-                <input matInput formControlName='startDate'  [min]="currentDate" style="font-size:18px;" placeholder="Start date" [matDatepicker]="dp4">
+                <input matInput formControlName='startDate' style="font-size:18px;" placeholder="Start date" [matDatepicker]="dp4">
                 <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
                 <mat-datepicker #dp4 disabled="false"></mat-datepicker>
               </mat-form-field>

@@ -17,7 +17,8 @@ export class Dermatologist{
     public role : Role;
     public authorities : Number[];
     public pharmacies : Pharmacy[];
-    public averageGrade : AverageGrade;
+   // public averageGrade : AverageGrade;
+    public averageGrade : Number; 
 
     constructor(id:Number, name:String, surname : String, dateOfBirth: Date, phoneNumber : String, email : String, password : String, gender: Gender, address : Address, role : Role, autorities : Number[], pharmacies: Pharmacy[],averageGrade:AverageGrade){
         this.id=id;
@@ -32,7 +33,7 @@ export class Dermatologist{
         this.role = role;
         this.authorities = autorities;
         this.pharmacies = pharmacies;
-        this.averageGrade = averageGrade;
+        //this.averageGrade = averageGrade;
     }
 
 }

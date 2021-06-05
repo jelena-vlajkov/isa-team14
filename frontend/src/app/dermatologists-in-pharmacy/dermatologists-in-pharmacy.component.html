@@ -26,9 +26,9 @@
    </mat-card>
 
 
-    <div>
+    <div *ngIf="addDermatologistDialog" >
       <div style="display:flex;">
-        <mat-card *ngIf="addDermatologistDialog" style="width: 50%;">
+        <mat-card style="width: 50%;">
           <label style="font-size: 25px;margin-top: 30px;margin-left:200px;">Add dermatologist</label>
           <div style="display:flex;">
             <label style="font-size: 20px;margin-left: 20px;">Available dermatologists:</label>

@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.supplier.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.service.implementations.MedicationServiceImpl;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
 import com.atlaspharmacy.atlaspharmacy.reservations.exception.DueDateSoonException;
@@ -196,7 +197,8 @@ public class OfferService implements IOfferService {
                 emailService.sendNotificationToSupplier(o.getSupplier(), true);
                 List<MedicationInOrder> medicationsByOrder=medicationInOrderService.getAllMedicationsByOrder(o.getOrder().getId());
                 for(MedicationInOrder m:medicationsByOrder) {
-                    pharmacyStorageService.addMedicationToPharmacy(m.getOrderedMedication().getMedication(),o.getOrder().getPharmacy().getId(), 0L);
+                    Medication medication=medicationService.getById(m.getOrderedMedication().getMedication());
+                    pharmacyStorageService.addMedicationToPharmacy(medication.getCode(),m.getOrderedMedication().getMedication(),o.getOrder().getPharmacy().getId(), 0L);
                 }
                 } else {
                 o.setOfferStatus(OfferStatus.REJECTED);
