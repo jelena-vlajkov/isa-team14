@@ -16,6 +16,7 @@ import {Grade} from '@app/model/users/patient/Grade';
 import { Medication } from '@app/model/medications/medication';
 import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
 import { UpdateGrade } from '@app/model/users/patient/updateGrade';
+import { PatientScheduleExamination } from '@app/model/users/patient/patientScheduleExamination';
 
 @Injectable({
   providedIn: 'root'
@@ -136,6 +137,10 @@ export class PatientService {
 
     getAllGrades(id : Number) : Observable<UpdateGrade[]> {
       return this.http.get<UpdateGrade[]>(`${environment.baseUrl}/${environment.grade}/${environment.getAllGradesByPatient}?patientId=${id}`);
+    }
+
+    schedulePatientExamination(scheduleExamination : PatientScheduleExamination) {
+      return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.patientScheduleExamination}`, scheduleExamination, {responseType : 'text'});
     }
 
 

@@ -29,6 +29,8 @@ import { AgmCoreModule } from '@agm/core';
 import {Examination} from "@app/model/appointment/examination";
 import {Sort} from '@angular/material/sort';
 import {MatSort} from '@angular/material/sort';
+import {PatientScheduleExamination} from '@app/model/users/patient/patientScheduleExamination'
+import {PatientService} from '@app/service/patient/patient.service'
 
 @Component({
   selector: 'app-pharmacy-profile',
@@ -85,7 +87,8 @@ export class PharmacyProfileComponent implements OnInit {
               ,private pricelistService:PricelistService
               ,private promotionsService:PromotionsService
               ,private authenticationService:AuthenticationService
-              ,private drugReservationsService:DrugReservationsService) {
+              ,private drugReservationsService:DrugReservationsService
+              ,private patientService : PatientService) {
 
   }
 
@@ -515,6 +518,33 @@ export class PharmacyProfileComponent implements OnInit {
         default: return 0;
       }
     });
+  }
+
+  chooseAppointmentToSchedule(availableAppointment) {
+    var newExamination : Examination;
+    var patientScheduleExamination = new PatientScheduleExamination();
+    newExamination = availableAppointment;
+    if (localStorage.getItem('userRole') != "PharmacyAdmin") {
+      patientScheduleExamination.type = "Examination";
+      patientScheduleExamination.startTime = newExamination.appointmentPeriod.startTime;
+      patientScheduleExamination.endTime = newExamination.appointmentPeriod.endTime;
+      patientScheduleExamination.medicalStaffId = newExamination.dermatologist.id;
+      patientScheduleExamination.patientId = this.authenticationService.currentUserValue.id;
+      patientScheduleExamination.pharmacyId = this.pharmacyId;
+      this.patientService.schedulePatientExamination(patientScheduleExamination).subscribe(
+        res => {
+          alert('Success')
+          this.router.navigate(['patient/scheduledAppointments']);
+        },
+        err => {
+          alert('Fail this appointmemt is now reserved')
+
+        }
+      );
+
+      
+    }
+    
   }
 
 

@@ -112,7 +112,8 @@
               <td>{{availableAppointment.appointmentPeriod.endTime | date:"dd.MM.yyyy. HH:mm"}}</td>
               <td>{{availableAppointment.cost}}</td>
               <td>{{availableAppointment.dermatologist.averageGrade}}</td>
-              <td *ngIf="!isPharmacyAdmin"><button mat-button style="background-color: #385399; color: white;">Choose</button></td>
+              <td *ngIf="!isPharmacyAdmin"><button mat-button style="background-color: #385399; color: white;" 
+                (click)="chooseAppointmentToSchedule(availableAppointment)">Choose</button></td>
           </tr>
           
           <tbody>
