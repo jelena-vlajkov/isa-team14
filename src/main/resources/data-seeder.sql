@@ -100,10 +100,10 @@ VALUES ('Supplier', 2400, '1997-01-01 00:00:01', 'elit1@gmail.com', true, 1, 'Pe
 insert into users(role, id, date_of_birth, email, first_time_password, gender, name, password, phone_number, surname, address_id)
 VALUES ('Supplier', 2500, '1997-01-01 00:00:01', 'elit3@gmail.com', false, 1, 'Pedjone', '$2y$12$/YLs9Irv4CFIwl4J/JJukuounpOzs0FDtvG.rxaF5f4ZD2sr.VRQe', 715128 ,'Predragovic', 1100);
 
-insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) values (100, 1,2,3,4,5, 'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500);
-insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (200, 1,1,1,0,0,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400);
-insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (300, 1,2,3,4,5,'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300);
-insert into pharmacies(id, excellent,good,poor,very_good,very_poor, description, email, name, telephone, address_id) VALUES (400, 2,2,3,8,0,'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200);
+insert into pharmacies(id, description, email, name, telephone, address_id, average_grade) values (100,'Prodicna apoteka osnovana od starne pozrtvovane porodice Jankovic. Nas moto je pls kupujte kod nas :D', 'jankovicapoteka@gmail.com' ,'Apoteka Jankovic', 01212432 ,1500, 2);
+insert into pharmacies(id, description, email, name, telephone, address_id, average_grade) VALUES (200,'Nmp uleteli smo na trziste ko ludi, kupili veliki broj lokala i sad ono, zatvaramo polako.','zegin@gmail.com','ZEGIN',011123417,1400, 3);
+insert into pharmacies(id, description, email, name, telephone, address_id, average_grade) VALUES (300, 'Veoma moderna apoteka, nudi usluge i preko donesi.com aplikacije.', 'benu@gmail.com','Apoteka Benu',91236234,1300, 4);
+insert into pharmacies(id, description, email, name, telephone, address_id, average_grade) VALUES (400, 'Jedna od najstarijih apoteka u Novom Sadu i jedna od poslednjih koja aktivno saradjuje sa vojnom bolnicom.','laurusns@hotmail.com','Apoteka Laurus',0124532,1200, 5);
 
 
 insert into pharmacy_admins(id, pharmacy_id) values(1400,200);
@@ -123,11 +123,11 @@ insert into medicalstaff(license_number, id) values('415541', 1200);
 insert into medicalstaff(license_number, id) values('415541', 1300);
 
 
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (900, 100,1,2,3,4,5);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1000, 200,1,1,1,1,1);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1100, 200,30,2,3,4,5);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1200, 200,50,1,5,1,1);
-insert into pharmacists(id, pharmacy_id,excellent,good,poor,very_good,very_poor) values (1300, 200,50,1,5,1,1);
+insert into pharmacists(id, pharmacy_id, average_grade) values (900, 100, 3.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1000, 200, 5.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1100, 200, 4.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1200, 200, 3.0);
+insert into pharmacists(id, pharmacy_id, average_grade) values (1300, 200, 2.0);
 
 -- random character generator will generate verification code that will be added to database
 -- when patient activates account, code is removed
@@ -140,11 +140,14 @@ insert into patients(enabled, verification_code, id) values (true, null, 1900);
 insert into patients(enabled, verification_code, id) values (true, null, 2000);
 
 
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (100,1,2,3,4,6);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (200,27,1,1,1,7);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (300,2,4,6,8,8);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (400,1,1,2,3,5);
-insert into dermatologists(id,excellent,good,poor,very_good,very_poor) values (500,10,1,2,3,5);
+insert into dermatologists(id, average_grade) values (100, 2);
+insert into dermatologists(id, average_grade) values (200, 3);
+insert into dermatologists(id, average_grade) values (300, 4);
+insert into dermatologists(id, average_grade) values (400, 5);
+insert into dermatologists(id, average_grade) values (500, 1);
+insert into dermatologists(id, average_grade) values (600, 1);
+insert into dermatologists(id, average_grade) values (700, 2);
+insert into dermatologists(id, average_grade) values (800, 3);
 
 
 insert into dermatologist_to_pharmacies(dermatologist_id, pharmacy_id) values (100, 100);
@@ -211,6 +214,7 @@ insert into workdays(id, date, workday_start_time, workday_end_time, medical_sta
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (600, '2021-06-02', '2021-06-02 12:00:00', '2021-06-02 15:30:00', 900, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (700, '2021-06-05', '2021-06-05 12:00:00', '2021-06-05 15:30:00', 100, 100, false);
 insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (900, '2021-07-05', '2021-07-05 12:00:00', '2021-07-05 17:30:00', 200, 200, false);
+insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id, disabled) values (1100, '2021-07-05', '2021-07-05 12:00:00', '2021-07-05 17:30:00', 900, 100, false);
 
 
 
@@ -228,7 +232,7 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id, finished) values ('Counseling', 1200, '2021-05-31 12:00:00', '2021-05-31 12:30:00', 1000.00, false, 100, 1000, 1500, false);
 insert into appointment(type, id, appointment_start_time, appointment_end_time, cost, is_canceled, pharmacy_id, pharmacist_id, patient_id, finished) values ('Counseling', 1300, '2021-05-31 13:00:00', '2021-05-31 13:30:00', 1000.00, false, 100, 1100, 1700, false);
 
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 0, 'Bromazepam', 'Loncar Doo', 1,2.4, 6);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (100, 'Od ovog leka ce te bole ledja', 123401231 ,'Moguc bol u predelu donjih ledja, nista strasno, nije rak rlx', 2, 1, 1, 0, 'Bromazepam', 'Loncar Doo', 1, 2, 6);
 
 --insert into workdays(id, date, workday_start_time, workday_end_time, medical_staff_id,pharmacy_id) values (15, '2021-02-10', '2021-02-10 12:00:00', '2021-02-10 15:30:00', 100,200);
 
@@ -240,11 +244,11 @@ insert into appointment(type, id, appointment_start_time, appointment_end_time, 
 
 
 
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 4.4,3);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (300, null, 123401233,null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0,3, 800);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 3, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 1, 200);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (200, 'Lek nije namenjen maloletnim licima',123401232 ,'Moguca pospanost', 2, 1, 1, 1, 'Xanax', 'Pfizer', 1, 3,3);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (300, null, 123401233,null, 2, 1, 1, 2, 'Eferalgan', 'Galenika a.d.', 0, 1, 800);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade, dosage) values (400, 'Ne piti na prazan stomak', 123401234, null, 2, 1, 1, 3, 'Andol', 'Pliva Hrvatska d.o.o.', 0, 5, 200);
 insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (500, 'Ne piti na prazan stomak', 123401235, 'Moguc osecaj nesvestice', 2, 1, 1, 0, 'Caffetine', 'Alkaloid AD-Skopje', 0, 5, 250);
-insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (600, null, 123401236,'Moguca pospanost, umor', 2, 1, 1, 1, 'Brufen', 'Galenika a.d.', 0, 3.4, 500);
+insert into medications(id, additional_notes, code, contraindications, daily_dose, drug_form, drug_kind, drug_type, name, producer, type_of_prescribing, grade,dosage) values (600, null, 123401236,'Moguca pospanost, umor', 2, 1, 1, 1, 'Brufen', 'Galenika a.d.', 0, 4, 500);
 
 insert into substitute_medications(original_id, substitute_id) VALUES (100, 300);
 insert into substitute_medications(original_id, substitute_id) VALUES (100, 400);
@@ -511,3 +515,33 @@ insert into vacation_requests(id, end_date, start_date, vacation_reason, medical
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (500,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,0);
 insert into vacation_requests(id, end_date, start_date, vacation_reason, medical_staff_id,status) VALUES (600,'2021-07-25 12:00:00','2021-07-26 12:00:00','Macak mi se razboleo.',600,1);
 */
+
+insert into grades (id, grade, grade_type, type, patient_id, pharmacy_id) values (100, 2, 'PharmacyGrade','PharmacyGrade', 1900, 100);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacy_id) values (200, 3, 'PharmacyGrade','PharmacyGrade', 1900, 200);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacy_id) values (300, 4, 'PharmacyGrade','PharmacyGrade', 1900, 300);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacy_id) values (400, 5, 'PharmacyGrade','PharmacyGrade', 1900, 400);
+
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (500, 2, 'MedicationGrade','MedicationGrade', 1900, 100);
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (600, 3, 'MedicationGrade','MedicationGrade', 1900, 200);
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (700, 1, 'MedicationGrade','MedicationGrade', 1900, 300);
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (800, 5, 'MedicationGrade','MedicationGrade', 1900, 400);
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (900, 5, 'MedicationGrade','MedicationGrade', 1900, 500);
+insert into grades (id, grade, grade_type, type, patient_id, medication_id) values (1000, 4, 'MedicationGrade','MedicationGrade', 1900, 600);
+
+insert into grades (id, grade, grade_type, type, patient_id, pharmacist_id) values (1100, 3, 'PharmacistGrade','PharmacistGrade', 1900, 900);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacist_id) values (1200, 5, 'PharmacistGrade','PharmacistGrade', 1900, 1000);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacist_id) values (1300, 4, 'PharmacistGrade','PharmacistGrade', 1900, 1100);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacist_id) values (1400, 3, 'PharmacistGrade','PharmacistGrade', 1900, 1200);
+insert into grades (id, grade, grade_type, type, patient_id, pharmacist_id) values (1500, 2, 'PharmacistGrade','PharmacistGrade', 1900, 1300);
+
+
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (1600, 2, 'DermatologistGrade','DermatologistGrade', 1900, 100);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (1700, 3, 'DermatologistGrade','DermatologistGrade', 1900, 200);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (1800, 4, 'DermatologistGrade','DermatologistGrade', 1900, 300);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (1900, 5, 'DermatologistGrade','DermatologistGrade', 1900, 400);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (2000, 1, 'DermatologistGrade','DermatologistGrade', 1900, 500);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (2100, 1, 'DermatologistGrade','DermatologistGrade', 1900, 600);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (2200, 2, 'DermatologistGrade','DermatologistGrade', 1900, 700);
+insert into grades (id, grade, grade_type, type, patient_id, dermatologist_id) values (2300, 1, 'DermatologistGrade','DermatologistGrade', 1900, 800);
+
+

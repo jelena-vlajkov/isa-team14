@@ -1,8 +1,10 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.SystemAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
@@ -122,6 +124,13 @@ public class DermatologistController {
     public @ResponseBody
     List<DermatologistDTO> filterDermatologistsByPharmacy(@RequestBody List<DermatologistDTO> dermatologists,@RequestParam("pharmacyId") Long pharmacyId) throws ParseException {
         return dermatologistService.filterDermatologistsByPharmacy(dermatologists,pharmacyId);
+    }
+
+    @GetMapping(value = "/findDermatologistsForPatientGrading", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<DermatologistDTO> findForPatientGrading(@RequestParam("patientId") Long patientId) {
+        return dermatologistService.findForPatientGrading(patientId);
     }
 
 

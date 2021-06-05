@@ -18,5 +18,6 @@ public interface IDermatologistService {
     boolean deleteDermatologistFromPharmacy(Long dermatologistId,Long pharmacyId);
     List<DermatologistDTO> getDermatologistsNotInPharmacy(Long pharmacyId);
     List<Dermatologist> getAll();
+    List<DermatologistDTO> findForPatientGrading(Long patientId);
 
 }

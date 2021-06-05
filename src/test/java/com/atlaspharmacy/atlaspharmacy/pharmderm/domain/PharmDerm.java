@@ -55,7 +55,7 @@ public class PharmDerm {
         pharmacist.setEmail("vlajkovn@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(500L);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(1.0);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Nadezda");
@@ -65,7 +65,7 @@ public class PharmDerm {
         pharmacist.setFirstTimePassword(true);
         pharmacist.setAddress(address);
         pharmacist.setGender(Gender.FEMALE);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(1.0);
         pharmacist.setPhoneNumber("");
         pharmacist.setLicenseNumber("");
         pharmacist.setRole(Role.Values.Pharmacist);
@@ -79,7 +79,7 @@ public class PharmDerm {
         pharmacies.add(p);
         dermatologist.setPharmacies(pharmacies);
         dermatologist.setId(DERMATOLOGIST_ID);
-        dermatologist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        dermatologist.setAverageGrade(1.0);
         List<Authority> authorityList = new ArrayList<>();
         dermatologist.setAuthorities(authorityList);
         dermatologist.setName("Nadezda");
@@ -102,7 +102,7 @@ public class PharmDerm {
         pharmacy.setTelephone(1221L);
 
         pharmacy.setDescription("asdf");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(1.0);
         return pharmacy;
     }
 
@@ -113,7 +113,7 @@ public class PharmDerm {
         pharmacy.setTelephone(1221L);
         pharmacy.setAddress(a);
         pharmacy.setDescription("asdf");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(2.1);
         return pharmacy;
     }
 

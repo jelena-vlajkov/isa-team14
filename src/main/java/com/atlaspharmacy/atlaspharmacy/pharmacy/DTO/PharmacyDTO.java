@@ -10,7 +10,6 @@ public class PharmacyDTO {
     private String email;
     private Long telephone;
     private AddressDTO address;
-    private AverageGrade averageGrade;
     private double averageGradeCount;
     private double counselingCost;
     private double examinationCost;
@@ -19,15 +18,14 @@ public class PharmacyDTO {
     }
 
     public PharmacyDTO(Long id, String name, String description, String email,
-                       Long telephone, AddressDTO address, AverageGrade averageGrade) {
+                       Long telephone, AddressDTO address, double averageGradeCount) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.email = email;
         this.telephone = telephone;
         this.address = address;
-        this.averageGrade = averageGrade;
-        this.averageGradeCount = this.averageGrade.count();
+        this.averageGradeCount = averageGradeCount;
     }
 
     public double getCounselingCost() {
@@ -86,12 +84,12 @@ public class PharmacyDTO {
         this.address = address;
     }
 
-    public AverageGrade getAverageGrade() {
-        return averageGrade;
+    public double getAverageGrade() {
+        return averageGradeCount;
     }
 
-    public void setAverageGrade(AverageGrade averageGrade) {
-        this.averageGrade = averageGrade;
+    public void setAverageGrade(double averageGrade) {
+        this.averageGradeCount = averageGrade;
     }
 
     public String getEmail() {
@@ -108,7 +106,6 @@ public class PharmacyDTO {
 
     public void setTelephone(Long telephone) { this.telephone = telephone; }
 
-    public Double countAverageGrade(){return averageGrade.count();}
 
 
 }

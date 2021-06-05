@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.medication.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.MedicationAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IMedicationService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
@@ -74,4 +75,14 @@ public class MedicationController {
     List<MedicationDTO> getByPrescribing(@RequestParam("prescribing") Long prescribing) throws ParseException {
         return _medicationService.findByPrescribing(prescribing);
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(value = "/findMedicationsForPatientGrading", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<MedicationDTO> findForPatientGrading(@RequestParam("patientId") Long patientId) throws ParseException {
+        return _medicationService.findForPatientGrading(patientId);
+    }
+
+
 }

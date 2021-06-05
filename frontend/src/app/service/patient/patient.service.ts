@@ -11,7 +11,11 @@ import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
 import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
-import {PatientScheduleCounseling} from '@app/model/users/patient/PatientScheduleCounseling'
+import {PatientScheduleCounseling} from '@app/model/users/patient/PatientScheduleCounseling';
+import {Grade} from '@app/model/users/patient/Grade';
+import { Medication } from '@app/model/medications/medication';
+import { Dermatologist } from '@app/model/users/dermatologist/dermatologist';
+import { UpdateGrade } from '@app/model/users/patient/updateGrade';
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +97,50 @@ export class PatientService {
     findAndSchedulePatientCounseling(scheduleCounseling : PatientScheduleCounseling) {
       return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.findAndSchedulePatientCounseling}`, scheduleCounseling, {responseType : 'text'});
     }
+
+    newMedicationGrade(grade : Grade) {
+      return this.http.post(`${environment.baseUrl}/${environment.grade}/${environment.newMedicationGrade}`, grade);
+    }
+
+    newPharmacistGrade(grade : Grade) {
+      return this.http.post(`${environment.baseUrl}/${environment.grade}/${environment.newPharmacistGrade}`, grade);
+    }
+
+    newDermatologistGrade(grade : Grade) {
+      return this.http.post(`${environment.baseUrl}/${environment.grade}/${environment.newDermatologistGrade}`, grade);
+    }
+
+    newPharmacyGrade(grade : Grade) {
+      return this.http.post(`${environment.baseUrl}/${environment.grade}/${environment.newPharmacyGrade}`, grade);
+    }
+
+    updateGivenGrade(grade : Grade) {
+      return this.http.post(`${environment.baseUrl}/${environment.grade}/${environment.updateGivenGrade}`, grade);
+    }
+
+    findMedicationsForPatientGrading(id : Number) : Observable<Medication[]> {
+      return this.http.get<Medication[]>(`${environment.baseUrl}/${environment.medication}/${environment.findMedicationsForPatientGrading}?patientId=${id}`);
+    }
+ 
+    getPharmaciesForPatientGrading(id : Number) : Observable<Pharmacy[]> {
+      return this.http.get<Pharmacy[]>(`${environment.baseUrl}/${environment.pharmacy}/${environment.getPharmaciesForPatientGrading}?patientId=${id}`);
+    }
+    
+    findPharmacistsForPatientGrading(id : Number) : Observable<Pharmacist[]> {
+      return this.http.get<Pharmacist[]>(`${environment.baseUrl}/${environment.pharmacist}/${environment.findPharmacistsForPatientGrading}?patientId=${id}`);
+    }
+
+    findDermatologistsForPatientGrading(id : Number) : Observable<Dermatologist[]> {
+      return this.http.get<Dermatologist[]>(`${environment.baseUrl}/${environment.dermatologist}/${environment.findDermatologistsForPatientGrading}?patientId=${id}`);
+    }
+
+    getAllGrades(id : Number) : Observable<UpdateGrade[]> {
+      return this.http.get<UpdateGrade[]>(`${environment.baseUrl}/${environment.grade}/${environment.getAllGradesByPatient}?patientId=${id}`);
+    }
+
+
+
+
    
 
 }

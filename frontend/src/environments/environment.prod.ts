@@ -149,5 +149,16 @@ export const environment = {
   getPharmacyIncomeForMonth:"getPharmacyIncomeForMonth",
   getPharmacyIncomeForHalfYear:"getPharmacyIncomeForHalfYear",
   getPharmacyIncomeForYear:"getPharmacyIncomeForYear",
-  getAllByPharmacy:"getAllByPharmacy"
+  getAllByPharmacy:"getAllByPharmacy",
+  newMedicationGrade : "newMedicationGrade",
+  newPharmacyGrade : "newPharmacyGrade",
+  newPharmacistGrade : "newPharmacistGrade",
+  newDermatologistGrade : "newDermatologistGrade",
+  updateGivenGrade : "updateGivenGrade",
+  getPharmaciesForPatientGrading : "getPharmaciesForPatientGrading",
+  findMedicationsForPatientGrading : "findMedicationsForPatientGrading",
+  findPharmacistsForPatientGrading : "findPharmacistsForPatientGrading",
+  findDermatologistsForPatientGrading : "findDermatologistsForPatientGrading",
+  grade : "grade",
+  getAllGradesByPatient : "getAllGradesByPatient"
 };

@@ -16,8 +16,8 @@ public class Pharmacy  {
     private String name;
     private String description;
 
-    @Embedded
-    private AverageGrade averageGrade;
+
+    private double averageGrade;
     private String email;
     private Long telephone;
 
@@ -66,7 +66,7 @@ public class Pharmacy  {
     public Pharmacy(){}
 
     public Pharmacy(Long id, String name, String description, String email,
-                    Long telephone,Address address,AverageGrade averageGrade) {
+                    Long telephone,Address address,Double averageGrade) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -92,16 +92,14 @@ public class Pharmacy  {
         this.telephone = telephone;
     }
 
-    public AverageGrade getAverageGrade() {
+    public double getAverageGrade() {
         return averageGrade;
     }
 
-    public void setAverageGrade(AverageGrade averageGrade) {
+    public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
     }
 
-    public Double countAverage_grade() {
-        return averageGrade.count();
-    }
+
 }
 

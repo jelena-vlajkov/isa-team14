@@ -58,6 +58,8 @@ import {DermatologistsInPharmacyComponent} from "@app/dermatologists-in-pharmacy
 import {VacationRequestsComponent} from "@app/vacation-requests/vacation-requests.component";
 import {DermatologistListAndFilterComponent} from "@app/dermatologist-list-and-filter/dermatologist-list-and-filter.component";
 import {PharmacistListAndFilterComponent} from "@app/pharmacist-list-and-filter/pharmacist-list-and-filter.component";
+import { PatientNewGradeComponent } from './patient/patient-new-grade/patient-new-grade/patient-new-grade.component';
+import { PatientUpdataGradeComponent } from './patient/patient-update-grade/patient-updata-grade/patient-updata-grade.component';
 
 const routes: Routes = [
 {
@@ -295,6 +297,18 @@ const routes: Routes = [
 {
   path: 'patient/reservedDrugs',
   component: PatientReservedDrugsComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/newGrade',
+  component: PatientNewGradeComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/updateGrade',
+  component: PatientUpdataGradeComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },

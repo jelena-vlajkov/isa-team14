@@ -26,5 +26,6 @@ public interface IMedicationService {
     List<MedicationDTO> findByKind(Long kind) throws ParseException;
     List<MedicationDTO> findByPrescribing(Long prescribing) throws ParseException;
     Medication getById(Long medicationId);
+    List<MedicationDTO> findForPatientGrading(Long patientId);
 
 }
