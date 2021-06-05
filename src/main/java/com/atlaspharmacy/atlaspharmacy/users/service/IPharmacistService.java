@@ -24,6 +24,7 @@ public interface IPharmacistService {
      Pharmacist findById(Long pharmacistId);
      List<Pharmacist> getAll();
      List<PharmacistDTO> findByRangeAndPharmacy(Date startRange, Date endRange, Long pharmacyId);
+     List<PharmacistDTO> findForPatientGrading(Long patientId);
 
 
 }

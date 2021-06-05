@@ -3,11 +3,11 @@
     <mat-toolbar style="background-color: #385399;">
     </mat-toolbar>
 
-    <div style="margin-left:200px;width:1000px;margin-top: 20px;">
-      <div style="diplay:flex;">
+    <div style="margin-left:300px;width:100%;margin-top: 20px;">
+      <div style="display:flex;">
           <label style="font-size:25px;margin-left:100px;font-family: 'Segoe UI Semibold';font-color:blue;">Dermatologists</label>
 
-          <mat-select *ngIf="isRegisteredUser" style="margin-left: 70px;border:0px;width:150px;height: 40px;" [(ngModel)]="selectedPharmacy"   id="selectedPharmacy" placeholder="filter by pharmacy">
+          <mat-select *ngIf="isRegisteredUser" style="margin-left: 200px;border:0px;width:150px;height: 40px;" [(ngModel)]="selectedPharmacy"   id="selectedPharmacy" placeholder="filter by pharmacy">
             <mat-option>--</mat-option>
             <mat-option style="margin-top:10px;" *ngFor="let pharmacy of allPharmacies" [value]="pharmacy" (click)="filterByPharmacy(pharmacy)" >
               {{pharmacy.name}}
@@ -21,7 +21,7 @@
           <mat-option [value]="4" (click)="filterByGrade(4)">4</mat-option>
           <mat-option [value]="5" (click)="filterByGrade(5)">5</mat-option>
         </mat-select>
-        <input matInput type="text" placeholder="Search..." (change)="search()" [(ngModel)]="searchInput" style="border-color: whitesmoke;margin-left: 30px;">
+        <input matInput type="text" placeholder="Search..." (change)="search()" [(ngModel)]="searchInput" style="border-color: whitesmoke;background-color:transparent;margin-left: 30px;">
 
       </div>
 
@@ -36,7 +36,7 @@
           <tr>
             <td>Average grade:</td>
             <span style="margin-left: 100px;"></span>
-            <td>{{count(dermatologist.averageGrade)}}</td>
+            <td>{{dermatologist.averageGrade}}</td>
             <span style="margin-left: 100px;"></span>
           </tr>
           <tr>
@@ -52,6 +52,9 @@
       <div>
         <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
       </div>
+    </div>
+    <div style="height: fit-content;">
+      <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 20px;margin-top:50px;" color="accent" mat-raised-button routerLink="/pharmacy-profile" >Back</button>
     </div>
   </mat-drawer-content>
 </mat-drawer-container>

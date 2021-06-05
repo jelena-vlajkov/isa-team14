@@ -71,4 +71,5 @@ public class WorkdaysTests {
         workDayRepository.save(TestData.createWorkday(u,pharmacy));
         this.mockMvc.perform(get(BASE_URL + "workDay/getByMedicalStaff").param("medicalStaffId","300")).andExpect(status().isOk());
     }
+    
 }

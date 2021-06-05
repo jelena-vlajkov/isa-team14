@@ -685,7 +685,7 @@ public class AppointmentService implements IAppointmentService {
        List<Appointment> allAppointments=appointmentRepository.findAll();
        int counter=0;
        for(Appointment a:allAppointments){
-           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId)){
+           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId) && a.isFinished()){
                counter++;
            }
        }

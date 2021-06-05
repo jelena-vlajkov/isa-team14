@@ -23,6 +23,7 @@ public class MedicationDTO {
     private Long dosage;
     private List<IngredientDTO> ingredients;
     private List<MedicationDTO> substituteMedication;
+
     public MedicationDTO() {
 
     }

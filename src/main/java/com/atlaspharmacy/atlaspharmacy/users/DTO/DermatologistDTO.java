@@ -23,7 +23,7 @@ public class DermatologistDTO {
     private boolean firstTimeChanged;
     private String licenceNumber;
     private List<PharmacyDTO> pharmacies;
-    private AverageGradeDTO averageGrade;
+    private double averageGrade;
 
     public DermatologistDTO() {
     }
@@ -31,7 +31,7 @@ public class DermatologistDTO {
     public DermatologistDTO(Long id, String name, String surname, Date dateOfBirth,
                          String phoneNumber, String email, String password, Gender gender,
                          AddressDTO address, String role, List<AuthorityDTO> authorities,
-                         List<PharmacyDTO> pharmacies, boolean firstTimePassword,AverageGradeDTO averageGrade,String licenceNumber) {
+                         List<PharmacyDTO> pharmacies, boolean firstTimePassword, double averageGrade,String licenceNumber) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -161,11 +161,11 @@ public class DermatologistDTO {
         this.pharmacies = pharmacies;
     }
 
-    public AverageGradeDTO getAverageGrade() {
+    public double getAverageGrade() {
         return averageGrade;
     }
 
-    public void setAverageGrade(AverageGradeDTO averageGrade) {
+    public void setAverageGrade(double averageGrade) {
         this.averageGrade = averageGrade;
     }
 }

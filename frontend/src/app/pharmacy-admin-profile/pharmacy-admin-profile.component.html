@@ -141,7 +141,7 @@
             <mat-form-field appearance="fill" id="telephone-ff">
               <mat-label>Telephone*</mat-label>
               <input matInput id="telephone" placeholder="Telephone" value="{{pharmacyAdmin.phoneNumber}}" name="telephone-ff"
-                     formControlName="telephone">
+                     formControlName="telephone" required type="number">
               <mat-error
                 *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
                 Please enter telephone</mat-error>

@@ -83,14 +83,14 @@
             </p>
           <mat-grid-tile></mat-grid-tile>
           <mat-grid-tile></mat-grid-tile>
-          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;background-color: #385399;" mat-raised-button id='submitOrder'  [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
+          <mat-grid-tile><button style="float:right; position:relative; margin: 10px;margin-top:25px;size:20px;background-color: #385399;" color="accent" mat-raised-button id='submitOrder'  [disabled]="!orderForm.valid">Submit order</button></mat-grid-tile>
         </div>
       </mat-grid-list>
       </form>
     </mat-card>
 </div>
-    <mat-card style="height:100px;">
-      <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 50px;" color="accent" mat-raised-button routerLink="/medication-order-offers" >Cancel</button>
+    <mat-card style="height: fit-content;">
+      <button style="float:right; background-color: #385399; margin-right:50px;margin-bottom: 20px;margin-top:50px;" color="accent" mat-raised-button routerLink="/medication-order-offers" >Cancel</button>
     </mat-card>
   </mat-drawer-content>
 </mat-drawer-container>

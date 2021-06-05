@@ -20,8 +20,8 @@ public class Pharmacist extends MedicalStaff {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Pharmacy pharmacy;
 
-    @Embedded
-    private AverageGrade averageGrade;
+
+    private double averageGrade;
 
     public Pharmacist(Long id) {
         this.id = id;
@@ -71,9 +71,8 @@ public class Pharmacist extends MedicalStaff {
         return true;
     }
 
-    public AverageGrade getAverageGrade() { return averageGrade; }
+    public double getAverageGrade() { return averageGrade; }
 
-    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
+    public void setAverageGrade(double averageGrade) { this.averageGrade = averageGrade; }
 
-    public double countAverageGrade() { return averageGrade.count(); }
 }

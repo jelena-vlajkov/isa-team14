@@ -7,6 +7,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Counseling;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.exceptions.InvalidMedicalStaff;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -55,5 +56,6 @@ public interface IAppointmentService {
     List<Long> getNumberOfAppointmentsByMonths(int year,Long pharmacyId);
     List<Long> getNumberOfAppointmentsByHalfYears( int year,Long pharmacyId);
     List<Long>  getNumberOfAppointmentsByYears(int startYear,int endYear,Long pharmacyId);
+
 
 }

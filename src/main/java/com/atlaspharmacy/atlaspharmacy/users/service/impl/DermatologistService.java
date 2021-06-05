@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
@@ -13,6 +14,7 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
+import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
@@ -25,6 +27,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 public class DermatologistService implements IDermatologistService {
@@ -119,7 +125,7 @@ public class DermatologistService implements IDermatologistService {
             return dermatologistsToSearch;
         }
         for (Dermatologist d : dermatologistsToSearch) {
-            if (searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())) {
+            if (d.getName().toLowerCase().contains(searchInput.toLowerCase()) || d.getSurname().toLowerCase().contains(searchInput.toLowerCase())) {
                 searchedDermatologists.add(d);
             }
         }
@@ -129,7 +135,7 @@ public class DermatologistService implements IDermatologistService {
     public List<DermatologistDTO> filterDermatologistsByGrade(List<DermatologistDTO> dermatologistsToFilter, int grade) {
         List<DermatologistDTO> filteredDermatologists = new ArrayList<>();
         for(DermatologistDTO d:dermatologistsToFilter){
-            if(d.getAverageGrade().count()>=grade){
+            if(d.getAverageGrade() >= grade){
                 filteredDermatologists.add(d);
             }
         }
@@ -195,6 +201,27 @@ public class DermatologistService implements IDermatologistService {
     public List<Dermatologist> getAll() {
         return dermatologistRepository.findAll();
     }
+
+    @Override
+    public List<DermatologistDTO> findForPatientGrading(Long patientId) {
+        List<Examination> patientExaminations = appointmentService.getFinishedPatientsExaminations(patientId);
+        List<DermatologistDTO> dermatologistDTOS = new ArrayList<>();
+
+        if(patientExaminations.isEmpty()) return new ArrayList<>();
+
+        for (Examination e : patientExaminations) {
+            dermatologistDTOS.add(DermatologistMapper.mapDermatologistToDTO(e.getDermatologist()));
+        }
+
+        List<DermatologistDTO> uniqueDermatologists = dermatologistDTOS.stream()
+                .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(DermatologistDTO::getId))),
+                        ArrayList::new));
+
+        return uniqueDermatologists;
+
+    }
+
+
 
 
 }

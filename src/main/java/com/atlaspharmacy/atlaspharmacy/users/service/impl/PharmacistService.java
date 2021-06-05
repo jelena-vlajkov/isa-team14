@@ -26,6 +26,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
 @Service
 public class PharmacistService implements IPharmacistService {
     private final PharmacistRepository pharmacistRepository;
@@ -137,7 +142,7 @@ public class PharmacistService implements IPharmacistService {
         }
         for(Pharmacist p:pharmacistsToSearch)
         {
-            if(searchInput.toLowerCase().contains(p.getName().toLowerCase()) || searchInput.toLowerCase().contains(p.getSurname().toLowerCase())){
+            if(p.getName().toLowerCase().contains(searchInput.toLowerCase()) || p.getSurname().toLowerCase().contains(searchInput.toLowerCase())){
                 searchedPharmacists.add(p);
             }
         }
@@ -160,7 +165,7 @@ public class PharmacistService implements IPharmacistService {
     public List<PharmacistDTO>  filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter, int grade) {
         List<PharmacistDTO> filteredPharmacists = new ArrayList<>();
         for(PharmacistDTO p:pharmacistsToFilter){
-            if(p.getAverageGrade().count()>=grade){
+            if(p.getAverageGrade() >= grade) {
                 filteredPharmacists.add(p);
             }
         }
@@ -190,7 +195,7 @@ public class PharmacistService implements IPharmacistService {
             pharmacist.setGender(dto.getGender());
             pharmacist.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
             pharmacist.setFirstTimePassword(dto.isFirstTimeChanged());
-            pharmacist.setAverageGrade(AverageGradeMapper.mapToAverageGrade(dto.getAverageGrade()));
+            pharmacist.setAverageGrade(dto.getAverageGrade());
             pharmacist.setRole(role);
             pharmacist.setAuthorities(authorityService.getAllRolesAuthorities(role));
             pharmacist.setAddress(a);
@@ -243,6 +248,27 @@ public class PharmacistService implements IPharmacistService {
 
        return  availablePharmacists;
 
+
+    }
+
+    @Override
+    public List<PharmacistDTO> findForPatientGrading(Long patientId) {
+        List<Counseling> patientCounseling = appointmentService.getFinishedPatientsCounselings(patientId);
+        List<PharmacistDTO> pharmacistDTOS = new ArrayList<>();
+
+        if (patientCounseling.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        for (Counseling c : patientCounseling) {
+            pharmacistDTOS.add(PharmacistMapper.mapPharmacistToDTO(c.getPharmacist()));
+        }
+
+        List<PharmacistDTO> uniquePharmacists = pharmacistDTOS.stream()
+                .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparingLong(PharmacistDTO::getId))),
+                        ArrayList::new));
+
+        return uniquePharmacists;
 
     }
 

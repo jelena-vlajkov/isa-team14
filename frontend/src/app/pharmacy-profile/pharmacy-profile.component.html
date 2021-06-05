@@ -55,7 +55,7 @@
         <div><label>About:</label></div>
         <div style="width: 500px;height: fit-content;"><p>{{pharmacy.description}}</p></div>
         <div><label>Grade:</label></div>
-        <div><p>{{grade|number:'1.0-2'}}</p></div>
+        <div><p>{{pharmacy.averageGrade|number:'1.0-2'}}</p></div>
         <div><label>Dermatologists:</label></div>
         <div *ngIf="dermatologists.length==0"><p style="font-size: 15px;">No dermatologists in pharmacy at the moment.</p></div>
         <div aria-colspan="1" *ngIf="dermatologists.length!=0">
@@ -108,7 +108,7 @@
         <tr *ngFor="let promotion of pharmacyPromotions" style="margin-bottom: 30px;border-bottom:1px solid black;">
           <td style="font-size: 20px;height: fit-content;width: 400px;">{{promotion.description}}</td>
           <span style="margin-left: 40px;"></span>
-          <td style="font-size: 20px;width: fit-content;"> - {{ promotion.endTime | date :  "dd.MM.y" }}</td>
+          <td style="font-size: 20px;width: fit-content;">{{ promotion.startTime | date :  "dd.MM.y" }} - {{ promotion.endTime | date :  "dd.MM.y" }}</td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">
@@ -119,20 +119,29 @@
     <mat-card *ngIf="addPromotion">
       <label style="font-size:25px;margin-left:200px">Add promotion</label>
       <table style="margin-top: 20px;margin-left: 50px;" >
-        <tr>
-          <td style="font-size: 20px;">Description:</td>
-          <td style="font-size: 20px;margin-left: 20px;"><input placeholder="Write description..." style="height: 150px;width: 500px;font-size: 15px;" id="promotionDescription"></td>
-        </tr>
         <tr style="height: 30px;"></tr>
         <tr>
           <td style="font-size: 20px;">Start time:</td>
-          <td style="font-size: 20px;"><input placeholder="Start time" id="promotionStartTime" required type="date" style="height: 50px;width: 200px;"></td>
-        </tr>
+          <td style="font-size: 20px;">
+            <mat-form-field>
+            <input matInput id="promotionStartTime" [matDatepicker]="datep" [min]="currentDate">
+            <mat-datepicker-toggle matSuffix [for]="datep" style="margin-top: 2px;"></mat-datepicker-toggle>
+            <mat-datepicker #datep disabled="false"></mat-datepicker></mat-form-field></td>
+            </tr>
         <tr style="height: 30px;"></tr>
         <tr>
           <td style="font-size: 20px;">End time:</td>
-          <td style="font-size: 20px;"><input placeholder="End time"  id="promotionEndTime" required type="date" style="height: 50px;width: 200px;"></td>
+          <td style="font-size: 20px;">
+            <mat-form-field>
+              <input matInput id="promotionEndTime" [matDatepicker]="datepp">
+              <mat-datepicker-toggle matSuffix [for]="datepp" style="margin-top: 2px;"></mat-datepicker-toggle>
+              <mat-datepicker #datepp disabled="false"></mat-datepicker></mat-form-field></td>
 
+        </tr>
+        <tr>
+          <td style="font-size: 20px;">Description:</td>
+          <span style="margin-left: 20px;"></span>
+          <td style="font-size: 20px;margin-left: 20px;"><input placeholder="Write description..." style="height: 150px;width: 500px;font-size: 15px;" id="promotionDescription"></td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">

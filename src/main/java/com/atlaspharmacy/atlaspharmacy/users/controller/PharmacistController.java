@@ -122,4 +122,11 @@ public class PharmacistController {
 
         return pharmacistService.findByRangeAndPharmacy(start, endRange, pharmacyId);
     }
+
+    @GetMapping(value = "/findPharmacistsForPatientGrading", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody
+    List<PharmacistDTO> findForPatientGrading(@RequestParam("patientId") Long patientId) {
+        return pharmacistService.findForPatientGrading(patientId);
+    }
 }

@@ -25,8 +25,8 @@ public class Dermatologist extends MedicalStaff {
     )
     private List<Pharmacy> pharmacies;
 
-    @Embedded
-    private AverageGrade averageGrade;
+
+    private double averageGrade;
 
     public Dermatologist(Long id) {
         this.id = id;
@@ -78,11 +78,9 @@ public class Dermatologist extends MedicalStaff {
         return true;
     }
 
-    public AverageGrade getAverageGrade() { return averageGrade; }
+    public double getAverageGrade() { return averageGrade; }
 
-    public void setAverageGrade(AverageGrade averageGrade) { this.averageGrade = averageGrade; }
-
-    public double countAverageGrade() { return averageGrade.count(); }
+    public void setAverageGrade(double averageGrade) { this.averageGrade = averageGrade; }
 
 
 }

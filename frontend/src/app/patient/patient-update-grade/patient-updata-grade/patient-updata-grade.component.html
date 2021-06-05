@@ -1,0 +1,102 @@
+<body>
+    <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
+      <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
+         <mat-action-list>
+          <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
+          <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
+          <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
+          <button mat-list-item routerLink="/patient/finishedExamination" style="color: white;"> History of visit by dermatologist</button>
+          <button mat-list-item routerLink="/patient/finishedCounseling" style="color: white;"> History of visit by pharmacist</button>
+          <button mat-list-item routerLink="/patient/scheduledAppointments" style="color: white;"> Scheduled appointments</button>
+          <button mat-list-item routerLink="/patient/ePrescriptions" style="color: white;"> List of eRecepts</button>
+          <button mat-list-item routerLink="/patient/reservedDrugs" style="color: white;"> List of reserved medications</button>
+          <button mat-list-item routerLink="/patient/issuedEdrugs" style="color: white;"> List of issued medications by eRecepts</button>
+          <button mat-list-item routerLink="/patient/newGrade" style="color: white;"> Add new grades</button>
+          <button mat-list-item routerLink="/patient/updateGrade" style="color: white;"> Update grades</button>
+          <button mat-list-item routerLink="/" style="color: white;"> Schedule appointment by dermatologist</button>
+          <button mat-list-item routerLink="/patient/scheduleCounseling" style="color: white;"> Schedule appointment by pharmacist</button>
+          <button mat-list-item routerLink="/patient/drugReservation" style="color: white;"> Reserve medication</button>
+          
+  
+        </mat-action-list>
+        <mat-action-list style="position: relative; bottom: 1px;">
+                <button style="color: white;" mat-list-item routerLink="/userProfile"><mat-icon>face</mat-icon> Profile</button>
+                <button style="color: white;" mat-list-item (click)="patientLogOut()"> Logout</button>
+  
+        </mat-action-list>
+      </mat-drawer>
+          <mat-drawer-content>
+            <mat-toolbar color="primary">
+              <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
+                <mat-icon>menu</mat-icon>
+              </button>
+              <span>Add new grade</span>
+              <span class="example-spacer"></span>
+            </mat-toolbar>
+          
+            <div class="table-wrapper" >
+              
+              <table class="fl-table">
+                <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Your old grade</th>
+                    <th>Choose to update:</th>
+                
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let p of grades; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td>{{p.gradeType}}</td>
+                    <td *ngIf="p.medicationName !== null">{{p.medicationName}}</td>
+                    <td *ngIf="p.pharmacyName !== null">{{p.pharmacyName}}</td>
+                    <td *ngIf="p.pharmacistName !== null">{{p.pharmacistName}} </td>
+                    <td *ngIf="p.dermatologistName !== null">{{p.dermatologistName}} </td>
+                    <td  *ngIf="p.medicationName === null && p.pharmacyName === null && p.pharmacistName === null && p.dermatologistName === null"></td>
+                    <td>{{p.grade}}</td>  
+                    <td><button style="background-color: #385399; color: white; " (click)="chooseObject(p, p.id)" mat-button >Choose</button></td>                   
+                </tr>
+                
+                <tbody>
+            </table>
+
+            <mat-divider></mat-divider>
+            <span *ngIf="isObjectChosen"> <h4>Chosen to update:   {{selectedGrade.gradeType}} 
+              <span *ngIf="selectedGrade.medication !== null"> {{selectedGrade.medicationName}}</span> 
+              <span *ngIf="selectedGrade.pharmacy !== null"> {{selectedGrade.pharmacyName}}</span> 
+              <span *ngIf="selectedGrade.pharmacist !== null"> {{selectedGrade.pharmacistName}} </span> 
+              <span *ngIf="selectedGrade.dermatologist !== null"> {{selectedGrade.dermatologistName}}</span> 
+              <span *ngIf="selectedGrade.medication === null && selectedGrade.pharmacy === null && selectedGrade.pharmacist === null 
+              && selectedGrade.dermatologist === null"> </span>
+              </h4>
+            </span>
+
+            <span *ngIf="isObjectChosen">
+              <div style="margin-left: 10em;">
+                <h2 ><b>Choose grade :</b></h2>
+                <mat-form-field style="width: 15em;" >
+                  <mat-label>Choose grade:</mat-label>
+                  <mat-select [(ngModel)]="selectedNewGrade" (ngModelChange)="gradeChoose($event)" required>
+                    <mat-option [value]="grade" *ngFor="let grade of gradesTypes">{{grade}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <span *ngIf="isGradeSelected"> <h4>Chosen grade : {{selectedNewGrade}} </h4> </span>
+              </div>
+              </span>
+              <mat-divider></mat-divider>
+              <span *ngIf="isObjectChosen && isGradeSelected">
+              <button style="background-color: #385399; color: white; margin-left: 20em;" (click)="updateGradeClick()" mat-button >New grade</button>
+              </span>   
+
+            </div>
+      </mat-drawer-content>
+
+     
+  </mat-drawer-container>
+  </body>
+
+
+

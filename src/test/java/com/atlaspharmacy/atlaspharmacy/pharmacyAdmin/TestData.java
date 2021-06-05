@@ -25,7 +25,7 @@ public class TestData {
         pharmacy.setAddress(address);
         pharmacy.setTelephone(1221L);
         pharmacy.setDescription("tralalalala");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(3.0);
         return pharmacy;
     }
 
@@ -37,7 +37,7 @@ public class TestData {
         pharmacy.setAddress(new Address("Brace Radic 2",new City("Subotica"),new State("Srbija"),new Coordinates(22.2,22.2)));
 
         pharmacy.setDescription("tralalalala");
-        pharmacy.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacy.setAverageGrade(2.5);
         return pharmacy;
     }
 
@@ -46,7 +46,7 @@ public class TestData {
         pharmacist.setEmail("vlajkovn@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(500L);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(2.1);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Nadezda");
@@ -67,7 +67,7 @@ public class TestData {
         pharmacist.setEmail("djuro@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(500L);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(3.4);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Djura");
@@ -88,7 +88,7 @@ public class TestData {
         pharmacist.setEmail("djurojovic@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(700L);
-        pharmacist.setAverageGrade(new AverageGrade(1, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(1.3);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("djura");
@@ -109,7 +109,7 @@ public class TestData {
         pharmacist.setEmail("vlajkovj@gmail.com");
         pharmacist.setPharmacy(p);
         pharmacist.setId(300L);
-        pharmacist.setAverageGrade(new AverageGrade(40, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(4.5);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setName("Jelena");
@@ -129,7 +129,7 @@ public class TestData {
         Dermatologist dermatologist = new Dermatologist();
         dermatologist.setEmail("vlajkovj@gmail.com");
         dermatologist.setId(300L);
-        dermatologist.setAverageGrade(new AverageGrade(20, 1, 1, 1, 1));
+        dermatologist.setAverageGrade(4.5);
         List<Authority> authorityList = new ArrayList<>();
         dermatologist.setAuthorities(authorityList);
         Address address = new Address("Brace Radic 2",new City("Subotica"),new State("Srbija"),new Coordinates(22.2,22.2));
@@ -154,7 +154,7 @@ public class TestData {
         Dermatologist dermatologist = new Dermatologist();
         dermatologist.setEmail("lanakapor@gmail.com");
         dermatologist.setId(300L);
-        dermatologist.setAverageGrade(new AverageGrade(20, 1, 1, 1, 1));
+        dermatologist.setAverageGrade(4.5);
         List<Authority> authorityList = new ArrayList<>();
         dermatologist.setAuthorities(authorityList);
         dermatologist.setName("Lana");
@@ -179,7 +179,7 @@ public class TestData {
         Dermatologist dermatologist = new Dermatologist();
         dermatologist.setEmail("vlajkovj@gmail.com");
         dermatologist.setId(300L);
-        dermatologist.setAverageGrade(new AverageGrade(20, 1, 1, 1, 1));
+        dermatologist.setAverageGrade(4.6);
         List<Authority> authorityList = new ArrayList<>();
         dermatologist.setAuthorities(authorityList);
         dermatologist.setAddress(address);
@@ -218,7 +218,7 @@ public class TestData {
         Pharmacist pharmacist = new Pharmacist();
         pharmacist.setEmail("vlajkovj@gmail.com");
         pharmacist.setId(300L);
-        pharmacist.setAverageGrade(new AverageGrade(20, 1, 1, 1, 1));
+        pharmacist.setAverageGrade(4.5);
         List<Authority> authorityList = new ArrayList<>();
         pharmacist.setAuthorities(authorityList);
         pharmacist.setAddress(address);

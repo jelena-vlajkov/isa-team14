@@ -119,9 +119,17 @@ public class PharmacyController {
     public @ResponseBody
     List<PharmacyDTO> findAllPharmacies()  {
         return PharmacyMapper.maptToListDto(pharmacyService.findAll());}
+
+
     @GetMapping(value = "/getPharmaciesByMedicationId", produces = MediaType.APPLICATION_JSON_VALUE)
     @PatientAuthorization
     public @ResponseBody List<PharmacyDTO> getPharmaciesByMedicationId(@RequestParam("id") Long id) throws Exception {
         return pharmacyService.getPharmaciesByMedicationId(id);
+    }
+
+    @GetMapping(value = "/getPharmaciesForPatientGrading", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatientAuthorization
+    public @ResponseBody List<PharmacyDTO> findForPatientGrading(@RequestParam("patientId") Long patientId) throws Exception {
+        return pharmacyService.findForPatientGrading(patientId);
     }
 }
