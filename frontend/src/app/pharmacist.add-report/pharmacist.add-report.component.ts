@@ -14,6 +14,7 @@ import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 import { PatientAppointmentDTO } from '@app/model/pharmderm/patientappointmentdto';
 import { WorkDay } from '@app/model/schedule/workDay';
+import { PrescribeMedication } from '@app/model/pharmderm/prescribemeds';
 
 @Component({
   selector: 'pharmacist-reports',
@@ -217,6 +218,14 @@ export class PharmacistAddReportComponent {
           alert("Successfully prescribed medication for patient!");
         }, error => {
           alert(error);
+        }
+      )
+
+      this.employeeService.prescribeMedication(reservation).subscribe(
+        response => {
+          
+        }, error => {
+          alert(error)
         }
       )
     }

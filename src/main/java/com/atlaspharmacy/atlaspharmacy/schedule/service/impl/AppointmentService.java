@@ -252,7 +252,7 @@ public class AppointmentService implements IAppointmentService {
                 for (AppointmentDTO a : dto.getPreviousAppointments()) {
                     if (a.getStartTime().getYear() == searchParametersDTO.getDate().getYear() &&
                         a.getStartTime().getMonth() == searchParametersDTO.getDate().getMonth() &&
-                            a.getStartTime().getDay() == searchParametersDTO.getDate().getDay()) {
+                            a.getStartTime().getDate() == searchParametersDTO.getDate().getDate()) {
                         retVal.add(dto);
                         break;
                     }
@@ -493,6 +493,7 @@ public class AppointmentService implements IAppointmentService {
 
         for (PatientsOverviewDTO po : retVal) {
             mapPrescribedDrugsToDTO(po);
+            po.setUpcomingAppointment(findUpcomingAppointments(po.getPatientId(), medicalStaffId));
         }
 
         return retVal;

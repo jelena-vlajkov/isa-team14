@@ -51,13 +51,15 @@
             <span>Medications</span>
             <span class="example-spacer"></span>
           </mat-toolbar>
-          <mat-card style="height: fit-content;">
+          <div>
+          <mat-card style="height: fit-content; width: 1000px;">
             <mat-card-title>
                 <mat-card-header>
                     <mat-label>Issue reservation</mat-label>
                 </mat-card-header>
 
             </mat-card-title> 
+            
             <mat-card-content style="margin-top: 30px; margin-left: 40px; display: flex;">
                 
                 <form [formGroup]="searchForm" (ngSubmit)="searchReservation()">
@@ -87,7 +89,7 @@
                 </mat-card-title> 
                 <mat-card-content>
                     <mat-list style="margin-left: 20px;">
-                        <mat-list-item><p style="color: black;"> Expiration date: {{reservation.expirationDate}} </p></mat-list-item>
+                        <mat-list-item><p style="color: black;"> Expiration date: {{reservation.expirationDateString}} </p></mat-list-item>
                     </mat-list>
                 </mat-card-content>
                 <mat-accordion class="example-headers-align" multi>
@@ -113,6 +115,7 @@
                 </mat-card-actions> 
             </mat-card>
         </div>
+    </div>
         
           
      </mat-drawer-content>

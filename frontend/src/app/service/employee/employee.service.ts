@@ -115,6 +115,10 @@ export class EmployeeService {
     return this.http.get<WorkDay[]>(`${environment.baseUrl}/${environment.workDay}/${environment.getUpcomingWorkDays}?medicalStaffId=${medicalStaffId}&pharmacyId=${pharmacyId}`);
   }
 
+  prescribeMedication(prescribedMed : CreaeteReservation) : Observable<Response> {
+    return this.http.post<Response>(`${environment.baseUrl}/${environment.prescription}/${environment.savePrescription}`, prescribedMed)
+  }
+
 
 
 

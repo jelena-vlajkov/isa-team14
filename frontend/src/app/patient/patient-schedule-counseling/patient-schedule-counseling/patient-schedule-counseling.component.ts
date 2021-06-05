@@ -197,7 +197,7 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
       this.pharmacists = data.sort((a, b) => {
         const isAsc = sort.direction === 'asc';
         switch (sort.active) {
-          case 'grade': return compare(a.averageGrade.count(), b.averageGrade.count(), isAsc); 
+          //case 'grade': return compare(a.averageGrade.count(), b.averageGrade.count(), isAsc); 
           default: return 0;
         }
        });

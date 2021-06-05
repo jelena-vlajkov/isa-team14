@@ -223,6 +223,14 @@ export class PatientExaminationComoponent {
           alert(error);
         }
       )
+
+      this.employeeService.prescribeMedication(reservation).subscribe(
+        response => {
+          
+        }, error => {
+          alert(error)
+        }
+      )
     }
     searchAppointments(a : Appointment) {
       let date = this.searchAppointmentForm.controls.date.value;
