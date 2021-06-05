@@ -14,4 +14,5 @@ public interface IGradeService {
     Grade newPharmacyGrade(GradeDTO dto);
     Grade newPharmacistGrade(GradeDTO dto);
     Grade newDermatologistGrade(GradeDTO dto);
+    void deleteGrade(Long deleteId, String type);
 }
