@@ -12,7 +12,7 @@ spring:
   # JPA properties
   jpa:
     hibernate:
-      ddl-auto: create-drop # When you launch the application for the first put "none" instead of "create-drop" or "create"
+      ddl-auto: create # When you launch the application for the first put "none" instead of "create-drop" or "create"
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect

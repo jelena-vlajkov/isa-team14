@@ -109,6 +109,7 @@ export const environment = {
   penalty : "penalty",
   reports : "report",
   saveReport : "saveReport",
+  saveReservation : "saveReservation",
   scheduleAppointment : "scheduleAppointment",
   finishAppointment : "finishAppointment",
   getSpecificAppointment : "findSpecificAppointment",
@@ -135,5 +136,11 @@ export const environment = {
   occupiedExaminationsExists:"occupiedExaminationsExists",
   editPharmacyAdmin:"editPharmacyAdmin",
   approveVacationRequest:"approveVacationRequest",
-  denyVacationRequest:"denyVacationRequest"
+  denyVacationRequest:"denyVacationRequest",
+  searchDermatologists:"searchDermatologists",
+  filterDermatologistsByPharmacy:"filterDermatologistsByPharmacy",
+  filterDermatologistsByGrade:"filterDermatologistsByGrade",
+  searchPharmacists:"searchPharmacists",
+  filterPharmacistsByPharmacy:"filterPharmacistsByPharmacy",
+  filterPharmacistsByGrade:"filterPharmacistsByGrade"
 };
