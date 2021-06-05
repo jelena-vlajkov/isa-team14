@@ -50,5 +50,11 @@ public class WorkDayController {
         return  WorkDayMapper.mapToListDTO(workDayService.getBy(medicalStaffId));
     }
 
+    @GetMapping(value = "/getUpcomingByStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<WorkDayDTO> getUpcomingByStaff(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId){
+        return  WorkDayMapper.mapToListDTO(workDayService.getUpcomingStaff(medicalStaffId, pharmacyId));
+    }
+
 
 }

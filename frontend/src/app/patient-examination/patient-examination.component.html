@@ -81,7 +81,7 @@
                     <mat-form-field class="example-full-width" style="width: 100%; margin-top: 50px;">
                         <mat-label>Counseling info</mat-label>
                         <form [formGroup]="addReportForm">
-                            <textarea matInput formGroupName="details" placeholder="Patient has..."></textarea>
+                            <input  [(ngModel)]="a.reportNotes" [name]="a.id" matInput formGroupName="details" placeholder="Patient has...">
                             <mat-error
                                     *ngIf="!addReportForm.get('details').valid && addReportForm.get('details').touched">
                                     Please enter report details
@@ -183,7 +183,7 @@
                         <form [formGroup]="searchAppointmentForm" (ngSubmit)="searchAppointments()">
                             <mat-form-field class="example-full-width" style="margin-left: 30px;">
                                 <mat-label>Select date</mat-label>
-                                <input matInput formControlName="date" [matDatepicker]="picker2" [value]="todaysDate" [min]="todaysDateDate">
+                                <input matInput formControlName="date" [matDatepickerFilter]="myFilter" [matDatepicker]="picker2" [value]="todaysDate" [min]="todaysDateDate">
                                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>
                                 

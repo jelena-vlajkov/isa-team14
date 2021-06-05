@@ -171,7 +171,7 @@ export const environment = {
   findPharmacistsForPatientGrading : "findPharmacistsForPatientGrading",
   findDermatologistsForPatientGrading : "findDermatologistsForPatientGrading",
   grade : "grade",
-  getAllGradesByPatient : "getAllGradesByPatient"
-
+  getAllGradesByPatient : "getAllGradesByPatient",
+  getUpcomingWorkDays : "getUpcomingByStaff"
 };
 

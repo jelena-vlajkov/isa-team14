@@ -13,6 +13,7 @@ import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 import {PatientAppointmentDTO} from '@app/model/pharmderm/patientappointmentdto'
+import { WorkDay } from '@app/model/schedule/workDay';
 
 @Component({
   selector: 'patient-examination',
@@ -35,6 +36,8 @@ export class PatientExaminationComoponent {
     public addReportForm : FormGroup;
     public a : Appointment;
     public patientId : Number;
+    public workdays : WorkDay[];
+    public pharmacyId : Number;
     
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -60,6 +63,7 @@ export class PatientExaminationComoponent {
             this.a.prescribedMedications = [];
             this.a.canAddPenalty = true;
             console.log(this.a.finished)
+            this.pharmacyId = data.pharmacyId;
           
           this.showSearchResults = false;
           this.searchAppointmentForm = new FormGroup({
@@ -73,6 +77,13 @@ export class PatientExaminationComoponent {
             'details' : new FormControl("", [Validators.required]),
         
           })
+
+          console.log(this.addReportForm)
+          this.employeeService.getUpcomingWorkDay(Number(localStorage.getItem("userId")), this.pharmacyId).subscribe(
+            data => {
+              this.workdays = data;
+            }
+          );
 
         }, 
         error => {
@@ -106,27 +117,35 @@ export class PatientExaminationComoponent {
         }
       )
     }
+    
+    myFilter = (d: Date | null): boolean => {
+
+
+      const day = (d || new Date()).getTime();
+      for (let w of this.workdays) {
+        let time = new Date(w.date).getTime();
+        if (time === day) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     addReport(a : Appointment) {
       let report = new SaveReport();
       report.medicalStaffId = Number(localStorage.getItem("userId"));
       report.medications = a.prescribedMedications;
       report.patientId = a.patientId;
+      report.appointmentId = a.id;
+
       report.pharmacyId = a.pharmacyId;
       let details = this.addReportForm.controls.details.value;
       console.log(details)
       report.reportNotes = details;
+      report.reportNotes = a.reportNotes;
       this.employeeService.addReport(report).subscribe(
         data => {
-          this.employeeService.finishAppointment(a.id).subscribe(
-            data => {
-              alert("Successfully added report!");
-              a.finished = true;
-
-            }, error => {
-              alert(error)
-            }
-          )
+          alert("Successfully added report!");
         }, error => {
           alert(error);
         }

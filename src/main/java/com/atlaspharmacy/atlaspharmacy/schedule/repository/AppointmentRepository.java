@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.security.AccessControlContext;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?1 AND a.isCanceled = false")
     List<Appointment> findAppointmentsByPatient(Long patientId);
 
-    @Query(value = "SELECT a FROM Appointment a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
+    @Query(value = "SELECT a FROM Appointment a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false ORDER BY a.appointmentPeriod.startTime ASC")
     List<Appointment> getAppointmentsByDate(Date date);
 
     @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?2 AND CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
@@ -96,13 +97,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.appointmentPeriod.startTime DESC ")
     List<Examination> getAllExaminationsByDermatologistByDateDesc(Long dermatologistId);
 
-    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.name DESC ")
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.name ASC ")
     List<Examination> getAllExaminationsByDermatologistByNameDesc(Long dermatologistId);
 
     @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.name ASC ")
     List<Examination> getAllExaminationsByDermatologistByNameAsc(Long dermatologistId);
 
-    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.surname DESC ")
+    @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.surname ASC ")
     List<Examination> getAllExaminationsByDermatologistBySurnameDesc(Long dermatologistId);
 
     @Query(value = "SELECT e FROM Examination e WHERE e.dermatologist.id = ?1 AND e.isCanceled = false ORDER BY e.patient.surname ASC ")
@@ -123,7 +124,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Examination> overlappingExaminations(Date startTime, Date endTime, Long medicalStaffId);
 
     @Query(value = "SELECT e FROM Counseling e WHERE (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime = ?1 and e.appointmentPeriod.endTime = ?2)" +
-            "OR (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime >= ?1 and e.appointmentPeriod.startTime <= ?2) or " +
-            "(e.pharmacist.id = ?3 and e.appointmentPeriod.endTime >= ?1 and e.appointmentPeriod.endTime <= ?2)")
+            "OR (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime > ?1 and e.appointmentPeriod.startTime < ?2) or " +
+            "(e.pharmacist.id = ?3 and e.appointmentPeriod.endTime > ?1 and e.appointmentPeriod.endTime < ?2)")
     List<Counseling> ovelappingCunselings(Date startTime, Date endTime, Long medicalStaffId);
+
+    @Query(value = "SELECT a FROM Appointment a ORDER BY a.appointmentPeriod.startTime ASC")
+    List<Appointment> findAllSorted();
 }

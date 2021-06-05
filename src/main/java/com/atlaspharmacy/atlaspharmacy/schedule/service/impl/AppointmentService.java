@@ -476,6 +476,8 @@ public class AppointmentService implements IAppointmentService {
                 p.setPatientId(a.getPatient().getId());
                 p.setName(a.getPatient().getName());
                 p.setSurname(a.getPatient().getSurname());
+                p.setGender(a.getPatient().getGender());
+                p.setDateOfBirth(a.getPatient().getDateOfBirth());
                 appointmentDTOS = p.getPreviousAppointments();
                 appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
                 p.setPreviousAppointments(appointmentDTOS);
@@ -591,7 +593,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<Appointment> getOccupiedBy(Long medicalStaffId) {
-        return appointmentRepository.findAll()
+        return appointmentRepository.findAllSorted()
                 .stream()
                 .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
                 .collect(Collectors.toList());

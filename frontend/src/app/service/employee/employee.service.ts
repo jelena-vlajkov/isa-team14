@@ -19,6 +19,7 @@ import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { UserPreview } from '@app/model/pharmderm/userspreview'
 import { VacationRequest } from '@app/model/pharmderm/vacationrequest';
 import { PatientAppointmentDTO } from '@app/model/pharmderm/patientappointmentdto';
+import { WorkDay } from '@app/model/schedule/workDay';
 
 @Injectable({
   providedIn: 'root'
@@ -110,6 +111,9 @@ export class EmployeeService {
     return this.http.get<Appointment[]>(`${environment.baseUrl}/${environment.appointment}/${environment.appointmentsByMonth}?medicalStaffId=${medicalStaffId}&date=${date}`);
   }
 
+  getUpcomingWorkDay(medicalStaffId : Number, pharmacyId : Number) : Observable<WorkDay[]> {
+    return this.http.get<WorkDay[]>(`${environment.baseUrl}/${environment.workDay}/${environment.getUpcomingWorkDays}?medicalStaffId=${medicalStaffId}&pharmacyId=${pharmacyId}`);
+  }
 
 
 

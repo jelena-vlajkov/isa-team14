@@ -95,6 +95,11 @@ public class WorkDayService implements IWorkDayService {
     }
 
     @Override
+    public List<WorkDay> getUpcomingStaff(Long medicalStaffId, Long pharmacyId) {
+        return workDayRepository.findUpcomingByStaff(medicalStaffId, pharmacyId);
+    }
+
+    @Override
     public void updateWorkDay(Long id) {
         WorkDay workDay = workDayRepository.findById(id).get();
         workDay.setDisabled(true);

@@ -12,6 +12,7 @@ public class SaveReportDTO {
     private String reportNotes;
     private Long medicalStaffId;
     private String type;
+    private Long appointmentId;
     private Long pharmacyId;
 
     public SaveReportDTO() {
@@ -27,6 +28,15 @@ public class SaveReportDTO {
         this.medicalStaffId = medicalStaffId;
         this.type = type;
         this.pharmacyId = pharmacyId;
+    }
+
+
+    public Long getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public Long getPharmacyId() {

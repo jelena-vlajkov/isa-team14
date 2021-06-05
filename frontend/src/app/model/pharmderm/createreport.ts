@@ -5,6 +5,7 @@ export class SaveReport {
     public reportNotes : String;
     public medicalStaffId : Number;
     public type : String; 
+    public appointmentId : Number;
 
     constructor() {}
 }
