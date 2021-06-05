@@ -76,14 +76,19 @@ public class PharmacyStorageService implements IPharmacyStorageService {
     @Override
     public boolean isMedicationInPharmacy(Long code, Long id) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndCode(id, code);
-        if (pharmacyStorage.getQuantity() == 0) {
-            notificationService.medicationQuantityLow(pharmacyStorage);
-            return false;
+        if(pharmacyStorage!=null){
+            if (pharmacyStorage.getQuantity() == 0) {
+                notificationService.medicationQuantityLow(pharmacyStorage);
+                return false;
+            }
+            else return true;
         }
-        return true;
+        
+        return false;
     }
 
     @Override
+    @Transactional
     public void deleteMedicationFromPharmacyStorage(Long medicationId,Long pharmacyId) {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacyId, medicationId);
         if (pharmacyStorage != null) {
@@ -132,12 +137,20 @@ public class PharmacyStorageService implements IPharmacyStorageService {
 
     }
     @Override
-    public void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount) {
-        PharmacyStorage newMedicationInStorage=new PharmacyStorage();
-        newMedicationInStorage.setQuantity(amount);
-        newMedicationInStorage.setMedication(medicationService.getById(medicationId));
-        newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
-        pharmacyStorageRepository.save(newMedicationInStorage);
+    public void addMedicationToPharmacy(Long medicationCode,Long medicationId,Long pharmacyId,Long amount) {
+        if(!isMedicationInPharmacy(medicationCode,pharmacyId)){
+            PharmacyStorage newMedicationInStorage=new PharmacyStorage();
+            newMedicationInStorage.setQuantity(amount);
+            newMedicationInStorage.setMedication(medicationService.getById(medicationId));
+            newMedicationInStorage.setPharmacy(pharmacyRepository.findById(pharmacyId).get());
+            pharmacyStorageRepository.save(newMedicationInStorage);
+        }
+        else{
+            PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndCode(pharmacyId,medicationCode);
+            pharmacyStorage.setQuantity(pharmacyStorage.getQuantity()+amount);
+            pharmacyStorageRepository.save(pharmacyStorage);
+        }
+
 
     }
 

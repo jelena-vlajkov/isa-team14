@@ -22,5 +22,8 @@ public class ConstantValues {
 
     public static final String DERMATOLOGIST_ROLE = "ROLE_DERMATOLOGIST";
     public static final String PHARMACIST_ROLE = "ROLE_PHARMACIST";
+    public static final String PHARMACYADMIN_ROLE = "ROLE_PHARMACYADMIN";
+
+    public static final String PHARMACYADMIN_EMAIL = "vojvodicd@gmail.com";
 
 }

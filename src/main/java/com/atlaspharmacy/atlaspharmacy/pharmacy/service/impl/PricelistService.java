@@ -63,7 +63,7 @@ public class PricelistService implements IPricelistService {
             Medication medication = MedicationMapper.convertToMedication(medicationService.findById(pricelistDTO.getMedication().getId()));
             newPricelist.setMedication(medication);
             pricelistRepository.save(newPricelist);
-            pharmacyStorageService.addMedicationToPharmacy(medication.getId(),pricelistDTO.getPharmacy().getId(),0L);
+            pharmacyStorageService.addMedicationToPharmacy(medication.getCode(),medication.getId(),pricelistDTO.getPharmacy().getId(),0L);
             return true;
         }
 
@@ -86,8 +86,6 @@ public class PricelistService implements IPricelistService {
     @Transactional
     public void deletePricelistEntity(Long pricelistId) {
         Pricelist pricelistToDelete=pricelistRepository.findById(pricelistId).get();
-       // pharmacyStorageService.deleteMedicationFromPharmacyStorage(pricelistToDelete.getMedication().getId()
-         //                                                           ,pricelistToDelete.getPharmacy().getId());
         pricelistRepository.delete(pricelistToDelete);
     }
 

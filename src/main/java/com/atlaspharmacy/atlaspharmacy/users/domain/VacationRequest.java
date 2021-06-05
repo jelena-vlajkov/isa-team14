@@ -12,6 +12,9 @@ import java.util.Date;
 @Table(name = "vacation_requests")
 @DiscriminatorValue(value = Role.Values.Patient)
 public class VacationRequest {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,6 +37,14 @@ public class VacationRequest {
         this.vacationReason = vacationReason;
         this.status = status;
         this.pharmacy = pharmacy;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Pharmacy getPharmacy() {

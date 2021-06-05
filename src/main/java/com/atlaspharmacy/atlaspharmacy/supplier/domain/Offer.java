@@ -11,6 +11,10 @@ import java.util.Date;
 @Table(name = "offers")
 @Proxy(lazy = false)
 public class Offer {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -36,6 +40,14 @@ public class Offer {
 
     public Offer() {
 
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public int getUniqueidentifier() {
