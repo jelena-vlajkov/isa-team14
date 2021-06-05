@@ -105,9 +105,14 @@ public class PharmacyController {
 
     @PostMapping(value = "/editPharmacy", consumes =  MediaType.APPLICATION_JSON_VALUE)
     @PharmacyAdminAuthorization
-    @ResponseStatus(value = HttpStatus.OK)
-    public void editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
-        pharmacyService.editPharmacy(pharmacyDTO);
+    public ResponseEntity<?> editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
+        try{
+            pharmacyService.editPharmacy(pharmacyDTO);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)

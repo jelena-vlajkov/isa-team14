@@ -98,7 +98,6 @@ export class PharmacyProfileComponent implements OnInit {
     }
 
     else{
-      localStorage.setItem('pharmacyId','100');
       this.pharmacyService.getPharmacyById(Number(localStorage.getItem('pharmacyId'))).subscribe(result =>{
         this.pharmacy = result;
         this.pharmacyId = result.id;
