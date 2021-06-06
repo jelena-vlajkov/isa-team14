@@ -142,6 +142,10 @@ export class PatientService {
       return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.patientScheduleExamination}`, scheduleExamination, {responseType : 'text'});
     }
 
+    getNumberOfPatientPenalties(id : Number) : Observable<Number> {
+      return this.http.get<Number>(`${environment.baseUrl}/${environment.penalty}/${environment.getNumberOfPatientPenalties}?patientId=${id}`);
+    }
+
 
 
 

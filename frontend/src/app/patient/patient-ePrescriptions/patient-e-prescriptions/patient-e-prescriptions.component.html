@@ -2,6 +2,7 @@
     <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
       <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
          <mat-action-list>
+          <button mat-list-item routerLink="/patient/home" style="color: white;"> <mat-icon>home</mat-icon> Home</button>
           <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
           <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
           <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
@@ -30,12 +31,22 @@
               <button mat-icon-button class="example-icon" (click)="drawer.toggle()" aria-label="Example icon-button with menu icon">
                 <mat-icon>menu</mat-icon>
               </button>
-              <span>All pharmacies</span>
+              <span>E-Presciptions</span>
               <span class="example-spacer"></span>
             </mat-toolbar>
-            
+            <div style="margin-left: 20em; width: 30%;" >
+              <p style="color: black;">Filter by type</p>
+  
+              <mat-select placeholder="Select type" (selectionChange)="typeChange($event)" style="width: 50%;">
+                  <mat-option value="1">New</mat-option>
+                  <mat-option value="2">Processed</mat-option>
+                  <mat-option value="3">Rejected</mat-option>
+                  <mat-option value="4">All</mat-option>
+              </mat-select>
+           </div>
+           
             <div class="table-wrapper">
-                <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                <table *ngIf="3 > numOfPenalty || numOfPenalty == undefined" matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
                         <th>Type of ePrescriptions</th>
@@ -49,7 +60,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let a of prescriptions" >
-                        <td>Nema napravljeno</td>
+                        <td>{{a.type}}</td>
                         <td>{{a.id}}</td>
                         <td>{{a.date | date : "medium"}}</td>
                         <td>{{a.patientName}}</td>
@@ -59,6 +70,7 @@
                     
                     <tbody>
                 </table>
+                <h3 *ngIf="numOfPenalty > 3">U have 3 or more penalties and you cant reach list of e-prescriptions</h3>
             </div>
       </mat-drawer-content>
 

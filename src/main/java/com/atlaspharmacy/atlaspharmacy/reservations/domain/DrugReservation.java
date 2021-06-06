@@ -48,6 +48,10 @@ public class DrugReservation {
         this.canceled = canceled;
     }
 
+    public DrugReservation(Long id) {
+        this.id = id;
+    }
+
     public Long getVersion() {
         return version;
     }

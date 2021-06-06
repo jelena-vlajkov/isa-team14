@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.membershipinfo.controller;
 
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PenaltyAuthorization;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.DTO.PenaltyDTO;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.domain.Penalty;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "penalty", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PenaltyController {
@@ -39,6 +41,12 @@ public class PenaltyController {
     @PenaltyAuthorization
     List<Penalty> getByPatient(@RequestParam("id") Long patientId) {
         return penaltyService.getByPatient(patientId);
+    }
+
+    @GetMapping(value = "/getNumberOfPatientPenalties")
+    @PatientAuthorization
+    int getNumberOfPatientPenalties(@RequestParam("patientId") Long patientId) throws Exception {
+        return penaltyService.getNumberOfPatientPenaltiesForThisMonth(patientId);
     }
 
 

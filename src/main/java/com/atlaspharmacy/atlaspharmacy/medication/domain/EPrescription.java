@@ -16,6 +16,7 @@ public class EPrescription {
     private Date date;
     private String name;
     private String surname;
+    private String type;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
@@ -30,6 +31,14 @@ public class EPrescription {
         this.id = id;
         this.date = date;
         this.patient = patient;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Pharmacy getPharmacy() {

@@ -1,9 +1,9 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
-import com.atlaspharmacy.atlaspharmacy.medication.domain.PrescribedDrug;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.impl.PenaltyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -22,7 +22,6 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.EmailService;
-import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +43,11 @@ public class DrugReservationService implements IDrugReservationService {
     private final EmailService emailService;
     private final IEPrescriptionService prescriptionService;
     private final PharmacyStorageRepository pharmacyStorageRepository;
+    private final PenaltyService penaltyService;
+
     @Autowired
     public DrugReservationService(DrugReservationRepository drugReservationRepository, IPharmacyStorageService pharmacyStorageService, MedicationRepository medicationRepository, PharmacyRepository pharmacyRepository, UserRepository userRepository, EmailService emailService,
-                                  IEPrescriptionService prescriptionService, PharmacyStorageRepository pharmacyStorageRepository) {
+                                  IEPrescriptionService prescriptionService, PharmacyStorageRepository pharmacyStorageRepository, PenaltyService penaltyService) {
         this.drugReservationRepository = drugReservationRepository;
         this.pharmacyStorageService = pharmacyStorageService;
         this.medicationRepository = medicationRepository;
@@ -55,6 +56,7 @@ public class DrugReservationService implements IDrugReservationService {
         this.emailService = emailService;
         this.prescriptionService = prescriptionService;
         this.pharmacyStorageRepository = pharmacyStorageRepository;
+        this.penaltyService = penaltyService;
     }
 
     @Transactional
@@ -74,6 +76,10 @@ public class DrugReservationService implements IDrugReservationService {
         Medication m = medicationRepository.findById(drugReservationDTO.getMedicationId()).get();
         if (!pharmacyStorageService.isMedicationInPharmacy(m.getCode(), drugReservationDTO.getPharmacyId())) {
             throw new Exception("Invalid request");
+        }
+
+        if(penaltyService.getNumberOfPatientPenaltiesForThisMonth(drugReservationDTO.getPatientId()) > 2) {
+            throw new Exception("Patient has 3 or more penalties");
         }
 
         Pharmacy p = pharmacyRepository.findById(drugReservationDTO.getPharmacyId()).get();

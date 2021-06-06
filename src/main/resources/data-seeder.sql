@@ -575,10 +575,10 @@ insert into medication_ingredients(medication_id, ingredient_id) VALUES (600, 60
 -- insert into drugreservation(id, expiration_date, issued, reservation_date, unique_identifier, medication_id, patient_id, pharmacy_id) VALUES (200, '2021-01-05 12:00:00', true, '2021-01-04 12:00:00', 123456, 100, 200, 100);
 -- insert into drugreservation(id, expiration_date, issued, reservation_date, unique_identifier, medication_id, patient_id, pharmacy_id) VALUES (300, '2021-01-03 12:00:00', true, '2021-01-01 12:00:00', 123457, 300, 200, 200);
 
-insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id) values (100, '2021-01-09 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 100);
-insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id) values (200, '2021-01-05 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 200);
-insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id) values (300, '2021-01-04 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 100);
-insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id) values (400, '2021-01-01 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 200);
+insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id, type) values (100, '2021-01-09 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 100, 'Rejected');
+insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id, type) values (200, '2021-01-05 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 200, 'New');
+insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id, type) values (300, '2021-01-04 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 100, 'New');
+insert into e_prescriptions(id, date, name, surname, patient_id, pharmacy_id, type) values (400, '2021-01-01 12:00:00', 'Aleksandar','Ignjatijevic' , 1500, 200, 'Processed');
 
 insert into prescribed_drugs(id, quantity, eprescription_id, prescribed_medication_id, therapy_days) VALUES (100, 2, 100, 100, 10);
 insert into prescribed_drugs(id, quantity, eprescription_id, prescribed_medication_id, therapy_days) VALUES (200, 1, 100, 200, 7);
@@ -626,6 +626,7 @@ insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (600, 600);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 100);
 insert into alergies_to_ingredient(ingredient_id, allergy_id) VALUES (900, 200);
 
+
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (100, '2021-06-28 12:00:00', '2021-02-03 12:00:00', 123555, 1500, 300, true, 100, 10, false);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (200, '2021-11-28 12:00:00', '2021-12-28 12:00:00', 12345, 1500,300, true, 200, 10, false);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (300, '2021-12-28 12:00:00', '2021-07-03 12:00:00', 12353, 1500, 300, false, 300, 10, false);
@@ -636,8 +637,8 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (800, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237454, 1500, 300, true, 500, 10, false);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (900, '2021-01-28 12:00:00', '2021-07-15 12:00:00', 12378234, 1500, 100, false, 500, 10, false);
 
-insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1000, '2021-01-28 12:00:00', '2021-07-15 12:00:00', 12378645, 1500, 200, false, 500, 10, false);
-
+--insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1000, '2021-01-28 12:00:00', '2021-07-15 12:00:00', 12378645, 1500, 200, false, 500, 10, false);
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1200, '2021-06-29 12:00:00', '2021-06-04 12:00:00', 12378845, 1500, 200, false, 500, 10, false);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1000, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500, 10, false);
 
 insert into medical_record(id, patient_id) values (100, 1500);

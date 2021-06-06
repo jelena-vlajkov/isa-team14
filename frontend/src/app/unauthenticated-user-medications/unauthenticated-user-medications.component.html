@@ -14,6 +14,7 @@
       </mat-action-list> -->
       
       <mat-action-list *ngIf="isPatient()">
+            <button mat-list-item routerLink="/patient/home" style="color: white;"> <mat-icon>home</mat-icon> Home</button>
             <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
             <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
             <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>

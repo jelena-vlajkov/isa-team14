@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.schedule.service.impl;
 
+import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.impl.PenaltyService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
@@ -24,18 +25,14 @@ import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
-import com.atlaspharmacy.atlaspharmacy.users.service.impl.PharmacistService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
-import org.hibernate.dialect.lock.OptimisticEntityLockException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.time.LocalDate;
 
 @Service
 public class AppointmentService implements IAppointmentService {
@@ -50,10 +47,11 @@ public class AppointmentService implements IAppointmentService {
     private final IEmailService emailService;
     private static final int appointmentDuration = 30*60000;
     private static final double cost = 1000.00;
+    private final PenaltyService penaltyService;
 
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService, IEmailService emailService) {
+    public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, PrescriptionRepository prescriptionRepository, WorkDayService workDayService, MedicalRecordRepository medicalRecordRepository, PharmacyRepository pharmacyRepository, IPharmacyPricelistService pharmacyPricelistService, IEmailService emailService, PenaltyService penaltyService) {
         this.userRepository = userRepository;
         this.appointmentRepository = appointmentRepository;
         this.prescriptionRepository = prescriptionRepository;
@@ -62,6 +60,7 @@ public class AppointmentService implements IAppointmentService {
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacyPricelistService = pharmacyPricelistService;
         this.emailService = emailService;
+        this.penaltyService = penaltyService;
     }
 
 
@@ -133,14 +132,16 @@ public class AppointmentService implements IAppointmentService {
         User user = userRepository.findById(scheduleAppointmentDTO.getMedicalStaffId()).get();
         if (user.getRole().equals(Role.Values.Dermatologist)) {
             if((appointmentRepository.overlappingExaminations(scheduleAppointmentDTO.getStartTime(),
-                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0 &&
+            penaltyService.getNumberOfPatientPenaltiesForThisMonth(scheduleAppointmentDTO.getPatientId()) > 2) {
                 throw new Exception("Invalid request");
             }
 
             return scheduleExamination(scheduleAppointmentDTO);
         } else {
             if((appointmentRepository.ovelappingCunselings(scheduleAppointmentDTO.getStartTime(),
-                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0) {
+                    scheduleAppointmentDTO.getEndTime(), scheduleAppointmentDTO.getMedicalStaffId())).size() != 0  &&
+                    penaltyService.getNumberOfPatientPenaltiesForThisMonth(scheduleAppointmentDTO.getPatientId()) > 2) {
                 throw new Exception("Invalid request");
             }
 
