@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
@@ -92,6 +93,7 @@ public class VacationRequestService implements IVacationRequestService {
     }
 
     @Override
+    @Transactional
     public void approveVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException {
         VacationRequest vacationRequest=vacationRequestRepository.findById(answer.getVacationRequest().getId()).get();
         vacationRequest.setStatus(VacationRequestStatus.APPROVED);
@@ -116,6 +118,7 @@ public class VacationRequestService implements IVacationRequestService {
     }
 
     @Override
+    @Transactional
     public void denyVacationRequest(VacationRequestAnswerDTO answer) throws IOException, MessagingException {
         VacationRequest vacationRequest=vacationRequestRepository.findById(answer.getVacationRequest().getId()).get();
         vacationRequest.setStatus(VacationRequestStatus.REJECTED);

@@ -12,9 +12,6 @@ import java.util.List;
 public class ReportMapper {
     public static ReportDTO mapReportToDto(Report report) {
         List<String> medications = new ArrayList<>();
-        for (Medication medication : report.getMedication()) {
-            medications.add(medication.getName());
-        }
 
         return new ReportDTO(new Date(), medications,
                 report.getPatient().getName() + " " + report.getPatient().getSurname(),

@@ -119,8 +119,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findUpcomingForPatient(Long patientId);
 
     @Query(value = "SELECT e FROM Examination e WHERE (e.dermatologist.id = ?3 and e.appointmentPeriod.startTime = ?1 and e.appointmentPeriod.endTime = ?2)" +
-            "OR (e.dermatologist.id = ?3 and e.appointmentPeriod.startTime >= ?1 and e.appointmentPeriod.startTime <= ?2) or " +
-            "(e.dermatologist.id = ?3 and e.appointmentPeriod.endTime >= ?1 and e.appointmentPeriod.endTime <= ?2)")
+            "OR (e.dermatologist.id = ?3 and e.appointmentPeriod.startTime > ?1 and e.appointmentPeriod.startTime < ?2) or " +
+            "(e.dermatologist.id = ?3 and e.appointmentPeriod.endTime > ?1 and e.appointmentPeriod.endTime < ?2)")
     List<Examination> overlappingExaminations(Date startTime, Date endTime, Long medicalStaffId);
 
     @Query(value = "SELECT e FROM Counseling e WHERE (e.pharmacist.id = ?3 and e.appointmentPeriod.startTime = ?1 and e.appointmentPeriod.endTime = ?2)" +

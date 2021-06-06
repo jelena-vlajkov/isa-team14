@@ -197,7 +197,7 @@ export class PharmacistAddReportComponent {
           alert("Successfully scheduled appoinmtnet");
 
         }, error => {
-          alert(error);
+          alert("Patient probably has another appointment.");
         }
       )
     }

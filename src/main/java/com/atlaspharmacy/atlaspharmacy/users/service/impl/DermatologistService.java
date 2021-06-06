@@ -3,8 +3,10 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
+import com.atlaspharmacy.atlaspharmacy.grade.service.impl.GradeService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -13,7 +15,6 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.service.impl.PharmacyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Examination;
 import com.atlaspharmacy.atlaspharmacy.schedule.service.impl.AppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
-import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Dermatologist;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
@@ -25,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.collectingAndThen;
@@ -42,9 +42,10 @@ public class DermatologistService implements IDermatologistService {
     private final AppointmentService appointmentService;
     private final IPharmacyService pharmacyService;
     private final PharmacyRepository pharmacyRepository;
+    private final GradeService gradeService;
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, GradeService gradeService) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
@@ -53,6 +54,7 @@ public class DermatologistService implements IDermatologistService {
         this.appointmentService = appointmentService;
         this.pharmacyService = pharmacyService;
         this.pharmacyRepository = pharmacyRepository;
+        this.gradeService = gradeService;
     }
 
     @Override
@@ -124,7 +126,7 @@ public class DermatologistService implements IDermatologistService {
             return dermatologistsToSearch;
         }
         for (Dermatologist d : dermatologistsToSearch) {
-            if (searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())) {
+            if (d.getName().toLowerCase().contains(searchInput.toLowerCase()) || d.getSurname().toLowerCase().contains(searchInput.toLowerCase())) {
                 searchedDermatologists.add(d);
             }
         }
@@ -175,6 +177,7 @@ public class DermatologistService implements IDermatologistService {
                     iterator.remove();
                 }
             }
+            gradeService.deleteGrade(dermatologistId, "DermatologistGrade");
             dermatologistRepository.save(dermatologist);
             return true;
         }
@@ -219,6 +222,8 @@ public class DermatologistService implements IDermatologistService {
         return uniqueDermatologists;
 
     }
+
+
 
 
 }

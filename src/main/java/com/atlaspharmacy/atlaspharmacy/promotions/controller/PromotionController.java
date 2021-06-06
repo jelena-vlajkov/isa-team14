@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.promotions.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PricelistDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PricelistMapper;
 import com.atlaspharmacy.atlaspharmacy.promotions.DTO.PromotionDTO;
@@ -28,6 +29,7 @@ public class PromotionController {
     }
 
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> addPromotion(@RequestBody PromotionDTO promotionDTO) throws IOException, MessagingException {
         _promotionService.addPromotion(promotionDTO);
         return new ResponseEntity<>(HttpStatus.OK);

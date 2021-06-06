@@ -369,8 +369,61 @@ public class GradeService implements IGradeService {
         dermatologistRepository.save(dermatologist);
     }
 
+    @Override
+    public void deleteGrade(Long deleteId, String type) {
 
+        if(type.equals(GradeType.Values.PharmacyGrade)) {
+            List<Grade> allPharmGrades = findAll().stream().
+                    filter(m -> m.getType().equals(GradeType.Values.PharmacyGrade)).collect(Collectors.toList());
 
+            for (Grade g : allPharmGrades) {
+                PharmacyGrade grade = (PharmacyGrade) g;
+                if(grade.getPharmacy().getId().equals(deleteId)) {
+                    gradeRepository.deleteById(grade.getId());
+                }
+             }
+
+        }
+
+        if(type.equals(GradeType.Values.PharmacistGrade)) {
+            List<Grade> allPharmGrades = findAll().stream().
+                    filter(m -> m.getType().equals(GradeType.Values.PharmacistGrade)).collect(Collectors.toList());
+
+            for (Grade g : allPharmGrades) {
+                PharmacistGrade grade = (PharmacistGrade) g;
+                if(grade.getPharmacist().getId().equals(deleteId)) {
+                    gradeRepository.deleteById(grade.getId());
+                }
+            }
+
+        }
+
+        if(type.equals(GradeType.Values.DermatologistGrade)) {
+            List<Grade> allPharmGrades = findAll().stream().
+                    filter(m -> m.getType().equals(GradeType.Values.DermatologistGrade)).collect(Collectors.toList());
+
+            for (Grade g : allPharmGrades) {
+                DermatologistGrade grade = (DermatologistGrade) g;
+                if(grade.getDermatologist().getId().equals(deleteId)) {
+                    gradeRepository.deleteById(grade.getId());
+                }
+            }
+
+        }
+
+        if(type.equals(GradeType.Values.MedicationGrade)) {
+            List<Grade> allPharmGrades = findAll().stream().
+                    filter(m -> m.getType().equals(GradeType.Values.MedicationGrade)).collect(Collectors.toList());
+
+            for (Grade g : allPharmGrades) {
+                MedicationGrade grade = (MedicationGrade) g;
+                if(grade.getMedication().getId().equals(deleteId)) {
+                    gradeRepository.deleteById(grade.getId());
+                }
+            }
+
+        }
+    }
 
 
 

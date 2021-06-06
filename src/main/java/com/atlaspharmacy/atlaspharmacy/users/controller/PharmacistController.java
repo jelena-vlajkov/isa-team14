@@ -43,6 +43,7 @@ public class PharmacistController {
 
 
     @GetMapping(value = "/getByPharmacy", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
     List<PharmacistDTO> getByPharmacy(@RequestParam("id") Long id) throws ParseException {
         return  PharmacistMapper.mapToListDTOS(pharmacistService.findByPharmacy(id));
@@ -94,7 +95,8 @@ public class PharmacistController {
     }
 
     @PostMapping(value = "/deletePharmacist")
-    public ResponseEntity<?> deleteDermatologistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId){
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> deletePharmacistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId){
         boolean successful;
         try {
             successful=pharmacistService.deletePharmacist(pharmacistId);

@@ -60,6 +60,7 @@ import {DermatologistListAndFilterComponent} from "@app/dermatologist-list-and-f
 import {PharmacistListAndFilterComponent} from "@app/pharmacist-list-and-filter/pharmacist-list-and-filter.component";
 import { PatientNewGradeComponent } from './patient/patient-new-grade/patient-new-grade/patient-new-grade.component';
 import { PatientUpdataGradeComponent } from './patient/patient-update-grade/patient-updata-grade/patient-updata-grade.component';
+import { PatientScheduleExaminationComponent } from './patient/patient-schedule-examination/patient-schedule-examination.component';
 
 const routes: Routes = [
 {
@@ -309,6 +310,12 @@ const routes: Routes = [
 {
   path: 'patient/updateGrade',
   component: PatientUpdataGradeComponent,
+  canActivate : [AuthGuard],
+  data: {roles:[Role.Patient]}
+},
+{
+  path: 'patient/scheduleExamination',
+  component: PatientScheduleExaminationComponent,
   canActivate : [AuthGuard],
   data: {roles:[Role.Patient]}
 },

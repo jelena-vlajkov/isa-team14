@@ -41,5 +41,6 @@ export class Pharmacist {
         this.firstTimeChanged = firstTimeChanged;
         this.licenceNumber = licenceNumber;
         this.pharmacy = pharmacy;
+       // this.averageGrade = averageGrade;
     }
 }

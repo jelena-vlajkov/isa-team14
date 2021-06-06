@@ -133,7 +133,7 @@ export class BusinessReportComponent implements OnInit {
   showScheduledByMonth(){
     this.lineChartDataForScheduledByMonth = [
       { data : this.dataForScheduledAppointmentsForMonth,label:"Number of scheduled appointments for particular month" }];
-
+    console.log(this.dataForScheduledAppointmentsForMonth);
     this.scheduledAppointmentForHalfYear = false;
     this.scheduledAppointmentForMonth = true;
     this.scheduledAppointmentForYear = false;
@@ -141,6 +141,7 @@ export class BusinessReportComponent implements OnInit {
 
    showScheduledByHalfYear() {
     this.lineChartDataForScheduledForHalfYear = [{ data : this.dataForScheduledAppointmentsForHalfYear,label:"Number of scheduled appointments for particular part of year"}];
+    console.log(this.dataForScheduledAppointmentsForHalfYear);
     this.scheduledAppointmentForHalfYear = true;
     this.scheduledAppointmentForMonth = false;
     this.scheduledAppointmentForYear = false;
@@ -149,6 +150,7 @@ export class BusinessReportComponent implements OnInit {
 
    showScheduledByYear() {
     this.lineChartDataForScheduledForYear = [{ data : this.dataForScheduledAppointmentsForYear,label:"Number of scheduled appointments for particular year"}];
+    console.log(this.dataForScheduledAppointmentsForYear);
     this.scheduledAppointmentForHalfYear = false;
     this.scheduledAppointmentForMonth = false;
     this.scheduledAppointmentForYear = true;
@@ -158,6 +160,7 @@ export class BusinessReportComponent implements OnInit {
   showIssuedDrugsByMonth(){
     this.lineChartDataForDrugIssuedByMonth = [
       { data : this.dataForIssuedDrugsForMonth,label:"Number of issued drugs for particular month" }];
+    console.log(this.dataForIssuedDrugsForMonth);
     this.issuedForMonth = true;
     this.issuedForHalfYear = false;
     this.issuedForYear = false;
@@ -165,6 +168,7 @@ export class BusinessReportComponent implements OnInit {
 
   showIssuedDrugsForHalfYear() {
     this.lineChartDataForDrugIssuedForHalfYear = [{ data : this.dataForIssuedDrugsForHalfYear,label:"Number of issued drugs for particular part of year"}];
+    console.log(this.dataForIssuedDrugsForHalfYear);
     this.issuedForMonth = false;
     this.issuedForHalfYear = true;
     this.issuedForYear = false;
@@ -173,6 +177,7 @@ export class BusinessReportComponent implements OnInit {
 
   showIssuedDrugsForYear() {
     this.lineChartDataForDrugIssuedForYear = [{ data : this.dataForIssuedDrugsForYear,label:"Number of issued drugs for particular year"}];
+    console.log(this.dataForIssuedDrugsForYear);
     this.issuedForMonth = false;
     this.issuedForHalfYear = false;
     this.issuedForYear = true;
@@ -183,6 +188,7 @@ export class BusinessReportComponent implements OnInit {
   showPharmacyIncomeForMonth(){
     this.lineChartDataForPharmacyIncomeByMonth = [
       { data : this.dataForPharmacyIncomeForMonth,label:"Total pharmacy income for particular month" }];
+    console.log(this.dataForPharmacyIncomeForMonth);
     this.pharmacyIncomeForMonth = true;
     this.pharmacyIncomeForHalfYear = false;
     this.pharmacyIncomeForYear = false;
@@ -190,6 +196,7 @@ export class BusinessReportComponent implements OnInit {
 
   showPharmacyIncomeForHalfYear() {
     this.lineChartDataForPharmacyIncomeForHalfYear = [{ data : this.dataForPharmacyIncomeForHalfYear,label:"Total pharmacy income for particular part of year"}];
+    console.log(this.dataForPharmacyIncomeForHalfYear);
     this.pharmacyIncomeForMonth = false;
     this.pharmacyIncomeForHalfYear = true;
     this.pharmacyIncomeForYear = false;
@@ -197,6 +204,7 @@ export class BusinessReportComponent implements OnInit {
   }
   showPharmacyIncomeForYear() {
     this.lineChartDataForPharmacyIncomeForYear = [{ data : this.dataForPharmacyIncomeForYear,label:"Total pharmacy income for particular year"}];
+    console.log(this.dataForPharmacyIncomeForYear);
     this.pharmacyIncomeForMonth = false;
     this.pharmacyIncomeForHalfYear = false;
     this.pharmacyIncomeForYear = true;

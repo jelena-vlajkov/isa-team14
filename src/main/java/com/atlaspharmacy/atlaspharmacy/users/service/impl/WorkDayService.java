@@ -13,6 +13,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,7 @@ public class WorkDayService implements IWorkDayService {
 
 
     @Override
+    @Transactional
     public void addWorkday(WorkDayDTO workDayDTO) throws Exception {
         WorkDay workDay=new WorkDay();
         workDay.setPharmacy(pharmacyRepository.findById(workDayDTO.getPharmacy().getId()).get());

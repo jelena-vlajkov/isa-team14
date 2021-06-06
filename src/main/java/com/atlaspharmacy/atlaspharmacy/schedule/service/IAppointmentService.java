@@ -40,7 +40,7 @@ public interface IAppointmentService {
     Long  getNumberOfAppointmentsForYear(int year,Long pharmacyId);
     boolean occupiedExaminationExists(Long dermatologistId, Long pharmacyId);
     boolean occupiedCounselingsExists(Long pharmacistId);
-    List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId);
+    List<Examination> findAvailableExaminationsForDermatologist(Long medicalStaffId, Long pharmacyId) throws Exception;
     List<PatientsOverviewDTO> getPatientsByMedicalStaff(Long medicalStaffId, SortingType sortingType) throws InvalidMedicalStaff, Exception;
     List<Appointment> findAvailableByEmployeeAndPharmacy(Long pharmacyId, Long employeeId, Date date);
     List<AppointmentDTO> finishedAppointmentExamination(Long patientId);

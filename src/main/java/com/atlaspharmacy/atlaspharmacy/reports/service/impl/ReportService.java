@@ -49,11 +49,11 @@ public class ReportService implements IReportService {
         a.setFinished(true);
         appointmentRepository.save(a);
         if(user.getRole().equals(Role.Values.Dermatologist))
-            reportRepository.save(new ExaminationReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
+            reportRepository.save(new ExaminationReport(new Date(), (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
                      pharmacyRepository.findById(reportDTO.getPharmacyId()).get()
                      ,ReportType.Values.Examination, reportDTO.getReportNotes(), (Dermatologist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
         else
-            reportRepository.save(new CounselingReport(new Date(), null, (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
+            reportRepository.save(new CounselingReport(new Date(), (Patient) userRepository.findById(reportDTO.getPatientId()).get(),
                     pharmacyRepository.findById(reportDTO.getPharmacyId()).get(),
                     ReportType.Values.Counseling, reportDTO.getReportNotes(), (Pharmacist) userRepository.findById(reportDTO.getMedicalStaffId()).get()));
 

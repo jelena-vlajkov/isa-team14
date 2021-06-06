@@ -17,7 +17,7 @@ public interface IPharmacyStorageService {
     void editMedicationAmount(Long medicationId,Long pharmacyId,Long amount);
     List<MedicationDTO> getMedicationsInPharmacy(long pharmacyId);
     void addNewMedicationsToStorage(Order order);
-    void addMedicationToPharmacy(Long medicationId,Long pharmacyId,Long amount);
+    void addMedicationToPharmacy(Long medicationCode,Long medicationId,Long pharmacyId,Long amount);
 
     List<PharmacyStorage> getAllPharmaciesByMedication(Long id);
 

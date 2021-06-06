@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.StorageAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyStorageDTO;
@@ -40,7 +41,8 @@ public class PharmacyStorageController {
     }
 
     @PostMapping(value = "/deleteMedicationFromStorage",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteMedicationFromPharmacy(@RequestParam("medicationId") Long medicationId,
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> deleteMedicationFromStorage(@RequestParam("medicationId") Long medicationId,
                                                           @RequestParam("pharmacyId") Long pharmacyId){
         try {
             pharmacyStorageService.deleteMedicationFromPharmacyStorage(medicationId,pharmacyId);
@@ -53,7 +55,8 @@ public class PharmacyStorageController {
     }
 
     @PostMapping(value = "/editMedicationAmount",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> deleteMedicationFromPharmacy(@RequestParam("medicationId") Long medicationId,
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> editMedicationAmount(@RequestParam("medicationId") Long medicationId,
                                                           @RequestParam("pharmacyId") Long pharmacyId,
                                                           @RequestParam("amount") Long amount){
         try {
@@ -67,11 +70,13 @@ public class PharmacyStorageController {
     }
 
     @PostMapping(value = "/addMedicationToStorage",consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addMedicationToPharmacy(@RequestParam("medicationId") Long medicationId,
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> addMedicationToPharmacy(@RequestParam("medicationCode") Long medicationCode,
+                                                     @RequestParam("medicationId") Long medicationId,
                                                      @RequestParam("pharmacyId") Long pharmacyId,
                                                      @RequestParam("amount") Long amount){
         try {
-            pharmacyStorageService.addMedicationToPharmacy(medicationId,pharmacyId,amount);
+            pharmacyStorageService.addMedicationToPharmacy(medicationCode,medicationId,pharmacyId,amount);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

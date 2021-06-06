@@ -30,6 +30,7 @@ public class PharmacyAdminController {
 
 
     @GetMapping(value = "/getPharmacyByAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> getPharmacyByPharmacyAdmin(@RequestParam("id") Long id) throws ParseException {
         return new ResponseEntity<>(pharmacyAdminService.getPharmacyByPharmacyAdmin(id),HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
 import com.atlaspharmacy.atlaspharmacy.generalities.service.IAddressService;
+import com.atlaspharmacy.atlaspharmacy.grade.service.impl.GradeService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
@@ -14,7 +15,6 @@ import com.atlaspharmacy.atlaspharmacy.users.DTO.PharmacistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Pharmacist;
 import com.atlaspharmacy.atlaspharmacy.users.domain.WorkDay;
 import com.atlaspharmacy.atlaspharmacy.users.exceptions.InvalidEmail;
-import com.atlaspharmacy.atlaspharmacy.users.mapper.AverageGradeMapper;
 import com.atlaspharmacy.atlaspharmacy.users.mapper.PharmacistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static java.util.Comparator.comparingInt;
 import static java.util.Comparator.comparingLong;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
@@ -43,10 +42,11 @@ public class PharmacistService implements IPharmacistService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
     private final IWorkDayService workDayService;
+    private final GradeService gradeService;
 
 
     @Autowired
-    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, IWorkDayService workDayService) {
+    public PharmacistService(PharmacistRepository pharmacistRepository, IPharmacyService pharmacyService, IAppointmentService appointmentService, AddressRepository addressRepository, PharmacyRepository pharmacyRepository, IAddressService addressService, UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, IWorkDayService workDayService, GradeService gradeService) {
         this.pharmacistRepository = pharmacistRepository;
         this.pharmacyService = pharmacyService;
         this.appointmentService = appointmentService;
@@ -57,6 +57,7 @@ public class PharmacistService implements IPharmacistService {
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.workDayService = workDayService;
+        this.gradeService = gradeService;
     }
 
     @Override
@@ -142,7 +143,7 @@ public class PharmacistService implements IPharmacistService {
         }
         for(Pharmacist p:pharmacistsToSearch)
         {
-            if(searchInput.toLowerCase().contains(p.getName().toLowerCase()) || searchInput.toLowerCase().contains(p.getSurname().toLowerCase())){
+            if(p.getName().toLowerCase().contains(searchInput.toLowerCase()) || p.getSurname().toLowerCase().contains(searchInput.toLowerCase())){
                 searchedPharmacists.add(p);
             }
         }
@@ -208,6 +209,7 @@ public class PharmacistService implements IPharmacistService {
     @Override
     public boolean deletePharmacist(Long pharmacistId) {
         if(!appointmentService.occupiedCounselingsExists(pharmacistId)){
+            gradeService.deleteGrade(pharmacistId, "PharmacistGrade");
             pharmacistRepository.delete(pharmacistRepository.findById(pharmacistId).get());
             return true;
         }

@@ -146,6 +146,7 @@ export class PatientExaminationComoponent {
       this.employeeService.addReport(report).subscribe(
         data => {
           alert("Successfully added report!");
+          a.finished = true;
         }, error => {
           alert(error);
         }
@@ -200,7 +201,7 @@ export class PatientExaminationComoponent {
           alert("Successfully scheduled appoinmtnet");
 
         }, error => {
-          alert(error);
+          alert("Patient probably has another appointment.");
         }
       )
     }
