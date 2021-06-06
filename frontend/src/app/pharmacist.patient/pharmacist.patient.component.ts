@@ -66,7 +66,9 @@ export class PharmacistPatientsComponent implements OnInit {
     this.employeeService.getAllPatientsByMedicalStaff(Number(localStorage.getItem('userId')), 'NONE').subscribe(
       result => {
         this.patients = result;
+        console.log(this.patients)
         for (let p of this.patients) {
+          console.log(p.upcomingAppointment)
           let date = this.datePipe.transform(p.dateOfBirth, 'dd.MM.yyyy.');
           p.dateOfBirthString = date;
           for (let app of p.previousAppointments) {

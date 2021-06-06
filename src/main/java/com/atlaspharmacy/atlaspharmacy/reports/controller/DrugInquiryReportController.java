@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.reports.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.ReportAuthorization;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugInquiryReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.SaveReportDTO;
@@ -42,6 +43,7 @@ public class DrugInquiryReportController {
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
     List<DrugInquiryReportDTO> getAll() throws ParseException {
         return drugInquiryService.getAll();

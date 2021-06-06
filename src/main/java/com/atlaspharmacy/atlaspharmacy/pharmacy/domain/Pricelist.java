@@ -8,6 +8,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "pricelists")
 public class Pricelist {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 1", nullable = false)
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -35,6 +39,14 @@ public class Pricelist {
         this.price = price;
         this.validPeriod = validPeriod;
         this.pharmacy = pharmacy;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public Long getId() {

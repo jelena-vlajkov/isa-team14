@@ -11,6 +11,7 @@ import {Sort} from '@angular/material/sort';
 import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
 import {PatientScheduleCounseling} from '@app/model/users/patient/PatientScheduleCounseling'
 import { Router } from '@angular/router';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-patient-schedule-counseling',
@@ -46,10 +47,13 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
   public choosenPharmacist : Pharmacist;
   public isPharmacistChosen : Boolean = false;
 
+
   constructor(private authenticationService : AuthenticationService, private formBuilder: FormBuilder, private patientService : PatientService, private router: Router) { }
 
   @ViewChild('stepper') stepper: MatStepper
-
+  @ViewChild(MatSort) sort: MatSort;
+  ngAfterViewInit() {
+  }
   ngOnInit(): void {
 
     this.maxDate = new Date();
@@ -70,7 +74,7 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
     });
   }
 
-  ngAfterViewInit() {}
+  
 
   patientLogOut(){
     this.authenticationService.logout();
@@ -120,12 +124,14 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
     }
 
     this.isOnPharmacistChoosing = false;
+   
   }
 
   choosePharmacy(pharmacy : Pharmacy) {
     this.chosenPharmacy = pharmacy;
     console.log(pharmacy);
     this.isPharmChosen = true;
+   
   }
 
   pharmacistChoose(pharmacist : Pharmacist) {
@@ -183,7 +189,26 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
 
 
   sortData(sort: Sort){
-    if(this.isOnPharmacistChoosing === true) {
+    
+    if (this.stepper.selectedIndex == 1) {
+      this.isOnPharmacistChoosing = false;
+      const data = this.pharmacies.slice();
+      if (!sort.active || sort.direction === '') {
+        this.pharmacies = data;
+        return;
+      }
+  
+      this.pharmacies = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);   
+          case 'price': return compare(a.counselingCost, b.counselingCost, isAsc);
+          default: return 0;
+        }
+       });
+    }
+
+    if(this.stepper.selectedIndex == 2) {
       const data = this.pharmacists.slice();
       if (!sort.active || sort.direction === '') {
         this.pharmacists = data;
@@ -203,20 +228,7 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
        });
     }
 
-    const data = this.pharmacies.slice();
-    if (!sort.active || sort.direction === '') {
-      this.pharmacies = data;
-      return;
-    }
-
-    this.pharmacies = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);   
-        case 'price': return compare(a.counselingCost, b.counselingCost, isAsc);
-        default: return 0;
-      }
-     });
+   
   }
 }
 

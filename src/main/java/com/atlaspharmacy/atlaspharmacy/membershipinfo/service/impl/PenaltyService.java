@@ -9,6 +9,8 @@ import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.reservations.repository.DrugReservationRepository;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,16 @@ public class PenaltyService implements IPenaltyService {
     private final AppointmentRepository appointmentRepository;
     private final PenaltyMedicationRepository penaltyMedicationRepository;
     private final DrugReservationRepository drugReservationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PenaltyService(PenaltyRepository penaltyRepository, AppointmentRepository appointmentRepository, PenaltyMedicationRepository penaltyMedicationRepository, DrugReservationRepository drugReservationRepository) {
+    public PenaltyService(PenaltyRepository penaltyRepository, AppointmentRepository appointmentRepository, PenaltyMedicationRepository penaltyMedicationRepository, DrugReservationRepository drugReservationRepository, UserRepository userRepository) {
         this.penaltyRepository = penaltyRepository;
         this.appointmentRepository = appointmentRepository;
         this.penaltyMedicationRepository = penaltyMedicationRepository;
         this.drugReservationRepository = drugReservationRepository;
+
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -36,12 +41,18 @@ public class PenaltyService implements IPenaltyService {
         if (!appointmentRepository.findById(penalty.getAppointment().getId()).isPresent()) {
             throw new Exception("Invalid request!");
         }
+        if (!userRepository.findById(penalty.getPatient().getId()).isPresent()) {
+            throw new Exception("Invalid request!");
+        }
 
         Appointment appointment = appointmentRepository.findById(penalty.getAppointment().getId()).get();
         appointment.setFinished(true);
         appointmentRepository.save(appointment);
+        Patient patient = (Patient) userRepository.findById(penalty.getPatient().getId()).get();
+        penalty.setPatient(patient);
 
         penalty.setGivenDate(new Date());
+        penalty.setAppointment(appointment);
         penaltyRepository.save(penalty);
     }
 

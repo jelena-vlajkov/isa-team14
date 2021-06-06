@@ -10,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "workdays")
 public class WorkDay {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

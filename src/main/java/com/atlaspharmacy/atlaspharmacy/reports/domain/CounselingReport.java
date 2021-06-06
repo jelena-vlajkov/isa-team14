@@ -21,8 +21,8 @@ public class CounselingReport extends Report {
         super();
     }
 
-    public CounselingReport(Date date, List<Medication> medication, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes, Pharmacist pharmacist) {
-        super(date, medication, patient, pharmacy, reportType, reportNotes);
+    public CounselingReport(Date date,  Patient patient, Pharmacy pharmacy, String reportType, String reportNotes, Pharmacist pharmacist) {
+        super(date, patient, pharmacy, reportType, reportNotes);
         this.pharmacist = pharmacist;
     }
 

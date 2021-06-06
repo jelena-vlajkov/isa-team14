@@ -45,11 +45,7 @@
                 </div>
               </mat-grid-tile>
               <mat-grid-tile>
-                <mat-form-field appearance="fill" id="address-ff">
-                  <mat-label>Address*</mat-label>
-                  <app-google-places style="background:transparent;border:none;" value="address">
-                    <input matInput id="address" placeholder="Address"  name="address-ff" (change)="saveAddress()"></app-google-places>
-                </mat-form-field>
+               <app-google-places></app-google-places>
               </mat-grid-tile>
 
               <mat-grid-tile>

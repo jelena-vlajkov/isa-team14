@@ -16,6 +16,7 @@ export class PatientEPrescriptionsComponent implements OnInit {
   constructor(private authenticationService : AuthenticationService, private patientService : PatientService) { }
 
   public prescriptions : EPrescription[] = new Array();
+  public numOfPenalty : Number;
   
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {
@@ -31,6 +32,10 @@ export class PatientEPrescriptionsComponent implements OnInit {
         alert('There is no prescriptions for you')
       }
       );
+
+
+      this.numOfPenalty = Number(localStorage.getItem("patientPenalty"));
+      console.log(this.numOfPenalty)
   }
 
   patientLogOut(){

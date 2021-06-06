@@ -92,16 +92,7 @@ public class EPrescriptionService implements IEPrescriptionService {
         ePrescription.setPharmacy(pharmacy);
         ePrescription.setPatient(patient);
         Medication m = medicationRepository.findById(dto.getMedicationId()).get();
-        try {
-            pharmacyStorageRepository.save(pharmacyStorage);
-        } catch (OptimisticEntityLockException e) {
-            PharmacyStorage ps = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(pharmacy.getId(), m.getId());
-            if (ps.getQuantity() == 0) {
-                throw new Exception("Invalid request");
-            }
-            ps.setQuantity(ps.getQuantity() - 1);
-            pharmacyStorageRepository.save(ps);
-        }
+
         ePrescriptionRepository.save(ePrescription);
 
         PrescribedDrug prescribedDrug = new PrescribedDrug();
@@ -111,7 +102,7 @@ public class EPrescriptionService implements IEPrescriptionService {
         prescribedDrug.setQuantity(new Long(dto.getTherapyDays()));
         prescribedDrug.setMedicalStaff((MedicalStaff) userRepository.findById(dto.getMedicalStaffId()).get());
         prescriptionRepository.save(prescribedDrug);
-        emailService.sendPrescribedDrug(patient, prescribedDrug);
+       // emailService.sendPrescribedDrug(patient, prescribedDrug);
     }
 
     public List<EPrescriptionDTO> getAllEPrescritpions(Long patientId) {

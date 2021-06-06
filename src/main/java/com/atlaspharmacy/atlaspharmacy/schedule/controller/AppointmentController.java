@@ -135,6 +135,8 @@ public class AppointmentController {
 
 
     @GetMapping(value = "/getAvailableExaminationsForDermatologist", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
+    @PatientAuthorization
     public @ResponseBody List<Examination> getAvailableExaminationsForDermatologist(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId) throws Exception {
        return appointmentService.findAvailableExaminationsForDermatologist(medicalStaffId,pharmacyId);
     }

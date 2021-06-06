@@ -143,7 +143,7 @@ public class PharmacistService implements IPharmacistService {
         }
         for(Pharmacist p:pharmacistsToSearch)
         {
-            if(searchInput.toLowerCase().contains(p.getName().toLowerCase()) || searchInput.toLowerCase().contains(p.getSurname().toLowerCase())){
+            if(p.getName().toLowerCase().contains(searchInput.toLowerCase()) || p.getSurname().toLowerCase().contains(searchInput.toLowerCase())){
                 searchedPharmacists.add(p);
             }
         }

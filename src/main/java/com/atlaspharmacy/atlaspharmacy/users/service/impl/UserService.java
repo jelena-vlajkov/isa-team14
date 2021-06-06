@@ -16,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
     public void updateEmployeePassFirstTime(EmployeeFirstTimeLoginDTO employeePassChange) throws Exception {
         if (!passwordEncoder.matches(employeePassChange.getRepnewpassword(), passwordEncoder.encode(employeePassChange.getNewpassword()))) {
             throw new Exception("Invalid repeated password!");

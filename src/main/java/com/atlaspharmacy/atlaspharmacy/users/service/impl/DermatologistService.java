@@ -3,6 +3,9 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
+import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
+import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.grade.service.impl.GradeService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -123,7 +126,7 @@ public class DermatologistService implements IDermatologistService {
             return dermatologistsToSearch;
         }
         for (Dermatologist d : dermatologistsToSearch) {
-            if (searchInput.toLowerCase().contains(d.getName().toLowerCase()) || searchInput.toLowerCase().contains(d.getSurname().toLowerCase())) {
+            if (d.getName().toLowerCase().contains(searchInput.toLowerCase()) || d.getSurname().toLowerCase().contains(searchInput.toLowerCase())) {
                 searchedDermatologists.add(d);
             }
         }
@@ -219,6 +222,8 @@ public class DermatologistService implements IDermatologistService {
         return uniqueDermatologists;
 
     }
+
+
 
 
 }

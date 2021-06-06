@@ -20,8 +20,8 @@ public class ExaminationReport extends Report {
         super();
     }
 
-    public ExaminationReport(Date date, List<Medication> medication, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes, Dermatologist dermatologist) {
-        super(date, medication, patient, pharmacy, reportType, reportNotes);
+    public ExaminationReport(Date date, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes, Dermatologist dermatologist) {
+        super(date, patient, pharmacy, reportType, reportNotes);
         this.dermatologist = dermatologist;
     }
 

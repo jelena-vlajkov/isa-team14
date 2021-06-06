@@ -49,7 +49,7 @@ export class UnauthenticatedUserComponent implements AfterViewInit {
           this.router.navigate(["/dashboard"])
         }
         if (user.role ==='PharmacyAdmin'){
-          this.router.navigate(["/pharmacy-admin-profile"])
+          this.router.navigate(["/pharmacyAdmin-profile"])
         }
       }
     }

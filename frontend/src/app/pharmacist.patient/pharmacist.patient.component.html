@@ -59,7 +59,7 @@
                 </mat-card-header>
             </mat-card-title> 
             <mat-card-content style="margin-top: 30px; margin-left: 20px; display: flex;">
-                <form [formGroup]="searchPatientsForm" (ngSubmit)="searchPatients()">
+                <form [formGroup]="searchPatientsForm">
                     <mat-form-field class="example-full-width">
                         <mat-label>By name and surname</mat-label>
                         <input matInput formControlName="name" type="search" placeholder="Name and surname">
@@ -115,10 +115,10 @@
                     <mat-expansion-panel  style="margin-top:20px;" >
                         <mat-expansion-panel-header>
                         <mat-panel-title *ngIf="isPharmacist">
-                            Previously scheduled counselings
+                            All scheduled counselings
                         </mat-panel-title>
                         <mat-panel-title *ngIf="!isPharmacist">
-                            Previously scheduled examinations
+                            All scheduled examinations
                         </mat-panel-title>
                         
                         </mat-expansion-panel-header>

@@ -23,4 +23,7 @@ public interface WorkDayRepository extends JpaRepository<WorkDay, Long> {
 
     @Query(value = "SELECT w FROM WorkDay w WHERE w.disabled = false")
     List<WorkDay> findAllNonDisabled();
+
+    @Query(value = "SELECT w FROM WorkDay w WHERE w.medicalStaff.id = ?1 AND w.date > current_date AND w.pharmacy.id = ?2")
+    List<WorkDay> findUpcomingByStaff(Long medicalStaffId, Long pharmacyId);
 }

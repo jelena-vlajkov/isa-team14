@@ -13,6 +13,8 @@ import { CreaeteReservation } from '@app/model/pharmderm/createreservation';
 import { CreatePenalty } from '@app/model/pharmderm/createpenalty';
 import { SaveReport } from '@app/model/pharmderm/createreport';
 import { PatientAppointmentDTO } from '@app/model/pharmderm/patientappointmentdto';
+import { WorkDay } from '@app/model/schedule/workDay';
+import { PrescribeMedication } from '@app/model/pharmderm/prescribemeds';
 
 @Component({
   selector: 'pharmacist-reports',
@@ -33,6 +35,8 @@ export class PharmacistAddReportComponent {
     public showSearchResultsForMedications : boolean;
     public addReportForm : FormGroup;
     public todaysDateDate : Date;
+    public pharmacyId : Number;
+    public workdays : WorkDay[];
 
     
 
@@ -43,6 +47,7 @@ export class PharmacistAddReportComponent {
       if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
         this.router.navigate(["/employee-welcome"]);
       }
+   
 
       this.todaysDateDate = new Date();
       this.todaysDateDate.setDate(this.todaysDateDate.getDate() + 1);
@@ -56,6 +61,7 @@ export class PharmacistAddReportComponent {
             appointment.prescribedMedications = [];
             appointment.canAddPenalty = true;
             console.log(appointment.finished)
+            this.pharmacyId = appointment.pharmacyId;
           }
           this.showSearchResults = false;
           this.searchAppointmentForm = new FormGroup({
@@ -67,6 +73,11 @@ export class PharmacistAddReportComponent {
           })
           
           console.log(this.addReportForm)
+          this.employeeService.getUpcomingWorkDay(Number(localStorage.getItem("userId")), this.pharmacyId).subscribe(
+            data => {
+              this.workdays = data;
+            }
+          );
 
         }, 
         error => {
@@ -77,6 +88,21 @@ export class PharmacistAddReportComponent {
           'details' : new FormControl(""),
       
         })
+
+        
+    }
+
+    myFilter = (d: Date | null): boolean => {
+
+
+      const day = (d || new Date()).getTime();
+      for (let w of this.workdays) {
+        let time = new Date(w.date).getTime();
+        if (time === day) {
+          return true;
+        }
+      }
+      return false;
     }
 
     isPharmacist() {
@@ -111,10 +137,9 @@ export class PharmacistAddReportComponent {
       report.patientId = a.patientId;
       report.pharmacyId = a.pharmacyId;
       report.reportNotes = a.reportNotes;
+      report.appointmentId = a.id;
       this.employeeService.addReport(report).subscribe(
         data => {
-          this.employeeService.finishAppointment(a.id).subscribe(
-            data => {
               alert("Successfully added report!");
               a.finished = true;
 
@@ -122,11 +147,7 @@ export class PharmacistAddReportComponent {
               alert(error)
             }
           )
-        }, error => {
-          alert(error);
         }
-      )
-    }
 
     recommendSimilar(medication : MedicationsToRecommend, a : Appointment) {
       console.log(medication)
@@ -176,7 +197,7 @@ export class PharmacistAddReportComponent {
           alert("Successfully scheduled appoinmtnet");
 
         }, error => {
-          alert(error);
+          alert("Patient probably has another appointment.");
         }
       )
     }
@@ -197,6 +218,14 @@ export class PharmacistAddReportComponent {
           alert("Successfully prescribed medication for patient!");
         }, error => {
           alert(error);
+        }
+      )
+
+      this.employeeService.prescribeMedication(reservation).subscribe(
+        response => {
+          
+        }, error => {
+          alert(error)
         }
       )
     }

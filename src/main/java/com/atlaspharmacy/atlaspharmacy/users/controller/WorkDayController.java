@@ -1,5 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.users.controller;
 
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.DermatologistDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.SupplierDTO;
 import com.atlaspharmacy.atlaspharmacy.users.DTO.WorkDayDTO;
@@ -33,6 +34,7 @@ public class WorkDayController {
     }
 
     @PostMapping(value = "/addWorkDay", consumes =  MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public ResponseEntity<?> addWorkDay(@RequestBody WorkDayDTO workDayDTO) throws InvalidEmail, ParseException {
         try {
             workDayService.addWorkday(workDayDTO);
@@ -45,9 +47,16 @@ public class WorkDayController {
     }
 
     @GetMapping(value = "/getByMedicalStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PharmacyAdminAuthorization
     public @ResponseBody
     List<WorkDayDTO> getByMedicalStaff(@RequestParam("medicalStaffId") Long medicalStaffId){
         return  WorkDayMapper.mapToListDTO(workDayService.getBy(medicalStaffId));
+    }
+
+    @GetMapping(value = "/getUpcomingByStaff", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    List<WorkDayDTO> getUpcomingByStaff(@RequestParam("medicalStaffId") Long medicalStaffId, @RequestParam("pharmacyId") Long pharmacyId){
+        return  WorkDayMapper.mapToListDTO(workDayService.getUpcomingStaff(medicalStaffId, pharmacyId));
     }
 
 

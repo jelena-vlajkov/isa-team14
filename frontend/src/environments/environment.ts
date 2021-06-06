@@ -173,7 +173,8 @@ export const environment = {
   grade : "grade",
   getAllGradesByPatient : "getAllGradesByPatient",
   patientScheduleExamination : "patientScheduleExamination",
-  getNumberOfPatientPenalties : "getNumberOfPatientPenalties"
+  getNumberOfPatientPenalties : "getNumberOfPatientPenalties",
+  getUpcomingWorkDays : "getUpcomingByStaff"
 
 };
 

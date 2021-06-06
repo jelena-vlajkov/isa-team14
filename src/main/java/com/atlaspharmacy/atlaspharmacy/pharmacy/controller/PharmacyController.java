@@ -2,6 +2,7 @@ package com.atlaspharmacy.atlaspharmacy.pharmacy.controller;
 
 import com.atlaspharmacy.atlaspharmacy.customannotations.AppointmentAuthorization;
 import com.atlaspharmacy.atlaspharmacy.customannotations.PatientAuthorization;
+import com.atlaspharmacy.atlaspharmacy.customannotations.PharmacyAdminAuthorization;
 import com.atlaspharmacy.atlaspharmacy.medication.DTO.MedicationDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.DTO.PharmacyDTO;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
@@ -103,9 +104,15 @@ public class PharmacyController {
     }
 
     @PostMapping(value = "/editPharmacy", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.OK)
-    public void editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
-        pharmacyService.editPharmacy(pharmacyDTO);
+    @PharmacyAdminAuthorization
+    public ResponseEntity<?> editPharmacy(@RequestBody PharmacyDTO pharmacyDTO) throws InvalidPharmacyData, ParseException{
+        try{
+            pharmacyService.editPharmacy(pharmacyDTO);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping(value = "/getAll", produces = MediaType.APPLICATION_JSON_VALUE)

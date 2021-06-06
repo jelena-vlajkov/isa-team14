@@ -262,7 +262,7 @@ public class AppointmentService implements IAppointmentService {
                 for (AppointmentDTO a : dto.getPreviousAppointments()) {
                     if (a.getStartTime().getYear() == searchParametersDTO.getDate().getYear() &&
                         a.getStartTime().getMonth() == searchParametersDTO.getDate().getMonth() &&
-                            a.getStartTime().getDay() == searchParametersDTO.getDate().getDay()) {
+                            a.getStartTime().getDate() == searchParametersDTO.getDate().getDate()) {
                         retVal.add(dto);
                         break;
                     }
@@ -486,6 +486,8 @@ public class AppointmentService implements IAppointmentService {
                 p.setPatientId(a.getPatient().getId());
                 p.setName(a.getPatient().getName());
                 p.setSurname(a.getPatient().getSurname());
+                p.setGender(a.getPatient().getGender());
+                p.setDateOfBirth(a.getPatient().getDateOfBirth());
                 appointmentDTOS = p.getPreviousAppointments();
                 appointmentDTOS.add(AppointmentMapper.mapAppointmentToDTO(a));
                 p.setPreviousAppointments(appointmentDTOS);
@@ -501,6 +503,7 @@ public class AppointmentService implements IAppointmentService {
 
         for (PatientsOverviewDTO po : retVal) {
             mapPrescribedDrugsToDTO(po);
+            po.setUpcomingAppointment(findUpcomingAppointments(po.getPatientId(), medicalStaffId));
         }
 
         return retVal;
@@ -601,7 +604,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<Appointment> getOccupiedBy(Long medicalStaffId) {
-        return appointmentRepository.findAll()
+        return appointmentRepository.findAllSorted()
                 .stream()
                 .filter(appointment -> appointment.isMedicalStaff(medicalStaffId))
                 .collect(Collectors.toList());
@@ -695,7 +698,7 @@ public class AppointmentService implements IAppointmentService {
        List<Appointment> allAppointments=appointmentRepository.findAll();
        int counter=0;
        for(Appointment a:allAppointments){
-           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId)){
+           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId) && a.isFinished()){
                counter++;
            }
        }

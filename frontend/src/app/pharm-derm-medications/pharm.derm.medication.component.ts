@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {AfterViewInit, Component, ViewChild, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Form, Validators} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
@@ -10,7 +11,7 @@ import { PharmacistService } from '@app/service/pharmacist/pharmacist.service';
 import {AuthenticationService} from '../service/user/authentication.service'
 
 @Component({
-  selector: 'pharmacist-reports',
+  selector: 'pharmderm-medications',
   templateUrl: './pharm.derm.medication.component.html',
   styleUrls: ['./pharm.derm.medication.component.css']
 })
@@ -20,7 +21,7 @@ export class PharmDermMedicationsComponent {
     public searchForm : FormGroup;
     public showResults : boolean;
     public issueAvailable : boolean;
-    constructor(private authService  : AuthenticationService, private router : Router, private pharmacistService : PharmacistService) {}
+    constructor(private authService  : AuthenticationService, private router : Router, private pharmacistService : PharmacistService, private datePipe : DatePipe) {}
     @ViewChild(MatPaginator) paginator: MatPaginator;
     
     ngOnInit() {
@@ -56,6 +57,7 @@ export class PharmDermMedicationsComponent {
       this.pharmacistService.getReservationsByUniqueIdentifier(id, Number(localStorage.getItem("userId"))).subscribe(
         data => {
           this.reservation = data;
+          this.reservation.expirationDateString = this.datePipe.transform(this.reservation.expirationDate, 'dd.MM.yyyy.');
           console.log("ASDASDsa")
           this.showResults  = true;
           console.log(this.reservation)
@@ -83,7 +85,7 @@ export class PharmDermMedicationsComponent {
         this.pharmacistService.issueReservation(issueReservation).subscribe(
           data => {
             alert("Successfully issued reservation!")
-            this.showResults  = true;
+            this.showResults  = false;
             this.issueAvailable = false;
           },
           error => {

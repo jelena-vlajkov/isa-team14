@@ -80,7 +80,7 @@
                             <span *ngIf="isPharmChosen">
                                 <label >Your pharm: {{chosenPharmacy.name}}</label>
                             </span>
-                            <table matSort  class="fl-table">
+                            <table matSort (matSortChange)="sortData($event)"  class="fl-table">
                                 <thead>
                                 <tr>
                                     <th >Name</th>

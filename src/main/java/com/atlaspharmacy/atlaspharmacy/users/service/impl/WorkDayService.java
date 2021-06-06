@@ -13,6 +13,7 @@ import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,12 +55,13 @@ public class WorkDayService implements IWorkDayService {
 
 
     @Override
+    @Transactional
     public void addWorkday(WorkDayDTO workDayDTO) throws Exception {
         WorkDay workDay=new WorkDay();
         workDay.setPharmacy(pharmacyRepository.findById(workDayDTO.getPharmacy().getId()).get());
         List<VacationRequest> vacationRequest = vacationRequestRepository.getVacationRequestBy(workDayDTO.getMedicalStaff().getId(), workDayDTO.getDate());
 
-        if (vacationRequest.size() == 0) {
+        if (vacationRequest.size() > 0) {
             throw new Exception("Invalid request for adding work day! Staff already has vacation request.");
         }
 
@@ -92,6 +94,11 @@ public class WorkDayService implements IWorkDayService {
         }
 
         return  workingInRange;
+    }
+
+    @Override
+    public List<WorkDay> getUpcomingStaff(Long medicalStaffId, Long pharmacyId) {
+        return workDayRepository.findUpcomingByStaff(medicalStaffId, pharmacyId);
     }
 
     @Override

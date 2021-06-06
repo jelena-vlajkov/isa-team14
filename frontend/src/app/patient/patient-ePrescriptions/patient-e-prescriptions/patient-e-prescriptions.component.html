@@ -36,7 +36,7 @@
             </mat-toolbar>
             
             <div class="table-wrapper">
-                <table matSort (matSortChange)="sortData($event)" class="fl-table">
+                <table *ngIf="3 > numOfPenalty || numOfPenalty == undefined" matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
                     <tr>
                         <th>Type of ePrescriptions</th>
@@ -60,6 +60,7 @@
                     
                     <tbody>
                 </table>
+                <h3 *ngIf="numOfPenalty > 3">U have 3 or more penalties and you cant reach list of e-prescriptions</h3>
             </div>
       </mat-drawer-content>
 
