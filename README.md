@@ -13,7 +13,7 @@ with Pharmacists and Dermatologists, managing Users and their records.
 
 ### Docker Hub Image: [Docker Hub Repository](https://hub.docker.com/repository/docker/jelenavlajkov/atlaspharmacy)
 
-### Heroku deployment: [Heroku Link](https://psw-devteam.herokuapp.com/)
+### Heroku deployment: [Heroku](https://psw-devteam.herokuapp.com/)
 
 
 | Students | Team 14 |
@@ -25,7 +25,12 @@ with Pharmacists and Dermatologists, managing Users and their records.
 
 ## Jobs done for this deadline:
 
-Student 4 has done his tasks that are meeting criteria for the lowest passing grade. With the code there is also a class diagram done in Power designer. Student 4 can only guarantee for his part of the model in the class diagram, while the rest has been done using a mixture of the first draft of the model and with classes later modified by other students before they gave up. Model in pdf format is located in class_diagram floder.
+Student 2 and Student 3 (Danica and Jelena) have done tasks for the highest passing grade, meaning that the scalability and concurrency files are in the folder pdfs. 
+
+For testing, we recommend using users with ids 100 for Dermatologist (username: vlajkovj@gmail.com), 900 for Pharmacist (username: vlajkovn@gmail), 1500 for Patients (username: stefan.aradjanin@gmail.com), 
+1400 for PharmacyAdmin (username: vojvodicd@gmail.com).
+
+Most of the scheduled appointments are in pharmacy with id 100 (Apoteka Jankovic).
 
 ## How to run
 
