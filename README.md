@@ -28,7 +28,7 @@ with Pharmacists and Dermatologists, managing Users and their records.
 Student 2 and Student 3 (Danica and Jelena) have done tasks for the highest passing grade, meaning that the scalability and concurrency files are in the folder pdfs, while Student 1 (Stefan) has done all his functionalities.
 
 For testing, we recommend using users with ids 100 for Dermatologist (username: vlajkovj@gmail.com), 900 for Pharmacist (username: vlajkovn@gmail.com), 1500 for Patients (username: stefan.aradjanin@gmail.com), 
-1400 for PharmacyAdmin (username: vojvodicd@gmail.com).
+1400 for PharmacyAdmin (username: vojvodicd@gmail.com). All passwords are 12345.
 
 Most of the scheduled appointments are in pharmacy with id 100 (Apoteka Jankovic).
 
