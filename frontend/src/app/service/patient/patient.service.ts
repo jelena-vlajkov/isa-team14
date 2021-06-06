@@ -7,7 +7,6 @@ import { Appointment } from '@app/model/appointment/appointment';
 import { EPrescription } from '@app/model/medications/ePrescription';
 import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
-import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
 import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
