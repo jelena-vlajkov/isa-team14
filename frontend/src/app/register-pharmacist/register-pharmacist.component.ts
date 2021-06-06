@@ -122,7 +122,7 @@ export class RegisterPharmacistComponent implements OnInit {
   deletePharmacist(id: Number) {
     this.appointmentService.occupiedCounselingsExists(id).subscribe(result=>{
       if(!result){
-        this.pharmacistService.deletePharmacist(id).subscribe(result => {
+        this.pharmacistService.deletePharmacist(id,this.pharmacy.id).subscribe(result => {
           this.getPharmacistByPharmacy();
         });
       }
@@ -181,11 +181,10 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   registerPharmacistSubmitted() {
-  if (this.googleplaces.address === undefined) {
+  if (this.pharamcistAddress === undefined) {
       alert('Wrong address input. Please add an address.');
    } else {
     // console.log(this.googleplaces.address)
-     console.log(this.pharamcistAddress)
       let pharmacist = new Pharmacist(null, this.addPharmacist.value.name, this.addPharmacist.value.surname
         , this.addPharmacist.value.dob, this.addPharmacist.value.telephone, this.addPharmacist.value.mail
         , this.addPharmacist.value.password, this.addPharmacist.value.gender, null, null

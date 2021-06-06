@@ -10,6 +10,8 @@ import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
 import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugInquiryReportDTO;
+import com.atlaspharmacy.atlaspharmacy.reports.service.impl.DrugInquiryReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +28,14 @@ public class MedicalRecordService implements IMedicalRecordService {
     private final MedicalRecordRepository medicalRecordRepository;
     private final MedicationRepository medicationRepository;
     private final IPharmacyStorageService pharmacyStorageService;
+    private final DrugInquiryReportService drugInquiryReportService;
 
     @Autowired
-    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository, MedicationRepository medicationRepository, IPharmacyStorageService pharmacyStorageService) {
+    public MedicalRecordService(MedicalRecordRepository medicalRecordRepository, MedicationRepository medicationRepository, IPharmacyStorageService pharmacyStorageService, DrugInquiryReportService drugInquiryReportService) {
         this.medicalRecordRepository = medicalRecordRepository;
         this.medicationRepository = medicationRepository;
         this.pharmacyStorageService = pharmacyStorageService;
+        this.drugInquiryReportService = drugInquiryReportService;
     }
 
     @Override
@@ -106,6 +110,7 @@ public class MedicalRecordService implements IMedicalRecordService {
             }
 
             if (addMedication && !pharmacyStorageService.isMedicationInPharmacy(m.getCode(), pharmacyId)) {
+                drugInquiryReportService.addDrugInquiry(new DrugInquiryReportDTO(new Date(), MedicationMapper.convertToMedicationDTO(m)));
                 MedicationToRecommendDTO dto = new MedicationToRecommendDTO();
                 dto.setId(m.getId());
                 dto.setName(m.getName());

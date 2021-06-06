@@ -68,6 +68,9 @@
             </mat-card-header>
         </mat-card>
         <mat-card style="height: fit-content; width: 1000px; justify-content: center;">
+            <div *ngIf="showNoResults">
+                No appointments for today.
+            </div>
             <mat-tab-group style="height: fit-content; width: 950px; margin-left: 10px; justify-content: center;">
                 <div *ngFor="let a of appointments">
 
@@ -217,7 +220,7 @@
                             <ng-container matColumnDef="#" style="margin-left: 80px;">
                                 <th mat-header-cell *matHeaderCellDef> # </th>
                                 <td mat-cell *matCellDef="let element"> 
-                                    <button mat-raised-button color="primary" style="margin-left: 10px;" id="button" (click)="scheduleAppointment(element, a)"  >Schedule</button>
+                                    <button mat-raised-button color="primary" style="margin-left: 10px;" id="button" [disabled]="element.disabled" (click)="scheduleAppointment(element, a)"  >Schedule</button>
                                 </td>
                             </ng-container>
                                     

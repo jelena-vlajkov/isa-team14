@@ -37,6 +37,7 @@ export class PharmacistAddReportComponent {
     public todaysDateDate : Date;
     public pharmacyId : Number;
     public workdays : WorkDay[];
+    public showNoResults : boolean = false;
 
     
 
@@ -57,6 +58,7 @@ export class PharmacistAddReportComponent {
         data => {
           this.appointments = data;
           for(let appointment of this.appointments) {
+            this.showNoResults = false;
             appointment.startDateString = this.datePipe.transform(appointment.startTime, 'hh:mm');
             appointment.prescribedMedications = [];
             appointment.canAddPenalty = true;
@@ -73,11 +75,16 @@ export class PharmacistAddReportComponent {
           })
           
           console.log(this.addReportForm)
-          this.employeeService.getUpcomingWorkDay(Number(localStorage.getItem("userId")), this.pharmacyId).subscribe(
-            data => {
-              this.workdays = data;
-            }
-          );
+          if (this.pharmacyId !== undefined) {
+            this.employeeService.getUpcomingWorkDay(Number(localStorage.getItem("userId")), this.pharmacyId).subscribe(
+              data => {
+                this.workdays = data;
+              }
+            );
+
+          } else {
+            this.showNoResults = true;
+          }
 
         }, 
         error => {
@@ -182,6 +189,7 @@ export class PharmacistAddReportComponent {
 
     scheduleAppointment(a : Appointment, app : Appointment) {
       console.log(a)
+      a.disabled = true;
       let schedule = new Appointment();
       schedule.startTime = a.startTime;
       schedule.endTime = a.endTime;
@@ -197,6 +205,7 @@ export class PharmacistAddReportComponent {
           alert("Successfully scheduled appoinmtnet");
 
         }, error => {
+          a.disabled = false;
           alert("Patient probably has another appointment.");
         }
       )
@@ -250,6 +259,8 @@ export class PharmacistAddReportComponent {
             for (let a of availableapps) {
               a.startDateString = this.datePipe.transform(a.startTime, 'hh:mm');
               a.endDateString = this.datePipe.transform(a.endTime, 'hh:mm');
+              a.disabled = false;
+            
             }
 
             a.availableAppointment = availableapps;

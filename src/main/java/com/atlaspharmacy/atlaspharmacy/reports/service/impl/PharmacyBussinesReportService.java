@@ -55,9 +55,11 @@ public class PharmacyBussinesReportService implements IPharmacyBussinesReportSer
         List<DrugConsumptionDTO> allDrugConsumptionsForPeriod=getDrugsConsumptionReportForPharmacyAndPeriod(pharmacyPeriodReportDTO);
         Long totalIncome=0L;
         for(DrugConsumptionDTO drugConsumption:allDrugConsumptionsForPeriod) {
-            PricelistDTO medicationPricelist=pricelistService.getPricelistByMedicationAndPeriod(drugConsumption.getMedication().getCode(), pharmacyPeriodReportDTO.getPeriod());
-            totalIncome+=drugConsumption.getNumberOfIssued()*medicationPricelist.getPrice();
-        }
+            Pricelist medicationPricelist=pricelistService.getPricelistForMedicationAndPharmacyAndPeriod(drugConsumption.getMedication().getCode(),pharmacyPeriodReportDTO.getPharmacyId(), pharmacyPeriodReportDTO.getPeriod().getStartPeriod(), pharmacyPeriodReportDTO.getPeriod().getEndPeriod());
+            if(medicationPricelist!=null) {
+                totalIncome += drugConsumption.getNumberOfIssued() * medicationPricelist.getPrice();
+            }
+            }
         return totalIncome;
 
     }
@@ -70,9 +72,7 @@ public class PharmacyBussinesReportService implements IPharmacyBussinesReportSer
         calendar.setTime(startDate);
         int day = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         Date endDate = new Date(year-1900, month - 1, day);
-        return drugReservationService
-                .findAllIssuedReservationsForPharmacyAndPeriod(pharmacyId, new PeriodDTO(startDate,endDate)).stream().count();
-
+        return drugReservationService.findAllIssuedReservationsForPharmacyAndPeriod(pharmacyId, new PeriodDTO(startDate,endDate)).stream().count();
     }
 
     @Override

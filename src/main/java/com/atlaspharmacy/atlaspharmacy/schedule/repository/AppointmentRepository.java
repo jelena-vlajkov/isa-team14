@@ -25,11 +25,20 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT a FROM Appointment a WHERE a.pharmacy.id = ?1")
     List<Appointment> findAllAppointmentsByPharmacy(Long pharmacyId);
 
+    @Query(value = "SELECT a FROM Examination a WHERE a.pharmacy.id = ?1 AND a.dermatologist.id = ?2")
+    List<Appointment> getAllExaminationsByPharmacyAndDermatologist(Long pharmacyId,Long medicalStaffId);
+
+    @Query(value = "SELECT a FROM Counseling a WHERE a.pharmacy.id = ?1 AND a.pharmacist.id = ?2")
+    List<Appointment> getAllCounselingsByPharmacyAndPharmacist(Long pharmacyId,Long medicalStaffId);
+
     @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?1 AND a.isCanceled = false")
     List<Appointment> findAppointmentsByPatient(Long patientId);
 
     @Query(value = "SELECT a FROM Appointment a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false ORDER BY a.appointmentPeriod.startTime ASC")
     List<Appointment> getAppointmentsByDate(Date date);
+
+    @Query(value = "SELECT a FROM Examination a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false AND a.appointmentPeriod.endTime <= current_date AND a.pharmacy.id = ?2")
+    List<Appointment> getAppointmentsByDateForBusinessReports(Date date,Long pharmacyId);
 
     @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?2 AND CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
     List<Appointment> getAppointmentByDateAndPatient(Date date, Long patientId);

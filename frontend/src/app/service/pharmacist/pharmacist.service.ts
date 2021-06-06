@@ -37,8 +37,8 @@ export class PharmacistService {
   registerPharmacist(pharmacist:Pharmacist):Observable<Pharmacist> {
     return this.http.post<Pharmacist>(`${environment.baseUrl}/${environment.pharmacist}/${environment.registerPharmacist}`, pharmacist);
   }
-  deletePharmacist(pharmacistId:Number) {
-    return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.deletePharmacist}?pharmacistId=${pharmacistId}`,null);
+  deletePharmacist(pharmacistId:Number,pharmacyId:Number) {
+    return this.http.post(`${environment.baseUrl}/${environment.pharmacist}/${environment.deletePharmacist}?pharmacistId=${pharmacistId}&pharmacyId=${pharmacyId}`,null);
   }
   getById(id:Number) : Observable<Pharmacist> {
     return this.http.get<Pharmacist>(`${environment.baseUrl}/${environment.pharmacist}/${environment.getById}?pharmacistId=${id}`);

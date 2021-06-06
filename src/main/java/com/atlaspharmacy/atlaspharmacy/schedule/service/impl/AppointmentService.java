@@ -23,6 +23,7 @@ import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository
 import com.atlaspharmacy.atlaspharmacy.schedule.service.IAppointmentService;
 import com.atlaspharmacy.atlaspharmacy.users.domain.*;
 import com.atlaspharmacy.atlaspharmacy.users.domain.enums.Role;
+import com.atlaspharmacy.atlaspharmacy.users.repository.PharmacistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IEmailService;
 import com.atlaspharmacy.atlaspharmacy.users.service.impl.WorkDayService;
@@ -63,7 +64,7 @@ public class AppointmentService implements IAppointmentService {
         this.penaltyService = penaltyService;
     }
 
-
+    @Transactional
     @Override
     public Appointment scheduleCounseling(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
@@ -77,8 +78,11 @@ public class AppointmentService implements IAppointmentService {
             counseling.setCost(pharmacyPricelistService.counselingCost(appointmentDTO.getPharmacyId()));
 
             try {
-                userRepository.save(pharmacist);
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
                 appointmentRepository.save(counseling);
+                userRepository.save(pharmacist);
                 emailService.successfullyScheduledCounseling(counseling);
             } catch(Exception e) {
                 if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
@@ -86,13 +90,14 @@ public class AppointmentService implements IAppointmentService {
                 }
                 appointmentRepository.save(counseling);
                 emailService.successfullyScheduledCounseling(counseling);
+                throw new AppointmentNotFreeException();
             }
 
             return counseling;
         }
         throw new AppointmentNotFreeException();
     }
-
+    @Transactional
     @Override
     public Appointment scheduleExamination(ScheduleAppointmentDTO appointmentDTO) throws Exception {
         if (isTimeValid(appointmentDTO.getStartTime(), appointmentDTO.getMedicalStaffId())) {
@@ -106,6 +111,9 @@ public class AppointmentService implements IAppointmentService {
 
 
             try {
+                if (appointmentRepository.overlappingExaminations(appointmentDTO.getStartTime(), appointmentDTO.getEndTime(), appointmentDTO.getMedicalStaffId()).size() != 0) {
+                    throw new AppointmentNotFreeException();
+                }
                 userRepository.save(dermatologist);
                 appointmentRepository.save(counseling);
                 emailService.successfullyScheduledAppointment(counseling);
@@ -368,6 +376,23 @@ public class AppointmentService implements IAppointmentService {
             numberOfScheduled.add(getNumberOfAppointmentsForYear(i,pharmacyId));
         }
         return numberOfScheduled;
+    }
+
+    @Override
+    public void deleteAllExaminationsForDermatologistAndPharmacy(Long medicalStaffId, Long pharmacyId) {
+            List<Appointment> appointments = appointmentRepository.getAllExaminationsByPharmacyAndDermatologist(pharmacyId,medicalStaffId);
+            for(Appointment a:appointments){
+                appointmentRepository.delete(a);
+            }
+
+    }
+
+    @Override
+    public void deleteAllCounselingsForPharmacistAndPharmacy(Long medicalStaffId, Long pharmacyId) {
+            List<Appointment> appointments =appointmentRepository.getAllCounselingsByPharmacyAndPharmacist(pharmacyId,medicalStaffId);
+             for(Appointment a:appointments){
+                appointmentRepository.delete(a);
+            }
     }
 
     private List<PatientsOverviewDTO> findPatientsByPharmacist(Long medicalStaffId, SortingType sortingType) throws Exception {
@@ -695,16 +720,8 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public int getNumberOfScheduledByDate(Date date,Long pharmacyId) {
-       List<Appointment> allAppointments=appointmentRepository.findAll();
-       int counter=0;
-       for(Appointment a:allAppointments){
-           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId) && a.isFinished()){
-               counter++;
-           }
-       }
-         return counter;
-         //List<Appointment> allAppointments=appointmentRepository.getAllAppointmentsByDateForSpecificType(date, AppointmentType.Values.Examination);
-         //return allAppointments.size();
+       return appointmentRepository.getAppointmentsByDateForBusinessReports(date,pharmacyId).size();
+
     }
 
     @Override

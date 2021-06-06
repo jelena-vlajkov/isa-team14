@@ -1,6 +1,7 @@
 package com.atlaspharmacy.atlaspharmacy.reservations.service.impl;
 
 import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
+import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.medication.repository.MedicationRepository;
 import com.atlaspharmacy.atlaspharmacy.medication.service.IEPrescriptionService;
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.impl.PenaltyService;
@@ -9,7 +10,9 @@ import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.PharmacyStorage;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.repository.PharmacyStorageRepository;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.service.IPharmacyStorageService;
+import com.atlaspharmacy.atlaspharmacy.reports.DTO.DrugInquiryReportDTO;
 import com.atlaspharmacy.atlaspharmacy.reports.DTO.PeriodDTO;
+import com.atlaspharmacy.atlaspharmacy.reports.service.impl.DrugInquiryReportService;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.CreateDrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.DrugReservationDTO;
 import com.atlaspharmacy.atlaspharmacy.reservations.DTO.PatientDrugReservationDTO;
@@ -44,10 +47,11 @@ public class DrugReservationService implements IDrugReservationService {
     private final IEPrescriptionService prescriptionService;
     private final PharmacyStorageRepository pharmacyStorageRepository;
     private final PenaltyService penaltyService;
+    private final DrugInquiryReportService drugInquiryReportService;
 
     @Autowired
     public DrugReservationService(DrugReservationRepository drugReservationRepository, IPharmacyStorageService pharmacyStorageService, MedicationRepository medicationRepository, PharmacyRepository pharmacyRepository, UserRepository userRepository, EmailService emailService,
-                                  IEPrescriptionService prescriptionService, PharmacyStorageRepository pharmacyStorageRepository, PenaltyService penaltyService) {
+                                  IEPrescriptionService prescriptionService, PharmacyStorageRepository pharmacyStorageRepository, PenaltyService penaltyService, DrugInquiryReportService drugInquiryReportService) {
         this.drugReservationRepository = drugReservationRepository;
         this.pharmacyStorageService = pharmacyStorageService;
         this.medicationRepository = medicationRepository;
@@ -57,6 +61,7 @@ public class DrugReservationService implements IDrugReservationService {
         this.prescriptionService = prescriptionService;
         this.pharmacyStorageRepository = pharmacyStorageRepository;
         this.penaltyService = penaltyService;
+        this.drugInquiryReportService = drugInquiryReportService;
     }
 
     @Transactional
@@ -87,6 +92,7 @@ public class DrugReservationService implements IDrugReservationService {
         PharmacyStorage pharmacyStorage = pharmacyStorageRepository.getAllPharmaciesStoragesByPharmacyAndMedication(p.getId(), m.getId());
 
         if (pharmacyStorage.getQuantity() == 0) {
+            drugInquiryReportService.addDrugInquiry(new DrugInquiryReportDTO(new Date(), MedicationMapper.convertToMedicationDTO(m)));
             throw new Exception("Invalid request");
         }
 
@@ -184,17 +190,7 @@ public class DrugReservationService implements IDrugReservationService {
     @Override
     @Transactional
     public List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO period) {
-        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
-        List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
-        for(DrugReservation drugReservation:allDrugReservations){
-            if(drugReservation.getPharmacy().getId().equals(pharmacyId))
-                    if(drugReservation.isIssued())
-                    if(drugReservation.getDateOfIssue().after(period.getStartPeriod()))
-                        if(drugReservation.getDateOfIssue().before(period.getEndPeriod())){
-                drugReservationsForPharmacyAndPeriod.add(drugReservation);
-            }
-        }
-        return drugReservationsForPharmacyAndPeriod;
+        return drugReservationRepository.findAllIssuedDrugsForPharmacyAndPeriod(pharmacyId,period.getStartPeriod(),period.getEndPeriod());
     }
 
     @Override

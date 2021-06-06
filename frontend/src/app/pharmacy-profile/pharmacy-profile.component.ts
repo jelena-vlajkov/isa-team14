@@ -76,6 +76,7 @@ export class PharmacyProfileComponent implements OnInit {
   private pricelistEntityToUpdate: Pricelist;
   addPromotionFormGroup:FormGroup;
   currentDate:Date = new Date();
+  startDateBeforeCurrent:boolean=false;
 
 
   constructor(private pharmacyAdminService:PharmacyAdminService
@@ -274,7 +275,7 @@ export class PharmacyProfileComponent implements OnInit {
     console.log(this.addPromotionFormGroup.value.startDate);
     console.log(this.addPromotionFormGroup.value.endDate);
     console.log(this.addPromotionFormGroup.value.description);
-      if(this.addPromotionFormGroup.value.startDate.getTime()<this.addPromotionFormGroup.value.endDate.getTime())
+      if(new Date(this.addPromotionFormGroup.value.startDate).getTime()<new Date(this.addPromotionFormGroup.value.endDate).getTime())
       {
         let promotion=new Promotion(null,this.addPromotionFormGroup.value.description
                       ,this.addPromotionFormGroup.value.startDate,this.addPromotionFormGroup.value.endDate,this.pharmacy);
@@ -325,7 +326,7 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
   addPricelistSubmitted() {
-    if(this.addPricelistEntityFormGroup.value.endDate.getTime()>this.addPricelistEntityFormGroup.value.startDate.getTime())
+    if(new Date(this.addPricelistEntityFormGroup.value.endDate).getTime()>new Date(this.addPricelistEntityFormGroup.value.startDate).getTime())
     {
       let pricelist=new Pricelist(null
         ,this.addPricelistEntityFormGroup.value.medication
@@ -433,21 +434,13 @@ export class PharmacyProfileComponent implements OnInit {
 
 
   editPricelistSubmitted() {
-    if(this.editPricelistEntityFormGroup.value.startDate.getTime()<this.editPricelistEntityFormGroup.value.endDate.getTime()){
-      let pricelistEntity=new Pricelist(this.pricelistEntityToUpdate.id
+     let pricelistEntity=new Pricelist(this.pricelistEntityToUpdate.id
         ,this.pricelistEntityToUpdate.medication,this.editPricelistEntityFormGroup.value.price,
         this.editPricelistEntityFormGroup.value.startDate,this.editPricelistEntityFormGroup.value.endDate,this.pricelistEntityToUpdate.pharmacy);
       this.pricelistService.editPricelistEntity(pricelistEntity).subscribe(result=>{
         this.showPharmacyPricelist();
       });
     }
-    else
-    {
-      alert("Invalid period input.End date must be after start date.");
-    }
-
-
-  }
 
   private getPharmacyStorage() {
     this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(
@@ -573,6 +566,10 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
 
+  isBeforeCurrentDate(startPeriod: Date) {
+    return startPeriod.getTime()<this.currentDate.getTime();
+
+  }
 }
 
 function compare(a: Number | String, b: Number | String, isAsc: boolean) {

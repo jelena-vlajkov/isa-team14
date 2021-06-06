@@ -96,10 +96,10 @@ public class PharmacistController {
 
     @PostMapping(value = "/deletePharmacist")
     @PharmacyAdminAuthorization
-    public ResponseEntity<?> deletePharmacistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId){
+    public ResponseEntity<?> deletePharmacistFromPharmacy(@RequestParam("pharmacistId") Long pharmacistId,@RequestParam("pharmacyId") Long pharmacyId){
         boolean successful;
         try {
-            successful=pharmacistService.deletePharmacist(pharmacistId);
+            successful=pharmacistService.deletePharmacist(pharmacistId,pharmacyId);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

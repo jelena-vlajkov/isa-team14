@@ -20,7 +20,7 @@ public interface IPharmacistService {
      List<PharmacistDTO> filterPharmacistsByGrade(List<PharmacistDTO> pharmacistsToFilter,int grade);
      Pharmacist editPharmacist(PharmacistDTO pharmacistDTO);
      Pharmacist registerPharmacist(PharmacistDTO dto) throws Exception;
-     boolean deletePharmacist(Long pharmacistId);
+     boolean deletePharmacist(Long pharmacistId,Long pharmacyId);
      Pharmacist findById(Long pharmacistId);
      List<Pharmacist> getAll();
      List<PharmacistDTO> findByRangeAndPharmacy(Date startRange, Date endRange, Long pharmacyId);

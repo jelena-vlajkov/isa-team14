@@ -102,6 +102,12 @@ public class WorkDayService implements IWorkDayService {
     }
 
     @Override
+    public void deleteAllWorkdaysForMedicalStaffAndPharmacy(Long medicalStaffId, Long pharmacyId) {
+        List<WorkDay> allWorkdaysForStuffAndPh = workDayRepository.getAllByStaffAndPharmacy(medicalStaffId,pharmacyId);
+        workDayRepository.deleteAll(allWorkdaysForStuffAndPh);
+    }
+
+    @Override
     public void updateWorkDay(Long id) {
         WorkDay workDay = workDayRepository.findById(id).get();
         workDay.setDisabled(true);

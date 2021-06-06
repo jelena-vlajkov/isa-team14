@@ -187,28 +187,9 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
 
   }
 
-
-  sortData(sort: Sort){
+  sortData2(sort : Sort) {
     
-    if (this.stepper.selectedIndex == 1) {
-      this.isOnPharmacistChoosing = false;
-      const data = this.pharmacies.slice();
-      if (!sort.active || sort.direction === '') {
-        this.pharmacies = data;
-        return;
-      }
-  
-      this.pharmacies = data.sort((a, b) => {
-        const isAsc = sort.direction === 'asc';
-        switch (sort.active) {
-          case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);   
-          case 'price': return compare(a.counselingCost, b.counselingCost, isAsc);
-          default: return 0;
-        }
-       });
-    }
-
-    if(this.stepper.selectedIndex == 2) {
+    
       const data = this.pharmacists.slice();
       if (!sort.active || sort.direction === '') {
         this.pharmacists = data;
@@ -226,11 +207,35 @@ export class PatientScheduleCounselingComponent implements OnInit, AfterViewInit
           default: return 0;
         }
        });
+    
+  }
+
+
+  sortData(sort: Sort){
+    
+
+      this.isOnPharmacistChoosing = false;
+      const data = this.pharmacies.slice();
+      if (!sort.active || sort.direction === '') {
+        this.pharmacies = data;
+        return;
+      }
+      
+  
+      this.pharmacies = data.sort((a, b) => {
+        const isAsc = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'grade': return compare(a.averageGradeCount, b.averageGradeCount, isAsc);   
+          case 'price': return compare(a.counselingCost, b.counselingCost, isAsc);
+          default: return 0;
+        }
+       });
     }
+
 
    
   }
-}
+
 
 function compare(a: Number | String, b: Number | String, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

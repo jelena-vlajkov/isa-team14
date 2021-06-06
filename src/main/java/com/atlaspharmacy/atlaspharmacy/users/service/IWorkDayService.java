@@ -17,4 +17,5 @@ public interface IWorkDayService {
     void updateWorkDay(Long id);
     List<WorkDay> getWorkDaysInSchedulingRangeAndStaff(Long medicalStaffId, Date startDate, Date endDate);
     List<WorkDay> getUpcomingStaff(Long medicalStaffId, Long pharmacyId);
+    void deleteAllWorkdaysForMedicalStaffAndPharmacy(Long medicalStaffId,Long pharmacyId);
 }
