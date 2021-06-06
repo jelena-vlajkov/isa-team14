@@ -7,7 +7,6 @@ import { Appointment } from '@app/model/appointment/appointment';
 import { EPrescription } from '@app/model/medications/ePrescription';
 import { PrescribedEdrugs } from '@app/model/medications/prescibedEDrugs';
 import { Pharmacy } from '@app/model/pharmacy/pharmacy';
-import { env } from 'process';
 import { CreaeteReservation } from '@app/model/pharmderm/createreservation'
 import { PatientDrugReservation } from '@app/model/users/patient/patientDrugReservation';
 import { Pharmacist } from '@app/model/users/pharmacist/pharmacist';
@@ -141,6 +140,10 @@ export class PatientService {
 
     schedulePatientExamination(scheduleExamination : PatientScheduleExamination) {
       return this.http.post(`${environment.baseUrl}/${environment.appointment}/${environment.patientScheduleExamination}`, scheduleExamination, {responseType : 'text'});
+    }
+
+    getNumberOfPatientPenalties(id : Number) : Observable<Number> {
+      return this.http.get<Number>(`${environment.baseUrl}/${environment.penalty}/${environment.getNumberOfPatientPenalties}?patientId=${id}`);
     }
 
 

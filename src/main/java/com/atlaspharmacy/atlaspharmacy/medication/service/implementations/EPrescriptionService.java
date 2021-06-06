@@ -92,6 +92,7 @@ public class EPrescriptionService implements IEPrescriptionService {
         ePrescription.setPharmacy(pharmacy);
         ePrescription.setPatient(patient);
         Medication m = medicationRepository.findById(dto.getMedicationId()).get();
+        ePrescription.setType("New");
 
         ePrescriptionRepository.save(ePrescription);
 

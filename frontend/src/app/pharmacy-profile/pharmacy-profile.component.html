@@ -100,7 +100,7 @@
               <th>Start time</th>
               <th>End time</th>
               <th mat-sort-header="cost">Cost</th>
-              <th mat-sort-header="grade">Grade</th>
+              <th *ngIf="!isPharmacyAdmin" mat-sort-header="grade">Grade</th>
               <th *ngIf="!isPharmacyAdmin">Schedule</th>
 
           </tr>
@@ -111,7 +111,7 @@
               <td>{{availableAppointment.appointmentPeriod.startTime | date:"dd.MM.yyyy. HH:mm"}}</td>
               <td>{{availableAppointment.appointmentPeriod.endTime | date:"dd.MM.yyyy. HH:mm"}}</td>
               <td>{{availableAppointment.cost}}</td>
-              <td>{{availableAppointment.dermatologist.averageGrade}}</td>
+              <td *ngIf="!isPharmacyAdmin">{{availableAppointment.dermatologist.averageGrade}}</td>
               <td *ngIf="!isPharmacyAdmin"><button mat-button style="background-color: #385399; color: white;"
                 (click)="chooseAppointmentToSchedule(availableAppointment)">Choose</button></td>
           </tr>
@@ -276,7 +276,7 @@
           <td style="font-size: 20px;margin-left: 30px;width:fit-content;" *ngIf="isPharmacyAdmin"> {{pricelist.startPeriod | date : "dd.MM.yyyy."}} - {{pricelist.endPeriod | date : "dd.MM.yyyy."}}</td>
           <span style="margin-left: 50px;"></span>
           <td *ngIf="isPharmacyAdmin"><button class="btn"><i (click)="editPricelistEntity(pricelist)" style="color:blue;">Edit</i></button></td>
-          <td *ngIf="isPharmacyAdmin"><button class="btn"><i  (click)="deletePricelistEntity(pricelist.id,pricelist.medication.id)" style="color:blue;">Delete</i></button></td>
+          <td *ngIf="isPharmacyAdmin"><button class="btn"><i (click)="deletePricelistEntity(pricelist.id,pricelist.medication.id)" style="color:blue;">Delete</i></button></td>
         </tr>
       </table>
       <div style="vertical-align: bottom;">
@@ -317,7 +317,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="name-ff">
               <mat-label>Name*</mat-label>
-              <input matInput id="name" placeholder="Name" name="name-ff" formControlName="name">
+              <input matInput id="name"  required type="text" [maxLength]="20" placeholder="Name" name="name-ff" formControlName="name">
               <mat-error
                 *ngIf="!editProfileForm.get('name').valid && editProfileForm.get('name').touched && editProfileForm.get('name').errors['required']">
                 Please enter name</mat-error>
@@ -341,7 +341,7 @@
           <mat-grid-tile>
             <mat-form-field appearance="fill" id="telephone-ff">
               <mat-label>Telephone*</mat-label>
-              <input matInput id="telephone" placeholder="Telephone" value="{{pharmacy.telephone}}" name="telephone-ff"
+              <input matInput id="telephone" type="tel" placeholder="Telephone" value="{{pharmacy.telephone}}" name="telephone-ff"
                      formControlName="telephone">
               <mat-error
                 *ngIf="!editProfileForm.get('telephone').valid && editProfileForm.get('telephone').touched && editProfileForm.get('telephone').errors['required']">
@@ -355,7 +355,7 @@
           <mat-grid-tile style="height:fit-content;">
             <mat-form-field appearance="fill" id="description-ff">
               <mat-label>Description*</mat-label>
-              <input matInput id="description" placeholder="Description" name="description-ff"
+              <input matInput id="description" required type="text" [maxLength]="100" placeholder="Description" name="description-ff"
                      formControlName="description">
               <mat-error
                 *ngIf="!editProfileForm.get('description').valid && editProfileForm.get('description').touched && editProfileForm.get('description').errors['required']">
@@ -370,7 +370,7 @@
             <mat-form-field appearance="fill" id="email-ff">
               <mat-label>Email*</mat-label>
               <input matInput id="email" placeholder="Email" value="{{pharmacy.email}}" name="email-ff"
-                     formControlName="email">
+                     formControlName="email" required type="email">
               <mat-error
                 *ngIf="!editProfileForm.get('email').valid && editProfileForm.get('email').touched && editProfileForm.get('email').errors['required']">
                 Please enter email</mat-error>
@@ -412,7 +412,7 @@
           </mat-grid-tile>
 
           <mat-grid-tile><label>Start date:</label></mat-grid-tile>
-          <mat-grid-tile>
+          <mat-grid-tile >
             <div class="inputField">
 
               <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
@@ -430,7 +430,7 @@
             <div class="inputField">
 
               <mat-form-field color="accent" appearance="fill">
-                <input matInput formControlName='endDate' style="font-size:18px;" placeholder="End date" [matDatepicker]="dp7">
+                <input matInput formControlName='endDate' [min]=currentDate style="font-size:18px;" placeholder="End date" [matDatepicker]="dp7">
                 <mat-datepicker-toggle matSuffix [for]="dp7"></mat-datepicker-toggle>
                 <mat-datepicker #dp7 disabled="false"></mat-datepicker>
                 <mat-error

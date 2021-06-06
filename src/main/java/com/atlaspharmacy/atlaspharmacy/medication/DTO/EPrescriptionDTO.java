@@ -7,13 +7,23 @@ public class EPrescriptionDTO {
     private Date date;
     private String patientName;
     private String pharmacyName;
+    private String type;
 
 
-    public EPrescriptionDTO(Long id, Date date, String patientName, String pharmacyName) {
+    public EPrescriptionDTO(Long id, Date date, String patientName, String pharmacyName, String type) {
         this.id = id;
         this.date = date;
         this.patientName = patientName;
         this.pharmacyName = pharmacyName;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getPharmacyName() {

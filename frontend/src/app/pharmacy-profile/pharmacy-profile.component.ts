@@ -76,6 +76,7 @@ export class PharmacyProfileComponent implements OnInit {
   private pricelistEntityToUpdate: Pricelist;
   addPromotionFormGroup:FormGroup;
   currentDate:Date = new Date();
+  startDateBeforeCurrent:boolean=false;
 
 
   constructor(private pharmacyAdminService:PharmacyAdminService
@@ -573,6 +574,10 @@ export class PharmacyProfileComponent implements OnInit {
   }
 
 
+  isBeforeCurrentDate(startPeriod: Date) {
+    return startPeriod.getTime()<this.currentDate.getTime();
+
+  }
 }
 
 function compare(a: Number | String, b: Number | String, isAsc: boolean) {

@@ -56,8 +56,10 @@ public class PharmacyBussinesReportService implements IPharmacyBussinesReportSer
         Long totalIncome=0L;
         for(DrugConsumptionDTO drugConsumption:allDrugConsumptionsForPeriod) {
             Pricelist medicationPricelist=pricelistService.getPricelistForMedicationAndPharmacyAndPeriod(drugConsumption.getMedication().getCode(),pharmacyPeriodReportDTO.getPharmacyId(), pharmacyPeriodReportDTO.getPeriod().getStartPeriod(), pharmacyPeriodReportDTO.getPeriod().getEndPeriod());
-            totalIncome+=drugConsumption.getNumberOfIssued()*medicationPricelist.getPrice();
-        }
+            if(medicationPricelist!=null) {
+                totalIncome += drugConsumption.getNumberOfIssued() * medicationPricelist.getPrice();
+            }
+            }
         return totalIncome;
 
     }
