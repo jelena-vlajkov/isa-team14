@@ -23,14 +23,6 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date date;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "reports_medication",
-            joinColumns = @JoinColumn(name = "medication_id"),
-            inverseJoinColumns = @JoinColumn(name = "report_id")
-    )
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<Medication> medication;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
 
@@ -42,9 +34,8 @@ public class Report {
     public Report() {
     }
 
-    public Report(Date date, List<Medication> medication, Patient patient, Pharmacy pharmacy, String reportType, String reportNotes) {
+    public Report(Date date,  Patient patient, Pharmacy pharmacy, String reportType, String reportNotes) {
         this.date = date;
-        this.medication = medication;
         this.patient = patient;
         this.pharmacy = pharmacy;
         this.reportType = reportType;
@@ -73,14 +64,6 @@ public class Report {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public List<Medication> getMedication() {
-        return medication;
-    }
-
-    public void setMedication(List<Medication> medication) {
-        this.medication = medication;
     }
 
     public Patient getPatient() {

@@ -181,6 +181,21 @@ public class PharmDerm {
         return c;
     }
 
+    public static Examination createAppointment2(Pharmacy p, Patient pa, Dermatologist ph) {
+        Examination c = new Examination();
+        c.setPatient(pa);
+        c.setPharmacy(p);
+        Date todaysDate = new Date();
+        c.setType(AppointmentType.Values.Examination);
+
+        c.setAppointmentPeriod(new Period(new Date(todaysDate.getYear(), todaysDate.getMonth(), todaysDate.getDate(), 12, 0, 0),
+                new Date(todaysDate.getYear(), todaysDate.getMonth(), todaysDate.getDate(), 12, 30, 0)));
+
+        c.setDermatologist(ph);
+        c.setFinished(false);
+        return c;
+    }
+
     public static List<Counseling> createAppointments(Pharmacy p, Patient pa, Pharmacist ph) {
         Counseling c = new Counseling();
         c.setPatient(pa);

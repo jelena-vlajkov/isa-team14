@@ -172,6 +172,7 @@ export const environment = {
   findDermatologistsForPatientGrading : "findDermatologistsForPatientGrading",
   grade : "grade",
   getAllGradesByPatient : "getAllGradesByPatient",
+  getUpcomingWorkDays : "getUpcomingByStaff",
   patientScheduleExamination : "patientScheduleExamination"
 
 };

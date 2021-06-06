@@ -61,7 +61,7 @@ public class WorkDayService implements IWorkDayService {
         workDay.setPharmacy(pharmacyRepository.findById(workDayDTO.getPharmacy().getId()).get());
         List<VacationRequest> vacationRequest = vacationRequestRepository.getVacationRequestBy(workDayDTO.getMedicalStaff().getId(), workDayDTO.getDate());
 
-        if (vacationRequest.size() == 0) {
+        if (vacationRequest.size() > 0) {
             throw new Exception("Invalid request for adding work day! Staff already has vacation request.");
         }
 
@@ -94,6 +94,11 @@ public class WorkDayService implements IWorkDayService {
         }
 
         return  workingInRange;
+    }
+
+    @Override
+    public List<WorkDay> getUpcomingStaff(Long medicalStaffId, Long pharmacyId) {
+        return workDayRepository.findUpcomingByStaff(medicalStaffId, pharmacyId);
     }
 
     @Override

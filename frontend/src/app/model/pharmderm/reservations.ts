@@ -4,6 +4,7 @@ export class Reservation {
     public medicationName : String;
     public uniqueIdentifier : String ;
     public expirationDate : Date ;
+    public expirationDateString : String;
 
     constructor() {}
 }

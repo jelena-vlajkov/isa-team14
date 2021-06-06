@@ -22,7 +22,9 @@ public class VacationRequestMapper {
         vacationRequest.setStartDate(startDate);
         vacationRequest.setEndDate(endDate);
         vacationRequest.setStatus(VacationRequestStatus.PENDING);
-        vacationRequest.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+        if (dto.getPharmacy() != null) {
+            vacationRequest.setPharmacy(PharmacyMapper.mapDTOToPharmacy(dto.getPharmacy()));
+        }
         return vacationRequest;
     }
 
