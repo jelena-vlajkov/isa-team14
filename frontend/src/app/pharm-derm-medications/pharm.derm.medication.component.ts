@@ -89,7 +89,7 @@ export class PharmDermMedicationsComponent {
             this.issueAvailable = false;
           },
           error => {
-            alert(error)
+            alert("Error")
             this.showResults  = false;
             this.issueAvailable = false;
           }
