@@ -352,7 +352,7 @@ insert into drugreservation (id, reservation_date, expiration_date, unique_ident
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (700, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 1500, 300, true, 500, 10, false);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (800, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 1500, 300, true, 500, 10, false);
 insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (900, '2021-01-28 12:00:00', '2021-07-15 12:00:00', 12378, 1500, 100, false, 500, 10, false);
-
+insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1000, '2021-05-28 12:00:00', '2021-06-04 12:00:00', 12379, 1500, 100, false, 500, 10, false);
 --insert into drugreservation (id, reservation_date, expiration_date, unique_identifier, patient_id, pharmacy_id, issued, medication_id, therapy_days, canceled) values (1000, '2021-01-28 12:00:00', '2021-02-03 12:00:00', 1237, 200, 300, false, 500, 10, false);
 
 insert into medical_record(id, patient_id) values (100, 1500);

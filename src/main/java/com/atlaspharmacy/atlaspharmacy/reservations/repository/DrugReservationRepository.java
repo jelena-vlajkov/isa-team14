@@ -18,4 +18,5 @@ public interface DrugReservationRepository extends JpaRepository<DrugReservation
     @Query(value = "SELECT d FROM DrugReservation d WHERE d.pharmacy.id = ?1")
     List<DrugReservation> findByPharmacy(Long pharmacyId);
 
+
 }

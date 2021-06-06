@@ -1,6 +1,6 @@
 package com.atlaspharmacy.atlaspharmacy.membershipinfo.domain;
 
-import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
+import com.atlaspharmacy.atlaspharmacy.reservations.domain.DrugReservation;
 import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
 import org.hibernate.annotations.Proxy;
 
@@ -9,31 +9,24 @@ import java.util.Date;
 
 @Entity
 @Proxy(lazy = false)
-public class Penalty {
+public class PenaltyMedication {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Patient patient;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    private Appointment appointment;
-
+    private DrugReservation drugReservation;
     private Date givenDate;
 
-    public Penalty() {
-    }
-
-    public Penalty(Patient patient, Appointment appointment) {
+    public PenaltyMedication(Patient patient, DrugReservation drugReservation) {
         this.patient = patient;
-        this.appointment = appointment;
+        this.drugReservation = drugReservation;
     }
 
-    public Date getGivenDate() {
-        return givenDate;
-    }
+    public PenaltyMedication() {
 
-    public void setGivenDate(Date givenDate) {
-        this.givenDate = givenDate;
     }
 
     public Long getId() {
@@ -48,19 +41,23 @@ public class Penalty {
         return patient;
     }
 
-    public void setPatient(Patient user) {
-        this.patient = user;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public DrugReservation getDrugReservation() {
+        return drugReservation;
     }
 
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public void setDrugReservation(DrugReservation drugReservation) {
+        this.drugReservation = drugReservation;
     }
 
-    public boolean isPatient(Long id) {
-        return getAppointment().getId().equals(id);
+    public Date getGivenDate() {
+        return givenDate;
+    }
+
+    public void setGivenDate(Date givenDate) {
+        this.givenDate = givenDate;
     }
 }

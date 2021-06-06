@@ -33,6 +33,7 @@
       <mat-drawer-container class="example-container"  autosize style="position: absolute;right: 0px;left: 0px;bottom: 0px;top: 0px; background: transparent;" hasBackdrop="true">
         <mat-drawer style="width: 20%; height: 100%; background-color: #385399;"  #drawer mode ="over">
            <mat-action-list>
+            <button mat-list-item routerLink="/patient/home" style="color: white;"> <mat-icon>home</mat-icon> Home</button>
             <button mat-list-item routerLink="/searchPharmacies" style="color: white;"> Search pharmacies</button>
             <button mat-list-item routerLink="/searchMedications" style="color: white;"> Search medications</button>
             <button mat-list-item routerLink="/patient/pharmacies" style="color: white;"> All pharmacies</button>
@@ -131,7 +132,7 @@
         </mat-card-content>
         <mat-card-actions>
           <button style="float:right; position:relative;" mat-raised-button id='editProfile' (click)='editProfile()' color="accent">Edit</button>
-          <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' (click)='loyaltyClick()'  color="accent">Loyalty program</button>
+          <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' (click)='loyaltyClick()'  color="accent">Loyalty program and penalty</button>
           <button style="float:left; position:relative;" mat-raised-button id='LoyaltyProgram' routerLink="/userProfile/complain"  color="accent">Complain</button>
           <button style="float:left; position:relative;" mat-raised-button id='drugReservation' routerLink="/patientsSubscriptions"  color="accent">Users subscriptions</button>
           <button style="float:left; position:relative;" mat-raised-button id='editAllergies' (click)="editAllergiesDialog()"  color="accent">Edit Allergies</button>
@@ -144,22 +145,30 @@
           <form [formGroup]="loyaltyForm" (ngSubmit)="loyaltyClick">
             <mat-grid-list cols="2" rowHeight="7:1" style="margin-left: 10px;">
               <mat-grid-tile>
+                <label>Number of penalties:</label>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <p>{{penaltyNumber}}</p>
+              </mat-grid-tile>
+              <mat-grid-tile>
                 <label>Number of points:</label>
               </mat-grid-tile>
               <mat-grid-tile>
-                <p>{{points}}</p>
+                <p>{{points}} MOCK (student1)</p>
               </mat-grid-tile>
               <mat-grid-tile>
                 <label>Category of program:</label>
               </mat-grid-tile>
               <mat-grid-tile>
-                <p>{{categoryProgram}}</p>
+                <p>{{categoryProgram}} MOCK (student1)</p>
               </mat-grid-tile>
               <mat-grid-tile>
-                <label>Additional privilegies:</label>
+                <label>Additional privilegies: MOCK (student1)</label>
               </mat-grid-tile>
               <mat-grid-tile>
-                <p><label>Ubaci ovde neku listu</label></p>
+                <mat-select required>
+                  <mat-option *ngFor="let mock of privilegies">{{mock}}</mat-option>
+                </mat-select>
               </mat-grid-tile>
             </mat-grid-list>
             <mat-card-actions>

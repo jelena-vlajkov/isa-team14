@@ -58,9 +58,13 @@ export class UserProfileComponent implements OnInit {
     public subscribedPharmacies : Pharmacy[];
     allergies = new FormControl();
 
+    public penaltyNumber : String
+
 
     allergiesList = ['Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen', 'Brufen'];
     selectedAllergies;
+
+    privilegies = ['Free schedule MOCK', 'Free medication MOCK', 'Gift card MOCK']
 
   public patient : Patient;
   public usersSubs : Subscription[];
@@ -76,6 +80,8 @@ export class UserProfileComponent implements OnInit {
     this.loyaltyForm = new FormGroup({});
     this.points = "28";
     this.categoryProgram = "Gold";
+    this.penaltyNumber = localStorage.getItem("patientPenalty");
+    console.log(this.penaltyNumber)
 
     this.loadPatient();
     // this.loadUsersSubscriptions();

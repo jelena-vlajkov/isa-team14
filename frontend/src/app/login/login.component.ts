@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard'])
         }
         else if(result.role == Role.Patient){
-          this.router.navigate(['/'])
+          this.router.navigate(['/patient/home'])
         }
         if(result.role == Role.Patient){
           this.router.navigate(['/patient/home'])
