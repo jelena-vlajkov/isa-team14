@@ -37,6 +37,9 @@ export class PharmacistComponent implements OnInit {
       this.router.navigate(["/employee-welcome"]);
 
     }
+    if (this.authService.currentUserValue === undefined) {
+      this.router.navigate(["/login"])
+    }
     console.log(this.authService.currentUserValue.token);
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     this.ingredientService.findAllIngredients().subscribe();
