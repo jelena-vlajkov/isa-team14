@@ -186,6 +186,7 @@ export class PatientExaminationComoponent {
 
     scheduleAppointment(a : Appointment, app : Appointment) {
       console.log(a)
+      a.disabled = true;
       let schedule = new Appointment();
       schedule.startTime = a.startTime;
       schedule.endTime = a.endTime;
@@ -201,6 +202,7 @@ export class PatientExaminationComoponent {
           alert("Successfully scheduled appoinmtnet");
 
         }, error => {
+          a.disabled = false;
           alert("Patient probably has another appointment.");
         }
       )
@@ -253,6 +255,7 @@ export class PatientExaminationComoponent {
             for (let a of availableapps) {
               a.startDateString = this.datePipe.transform(a.startTime, 'hh:mm');
               a.endDateString = this.datePipe.transform(a.endTime, 'hh:mm');
+              a.disabled = false;
             }
 
             a.availableAppointment = availableapps;
