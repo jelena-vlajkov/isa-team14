@@ -30,6 +30,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query(value = "SELECT a FROM Appointment a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
     List<Appointment> getAppointmentsByDate(Date date);
 
+    @Query(value = "SELECT a FROM Examination a WHERE CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false AND a.appointmentPeriod.endTime <= current_date AND a.pharmacy.id = ?2")
+    List<Appointment> getAppointmentsByDateForBusinessReports(Date date,Long pharmacyId);
+
     @Query(value = "SELECT a FROM Appointment a WHERE a.patient.id = ?2 AND CAST(a.appointmentPeriod.startTime as date) = CAST(?1 as date) AND a.isCanceled = false")
     List<Appointment> getAppointmentByDateAndPatient(Date date, Long patientId);
 

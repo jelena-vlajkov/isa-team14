@@ -178,17 +178,7 @@ public class DrugReservationService implements IDrugReservationService {
     @Override
     @Transactional
     public List<DrugReservation> findAllIssuedReservationsForPharmacyAndPeriod(Long pharmacyId, PeriodDTO period) {
-        List<DrugReservation> allDrugReservations= drugReservationRepository.findAll();
-        List<DrugReservation> drugReservationsForPharmacyAndPeriod=new ArrayList<>();
-        for(DrugReservation drugReservation:allDrugReservations){
-            if(drugReservation.getPharmacy().getId().equals(pharmacyId))
-                    if(drugReservation.isIssued())
-                    if(drugReservation.getDateOfIssue().after(period.getStartPeriod()))
-                        if(drugReservation.getDateOfIssue().before(period.getEndPeriod())){
-                drugReservationsForPharmacyAndPeriod.add(drugReservation);
-            }
-        }
-        return drugReservationsForPharmacyAndPeriod;
+        return drugReservationRepository.findAllIssuedDrugsForPharmacyAndPeriod(pharmacyId,period.getStartPeriod(),period.getEndPeriod());
     }
 
     @Override

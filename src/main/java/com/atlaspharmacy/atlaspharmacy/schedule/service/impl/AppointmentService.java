@@ -691,16 +691,8 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public int getNumberOfScheduledByDate(Date date,Long pharmacyId) {
-       List<Appointment> allAppointments=appointmentRepository.findAll();
-       int counter=0;
-       for(Appointment a:allAppointments){
-           if(a.isSameDay(date) && a.getType().equals("Examination") && !a.isCanceled() && a.getPharmacy().getId().equals(pharmacyId) && a.isFinished()){
-               counter++;
-           }
-       }
-         return counter;
-         //List<Appointment> allAppointments=appointmentRepository.getAllAppointmentsByDateForSpecificType(date, AppointmentType.Values.Examination);
-         //return allAppointments.size();
+       return appointmentRepository.getAppointmentsByDateForBusinessReports(date,pharmacyId).size();
+
     }
 
     @Override
