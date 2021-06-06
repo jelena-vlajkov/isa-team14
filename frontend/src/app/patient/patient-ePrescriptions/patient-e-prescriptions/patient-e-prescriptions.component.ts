@@ -11,12 +11,13 @@ import { EPrescription } from '@app/model/medications/ePrescription';
   templateUrl: './patient-e-prescriptions.component.html',
   styleUrls: ['./patient-e-prescriptions.component.css']
 })
-export class PatientEPrescriptionsComponent implements OnInit {
+export class PatientEPrescriptionsComponent implements OnInit, AfterViewInit {
 
   constructor(private authenticationService : AuthenticationService, private patientService : PatientService) { }
 
   public prescriptions : EPrescription[] = new Array();
   public numOfPenalty : Number;
+  public prescriptionsCopy : EPrescription[] = new Array();
   
   @ViewChild(MatSort) sort: MatSort;
   ngAfterViewInit() {
@@ -27,6 +28,7 @@ export class PatientEPrescriptionsComponent implements OnInit {
       data =>
       {
         this.prescriptions = data;
+        this.prescriptionsCopy = data;
       }, 
       err => {
         alert('There is no prescriptions for you')
@@ -41,6 +43,22 @@ export class PatientEPrescriptionsComponent implements OnInit {
   patientLogOut(){
     this.authenticationService.logout();
   }
+
+  typeChange(event){
+    if (event.value == 1){
+      this.prescriptions = this.prescriptionsCopy;
+      this.prescriptions = this.prescriptions.filter(p => p.type === 'New');
+    }else if(event.value == 2) {
+      this.prescriptions = this.prescriptionsCopy;
+      this.prescriptions = this.prescriptions.filter(p => p.type === 'Processed');
+    }else if(event.value == 3) {
+      this.prescriptions = this.prescriptionsCopy;
+      this.prescriptions = this.prescriptions.filter(p => p.type === 'Rejected');
+    }else{
+      this.prescriptions = this.prescriptionsCopy;
+    }
+   
+ }
 
   sortData(sort: Sort){
     const data = this.prescriptions.slice();

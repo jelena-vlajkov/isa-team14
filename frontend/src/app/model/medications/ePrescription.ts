@@ -3,6 +3,7 @@ export class EPrescription {
     public date : Date;
     public patientName : String;
     public pharmacyName : String;
+    public type : String;
 
     public constructor(id : Number, date : Date, patientName : String, pharmacyName : String) {
         this.id = id;

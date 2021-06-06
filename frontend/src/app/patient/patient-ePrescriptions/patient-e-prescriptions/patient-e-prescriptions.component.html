@@ -34,7 +34,17 @@
               <span>E-Presciptions</span>
               <span class="example-spacer"></span>
             </mat-toolbar>
-            
+            <div style="margin-left: 20em; width: 30%;" >
+              <p style="color: black;">Filter by type</p>
+  
+              <mat-select placeholder="Select type" (selectionChange)="typeChange($event)" style="width: 50%;">
+                  <mat-option value="1">New</mat-option>
+                  <mat-option value="2">Processed</mat-option>
+                  <mat-option value="3">Rejected</mat-option>
+                  <mat-option value="4">All</mat-option>
+              </mat-select>
+           </div>
+           
             <div class="table-wrapper">
                 <table *ngIf="3 > numOfPenalty || numOfPenalty == undefined" matSort (matSortChange)="sortData($event)" class="fl-table">
                     <thead>
@@ -50,7 +60,7 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let a of prescriptions" >
-                        <td>Nema napravljeno</td>
+                        <td>{{a.type}}</td>
                         <td>{{a.id}}</td>
                         <td>{{a.date | date : "medium"}}</td>
                         <td>{{a.patientName}}</td>

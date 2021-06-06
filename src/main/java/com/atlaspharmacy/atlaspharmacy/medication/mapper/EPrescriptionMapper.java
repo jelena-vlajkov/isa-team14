@@ -18,7 +18,8 @@ public class EPrescriptionMapper {
                 ePrescription.getId(),
                 ePrescription.getDate(),
                 ePrescription.getPatient().getName() + " " + ePrescription.getPatient().getSurname(),
-                ePrescription.getPharmacy().getName()
+                ePrescription.getPharmacy().getName(),
+                ePrescription.getType()
         );
     }
 
