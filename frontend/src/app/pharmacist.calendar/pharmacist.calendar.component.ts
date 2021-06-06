@@ -78,7 +78,7 @@ export class PharmacistCalendarComponent {
 
   events: CalendarEvent[] = [];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
   public appointments : Appointment[];
 
   isPharmacist() {
@@ -134,7 +134,11 @@ export class PharmacistCalendarComponent {
 
 
   constructor(private authService: AuthenticationService, private router : Router, private modal: NgbModal, private employeeService : EmployeeService, private datePipe : DatePipe) { 
-
+  }
+  ngOnInit() {
+    if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
+      this.router.navigate(["/employee-welcome"]);
+    }
     let date = this.datePipe.transform(this.viewDate, 'dd.MM.yyyy.');
     
     this.employeeService.getAppointmentsByMonth(date, Number(localStorage.getItem("userId"))).subscribe(
@@ -186,12 +190,10 @@ export class PharmacistCalendarComponent {
         });
         }
       }
+      this.refresh.next();
     
-  })}
-  ngOnInit() {
-    if ((localStorage.getItem('firstTimeChanged') === 'false')) { 
-      this.router.navigate(["/employee-welcome"]);
-    }
+  })
+  
 
     
 

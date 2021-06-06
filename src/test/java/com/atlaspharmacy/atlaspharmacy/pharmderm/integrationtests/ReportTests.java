@@ -76,12 +76,14 @@ public class ReportTests {
         Pharmacy p = pharmacyRepository.save(PharmDerm.createPharmacy2(a));
         Dermatologist d = userRepository.save(PharmDerm.createDermatologist(p, a));
         Patient pa = userRepository.save(PharmDerm.createPatient());
+        Appointment ap = appointmentRepository.save(PharmDerm.createAppointment2(p, pa, d));
 
         String json = "{" +
                 "\"patientId\" : " + pa.getId() +
                 ",\"reportNotes\" : \"Sve okic\"" +
                 ",\"medicalStaffId\" : " + d.getId() +
-                ",\"pharmacyId\" : " + p.getId()
+                ",\"pharmacyId\" : " + p.getId() +
+                ",\"appointmentId\" : " + ap.getId()
                 + "}";
 
         this.mockMvc.perform(post(BASE_URL + REPORTS_URL).contentType(contentType).content(json)).andExpect(status().isOk());

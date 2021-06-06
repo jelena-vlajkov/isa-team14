@@ -46,6 +46,7 @@ export class RegisterPharmacistComponent implements OnInit {
   setWorkTime : boolean = false;
   pharmacists : Pharmacist[]= new Array();
   workdays:WorkDay[] = new Array();
+  public Address : Address;
 
   private StringIsNumber = value => isNaN(Number(value)) === false;
   workTime : FormGroup;
@@ -121,7 +122,7 @@ export class RegisterPharmacistComponent implements OnInit {
   deletePharmacist(id: Number) {
     this.appointmentService.occupiedCounselingsExists(id).subscribe(result=>{
       if(!result){
-        this.pharmacistService.deletePharmacist(id).subscribe(result => {
+        this.pharmacistService.deletePharmacist(id,this.pharmacy.id).subscribe(result => {
           this.getPharmacistByPharmacy();
         });
       }
@@ -146,6 +147,7 @@ export class RegisterPharmacistComponent implements OnInit {
     this.pharmacistsInPharmacy = false;
     this.registerPharmacistDialog = false;
     this.setWorkTime = true;
+    this.pharamcistAddress = this.googleplaces.address;
   }
 
   addWorkDay() {
@@ -179,13 +181,16 @@ export class RegisterPharmacistComponent implements OnInit {
   }
 
   registerPharmacistSubmitted() {
-    if (this.googleplaces.address === undefined) {
-      alert('Wrong address input.');
-    } else {
+  if (this.pharamcistAddress === undefined) {
+      alert('Wrong address input. Please add an address.');
+   } else {
+    // console.log(this.googleplaces.address)
       let pharmacist = new Pharmacist(null, this.addPharmacist.value.name, this.addPharmacist.value.surname
         , this.addPharmacist.value.dob, this.addPharmacist.value.telephone, this.addPharmacist.value.mail
-        , this.addPharmacist.value.password, this.addPharmacist.value.gender, this.googleplaces.address, null
-        , null, this.pharmacy, null, new AverageGrade(0, 0, 0, 0, 0), false);
+        , this.addPharmacist.value.password, this.addPharmacist.value.gender, null, null
+        , null, this.pharmacy, null, false);
+        pharmacist.address = this.pharamcistAddress;
+        pharmacist.averageGrade = 0.0;
       this.pharmacistService.registerPharmacist(pharmacist).subscribe(result => {
         for (let i = 0; i < this.workdays.length; i++) {
           this.workdays[i].pharmacy = this.pharmacy;

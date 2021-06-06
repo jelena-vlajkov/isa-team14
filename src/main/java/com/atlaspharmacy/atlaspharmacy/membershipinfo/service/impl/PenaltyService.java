@@ -5,21 +5,24 @@ import com.atlaspharmacy.atlaspharmacy.membershipinfo.repository.PenaltyReposito
 import com.atlaspharmacy.atlaspharmacy.membershipinfo.service.IPenaltyService;
 import com.atlaspharmacy.atlaspharmacy.schedule.domain.Appointment;
 import com.atlaspharmacy.atlaspharmacy.schedule.repository.AppointmentRepository;
+import com.atlaspharmacy.atlaspharmacy.users.domain.Patient;
+import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PenaltyService implements IPenaltyService {
     private final PenaltyRepository penaltyRepository;
     private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PenaltyService(PenaltyRepository penaltyRepository, AppointmentRepository appointmentRepository) {
+    public PenaltyService(PenaltyRepository penaltyRepository, AppointmentRepository appointmentRepository, UserRepository userRepository) {
         this.penaltyRepository = penaltyRepository;
         this.appointmentRepository = appointmentRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -27,12 +30,17 @@ public class PenaltyService implements IPenaltyService {
         if (!appointmentRepository.findById(penalty.getAppointment().getId()).isPresent()) {
             throw new Exception("Invalid request!");
         }
+        if (!userRepository.findById(penalty.getPatient().getId()).isPresent()) {
+            throw new Exception("Invalid request!");
+        }
 
         Appointment appointment = appointmentRepository.findById(penalty.getAppointment().getId()).get();
         appointment.setFinished(true);
         appointmentRepository.save(appointment);
+        Patient patient = (Patient) userRepository.findById(penalty.getPatient().getId()).get();
+        penalty.setPatient(patient);
 
-
+        penalty.setAppointment(appointment);
         penaltyRepository.save(penalty);
     }
 

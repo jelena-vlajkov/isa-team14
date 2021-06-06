@@ -3,9 +3,6 @@ package com.atlaspharmacy.atlaspharmacy.users.service.impl;
 import com.atlaspharmacy.atlaspharmacy.generalities.domain.Address;
 import com.atlaspharmacy.atlaspharmacy.generalities.mapper.AddressMapper;
 import com.atlaspharmacy.atlaspharmacy.generalities.repository.AddressRepository;
-import com.atlaspharmacy.atlaspharmacy.grade.domain.Grade;
-import com.atlaspharmacy.atlaspharmacy.medication.domain.Medication;
-import com.atlaspharmacy.atlaspharmacy.medication.mapper.MedicationMapper;
 import com.atlaspharmacy.atlaspharmacy.grade.service.impl.GradeService;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.domain.Pharmacy;
 import com.atlaspharmacy.atlaspharmacy.pharmacy.mapper.PharmacyMapper;
@@ -21,6 +18,7 @@ import com.atlaspharmacy.atlaspharmacy.users.mapper.DermatologistMapper;
 import com.atlaspharmacy.atlaspharmacy.users.repository.DermatologistRepository;
 import com.atlaspharmacy.atlaspharmacy.users.repository.UserRepository;
 import com.atlaspharmacy.atlaspharmacy.users.service.IDermatologistService;
+import com.atlaspharmacy.atlaspharmacy.users.service.IWorkDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,7 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toCollection;
 
 @Service
-public class DermatologistService implements IDermatologistService {
+public class DermatologistService<IWorkdayService> implements IDermatologistService {
 
     private final DermatologistRepository dermatologistRepository;
     private final UserRepository userRepository;
@@ -43,9 +41,10 @@ public class DermatologistService implements IDermatologistService {
     private final IPharmacyService pharmacyService;
     private final PharmacyRepository pharmacyRepository;
     private final GradeService gradeService;
+    private final IWorkDayService workdayService;
 
     @Autowired
-    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, GradeService gradeService) {
+    public DermatologistService(DermatologistRepository _dermatologistRepository, UserRepository userRepository, AddressRepository addressRepository, BCryptPasswordEncoder passwordEncoder, AuthorityService authorityService, AppointmentService appointmentService, PharmacyService pharmacyService, PharmacyRepository pharmacyRepository, GradeService gradeService, IWorkDayService workdayService) {
         this.dermatologistRepository = _dermatologistRepository;
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
@@ -55,6 +54,7 @@ public class DermatologistService implements IDermatologistService {
         this.pharmacyService = pharmacyService;
         this.pharmacyRepository = pharmacyRepository;
         this.gradeService = gradeService;
+        this.workdayService = workdayService;
     }
 
     @Override
@@ -177,6 +177,8 @@ public class DermatologistService implements IDermatologistService {
                     iterator.remove();
                 }
             }
+            appointmentService.deleteAllExaminationsForDermatologistAndPharmacy(dermatologistId,pharmacyId);
+            workdayService.deleteAllWorkdaysForMedicalStaffAndPharmacy(dermatologistId,pharmacyId);
             gradeService.deleteGrade(dermatologistId, "DermatologistGrade");
             dermatologistRepository.save(dermatologist);
             return true;

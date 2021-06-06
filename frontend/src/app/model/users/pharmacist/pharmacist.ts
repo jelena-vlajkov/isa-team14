@@ -26,7 +26,7 @@ export class Pharmacist {
                 , phoneNumber : String, email : String, password : String
                 , gender: Gender, address : Address, role : Role
                 , autorities : Number[], pharmacy: Pharmacy
-                , licenceNumber :String,averageGrade : AverageGrade,firstTimeChanged : boolean){
+                , licenceNumber :String,firstTimeChanged : boolean){
         this.id=id;
         this.name = name;
         this.surname = surname;

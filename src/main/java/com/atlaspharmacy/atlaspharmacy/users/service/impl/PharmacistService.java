@@ -207,8 +207,10 @@ public class PharmacistService implements IPharmacistService {
     }
 
     @Override
-    public boolean deletePharmacist(Long pharmacistId) {
+    public boolean deletePharmacist(Long pharmacistId,Long pharmacyId) {
         if(!appointmentService.occupiedCounselingsExists(pharmacistId)){
+            workDayService.deleteAllWorkdaysForMedicalStaffAndPharmacy(pharmacistId,pharmacyId);
+            appointmentService.deleteAllCounselingsForPharmacistAndPharmacy(pharmacistId,pharmacyId);
             gradeService.deleteGrade(pharmacistId, "PharmacistGrade");
             pharmacistRepository.delete(pharmacistRepository.findById(pharmacistId).get());
             return true;

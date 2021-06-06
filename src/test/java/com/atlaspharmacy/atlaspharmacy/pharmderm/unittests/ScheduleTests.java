@@ -161,13 +161,13 @@ public class ScheduleTests {
     @Test
     public void testFindingScheduledForDermatologistAndMonth() {
 
-        when(appointmentRepository.findAll()).thenReturn(PharmDerm.createRandomAppointments());
+        when(appointmentRepository.findAllSorted()).thenReturn(PharmDerm.createRandomAppointments());
 
         List<Appointment> appointments = appointmentService.getScheduledByMonth(new Date(), DERMATOLOGIST_ID);
 
         assertThat(appointments).hasSize(3);
 
-        verify(appointmentRepository, times(1)).findAll();
+        verify(appointmentRepository, times(1)).findAllSorted();
         verifyNoMoreInteractions(appointmentRepository);
 
 

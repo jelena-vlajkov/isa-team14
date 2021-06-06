@@ -56,6 +56,8 @@ public interface IAppointmentService {
     List<Long> getNumberOfAppointmentsByMonths(int year,Long pharmacyId);
     List<Long> getNumberOfAppointmentsByHalfYears( int year,Long pharmacyId);
     List<Long>  getNumberOfAppointmentsByYears(int startYear,int endYear,Long pharmacyId);
+    void deleteAllExaminationsForDermatologistAndPharmacy(Long medicalStaffId,Long pharmacyId);
+    void deleteAllCounselingsForPharmacistAndPharmacy(Long medicalStaffId, Long pharmacyId);
 
 
 }
