@@ -434,21 +434,13 @@ export class PharmacyProfileComponent implements OnInit {
 
 
   editPricelistSubmitted() {
-    if(new Date(this.editPricelistEntityFormGroup.value.startDate).getTime() < new Date(this.editPricelistEntityFormGroup.value.endDate).getTime()){
-      let pricelistEntity=new Pricelist(this.pricelistEntityToUpdate.id
+     let pricelistEntity=new Pricelist(this.pricelistEntityToUpdate.id
         ,this.pricelistEntityToUpdate.medication,this.editPricelistEntityFormGroup.value.price,
         this.editPricelistEntityFormGroup.value.startDate,this.editPricelistEntityFormGroup.value.endDate,this.pricelistEntityToUpdate.pharmacy);
       this.pricelistService.editPricelistEntity(pricelistEntity).subscribe(result=>{
         this.showPharmacyPricelist();
       });
     }
-    else
-    {
-      alert("Invalid period input.End date must be after start date.");
-    }
-
-
-  }
 
   private getPharmacyStorage() {
     this.pharmacyStorageService.getByPharmacy(this.pharmacyId).subscribe(

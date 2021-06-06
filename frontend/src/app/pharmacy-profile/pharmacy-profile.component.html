@@ -412,15 +412,9 @@
           </mat-grid-tile>
 
           <mat-grid-tile><label>Start date:</label></mat-grid-tile>
-          <mat-grid-tile >
-            <div class="inputField">
-
-              <mat-form-field color="accent" appearance="fill" id="dateOfBirth-ff">
-                <input matInput formControlName='startDate' style="font-size:18px;" placeholder="Start date" [matDatepicker]="dp4">
-                <mat-datepicker-toggle matSuffix [for]="dp4"></mat-datepicker-toggle>
-                <mat-datepicker #dp4 disabled="false"></mat-datepicker>
-              </mat-form-field>
-
+          <mat-grid-tile style="margin:10px;">
+            <div class="inputField" style="width: auto;margin-left: 20px;">
+              <p>{{pricelistEntityToUpdate.startPeriod | date: "dd.MM.yyyy."}}</p>
             </div>
           </mat-grid-tile>
 
